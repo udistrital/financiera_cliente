@@ -26,7 +26,8 @@ angular
     'ui.grid.treeView',
     'ui.grid.selection',
     'ui.grid.exporter',
-    'ngStorage'
+    'ngStorage',
+    'financieraService'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix("");
@@ -40,6 +41,11 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
+      })
+      .when('/conceptos/nuevo', {
+        templateUrl: 'views/conceptos/crear_concepto.html',
+        controller: 'CrearConceptoCtrl',
+        controllerAs: 'crearConcepto'
       })
       .otherwise({
         redirectTo: '/'
