@@ -47,6 +47,11 @@ angular
         controller: 'CrearConceptoCtrl',
         controllerAs: 'crearConcepto'
       })
+      .when('/orden_pago_all', {
+        templateUrl: 'views/orden_pago/orden_pago.html',
+        controller: 'OrdenPagoCtrl',
+        controllerAs: 'ordenPago'
+      })
       .otherwise({
         redirectTo: '/'
       });
