@@ -26,7 +26,12 @@ angular.module('financieraClienteApp')
           }]
         }]
       }]
-    }];
+    },{
+      "Id": 5,
+      "Nombre": "Ordenes de Pago",
+      "Url": "orden_pago_all",
+      "Opciones": null
+     }];
 
     var recorrerArbol = function(item, padre) {
       var padres = "";
