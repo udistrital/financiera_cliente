@@ -43,7 +43,6 @@ angular.module('financieraClienteApp')
         }
       }
     }
-    //
     $scope.tercero_por_tipo_persona = function(tipo_persona){
       if(tipo_persona){
         administrativaRequest.get("informacion_proveedor", "query=Tipopersona%3A" + tipo_persona)
@@ -69,8 +68,23 @@ angular.module('financieraClienteApp')
           });
       }
     };
-
-
+    //
+    $scope.rp_by_tercero = function(num_cedula){
+      administrativaRequest.get("registo_presupuestal", "query=Beneficiario%3A" + num_cedula)
+        .then(function(response){
+          if(response.data){
+            $scope.rp_by_tercero = response.data;
+          }
+        });
+    }
+    $scope.get_data_rp_select = function(numero_rp){
+      $scope.ordenPago.RegistroPresupuestal = {Id:numero_rp.Id};
+      $scope.consultaOrdenPago.RP_valor = numero_rp.Valor;
+      $scope.consultaOrdenPago.RubroCodigo = numero_rp.Rubro.Codigo;
+      $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
+      $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = numero_rp.Disponibilidad.NumeroDisponibilidad;
+      $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
+    }
     // Insert
     $scope.addOrdenPagoProveedor = function(){
       $scope.ordenDePago.TipoIdentificacionTercero = "CC";
