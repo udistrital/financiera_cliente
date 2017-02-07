@@ -21,12 +21,16 @@ angular.module('financieraClienteApp')
         displayName: "Vigencia",
       },
       {
-        name: 'VigenciaPresupuestal',
-        displayName: "Vigencia Presupuestal",
+        name: 'registro_presupuestal',
+        displayName: "Registro Presupuestal",
       },
       {
         name: 'UnidadEjecutoraId.Nombre',
         displayName: "Unidad Ejecutora",
+      },
+      {
+        name: 'tipo_orden_pago.nombre',
+        displayName: "Estado",
       },
       {
         name: 'Estado.Descripcion',
