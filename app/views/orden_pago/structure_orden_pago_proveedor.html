@@ -1,0 +1,318 @@
+<div class="form-group">
+  <label for="vigencia" class="col-sm-1 control-label">Vigencia Orden de Pago</label>
+  <div class="col-sm-5">
+    <input type="text" ng-model="ordenDePago.Vigencia" class="form-control" id="vigencia" disabled/>
+  </div>
+</div>
+<div class="form-group">
+  <label for="unidad_ejecutora" class="col-sm-1 control-label">Unidad Ejecutora</label>
+  <div class="col-sm-5">
+    <select ng-model="unidad_ejecutora_seleccion" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(unidad_ejecutora_seleccion)" required>
+        <option value="">Seleccionar Unidad Ejecutora</option>
+    </select>
+  </div>
+  <div class="col-sm-6">
+    <input type="text" ng-model="unidad_ejecutora_seleccion.Descripcion" class="form-control" id="unidad_ejecutora_descrip" placeholder="Entidad Ejecutora Descripción" disabled/>
+  </div>
+</div>
+<div class="form-group">
+  <label for="entidad" class="col-sm-1 control-label">Entidad</label>
+  <div class="col-sm-5">
+    <input type="text" ng-model="unidad_ejecutora_seleccion.Entidad.CodigoEntidad" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
+  </div>
+  <div class="col-sm-6">
+    <input type="text" ng-model="unidad_ejecutora_seleccion.Entidad.Nombre" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
+  </div>
+</div>
+
+<h3>Información Tercero</h3>
+<div class="form-group">
+  <label for="tipo_persona" class="col-sm-1 control-label">Tipo Persona</label>
+  <div class="col-sm-3">
+    <select ng-model="tipo_tercero_seleccion" ng-change="tercero_por_tipo_persona(tipo_tercero_seleccion)" ng-click="numero_identificacion_seleccion = null" class="form-control" id="tipo_persona">
+      <option value="NATURAL">NATURAL</option>
+      <option value="JURIDICA">JURIDICA</option>
+    </select>
+  </div>
+  <label for="identificación" class="col-sm-1 control-label">Identificación</label>
+  <div class="col-sm-3">
+    <input list="browsers" ng-model="numero_identificacion_seleccion" class="form-control" ng-change="tercero_by_cc_select(numero_identificacion_seleccion)" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required>
+    <datalist id="browsers">
+      <option  data-ng-repeat="i in tercero" value="{{i.NumDocumento}}">
+    </datalist>
+  </div>
+  <div class="col-sm-3">
+    <md-autocomplete
+        ng-disabled="ctrl.isDisabled"
+        md-no-cache="ctrl.noCache"
+        md-selected-item="ctrl.selectedItem"
+        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+        md-search-text="ctrl.searchText"
+        md-selected-item-change="ctrl.selectedItemChange(item)"
+        md-items="item in ctrl.querySearch(ctrl.searchText)"
+        md-item-text="item.display"
+        md-min-length="0"
+        placeholder="What is your favorite US state?">
+      <md-item-template>
+        <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+    </div>
+</div>
+
+<div class="form-group">
+  <label for="nombre" class="col-sm-1 control-label">Nombre</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="nombre" placeholder="Nombre" ng-model="consultaOrdenPago.TerceroNombre" disabled/>
+  </div>
+  <label for="direccion" class="col-sm-1 control-label">Dirección</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="direccion" placeholder="Dirección" ng-model="consultaOrdenPago.TerceroDireccion" disabled/>
+  </div>
+  <label for="telefono" class="col-sm-1 control-label">Telefono</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="telefono" placeholder="Telefono" ng-model="consultaOrdenPago.TerceroTelefono" disabled/>
+  </div>
+</div>
+<div class="form-group">
+  <label for="num_cuenta" class="col-sm-1 control-label">Numero de Cuenta</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="num_cuenta" placeholder="No.Cuenta" ng-model="consultaOrdenPago.TerceroNumeroCuenta" disabled/>
+  </div>
+  <label for="bamco" class="col-sm-1 control-label">Bamco/Sucursal</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="bamco" placeholder="Bamco" ng-model="consultaOrdenPago.TerceroBanco" disabled/>
+  </div>
+  <label for="clase" class="col-sm-1 control-label">Clase</label>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" id="clase" placeholder="Clase" ng-model="consultaOrdenPago.TerceroTipoCuenta" disabled/>
+  </div>
+</div>
+
+<h3>Imputación Presupuestal</h3>
+<div class="panel panel-default">
+<div class="panel-body">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href ng:click="selected=1" ng-class="{active: selected == 1}" ng-init="selected=1" data-toggle="tab">Registro Presupuestal</a>
+        </li>
+        <li><a href ng:click="selected=2" ng-class="{active: selected == 2}" data-toggle="tab">Informacion Compromiso</a>
+        </li>
+        <li><a href ng:click="selected=3" ng-class="{active: selected == 3}" data-toggle="tab">Detalle del Pago</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active" ng:show="selected == 1">
+          <h4>Detalle Registro Presupuestal</h4>
+          <div class="form-group">
+            <label for="No_reg_presu" class="col-sm-1 control-label">No. Registro Presupuestal</label>
+            <div class="col-sm-5">
+              <select ng-model="rp_seleccion" ng-options="i.NumeroRegistroPresupuestal for i in data_rp_by_tercero.data" class="form-control"  ng-change="get_data_rp_select(rp_seleccion)" required>
+                  <option value="">Seleccionar Registro Presupuestal</option>
+              </select>
+            </div>
+            <label for="cod_rubro" class="col-sm-1 control-label">Valor Registro Presupuestal</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" id="cod_rubro" placeholder="Valor Registro Presupuestal" ng-model="dataConsultaOrdenDePago.RP_valor" disabled/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cod_rubro" class="col-sm-1 control-label">Cod. Rubro Presupuestal</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" id="cod_rubro" placeholder="Cod. Rubro Presupuestal" ng-model="dataConsultaOrdenDePago.RubroCodigo" disabled/>
+            </div>
+            <label for="cod_rubro" class="col-sm-1 control-label">Rubro Descripción</label>
+            <div class="col-sm-5">
+              <textarea rows="2"  class="form-control" id="rubro_descri" placeholder="Rubro Descripción" ng-model="dataConsultaOrdenDePago.RubroDescripcion" disabled/></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="no_disponibilidad" class="col-sm-1 control-label">No. Disponibilidad Presupuestal (CDP)</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" id="no_disponibilidad" placeholder="No. Disponibilidad" ng-model="dataConsultaOrdenDePago.DisponibilidadNumeroDisponibilidad" disabled/>
+            </div>
+            <label for="objeto_disponibilidad" class="col-sm-1 control-label">Objeto Disponibilidad</label>
+            <div class="col-sm-5">
+              <textarea rows="3" class="form-control" id="objeto_disponibilidad" placeholder="Objeto Disponibilidad" ng-model="dataConsultaOrdenDePago.DisponibilidadObjeto" disabled/> </textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="nombre_interventor" class="col-sm-1 control-label">Nombre Interventor</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" placeholder="Interventor o supervidor del contrato que coresponde al rp" disabled/>
+            </div>
+            <label for="vigencia_presupuesto" class="col-sm-1 control-label">Vigencia Presupuestal</label>
+            <div class="col-sm-5">
+              <input type="text"  placeholder="Vigencia Presupuestal Segun el RP" class="form-control" id="vigencia_presupuesto" disabled/>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade in active" ng:show="selected == 2">
+          <h3>Información Compromiso</h3>
+          <div class="form-group">
+            <label for="tipo_ord_pago" class="col-sm-1 control-label">Tipo Orden de Pago</label>
+            <div class="col-sm-5">
+              <select ng-model="tipo_orden_de_pago_seleccion" ng-options="i.Nombre for i in tipo_orden_de_pago.data" class="form-control" id="tipo_ord_pago" ng-change="tipo_orden_de_pago_select(tipo_orden_de_pago_seleccion)" required>
+                  <option value="">Seleccionar Tipo Orden de Pago</option>
+              </select>
+            </div>
+            <label for="tipo_ord_pago_descri" class="col-sm-1 control-label">Descipción Orden de Pago</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" id="tipo_ord_pago_descri" placeholder="Descripción" ng-model="dataConsultaOrdenDePago.OrdenPagoDescripcion"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="compromiso_pagar" class="col-sm-1 control-label">Compromiso a Pagar</label>
+            <div class="col-sm-5">
+              <select ng-model="gestion_tipo_orden_pago_seleccion" ng-options="i.CompromisoId.Objeto for i in gestion_tipo_ordenes_de_pago.data" class="form-control" id="compromiso_pagar" ng-change="compromiso_select(gestion_tipo_orden_pago_seleccion)" required>
+                  <option value="">Seleccionar Comrpomiso a Pagar</option>
+              </select>
+            </div>
+            <label for="descrip_compromiso_pagar" class="col-sm-1 control-label">Descripción Compromiso</label>
+            <div class="col-sm-5">
+              <input type="text" class="form-control" id="descrip_compromiso_pagar" placeholder="Descripción" ng-model="dataConsultaOrdenDePago.CompromisoDescripcion" disabled/>
+            </div>
+          </div>
+          <div class="form-group" ng-show="visible_campo_convenio">
+            <label for="num_convenio" class="col-sm-1 control-label">Número Convenio</label>
+            <div class="col-sm-5">
+              <input list="browsers_convenio" ng-model="convenio_seleccion" class="form-control" ng-change="convenio_select(convenio_seleccion)" required>
+              <datalist id="browsers_convenio">
+                <option  data-ng-repeat="i in convenio" value="{{i.Id}}">
+              </datalist>
+            </div>
+            <label for="descrip_convenio" class="col-sm-1 control-label">Descipción Convenio</label>
+            <div class="col-sm-5">
+              <textarea rows="3" class="form-control" id="descrip_convenio" placeholder="Convenio Descipción" ng-model="consultaOrdenPago.ConvenioDescripcion" disabled/> </textarea> <!-- -->
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ejecutado" class="col-sm-1 control-label">Ejecutado</label>
+            <div class="col-sm-5">
+              <input type="radio" name="ejecutado" ng-model="ordenDePago.Ejecucion" value="total" required>Total
+              <input type="radio" name="ejecutado" ng-model="ordenDePago.Ejecucion" value="parcial"> Parcial
+            </div>
+            <label for="tipo_vigencia" class="col-sm-1 control-label">Tipo Vigencia</label>
+            <div class="col-sm-5">
+              <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="actual" required>Actual
+              <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="reserva"> Reserva
+              <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="parcial"> Cuenta Por Pagar
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-5">
+              <input type="checkbox" name="vehicle" value="valida_predis"> Valida PREDIS
+              <input type="checkbox" name="vehicle" value="valida_pac"> Valida PAC
+              <input type="checkbox" name="vehicle" value="situacion_fondo"> Situación Fondos
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-pane fade in active" ng:show="selected == 3">
+          <h4>Detalle del Pago</h4>
+          <div class="form-group">
+            <label for="tipo_documento" class="col-sm-1 control-label">Tipo Documento</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="tipo_documento" placeholder="Tipo Documento (Select Parametro Geiner)" disabled/>
+            </div>
+            <label for="numero_documento" class="col-sm-1 control-label">Numero Documento</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="numero_documento" placeholder="Numero Documento Descripción" disabled/>
+            </div>
+            <label for="fecha_documento" class="col-sm-1 control-label">Fecha Documento</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="fecha_documento" placeholder="Fecha Documento" disabled/>
+            </div>
+          </div>
+          <h4>Forma de Pago</h4>
+          <div class="form-group">
+            <label for="val_base_retencion" class="col-sm-1 control-label">Valor Base Retenciones</label>
+            <span class="col-sm-4"></span>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base" ng-change="get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="iva" class="col-sm-1 control-label">% IVA</label>
+            <div class="col-sm-3">
+               <input type="text" class="form-control" id="iva" placeholder="IVA" maxlength="2" ng-model="iva" ng-change="get_valor_bruto(valor_base, iva)" name="itemConsumption" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" />
+            </div>
+            <label for="iva" class="col-sm-1 control-label">IVA</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" id="iva" placeholder="IVA" ng-model="ordenDePago.ValorIva" disabled ui-number-mask/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="valor_bruto" class="col-sm-1 control-label">Valor Bruto</label>
+            <span class="col-sm-4"></span>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" ng-model="ordenDePago.ValorBruto" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
+            </div>
+          </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.panel-body -->
+</div>
+
+<h3>Imputación Contable</h3>
+<div class="panel panel-default">
+<div class="panel-body">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href ng:click="selected_ic=1" ng-class="{active: selected == 1}" ng-init="selected_ic=1" data-toggle="tab">Temporal I. Contable</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" ng:show="selected_ic == 1">
+        <h4>Resumen</h4>
+        <div class="form-group">
+          <label for="valor_bruto" class="col-sm-1 control-label">Valor Bruto</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="valor_bruto" placeholder="Valor Bruto"/>
+          </div>
+          <label for="cod_contable" class="col-sm-1 control-label">Código Contable</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="cod_contable" placeholder="Código Comtale"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="descuento" class="col-sm-1 control-label">Descuento</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="descuento" placeholder="Documento"/>
+          </div>
+          <label for="val_endoso" class="col-sm-1 control-label">Valor Endosos</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="val_endoso" placeholder="Balor Endoso"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="val_embargo" class="col-sm-1 control-label">Valor Embargos</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="val_embargo" placeholder="Valor Embargo"/>
+          </div>
+          <label for="cod_contable" class="col-sm-1 control-label">Cod. Contable</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="cod_contable" placeholder="Valor Embargo"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="val_neto" class="col-sm-1 control-label">Valor Neto</label>
+          <div class="col-sm-5">
+            <input type="text" ng-model="movie.title" class="form-control" id="val_neto" placeholder="Valor Neto"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="observaciones" class="col-sm-1 control-label">Observaci ones</label>
+          <div class="col-sm-11">
+            <textarea class="form-control" rows="3" id="observaciones" placeholder="Observaciones"></textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+<!-- /.panel-body -->
+</div>
+<!-- -->
+<input type="submit" class="btn btn-primary" value="Crear"/>
