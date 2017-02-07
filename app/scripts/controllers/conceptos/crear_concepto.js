@@ -9,16 +9,60 @@
  */
 angular.module('financieraClienteApp')
   .controller('CrearConceptoCtrl', function(financieraRequest) {
-    var self = this;
-    self.padre = {};
-    financieraRequest.get("tipo_concepto", "").then(function(response) {
-      self.tipos_concepto = response.data;
-    });
-    financieraRequest.get("tipo_afectacion", "").then(function(response) {
-      self.tipos_afectacion = response.data;
-    });
+      var self = this;
+      self.padre = {};
+      financieraRequest.get("tipo_concepto", "").then(function(response) {
+        self.tipos_concepto = response.data;
+      });
+      financieraRequest.get("tipo_afectacion", "").then(function(response) {
+        self.tipos_afectacion = response.data;
+      });
 
-    self.crear_concepto_nuevo = function() {
+      self.crear_concepto_nuevo = function() {
+
+        var nc = confirm("Desea Agregar el nuevo concepto?");
+        if (nc) {
+
+          if (self.padre.Codigo != undefined) {
+            self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
+          }
+
+          self.nuevo_concepto.FechaCreacion = new Date();
+          self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
+          self.nuevo_concepto.Cabeza = false;
+
+          self.afectacion_concepto = {};
+          var conceptotemp = {
+            Id: 0
+          };
+          for (var i = 0; i < self.tipos_afectacion.length; i++) {
+            self.afectacion_concepto.Concepto = conceptotemp;
+            self.afectacion_concepto.TipoAfectacion = self.tipos_afectacion[i];
+            self.afectacion_concepto.AfectacionIngreso = self.tipos_afectacion[i].Ingreso;
+            self.afectacion_concepto.AfectacionEgreso = self.tipos_afectacion[i].Egreso;
+          }
+
+          self.tr_concepto={
+            Concepto: self.nuevo_concepto,
+            ConceptoPadre: self.padre,
+            Afectacion: self.afectacion_concepto
+          };
+
+          console.log(self.tr_concepto);
+
+
+          //financieraRequest.post()
+
+
+
+          alert("concepto creado");
+          self.resetear();
+        }
+
+    };
+
+
+    self.crear = function() {
       var nc = confirm("Desea Agregar el nuevo concepto?");
       if (nc) {
         if (self.padre.Codigo != undefined) {
