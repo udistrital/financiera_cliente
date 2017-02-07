@@ -1,14 +1,9 @@
-<br>
 <div class="panel panel-default">
     <div class="panel-heading">
-        /orden_pago/orden_pago.
+      <h3>Ordenes de Pago</h3>
+      <button type="button" class="btn btn-success" ng-click="go('ordenes_de_pago_add')">Crear</button>
     </div>
     <div class="panel-body">
-        <p>
-          Ahora puede empezar a construir la vista de /orden_pago/orden_pago.
-        </p>
-    </div>
-    <div class="panel-footer">
-        Panel Footer
+      <div id="grid1" ui-grid="gridOrdenesDePago" class="grid"></div>
     </div>
 </div>
