@@ -84,6 +84,7 @@ angular.module('financieraClienteApp')
       $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
       $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = numero_rp.Disponibilidad.NumeroDisponibilidad;
       $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
+      $scope.consultaOrdenPago.VigenciaPresupuestal = numero_rp.Vigencia;
     }
     // Insert
     $scope.addOrdenPagoProveedor = function(){
