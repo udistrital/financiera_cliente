@@ -35,18 +35,23 @@ angular.module('financieraClienteApp')
           var conceptotemp = {
             Id: 0
           };
+          self.afectaciones=[];
           for (var i = 0; i < self.tipos_afectacion.length; i++) {
             self.afectacion_concepto.Concepto = conceptotemp;
             self.afectacion_concepto.TipoAfectacion = self.tipos_afectacion[i];
             self.afectacion_concepto.AfectacionIngreso = self.tipos_afectacion[i].Ingreso;
             self.afectacion_concepto.AfectacionEgreso = self.tipos_afectacion[i].Egreso;
+            self.afectaciones.push(self.afectacion_concepto);
+            self.afectacion_concepto={};
           }
 
           self.tr_concepto={
             Concepto: self.nuevo_concepto,
             ConceptoPadre: self.padre,
-            Afectacion: self.afectacion_concepto
+            Afectaciones: self.afectaciones
           };
+
+          financieraRequest.post('tr_concepto',self.tr_concepto);
 
           console.log(self.tr_concepto);
 
@@ -62,7 +67,7 @@ angular.module('financieraClienteApp')
     };
 
 
-    self.crear = function() {
+    /*self.crear = function() {
       var nc = confirm("Desea Agregar el nuevo concepto?");
       if (nc) {
         if (self.padre.Codigo != undefined) {
@@ -101,7 +106,7 @@ angular.module('financieraClienteApp')
         });
 
       }
-    };
+    };*/
 
     self.resetear = function(form) {
       var r = confirm("Desea Limpiar el Formulario?");
