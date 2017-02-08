@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest) {
+  .controller('CrearConceptoCtrl', function(financieraRequest,$scope) {
       var self = this;
       self.padre = {};
       financieraRequest.get("tipo_concepto", "").then(function(response) {
@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
         self.tipos_afectacion = response.data;
       });
 
-      self.crear_concepto_nuevo = function() {
+      self.crear_concepto_nuevo = function(form) {
 
         var nc = confirm("Desea Agregar el nuevo concepto?");
         if (nc) {
@@ -51,17 +51,13 @@ angular.module('financieraClienteApp')
             Afectaciones: self.afectaciones
           };
 
-          financieraRequest.post('tr_concepto',self.tr_concepto);
-
-          console.log(self.tr_concepto);
-
-
+          financieraRequest.post('tr_concepto',self.tr_concepto).then(function(response){
+            alert("concepto creado");
+            self.recargar=!self.recargar;
+            self.resetear(form);
+          });
+          //console.log(self.tr_concepto);
           //financieraRequest.post()
-
-
-
-          alert("concepto creado");
-          self.resetear();
         }
 
     };
