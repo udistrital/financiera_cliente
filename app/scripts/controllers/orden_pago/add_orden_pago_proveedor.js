@@ -91,6 +91,20 @@ angular.module('financieraClienteApp')
       $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
       $scope.consultaOrdenPago.VigenciaPresupuestal = numero_rp.Vigencia;
     }
+    $scope.get_valor_bruto  = function (valor_base, iva){
+      if(valor_base == null || valor_base == 0){
+        $scope.ValorIva = 0;
+        $scope.ValorBruto =0;
+      }else if(iva == null || iva == 0) {
+        $scope.ValorIva = 0;
+        $scope.ValorBruto =0;
+      }else{
+        $scope.Iva = parseInt(iva);
+        $scope.ValorBase = parseInt(valor_base);
+        $scope.ValorIva = ( parseInt(valor_base) * ( parseInt(iva)/100) );
+        $scope.ValorBruto = parseInt(valor_base) + parseInt($scope.ValorIva);
+      }
+    }
     // Insert
     $scope.addOrdenPagoProveedor = function(){
       $scope.ordenDePago.TipoIdentificacionTercero = "CC";
