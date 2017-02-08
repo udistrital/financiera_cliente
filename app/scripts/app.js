@@ -28,7 +28,8 @@ angular
     'ui.grid.exporter',
     'ngStorage',
     'financieraService',
-    'administrativaService'
+    'administrativaService',
+    'ui.utils.masks'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix("");

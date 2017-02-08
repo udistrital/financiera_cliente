@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
     $scope.visible_campo_convenio = false;
+
     // get data
     financieraRequest.get("unidad_ejecutora", "")
       .then(function(response){
@@ -20,6 +21,10 @@ angular.module('financieraClienteApp')
     administrativaRequest.get("convenio", "")  //pending: por definir si vieene del rp
       .then(function(response){
         $scope.convenio = response.data;
+      });
+    financieraRequest.get("tipo_orden_pago", "query=EstadoActivo%3Atrue")
+      .then(function(response){
+        $scope.tipo_orden_pago = response.data;
       });
 
     //Operaciones que disparan los select

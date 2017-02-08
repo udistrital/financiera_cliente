@@ -93,7 +93,7 @@
     <ul class="nav nav-tabs">
         <li class="active"><a href ng:click="selected=1" ng-class="{active: selected == 1}" ng-init="selected=1" data-toggle="tab">Registro Presupuestal</a>
         </li>
-        <li><a href ng:click="selected=2" ng-class="{active: selected == 2}" data-toggle="tab">Informacion Compromiso</a>
+        <li><a href ng:click="selected=2" ng-class="{active: selected == 2}" data-toggle="tab">Detalle del Compromiso</a>
         </li>
         <li><a href ng:click="selected=3" ng-class="{active: selected == 3}" data-toggle="tab">Detalle del Pago</a>
         </li>
@@ -111,7 +111,7 @@
             </div>
             <label for="cod_rubro" class="col-sm-1 control-label">Valor Registro Presupuestal</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="cod_rubro" placeholder="Valor Registro Presupuestal" ng-model="consultaOrdenPago.RP_valor" disabled/>
+              <input type="text" class="form-control" id="cod_rubro" placeholder="Valor Registro Presupuestal" ng-model="consultaOrdenPago.RP_valor" disabled ui-number-mask/>
             </div>
           </div>
           <div class="form-group">
@@ -147,29 +147,25 @@
         </div>
 
         <div class="tab-pane fade in active" ng:show="selected == 2">
-          <h3>Información Compromiso</h3>
+          <h4>Detalle del Compromiso (esta información se obtiene del RP)</h4>
           <div class="form-group">
-            <label for="tipo_ord_pago" class="col-sm-1 control-label">Tipo Orden de Pago</label>
+            <label for="tipo_compromiso" class="col-sm-1 control-label">Tipo Comrpomiso</label>
             <div class="col-sm-5">
-              <select ng-model="tipo_orden_de_pago_seleccion" ng-options="i.Nombre for i in tipo_orden_de_pago.data" class="form-control" id="tipo_ord_pago" ng-change="tipo_orden_de_pago_select(tipo_orden_de_pago_seleccion)" required>
-                  <option value="">Seleccionar Tipo Orden de Pago</option>
-              </select>
+              <input type="text" class="form-control" id="tipo_compromiso" placeholder="Tipo Compromiso" disabled/>
             </div>
-            <label for="tipo_ord_pago_descri" class="col-sm-1 control-label">Descipción Orden de Pago</label>
+            <label for="tipo_compromiso_desci" class="col-sm-1 control-label">Descipción Tipo Compromiso</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="tipo_ord_pago_descri" placeholder="Descripción" ng-model="dataConsultaOrdenDePago.OrdenPagoDescripcion"/>
+              <input type="text" class="form-control" id="tipo_compromiso_desci" placeholder="Descipción Tipo Compromiso" disabled/>
             </div>
           </div>
           <div class="form-group">
-            <label for="compromiso_pagar" class="col-sm-1 control-label">Compromiso a Pagar</label>
+            <label for="compromiso" class="col-sm-1 control-label">Compromiso a Pagar</label>
             <div class="col-sm-5">
-              <select ng-model="gestion_tipo_orden_pago_seleccion" ng-options="i.CompromisoId.Objeto for i in gestion_tipo_ordenes_de_pago.data" class="form-control" id="compromiso_pagar" ng-change="compromiso_select(gestion_tipo_orden_pago_seleccion)" required>
-                  <option value="">Seleccionar Comrpomiso a Pagar</option>
-              </select>
+              <input type="text" class="form-control" id="compromiso" placeholder="Compromiso" disabled/>
             </div>
-            <label for="descrip_compromiso_pagar" class="col-sm-1 control-label">Descripción Compromiso</label>
+            <label for="descrip_compromiso" class="col-sm-1 control-label">Descripción Compromiso</label>
             <div class="col-sm-5">
-              <input type="text" class="form-control" id="descrip_compromiso_pagar" placeholder="Descripción" ng-model="dataConsultaOrdenDePago.CompromisoDescripcion" disabled/>
+              <input type="text" class="form-control" id="descrip_compromiso" placeholder="Descripción Compromiso" disabled/>
             </div>
           </div>
           <div class="form-group" ng-show="visible_campo_convenio">
@@ -212,11 +208,9 @@
           <div class="form-group">
             <label for="tipo_documento" class="col-sm-1 control-label">Tipo Documento</label>
             <div class="col-sm-3">
-              <input type="text" class="form-control" id="tipo_documento" placeholder="Tipo Documento (Select Parametro Geiner)" disabled/>
-            </div>
-            <label for="numero_documento" class="col-sm-1 control-label">Numero Documento</label>
-            <div class="col-sm-3">
-              <input type="text" class="form-control" id="numero_documento" placeholder="Numero Documento Descripción" disabled/>
+              <select ng-model="tipo_orden_pago_seleccion" ng-options="i.Nombre for i in tipo_orden_pago" class="form-control" id="tipo_ord_pago" ng-change="tipo_orden_de_pago_select(tipo_orden_pago_seleccion)" required>
+                  <option value="">Seleccionar Documento</option>
+              </select>
             </div>
             <label for="fecha_documento" class="col-sm-1 control-label">Fecha Documento</label>
             <div class="col-sm-3">
