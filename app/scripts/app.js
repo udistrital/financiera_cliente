@@ -47,6 +47,11 @@ angular
         controller: 'CrearConceptoCtrl',
         controllerAs: 'crearConcepto'
       })
+      .when('/conceptos/concepto/:Id', {
+        templateUrl: 'views/conceptos/concepto.html',
+        controller: 'ConceptoCtrl',
+        controllerAs: 'concepto'
+      })
       .otherwise({
         redirectTo: '/'
       });

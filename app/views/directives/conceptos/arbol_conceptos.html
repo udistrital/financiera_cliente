@@ -18,7 +18,7 @@
         <dd>- Expiracion: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
       </dl>
       <div class="col-md-3 col-md-offset-6">
-        <input class="btn btn-outline btn-primary btn-sm btn-block" value="Ver">
+        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/conceptos/concepto/{{conceptosel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">ver</a>
       </div>
       <div class="col-md-3">
         <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)" value="Seleccionar">
