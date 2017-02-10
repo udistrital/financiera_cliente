@@ -52,6 +52,11 @@ angular
         controller: 'ConceptoCtrl',
         controllerAs: 'concepto'
       })
+      .when('/compromisos/nuevo', {
+        templateUrl: 'views/compromisos/crear_compromiso.html',
+        controller: 'CrearCompromisoCtrl',
+        controllerAs: 'crearCompromiso'
+      })
       .otherwise({
         redirectTo: '/'
       });
