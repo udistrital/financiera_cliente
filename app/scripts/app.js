@@ -60,6 +60,11 @@ angular
         controller: 'AddOrdenPagoProveedorCtrl',
         controllerAs: 'addOrdenPagoProveedor'
       })
+      .when('/orden_pago/view_orden_pago_proveedor', {
+        templateUrl: 'views/orden_pago/view_orden_pago_proveedor.html',
+        controller: 'OrdenPagoViewOrdenPagoProveedorCtrl',
+        controllerAs: 'ordenPago/viewOrdenPagoProveedor'
+      })
       .otherwise({
         redirectTo: '/'
       });
