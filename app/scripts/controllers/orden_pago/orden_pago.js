@@ -51,7 +51,7 @@ angular.module('financieraClienteApp')
     };
     $scope.goWithOrdenesDePago = function(row){
       var Id = row.entity.Id;
-      $scope.go_with_parameter("ordenes_de_pago_view/", Id);
+      $scope.go_with_parameter("view_orden_pago_proveedor/", Id);
     }
     // fin function link
     $scope.deleteRow = function(row) {
