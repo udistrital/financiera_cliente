@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, $http) {
+  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, goLink) {
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
     $scope.visible_campo_convenio = false;
@@ -109,7 +109,6 @@ angular.module('financieraClienteApp')
     // Insert Orden Pago
     $scope.addOpProveedor = function(){
 
-      console.log("hola")
       $scope.ordenPago.Vigencia = new Date().getFullYear();
       //$scope.ordenPago.RegistroPresupuestal = 1;
       //$scope.ordenPago.ValorTotal = 10000;
@@ -124,15 +123,11 @@ angular.module('financieraClienteApp')
           console.log("insert");
           $scope.ServerResponse = data;
           console.log(data);
-        })/* error no reconoce funcion error
-        .error(function(data, status, headers, config) {
-          // this isn't happening:
-          console.debug("saved comment", $scope.comment);
+          goLink.go('orden_pago_all')
+        })
+        /*.error(function(data, status, headers, config) {
+          console.log("error");
         })*/
     }
     //
-    $scope.go = function(path){
-      $location.url(path);
-    };
-
   });

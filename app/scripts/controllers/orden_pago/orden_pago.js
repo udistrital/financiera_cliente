@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoCtrl', function (financieraRequest, administrativaRequest,$scope, $location, $http, $window) {
+  .controller('OrdenPagoCtrl', function (financieraRequest, administrativaRequest,$scope, $location, $http, $window, goLink) {
 
     $scope.gridOrdenesDePago = {};
     $scope.gridOrdenesDePago.columnDefs = [

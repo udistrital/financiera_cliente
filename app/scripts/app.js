@@ -29,6 +29,7 @@ angular
     'ngStorage',
     'financieraService',
     'administrativaService',
+    'goLinkFactory',
     'ui.utils.masks'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
