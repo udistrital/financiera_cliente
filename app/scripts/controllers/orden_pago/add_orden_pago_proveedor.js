@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest) {
+  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, $http) {
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
     $scope.visible_campo_convenio = false;
@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
     }
     $scope.unidad_ejecutora_select = function(unidad_ejecutora){
       if(unidad_ejecutora){
-        $scope.ordenPago.UnidadEjecutora = {'Id': unidad_ejecutora.Id}
+        //$scope.ordenPago.UnidadEjecutora = {'Id': unidad_ejecutora.Id}
         if(unidad_ejecutora.Id == 2){
           $scope.visible_campo_convenio = true;
         }else{
@@ -83,7 +83,8 @@ angular.module('financieraClienteApp')
         });
     }
     $scope.get_data_rp_select = function(numero_rp){
-      $scope.ordenPago.RegistroPresupuestal = {Id:numero_rp.Id};
+      $scope.ordenPago.RegistroPresupuestal = numero_rp.Id;
+
       $scope.consultaOrdenPago.RP_valor = numero_rp.Valor;
       $scope.consultaOrdenPago.RubroCodigo = numero_rp.Rubro.Codigo;
       $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
@@ -100,26 +101,35 @@ angular.module('financieraClienteApp')
         $scope.ValorBruto =0;
       }else{
         $scope.Iva = parseInt(iva);
-        $scope.ValorBase = parseInt(valor_base);
+        $scope.ordenPago.ValorTotal = parseInt(valor_base);
         $scope.ValorIva = ( parseInt(valor_base) * ( parseInt(iva)/100) );
         $scope.ValorBruto = parseInt(valor_base) + parseInt($scope.ValorIva);
       }
     }
-    // Insert
-    $scope.addOrdenPagoProveedor = function(){
-      $scope.ordenDePago.TipoIdentificacionTercero = "CC";
-      $scope.ordenDePago.Estado = {Id:1};
+    // Insert Orden Pago
+    $scope.addOpProveedor = function(){
 
-      $http.post(api_path02 + "ordenes_de_pago/", $scope.ordenDePago)
-          .success(function (data, status, header) {
-              $scope.ServerResponse = data;
-              $location.url('ordenes_de_pago');
-          })
-          .error(function (data, status, header, config) {
-              $scope.ServerResponse =  status  + "----" + header + "----" + data;
-              console.log(status  + "----" + header + "----" + data + '----' + config)
-          });
-    };
+      console.log("hola")
+      $scope.ordenPago.Vigencia = new Date().getFullYear();
+      //$scope.ordenPago.RegistroPresupuestal = 1;
+      //$scope.ordenPago.ValorTotal = 10000;
+      $scope.ordenPago.PersonaElaboro = 1;
+      //$scope.ordenPago.TipoOrdenPago = {'Id':1};
+      //$scope.ordenPago.UnidadEjecutora = {'Id': 1};
+      $scope.ordenPago.EstadoOrdenPago = {'Id': 1};
+      console.log($scope.ordenPago)
+
+      financieraRequest.post("orden_pago", $scope.ordenPago)
+        .then(function(data) {   //error con el success
+          console.log("insert");
+          $scope.ServerResponse = data;
+          console.log(data);
+        })/* error no reconoce funcion error
+        .error(function(data, status, headers, config) {
+          // this isn't happening:
+          console.debug("saved comment", $scope.comment);
+        })*/
+    }
     //
     $scope.go = function(path){
       $location.url(path);

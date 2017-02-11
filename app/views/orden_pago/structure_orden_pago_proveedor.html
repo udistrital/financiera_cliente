@@ -7,21 +7,21 @@
 <div class="form-group">
   <label for="unidad_ejecutora" class="col-sm-1 control-label">Unidad Ejecutora</label>
   <div class="col-sm-5">
-    <select ng-model="unidad_ejecutora_seleccion" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(unidad_ejecutora_seleccion)" required>
+    <select ng-model="ordenPago.UnidadEjecutora" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora)" required>
         <option value="">Seleccionar Unidad Ejecutora</option>
     </select>
   </div>
   <div class="col-sm-6">
-    <input type="text" ng-model="unidad_ejecutora_seleccion.Descripcion" class="form-control" id="unidad_ejecutora_descrip" placeholder="Entidad Ejecutora Descripción" disabled/>
+    <input type="text" ng-model="ordenPago.UnidadEjecutora.Descripcion" class="form-control" id="unidad_ejecutora_descrip" placeholder="Entidad Ejecutora Descripción" disabled/>
   </div>
 </div>
 <div class="form-group">
   <label for="entidad" class="col-sm-1 control-label">Entidad</label>
   <div class="col-sm-5">
-    <input type="text" ng-model="unidad_ejecutora_seleccion.Entidad.CodigoEntidad" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
+    <input type="text" ng-model="ordenPago.UnidadEjecutora.Entidad.CodigoEntidad" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
   </div>
   <div class="col-sm-6">
-    <input type="text" ng-model="unidad_ejecutora_seleccion.Entidad.Nombre" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
+    <input type="text" ng-model="ordenPago.UnidadEjecutora.Entidad.Nombre" class="form-control" id="entidad_descrip" placeholder="Entidad Descripción" disabled/>
   </div>
 </div>
 
@@ -171,7 +171,7 @@
           <div class="form-group" ng-show="visible_campo_convenio">
             <label for="num_convenio" class="col-sm-1 control-label">Número Convenio</label>
             <div class="col-sm-5">
-              <input list="browsers_convenio" ng-model="convenio_seleccion" class="form-control" ng-change="convenio_select(convenio_seleccion)" required>
+              <input list="browsers_convenio" ng-model="convenio_seleccion" class="form-control" ng-change="convenio_select(convenio_seleccion)"  >
               <datalist id="browsers_convenio">
                 <option  data-ng-repeat="i in convenio" value="{{i.Id}}">
               </datalist>
@@ -184,12 +184,12 @@
           <div class="form-group">
             <label for="ejecutado" class="col-sm-1 control-label">Ejecutado</label>
             <div class="col-sm-5">
-              <input type="radio" name="ejecutado" ng-model="ordenDePago.Ejecucion" value="total" required>Total
+              <input type="radio" name="ejecutado" ng-model="ordenDePago.Ejecucion" value="total">Total
               <input type="radio" name="ejecutado" ng-model="ordenDePago.Ejecucion" value="parcial"> Parcial
             </div>
             <label for="tipo_vigencia" class="col-sm-1 control-label">Tipo Vigencia</label>
             <div class="col-sm-5">
-              <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="actual" required>Actual
+              <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="actual" >Actual
               <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="reserva"> Reserva
               <input type="radio" name="tipo_vigencia" ng-model="ordenDePago.TipoVigencia" value="parcial"> Cuenta Por Pagar
             </div>
@@ -208,7 +208,7 @@
           <div class="form-group">
             <label for="tipo_documento" class="col-sm-1 control-label">Tipo Documento</label>
             <div class="col-sm-3">
-              <select ng-model="tipo_orden_pago_seleccion" ng-options="i.Nombre for i in tipo_orden_pago" class="form-control" id="tipo_ord_pago" ng-change="tipo_orden_de_pago_select(tipo_orden_pago_seleccion)" required>
+              <select ng-model="ordenPago.TipoOrdenPago" ng-options="i.Nombre for i in tipo_orden_pago" class="form-control" id="tipo_documento" required>
                   <option value="">Seleccionar Documento</option>
               </select>
             </div>
@@ -222,13 +222,13 @@
             <label for="val_base_retencion" class="col-sm-1 control-label">Valor Base Retenciones</label>
             <span class="col-sm-4"></span>
             <div class="col-sm-3">
-              <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base" ng-change="get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask/>
+              <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base" ng-change="get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask required/>
             </div>
           </div>
           <div class="form-group">
             <label for="iva" class="col-sm-1 control-label">% IVA</label>
             <div class="col-sm-3">
-               <input type="text" class="form-control" id="iva" placeholder="IVA" maxlength="2" ng-model="iva" ng-change="get_valor_bruto(valor_base, iva)" name="itemConsumption" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" />
+               <input type="text" class="form-control" id="iva" placeholder="IVA" maxlength="2" ng-model="iva" ng-change="get_valor_bruto(valor_base, iva)" name="itemConsumption" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required/>
             </div>
             <label for="iva" class="col-sm-1 control-label">IVA</label>
             <div class="col-sm-3">
