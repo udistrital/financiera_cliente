@@ -8,10 +8,8 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoViewOrdenPagoProveedorCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('ViewOrdenPagoProveedorCtrl', function ($scope, $routeParams) {
+
+    $scope.parametro = $routeParams.Id;
+
   });
