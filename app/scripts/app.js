@@ -60,10 +60,10 @@ angular
         controller: 'AddOrdenPagoProveedorCtrl',
         controllerAs: 'addOrdenPagoProveedor'
       })
-      .when('/orden_pago/view_orden_pago_proveedor', {
+      .when('/view_orden_pago_proveedor/:Id', {
         templateUrl: 'views/orden_pago/view_orden_pago_proveedor.html',
-        controller: 'OrdenPagoViewOrdenPagoProveedorCtrl',
-        controllerAs: 'ordenPago/viewOrdenPagoProveedor'
+        controller: 'ViewOrdenPagoProveedorCtrl',
+        controllerAs: 'viewOrdenPagoProveedor'
       })
       .otherwise({
         redirectTo: '/'
