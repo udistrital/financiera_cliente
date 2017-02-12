@@ -7,9 +7,10 @@
 <div class="form-group">
   <label for="unidad_ejecutora" class="col-sm-1 control-label">Unidad Ejecutora</label>
   <div class="col-sm-5">
-    <select ng-model="ordenPago.UnidadEjecutora" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora)" required>
+    <select ng-show="visible_ver_o_crear" ng-model="ordenPago.UnidadEjecutora" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora)" required>
         <option value="">Seleccionar Unidad Ejecutora</option>
     </select>
+    <input ng-show="!visible_ver_o_crear" ng-model="ordenPago.UnidadEjecutora.Nombre" type="text" class="form-control"/>
   </div>
   <div class="col-sm-6">
     <input type="text" ng-model="ordenPago.UnidadEjecutora.Descripcion" class="form-control" id="unidad_ejecutora_descrip" placeholder="Entidad Ejecutora Descripción" disabled/>
@@ -29,10 +30,11 @@
 <div class="form-group">
   <label for="tipo_persona" class="col-sm-1 control-label">Tipo Persona</label>
   <div class="col-sm-3">
-    <select ng-model="tipo_tercero_seleccion" ng-change="tercero_por_tipo_persona(tipo_tercero_seleccion)" ng-click="numero_identificacion_seleccion = null" class="form-control" id="tipo_persona">
+    <select ng-show="visible_ver_o_crear" ng-model="tipo_tercero_seleccion" ng-change="tercero_por_tipo_persona(tipo_tercero_seleccion)" ng-click="numero_identificacion_seleccion = null" class="form-control" id="tipo_persona">
       <option value="NATURAL">NATURAL</option>
       <option value="JURIDICA">JURIDICA</option>
     </select>
+    <input ng-show="!visible_ver_o_crear" ng-model="tipo_tercero_seleccion" type="text" class="form-control"/>
   </div>
   <label for="identificación" class="col-sm-1 control-label">Identificación</label>
   <div class="col-sm-3">
@@ -105,9 +107,10 @@
           <div class="form-group">
             <label for="No_reg_presu" class="col-sm-1 control-label">No. Registro Presupuestal</label>
             <div class="col-sm-5">
-              <select ng-model="rp_seleccion" ng-options="i.NumeroRegistroPresupuestal for i in rp_by_tercero" class="form-control"  ng-change="get_data_rp_select(rp_seleccion)" required>
+              <select ng-show="visible_ver_o_crear"   ng-model="rp_seleccion" ng-options="i.NumeroRegistroPresupuestal for i in rp_by_tercero" class="form-control"  ng-change="get_data_rp_select(rp_seleccion)" required>
                   <option value="">Seleccionar Registro Presupuestal</option>
               </select>
+              <input ng-show="!visible_ver_o_crear" type="text" class="form-control" ng-model="rp_seleccion"/>
             </div>
             <label for="cod_rubro" class="col-sm-1 control-label">Valor Registro Presupuestal</label>
             <div class="col-sm-5">

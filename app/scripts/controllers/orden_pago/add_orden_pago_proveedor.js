@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, goLink) {
+  .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, goLink, $location) {
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
     $scope.visible_campo_convenio = false;
+    $scope.visible_ver_o_crear = true;
 
     // get data
     financieraRequest.get("unidad_ejecutora", "")
@@ -106,6 +107,10 @@ angular.module('financieraClienteApp')
         $scope.ValorBruto = parseInt(valor_base) + parseInt($scope.ValorIva);
       }
     }
+    // function link
+    $scope.go = function(path){
+      $location.url(path);
+    };
     // Insert Orden Pago
     $scope.addOpProveedor = function(){
 

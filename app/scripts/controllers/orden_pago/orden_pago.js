@@ -39,7 +39,10 @@ angular.module('financieraClienteApp')
       {
         //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
         name: 'Operacion',
-        cellTemplate: '<button type="button" class="btn btn-success btn-circle" ng-click="grid.appScope.goWithOrdenesDePago(row)"><i class="glyphicon glyphicon-eye-open"></i></button> <button type="button" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-pencil"></i></button> <button ng-click="grid.appScope.deleteOrdenDePago(row)" type="button" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></button> '
+        cellTemplate:
+        '<button type="button" class="btn btn-success btn-circle" ng-click="grid.appScope.goWithOrdenesDePago(row)"><i class="glyphicon glyphicon-eye-open"></i></button>\
+         <button type="button" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
+         <button ng-click="grid.appScope.deleteOrdenDePago(row)" type="button" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></button>'
       }
     ];
     // function link
@@ -53,7 +56,7 @@ angular.module('financieraClienteApp')
       var Id = row.entity.Id;
       $scope.go_with_parameter("view_orden_pago_proveedor/", Id);
     }
-    // fin function link
+    //
     $scope.deleteRow = function(row) {
       var index = $scope.gridOptions.data.indexOf(row.entity);
       $scope.gridOptions.data.splice(index, 1);

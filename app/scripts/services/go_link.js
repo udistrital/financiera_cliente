@@ -17,6 +17,9 @@ angular.module('goLinkFactory', [])
       go: function (path) {
         $location.url(path)
         //return meaningOfLife;
+      },
+      goWitId: function(path, id){
+        $location.url(path + id);
       }
     };
   });
