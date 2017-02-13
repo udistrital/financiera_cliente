@@ -10,7 +10,26 @@
 angular.module('financieraClienteApp')
   .controller('OrdenPagoCtrl', function (financieraRequest, administrativaRequest,$scope, $location, $http, $window, goLink) {
 
-    $scope.gridOrdenesDePago = {};
+    $scope.highlightFilteredHeader = function( row, rowRenderIndex, col, colRenderIndex ) {
+      if( col.filters[0].term ){
+        return 'header-filtered';
+      } else {
+        return '';
+      }
+    };
+    //
+    financieraRequest.get("tipo_orden_pago", "")
+      .then(function(response){
+        $scope.tipo_orden_pago = response.data;
+      });
+
+    //
+    $scope.gridOrdenesDePago = {
+      enableFiltering: true,
+      onRegisterApi: function(gridApi){
+        $scope.gridApi = gridApi;
+      }
+    };
     $scope.gridOrdenesDePago.columnDefs = [
       {
         name: 'Id',
@@ -21,28 +40,39 @@ angular.module('financieraClienteApp')
         displayName: "Vigencia",
       },
       {
-        name: 'registro_presupuestal',
+        name: 'RegistroPresupuestal',
         displayName: "Registro Presupuestal",
       },
       {
-        name: 'UnidadEjecutoraId.Nombre',
+        name: 'UnidadEjecutora.Nombre',
         displayName: "Unidad Ejecutora",
       },
       {
-        name: 'tipo_orden_pago.nombre',
-        displayName: "Estado",
+        name: 'UnidadEjecutora.Entidad.Nombre',
+        displayName: "Entidad",
       },
       {
-        name: 'Estado.Descripcion',
+        name: 'TipoOrdenPago.Nombre',
+        displayName: "Tipo Orden",
+        /*filter:{
+           term: '1',
+           type: uiGridConstants.filter.SELECT,
+           selectOptions: $scope.tipo_orden_pago
+        }*/
+      },
+      {
+        name: 'EstadoOrdenPago.Nombre',
         displayName: "Estado",
       },
       {
         //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
         name: 'Operacion',
+         enableFiltering: false,
         cellTemplate:
         '<button type="button" class="btn btn-success btn-circle" ng-click="grid.appScope.goWithOrdenesDePago(row)"><i class="glyphicon glyphicon-eye-open"></i></button>\
          <button type="button" class="btn btn-info btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
          <button ng-click="grid.appScope.deleteOrdenDePago(row)" type="button" class="btn btn-danger btn-circle"><i class="fa fa-times"></i></button>'
+
       }
     ];
     // function link
@@ -77,5 +107,7 @@ angular.module('financieraClienteApp')
       .then(function(response){
         $scope.gridOrdenesDePago.data = response.data;
       });
+  //
+
   //
   });
