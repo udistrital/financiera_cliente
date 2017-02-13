@@ -23,9 +23,12 @@ angular.module('financieraClienteApp')
     self.compromisos=[];
 
     self.crear_categoria=function(){
-      //financieraRequest.post('categoria_compromiso',self.nueva_categoria);//.then(function(){});
-      self.categorias.push(self.nueva_categoria);
-      self.nueva_categoria={};
+      financieraRequest.post('categoria_compromiso',self.nueva_categoria).then(function(response){
+        console.log("categoria agregada",response.data);
+        self.nueva_categoria={};
+      });//.then(function(){});
+      //self.categorias.push(self.nueva_categoria);
+
     };
 
     self.crear_tipo=function(){

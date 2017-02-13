@@ -45,8 +45,8 @@
             </tr>
             <tr ng-repeat="tipo_afect in concepto.afectaciones">
               <td>{{tipo_afect.TipoAfectacion.Nombre}}</td>
-              <td><input ng-model="tipo_afect.AfectacionIngreso" type="checkbox"></td>
-              <td><input ng-model="tipo_afect.AfectacionEgreso" type="checkbox"></td>
+              <td><input ng-model="tipo_afect.AfectacionIngreso" type="checkbox" disabled></td>
+              <td><input ng-model="tipo_afect.AfectacionEgreso" type="checkbox" disabled></td>
             </tr>
 
           </table>

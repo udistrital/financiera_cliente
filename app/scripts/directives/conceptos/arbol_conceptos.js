@@ -22,12 +22,12 @@ angular.module('financieraClienteApp')
         self.padre = {};
         self.arbol_conceptos = [];
 
-        financieraRequest.get("concepto_concepto/Arbol", "").then(function(response) {
+        financieraRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
         });
 
         $scope.$watch("recargar",function(){
-          financieraRequest.get("concepto_concepto/Arbol", "").then(function(response) {
+          financieraRequest.get("arbol_conceptos", "").then(function(response) {
             self.arbol_conceptos = response.data;
           });
         });

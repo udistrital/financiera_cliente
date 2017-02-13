@@ -54,7 +54,6 @@ angular.module('financieraClienteApp')
           financieraRequest.post('tr_concepto',self.tr_concepto).then(function(response){
             alert("concepto creado");
             self.recargar=!self.recargar;
-            self.resetear(form);
           });
           //console.log(self.tr_concepto);
           //financieraRequest.post()
