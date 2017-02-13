@@ -59,6 +59,7 @@ angular.module('financieraClienteApp')
     }
     $scope.tercero_by_cc_select = function(num_cedula){
       if(num_cedula){
+        $scope.inicializar_data_rp_select();
         administrativaRequest.get("informacion_proveedor", "query=NumDocumento%3A" + num_cedula)
           .then(function(response){
             if(response.data){
@@ -79,20 +80,33 @@ angular.module('financieraClienteApp')
       administrativaRequest.get("registo_presupuestal", "query=Beneficiario%3A" + num_cedula)
         .then(function(response){
           if(response.data){
-            $scope.rp_by_tercero = response.data;
+            $scope.rp_by_tercero_data = response.data;
           }
         });
     }
     $scope.get_data_rp_select = function(numero_rp){
-      $scope.ordenPago.RegistroPresupuestal = numero_rp.Id;
+      if (numero_rp) {
+        $scope.ordenPago.RegistroPresupuestal = numero_rp.Id;
 
-      $scope.consultaOrdenPago.RP_valor = numero_rp.Valor;
-      $scope.consultaOrdenPago.RubroCodigo = numero_rp.Rubro.Codigo;
-      $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
-      $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = numero_rp.Disponibilidad.NumeroDisponibilidad;
-      $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
-      $scope.consultaOrdenPago.VigenciaPresupuestal = numero_rp.Vigencia;
+        $scope.consultaOrdenPago.RP_valor = numero_rp.Valor;
+        $scope.consultaOrdenPago.RubroCodigo = numero_rp.Rubro.Codigo;
+        $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
+        $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = numero_rp.Disponibilidad.NumeroDisponibilidad;
+        $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
+        $scope.consultaOrdenPago.VigenciaPresupuestal = numero_rp.Vigencia;
+      }
     }
+    $scope.inicializar_data_rp_select = function(){
+      $scope.rp_by_tercero_data = null;
+      $scope.ordenPago.RegistroPresupuestal = null;
+      $scope.consultaOrdenPago.RP_valor = null;
+      $scope.consultaOrdenPago.RubroCodigo = null;
+      $scope.consultaOrdenPago.RubroDescripcion = null;
+      $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = null;
+      $scope.consultaOrdenPago.DisponibilidadObjeto = null;
+      $scope.consultaOrdenPago.VigenciaPresupuestal = null;
+    }
+
     $scope.get_valor_bruto  = function (valor_base, iva){
       if(valor_base == null || valor_base == 0){
         $scope.ValorIva = 0;
