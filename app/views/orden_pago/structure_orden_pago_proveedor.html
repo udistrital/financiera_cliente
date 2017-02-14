@@ -7,10 +7,12 @@
 <div class="form-group">
   <label for="unidad_ejecutora" class="col-sm-1 control-label">Unidad Ejecutora</label>
   <div class="col-sm-5">
-    <select ng-show="visible_ver_o_crear" ng-model="ordenPago.UnidadEjecutora" ng-options="i as  i.Id + ' -  ' + i.Nombre for i in unidad_ejecutora" class="form-control" id="unidad_ejecutora" ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora)" required>
-        <option value="">Seleccionar Unidad Ejecutora</option>
+    <select
+      ng-model="ordenPago.UnidadEjecutora.Id"
+      ng-options="i.Id as i.Nombre for i in unidad_ejecutora"
+      class="form-control" id="unidad_ejecutora"
+      ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora.Id)" required>
     </select>
-    <input ng-show="!visible_ver_o_crear" ng-model="ordenPago.UnidadEjecutora.Nombre" type="text" class="form-control"/>
   </div>
   <div class="col-sm-6">
     <input type="text" ng-model="ordenPago.UnidadEjecutora.Descripcion" class="form-control" id="unidad_ejecutora_descrip" placeholder="Entidad Ejecutora Descripción" disabled/>

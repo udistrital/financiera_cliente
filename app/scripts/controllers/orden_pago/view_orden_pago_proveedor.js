@@ -13,6 +13,11 @@ angular.module('financieraClienteApp')
     $scope.consultaOrdenPago =  {}
     $scope.visible_ver_o_crear = false;
 
+    financieraRequest.get("unidad_ejecutora", "")
+      .then(function(response){
+        $scope.unidad_ejecutora = response.data;
+      });
+
     financieraRequest.get("orden_pago", "query=Id%3A" + $routeParams.Id)
       .then(function(response){
         $scope.ordenPago = response.data[0];

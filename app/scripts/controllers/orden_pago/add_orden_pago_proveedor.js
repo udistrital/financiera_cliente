@@ -43,13 +43,23 @@ angular.module('financieraClienteApp')
     $scope.unidad_ejecutora_select = function(unidad_ejecutora){
       if(unidad_ejecutora){
         //$scope.ordenPago.UnidadEjecutora = {'Id': unidad_ejecutora.Id}
-        if(unidad_ejecutora.Id == 2){
-          $scope.visible_campo_convenio = true;
-        }else{
-          $scope.visible_campo_convenio = false;
-        }
+        $scope.get_data_unidad_ejecutora_select(unidad_ejecutora)
       }
     }
+
+    $scope.get_data_unidad_ejecutora_select = function(id){
+      financieraRequest.get("unidad_ejecutora", "query=Id%3A" + id)
+        .then(function(response){
+          $scope.ordenPago.UnidadEjecutora  = response.data[0];
+          // habilitar campo comvenios
+          if($scope.ordenPago.UnidadEjecutora.Id == 2){
+            $scope.visible_campo_convenio = true;
+          }else{
+            $scope.visible_campo_convenio = false;
+          }
+        });
+    }
+
     $scope.tercero_por_tipo_persona = function(tipo_persona){
       if(tipo_persona){
         administrativaRequest.get("informacion_proveedor", "query=Tipopersona%3A" + tipo_persona)
