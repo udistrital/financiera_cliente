@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="vigencia" class="col-sm-1 control-label">Vigencia Orden de Pago</label>
   <div class="col-sm-5">
-    <input type="text" ng-model="ordenDePago.Vigencia" class="form-control" id="vigencia" disabled/>
+    <input type="text" ng-model="ordenPago.Vigencia" class="form-control" id="vigencia" disabled/>
   </div>
 </div>
 <div class="form-group">
@@ -243,7 +243,7 @@
             <label for="valor_bruto" class="col-sm-1 control-label">Valor Bruto</label>
             <span class="col-sm-4"></span>
             <div class="col-sm-3">
-              <input type="text" class="form-control" ng-model="ValorBruto" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
+              <input type="text" class="form-control" ng-model="ordenPago.ValorTotal" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
             </div>
           </div>
         </div>

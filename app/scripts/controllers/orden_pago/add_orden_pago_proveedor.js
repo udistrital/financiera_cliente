@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
   .controller('AddOrdenPagoProveedorCtrl', function ($scope, financieraRequest, administrativaRequest, goLink, $location) {
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
+    $scope.ordenPago.Vigencia = new Date().getFullYear();
     $scope.visible_campo_convenio = false;
     $scope.visible_ver_o_crear = true;
 
@@ -116,9 +117,9 @@ angular.module('financieraClienteApp')
         $scope.ValorBruto =0;
       }else{
         $scope.Iva = parseInt(iva);
-        $scope.ordenPago.ValorTotal = parseInt(valor_base);
         $scope.ValorIva = ( parseInt(valor_base) * ( parseInt(iva)/100) );
         $scope.ValorBruto = parseInt(valor_base) + parseInt($scope.ValorIva);
+        $scope.ordenPago.ValorTotal = parseInt(valor_base) + parseInt($scope.ValorIva);
       }
     }
     // function link
@@ -128,7 +129,7 @@ angular.module('financieraClienteApp')
     // Insert Orden Pago
     $scope.addOpProveedor = function(){
 
-      $scope.ordenPago.Vigencia = new Date().getFullYear();
+
       //$scope.ordenPago.RegistroPresupuestal = 1;
       //$scope.ordenPago.ValorTotal = 10000;
       $scope.ordenPago.PersonaElaboro = 1;
