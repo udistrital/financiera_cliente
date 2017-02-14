@@ -12,6 +12,7 @@
       ng-options="i.Id as i.Nombre for i in unidad_ejecutora"
       class="form-control" id="unidad_ejecutora"
       ng-change="unidad_ejecutora_select(ordenPago.UnidadEjecutora.Id)" required>
+      <option value="">Seleccionar Unidad Ejecutora</option>
     </select>
   </div>
   <div class="col-sm-6">
@@ -32,11 +33,10 @@
 <div class="form-group">
   <label for="tipo_persona" class="col-sm-1 control-label">Tipo Persona</label>
   <div class="col-sm-3">
-    <select ng-show="visible_ver_o_crear" ng-model="tipo_tercero_seleccion" ng-change="tercero_por_tipo_persona(tipo_tercero_seleccion)" ng-click="numero_identificacion_seleccion = null" class="form-control" id="tipo_persona">
+    <select ng-model="tipo_tercero_seleccion" ng-change="tercero_por_tipo_persona(tipo_tercero_seleccion)" ng-click="numero_identificacion_seleccion = null" class="form-control" id="tipo_persona">
       <option value="NATURAL">NATURAL</option>
       <option value="JURIDICA">JURIDICA</option>
     </select>
-    <input ng-show="!visible_ver_o_crear" ng-model="tipo_tercero_seleccion" type="text" class="form-control"/>
   </div>
   <label for="identificación" class="col-sm-1 control-label">Identificación</label>
   <div class="col-sm-3">
