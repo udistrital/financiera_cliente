@@ -30,7 +30,6 @@
 
       </div>
     </div>
-
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">Crear Tipo</h3>
@@ -45,10 +44,11 @@
           </fieldset>
           <fieldset class="form-group">
             <label for="categoriatipo">Categoria:</label>
-            <select class="form-control" id="categoriatipo"  ng-model="crearCompromiso.nuevo_tipo.Categoria" ng-options="cat.Nombre for cat in crearCompromiso.categorias" required>
+            <select class="form-control" id="categoriatipo"  ng-model="crearCompromiso.nuevo_tipo.CategoriaCompromiso" ng-options="cat.Nombre for cat in crearCompromiso.categorias" required>
               <option value="">-- Seleccion Una Categoria --</option>
             </select>
           </fieldset>
+
           <fieldset class="form-group">
             <label for="descripciontipo">Descripción: </label>
             <textarea class="form-control" id="descripciontipo" ng-model="crearCompromiso.nuevo_tipo.Descripcion" placeholder="Descripcion para Tipo" rows="4"></textarea>
@@ -58,7 +58,7 @@
               <input type="checkbox" id="estadotipo" ng-model="crearCompromiso.nuevo_tipo.EstadoActivo"> Activar
             </label>
           </div>
-          
+
           <button type="submit" class="btn btn-success btn-outline">Crear</button>
           <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.cancelar(tipo_form)">Cancelar</button>
         </form>
@@ -100,10 +100,25 @@
           </fieldset>
 
           <fieldset class="form-group">
+            <label for="compromisounidad">Unidad Ejecutora:</label>
+            <select class="form-control" id="compromisounidad"  ng-model="crearCompromiso.nuevo_compromiso.UnidadEjecutora" ng-options="unidad.Nombre for unidad in crearCompromiso.unidades_ejecutoras" required>
+              <option value="">-- Seleccion Una Unidad Ejecutora --</option>
+            </select>
+          </fieldset>
+
+          <fieldset class="form-group">
             <label for="compromisoobjeto">Objeto:</label>
             <textarea class="form-control" id="compromisoobjeto" rows="4" ng-model="crearCompromiso.nuevo_compromiso.Objeto" required></textarea>
             <small class="text-muted">El objeto indica directamente lo que el compromiso debe cumplir</small>
           </fieldset>
+
+          <fieldset class="form-group">
+            <label for="compromisounidad">Estado:</label>
+            <select class="form-control" id="compromisounidad"  ng-model="crearCompromiso.nuevo_compromiso.EstadoCompromiso" ng-options="estado.Nombre for estado in crearCompromiso.estados_compromiso" required>
+              <option value="">-- Selecciona un estado inicial para el estado --</option>
+            </select>
+          </fieldset>
+
 
           <fieldset class="form-group">
             <label for="exampleInputPassword1">Fecha Inicio:</label>
@@ -123,8 +138,8 @@
           <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.cancelar(compromiso_form)">Cancelar</button>
         </form>
 
-        <!--{{crearCompromiso.nuevo_compromiso}}
-        {{crearCompromiso.compromisos}}!-->
+        {{crearCompromiso.nuevo_compromiso}}
+        <!--{{crearCompromiso.compromisos}}!-->
 
       </div>
     </div>
