@@ -34,7 +34,7 @@ angular.module('financieraClienteApp')
     $scope.getDataRp = function(rp){
       administrativaRequest.get("registo_presupuestal", "query=Id%3A" + String(rp))
         .then(function(response){
-          $scope.rp_seleccion = response.data[0].NumeroRegistroPresupuestal;
+          $scope.rp_seleccion = response.data[0];
           $scope.consultaOrdenPago.RP_valor = response.data[0].Valor;
           $scope.consultaOrdenPago.RubroCodigo = response.data[0].Rubro.Codigo;
           $scope.consultaOrdenPago.RubroDescripcion = response.data[0].Rubro.Descripcion;
@@ -43,10 +43,16 @@ angular.module('financieraClienteApp')
           $scope.consultaOrdenPago.VigenciaPresupuestal = response.data[0].Vigencia;
           // infromacion proveedor
           $scope.getDataTercero(response.data[0].Beneficiario)
-
         });
     }
     $scope.getDataTercero = function(num_cedula){
+      administrativaRequest.get("registo_presupuestal", "query=Beneficiario%3A" + num_cedula)
+        .then(function(response){
+          if(response.data){
+            $scope.rp_by_tercero_data = response.data;
+          }
+        });
+      //
       administrativaRequest.get("informacion_proveedor", "query=NumDocumento%3A" + num_cedula)
         .then(function(response){
           $scope.tipo_tercero_seleccion = response.data[0].Tipopersona

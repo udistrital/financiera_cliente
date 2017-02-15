@@ -94,11 +94,11 @@
           <div class="form-group">
             <label for="No_reg_presu" class="col-sm-1 control-label">No. Registro Presupuestal</label>
             <div class="col-sm-5">
-              <select ng-show="visible_ver_o_crear"   ng-model="rp_seleccion" ng-options="i.NumeroRegistroPresupuestal for i in rp_by_tercero_data" class="form-control"  ng-change="get_data_rp_select(rp_seleccion)" required>
-                  <option value="">Seleccionar Registro Presupuestal</option>
+              <select ng-model="rp_seleccion.Id" ng-options="i.Id as i.NumeroRegistroPresupuestal for i in rp_by_tercero_data" class="form-control"  ng-change="get_data_rp_select(rp_seleccion)" required>
               </select>
-              <input ng-show="!visible_ver_o_crear" type="text" class="form-control" ng-model="rp_seleccion"/>
+              <input type="text" class="form-control" ng-model="rp_seleccion"/>
             </div>
+            {{rp_seleccion}}
             <label for="cod_rubro" class="col-sm-1 control-label">Valor Registro Presupuestal</label>
             <div class="col-sm-5">
               <input type="text" class="form-control" id="cod_rubro" placeholder="Valor Registro Presupuestal" ng-model="consultaOrdenPago.RP_valor" disabled ui-number-mask/>
