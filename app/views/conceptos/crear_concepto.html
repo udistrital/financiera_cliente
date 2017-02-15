@@ -122,15 +122,15 @@
             </div>
 
 
-            <div class="col-md-12 row line" ng-if="crearConcepto.tipo_concepto.Nombre!='Ingreso'">
+            <div class="col-md-12 row line">
               <div class="col-md-2">
                 <label><h5>Rubro:<h5></label>
               </div>
 
               <div class="panel panel-primary panel-body col-md-10">
-                <center><button class="btn btn-success">Buscar Rubro</button></center>
-              </div>
+                  <div ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection class="grid"></div>
 
+              </div>
             </div>
 
             <div class="row" align="center">
