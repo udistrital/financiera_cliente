@@ -12,17 +12,10 @@ angular.module('financieraClienteApp')
     $scope.ordenPago = {};
     $scope.consultaOrdenPago = {};
     $scope.ordenPago.Vigencia = new Date().getFullYear();
-    $scope.visible_campo_convenio = false;
-    $scope.visible_ver_o_crear = true;
-
     // get data
     financieraRequest.get("unidad_ejecutora", "")
       .then(function(response){
         $scope.unidad_ejecutora = response.data;
-      });
-    administrativaRequest.get("convenio", "")  //pending: por definir si vieene del rp
-      .then(function(response){
-        $scope.convenio = response.data;
       });
     financieraRequest.get("tipo_orden_pago", "query=EstadoActivo%3Atrue")
       .then(function(response){
@@ -30,38 +23,19 @@ angular.module('financieraClienteApp')
       });
 
     //Operaciones que disparan los select
-    $scope.convenio_select = function(Id){ //pending: por definir si vieene del rp
-      $scope.consultaOrdenPago.ConvenioDescripcion = null;
-      administrativaRequest.get("convenio", "query=Id%3A" + Id)
-      .then(function(response){
-        if(response.data){
-          $scope.ordenPago.Convenio = {'Id': parseInt(Id)};
-          $scope.consultaOrdenPago.ConvenioDescripcion = response.data[0]['NOMBRE'];
-        }
-      });
-    }
     $scope.unidad_ejecutora_select = function(unidad_ejecutora){
       if(unidad_ejecutora){
         //$scope.ordenPago.UnidadEjecutora = {'Id': unidad_ejecutora.Id}
-        $scope.get_data_unidad_ejecutora_select(unidad_ejecutora)
+        financieraRequest.get("unidad_ejecutora", "query=Id%3A" + unidad_ejecutora)
+          .then(function(response){
+            $scope.ordenPago.UnidadEjecutora  = response.data[0];
+          });
       }
     }
-
-    $scope.get_data_unidad_ejecutora_select = function(id){
-      financieraRequest.get("unidad_ejecutora", "query=Id%3A" + id)
-        .then(function(response){
-          $scope.ordenPago.UnidadEjecutora  = response.data[0];
-          // habilitar campo comvenios
-          if($scope.ordenPago.UnidadEjecutora.Id == 2){
-            $scope.visible_campo_convenio = true;
-          }else{
-            $scope.visible_campo_convenio = false;
-          }
-        });
-    }
-
     $scope.tercero_por_tipo_persona = function(tipo_persona){
       if(tipo_persona){
+        $scope.inicializar_data_tercero_select();
+        $scope.inicializar_data_rp_select();
         administrativaRequest.get("informacion_proveedor", "query=Tipopersona%3A" + tipo_persona)
           .then(function(response){
             $scope.tercero = response.data;
@@ -120,6 +94,14 @@ angular.module('financieraClienteApp')
       $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = null;
       $scope.consultaOrdenPago.DisponibilidadObjeto = null;
       $scope.consultaOrdenPago.VigenciaPresupuestal = null;
+    }
+    $scope.inicializar_data_tercero_select = function(){
+      $scope.consultaOrdenPago.TerceroNombre = null;
+      $scope.consultaOrdenPago.TerceroDireccion = null;
+      $scope.consultaOrdenPago.TerceroTelefono = null;
+      $scope.consultaOrdenPago.TerceroNumeroCuenta = null;
+      $scope.consultaOrdenPago.TerceroBanco = null;
+      $scope.consultaOrdenPago.TerceroTipoCuenta = null;
     }
 
     $scope.get_valor_bruto  = function (valor_base, iva){

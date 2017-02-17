@@ -156,17 +156,14 @@
               <input type="text" class="form-control" id="descrip_compromiso" placeholder="Descripción Compromiso" disabled/>
             </div>
           </div>
-          <div class="form-group" ng-show="visible_campo_convenio">
+          <div class="form-group">
             <label for="num_convenio" class="col-sm-1 control-label">Número Convenio</label>
             <div class="col-sm-5">
-              <input list="browsers_convenio" ng-model="convenio_seleccion" class="form-control" ng-change="convenio_select(convenio_seleccion)"  >
-              <datalist id="browsers_convenio">
-                <option  data-ng-repeat="i in convenio" value="{{i.Id}}">
-              </datalist>
+              <input type="text" class="form-control" id="num_convenio" placeholder="Numero Convenio" disabled/>
             </div>
             <label for="descrip_convenio" class="col-sm-1 control-label">Descipción Convenio</label>
             <div class="col-sm-5">
-              <textarea rows="3" class="form-control" id="descrip_convenio" placeholder="Convenio Descipción" ng-model="consultaOrdenPago.ConvenioDescripcion" disabled/> </textarea> <!-- -->
+              <textarea rows="3" class="form-control" id="descrip_convenio" placeholder="Convenio Descipción" disabled/> </textarea>
             </div>
           </div>
           <div class="form-group">
