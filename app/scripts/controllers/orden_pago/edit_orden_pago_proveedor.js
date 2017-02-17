@@ -170,4 +170,9 @@ angular.module('financieraClienteApp')
     $scope.go = function(path){
       $location.url(path);
     };
+    // function Editar orden pago
+    $scope.editOpProveedor = function(){
+
+    }
+
   });

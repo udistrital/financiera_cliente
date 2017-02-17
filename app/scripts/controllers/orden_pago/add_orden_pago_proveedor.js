@@ -129,8 +129,6 @@ angular.module('financieraClienteApp')
     };
     // Insert Orden Pago
     $scope.addOpProveedor = function(){
-
-
       //$scope.ordenPago.RegistroPresupuestal = 1;
       //$scope.ordenPago.ValorTotal = 10000;
       $scope.ordenPago.PersonaElaboro = 1;
