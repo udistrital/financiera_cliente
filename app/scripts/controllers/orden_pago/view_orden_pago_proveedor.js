@@ -11,7 +11,6 @@ angular.module('financieraClienteApp')
   .controller('ViewOrdenPagoProveedorCtrl', function ($scope, $routeParams, $location, financieraRequest, administrativaRequest) {
     $scope.ordenPago = {}
     $scope.consultaOrdenPago =  {}
-    $scope.visible_ver_o_crear = false;
 
     financieraRequest.get("unidad_ejecutora", "")
       .then(function(response){
@@ -52,7 +51,6 @@ angular.module('financieraClienteApp')
             $scope.rp_by_tercero_data = response.data;
           }
         });
-      //
       administrativaRequest.get("informacion_proveedor", "query=NumDocumento%3A" + num_cedula)
         .then(function(response){
           $scope.tipo_tercero_seleccion = response.data[0].Tipopersona
@@ -65,8 +63,6 @@ angular.module('financieraClienteApp')
           $scope.consultaOrdenPago.TerceroTipoCuenta = response.data[0]['TipoCuentaBancaria'];
         });
     }
-
-
     // function link
     $scope.go = function(path){
       $location.url(path);
