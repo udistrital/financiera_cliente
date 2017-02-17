@@ -36,8 +36,13 @@ angular.module('financieraClienteApp')
       if(tipo_persona){
         $scope.inicializar_data_tercero_select();
         $scope.inicializar_data_rp_select();
-        administrativaRequest.get("informacion_proveedor", "query=Tipopersona%3A" + tipo_persona)
-          .then(function(response){
+        administrativaRequest.get(
+          "informacion_proveedor",
+          $.param({
+            query: "Tipopersona:"+tipo_persona,
+            limit:0
+          })
+        ).then(function(response){
             $scope.tercero = response.data;
           });
       }
