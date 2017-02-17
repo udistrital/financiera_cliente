@@ -107,7 +107,7 @@ angular.module('financieraClienteApp')
             });
     }
     //
-    financieraRequest.get("orden_pago", "")
+    financieraRequest.get("orden_pago", $.param({limit:0 }) )
       .then(function(response){
         $scope.gridOrdenesDePago.data = response.data;
       });
