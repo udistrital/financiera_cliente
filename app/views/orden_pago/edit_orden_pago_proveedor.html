@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <h3>Ordenes de Pago Proveedores</h3>
+      <button type="button" class="btn btn-success" ng-click="go('orden_pago_all')">Regresar</button>
+    </div>
+    <div class="panel-body">
+      <form class="form-horizontal" ng-submit="addOpProveedor()">
+        <div ng-include="'views/orden_pago/structure_orden_pago_proveedor.html'"></div>
+      </form>
+    </div>
+</div>
