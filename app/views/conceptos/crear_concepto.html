@@ -22,7 +22,7 @@
                   crearConcepto.verFormTipo=!conceptoForm.selTipoConcepto.$error.required;
                   crearConcepto.dividir=crearConcepto.dividir && crearConcepto.verFormTipo;
                   crearConcepto.padre={}" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto" required>
-                <option value="">-- Seleccion Un tipo de Concepto --</option>
+                <option value="" disabled selected>-- Seleccion Un tipo de Concepto --</option>
                 </select>
             </div>
           </div>

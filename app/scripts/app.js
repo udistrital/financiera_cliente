@@ -58,6 +58,16 @@ angular
         controller: 'CrearCompromisoCtrl',
         controllerAs: 'crearCompromiso'
       })
+      .when('/plan_cuentas/cuentas/nueva', {
+        templateUrl: 'views/plan_cuentas/crear_cuentas.html',
+        controller: 'PlanCuentasCrearCuentasCtrl',
+        controllerAs: 'crearCuentas'
+      })
+      .when('/plan_cuentas/nuevo', {
+        templateUrl: 'views/plan_cuentas/crear_plan.html',
+        controller: 'PlanCuentasCrearPlanCtrl',
+        controllerAs: 'crearPlan'
+      })
       .otherwise({
         redirectTo: '/'
       });
