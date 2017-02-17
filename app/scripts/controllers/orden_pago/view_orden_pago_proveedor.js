@@ -11,17 +11,16 @@ angular.module('financieraClienteApp')
   .controller('ViewOrdenPagoProveedorCtrl', function ($scope, $routeParams, $location, financieraRequest, administrativaRequest) {
     $scope.ordenPago = {}
     $scope.consultaOrdenPago =  {}
-
+    // get data
     financieraRequest.get("unidad_ejecutora", "")
       .then(function(response){
         $scope.unidad_ejecutora = response.data;
       });
-
     financieraRequest.get("tipo_orden_pago", "query=EstadoActivo%3Atrue")
       .then(function(response){
         $scope.tipo_orden_pago = response.data;
       });
-
+    //
     financieraRequest.get("orden_pago", "query=Id%3A" + $routeParams.Id)
       .then(function(response){
         $scope.ordenPago = response.data[0];
