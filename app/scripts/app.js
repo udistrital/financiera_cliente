@@ -65,6 +65,11 @@ angular
         controller: 'ViewOrdenPagoProveedorCtrl',
         controllerAs: 'viewOrdenPagoProveedor'
       })
+      .when('/edit_orden_pago_proveedor/:Id', {
+        templateUrl: 'views/orden_pago/edit_orden_pago_proveedor.html',
+        controller: 'EditOrdenPagoProveedorCtrl',
+        controllerAs: 'editOrdenPagoProveedor'
+      })
       .otherwise({
         redirectTo: '/'
       });
