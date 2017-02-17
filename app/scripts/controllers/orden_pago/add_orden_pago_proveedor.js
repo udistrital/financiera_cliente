@@ -96,15 +96,19 @@ angular.module('financieraClienteApp')
         });
     }
     $scope.get_data_rp_select = function(numero_rp){
-      if (numero_rp) {
+      if (numero_rp.Id) {
         $scope.ordenPago.RegistroPresupuestal = numero_rp.Id;
-
-        $scope.consultaOrdenPago.RP_valor = numero_rp.Valor;
-        $scope.consultaOrdenPago.RubroCodigo = numero_rp.Rubro.Codigo;
-        $scope.consultaOrdenPago.RubroDescripcion = numero_rp.Rubro.Descripcion;
-        $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = numero_rp.Disponibilidad.NumeroDisponibilidad;
-        $scope.consultaOrdenPago.DisponibilidadObjeto = numero_rp.Disponibilidad.Objeto;
-        $scope.consultaOrdenPago.VigenciaPresupuestal = numero_rp.Vigencia;
+        administrativaRequest.get("registo_presupuestal", "query=Id%3A" + numero_rp.Id)
+          .then(function(response){
+            if(response.data){
+              $scope.consultaOrdenPago.RP_valor = response.data[0].Valor;
+              $scope.consultaOrdenPago.RubroCodigo = response.data[0].Rubro.Codigo;
+              $scope.consultaOrdenPago.RubroDescripcion = response.data[0].Rubro.Descripcion;
+              $scope.consultaOrdenPago.DisponibilidadNumeroDisponibilidad = response.data[0].Disponibilidad.NumeroDisponibilidad;
+              $scope.consultaOrdenPago.DisponibilidadObjeto = response.data[0].Disponibilidad.Objeto;
+              $scope.consultaOrdenPago.VigenciaPresupuestal = response.data[0].Vigencia;
+            }
+          });
       }
     }
     $scope.inicializar_data_rp_select = function(){
