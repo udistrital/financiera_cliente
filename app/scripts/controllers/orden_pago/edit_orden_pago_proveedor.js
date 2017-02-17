@@ -171,8 +171,8 @@ angular.module('financieraClienteApp')
       $location.url(path);
     };
     // function Editar orden pago
-    $scope.editOpProveedor = function(){
-
+    $scope.editar = function(){
+      console.log("Editarrrrrrrrrrrr");
     }
-
+    //
   });
