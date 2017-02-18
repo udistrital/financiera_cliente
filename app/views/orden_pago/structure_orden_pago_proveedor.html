@@ -293,4 +293,9 @@
 </div>
 <!-- /.panel-body -->
 </div>
+<div ng-messages="myForm.$error" multiple>
+  <div ng-message="required" class="alert alert-danger">Hay por lo menos un campo <strong>obligatorio</strong> que no ha sigo diligenciado</div>
+  <div ng-message="minlength" class="alert alert-danger">Hay por lo menos un campo que no cumple con la condición de <strong>longitud minina</strong></div>
+  <div ng-message="email" class="alert alert-danger">Hay por lo menos un campo de tipo <strong>Email</strong> no valido</div>
+</div>
 <!-- -->
