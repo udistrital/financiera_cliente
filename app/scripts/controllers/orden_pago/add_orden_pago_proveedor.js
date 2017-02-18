@@ -135,13 +135,10 @@ angular.module('financieraClienteApp')
       //$scope.ordenPago.TipoOrdenPago = {'Id':1};
       //$scope.ordenPago.UnidadEjecutora = {'Id': 1};
       $scope.ordenPago.EstadoOrdenPago = {'Id': 1};
-      console.log($scope.ordenPago)
+      //console.log($scope.ordenPago)
 
       financieraRequest.post("orden_pago", $scope.ordenPago)
         .then(function(data) {   //error con el success
-          console.log("insert");
-          $scope.ServerResponse = data;
-          console.log(data);
           goLink.go('orden_pago_all')
         })
         /*.error(function(data, status, headers, config) {

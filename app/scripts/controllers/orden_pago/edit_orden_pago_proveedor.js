@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('EditOrdenPagoProveedorCtrl', function ($scope, $routeParams, $location, financieraRequest, administrativaRequest) {
+  .controller('EditOrdenPagoProveedorCtrl', function ($scope, $routeParams, $location, financieraRequest, administrativaRequest, goLink) {
     // consulta orden Pago
     $scope.ordenPago = {}
     $scope.consultaOrdenPago =  {}
@@ -171,8 +171,12 @@ angular.module('financieraClienteApp')
       $location.url(path);
     };
     // function Editar orden pago
-    $scope.editar = function(){
-      console.log("Editarrrrrrrrrrrr");
+    $scope.aditOpProveedor = function(){
+      financieraRequest.put("orden_pago", $scope.ordenPago.Id, $scope.ordenPago)
+        .then(function(data) {   //error con el success
+          $scope.ServerResponse = data;
+          goLink.go('orden_pago_all')
+        })
     }
     //
   });
