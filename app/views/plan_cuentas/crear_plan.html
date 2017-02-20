@@ -1,38 +1,31 @@
 <br>
 <div class="panel panel-primary panel-body">
 
-    <h2 class="page-header text-center">Planes de Cuentas</h2>
+  <h2 class="page-header text-center">Planes de Cuentas</h2>
 
-    <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title"></h3>
-          </div>
-          <div class="panel-body">
+  <div class="col-md-6">
+    <lista-planes-cuentas plansel="plancuenta" seleccion="miasel"/>
+    {{plancuenta}}
 
-          </div>
-          <div class="panel-footer">
+    ---{{miasel}}
+  </div>
 
-          </div>
-        </div>
-    </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Crear Nuevo Plan de cuentas</h3>
+      </div>
+      <div class="panel-body">
 
-    <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Crear Nuevo Plan de cuentas</h3>
-          </div>
-          <div class="panel-body">
+        <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan()">
+          <fieldset class="form-group">
+            <label for="nombreplan">Nombre:</label>
+            <input type="text" class="form-control" id="nombreplan" placeholder="Ingresa el nombre del plan de cuentas" ng-model="crearPlan.nuevo_plan.Nombre" required>
+          </fieldset>
 
-              <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan()">
-                <fieldset class="form-group">
-                  <label for="nombreplan">Nombre:</label>
-                  <input type="text" class="form-control" id="nombreplan" placeholder="Ingresa el nombre del plan de cuentas" ng-model="crearPlan.nuevo_plan.Nombre" required>
-                </fieldset>
-
-                <fieldset class="form-group">
-                  <label for="unidadplan">Unidad Ejecutora:</label>
-                  <select class="form-control" id="unidadplan" ng-model="crearPlan.nuevo_plan.UnidadEjecutora" ng-options="u as u.Nombre+' <'+u.Entidad.Nombre+'>' for u in crearPlan.unidades_ejecutoras">
+          <fieldset class="form-group">
+            <label for="unidadplan">Unidad Ejecutora:</label>
+            <select class="form-control" id="unidadplan" ng-model="crearPlan.nuevo_plan.UnidadEjecutora" ng-options="u as u.Nombre+' <'+u.Entidad.Nombre+'>' for u in crearPlan.unidades_ejecutoras">
                     <option value="" selected disabled>Selecciona la Unidad Ejecutora</option>
                   </select required>
                 </fieldset>
@@ -46,15 +39,6 @@
               </form>
 
           </div>
-          <div class="panel-footer">
-
-          </div>
-        </div>
-
     </div>
-
-
-
-
-
+  </div>
 </div>
