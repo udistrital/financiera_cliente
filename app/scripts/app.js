@@ -47,6 +47,11 @@ angular
         controller: 'CrearConceptoCtrl',
         controllerAs: 'crearConcepto'
       })
+      .when('/iva', {
+        templateUrl: 'views/iva/iva.html',
+        controller: 'IvaCtrl',
+        controllerAs: 'iva'
+      })
       .otherwise({
         redirectTo: '/'
       });

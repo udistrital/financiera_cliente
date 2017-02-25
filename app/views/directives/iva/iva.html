@@ -1,0 +1,34 @@
+<br>
+<div class="col-md-6">
+  <div class="panel panel-default">
+      <div class="panel-heading">
+          CATEGORIA IVA
+      </div>
+      <div class="panel-body">
+          <table class="table table-bordered">
+            <tr ng-repeat="categoria in d_iva.categorias">
+                <td>{{categoria.Id}}</td>
+                <td>{{categoria.Nombre}}</td>
+                <td> <button class="btn btn-default" ng-click="d_iva.cargar_ivas(categoria.Id)">Seleccionar</button> </td>
+            </tr>
+          </table>
+      </div>
+      <div class="panel-footer">
+          Panel Footer
+      </div>
+  </div>
+</div>
+
+<div class="col-md-6">
+  <div class="panel panel-default">
+      <div class="panel-heading">
+          IVA
+      </div>
+      <div class="panel-body">
+        <pre>{{d_iva.ivas | json}}</pre>
+      </div>
+      <div class="panel-footer">
+          Panel Footer
+      </div>
+  </div>
+</div>
