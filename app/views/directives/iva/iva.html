@@ -5,6 +5,9 @@
           CATEGORIA IVA
       </div>
       <div class="panel-body">
+        <div id="grid1" ui-grid="gridIvaCategoria" class="grid"></div>
+
+
           <table class="table table-bordered">
             <tr ng-repeat="categoria in d_iva.categorias">
                 <td>{{categoria.Id}}</td>
@@ -44,7 +47,7 @@
             </tr>
           </tbody>
         </table>
-        <pre> {{d_iva.iva | json}} </pre>
+        <!--<pre> {{d_iva.iva | json}} </pre>-->
 
         <center><a class="btn btn-primary" ng-show="d_iva.poder_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; d_iva.ver_add_iva=false">crear</a></center>
         <div class="row line" ng-show="ver_crear_iva">
