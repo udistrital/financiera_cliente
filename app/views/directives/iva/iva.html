@@ -6,18 +6,6 @@
       </div>
       <div class="panel-body">
         <div id="grid1" ui-grid="gridIvaCategoria" class="grid"></div>
-
-
-          <table class="table table-bordered">
-            <tr ng-repeat="categoria in d_iva.categorias">
-                <td>{{categoria.Id}}</td>
-                <td>{{categoria.Nombre}}</td>
-                <td> <a class="btn btn-default" ng-click="d_iva.poder_crear_iva=true; d_iva.cargar_ivas(categoria)">Seleccionar</a> </td>
-            </tr>
-          </table>
-      </div>
-      <div class="panel-footer">
-          Panel Footer
       </div>
   </div>
 </div>
@@ -28,44 +16,26 @@
           IVA
       </div>
       <div class="panel-body">
-        <!-- <pre>{{d_iva.ivas | json}}</pre>-->
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>Categoria</th>
-              <th>Valor</th>
-              <th>Operación</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="iva in d_iva.ivas">
-              <td>{{iva.Id}}</td>
-              <td>{{iva.CategoriaIva.Nombre}}</td>
-              <td>{{iva.Valor}}</td>
-              <td> <a class="btn btn-default" ng-click="d_iva.editar_iva(iva)">Editar</a> </td>
-            </tr>
-          </tbody>
-        </table>
         <!--<pre> {{d_iva.iva | json}} </pre>-->
+        <div id="grid1" ui-grid="gridIva" class="grid"></div>
+        <center><a class="btn btn-primary" ng-show="boton_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; var_actualizar_iva=false">crear</a></center>
 
-        <center><a class="btn btn-primary" ng-show="d_iva.poder_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; d_iva.ver_add_iva=false">crear</a></center>
         <div class="row line" ng-show="ver_crear_iva">
           <h4>Agregar Iva</h4>
           <label class="col-sm-2 control-label">Valor</label>
           <div class="col-sm-7">
-            <input  type="number" class="form-control" ng-model="d_iva.nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <input  type="number" class="form-control" ng-model="nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
           </div>
-          <button class="btn btn-primary" ng-click="d_iva.agregar_iva()">Agregar</button>
+          <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
         </div>
 
-        <div class="row line" ng-show="d_iva.ver_add_iva">
+        <div class="row line" ng-show="var_actualizar_iva">
           <h4>Editar Iva</h4>
           <label class="col-sm-2 control-label">Valor</label>
           <div class="col-sm-7">
-            <input type="text" ng-model="d_iva.iva.Valor" class="form-control">
+            <input  type="number" class="form-control" ng-model="actualizar_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
           </div>
-          <button class="btn btn-primary">Editar</button>
+          <button class="btn btn-primary" ng-click="actualiza_iva()">Editar</button>
         </div>
 
 
