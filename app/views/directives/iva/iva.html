@@ -13,9 +13,9 @@
           <h4>Agregar Categoria</h4>
           <label class="col-sm-2 control-label">Nombe</label>
           <div class="col-sm-7">
-            <input  type="number" class="form-control" ng-model="nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+            <input  type="text" class="form-control" ng-model="nueva_categoria.Nombre">
           </div>
-          <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
+          <button class="btn btn-primary" ng-click="agregar_categoria()">Agregar</button>
         </div>
 
         <div class="row line" ng-show="ver_actualizar_iva">

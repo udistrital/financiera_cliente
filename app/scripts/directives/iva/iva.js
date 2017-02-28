@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
         $scope.boton_crear_iva = false;
         $scope.categoria_selet = {};
         $scope.nuevo_iva = null;
+        $scope.nueva_categoria = null;
         $scope.actualizar_iva=null;
 
         // grid Iva Categoria
@@ -83,6 +84,16 @@ angular.module('financieraClienteApp')
         ).then(function(response) {
           $scope.gridIvaCategoria.data = response.data;
         });
+        //
+        $scope.cargar_categorias= function(){
+          financieraRequest.get("categoria_iva",
+            $.param({
+              query:"estado_activo:True"
+            })
+          ).then(function(response) {
+            $scope.gridIvaCategoria.data = response.data;
+          });
+        }
         //get ivas de una categoria
         $scope.cargar_ivas = function(categoria){
           //console.log(categoria);
@@ -129,6 +140,18 @@ angular.module('financieraClienteApp')
             });
           }
         }
+        //
+        $scope.agregar_categoria = function (){
+          $scope.nueva_categoria.EstadoActivo=true;
+          console.log($scope.nueva_categoria)
+          financieraRequest.post("categoria_iva", $scope.nueva_categoria).then(function(response){
+            //$scope.cargar_ivas({'name': 'hola', 'entity': $scope.categoria_selet})
+            console.log(response.data)
+            $scope.cargar_categorias();
+            $scope.nueva_categoria=null;
+          });
+        }
+      //
       },
       controllerAs:'d_iva'
     };
