@@ -6,6 +6,27 @@
       </div>
       <div class="panel-body">
         <div id="grid1" ui-grid="gridIvaCategoria" class="grid"></div>
+        <!--operations-->
+        <center><a class="btn btn-primary" ng-click="ver_crear_categoria = !ver_crear_categoria">Crear</a></center>
+
+        <div class="row line" ng-show="ver_crear_categoria">
+          <h4>Agregar Categoria</h4>
+          <label class="col-sm-2 control-label">Nombe</label>
+          <div class="col-sm-7">
+            <input  type="number" class="form-control" ng-model="nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+          </div>
+          <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
+        </div>
+
+        <div class="row line" ng-show="ver_actualizar_iva">
+          <h4>Editar Iva</h4>
+          <label class="col-sm-2 control-label">Valor</label>
+          <div class="col-sm-7">
+            <input  type="number" class="form-control" ng-model="actualizar_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
+          </div>
+          <button class="btn btn-primary" ng-click="actualiza_iva()">Editar</button>
+        </div>
+
       </div>
   </div>
 </div>
@@ -18,7 +39,7 @@
       <div class="panel-body">
         <!--<pre> {{d_iva.iva | json}} </pre>-->
         <div id="grid1" ui-grid="gridIva" class="grid"></div>
-        <center><a class="btn btn-primary" ng-show="boton_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; var_actualizar_iva=false">crear</a></center>
+        <center><a class="btn btn-primary" ng-show="boton_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; ver_actualizar_iva=false">crear</a></center>
 
         <div class="row line" ng-show="ver_crear_iva">
           <h4>Agregar Iva</h4>
@@ -29,7 +50,7 @@
           <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
         </div>
 
-        <div class="row line" ng-show="var_actualizar_iva">
+        <div class="row line" ng-show="ver_actualizar_iva">
           <h4>Editar Iva</h4>
           <label class="col-sm-2 control-label">Valor</label>
           <div class="col-sm-7">

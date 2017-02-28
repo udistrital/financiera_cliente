@@ -104,7 +104,7 @@ angular.module('financieraClienteApp')
             $scope.ver_crear_iva = !$scope.ver_crear_iva;
           }
           $scope.boton_crear_iva = !$scope.boton_crear_iva;
-          $scope.var_actualizar_iva = !$scope.var_actualizar_iva;
+          $scope.ver_actualizar_iva = !$scope.ver_actualizar_iva;
           //
           $scope.actualizar_iva = iva.entity;
         }
