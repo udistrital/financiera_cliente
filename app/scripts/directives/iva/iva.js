@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          consulta:'=?'
+          escritura:'=?'
         },
       templateUrl: 'views/directives/iva/iva.html',
       controller:function($scope){
@@ -24,7 +24,7 @@ angular.module('financieraClienteApp')
         $scope.actualizar_categoria = null;
 
         //actualizar ui-greip operaciones
-        //$scope.$watch('consulta', function(){
+        //$scope.$watch('escritura', function(){
         //})
         // grid Iva Categoria
         $scope.gridIvaCategoria = {

@@ -7,7 +7,7 @@
       <div class="panel-body">
         <div id="grid1" ui-grid="gridIvaCategoria" class="grid"></div>
         <!--operations-->
-        <div id="operaciones1" ng-show="consulta">
+        <div id="operaciones1" ng-show="escritura">
           <center><a class="btn btn-primary" ng-click="ver_crear_categoria = !ver_crear_categoria; ver_actualizar_categoria=false">Crear</a></center>
           <div class="row line" ng-show="ver_crear_categoria">
             <form>
@@ -42,7 +42,7 @@
         <!--<pre> {{d_iva.iva | json}} </pre>-->
         <div ng-if="!refresh" id="grid2" ui-grid="gridIva" class="grid"></div>
 
-        <div id="operaciones2" ng-show="consulta">
+        <div id="operaciones2" ng-show="escritura">
           <center><a class="btn btn-primary" ng-show="boton_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; ver_actualizar_iva=false">crear</a></center>
           <div class="row line" ng-show="ver_crear_iva">
             <form>
