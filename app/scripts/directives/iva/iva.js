@@ -175,14 +175,14 @@ angular.module('financieraClienteApp')
         }
         // add categoria
         $scope.agregar_categoria = function (){
-          $scope.nueva_categoria.EstadoActivo=true;
-          console.log($scope.nueva_categoria)
-          financieraRequest.post("categoria_iva", $scope.nueva_categoria).then(function(response){
-            //$scope.cargar_ivas({'name': 'hola', 'entity': $scope.categoria_selet})
-            console.log(response.data)
-            $scope.cargar_categorias();
-            $scope.nueva_categoria=null;
-          });
+          if($scope.nueva_categoria.Nombre){
+            $scope.nueva_categoria.EstadoActivo=true;
+            financieraRequest.post("categoria_iva", $scope.nueva_categoria).then(function(response){
+              //console.log(response.data)
+              $scope.cargar_categorias();
+              $scope.nueva_categoria=null;
+            });
+          }
         }
       //
       },
