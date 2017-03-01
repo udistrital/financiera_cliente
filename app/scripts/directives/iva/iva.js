@@ -7,7 +7,7 @@
  * # iva/iva
  */
 angular.module('financieraClienteApp')
-  .directive('iva', function (financieraRequest) {
+  .directive('iva', function (financieraRequest, $timeout) {
     return {
       restrict: 'E',
       /*scope:{
@@ -23,6 +23,7 @@ angular.module('financieraClienteApp')
         $scope.nuevo_iva = null;
         $scope.nueva_categoria = null;
         $scope.actualizar_iva=null;
+        $scope.actualizar_categoria = null;
 
         // grid Iva Categoria
         $scope.gridIvaCategoria = {
@@ -45,7 +46,10 @@ angular.module('financieraClienteApp')
             name: 'Operacion',
              enableFiltering: false,
             cellTemplate:
-            '<center><button ng-click="grid.appScope.cargar_ivas(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i></button></center>'
+            '<center>\
+              <button ng-click="grid.appScope.cargar_ivas(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i></button>\
+              <button ng-click="grid.appScope.get_categoria(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil""></i></button>\
+            </center>'
           }
         ];
         // grid Iva Categoria
@@ -76,6 +80,13 @@ angular.module('financieraClienteApp')
             '<center><button ng-click="grid.appScope.get_iva(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil""></i></button></center>'
           }
         ];
+        // refrescar
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
         //get categorias
         financieraRequest.get("categoria_iva",
           $.param({
@@ -99,6 +110,7 @@ angular.module('financieraClienteApp')
           //console.log(categoria);
           $scope.categoria_selet = categoria.entity;
           $scope.boton_crear_iva=true;
+          self.refresh();
           financieraRequest.get("iva",
             $.param({
               query:"estado_activo:True,categoria_iva:"+categoria.entity.Id,
@@ -140,7 +152,28 @@ angular.module('financieraClienteApp')
             });
           }
         }
-        //
+        // get categoria
+        $scope.get_categoria=function(categoria){
+
+          if ($scope.ver_crear_categoria == true){
+            $scope.ver_crear_categoria = !$scope.ver_crear_categoria;
+          }
+          $scope.boton_crear_categoria = !$scope.boton_crear_categoria;
+          $scope.ver_actualizar_categoria = !$scope.ver_actualizar_categoria;
+          //
+          $scope.actualizar_categoria = categoria.entity;
+        }
+        // update categoria
+        $scope.actualiza_categoria=function(){
+          if($scope.actualizar_categoria){
+            financieraRequest.put("categoria_iva",$scope.actualizar_categoria.Id ,$scope.actualizar_categoria).then(function(response){
+              console.log(response.data)
+              $scope.cargar_categorias()
+              $scope.actualizar_categoria=null;
+            });
+          }
+        }
+        // add categoria
         $scope.agregar_categoria = function (){
           $scope.nueva_categoria.EstadoActivo=true;
           console.log($scope.nueva_categoria)
