@@ -44,12 +44,14 @@
         <center><a class="btn btn-primary" ng-show="boton_crear_iva" ng-click="ver_crear_iva = !ver_crear_iva; ver_actualizar_iva=false">crear</a></center>
 
         <div class="row line" ng-show="ver_crear_iva">
-          <h4>Agregar Iva</h4>
-          <label class="col-sm-2 control-label">Valor</label>
-          <div class="col-sm-7">
-            <input  type="number" class="form-control" ng-model="nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57">
-          </div>
-          <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
+          <form>
+            <h4>Agregar Iva</h4>
+            <label class="col-sm-2 control-label">Valor</label>
+            <div class="col-sm-7">
+              <input  type="number" class="form-control" ng-model="nuevo_iva.Valor"  min="0" max="99" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required>
+            </div>
+            <button class="btn btn-primary" ng-click="agregar_iva()">Agregar</button>
+          </form>
         </div>
 
         <div class="row line" ng-show="ver_actualizar_iva">

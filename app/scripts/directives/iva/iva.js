@@ -154,20 +154,18 @@ angular.module('financieraClienteApp')
         }
         // get categoria
         $scope.get_categoria=function(categoria){
-
           if ($scope.ver_crear_categoria == true){
             $scope.ver_crear_categoria = !$scope.ver_crear_categoria;
           }
           $scope.boton_crear_categoria = !$scope.boton_crear_categoria;
           $scope.ver_actualizar_categoria = !$scope.ver_actualizar_categoria;
-          //
           $scope.actualizar_categoria = categoria.entity;
         }
         // update categoria
         $scope.actualiza_categoria=function(){
           if($scope.actualizar_categoria){
             financieraRequest.put("categoria_iva",$scope.actualizar_categoria.Id ,$scope.actualizar_categoria).then(function(response){
-              console.log(response.data)
+              //console.log(response.data)
               $scope.cargar_categorias()
               $scope.actualizar_categoria=null;
             });
@@ -175,7 +173,7 @@ angular.module('financieraClienteApp')
         }
         // add categoria
         $scope.agregar_categoria = function (){
-          if($scope.nueva_categoria.Nombre){
+          if($scope.nueva_categoria){
             $scope.nueva_categoria.EstadoActivo=true;
             financieraRequest.post("categoria_iva", $scope.nueva_categoria).then(function(response){
               //console.log(response.data)
