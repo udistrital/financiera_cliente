@@ -60,14 +60,14 @@ angular.module('financieraClienteApp')
               $scope.consultaOrdenPago.TerceroBanco = response.data[0]['IdEntidadBancaria']['NombreBanco'];
               $scope.consultaOrdenPago.TerceroTipoCuenta = response.data[0]['TipoCuentaBancaria'];
 
-              $scope.rp_by_tercero(num_cedula);
+              $scope.rp_by_tercero(response.data[0]['Id']);
             }
           });
       }
     };
     //
-    $scope.rp_by_tercero = function(num_cedula){
-      administrativaRequest.get("registo_presupuestal", "query=Beneficiario%3A" + num_cedula)
+    $scope.rp_by_tercero = function(tercero_id){
+      financieraRequest.get("registro_presupuestal", "query=Beneficiario%3A" + tercero_id)
         .then(function(response){
           if(response.data){
             $scope.rp_by_tercero_data = response.data;
