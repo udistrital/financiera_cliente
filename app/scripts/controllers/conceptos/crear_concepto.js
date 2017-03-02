@@ -31,7 +31,7 @@ angular.module('financieraClienteApp')
         self.nuevo_concepto.FechaCreacion = new Date();
         self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
         self.nuevo_concepto.Cabeza = false;
-        self.nuevo_concepto.Rubro=self.rubro.Id;
+        self.nuevo_concepto.Rubro=self.rubro;
 
         self.afectacion_concepto = {};
         var conceptotemp = {
