@@ -7,20 +7,28 @@
  * # rubros/rubrosPorRp
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosPorRp', function () {
+  .directive('rubrosPorRp', function (financieraRequest) {
     return {
       restrict: 'E',
       scope:{
-          rubros:'=?'
+          rpid:'=?',
+          rubroseleccionado:'=?'
         },
       templateUrl: '/views/directives/rubros/rubros_por_rp.html',
       controller:function($scope){
         var ctrl = this;
-
-        $scope.$watch('rubros', function(){
-          $scope.gridRubrosPorRp.data = $scope.rubros;
-        })
-
+        // cambios en rpid
+        $scope.$watch('rpid', function(){
+          // get rubros de un rp especifico
+          financieraRequest.get("registro_presupuestal_disponibilidad_apropiacion",
+            $.param({
+              query:"RegistroPresupuestal.Id:" + $scope.rpid,
+              limit:0,
+            })
+          ).then(function(response){
+            $scope.gridRubrosPorRp.data  = response.data
+          });
+        });
         // grid rubros por rp
         $scope.gridRubrosPorRp = {
           enableFiltering: true,
@@ -30,12 +38,20 @@ angular.module('financieraClienteApp')
         };
         $scope.gridRubrosPorRp.columnDefs = [
           {
-            name: 'Id',
+            name: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
             displayName: "Id",
           },
           {
-            name: 'Codigo',
+            name: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
             displayName: "Codigo",
+          },
+          {
+            name: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',
+            displayName: "Descripcion",
+          },
+          {
+            name: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',
+            displayName: "Vigencia",
           },
           {
             //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
@@ -43,12 +59,14 @@ angular.module('financieraClienteApp')
              enableFiltering: false,
             cellTemplate:
             '<center>\
-              <button ng-click="grid.appScope.cargar_ivas(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i></button>\
-              <button ng-click="grid.appScope.get_categoria(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil""></i></button>\
+              <button ng-click="grid.appScope.seleccionar_rubro(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i></button>\
             </center>'
           }
         ];
         //
+        $scope.seleccionar_rubro = function(rubro){
+          $scope.rubroseleccionado = rubro.entity.DisponibilidadApropiacion.Apropiacion.Rubro;
+        }
 
       },
       controllerAs:'d_rubrosPorRp'
