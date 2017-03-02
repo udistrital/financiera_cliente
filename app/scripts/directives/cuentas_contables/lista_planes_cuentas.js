@@ -33,6 +33,10 @@ angular.module('financieraClienteApp')
           $scope.plansel={};
         };
 
+        $scope.$watch('recargar',function(){
+          self.cargar_datos();
+        });
+
 
         //-----
 
@@ -101,18 +105,20 @@ angular.module('financieraClienteApp')
         };
 
 
+        self.cargar_datos=function(){
+          financieraRequest.get('plan_cuentas', $.param({
+            sortby: "Id",
+            order: "asc",
+            limit: 0
+          })).then(function(response) {
+            self.gridOptions.data = response.data;
+          });
+        };
 
 
-        financieraRequest.get('plan_cuentas', $.param({
-          sortby: "Id",
-          order: "asc",
-          limit: 0
-        })).then(function(response) {
-          self.gridOptions.data = response.data;
-        });
 
         //----
-
+        self.cargar_datos();
 
       },
       controllerAs: 'd_listaPlanesCuentas'

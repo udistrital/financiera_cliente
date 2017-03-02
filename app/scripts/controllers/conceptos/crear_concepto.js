@@ -106,7 +106,9 @@ angular.module('financieraClienteApp')
 
 
 
-    $http.get('http://10.20.2.58:8080/v1/rubro/?limit=0').then(function(response) {
+    financieraRequest.get('rubro',$.param({
+      limit:0
+    })).then(function(response) {
       self.gridOptions.data = response.data;
     });
 
