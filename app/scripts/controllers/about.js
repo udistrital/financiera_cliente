@@ -8,19 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('AboutCtrl', function (financieraRequest, $scope) {
+  .controller('AboutCtrl', function ($scope) {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-    financieraRequest.get("rubro",
-      $.param({
-        query:"Id:35417",  //por rp
-        limit:0,
-      })
-    ).then(function(response){
-      $scope.rubros = response.data
-        //console.log($scope.rubros)
-    });
+    $scope.rubro_seleccionado_afuera = {};
   });
