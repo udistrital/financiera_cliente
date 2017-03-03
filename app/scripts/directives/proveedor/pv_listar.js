@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
         self.gridOptions_proveedor = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
+          enableFiltering: true,
 
           columnDefs : [
             {field: 'Id',              visible : false},
