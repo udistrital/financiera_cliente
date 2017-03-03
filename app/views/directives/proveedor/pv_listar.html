@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-primary col-sm-12">
+        <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
+            <h4>Seleccione Proveedor</h4>
+        </div>
+        <div ng-show="panelProveedor" class="panel-body"  >
+          <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
+        </div>
+    </div>
+  </div>
+
+
+
+</div>
