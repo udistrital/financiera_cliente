@@ -7,28 +7,29 @@
  * # proveedor/pvListar
  */
 angular.module('financieraClienteApp')
-  .directive('pvListar', function () {
+  .directive('pvListar', function (administrativaRequest) {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
+      scope:{
+          proveedor:'='
         },
-      */
+
       templateUrl: '/views/directives/proveedor/pv_listar.html',
-      controller:function(){
+      controller:function($scope){
         var self = this;
         self.gridOptions_proveedor = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
 
           columnDefs : [
-            {field: 'Id',             visible : false},
-            {field: 'Nombre',         displayName: 'Nombre'},
-            {field: 'Descripcion',    displayName: 'Descripcion'}
+            {field: 'Id',              visible : false},
+            {field: 'Tipopersona',     displayName: 'Tipo Persona'},
+            {field: 'NumDocumento',    displayName: 'Num Documento'},
+            {field: 'NomProveedor',    displayName: 'Nombe'}
           ]
         };
 
-        financieraRequest.get('unidad_ejecutora','limit=0').then(function(response) {
+        administrativaRequest.get('informacion_proveedor','limit=0').then(function(response) {
           self.gridOptions_proveedor.data = response.data;
         });
 
@@ -36,7 +37,7 @@ angular.module('financieraClienteApp')
             //set gridApi on scope
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.unidaejecutora = row.entity
+              $scope.proveedor = row.entity
             });
           };
           self.gridOptions_proveedor.multiSelect = false;

@@ -30,7 +30,8 @@ angular
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
     'ngStorage',
-    'financieraService'
+    'financieraService',
+    'administrativaService'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix("");

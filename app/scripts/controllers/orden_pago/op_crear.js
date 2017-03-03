@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     var self = this;
     //unidad ejecutora
     self.OrdenPago = {};
+    self.OrdenPagoConsulta = {};
 
     //
   });
