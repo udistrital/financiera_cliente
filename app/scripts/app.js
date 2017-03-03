@@ -26,6 +26,9 @@ angular
     'ui.grid.treeView',
     'ui.grid.selection',
     'ui.grid.exporter',
+    'ui.grid.autoResize',
+    'ui.grid.pagination',
+    'ui.grid.resizeColumns',
     'ngStorage',
     'financieraService'
   ])
@@ -46,6 +49,11 @@ angular
         templateUrl: 'views/conceptos/crear_concepto.html',
         controller: 'CrearConceptoCtrl',
         controllerAs: 'crearConcepto'
+      })
+      .when('/orden_pago/crear', {
+        templateUrl: 'views/orden_pago/op_crear.html',
+        controller: 'OrdenPagoOpCrearCtrl',
+        controllerAs: 'opCrear'
       })
       .otherwise({
         redirectTo: '/'
