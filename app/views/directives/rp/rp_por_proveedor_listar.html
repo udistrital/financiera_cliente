@@ -5,7 +5,7 @@
             <h4>Seleccione RP Pertenecientes al Proveedor</h4>
         </div>
         <div ng-show="panelRp" class="panel-body"  >
-          <div ui-grid="d_rpPorProveedorListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
+          <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
         </div>
     </div>
   </div>

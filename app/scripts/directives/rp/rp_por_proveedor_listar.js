@@ -7,11 +7,12 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function (financieraRequest) {
+  .directive('rpPorProveedorListar', function (financieraRequest, $timeout) {
     return {
       restrict: 'E',
       scope:{
-          beneficiaroid:'='
+          beneficiaroid:'=?',
+          rpselect: '=?'
         },
 
       templateUrl: '/views/directives/rp/rp_por_proveedor_listar.html',
@@ -29,22 +30,35 @@ angular.module('financieraClienteApp')
             {field: 'Vigencia',                       displayName: 'Vigencia'}
           ]
         };
-        //$scope.$watch('escritura', function(){
-        //})
+        // refrescar
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
 
-        financieraRequest.get('registro_presupuestal',
-          $.param({
-              query: "Beneficiario:3",
-              limit: 0,
-          })).then(function(response) {
-            self.gridOptions_proveedor.data = response.data;
-        });
+        $scope.$watch('beneficiaroid', function(){
+          self.refresh();
+          if($scope.beneficiaroid){
+            financieraRequest.get('registro_presupuestal',
+              $.param({
+                  query: "Beneficiario:" + $scope.beneficiaroid,
+                  limit: 0,
+              })).then(function(response) {
+                self.gridOptions_proveedor.data = response.data;
+            });
+          }
+        })
+
 
         self.gridOptions_proveedor.onRegisterApi = function(gridApi){
             //set gridApi on scope
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.proveedor = row.entity
+              $scope.rpselect = row.entity;
+              //consulta rp
+
             });
           };
           self.gridOptions_proveedor.multiSelect = false;
