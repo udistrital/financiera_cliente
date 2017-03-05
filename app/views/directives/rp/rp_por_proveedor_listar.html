@@ -1,14 +1,14 @@
-<br>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        directives/rp/rp_por_proveedor_listar.
+<div class="row">
+  <div class="col-sm-6">
+    <div class="panel panel-primary col-sm-12">
+        <div class="panel-heading" ng-click="panelRp = !panelRp">
+            <h4>Seleccione RP Pertenecientes al Proveedor</h4>
+        </div>
+        <div ng-show="panelRp" class="panel-body"  >
+          <div ui-grid="d_rpPorProveedorListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
+        </div>
     </div>
-    <div class="panel-body">
-        <p>
-          aaaa Ahora puede empezar a construir la vista de directives/rp/rp_por_proveedor_listar.
-        </p>
-    </div>
-    <div class="panel-footer">
-        Panel Footer
-    </div>
+  </div>
+
+
 </div>
