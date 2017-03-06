@@ -7,17 +7,25 @@
  * # ordenPago/opProveedorDetallePago
  */
 angular.module('financieraClienteApp')
-  .directive('ordenPago/opProveedorDetallePago', function () {
+  .directive('opProveedorDetallePago', function (financieraRequest) {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
+      scope:{
+          tipoordenpago:'='
         },
-      */
+      
       templateUrl: '/views/directives/orden_pago/op_proveedor_detalle_pago.html',
-      controller:function(){
-        var ctrl = this;
+      controller:function($scope){
+        var self = this;
+
+        //tipo_documentos
+        financieraRequest.get('tipo_orden_pago',
+          'limit=0'
+        ).then(function(response) {
+          self.tipo_orden_pago_data = response.data;
+        });
+
       },
-      controllerAs:'d_ordenPago/opProveedorDetallePago'
+      controllerAs:'d_opProveedorDetallePago'
     };
   });
