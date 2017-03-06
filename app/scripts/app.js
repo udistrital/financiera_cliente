@@ -31,7 +31,8 @@ angular
     'ui.grid.resizeColumns',
     'ngStorage',
     'financieraService',
-    'administrativaService'
+    'administrativaService',
+    'ui.utils.masks'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix("");

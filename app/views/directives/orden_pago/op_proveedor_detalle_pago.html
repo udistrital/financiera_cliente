@@ -18,19 +18,21 @@
             <div class="form-group">
               <label for="val_base_retencion" class="col-sm-2 control-label">Valor Base Retenciones</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base" ng-change="get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask required/>
+                <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask required/>
               </div>
             </div>
             <div class="form-group">
               <label for="iva" class="col-sm-2 control-label">% IVA</label>
               <div class="col-sm-10">
-                 <input type="text" class="form-control" id="iva" placeholder="IVA" maxlength="2" ng-model="iva" ng-change="get_valor_bruto(valor_base, iva)" name="itemConsumption" onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required/>
+                <select ng-model="iva" ng-options="i.Valor for i in d_opProveedorDetallePago.iva_data"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valor_base, iva)" class="form-control" id="iva" required>
+                    <option value="">Seleccionar IVA</option>
+                </select>
               </div>
             </div>
             <div class="form-group">
               <label for="valor_bruto" class="col-sm-2 control-label">Valor Bruto</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" ng-model="ordenPago.ValorTotal" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
+                <input type="text" class="form-control" ng-model="d_opProveedorDetallePago.ValorBruto" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
               </div>
             </div>
           </div>
