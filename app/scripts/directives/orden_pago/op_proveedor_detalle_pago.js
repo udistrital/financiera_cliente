@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           tipoordenpago:'=?',
-          iva: '=?'
+          iva: '=?',
+          valorbase: '=?'
         },
 
       templateUrl: '/views/directives/orden_pago/op_proveedor_detalle_pago.html',

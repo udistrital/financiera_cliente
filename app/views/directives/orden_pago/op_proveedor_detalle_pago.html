@@ -18,13 +18,13 @@
             <div class="form-group">
               <label for="val_base_retencion" class="col-sm-2 control-label">Valor Base Retenciones</label>
               <div class="col-sm-10">
-                <input type="text" class="form-control" id="val_base_retencion" ng-model="valor_base"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valor_base, iva)" placeholder="Valor Base Retenciones" ui-number-mask required/>
+                <input type="text" class="form-control" id="val_base_retencion" ng-model="valorbase"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valorbase, iva)" placeholder="Valor Base Retenciones" ui-number-mask required/>
               </div>
             </div>
             <div class="form-group">
               <label for="iva" class="col-sm-2 control-label">% IVA</label>
               <div class="col-sm-10">
-                <select ng-model="iva" ng-options="i.Valor for i in d_opProveedorDetallePago.iva_data"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valor_base, iva)" class="form-control" id="iva" required>
+                <select ng-model="iva" ng-options="i.Valor for i in d_opProveedorDetallePago.iva_data"  ng-change="d_opProveedorDetallePago.get_valor_bruto(valorbase, iva)" class="form-control" id="iva" required>
                     <option value="">Seleccionar IVA</option>
                 </select>
               </div>
@@ -50,23 +50,23 @@
           <table class="table">
             <tr>
               <th>Tipo Documento</th>
-              <td>{{proveedor.Tipopersona}}</td>
+              <td>{{tipoordenpago.Nombre}}</td>
             </tr>
             <tr>
               <th>Valor Base Retención</th>
-              <td>{{proveedor.NumDocumento}}</td>
+              <td><input style="border: none;" ng-model="valorbase" ui-number-mask/></td>
             </tr>
             <tr>
               <th>% IVA</th>
-              <td>{{proveedor.NomProveedor}}</td>
+              <td>{{iva.Valor}}</td>
             </tr>
             <tr>
               <th>Valor IVA</th>
-              <td>{{proveedor.Direccion}}</td>
+              <td><input style="border: none;" ng-model="d_opProveedorDetallePago.ValorIva" ui-number-mask/></td>
             </tr>
             <tr>
               <th>Valor Bruto</th>
-              <td>{{proveedor.TelAsesor}}</td>
+              <td> <input style="border: none;" ng-model="d_opProveedorDetallePago.ValorBruto" ui-number-mask/></td>
             </tr>
           </table>
 
