@@ -50,23 +50,23 @@
           <table class="table">
             <tr>
               <th>Tipo Documento</th>
-              <td>{{tipoordenpago.Nombre}}</td>
+              <td> <input class="input_right" style="border: none;" ng-model="tipoordenpago.Nombre" disabled="true"/></td>
             </tr>
             <tr>
               <th>Valor Base Retención</th>
-              <td><input style="border: none;" ng-model="valorbase" ui-number-mask/></td>
+              <td><input class="input_right" style="border: none;" ng-model="valorbase" ui-number-mask disabled="true"/></td>
             </tr>
             <tr>
               <th>% IVA</th>
-              <td>{{iva.Valor}}</td>
+              <td><input class="input_right" style="border: none;" ng-model="iva.Valor" ui-number-mask disabled="true"/></td>
             </tr>
             <tr>
               <th>Valor IVA</th>
-              <td><input style="border: none;" ng-model="d_opProveedorDetallePago.ValorIva" ui-number-mask/></td>
+              <td><input class="input_right" ng-model="d_opProveedorDetallePago.ValorIva" ui-number-mask disabled="true"/></td>
             </tr>
             <tr>
               <th>Valor Bruto</th>
-              <td> <input style="border: none;" ng-model="d_opProveedorDetallePago.ValorBruto" ui-number-mask/></td>
+              <td> <input  class="input_right" style="border: none;" ng-model="d_opProveedorDetallePago.ValorBruto" ui-number-mask disabled="true"/></td>
             </tr>
           </table>
 
