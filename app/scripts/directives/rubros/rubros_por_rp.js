@@ -22,10 +22,10 @@ angular.module('financieraClienteApp')
           enableRowSelection: true,
           enableRowHeaderSelection: false,
           columnDefs : [
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',             visible : false},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',         displayName: 'Codigo'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',       displayName: 'Vigencia'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',       displayName: 'Valor'}
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                visible : false},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',            displayName: 'Codigo'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',          displayName: 'Vigencia'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',       displayName: 'Descripción'}
           ]
         };
         // refrescar
