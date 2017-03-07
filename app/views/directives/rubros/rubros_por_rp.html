@@ -5,7 +5,7 @@
             <h4>Rubros Por RP</h4>
         </div>
         <div ng-show="panelUnidadEjecutora" class="panel-body"  >
-          <div ui-grid="d_rubrosPorRp.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
+          <div ng-if="!refresh" ui-grid="d_rubrosPorRp.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
         </div>
     </div>
   </div>
