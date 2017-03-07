@@ -5,15 +5,14 @@
     </div>
     <div class="panel-body">
       <!--unidad ejecutora -->
-      <ue-listar unidaejecutora="OrdenPago.UnidadEjecutora"></ue-listar>
+      <ue-listar unidaejecutora="OrdenPago.UnidadEjecutora"/>
       <!--Proveedor -->
-      <pv-listar proveedor="OrdenPagoConsulta.Proveedor"></pv-listar>
+      <pv-listar proveedor="OrdenPagoConsulta.Proveedor"/>
       <!--RP-->
       <rp-por-proveedor-listar beneficiaroid="OrdenPagoConsulta.Proveedor.Id" rpselect="OrdenPago.RegistroPresupuestal"/>
       <!--detalle pago -->
       <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
       <!--Rubros-->
-      <pre>{{OrdenPago.RegistroPresupuestal | json}}</pre>
       <rubros-por-rp rpid="OrdenPago.RegistroPresupuestal.Id"/>
     </div>
     <div class="panel-footer">
