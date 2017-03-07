@@ -11,11 +11,28 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        conceptoid: '='
+        conceptoid: '=',
+        movimiento: '=?'        
       },
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
       controller: function($scope) {
         var self = this;
+
+        $scope.$watch('d_movimientosContables.gridOptions.data',function(){
+          self.suma1 = 0;
+          self.suma2 = 0;
+          for (var i = 0; i < self.gridOptions.data.length; i++) {
+            self.suma1 =self.suma1 + self.gridOptions.data[i].Debito;
+            self.suma2  =self.suma2 + self.gridOptions.data[i].Credito;
+          }
+          if (self.suma1 == self.suma2) {
+            self.doble_partida=true;
+          }else{
+            self.doble_partida=false;
+          }
+          console.log(self.suma1 + "=" + self.suma2+","+self.doble_partida);
+
+        },true);
 
 
         self.gridOptions = {
@@ -54,7 +71,7 @@ angular.module('financieraClienteApp')
             {
               field: 'Debito',
               headerCellClass: 'text-info',
-              cellTemplate:'<div>{{row.entity.Debito=0}}</div>',
+              cellTemplate:'<div ng-init="row.entity.Debito=0">{{row.entity.Debito}}</div>',
               width: '20%',
               enableCellEdit: true,
               type:'number',
@@ -64,8 +81,9 @@ angular.module('financieraClienteApp')
               field: 'Credito',
               width: '20%',
               headerCellClass: 'text-info',
-              cellTemplate:'<div>{{row.entity.Credito=0}}</div>',
               type:'number',
+              enableCellEdit: true,
+              cellTemplate:'<div ng-init="row.entity.Credito=0">{{row.entity.Credito}}</div>',
               aggregationType: uiGridConstants.aggregationTypes.sum
             },
             {
@@ -100,14 +118,10 @@ angular.module('financieraClienteApp')
         }
         */
 
+
+
         self.comparar = function(){
-          var suma1 = 0;
-          var suma2 = 0;
-          for (var i = 0; i < self.gridOptions.data.length; i++) {
-            var suma1 =suma1+ self.gridOptions.data[i].Debito;
-            var suma2 =suma2+ self.gridOptions.data[i].Credito;
-          }
-          console.log(suma1 + "=" + suma2);
+
         };
 
 
