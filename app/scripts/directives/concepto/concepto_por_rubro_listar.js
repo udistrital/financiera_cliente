@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          rubroid:'=?'
+          rubroid:'=?',
+          concepto: '=?'
         },
 
       templateUrl: '/views/directives/concepto/concepto_por_rubro_listar.html',
