@@ -8,12 +8,15 @@
       <ue-listar unidaejecutora="OrdenPago.UnidadEjecutora"></ue-listar>
       <!--Proveedor -->
       <pv-listar proveedor="OrdenPagoConsulta.Proveedor"></pv-listar>
-
       <!--detalle pago -->
       <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
 
       <!--Rubros-->
       <rubros-por-rp rpid="2"/>
+      <!-- -->
+      <rp-por-proveedor-listar beneficiaroid="OrdenPagoConsulta.Proveedor.Id" rpselect="externo_rp_select"/>
+      <pre>{{externo_rp_select | json}}</pre>
+    </div>
     <div class="panel-footer">
         Panel Footer
     </div>
