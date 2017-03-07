@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          rpid:'=?'
+          rpid:'=?',
+          rubros:'=?'
         },
 
       templateUrl: '/views/directives/rubros/rubros_por_rp.html',
@@ -53,7 +54,7 @@ angular.module('financieraClienteApp')
             //set gridApi on scope
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.unidaejecutora = row.entity
+              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro
             });
           };
           self.gridOptions_rubros.multiSelect = false;

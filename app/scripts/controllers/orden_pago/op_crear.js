@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
     //unidad ejecutora
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.externo_rp_select = {}
+    self.Rubros = {}
 
     //
   });

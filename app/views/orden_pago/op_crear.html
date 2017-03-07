@@ -13,7 +13,10 @@
       <!--detalle pago -->
       <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
       <!--Rubros-->
-      <rubros-por-rp rpid="OrdenPago.RegistroPresupuestal.Id"/>
+      <!--<rubros-por-rp rpid="OrdenPago.RegistroPresupuestal.Id"/>-->
+      <rubros-por-rp rpid="2" rubros="Rubros"/>
+      <pre> {{Rubros | json}} </pre>
+
     </div>
     <div class="panel-footer">
         Panel Footer
