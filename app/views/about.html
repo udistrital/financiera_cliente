@@ -7,15 +7,15 @@
         <p>
           movs: <br>
 
-          concepto:<input type="number" ng-model="concepto">
-          {{concepto=1}}
+          concepto:<input ng-init="concepto=1" type="number" ng-model="concepto">
+
 
           <br> <br> <br> <br>
 
 
-          <movimientos-contables conceptoid="concepto"/>
+          <movimientos-contables conceptoid="concepto"  movimientos="movs" />
 
-
+          <pre>{{movs | json}}</pre>
 
 
 
