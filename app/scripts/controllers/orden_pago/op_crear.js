@@ -14,8 +14,8 @@ angular.module('financieraClienteApp')
     //unidad ejecutora
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.Rubros = {}
-    self.Concepto = {}
+    self.Rubros = [];
+    self.Concepto = {};
 
     //
   });

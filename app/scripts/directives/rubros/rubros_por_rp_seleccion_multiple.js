@@ -20,7 +20,7 @@ angular.module('financieraClienteApp')
         var self = this;
         self.gridOptions_rubros = {
           enableRowSelection: true,
-          enableRowHeaderSelection: false,
+          enableRowHeaderSelection: true,
           columnDefs : [
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                visible : false},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',            displayName: 'Codigo'},
@@ -54,8 +54,14 @@ angular.module('financieraClienteApp')
             //set gridApi on scope
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro
+              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.isSelected
             });
+            //
+            gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.length
+            });
+
+
           };
           self.gridOptions_rubros.multiSelect = true;
 
