@@ -14,7 +14,6 @@
       <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
       <!--Rubros-->
       <rubros-por-rp-seleccion-multiple rpid="OrdenPago.RegistroPresupuestal.Id" rubros="Rubros"/>
-      <!-- <rubros-por-rp rpid="OrdenPago.RegistroPresupuestal.Id" rubros="Rubros"/> -->
       <!--Concepto-->
       <concepto-por-rubro-listar rubroid="Rubros.Id" concepto="Concepto"/>
       <pre>{{Concepto | json}}</pre>
