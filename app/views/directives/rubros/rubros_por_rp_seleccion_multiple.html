@@ -1,0 +1,10 @@
+<div class="row">
+    <div class="panel panel-primary col-sm-12">
+        <div class="panel-heading" ng-click="panelRubrosPorRp = !panelRubrosPorRp">
+            <h4> Seleccion Rubros </h4>
+        </div>
+        <div ng-show="panelRubrosPorRp" class="panel-body"  >
+          <div ng-if="!refresh" ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
+        </div>
+    </div>
+</div>
