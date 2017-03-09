@@ -24,16 +24,17 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableCellEditOnFocus: true,
           columnDefs : [
-            {field: 'Id',                         visible : false,           enableCellEdit: false},
-            {field: 'Codigo',                     displayName: 'Codigo',     enableCellEdit: false},
-            {field: 'Nombre',                     displayName: 'Nombre',     enableCellEdit: false},
+            {field: 'Id',                         visible : false,            enableCellEdit: false},
+            {field: 'Codigo',                     displayName: 'Codigo',      enableCellEdit: false},
+            {field: 'Nombre',                     displayName: 'Nombre',      enableCellEdit: false},
             {field: 'Descripcion',                displayName: 'Descripcion', enableCellEdit: false},
-            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo',       enableCellEdit: false},
-            {field: 'Rubro.Codigo',               displayName: 'Rubro',      enableCellEdit: true},
+            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo',        enableCellEdit: false},
+            {field: 'Rubro.Codigo',               displayName: 'Rubro',       enableCellEdit: false},
             {
               field: 'Afectacion',
               enableCellEdit: true,
-              type: 'number'
+              type: 'number',
+              cellTemplate: '<div ng-init="row.entity.Afectacion=0">{{row.entity.Afectacion}}</div>',
             }
           ]
         };
@@ -65,15 +66,21 @@ angular.module('financieraClienteApp')
           self.gridOptions_conceptos.data = self.conceptos;
         }
         self.igualar = function(){
-          console.log(self.gridOptions_conceptos.data);
-          $scope.conceptos = self.gridOptions_conceptos.data;
+          var nun_conceptos = 0;
+          // Controla que el retorno de los conceptos los que se le asigno afectacion
+          angular.forEach(self.gridOptions_conceptos.data, function(i){
+            if(i.Afectacion !=0 && i.Afectacion != undefined ){
+              ++nun_conceptos;
+              $scope.conceptos = i;
+            }
+          })
+          // control que se afecte por lo menos un concepto
+          if(nun_conceptos == 0){alert("debe afectar minimo un concepto")}
         }
-
         $scope.$watch('rubroids', function(){
           self.refresh();
           self.consulta($scope.rubroids);
         })
-
         // fin
       },
       controllerAs:'d_conceptosPorRubrosOp'
