@@ -1,3 +1,16 @@
+/* NOTIFICATION*/
+
+.img-responsive{
+    max-width: 100px;
+    height: 80px;
+    background-color: #6C7A89;
+    margin: 1%
+}
+
+.notificacion_vista{
+    color: #e74c3c;
+}
+
 /*style footer */
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);
 footer { background-color:#0c1a1e; min-height:350px; font-family: 'Open Sans', sans-serif; }
