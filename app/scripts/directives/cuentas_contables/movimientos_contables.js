@@ -2,10 +2,11 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:cuentasContables/movimientosContables
- * @description
- * # cuentasContables/movimientosContables
+ * @name financieraClienteApp.directive:movimientosContables
+ * @description directiva para la gestión de movimientos contables
+ * #movimientosContables
  */
+
 angular.module('financieraClienteApp')
   .directive('movimientosContables', function(financieraRequest, uiGridConstants) {
     return {
@@ -13,7 +14,9 @@ angular.module('financieraClienteApp')
       scope: {
         conceptoid: '=?',
         movimientos: '=?',
-        editable: '@?'
+        editable: '@?',
+        monto: '=?',
+        validatemov: '=?'
       },
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
       link: function(scope, element, attrs) {
@@ -23,6 +26,7 @@ angular.module('financieraClienteApp')
         } else {
           attrs['editable'] = false;
         }
+        console.log(attrs);
       },
       controller: function($scope) {
         var self = this;
@@ -31,7 +35,8 @@ angular.module('financieraClienteApp')
           showColumnFooter: true,
           enableCellEditOnFocus: true,
           rowHeight: 40,
-          enableHorizontalScrollbar: true,
+          enableHorizontalScrollbar: 2,
+          enableVerticalScrollbar: 2,
           enableRowHeaderSelection: false,
           enableFiltering: false,
           enableSorting: true,
@@ -118,7 +123,10 @@ angular.module('financieraClienteApp')
           }
         };
 
-        $scope.$watch('d_movimientosContables.gridOptions.data', function() {
+        $scope.$watch('[d_movimientosContables.gridOptions.data,monto]', function() {
+          if ($scope.monto == undefined) {
+            $scope.monto = 0;
+          }
           self.suma1 = 0;
           self.suma2 = 0;
           for (var i = 0; i < self.gridOptions.data.length; i++) {
@@ -126,33 +134,20 @@ angular.module('financieraClienteApp')
             self.suma2 = self.suma2 + self.gridOptions.data[i].Credito;
           }
           if (self.suma1 == self.suma2) {
-            self.doble_partida = true;
+            if ($scope.monto != self.suma1) {
+              console.log($scope.monto);
+              $scope.validatemov = false;
+            } else {
+              $scope.validatemov = true;
+            }
           } else {
-            self.doble_partida = false;
+            $scope.validatemov = false;
           }
         }, true);
 
         $scope.$watch('conceptoid', function() {
           self.cargar_cuentas();
         });
-
-
-
-
-        /*
-        $scope.gridWidtht=0;
-        for (var i = 0; i < self.gridOptions.columnDefs.length; i++) {
-          $.each(self.gridOptions.columnDefs[i], function(k, v) {
-            if (k=='width') {
-              console.log(k + "is" + v);
-              $scope.gridWidtht = $scope.gridWidtht+Number(v);
-              console.log($scope.gridWidtht);
-            }
-          });
-        }
-        */
-
-
       },
       controllerAs: 'd_movimientosContables'
     };

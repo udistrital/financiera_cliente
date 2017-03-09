@@ -13,8 +13,11 @@
           <br> <br> <br> <br>
 
 
-          <movimientos-contables conceptoid="concepto"  movimientos="movs" />
+          <movimientos-contables conceptoid="concepto"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
 
+
+
+{{montmov}}{{validado}}
           <pre>{{movs | json}}</pre>
 
 
