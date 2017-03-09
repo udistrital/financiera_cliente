@@ -26,7 +26,9 @@ angular.module('financieraClienteApp')
             {field: 'Id',                         visible : false},
             {field: 'Codigo',                     displayName: 'Codigo'},
             {field: 'Nombre',                     displayName: 'Nombre'},
-            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo'}
+            {field: 'Descripcion',                displayName: 'Descripcion'},
+            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo'},
+            {field: 'Rubro.Codigo',               displayName: 'Rubro'}
           ]
         };
         // refrescar
