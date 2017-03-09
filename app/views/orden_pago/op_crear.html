@@ -14,12 +14,12 @@
       <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
       <!--Rubros-->
       <!-- <rubros-por-rp-seleccion-multiple rpid="OrdenPago.RegistroPresupuestal.Id" rubros="Rubros"/> -->
-      <rubros-por-rp-seleccion-multiple rpid="3" rubros="opCrear.Rubros"/>
+      <rubros-por-rp-seleccion-multiple rpid="3" rubros="opCrear.RubrosIds"/>
 
       <!--Concepto-->
-      <pre>{{opCrear.Rubros | json }}</pre>
+      <pre>{{opCrear.RubrosIds | json }}</pre>
       <!--<concepto-por-rubro-listar rubroid="Rubros.Id" concepto="Concepto"/>-->
-      <pre>{{Concepto | json}}</pre>
+      <!--<pre>{{Concepto | json}}</pre>-->
     </div>
     <div class="panel-footer">
         Panel Footer

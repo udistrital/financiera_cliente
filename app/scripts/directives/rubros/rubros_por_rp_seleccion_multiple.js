@@ -21,13 +21,19 @@ angular.module('financieraClienteApp')
         self.gridOptions_rubros = {
           enableRowSelection: true,
           enableRowHeaderSelection: true,
+          enableSelectAll: true,
           columnDefs : [
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                visible : false},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',            displayName: 'Codigo'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',          displayName: 'Vigencia'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',       displayName: 'Descripción'}
-          ]
+          ],
+          onRegisterApi : function(gridApi){
+              //set gridApi on scope
+              self.gridApi = gridApi;
+          }
         };
+        self.gridOptions_rubros.multiSelect = true;
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -49,23 +55,15 @@ angular.module('financieraClienteApp')
             });
           }
         })
-
-        self.gridOptions_rubros.onRegisterApi = function(gridApi){
-            //set gridApi on scope
-            self.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.isSelected
-            });
-            //
-            gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
-              $scope.rubros = row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.length
-            });
-
-
-          };
-          self.gridOptions_rubros.multiSelect = true;
-
         //
+        self.seleccionar_rubros = function(){
+          $scope.rubros = [];
+          $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
+          angular.forEach($scope.rubros_seleccion, function(rr){
+            $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
+          })
+        }
+        // fin
       },
       controllerAs:'d_rubrosPorRpSeleccionMultiple'
     };
