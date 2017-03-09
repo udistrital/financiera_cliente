@@ -1,3 +1,4 @@
 {
-  "directory": "bower_components"
+  	"directory": "bower_components",
+	"https-proxy": "http://10.20.4.15:3128"
 }

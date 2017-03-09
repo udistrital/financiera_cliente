@@ -27,11 +27,15 @@ angular
     'ui.grid.selection',
     'ui.grid.exporter',
     'ngStorage',
-    'financieraService'
+    'financieraService',
+    'ngStorage',
+    'ngWebSocket',
+    'angularMoment',
+    'ui.utils.masks'
   ])
-    .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
-      $locationProvider.hashPrefix("");
-      $routeProvider
+  .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+    $locationProvider.hashPrefix("");
+    $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
