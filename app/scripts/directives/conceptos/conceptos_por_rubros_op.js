@@ -12,7 +12,7 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
         rubroids:'=?',
-        conceptos: '=?'
+        conceptos:'=?'
         },
 
       templateUrl: '/views/directives/conceptos/conceptos_por_rubros_op.html',
@@ -20,17 +20,24 @@ angular.module('financieraClienteApp')
         var self = this;
         self.conceptos = [];
         self.gridOptions_conceptos = {
-          enableRowSelection: true,
+          enableRowSelection: false,
           enableRowHeaderSelection: false,
+          enableCellEditOnFocus: true,
           columnDefs : [
-            {field: 'Id',                         visible : false},
-            {field: 'Codigo',                     displayName: 'Codigo'},
-            {field: 'Nombre',                     displayName: 'Nombre'},
-            {field: 'Descripcion',                displayName: 'Descripcion'},
-            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo'},
-            {field: 'Rubro.Codigo',               displayName: 'Rubro'}
+            {field: 'Id',                         visible : false,           enableCellEdit: false},
+            {field: 'Codigo',                     displayName: 'Codigo',     enableCellEdit: false},
+            {field: 'Nombre',                     displayName: 'Nombre',     enableCellEdit: false},
+            {field: 'Descripcion',                displayName: 'Descripcion', enableCellEdit: false},
+            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo',       enableCellEdit: false},
+            {field: 'Rubro.Codigo',               displayName: 'Rubro',      enableCellEdit: true},
+            {
+              field: 'Afectacion',
+              enableCellEdit: true,
+              type: 'number'
+            }
           ]
         };
+        self.gridOptions_conceptos.multiSelect = false;
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -57,20 +64,15 @@ angular.module('financieraClienteApp')
           });
           self.gridOptions_conceptos.data = self.conceptos;
         }
+        self.igualar = function(){
+          console.log(self.gridOptions_conceptos.data);
+          $scope.conceptos = self.gridOptions_conceptos.data;
+        }
 
         $scope.$watch('rubroids', function(){
           self.refresh();
-          self.consulta($scope.rubroids)
+          self.consulta($scope.rubroids);
         })
-
-        self.gridOptions_conceptos.onRegisterApi = function(gridApi){
-            //set gridApi on scope
-            self.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.conceptos = row.entity
-            });
-          };
-          self.gridOptions_conceptos.multiSelect = false;
 
         // fin
       },

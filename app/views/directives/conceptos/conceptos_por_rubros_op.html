@@ -5,9 +5,9 @@
             <h4>Seleccion Conceptos</h4>
         </div>
         <div ng-show="panelConceptosPorRubro" class="panel-body"  >
-          <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-selection ui-grid-auto-resize></div>
+          <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
           <br>
-          <center><button class="btn btn-primary" ng-click="d_rubrosPorRpSeleccionMultiple.seleccionar_rubros()">Seleccionar Rubros</button></center>
+          <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.igualar()">Seleccionar Rubros</button></center>
         </div>
     </div>
     </div>
