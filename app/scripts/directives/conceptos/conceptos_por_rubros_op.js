@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
         };
         //
         self.consulta = function(ids){
-          console.log("1-consulta")
+          self.conceptos = [];
           angular.forEach(ids, function(i){
             financieraRequest.get('concepto',
             $.param({
@@ -55,18 +55,12 @@ angular.module('financieraClienteApp')
               }
             });
           });
-          console.log(self.conceptos);
           self.gridOptions_conceptos.data = self.conceptos;
         }
 
         $scope.$watch('rubroids', function(){
           self.refresh();
-          if ($scope.rubroids){
-            //
-            console.log($scope.rubroids)
-            console.log(self.consulta($scope.rubroids))
-
-          }
+          self.consulta($scope.rubroids)
         })
 
         self.gridOptions_conceptos.onRegisterApi = function(gridApi){
