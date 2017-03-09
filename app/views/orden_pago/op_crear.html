@@ -5,19 +5,17 @@
     </div>
     <div class="panel-body">
       <!--unidad ejecutora -->
-      <ue-listar unidaejecutora="OrdenPago.UnidadEjecutora"/>
+      <ue-listar unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"/>
       <!--Proveedor -->
-      <pv-listar proveedor="OrdenPagoConsulta.Proveedor"/>
+      <pv-listar proveedor="opCrear.OrdenPagoConsulta.Proveedor"/>
       <!--RP-->
-      <rp-por-proveedor-listar beneficiaroid="OrdenPagoConsulta.Proveedor.Id" rpselect="OrdenPago.RegistroPresupuestal"/>
+      <rp-por-proveedor-listar beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id" rpselect="opCrear.OrdenPago.RegistroPresupuestal"/>
       <!--detalle pago -->
-      <op-proveedor-detalle-pago tipoordenpago="OrdenPago.TipoOrdenPago" iva="OrdenPago.Iva" valorbase="OrdenPago.ValorBase"/>
+      <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase"/>
       <!--Rubros-->
       <!-- <rubros-por-rp-seleccion-multiple rpid="OrdenPago.RegistroPresupuestal.Id" rubros="Rubros"/> -->
       <rubros-por-rp-seleccion-multiple rpid="3" rubros="opCrear.RubrosIds"/>
-
       <!--Concepto-->
-      <pre>{{opCrear.RubrosIds | json }}</pre>
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" concepto="Concepto"/>
       <!--<pre>{{Concepto | json}}</pre>-->
     </div>
