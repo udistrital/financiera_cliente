@@ -1,0 +1,14 @@
+<div class="row">
+  <div class=" col-sm-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading" ng-click="panelConceptosPorRubro = !panelConceptosPorRubro">
+            Seleccion Conceptos
+        </div>
+        <div ng-show="panelConceptosPorRubro" class="panel-body"  >
+          <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-selection ui-grid-auto-resize></div>
+          <br>
+          <center><button class="btn btn-primary" ng-click="d_rubrosPorRpSeleccionMultiple.seleccionar_rubros()">Seleccionar Rubros</button></center>
+        </div>
+    </div>
+    </div>
+</div>
