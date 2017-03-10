@@ -66,12 +66,13 @@ angular.module('financieraClienteApp')
           self.gridOptions_conceptos.data = self.conceptos;
         }
         self.igualar = function(){
+          $scope.conceptos = [];
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos los que se le asigno afectacion
           angular.forEach(self.gridOptions_conceptos.data, function(i){
             if(i.Afectacion !=0 && i.Afectacion != undefined ){
               ++nun_conceptos;
-              $scope.conceptos = i;
+              $scope.conceptos.push(i);
             }
           })
           // control que se afecte por lo menos un concepto

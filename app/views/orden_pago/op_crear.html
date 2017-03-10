@@ -17,6 +17,13 @@
       <rubros-por-rp-seleccion-multiple rpid="3" rubros="opCrear.RubrosIds"/>
       <!--Concepto-->
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
+
+      <div ng-repeat="c in opCrear.Concepto">
+        <movimientos-contables conceptoid="c.Id"  movimientos="movs" monto="c.Afectacion" editable validatemov="validado"/>
+
+        {{movs}}
+      </div>
+
       <pre>{{opCrear.Concepto | json}}</pre>
     </div>
     <div class="panel-footer">

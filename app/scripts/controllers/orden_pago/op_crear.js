@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
     self.OrdenPagoConsulta = {};
     self.RubrosIds = [];
     self.RubrosIdsTest = [35354, 41];
-    self.Concepto = {};
+    self.Concepto = [];
 
     //
   });
