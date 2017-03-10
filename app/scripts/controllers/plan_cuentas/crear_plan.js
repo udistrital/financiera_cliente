@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
   .controller('PlanCuentasCrearPlanCtrl', function (financieraRequest) {
   var self=this;
   self.nuevo_plan={};
+  self.actualizar=false;
 
   financieraRequest.get("unidad_ejecutora",$.param({
     sortby: "Id",
@@ -24,6 +25,7 @@ angular.module('financieraClienteApp')
     financieraRequest.post("plan_cuentas", self.nuevo_plan).then(function(response){
       alert("plan de cuentas creado:"+ response.data.Nombre);
       self.nuevo_plan={};
+      self.actualizar=!self.actualizar;
     });
   };
 

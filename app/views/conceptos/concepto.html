@@ -59,9 +59,15 @@
         </div>
 
         <div class="panel panel-info panel-body col-md-10">
-          <center>Aqui el Rubro!</center>
-          {{concepto.v_concepto.Rubro}}
-          
+          <h4 class="text-primary">{{concepto.v_concepto.Rubro.Descripcion}}</h4>
+          <p class="text-muted">{{concepto.v_concepto.Rubro.Entidad.Nombre}}</p>
+          <dl>
+            <dt>Codigo: {{concepto.v_concepto.Rubro.Codigo}}</dt>
+            <dd>- Vigencia : {{concepto.v_concepto.Rubro.Vigencia}}</dd>
+
+          </dl>
+
+
         </div>
 
       </div>
