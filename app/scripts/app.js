@@ -26,8 +26,13 @@ angular
     'ui.grid.treeView',
     'ui.grid.selection',
     'ui.grid.exporter',
+    'ui.grid.autoResize',
+    'ui.grid.pagination',
+    'ui.grid.resizeColumns',
     'ngStorage',
-    'financieraService'
+    'financieraService',
+    'administrativaService',
+    'ui.utils.masks'
   ])
     .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
       $locationProvider.hashPrefix("");
@@ -51,6 +56,11 @@ angular
         templateUrl: 'views/iva/iva.html',
         controller: 'IvaCtrl',
         controllerAs: 'iva'
+      })
+      .when('/orden_pago/crear', {
+        templateUrl: 'views/orden_pago/op_crear.html',
+        controller: 'OrdenPagoOpCrearCtrl',
+        controllerAs: 'opCrear'
       })
       .otherwise({
         redirectTo: '/'
