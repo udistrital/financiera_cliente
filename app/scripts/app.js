@@ -62,6 +62,26 @@ angular
         controller: 'OrdenPagoOpCrearCtrl',
         controllerAs: 'opCrear'
       })
+      .when('/conceptos/concepto/:Id', {
+        templateUrl: 'views/conceptos/concepto.html',
+        controller: 'ConceptoCtrl',
+        controllerAs: 'concepto'
+      })
+      .when('/compromisos/nuevo', {
+        templateUrl: 'views/compromisos/crear_compromiso.html',
+        controller: 'CrearCompromisoCtrl',
+        controllerAs: 'crearCompromiso'
+      })
+      .when('/plan_cuentas/cuentas/nueva', {
+        templateUrl: 'views/plan_cuentas/crear_cuentas.html',
+        controller: 'PlanCuentasCrearCuentasCtrl',
+        controllerAs: 'crearCuentas'
+      })
+      .when('/plan_cuentas/nuevo', {
+        templateUrl: 'views/plan_cuentas/crear_plan.html',
+        controller: 'PlanCuentasCrearPlanCtrl',
+        controllerAs: 'crearPlan'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -8,9 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest) {
+  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $http) {
     var self = this;
     self.padre = {};
+    self.rubro = {};
     financieraRequest.get("tipo_concepto", "").then(function(response) {
       self.tipos_concepto = response.data;
     });
@@ -18,7 +19,99 @@ angular.module('financieraClienteApp')
       self.tipos_afectacion = response.data;
     });
 
-    self.crear_concepto_nuevo = function() {
+    self.crear_concepto_nuevo = function(form) {
+
+      var nc = confirm("Desea Agregar el nuevo concepto?");
+      if (nc) {
+
+        if (self.padre.Codigo != undefined) {
+          self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
+        }
+
+        self.nuevo_concepto.FechaCreacion = new Date();
+        self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
+        self.nuevo_concepto.Cabeza = false;
+        self.nuevo_concepto.Rubro=self.rubro.Id;
+
+        self.afectacion_concepto = {};
+        var conceptotemp = {
+          Id: 0
+        };
+        self.afectaciones = [];
+        for (var i = 0; i < self.tipos_afectacion.length; i++) {
+          self.afectacion_concepto.Concepto = conceptotemp;
+          self.afectacion_concepto.TipoAfectacion = self.tipos_afectacion[i];
+          self.afectacion_concepto.AfectacionIngreso = self.tipos_afectacion[i].Ingreso;
+          self.afectacion_concepto.AfectacionEgreso = self.tipos_afectacion[i].Egreso;
+          self.afectaciones.push(self.afectacion_concepto);
+          self.afectacion_concepto = {};
+        }
+
+        self.tr_concepto = {
+          Concepto: self.nuevo_concepto,
+          ConceptoPadre: self.padre,
+          Afectaciones: self.afectaciones
+        };
+
+
+        financieraRequest.post('tr_concepto', self.tr_concepto).then(function(response) {
+          alert("concepto creado");
+          self.recargar = !self.recargar;
+        });
+        //console.log(self.tr_concepto);
+        //financieraRequest.post()
+      }
+
+    };
+
+
+
+    self.gridOptions = {
+      enableRowSelection: true,
+      enableRowHeaderSelection: false,
+      enableFiltering: false,
+      enableSorting: true,
+      treeRowHeaderAlwaysVisible: false,
+      showTreeExpandNoChildren: true,
+      rowEditWaitInterval: -1,
+      columnDefs: [{
+          field: 'Id',
+          visible: false
+        },
+        {
+          field: 'Vigencia',
+          cellClass: 'alignleft'
+        },
+        {
+          field: 'Codigo'
+        },
+        {
+          field: 'Descripcion'
+        }
+      ]
+
+    };
+
+    self.gridOptions.multiSelect = false;
+    self.gridOptions.modifierKeysToMultiSelect = false;
+    self.gridOptions.noUnselect = true;
+    self.gridOptions.onRegisterApi = function(gridApi) {
+      $scope.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope,function(){
+       self.rubro =  $scope.gridApi.selection.getSelectedRows()[0]
+       console.log(self.rubro);
+     });
+    };
+
+
+
+
+    $http.get('http://10.20.2.58:8080/v1/rubro/?limit=0').then(function(response) {
+      self.gridOptions.data = response.data;
+    });
+
+
+    /*self.crear = function() {
       var nc = confirm("Desea Agregar el nuevo concepto?");
       if (nc) {
         if (self.padre.Codigo != undefined) {
@@ -57,7 +150,7 @@ angular.module('financieraClienteApp')
         });
 
       }
-    };
+    };*/
 
     self.resetear = function(form) {
       var r = confirm("Desea Limpiar el Formulario?");

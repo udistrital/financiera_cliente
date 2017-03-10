@@ -28,6 +28,7 @@ angular.module('financieraClienteApp')
       }]
     }];
 
+
     var recorrerArbol = function(item, padre) {
       var padres = "";
       for (var i = 0; i < item.length; i++) {
@@ -55,7 +56,7 @@ angular.module('financieraClienteApp')
           $scope.breadcrumb = [''];
         }
       }
-    }
+    };
     recorrerArbol($scope.menu_service, "");
 
     $scope.$on('$routeChangeStart', function(next, current) {

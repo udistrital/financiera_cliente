@@ -1,0 +1,16 @@
+<div class="panel panel-info panel-body">
+  <div class="panel panel-heading">
+    <h4 class="text-center panel-title page-header">Plan de Cuentas</h4>
+  </div>
+  <div>
+    <treecontrol
+    class="tree-classic"
+    tree-model="d_planCuentas.plan_cuentas"
+    options="d_planCuentas.treeOptions"
+    on-selection="showSelected(node)"
+    selected-node="d_planCuentas.cuenta_estructura">
+      cod: {{node.Codigo}} nombre: {{node.Nombre}}
+    </treecontrol>
+  </div>
+
+</div>
