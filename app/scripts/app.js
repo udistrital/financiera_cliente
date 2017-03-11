@@ -31,12 +31,19 @@ angular
     'ui.grid.resizeColumns',
     'ngStorage',
     'financieraService',
+    'ngStorage',
+    'ngWebSocket',
+    'angularMoment',
     'administrativaService',
     'ui.utils.masks'
   ])
-    .config(['$locationProvider','$routeProvider', function($locationProvider, $routeProvider) {
-      $locationProvider.hashPrefix("");
-      $routeProvider
+  .run(function(amMoment) {
+    amMoment.changeLocale('es');
+  })
+  
+  .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+    $locationProvider.hashPrefix("");
+    $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
@@ -52,6 +59,10 @@ angular
         controller: 'CrearConceptoCtrl',
         controllerAs: 'crearConcepto'
       })
+      .when('/notificaciones', {
+        templateUrl: 'views/notificaciones.html',
+        controller: 'NotificacionesCtrl',
+        controllerAs: 'notificaciones'
       .when('/iva', {
         templateUrl: 'views/iva/iva.html',
         controller: 'IvaCtrl',

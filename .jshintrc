@@ -11,6 +11,9 @@
   "undef": true,
   "unused": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "jQuery": false,
+    "KJUR": false,
+    "b64utoutf8": false
   }
 }
