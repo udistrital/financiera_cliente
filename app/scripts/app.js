@@ -37,10 +37,11 @@ angular
     'administrativaService',
     'ui.utils.masks'
   ])
+
   .run(function(amMoment) {
     amMoment.changeLocale('es');
   })
-  
+
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
@@ -63,6 +64,7 @@ angular
         templateUrl: 'views/notificaciones.html',
         controller: 'NotificacionesCtrl',
         controllerAs: 'notificaciones'
+      })
       .when('/iva', {
         templateUrl: 'views/iva/iva.html',
         controller: 'IvaCtrl',
