@@ -1,3 +1,4 @@
+
 /* NOTIFICATION*/
 
 .img-responsive{
@@ -9,6 +10,18 @@
 
 .notificacion_vista{
     color: #e74c3c;
+}
+/* input right*/
+.input_right{
+  border: none;
+  text-align:right
+}
+
+.ng-invalid.ng-dirty{
+  border-color: red;
+}
+.ng-valid.ng-dirty{
+  border-color: green;
 }
 
 /*style footer */

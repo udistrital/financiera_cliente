@@ -45,8 +45,6 @@ angular.module('financieraClienteApp')
      return padres;
    };
 
-
-
    var update_url = function() {
      $scope.breadcrumb = [''];
      for (var i = 0; i < paths.length; i++) {

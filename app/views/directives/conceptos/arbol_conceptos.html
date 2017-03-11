@@ -1,29 +1,27 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
+<div class="panel panel-info panel-body">
+  <div class="panel panel-primary panel-heading ">
     <h4 class="text-center panel-title page-header">Conceptos</h4>
   </div>
-  <div class="panel-body row">
+  <div class="row">
 
     <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
-      <{{node.Id}}> : {{node.Nombre}}
+      <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
     </treecontrol>
 
     <div class="panel panel-info panel-body row" ng-show="conceptosel!=undefined && showc">
-      <div class="container">
-        <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
-        <p class="text-muted">{{conceptosel.Descripcion}}</p>
-        <dl>
-          <dt>Codigo: {{conceptosel.Codigo}}</dt>
-          <dt>Fechas</dt>
-          <dd>- Creacion : {{conceptosel.FechaCreacion | date:'d-MMMM-yyyy'}}</dd>
-          <dd>- Expiracion: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
-        </dl>
-        <div>
-          <button class="btn btn-info">ver</button>
-          <div class="pull-right">
-            <button class="btn btn-success" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">Seleccionar</button>
-          </div>
-        </div>
+      <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
+      <p class="text-muted">{{conceptosel.Descripcion}}</p>
+      <dl>
+        <dt>Codigo: {{conceptosel.Codigo}}</dt>
+        <dt>Fechas</dt>
+        <dd>- Creacion : {{conceptosel.FechaCreacion | date:'d-MMMM-yyyy'}}</dd>
+        <dd>- Expiracion: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
+      </dl>
+      <div class="col-md-3 col-md-offset-6">
+        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/conceptos/concepto/{{conceptosel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">ver</a>
+      </div>
+      <div class="col-md-3">
+        <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)" value="Seleccionar">
       </div>
     </div>
 
