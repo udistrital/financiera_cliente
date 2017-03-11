@@ -39,7 +39,7 @@ req.onreadystatechange = function(e) {
   }
 };
 
-angular.module('version16App')
+angular.module('financieraClienteApp')
   .factory('token_service', function($location, $http, $localStorage) {
     var service = {
       local: $localStorage.$default(params),
