@@ -14,6 +14,7 @@ angular
     'ngCookies',
     'ngMessages',
     'ngResource',
+    'ngSanitize',
     'ngRoute',
     'ngTouch',
     'afOAuth2',
@@ -35,7 +36,8 @@ angular
     'ngWebSocket',
     'angularMoment',
     'administrativaService',
-    'ui.utils.masks'
+    'ui.utils.masks',
+    'pascalprecht.translate'
   ])
 
   .run(function(amMoment) {

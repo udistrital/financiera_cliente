@@ -8,8 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('NotificacionesCtrl', function($scope, notificacion, datos) {
+  .controller('NotificacionesCtrl', function($scope, notificacion) {
     $scope.imagePath = 'images/yeoman.png';
     $scope.notificacion = notificacion;
-    $scope.datos = datos;
   });
