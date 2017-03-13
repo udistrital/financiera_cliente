@@ -22,8 +22,11 @@
         <movimientos-contables conceptoid="c.Id"  movimientos="movs" monto="c.Afectacion" editable validatemov="validado"/>
         {{movs}}
       </div>
-
-      <pre>{{opCrear.Concepto | json}}</pre>
+      <pre>{{ opCrear.OrdenPago | json}}</pre>
+      <!--<pre>{{opCrear.Concepto | json}}</pre>-->
+      <center><button class="btn btn-primary" ng-click="opCrear.addOpProveedor()">Registrar</button></center>
+      <p>resultado</p>
+      {{opCrear.resultado | json}}
     </div>
     <div class="panel-footer">
         Panel Footer
