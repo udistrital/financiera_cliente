@@ -1,8 +1,12 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion) {
+.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate) {
    var paths = [];
+   $scope.language = {
+       es:"btn btn-primary btn-circle btn-outline active",
+       en:"btn btn-primary btn-circle btn-outline"
+   };
    $scope.notificacion = notificacion;
    $scope.actual = "";
    $scope.token_service = token_service;
@@ -63,6 +67,21 @@ angular.module('financieraClienteApp')
      update_url();
      console.log(next + current);
    });
+
+   $scope.changeLanguage = function (key) {
+       $translate.use(key);
+        switch (key) {
+            case 'es':
+                $scope.language.es = "btn btn-primary btn-circle btn-outline active";
+                $scope.language.en = "btn btn-primary btn-circle btn-outline";
+                break;
+            case 'en':
+                $scope.language.en = "btn btn-primary btn-circle btn-outline active";
+                $scope.language.es = "btn btn-primary btn-circle btn-outline";
+                break;
+            default:
+        }
+   };
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {
