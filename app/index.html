@@ -5,7 +5,6 @@
   <title>financieraClienteApp</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width">
-  <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
@@ -65,6 +64,10 @@
     <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
     <script src="bower_components/kjur-jsrsasign/jsrsasign-latest-all-min.js"></script>
+    <script src="bower_components/angular-websocket/dist/angular-websocket.js"></script>
+    <script src="bower_components/angular-input-masks/angular-input-masks-standalone.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/angular-moment/angular-moment.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -82,6 +85,30 @@
   <script src="scripts/directives/conceptos/arbol_conceptos.js"></script>
   <script src="scripts/controllers/conceptos/crear_concepto.js"></script>
   <script src="scripts/services/financiera_service.js"></script>
+  <script src="scripts/services/notificacion.js"></script>
+  <script src="scripts/controllers/notificaciones.js"></script>
+  <script src="scripts/controllers/iva/iva.js"></script>
+  <script src="scripts/directives/iva/iva.js"></script>
+  <script src="scripts/controllers/orden_pago/op_crear.js"></script>
+  <script src="scripts/directives/unidad_ejecutora/ue_listar.js"></script>
+  <script src="scripts/directives/proveedor/pv_listar.js"></script>
+  <script src="scripts/services/administrativa_service.js"></script>
+  <script src="scripts/directives/orden_pago/op_proveedor_detalle_pago.js"></script>
+  <script src="scripts/directives/rubros/rubros_por_rp.js"></script>
+  <script src="scripts/directives/rp/rp_por_proveedor_listar.js"></script>
+  <script src="scripts/directives/concepto/concepto_por_rubro_listar.js"></script>
+  <script src="scripts/directives/rubros/rubros_por_rp_seleccion_multiple.js"></script>
+  <script src="scripts/directives/conceptos/conceptos_por_rubros_op.js"></script>
+  <script src="scripts/controllers/conceptos/concepto.js"></script>
+  <script src="scripts/controllers/compromisos/crear_compromiso.js"></script>
+  <script src="scripts/controllers/plan_cuentas/crear_cuentas.js"></script>
+  <script src="scripts/directives/cuentas_contables/plan_cuentas.js"></script>
+  <script src="scripts/controllers/plan_cuentas/crear_plan.js"></script>
+  <script src="scripts/directives/cuentas_contables/lista_planes_cuentas.js"></script>
+  <script src="scripts/directives/cuentas_contables/movimientos_contables.js"></script>
+  <script src="scripts/services/datos.js"></script>
   <!-- endbuild -->
+
+  <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
   </html>

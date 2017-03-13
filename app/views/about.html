@@ -5,7 +5,23 @@
     </div>
     <div class="panel-body">
         <p>
-          Ahora puede empezar a construir la vista de about.
+          movs: <br>
+
+          concepto:<input ng-init="concepto=1" type="number" ng-model="concepto">
+
+
+          <br> <br> <br> <br>
+
+
+          <movimientos-contables conceptoid="concepto"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
+
+
+
+{{montmov}}{{validado}}
+          <pre>{{movs | json}}</pre>
+
+
+
         </p>
     </div>
     <div class="panel-footer">

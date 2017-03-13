@@ -1,50 +1,46 @@
-<div class="jumbotron container-fluid">
+<div class="contaniner-inner">
 
-  <div class="col-sm-5" ng-show="crearConcepto.dividir">
-    <arbol-conceptos filtro="filtro_padre" seleccion="crearConcepto.padre" conceptosel="nodo" />
+  <div class="col-md-5" ng-show="crearConcepto.dividir">
+    <arbol-conceptos filtro="filtro_padre" seleccion="crearConcepto.padre" conceptosel="nodo" recargar="crearConcepto.recargar" />
   </div>
 
+  <div ng-class="{'col-md-10 col-xs-offset-1': !crearConcepto.dividir, 'col-md-7': crearConcepto.dividir}">
+    <div class="panel panel-default">
 
+      <div class="panel-heading">
+        <h5 class="page-header panel-title" align="center">CONCEPTO</h3></div>
+      <div class="panel-body">
 
-
-
-  <div ng-class="{'col-md-12': !crearConcepto.dividir, 'col-md-7': crearConcepto.dividir}">
-    <div class="panel panel-info panel-body row">
-
-      <h1 class="panel-title text-center page-header">Concepto</h1><br />
-      <div class="container">
-
-        <form name="conceptoForm" class="form-horizontal" ng-submit="conceptoForm.$valid && crearConcepto.crear_concepto_nuevo()" novalidate>
-
-          <div class="col-md-12 row line">
-            <div class="col-sm-2">
+        <form name="conceptoForm" class="form-horizontal" ng-submit="conceptoForm.$valid && crearConcepto.crear_concepto_nuevo(conceptoForm)" novalidate>
+          <div class="row col-md-12">
+            <div class="col-md-2">
               <label><h5>Tipo Concepto:<h5></label>
             </div>
-            <div class="col-sm-10">
+            <div class="col-md-10">
               <select name="selTipoConcepto" class="form-control" ng-model="crearConcepto.tipo_concepto" ng-change="filtro_padre.TipoConcepto.Id=crearConcepto.tipo_concepto.Id;
                   nodo=undefined;
                   crearConcepto.verFormTipo=!conceptoForm.selTipoConcepto.$error.required;
                   crearConcepto.dividir=crearConcepto.dividir && crearConcepto.verFormTipo;
                   crearConcepto.padre={}" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto" required>
-                <option value="">-- Seleccion Un tipo de Concepto --</option>
+                <option value="" disabled selected>-- Seleccion Un tipo de Concepto --</option>
                 </select>
             </div>
-            <div ng-show="conceptoForm.$submitted || conceptoForm.selTipoConcepto.$touched">
-              <span ng-show="conceptoForm.selTipoConcepto.$error.required">Selecciona un tipo de concepto para continuar</span>
-            </div>
+          </div>
+          <div ng-show="conceptoForm.$submitted || conceptoForm.selTipoConcepto.$touched">
+            <span ng-show="conceptoForm.selTipoConcepto.$error.required">Selecciona un tipo de concepto para continuar</span>
           </div>
 
           <div ng-show="crearConcepto.verFormTipo">
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>Codigo*:<h5></label>
               </div>
-              <div class="col-sm-7">
+              <div class="col-md-7">
                 <input ng-model="crearConcepto.padre.Codigo" class="form-control" placeholder="Cote o Concepto Padre" ng-click="crearConcepto.dividir=!crearConcepto.dividir; crearConcepto.cargar_arbol()" readonly>
                 </input>
               </div>
-              <div class="col-sm-3">
+              <div class="col-md-3">
                 <input class="form-control" ng-model="crearConcepto.nuevo_concepto.Codigo" placeholder="Ingresar codigo" required>
                 </input>
               </div>
@@ -52,20 +48,20 @@
             </div>
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>Nombre:<h5></label>
               </div>
-              <div class="col-sm-10">
+              <div class="col-md-10">
                 <input class="form-control" ng-model="crearConcepto.nuevo_concepto.Nombre" placeholder="Ingrese el nombre del concepto" required>
                 </input>
               </div>
             </div>
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>Descripcion:<h5></label>
               </div>
-              <div class="col-sm-10">
+              <div class="col-md-10">
                 <textarea class="form-control" ng-model="crearConcepto.nuevo_concepto.Descripcion" placeholder="Ingrese una descripción para el concepto">
                   </textarea>
               </div>
@@ -73,10 +69,10 @@
 
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>Afectacion:<h5></label>
               </div>
-              <div class="col-sm-10">
+              <div class="col-md-10">
 
                 <table class="table table-bordered table-responsive table-hover">
 
@@ -97,24 +93,24 @@
 
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>PAC:<h5></label>
               </div>
-              <div class="col-sm-10">
+              <div class="col-md-10">
                 <input type="checkbox" ng-model="crearConcepto.nuevo_concepto.PAC"></input>
               </div>
             </div>
 
 
             <div class="col-md-12 row line">
-              <div class="col-sm-2">
+              <div class="col-md-2">
                 <label><h5>Fecha Expiración:<h5></label>
               </div>
-              <div class="col-sm-10">
+              <div class="col-md-10">
 
                 <div class="input-group date" data-provide="datepicker">
 
-                  <md-datepicker md-current-view="year" md-placeholder="Selecciona un fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion" placeholder="Ingrese la fecha"></md-datepicker>
+                  <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion" ></md-datepicker>
 
                   <!--<input type="date" ng-model="crearConcepto.nuevo_concepto.Fecha | date:'dd/mm/yyyy'" class="form-control" placeholder="DD/MM/AAAA"></input>
                           <div class="input-group-addon">
@@ -126,34 +122,34 @@
             </div>
 
 
-            <div class="col-md-12 row line" ng-if="crearConcepto.tipo_concepto.Nombre!='Ingreso'">
-              <div class="col-sm-2">
+            <div class="col-md-12 row line">
+              <div class="col-md-2">
                 <label><h5>Rubro:<h5></label>
               </div>
 
-              <div class="panel panel-primary panel-body col-sm-10">
-                <center><button class="btn btn-success">Buscar Rubro</button></center>
-
-              </div>
-
-            </div>
-
-            <div class="col-md-12 text-center row line">
-              <div class="col-sm-6">
-                <input type="submit" class="btn btn-lg btn-primary" value="Confirmar">
-              </div>
-              <div class="col-sm-6">
-                <button ng-click="crearConcepto.resetear(conceptoForm)" class="btn btn-lg btn-danger">Cancelar</button>
+              <div class="panel panel-primary panel-body col-md-10">
+                  <div ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection class="grid"></div>
 
               </div>
             </div>
 
-          </div>
+            <div class="row" align="center">
+
+              <div class="col-md-3 col-md-offset-3">
+                <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="Confirmar">
+              </div>
+              <div class="col-md-3 ">
+                <button ng-click="crearConcepto.resetear(conceptoForm)" class="btn btn-outline btn-danger btn-lg btn-block">Cancelar</button>
+
+              </div>
+            </div>
+
 
 
         </form>
-      </div>
+        </div>
 
+      </div>
     </div>
   </div>
 

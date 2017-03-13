@@ -39,11 +39,17 @@ module.exports = function(config) {
       'bower_components/pdfmake/build/vfs_fonts.js',
       'bower_components/ngstorage/ngStorage.js',
       'bower_components/kjur-jsrsasign/jsrsasign-latest-all-min.js',
+      'bower_components/angular-websocket/dist/angular-websocket.js',
+      'bower_components/angular-input-masks/angular-input-masks-standalone.js',
+      'bower_components/moment/moment.js',
+      'bower_components/angular-moment/angular-moment.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      //'test/spec/**/*.js'
+      //'test/spec/controllers/about.js'
+      'test/spec/directives/cuentas_contables/movimientos_contables.js'
     ],
 
     // list of files / patterns to exclude
