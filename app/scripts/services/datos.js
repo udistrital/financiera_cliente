@@ -9,5 +9,8 @@
  */
 angular.module('financieraClienteApp')
   .constant('datos', {
-      "NOTIFICACION_PENDIENTE": "Notificaciones Pendientes"
+      "NOTIFICACION_PENDIENTE": "Notificaciones Pendientes",
+      "NOTIFICACION_VISTA": "Notificaciones Vistas",
+      "FILTRO_NOTIFICACION": "Filtrar notificación",
+      "TODAS_NOTIFICACIONES": "Todas las notificaciones"
   });
