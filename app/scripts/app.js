@@ -37,9 +37,11 @@ angular
     'administrativaService',
     'ui.utils.masks'
   ])
+
   .run(function(amMoment) {
     amMoment.changeLocale('es');
   })
+
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
