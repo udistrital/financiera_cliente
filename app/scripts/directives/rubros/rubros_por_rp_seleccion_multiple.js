@@ -44,7 +44,7 @@ angular.module('financieraClienteApp')
         //
         $scope.$watch('rpid', function(){
           self.refresh();
-          if ($scope.rpid){
+          if ($scope.rpid != undefined){
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
             $.param({
               query: "RegistroPresupuestal.Id:" + $scope.rpid,
