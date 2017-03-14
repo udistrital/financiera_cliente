@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
           var:'='
         },
       */
-      templateUrl: '/views/directives/cuentas_contables/plan_cuentas.html',
+      templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html',
       controller: function() {
         var self = this;
 
