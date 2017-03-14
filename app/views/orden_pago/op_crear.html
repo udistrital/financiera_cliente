@@ -18,8 +18,8 @@
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
       <!--<pre>{{opCrear.Concepto | json }}</pre>-->
       <div ng-repeat="c in opCrear.Concepto">
-        <movimientos-contables conceptoid="c.Id"  movimientos="movs" monto="c.Afectacion" editable validatemov="validado"/>
-        <pre>{{movs |json}}</pre>
+        <movimientos-contables conceptoid="c.Id"  movimientos="opCrear.movs" monto="c.Afectacion" editable validatemov="validado"/>
+        <pre>{{opCrear.movs |json}}</pre>
       </div>
 
       <!-- <pre>{{ opCrear.OrdenPago | json}}</pre> -->

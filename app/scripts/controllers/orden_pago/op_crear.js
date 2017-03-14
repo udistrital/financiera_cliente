@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
     //
     var self = this;
     //unidad ejecutora
+    //self.movs = [];
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
     self.RubrosIds = [];
@@ -19,6 +20,9 @@ angular.module('financieraClienteApp')
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
     self.Data_OrdenPago_Concepto = {};
+    self.MovimientoContable = [];
+
+
 
     // functions
     self.estructura_orden_pago_conceptos = function(conceptos){
@@ -46,7 +50,10 @@ angular.module('financieraClienteApp')
       //construir data send
       self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
       self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
+      self.Data_OrdenPago_Concepto.MovimientoContable = self.movs;
+      console.log(self.Data_OrdenPago_Concepto)
       //insert
+
       financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
         .then(function(data) {   //error con el success
           console.log(data)
