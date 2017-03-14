@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
         conceptosel: '=?',
         recargar: '=?'
       },
-      templateUrl: "/views/directives/conceptos/arbol_conceptos.html",
+      templateUrl: "views/directives/conceptos/arbol_conceptos.html",
       controller: function($scope) {
         var self = this;
         self.padre = {};

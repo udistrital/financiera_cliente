@@ -15,6 +15,7 @@
     "jQuery": false,
     "KJUR": false,
     "b64utoutf8": false,
-    "$":false
+    "$":false,
+    "col": false
   }
 }
