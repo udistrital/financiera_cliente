@@ -14,18 +14,20 @@
       <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase"/>
       <!--Rubros-->
       <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds"/>
-      <!--<rubros-por-rp-seleccion-multiple rpid="3" rubros="opCrear.RubrosIds"/>-->
       <!--Concepto-->
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
-
+      <!--<pre>{{opCrear.Concepto | json }}</pre>-->
       <div ng-repeat="c in opCrear.Concepto">
-        <movimientos-contables conceptoid="c.Id"  movimientos="movs" monto="c.Afectacion" editable validatemov="validado"/>
-        {{movs}}
+        <movimientos-contables conceptoid="c.Id"  movimientos="opCrear.movs" monto="c.Afectacion" editable validatemov="validado"/>
+        <pre>{{opCrear.movs |json}}</pre>
       </div>
 
-      <pre>{{opCrear.Concepto | json}}</pre>
-    </div>
-    <div class="panel-footer">
-        Panel Footer
+      <!-- <pre>{{ opCrear.OrdenPago | json}}</pre> -->
+      <!--<pre>{{opCrear.Concepto | json}}</pre>-->
+      <center><button class="btn btn-primary" ng-click="opCrear.addOpProveedor()">Registrar</button></center>
+      <!--
+      <p>resultado</p>
+      {{opCrear.resultado | json}}
+      -->
     </div>
 </div>
