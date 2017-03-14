@@ -7,21 +7,23 @@
  * # cuentasContables/planCuentas
  */
 angular.module('financieraClienteApp')
-  .directive('planCuentas', function() {
+  .directive('planCuentas', function(financieraRequest) {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
-        },
-      */
+      scope: {
+        seleccion: '=?',
+        filtro: '=?',
+        cuentasel: '=?',
+        recargar: '=?'
+      },
       templateUrl: '/views/directives/cuentas_contables/plan_cuentas.html',
-      controller: function() {
+      controller: function($scope) {
         var self = this;
 
         self.cuenta_estructura={};
 
         self.treeOptions = {
-          nodeChildren: "subcuentas",
+          nodeChildren: "Hijos",
           dirSelectable: true,
           injectClasses: {
             ul: "a1",
@@ -35,29 +37,24 @@ angular.module('financieraClienteApp')
           }
         };
 
-        self.plan_cuentas = [{
-          "Codigo": "12",
-          "Nombre": "fafsd",
-          "Descripcion": "sfafas",
-          "Naturaleza": "Debito",
-          subcuentas: [{
-            "Codigo": "13",
-            "Nombre": "fafsd",
-            "Descripcion": "sfafas",
-            "Naturaleza": "Debito",
-            subcuentas: [{
-              "Codigo": "14",
-              "Nombre": "fafsd",
-              "Descripcion": "sfafas",
-              "Naturaleza": "Debito",
-              subcuentas: []
-            }]
-          }]
-        }];
+        self.cargar_arbol=function(){
+          financieraRequest.get("plan_cuentas",$.param({
+            query:"PlanMaestro:"+true
+          })).then(function(response) {
+            self.plan_maestro=response.data[0];
+            financieraRequest.get("arbol_plan_cuentas/"+self.plan_maestro.Id, "").then(function(response) {
+              self.plan_cuentas = response.data;
+            });
+          });
+        }
 
+        $scope.$watch("recargar",function(){
+          self.cargar_arbol();
+        });
 
-
-
+        self.seleccionar_cuenta = function(cuenta) {
+          $scope.seleccion = cuenta;
+        };
 
       },
       controllerAs: 'd_planCuentas'

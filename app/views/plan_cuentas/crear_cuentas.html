@@ -6,8 +6,8 @@
 
 
   <div class="col-md-6">
-    <plan-cuentas />
-    <!--<pre>{{crearCuentas.niveles | json}}</pre>>!-->
+    <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol"/>
+    <pre>{{crearCuentas.padre | json}}</pre>
   </div>
 
   <div class="col-md-6">
@@ -30,7 +30,7 @@
 
             <div class="col-md-6">
               <label for="codigocuenta">Codigo Padre:</label>
-              <input class="form-control" type="text" id="codigocuenta" ng-model="crearCuentas.cuenta_estructura.Codigo" disabled>
+              <input class="form-control" type="text" id="codigocuenta" ng-model="crearCuentas.padre.Codigo" disabled>
             </div>
 
             <div class="col-md-6">
