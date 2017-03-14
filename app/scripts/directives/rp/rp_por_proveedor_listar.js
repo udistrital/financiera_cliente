@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           rpselect: '=?'
         },
 
-      templateUrl: '/views/directives/rp/rp_por_proveedor_listar.html',
+      templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_rp = {
