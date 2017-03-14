@@ -19,7 +19,7 @@ angular.module('financieraClienteApp')
         scope.bsel = 'seleccion' in attrs;
         scope.bcancelsel= 'seleccion' in attrs || 'plansel' in attrs;
       },
-      templateUrl: 'views/directives/cuentas_contables/lista_planes_cuentas.html',
+      templateUrl: '/views/directives/cuentas_contables/lista_planes_cuentas.html',
       controller: function($scope) {
         var self = this;
 

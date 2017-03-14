@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
           unidaejecutora:'='
         },
 
-      templateUrl: 'views/directives/unidad_ejecutora/ue_listar.html',
+      templateUrl: '/views/directives/unidad_ejecutora/ue_listar.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_unidad_ejecutora = {
