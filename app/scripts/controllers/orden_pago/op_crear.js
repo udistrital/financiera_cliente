@@ -43,16 +43,10 @@ angular.module('financieraClienteApp')
       if(self.Concepto ){
         self.estructura_orden_pago_conceptos(self.Concepto);
       }
-      //resultado estructura
-      console.log(self.ConceptoOrdenPago);
-
-      // fin trabajar estructura de conceptos
-      console.log("insert")
       //construir data send
       self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
       self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
       //insert
-
       financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
         .then(function(data) {   //error con el success
           console.log(data)
