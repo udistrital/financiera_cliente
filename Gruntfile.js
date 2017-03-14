@@ -392,14 +392,24 @@ module.exports = function (grunt) {
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
           dest: '<%= yeoman.dist %>'
-        }]
-      },
-      styles: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/styles',
-        dest: '.tmp/styles/',
-        src: '{,*/}*.css'
-      }
+          },{
+            expand: true,
+            cwd: '<%= yeoman.app %>/views',
+            src: '**/*.html',
+            dest: '<%= yeoman.dist %>/views'
+          },{
+            expand : true,
+            cwd : 'bower_components/angular-ui-grid',
+            src : ['*.eot','*.svg','*.ttf','*.woff'],
+            dest : '<%= yeoman.dist %>/styles'
+           }]
+          },
+          styles: {
+            expand: true,
+            cwd: '<%= yeoman.app %>/styles',
+            dest: '.tmp/styles/',
+            src: '{,*/}*.css'
+          }
     },
 
     // Run some tasks in parallel to speed up the build process
