@@ -17,9 +17,9 @@ angular.module('financieraClienteApp')
         },
       link: function(scope, element, attrs){
         scope.bsel = 'seleccion' in attrs;
-        scope.bcancelsel= 'seleccion' in attrs || 'plansel' in attrs
+        scope.bcancelsel= 'seleccion' in attrs || 'plansel' in attrs;
       },
-      templateUrl: '/views/directives/cuentas_contables/lista_planes_cuentas.html',
+      templateUrl: 'views/directives/cuentas_contables/lista_planes_cuentas.html',
       controller: function($scope) {
         var self = this;
 
@@ -99,7 +99,7 @@ angular.module('financieraClienteApp')
         self.gridOptions.onRegisterApi = function(gridApi) {
           $scope.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function() {
-            $scope.plansel = $scope.gridApi.selection.getSelectedRows()[0]
+            $scope.plansel = $scope.gridApi.selection.getSelectedRows()[0];
             console.log(self.plan);
           });
         };
