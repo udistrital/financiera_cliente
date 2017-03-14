@@ -41,6 +41,7 @@
     "test": "karma start test/karma.conf.js"
   },
   "dependencies": {
+    "angular-websocket": "^2.0.1",
     "bower-config": "^1.4.0"
   }
 }
