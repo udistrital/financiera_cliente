@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           concepto: '=?'
         },
 
-      templateUrl: 'views/directives/concepto/concepto_por_rubro_listar.html',
+      templateUrl: '/views/directives/concepto/concepto_por_rubro_listar.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_conceptos = {

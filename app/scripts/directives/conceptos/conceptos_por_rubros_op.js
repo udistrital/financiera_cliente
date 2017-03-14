@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
         conceptos:'=?'
         },
 
-      templateUrl: 'views/directives/conceptos/conceptos_por_rubros_op.html',
+      templateUrl: '/views/directives/conceptos/conceptos_por_rubros_op.html',
       controller:function($scope){
         var self = this;
         self.conceptos = [];

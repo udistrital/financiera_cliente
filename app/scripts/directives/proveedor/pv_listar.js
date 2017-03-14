@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
           proveedor:'='
         },
 
-      templateUrl: 'views/directives/proveedor/pv_listar.html',
+      templateUrl: '/views/directives/proveedor/pv_listar.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_proveedor = {

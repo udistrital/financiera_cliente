@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
           valorbase: '=?'
         },
 
-      templateUrl: 'views/directives/orden_pago/op_proveedor_detalle_pago.html',
+      templateUrl: '/views/directives/orden_pago/op_proveedor_detalle_pago.html',
       controller:function($scope){
         var self = this;
 

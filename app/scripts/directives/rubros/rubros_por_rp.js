@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           rubros:'=?'
         },
 
-      templateUrl: 'views/directives/rubros/rubros_por_rp.html',
+      templateUrl: '/views/directives/rubros/rubros_por_rp.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_rubros = {
