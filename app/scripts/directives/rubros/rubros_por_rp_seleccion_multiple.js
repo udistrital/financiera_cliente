@@ -23,10 +23,12 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: true,
           enableSelectAll: true,
           columnDefs : [
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                visible : false},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',            displayName: 'Codigo'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',          displayName: 'Vigencia'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',       displayName: 'Descripción'}
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                           visible : false},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',                       displayName: 'Codigo Rubro'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',                     displayName: 'Vigencia Rubro'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',                  displayName: 'Descripción Rubro'},
+            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',                          displayName: 'Registro Presupuestal'},
+            {field: 'DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',            displayName: 'Disponibilidad'}
           ],
           onRegisterApi : function(gridApi){
               //set gridApi on scope
