@@ -62,10 +62,9 @@ angular.module('financieraClienteApp')
    recorrerArbol($scope.menu_service, "");
    paths.push({padre:["","Notificaciones","Ver Notificaciones"],path:"notificaciones"});
 
-   $scope.$on('$routeChangeStart', function(next, current) {
+   $scope.$on('$routeChangeStart', function() {
      $scope.actual = $location.path();
      update_url();
-     console.log(next + current);
    });
 
    $scope.changeLanguage = function (key) {
