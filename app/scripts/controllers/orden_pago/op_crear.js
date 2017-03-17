@@ -95,7 +95,11 @@ angular.module('financieraClienteApp')
         })
       }else{
         // mesnajes de error
-        swal("Error!", self.MensajesAlerta, "error")
+        swal({
+          title: 'Error!',
+          text:  self.MensajesAlerta,
+          type: 'error'
+        })
       }
     }
     //
