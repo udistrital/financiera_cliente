@@ -97,6 +97,11 @@ angular
         controller: 'PlanCuentasCrearPlanCtrl',
         controllerAs: 'crearPlan'
       })
+      .when('/orden_pago/ver_todos', {
+        templateUrl: 'views/orden_pago/op_view_all.html',
+        controller: 'OrdenPagoOpViewAllCtrl',
+        controllerAs: 'opViewAll'
+      })
       .otherwise({
         redirectTo: '/'
       });
