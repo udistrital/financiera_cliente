@@ -11,18 +11,14 @@ angular.module('financieraClienteApp')
   .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest) {
     //
     var self = this;
-    //unidad ejecutora
-    //self.movs = [];
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
     self.RubrosIds = [];
-    self.RubrosIdsTest = [35354, 41];
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
     self.Data_OrdenPago_Concepto = {};
     self.MovimientoContable = [];
-
-
+    self.MensajesAlerta = [];
 
     // functions
     self.estructura_orden_pago_conceptos = function(conceptos){
@@ -34,7 +30,6 @@ angular.module('financieraClienteApp')
         });
       })
     }
-
     // Insert Orden Pago
     self.addOpProveedor = function(){
       self.OrdenPago.EstadoOrdenPago = {'Id': 1};
@@ -51,20 +46,50 @@ angular.module('financieraClienteApp')
       self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
       self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
       self.Data_OrdenPago_Concepto.MovimientoContable = self.movs;
-      console.log(self.Data_OrdenPago_Concepto)
-      //insert
+      //console.log(self.Data_OrdenPago_Concepto)
 
-      financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
-        .then(function(data) {   //error con el success
-          console.log(data)
-          self.resultado = data
-        })
-
-        /*.error(function(data, status, headers, config) {
-          console.log("error");
-        })*/
+      // validar campos obligatorios en el formulario orden Pago
+      self.validar_campos()
     }
-
-
+    // Funcion encargada de validar la obligatoriedad de los campos
+    self.validar_campos = function(){
+      self.MensajesAlerta = [];
+      if (self.OrdenPago.UnidadEjecutora == undefined) {
+        self.MensajesAlerta.push("Debe seleccionar la Unidad Ejecutora\n")
+      }
+      if (self.OrdenPagoConsulta.Proveedor == undefined) {
+        self.MensajesAlerta.push("Debe seleccionar el Proveedor para la orden de pago\n")
+      }
+      if (self.OrdenPago.RegistroPresupuestal == undefined) {
+        self.MensajesAlerta.push("Debe seleccionar el Registro Presupuestal\n")
+      }
+      if (self.OrdenPago.TipoOrdenPago == undefined) {
+        self.MensajesAlerta.push("Debe seleccionar el tipo de Documento en la Sección Valor del Pago\n")
+      }
+      if (self.OrdenPago.Iva == undefined) {
+        self.MensajesAlerta.push("Debe Indicar el Valor del Iva en la Sección Valor del Pago\n")
+      }
+      if (self.OrdenPago.ValorBase == undefined) {
+        self.MensajesAlerta.push("Debe Indicar el Valor Base en la Sección Valor del Pago\n")
+      }
+      if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
+        self.MensajesAlerta.push("Debe Seleccionar por lo minimo un Rubro\n")
+      }
+      if (self.Concepto == undefined || self.Concepto.length == 0) {
+        self.MensajesAlerta.push("Debe Seleccionar por lo minimo un Comcepto\n")
+      }
+      // Operar
+      if(self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0 ){
+        // insert
+        financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
+          .then(function(data) {   //error con el success
+            console.log(data)
+            self.resultado = data
+          })
+      }else{
+        // mesnajes de error
+        swal("Error!", self.MensajesAlerta, "error")
+      }
+    }
     //
   });
