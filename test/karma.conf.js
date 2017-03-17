@@ -46,6 +46,8 @@ module.exports = function(config) {
       'bower_components/angular-translate/angular-translate.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
+      'bower_components/es6-promise/es6-promise.js',
+      'bower_components/sweetalert2/dist/sweetalert2.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest) {
+  .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest, $window) {
     //
     var self = this;
     self.OrdenPago = {};
@@ -86,6 +86,13 @@ angular.module('financieraClienteApp')
             console.log(data)
             self.resultado = data
           })
+        swal({
+          title: 'Registro Exitoso',
+          text: 'La orden de pago se ha Registrado',
+          type: 'success',
+        }).then(function(){
+          $window.location.href = '#/orden_pago/ver_todos';
+        })
       }else{
         // mesnajes de error
         swal("Error!", self.MensajesAlerta, "error")
