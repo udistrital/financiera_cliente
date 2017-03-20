@@ -8,6 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpProveedorVerPorIdCtrl', function ($scope, $routeParams) {
+  .controller('OpProveedorVerPorIdCtrl', function ($scope, $routeParams, financieraRequest) {
+    var self = this;
     $scope.idop = $routeParams.Id
   });

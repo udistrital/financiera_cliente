@@ -7,17 +7,38 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('ordenPago/opProveedorVerPorId', function () {
+  .directive('opProveedorVerPorId', function (financieraRequest, $timeout) {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
+      scope:{
+          opproveedorid:'='
         },
-      */
-      templateUrl: 'add-view.html',
-      controller:function(){
-        var ctrl = this;
+
+      templateUrl: 'views/directives/orden_pago/op_proveedor_ver_por_id.html',
+      controller:function($scope){
+        var self = this;
+        //
+        // refrescar
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
+
+        $scope.$watch('opproveedorid', function(){
+          self.refresh();
+          if($scope.opproveedorid != undefined){
+            financieraRequest.get('orden_pago',
+              $.param({
+                  query: "Id:" + $scope.opproveedorid,
+              })).then(function(response) {
+                self.orden_pago = response.data;
+            });
+          }
+        })
+      //
       },
-      controllerAs:'d_ordenPago/opProveedorVerPorId'
+      controllerAs:'d_opProveedorVerPorId'
     };
   });
