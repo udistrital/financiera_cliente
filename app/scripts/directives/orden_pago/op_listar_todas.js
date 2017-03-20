@@ -42,10 +42,8 @@ angular.module('financieraClienteApp')
             }
           ];
         self.op_detalle = function(row){
-          console.log("detalle");
-          console.log(row.entity);
-          var path = "/orden_pago/proveedor/ver"
-          //$location.url(path + parameter);
+          var path = "/orden_pago/proveedor/"
+          $location.url(path + row.entity.Id);
         }
         self.op_editar = function(row){
           console.log("Editar");

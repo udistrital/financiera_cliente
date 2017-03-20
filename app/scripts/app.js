@@ -102,6 +102,11 @@ angular
         controller: 'OrdenPagoOpViewAllCtrl',
         controllerAs: 'opViewAll'
       })
+      .when('/orden_pago/proveedor/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+        controller: 'OpProveedorVerPorIdCtrl',
+        controllerAs: 'opProveedorVerPorId'
+      })
       .otherwise({
         redirectTo: '/'
       });
