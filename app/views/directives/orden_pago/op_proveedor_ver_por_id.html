@@ -1,1 +1,30 @@
 <pre>{{d_opProveedorVerPorId.orden_pago | json}}</pre>
+
+<div class="row">
+  <div class="panel panel-success">
+      <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
+          <h4>Detalle Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+      </div>
+      <div ng-show="panelUnidadEjecutora" class="panel-body"  >
+        <table class="table">
+          <tr>
+            <th>Unidad Ejecutora</th>
+            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Nombre}}</td>
+          </tr>
+          <tr>
+            <th>Unidad Ejecutora Descripción</th>
+            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Descripcion}}</td>
+          </tr>
+          <tr>
+            <th>Entidad</th>
+            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</td>
+          </tr>
+          <tr>
+            <th>Entidad Codigo</th>
+            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</td>
+          </tr>
+        </table>
+
+      </div>
+  </div>
+</div>
