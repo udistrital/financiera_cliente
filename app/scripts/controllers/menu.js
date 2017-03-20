@@ -31,7 +31,14 @@ angular.module('financieraClienteApp')
          }]
        }]
      }]
-   }];
+   },
+   { //Ordenes de pago
+     "Id": 50,
+     "Nombre": "Ordenes de Pago",
+     "Url": "orden_pago/ver_todos",
+     "Opciones": null
+   }
+ ];
 
    var recorrerArbol = function(item, padre) {
      var padres = "";
