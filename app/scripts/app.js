@@ -75,7 +75,7 @@ angular
         controller: 'IvaCtrl',
         controllerAs: 'iva'
       })
-      .when('/orden_pago/crear', {
+      .when('/orden_pago/proveedor/crear', {
         templateUrl: 'views/orden_pago/op_crear.html',
         controller: 'OrdenPagoOpCrearCtrl',
         controllerAs: 'opCrear'
@@ -164,6 +164,10 @@ angular
         templateUrl: 'views/cdp/cdp_solicitud_detalle.html',
         controller: 'CdpCdpSolicitudDetalleCtrl',
         controllerAs: 'cdpSolicitudDetalle'
+      .when('/orden_pago/proveedor/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+        controller: 'OpProveedorVerPorIdCtrl',
+        controllerAs: 'opProveedorVerPorId'
       })
       .otherwise({
         redirectTo: '/'
