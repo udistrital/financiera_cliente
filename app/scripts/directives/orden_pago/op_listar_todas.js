@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function (financieraRequest) {
+  .directive('opListarTodas', function (financieraRequest, $location) {
     return {
       restrict: 'E',
       /*scope:{
@@ -36,13 +36,19 @@ angular.module('financieraClienteApp')
               enableFiltering: false,
               cellTemplate:
               '<center>\
-                <button ng-click="grid.appScope.d_opListarTodas.hola(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
-                <button ng-click="grid.appScope.d_opListarTodas.hola(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
+                <button ng-click="grid.appScope.d_opListarTodas.op_detalle(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
+                <button ng-click="grid.appScope.d_opListarTodas.op_editar(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
               </center>'
             }
           ];
-        self.hola = function(row){
-          console.log("hola");
+        self.op_detalle = function(row){
+          console.log("detalle");
+          console.log(row.entity);
+          var path = "/orden_pago/proveedor/ver"
+          //$location.url(path + parameter);
+        }
+        self.op_editar = function(row){
+          console.log("Editar");
           console.log(row.entity);
         }
         financieraRequest.get('orden_pago','limit=0').then(function(response) {
