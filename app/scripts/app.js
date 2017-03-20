@@ -72,7 +72,7 @@ angular
         controller: 'IvaCtrl',
         controllerAs: 'iva'
       })
-      .when('/orden_pago/crear', {
+      .when('/orden_pago/proveedor/crear', {
         templateUrl: 'views/orden_pago/op_crear.html',
         controller: 'OrdenPagoOpCrearCtrl',
         controllerAs: 'opCrear'
