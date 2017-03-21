@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('beneficiaroid', function(){
           self.refresh();
-          if($scope.beneficiaroid){
+          if($scope.beneficiaroid != undefined){
             financieraRequest.get('registro_presupuestal',
               $.param({
                   query: "Beneficiario:" + $scope.beneficiaroid,
