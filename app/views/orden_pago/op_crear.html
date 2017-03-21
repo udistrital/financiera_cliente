@@ -12,18 +12,10 @@
       <rp-por-proveedor-listar beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id" rpselect="opCrear.OrdenPago.RegistroPresupuestal"/>
       <!--detalle pago -->
       <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase"/>
-
-      <div class="row">
-        <div class=" col-sm-6">
-          <!--Rubros-->
-          <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds"/>
-          {{opCrear.RubrosIds}}
-        </div>
-        <div class=" col-sm-6">
-          <!--Concepto-->
-          <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
-        </div>
-      </div>
+      <!--Rubros-->
+      <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds"/>
+      <!--Concepto-->
+      <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
       <!--<pre>{{opCrear.Concepto | json }}</pre>-->
       <div ng-repeat="c in opCrear.Concepto">
         <movimientos-contables conceptoid="c.Id"  movimientos="opCrear.movs" monto="c.Afectacion" editable validatemov="validado"/>
