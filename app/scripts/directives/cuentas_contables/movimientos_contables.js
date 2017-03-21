@@ -210,13 +210,19 @@ angular.module('financieraClienteApp')
           self.suma2=0;
           self.suma3=0;
           self.suma4=0;
+
           for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
             self.suma1 = self.suma1 + self.gridOptionsMovimientos.data[i].Debito;
             self.suma2 = self.suma2 + self.gridOptionsMovimientos.data[i].Credito;
           }
-          for (var i = 0; i < self.gridOptionsMovsAcreedores.data.length; i++) {
-            self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[i].Debito;
-            self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[i].Credito;
+          if (self.gridOptionsMovsAcreedores.data.length>0) {
+            for (var i = 0; i < self.gridOptionsMovsAcreedores.data.length; i++) {
+              self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[i].Debito;
+              self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[i].Credito;
+            }
+          } else {
+            self.suma3=self.suma1;
+            self.suma4=self.suma3;
           }
 
           //console.log($scope.grid..getColumn("Debito").getAggregationValue());

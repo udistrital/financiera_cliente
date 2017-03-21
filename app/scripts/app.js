@@ -97,6 +97,11 @@ angular
         controller: 'PlanCuentasCrearPlanCtrl',
         controllerAs: 'crearPlan'
       })
+      .when('/plan_cuentas/cuenta/:Id', {
+        templateUrl: 'views/plan_cuentas/cuenta.html',
+        controller: 'CuentaCtrl',
+        controllerAs: 'cuenta'
+      })
       .otherwise({
         redirectTo: '/'
       });
