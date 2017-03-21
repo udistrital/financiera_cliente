@@ -23,12 +23,6 @@ angular.module('financieraClienteApp')
          "Url": "cdp/cdp_consulta",
          "Opciones": null
        },
-       { //Detalle de CDP
-         "Id": 1,
-         "Nombre": "Detalle de CDP",
-         "Url": "cdp/cdp_detalle",
-         "Opciones": null
-       },
        { //solicitud_consulta de CDP
          "Id": 1,
          "Nombre": "Consulta de Solicitud",
