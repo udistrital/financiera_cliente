@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
     self.ConceptoOrdenPago = [];
     self.Data_OrdenPago_Concepto = {};
     self.MovimientoContable = [];
-    self.MensajesAlerta = [];
+    self.MensajesAlerta = null;
 
     // functions
     self.estructura_orden_pago_conceptos = function(conceptos){
@@ -51,32 +51,33 @@ angular.module('financieraClienteApp')
       // validar campos obligatorios en el formulario orden Pago
       self.validar_campos()
     }
+
     // Funcion encargada de validar la obligatoriedad de los campos
     self.validar_campos = function(){
-      self.MensajesAlerta = [];
+      self.MensajesAlerta = '';
       if (self.OrdenPago.UnidadEjecutora == undefined) {
-        self.MensajesAlerta.push("Debe seleccionar la Unidad Ejecutora\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar la Unidad Ejecutora</li>"
       }
       if (self.OrdenPagoConsulta.Proveedor == undefined) {
-        self.MensajesAlerta.push("Debe seleccionar el Proveedor para la orden de pago\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el Proveedor para la orden de pago</li>"
       }
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
-        self.MensajesAlerta.push("Debe seleccionar el Registro Presupuestal\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el Registro Presupuestal</li>"
       }
       if (self.OrdenPago.TipoOrdenPago == undefined) {
-        self.MensajesAlerta.push("Debe seleccionar el tipo de Documento en la Sección Valor del Pago\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el tipo de Documento en la Sección Valor del Pago</li>"
       }
       if (self.OrdenPago.Iva == undefined) {
-        self.MensajesAlerta.push("Debe Indicar el Valor del Iva en la Sección Valor del Pago\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor del Iva en la Sección Valor del Pago</li>"
       }
       if (self.OrdenPago.ValorBase == undefined) {
-        self.MensajesAlerta.push("Debe Indicar el Valor Base en la Sección Valor del Pago\n")
+        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor Base en la Sección Valor del Pago</li>"
       }
       if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
-        self.MensajesAlerta.push("Debe Seleccionar por lo minimo un Rubro\n")
+        self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
       }
       if (self.Concepto == undefined || self.Concepto.length == 0) {
-        self.MensajesAlerta.push("Debe Seleccionar por lo minimo un Comcepto\n")
+        self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
       }
       // Operar
       if(self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0 ){
@@ -97,7 +98,7 @@ angular.module('financieraClienteApp')
         // mesnajes de error
         swal({
           title: 'Error!',
-          text:  self.MensajesAlerta,
+          html:  '<ol align="left">' + self.MensajesAlerta + '</ol>',
           type: 'error'
         })
       }
