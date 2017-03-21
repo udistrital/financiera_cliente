@@ -1,11 +1,12 @@
-<pre>{{d_opProveedorVerPorId.orden_pago | json}}</pre>
+<pre>{{d_opProveedorVerPorId.proveedor | json}}</pre>
 
 <div class="row">
+  <!--detalle Unidad Ejecutora-->
   <div class="panel panel-success">
       <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
           <h4>Detalle Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
       </div>
-      <div ng-show="panelUnidadEjecutora" class="panel-body"  >
+      <div ng-show="panelUnidadEjecutora" class="panel-body">
         <table class="table">
           <tr>
             <th>Unidad Ejecutora</th>
@@ -24,7 +25,49 @@
             <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</td>
           </tr>
         </table>
-
       </div>
   </div>
+  <!--detalle Proveedor-->
+  <div class="panel panel-success">
+      <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
+          <h4>Detalle Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+      </div>
+      <div ng-show="panelProveedor" class="panel-body"  >
+        <table class="table">
+          <tr>
+            <th>Tipo Persona</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].Tipopersona}}</td>
+          </tr>
+          <tr>
+            <th>Num. Documento</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].NumDocumento}}</td>
+          </tr>
+          <tr>
+            <th>Nombre</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].NomProveedor}}</td>
+          </tr>
+          <tr>
+            <th>Dirección</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].Direccion}}</td>
+          </tr>
+          <tr>
+            <th>Teléfono</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].TelAsesor}}</td>
+          </tr>
+          <tr>
+            <th>Numero de cuenta</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</td>
+          </tr>
+          <tr>
+            <th>Sucursal</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</td>
+          </tr>
+          <tr>
+            <th>Tipo Cuenta</th>
+            <td>{{d_opProveedorVerPorId.proveedor[0].TipoCuentaBancaria}}</td>
+          </tr>
+        </table>
+      </div>
+  </div>
+
 </div>

@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function (financieraRequest, $timeout) {
+  .directive('opProveedorVerPorId', function (financieraRequest, administrativaRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -18,25 +18,27 @@ angular.module('financieraClienteApp')
       controller:function($scope){
         var self = this;
         //
-        // refrescar
-        self.refresh = function() {
-          $scope.refresh = true;
-          $timeout(function() {
-            $scope.refresh = false;
-          }, 0);
-        };
-
         $scope.$watch('opproveedorid', function(){
-          self.refresh();
           if($scope.opproveedorid != undefined){
             financieraRequest.get('orden_pago',
               $.param({
                   query: "Id:" + $scope.opproveedorid,
               })).then(function(response) {
                 self.orden_pago = response.data;
+                // proveedor
+                self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
             });
           }
         })
+        // buscamos datos del proveedor que esta en el rp
+        self.asignar_proveedor = function(beneficiario_id){
+          console.log(beneficiario_id);
+          administrativaRequest.get('informacion_proveedor',
+            $.param({ query: "Id:" + beneficiario_id,})
+          ).then(function(response) {
+              self.proveedor = response.data;
+            });
+        }
       //
       },
       controllerAs:'d_opProveedorVerPorId'
