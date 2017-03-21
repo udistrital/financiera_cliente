@@ -11,26 +11,99 @@ angular.module('financieraClienteApp')
    $scope.actual = "";
    $scope.token_service = token_service;
    $scope.breadcrumb = [];
-   $scope.menu_service = [{ //aqui va el servicio de el app de configuracion
-     "Id": 2,
-     "Nombre": "nivel 1",
-     "Url": "url_nivel_1",
-     "Opciones": [{
-       "Id": 3,
-       "Nombre": "nivel 2",
-       "Url": "url_nivel_2",
-       "Opciones": [{
-         "Id": 7,
-         "Nombre": "nivel 3",
-         "Url": "url_nivel_3",
-         "Opciones": [{
-           "Id": 8,
-           "Nombre": "nivel 4 about",
-           "Url": "about",
-           "Opciones": null
-         }]
-       }]
-     }]
+   $scope.menu_service = [
+   { //CDP
+     "Id": 1,
+     "Nombre": "CDP",
+     "Url": "",
+     "Opciones": [
+       { //Detalle de CDP
+         "Id": 1,
+         "Nombre": "Consulta de CDP",
+         "Url": "cdp/cdp_consulta",
+         "Opciones": null
+       },
+       { //Detalle de CDP
+         "Id": 1,
+         "Nombre": "Detalle de CDP",
+         "Url": "cdp/cdp_detalle",
+         "Opciones": null
+       },
+       { //solicitud_consulta de CDP
+         "Id": 1,
+         "Nombre": "Consulta de Solicitud",
+         "Url": "cdp/cdp_solicitud_consulta",
+         "Opciones": null
+       },
+       { //solicitud_consulta de CDP
+         "Id": 1,
+         "Nombre": "Detalle de Solicitud",
+         "Url": "cdp/cdp_solicitud_detalle",
+         "Opciones": null
+       }
+     ]
+   },
+   { //RP
+     "Id": 1,
+     "Nombre": "RP",
+     "Url": "",
+     "Opciones": [
+       { //Consulta de RP
+         "Id": 1,
+         "Nombre": "Consulta de RP",
+         "Url": "rp/rp_consulta",
+         "Opciones": null
+       },
+       { //Registro de RP
+         "Id": 1,
+         "Nombre": "Registro de RP",
+         "Url": "rp/rp_registro",
+         "Opciones": null
+       },
+       { //Detalle de RP
+         "Id": 1,
+         "Nombre": "Detalle de RP",
+         "Url": "rp/rp_detalle",
+         "Opciones": null
+       }
+     ]
+   },
+   { //RUBRO
+     "Id": 1,
+     "Nombre": "Rubro",
+     "Url": "",
+     "Opciones": [
+       { //Registro de Rubro
+         "Id": 1,
+         "Nombre": "Registro de Rubro",
+         "Url": "rubro/rubro_registro",
+         "Opciones": null
+       },
+       { //Consulta de Rubro
+         "Id": 1,
+         "Nombre": "Consulta de Rubro",
+         "Url": "rubro/rubro_consulta",
+         "Opciones": null
+       },
+       { //Aprobación de rubro planeación
+         "Id": 1,
+         "Nombre": "Aprobación de Planeación",
+         "Url": "rubro/rubro_apropiacion_planeacion",
+         "Opciones": null
+       },
+       { //Detalle de RP
+         "Id": 1,
+         "Nombre": "Consulta de Aprobaciones",
+         "Url": "rubro/rubro_apropiacion_consulta",
+         "Opciones": null
+       },
+       { //Detalle de RP
+         "Id": 1,
+         "Nombre": "Aprobación de Aprobación",
+         "Url": "rubro/rubro_apropiacion_aprobacion",
+         "Opciones": null
+       }
+     ]
    },
    { //Ordenes de pago
      "Id": 50,
