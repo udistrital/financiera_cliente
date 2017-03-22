@@ -13,7 +13,9 @@
       <!--detalle pago -->
       <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase"/>
       <!--Rubros-->
-      <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds"/>
+      <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds" rubrosobj="opCrear.RubrosObjIds"/>
+      <pre>{{opCrear.RubrosIds | json }}</pre>
+      <pre>{{opCrear.RubrosObjIds | json }}</pre>
       <!--Concepto-->
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
       <!--<pre>{{opCrear.Concepto | json }}</pre>-->

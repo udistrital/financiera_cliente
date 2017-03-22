@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
         rpid:'=?',
-        rubros:'=?'
+        rubros:'=?',
+        rubrosobj:'=?'
         },
 
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
@@ -74,6 +75,7 @@ angular.module('financieraClienteApp')
         self.seleccionar_rubros = function(){
           $scope.rubros = [];
           $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
+          $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
           angular.forEach($scope.rubros_seleccion, function(rr){
             $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
           })
