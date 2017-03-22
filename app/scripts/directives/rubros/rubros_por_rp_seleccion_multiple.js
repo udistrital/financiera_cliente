@@ -23,12 +23,13 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: true,
           enableSelectAll: true,
           columnDefs : [
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                           visible : false},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',                       displayName: 'Codigo Rubro'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',                     displayName: 'Vigencia Rubro'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',                  displayName: 'Descripción Rubro'},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',                          displayName: 'Registro Presupuestal'},
-            {field: 'DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',            displayName: 'Disponibilidad'}
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',           visible : false},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',       displayName: 'Codigo Rubro'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: 'Vigencia', width:'8%'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripción Rubro'},
+            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: 'Registro Presupuestal', width:'8%'},
+            {field: 'Valor',                                                    cellFilter: 'currency'},
+            {field: 'Saldo',                                                    cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
           ],
           onRegisterApi : function(gridApi){
               //set gridApi on scope
@@ -55,7 +56,17 @@ angular.module('financieraClienteApp')
             ).then(function(response) {
               self.gridOptions_rubros.data = response.data;
               $scope.gridHeight = self.gridOptions_rubros.rowHeight * 2 + (self.gridOptions_rubros.data.length * self.gridOptions_rubros.rowHeight);
-
+              // get saldos de lor rp
+              angular.forEach(self.gridOptions_rubros.data, function(data){
+                var rpData = {
+                  Rp : data.RegistroPresupuestal,
+                  Apropiacion : data.DisponibilidadApropiacion.Apropiacion
+                };
+                financieraRequest.post('registro_presupuestal/SaldoRp',rpData).then(function(response){
+                  data.Saldo  = response.data;
+                });
+              });
+              //fin get saldos de lor rp
             });
           }
         })
