@@ -17,11 +17,13 @@ angular.module('financieraClienteApp')
     self.niveles = [];
     self.padre = {};
 
-    financieraRequest.get("plan_cuentas", $.param({
-      query: "PlanMaestro:" + true
-    })).then(function(response) {
-      self.plan_maestro = response.data[0];
-    });
+    self.cargar_plan_maestro = function(){
+      financieraRequest.get("plan_cuentas", $.param({
+        query: "PlanMaestro:" + true
+      })).then(function(response) {
+        self.plan_maestro = response.data[0];
+      });
+    };
 
 
     self.crear_cuenta = function(form) {
@@ -94,5 +96,7 @@ angular.module('financieraClienteApp')
         });
       }
     };
+
+    self.cargar_plan_maestro();
 
   });
