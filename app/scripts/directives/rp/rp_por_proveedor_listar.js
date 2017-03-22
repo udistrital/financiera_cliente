@@ -68,7 +68,6 @@ angular.module('financieraClienteApp')
               financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
                 .then(function(response) {
                   self.valor_total_rp = response.data;
-                  console.log(self.valor_total_rp)
               });
             });
           };
