@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
         rubros:'=?'
         },
 
-      templateUrl: '/views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
+      templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_rubros = {
@@ -23,10 +23,12 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: true,
           enableSelectAll: true,
           columnDefs : [
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                visible : false},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',            displayName: 'Codigo'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',          displayName: 'Vigencia'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',       displayName: 'Descripción'}
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',                           visible : false},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',                       displayName: 'Codigo Rubro'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',                     displayName: 'Vigencia Rubro'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',                  displayName: 'Descripción Rubro'},
+            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',                          displayName: 'Registro Presupuestal'},
+            {field: 'DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',            displayName: 'Disponibilidad'}
           ],
           onRegisterApi : function(gridApi){
               //set gridApi on scope
@@ -44,7 +46,7 @@ angular.module('financieraClienteApp')
         //
         $scope.$watch('rpid', function(){
           self.refresh();
-          if ($scope.rpid){
+          if ($scope.rpid != undefined){
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
             $.param({
               query: "RegistroPresupuestal.Id:" + $scope.rpid,

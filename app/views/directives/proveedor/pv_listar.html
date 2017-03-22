@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <div class="panel panel-primary">
         <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
-            <h4>Seleccione Proveedor</h4>
+            <h4>Seleccione Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
         </div>
         <div ng-show="panelProveedor" class="panel-body"  >
           <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
@@ -11,10 +11,10 @@
   </div>
   <div class="col-md-6">
     <div class="panel panel-success">
-        <div class="panel-heading" ng-click="panelUnidadEjecutoraDetalle = !panelUnidadEjecutoraDetalle">
-            <h4>Detalle Proveedor</h4>
+        <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
+            <h4>Detalle Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
         </div>
-        <div ng-show="panelUnidadEjecutoraDetalle" class="panel-body"  >
+        <div ng-show="panelProveedor" class="panel-body"  >
           <table class="table">
             <tr>
               <th>Tipo Persona</th>

@@ -5,22 +5,18 @@
     </div>
     <div class="panel-body">
         <p>
-          movs: <br>
 
-          concepto:<input ng-init="concepto=1" type="number" ng-model="concepto">
 
 
           <br> <br> <br> <br>
 
 
-          <movimientos-contables conceptoid="concepto"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
+          <movimientos-contables conceptoid="concepto=5"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
 
+<!--select * from financiera.cuenta_contable where id not in (select cuenta_hijo from financiera.estructura_cuentas where plan_cuentas!=2) and id in (select cuenta_padre from financiera.estructura_cuentas where plan_cuentas=2) order by id
 
-
-{{montmov}}{{validado}}
-          <pre>{{movs | json}}</pre>
-
-
+select a.* from financiera.cuenta_contable a left join financiera.estructura_cuentas b on a.id =b.cuenta_hijo where b.cuenta_padre=1 and b.plan_cuentas = 2 ORDER BY a.id -->
+<pre>{{movs | json}}</pre>
 
         </p>
     </div>

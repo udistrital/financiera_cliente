@@ -12,6 +12,8 @@
   <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
   <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
   <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
+  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
+  <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -68,6 +70,11 @@
     <script src="bower_components/angular-input-masks/angular-input-masks-standalone.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="bower_components/es6-promise/es6-promise.js"></script>
+    <script src="bower_components/sweetalert2/dist/sweetalert2.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -106,7 +113,31 @@
   <script src="scripts/controllers/plan_cuentas/crear_plan.js"></script>
   <script src="scripts/directives/cuentas_contables/lista_planes_cuentas.js"></script>
   <script src="scripts/directives/cuentas_contables/movimientos_contables.js"></script>
-  <script src="scripts/services/datos.js"></script>
+  <script src="scripts/decorators/text_translate.js"></script>
+  <script src="bower_components/moment/locale/es.js"></script>
+
+  <script src="scripts/controllers/orden_pago/op_view_all.js"></script>
+  <script src="scripts/directives/orden_pago/op_listar_todas.js"></script>
+  <script src="scripts/controllers/rubro/rubroregistro.js"></script>
+  <script src="scripts/controllers/rubro/rubro_consulta.js"></script>
+  <script src="scripts/controllers/rubro/rubro_apropiacion_planeacion.js"></script>
+  <script src="scripts/controllers/rubro/rubro_apropiacion_consulta.js"></script>
+  <script src="scripts/controllers/rubro/rubro_apropiacion_aprobacion.js"></script>
+  <script src="scripts/services/financiera_mid_service.js"></script>
+  <script src="scripts/controllers/rp/rp_registro.js"></script>
+  <script src="scripts/directives/cdp/lista_cdp.js"></script>
+  <script src="scripts/services/agora_service.js"></script>
+  <script src="scripts/directives/proveedores/lista_proveedores.js"></script>
+  <script src="scripts/controllers/rp/rp_detalle.js"></script>
+  <script src="scripts/services/uigridservice.js"></script>
+  <script src="scripts/controllers/rp/rp_consulta.js"></script>
+  <script src="scripts/controllers/cdp/cdp_consulta.js"></script>
+  <script src="scripts/controllers/cdp/cdp_detalle.js"></script>
+  <script src="scripts/controllers/cdp/cdp_solicitud_consulta.js"></script>
+  <script src="scripts/controllers/cdp/cdp_solicitud_detalle.js"></script>
+  <script src="scripts/decorators/orden_pago/op_text_translatedecorator.js"></script>
+  <script src="scripts/directives/orden_pago/op_proveedor_ver_por_id.js"></script>
+  <script src="scripts/controllers/orden_pago/op_proveedor_ver_por_id.js"></script>
   <!-- endbuild -->
 
   <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>

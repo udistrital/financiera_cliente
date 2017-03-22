@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           rpselect: '=?'
         },
 
-      templateUrl: '/views/directives/rp/rp_por_proveedor_listar.html',
+      templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
       controller:function($scope){
         var self = this;
         self.gridOptions_rp = {
@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('beneficiaroid', function(){
           self.refresh();
-          if($scope.beneficiaroid){
+          if($scope.beneficiaroid != undefined){
             financieraRequest.get('registro_presupuestal',
               $.param({
                   query: "Beneficiario:" + $scope.beneficiaroid,

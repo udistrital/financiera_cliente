@@ -2,7 +2,8 @@
   <div class="col-md-6">
     <div class="panel panel-primary">
         <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
-            <h4>Seleccione Unidad Ejecutora</h4>
+            <h4>Seleccione Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+
         </div>
         <div ng-show="panelUnidadEjecutora" class="panel-body"  >
           <div ui-grid="d_ueListar.gridOptions_unidad_ejecutora" ui-grid-selection ui-grid-auto-resize></div>
@@ -11,10 +12,10 @@
   </div>
   <div class="col-md-6">
     <div class="panel panel-success">
-        <div class="panel-heading" ng-click="panelUnidadEjecutoraDetalle = !panelUnidadEjecutoraDetalle">
-            <h4>Detalle Unidad Ejecutora</h4>
+        <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
+            <h4>Detalle Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
         </div>
-        <div ng-show="panelUnidadEjecutoraDetalle" class="panel-body"  >
+        <div ng-show="panelUnidadEjecutora" class="panel-body"  >
           <table class="table">
             <tr>
               <th>Unidad Ejecutora</th>

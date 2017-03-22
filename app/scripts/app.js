@@ -14,6 +14,7 @@ angular
     'ngCookies',
     'ngMessages',
     'ngResource',
+    'ngSanitize',
     'ngRoute',
     'ngTouch',
     'afOAuth2',
@@ -35,7 +36,11 @@ angular
     'ngWebSocket',
     'angularMoment',
     'administrativaService',
-    'ui.utils.masks'
+    'ui.utils.masks',
+    'pascalprecht.translate',
+    'financieraMidService',
+    'agoraService',
+    'uiGridService'
   ])
 
   .run(function(amMoment) {
@@ -70,7 +75,7 @@ angular
         controller: 'IvaCtrl',
         controllerAs: 'iva'
       })
-      .when('/orden_pago/crear', {
+      .when('/orden_pago/proveedor/crear', {
         templateUrl: 'views/orden_pago/op_crear.html',
         controller: 'OrdenPagoOpCrearCtrl',
         controllerAs: 'opCrear'
@@ -94,6 +99,76 @@ angular
         templateUrl: 'views/plan_cuentas/crear_plan.html',
         controller: 'PlanCuentasCrearPlanCtrl',
         controllerAs: 'crearPlan'
+      })
+      .when('/orden_pago/ver_todos', {
+        templateUrl: 'views/orden_pago/op_view_all.html',
+        controller: 'OrdenPagoOpViewAllCtrl',
+        controllerAs: 'opViewAll'
+      })
+      .when('/rubro/rubro_registro', {
+        templateUrl: 'views/rubro/rubroregistro.html',
+        controller: 'RubroRubroRegistroCtrl',
+        controllerAs: 'rubroRegistro'
+      })
+      .when('/rubro/rubro_consulta', {
+        templateUrl: 'views/rubro/rubro_consulta.html',
+        controller: 'RubroRubroConsultaCtrl',
+        controllerAs: 'rubroConsulta'
+      })
+      .when('/rubro/rubro_apropiacion_planeacion', {
+        templateUrl: 'views/rubro/rubro_apropiacion_planeacion.html',
+        controller: 'RubroRubroApropiacionPlaneacionCtrl',
+        controllerAs: 'rubroApropiacionPlaneacion'
+      })
+      .when('/rubro/rubro_apropiacion_consulta', {
+        templateUrl: 'views/rubro/rubro_apropiacion_consulta.html',
+        controller: 'RubroRubroApropiacionConsultaCtrl',
+        controllerAs: 'rubroApropiacionConsulta'
+      })
+      .when('/rubro/rubro_apropiacion_aprobacion', {
+        templateUrl: 'views/rubro/rubro_apropiacion_aprobacion.html',
+        controller: 'RubroRubroApropiacionAprobacionCtrl',
+        controllerAs: 'rubroApropiacionAprobacion'
+      })
+      .when('/rp/rp_registro', {
+        templateUrl: 'views/rp/rp_registro.html',
+        controller: 'RpRpRegistroCtrl',
+        controllerAs: 'rpRegistro'
+      })
+      .when('/rp/rp_detalle', {
+        templateUrl: 'views/rp/rp_detalle.html',
+        controller: 'RpRpDetalleCtrl',
+        controllerAs: 'rpDetalle'
+      })
+      .when('/rp/rp_consulta', {
+        templateUrl: 'views/rp/rp_consulta.html',
+        controller: 'RpRpConsultaCtrl',
+        controllerAs: 'rpConsulta'
+      })
+      .when('/cdp/cdp_consulta', {
+        templateUrl: 'views/cdp/cdp_consulta.html',
+        controller: 'CdpCdpConsultaCtrl',
+        controllerAs: 'cdpConsulta'
+      })
+      .when('/cdp/cdp_detalle', {
+        templateUrl: 'views/cdp/cdp_detalle.html',
+        controller: 'CdpCdpDetalleCtrl',
+        controllerAs: 'cdpDetalle'
+      })
+      .when('/cdp/cdp_solicitud_consulta', {
+        templateUrl: 'views/cdp/cdp_solicitud_consulta.html',
+        controller: 'CdpCdpSolicitudConsultaCtrl',
+        controllerAs: 'cdpSolicitudConsulta'
+      })
+      .when('/cdp/cdp_solicitud_detalle', {
+        templateUrl: 'views/cdp/cdp_solicitud_detalle.html',
+        controller: 'CdpCdpSolicitudDetalleCtrl',
+        controllerAs: 'cdpSolicitudDetalle'
+      })
+      .when('/orden_pago/proveedor/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+        controller: 'OpProveedorVerPorIdCtrl',
+        controllerAs: 'opProveedorVerPorId'
       })
       .otherwise({
         redirectTo: '/'

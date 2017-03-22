@@ -3,19 +3,22 @@
 
     <div class="row">
       <div class="col-md-8">
-        <label>Concepto: <{{d_movimientosContables.gridOptions.data[0].Concepto.Codigo}}>
-         {{d_movimientosContables.gridOptions.data[0].Concepto.Nombre}}</label>
+        <span style="color: black"> Concepto: [ {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}} ]
+         {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Nombre}} </span><br>
+         <span >Rubro: [ {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Rubro.Codigo}} ]
+          {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Rubro.Descripcion}}</span>
       </div>
       <div class="col-md-4">
         <div class="pull-right">
           <span for="montomovimiento">Monto</span>
-          <input class="text-success" id="montomovimiento" type="number" ng-model="monto">
+          <input class="text-success" id="montomovimiento" type="number" ng-model="monto" ng-disabled="!editable">
         </div>
       </div>
     </div>
   </div>
 
-  <div style="height: {{gridHeight}}px; " ui-grid="d_movimientosContables.gridOptions" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div style="height: {{gridHeight}}px; " ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div style="height: {{grid2Height}}px; " ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
 
   <div class="panel-footer" align="center">
 
