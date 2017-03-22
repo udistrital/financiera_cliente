@@ -40,8 +40,13 @@ angular.module('financieraClienteApp')
       Valor : valor
     };
     financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
-        self.alerta_anulacion_cdp = response.data;
-        swal("Alertas", self.alerta_anulacion_cdp, "success");
+      self.alerta_anulacion_cdp = response.data;
+      angular.forEach(self.alerta_anulacion_cdp, function(data){
+
+        self.alerta = self.alerta + data + "\n";
+
+      });
+      swal("Alertas", self.alerta, self.alerta_anulacion_cdp[0]);
       });
 
   };

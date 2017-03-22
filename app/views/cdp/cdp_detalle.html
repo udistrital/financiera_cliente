@@ -105,7 +105,7 @@
             <div class="row">
               <div class="col-md-6 col-md-offset-6">
                 <div class="col-md-6">
-                  <button data-toggle="modal" data-target="#modalAlertas" id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block" ng-click="cdpDetalle.anular()">Anular</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block" ng-click="cdpDetalle.anular()">Anular</button>
                 </div>
                 <div class="col-md-6">
                   <a id="btnCancelar" name="btnCancelar" class="btn btn-outline btn-primary btn-md btn-block" ng-click='cdpDetalle.ShowForm()'>Cancelar</a>
@@ -129,29 +129,6 @@
         </div>
       </div>
       <div ui-grid="cdpDetalle.gridOptions" ui-grid-selection ui-grid-auto-resize ng-style="cdpDetalle.gridHeight" class="myGrid"></div>
-    </div>
-  </div>
-</div>
-
-<div id="modalAlertas" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content" style="width: 120%;">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Alertas</h4>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <tr ng-repeat="item in cdpDetalle.alerta_anulacion_cdp track by $index">
-            <td> {{ item }} </td>
-          </tr>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes()"> Cerrar </button>
-      </div>
     </div>
   </div>
 </div>
