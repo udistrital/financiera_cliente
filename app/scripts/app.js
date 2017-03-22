@@ -104,7 +104,7 @@ angular
         templateUrl: 'views/plan_cuentas/cuenta.html',
         controller: 'CuentaCtrl',
         controllerAs: 'cuenta'
-
+      })
       .when('/orden_pago/ver_todos', {
         templateUrl: 'views/orden_pago/op_view_all.html',
         controller: 'OrdenPagoOpViewAllCtrl',
@@ -176,6 +176,6 @@ angular
         controllerAs: 'opProveedorVerPorId'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/'      
       });
   }]);
