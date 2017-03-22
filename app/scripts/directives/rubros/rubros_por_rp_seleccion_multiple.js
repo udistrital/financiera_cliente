@@ -54,6 +54,8 @@ angular.module('financieraClienteApp')
             })
             ).then(function(response) {
               self.gridOptions_rubros.data = response.data;
+              $scope.gridHeight = self.gridOptions_rubros.rowHeight * 2 + (self.gridOptions_rubros.data.length * self.gridOptions_rubros.rowHeight);
+
             });
           }
         })
