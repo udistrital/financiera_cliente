@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
         var self = this;
         self.conceptos = [];
         $scope.suma_afectacion = {};
+        self.mensajes_alerta_conceptos = null;
         self.gridOptions_conceptos = {
           enableRowSelection: false,
           enableRowHeaderSelection: false,
@@ -70,6 +71,7 @@ angular.module('financieraClienteApp')
         //operar concepto
         self.operar_conceptos = function(){
           $scope.conceptos = [];
+          self.mensajes_alerta_conceptos = '';
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos sean los que se le asigno afectacion
           angular.forEach(self.gridOptions_conceptos.data, function(i){
@@ -82,8 +84,8 @@ angular.module('financieraClienteApp')
           if(nun_conceptos == 0){
             alert("debe afectar minimo un concepto")
           }else{
-            // validar que la suma de las afectaciones en los conceptos pertenecientes a cada rubro no sobrepase el valor del rubro
             $scope.suma_afectacion = {};
+            // construir objeto rubro id con su total de afectacion
             angular.forEach($scope.conceptos, function(concepto){
               if ($scope.suma_afectacion[concepto.Rubro.Id] == undefined){
                 $scope.suma_afectacion[concepto.Rubro.Id] = concepto.Afectacion
@@ -91,27 +93,23 @@ angular.module('financieraClienteApp')
                 $scope.suma_afectacion[concepto.Rubro.Id] = $scope.suma_afectacion[concepto.Rubro.Id] + concepto.Afectacion
               }
             });
-            console.log("aaa");
-            console.log($scope.suma_afectacion);
-            console.log($scope.rubroidsobj);
-            console.log("aaa");
+            // validar que la suma de las afectaciones en los conceptos pertenecientes a cada rubro no sobrepase el valor del rubro
             angular.forEach($scope.suma_afectacion, function(value, key){
-              console.log(key + ': ' + value);
-              console.log("--");
               angular.forEach($scope.rubroidsobj, function(rubro){
-                console.log(rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id);
-                console.log(rubro.Saldo)
-                if(rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id == key){
-                  console.log("afectacion: " + value)
-                  console.log("saldo: " + rubro.Saldo)
-                  if(value > rubro.Saldo){
-                    console.log("ERRORR la afectacion supera el valor del saldo");
-                  }
+                if(rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id == key && value > rubro.Saldo){
+                  self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " +  rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + "  supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
                 }
-                console.log("****");
               })
             })
-
+          }
+          // valida si hay errores y lanzamos la alerta
+          if(self.mensajes_alerta_conceptos.length != 0 ){
+            $scope.conceptos = null;
+            swal({
+              title: 'Error!',
+              html:  '<ol align="left">' + self.mensajes_alerta_conceptos + '</ol>',
+              type: 'error'
+            })
           }
         }
         // fin operar concepto
