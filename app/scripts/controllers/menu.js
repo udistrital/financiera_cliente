@@ -37,6 +37,51 @@ angular.module('financieraClienteApp')
        }
      ]
    },
+   { //Conceptos
+     "Id": 1,
+     "Nombre": "Conceptos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Conceptos
+         "Id": 1,
+         "Nombre": "Crear Conceptos",
+         "Url": "conceptos/nuevo",
+         "Opciones": null
+       }
+     ]
+   },
+   { //Plan de cuentas
+     "Id": 1,
+     "Nombre": "Plan de cuentas",
+     "Url": "",
+     "Opciones": [
+       { //Crear plan_cuentas
+         "Id": 1,
+         "Nombre": "Crear Plan de cuentas",
+         "Url": "plan_cuentas/nuevo",
+         "Opciones": null
+       },
+       { //Crear Conceptos
+         "Id": 1,
+         "Nombre": "Crear Cuenta contable",
+         "Url": "plan_cuentas/cuentas/nueva",
+         "Opciones": null
+       },
+     ]
+   },
+   { //Compromisos
+     "Id": 1,
+     "Nombre": "Compromisos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Compromisos
+         "Id": 1,
+         "Nombre": "Crear Compromisos",
+         "Url": "compromisos/nuevo",
+         "Opciones": null
+       }
+     ]
+   },
    { //RP
      "Id": 1,
      "Nombre": "RP",

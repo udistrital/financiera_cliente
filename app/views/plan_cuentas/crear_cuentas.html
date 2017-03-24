@@ -2,9 +2,6 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header" align="center">Plan de Cuentas Maestro</h2>
 
-
-
-
   <div class="col-md-6">
     <div ng-if="crearCuentas.plan_maestro!=undefined">
       <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol" planid="crearCuentas.plan_maestro.Id" />
@@ -48,7 +45,7 @@
 
           <div class="form-group">
             <label for="desccuenta">Descripcion:</label>
-            <textarea class="form-control" id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion"></textarea>
+            <textarea class="form-control " id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion"></textarea>
           </div>
 
           <div class="form-group">
@@ -75,9 +72,6 @@
         </form>
 
         <!--<pre>{{crearCuentas.nueva_cuenta | json}}</pre>!-->
-
-
-
       </div>
     </div>
   </div>

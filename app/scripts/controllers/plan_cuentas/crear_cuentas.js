@@ -15,7 +15,6 @@ angular.module('financieraClienteApp')
     self.naturalezas = ["debito", "credito"];
     self.nueva_cuenta = {};
     self.niveles = [];
-    self.padre = {};
 
     self.cargar_plan_maestro = function(){
       financieraRequest.get("plan_cuentas", $.param({
@@ -29,7 +28,7 @@ angular.module('financieraClienteApp')
     self.crear_cuenta = function(form) {
       var nc = confirm("Desea Agregar la cuenta nueva?");
       if (nc) {
-        if (self.padre.Codigo != undefined) {
+        if (self.padre != undefined) {
           self.nueva_cuenta.Codigo = self.padre.Codigo.concat("-", self.nueva_cuenta.Codigo);
         }
         self.tr_cuenta = {
@@ -57,7 +56,7 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('crearCuentas.padre', function() {
 
-      if (self.padre.NivelClasificacion == undefined) {
+      if (self.padre == undefined) {
         financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
           self.nivel = response.data;
           self.nueva_cuenta.NivelClasificacion = response.data;
@@ -89,7 +88,7 @@ angular.module('financieraClienteApp')
         form.$setPristine();
         form.$setUntouched();
         self.nueva_cuenta = {};
-        self.padre = {};
+        self.padre = undefined;
         financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
           self.nivel = response.data;
           self.nueva_cuenta.NivelClasificacion = response.data;
