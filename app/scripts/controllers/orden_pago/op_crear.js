@@ -20,17 +20,24 @@ angular.module('financieraClienteApp')
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
     self.Data_OrdenPago_Concepto = {};
-    self.MovimientoContable = [];
+    self.MovimientoContableConceptoOrdenPago = [];
     self.MensajesAlerta = null;
 
     // functions
     self.estructura_orden_pago_conceptos = function(conceptos){
       angular.forEach(conceptos, function(concepto){
-        self.ConceptoOrdenPago.push({
-            'OrdenDePago':{'Id': 0},
-            'Concepto': {'Id': concepto.Id},
-            'Valor': concepto.Afectacion
-        });
+        if(concepto.movs.length > 0){ // tiene cuentas y se hace afectacion
+          // data conceptos para orden de pago
+          self.ConceptoOrdenPago.push({
+              'OrdenDePago':{'Id': 0},
+              'Concepto': {'Id': concepto.Id},
+              'Valor': concepto.Afectacion
+          });
+          // data movimientos contables
+          angular.forEach(concepto.movs, function(movimiento){
+            self.MovimientoContableConceptoOrdenPago.push(movimiento);
+          })
+        }
       })
     }
     // Insert Orden Pago
@@ -41,17 +48,19 @@ angular.module('financieraClienteApp')
       // trabajar estructura de conceptos
       self.Data_OrdenPago_Concepto = {};
       self.ConceptoOrdenPago = [];
+      self.MovimientoContableConceptoOrdenPago = [];
       //
-      if(self.Concepto ){
+      if(self.Concepto != undefined){
         self.estructura_orden_pago_conceptos(self.Concepto);
       }
       //construir data send
       self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
       self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
-      self.Data_OrdenPago_Concepto.MovimientoContable = self.movs;
+      self.Data_OrdenPago_Concepto.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
+      //console.log("Estructura para enviar")
       //console.log(self.Data_OrdenPago_Concepto)
 
-      // validar campos obligatorios en el formulario orden Pago
+      // validar campos obligatorios en el formulario orden Pago y se inserta registro
       self.validar_campos()
     }
 
