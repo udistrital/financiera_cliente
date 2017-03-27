@@ -75,7 +75,7 @@ angular.module('financieraClienteApp')
             self.alerta = self.alerta + data + "\n";
 
           });
-          swal("Alertas", self.alerta, self.alerta_registro_cdp[0]);
+          swal("Alertas", self.alerta, self.alerta_registro_cdp[0]).then(function(){self.actualiza_solicitudes();});
           //alert(data);
         });
     };

@@ -40,7 +40,8 @@ angular
     'pascalprecht.translate',
     'financieraMidService',
     'agoraService',
-    'uiGridService'
+    'uiGridService',
+    'argoService'
   ])
 
   .run(function(amMoment) {
@@ -176,6 +177,6 @@ angular
         controllerAs: 'opProveedorVerPorId'
       })
       .otherwise({
-        redirectTo: '/'      
+        redirectTo: '/'
       });
   }]);
