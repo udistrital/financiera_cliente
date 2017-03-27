@@ -20,6 +20,7 @@
 
 
 
+
   <div ng-class="{'col-md-10 col-xs-offset-1': !crearConcepto.dividir, 'col-md-7': crearConcepto.dividir}">
     <div class="panel panel-default">
 
@@ -39,7 +40,7 @@
                   nodo=undefined;
                   crearConcepto.verFormTipo=!conceptoForm.selTipoConcepto.$error.required;
                   crearConcepto.dividir=crearConcepto.verFormTipo;
-                  crearConcepto.padre={}" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto" required>
+                  crearConcepto.padre=undefined" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto" required>
                 <option value="" disabled selected>-- Seleccion Un tipo de Concepto --</option>
                 </select>
             </div>

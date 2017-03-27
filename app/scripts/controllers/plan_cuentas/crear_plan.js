@@ -21,11 +21,19 @@ angular.module('financieraClienteApp')
     self.unidades_ejecutoras=response.data;
   });
 
-  self.crear_plan=function(){
+  self.crear_plan=function(form){
     financieraRequest.post("plan_cuentas", self.nuevo_plan).then(function(response){
-      alert("plan de cuentas creado:"+ response.data.Nombre);
+      self.alerta="";
+      for (var i = 1; i < response.data.length; i++) {
+        self.alerta = self.alerta + response.data[i] + "\n";
+      }
+      swal("", self.alerta, response.data[0]);
+
+      //alert("plan de cuentas creado:"+ response.data.Nombre);
       self.nuevo_plan={};
       self.actualizar=!self.actualizar;
+      form.$setPristine();
+      form.$setUntouched();
     });
   };
 

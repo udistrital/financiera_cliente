@@ -10,7 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $http) {
     var self = this;
-    self.padre = {};
+    //self.padre = {};
     self.rubro = {};
     self.cuentas=[];
     financieraRequest.get("tipo_concepto", "").then(function(response) {
@@ -31,8 +31,13 @@ angular.module('financieraClienteApp')
 
     self.agregar_cuentas=function(){
       if (self.cuentas.indexOf(self.cuenta_contable) < 0 && self.cuenta_contable!=undefined) {
-        self.cuentas.push(self.cuenta_contable);
-        self.cuenta_contable=undefined;
+        if (self.cuenta_contable.Hijos == null) {
+          self.cuentas.push(self.cuenta_contable);
+          self.cuenta_contable=undefined;
+        } else {
+          swal("Espera!", "Unicamente puedes seleccionar cuentas que no tengan hijos", "warning");
+          self.cuenta_contable=undefined;
+        }
       }
     };
 
@@ -46,11 +51,22 @@ angular.module('financieraClienteApp')
 
     self.crear_concepto_nuevo = function(form) {
 
-      var nc = confirm("Desea Agregar el nuevo concepto?");
-      if (nc) {
+      swal({
+        title: 'Nueva Concepto!',
+        text: "Deseas crear un nuevo concepto?",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+      }).then(function() {
 
-        if (self.padre.Codigo != undefined) {
+        if (self.padre != undefined) {
           self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
+        }
+        else {
+          self.padre={};
         }
 
         self.nuevo_concepto.FechaCreacion = new Date();
@@ -75,20 +91,31 @@ angular.module('financieraClienteApp')
         self.tr_concepto = {
           Concepto: self.nuevo_concepto,
           ConceptoPadre: self.padre,
-          Afectaciones: self.afectaciones
-          //Cuentas: self.cuentas
+          Afectaciones: self.afectaciones,
+          Cuentas: self.cuentas
         };
 
 
 
 
         financieraRequest.post('tr_concepto', self.tr_concepto).then(function(response) {
-          alert("concepto creado");
+          self.alerta = "";
+          for (var i = 1; i < response.data.length; i++) {
+            self.alerta = self.alerta + response.data[i] + "\n";
+          }
+          swal("", self.alerta, response.data[0]);
+          self.recargar_arbol = !self.recargar_arbol;
           self.recargar = !self.recargar;
+          if (response.data[0]=="success") {
+            form.$setPristine();
+            form.$setUntouched();
+            self.resetear(form);
+          }
+
         });
         //console.log(self.tr_concepto);
         //financieraRequest.post()
-      }
+      });
 
     };
 
@@ -144,12 +171,11 @@ angular.module('financieraClienteApp')
 
 
     self.resetear = function(form) {
-      var r = confirm("Desea Limpiar el Formulario?");
-      if (r) {
+
         form.$setPristine();
         form.$setUntouched();
         self.nuevo_concepto = {};
-        self.padre = {};
+        self.padre = undefined;
         self.tipo_concepto = {};
         if (self.dividir) {
           self.dividir = false;
@@ -159,7 +185,7 @@ angular.module('financieraClienteApp')
           self.tipos_afectacion[i].Egreso = false;
           self.tipos_afectacion[i].Ingreso = false;
         }
-      }
+
     };
 
   });
