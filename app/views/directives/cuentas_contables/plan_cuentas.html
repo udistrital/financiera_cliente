@@ -11,7 +11,7 @@
 
     <div class="panel panel-success panel-body row" ng-show="cuentasel!=undefined && showc">
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
-      <p class="text-muted">{{cuentasel.Descripcion}}</p>
+      <p class="text-muted text-justify ">{{cuentasel.Descripcion| limitTo:370}} ...</p>
       <dl>
         <dt>Codigo: {{cuentasel.Codigo}}</dt>
         <dd>- Clasificación : {{cuentasel.NivelClasificacion.Nombre}}</dd>
@@ -27,8 +27,8 @@
     </div>
   </div>
 
-  <div class="panel-footer">
-    <center><button class="btn btn-default btn-outline" ng-click="seleccion={}; cuentasel={}; showc=false">Cancelar Selección</button></center>
+  <div>
+    <center><button ng-show="seleccion!=undefined || cuentasel!=undefined;" class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">Cancelar Selección</button></center>
   </div>
 
 </div>

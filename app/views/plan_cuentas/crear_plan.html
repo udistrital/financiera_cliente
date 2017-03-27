@@ -14,7 +14,7 @@
       </div>
       <div class="panel-body">
 
-        <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan()">
+        <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan(formplan)">
           <fieldset class="form-group">
             <label for="nombreplan">{{ 'NOMBRE' | translate }}:</label>
             <input type="text" class="form-control" id="nombreplan" placeholder="{{ 'INGRESE_NOMBRE_PLAN_CUENTAS' | translate }}" ng-model="crearPlan.nuevo_plan.Nombre" required>
