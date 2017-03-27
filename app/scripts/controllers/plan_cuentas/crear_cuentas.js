@@ -58,6 +58,7 @@ angular.module('financieraClienteApp')
             form.$setPristine();
             form.$setUntouched();
             self.nueva_cuenta = {};
+            self.padre = undefined;
           }
           //self.resetear(form);
         });
