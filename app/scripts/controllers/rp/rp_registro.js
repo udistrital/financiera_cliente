@@ -24,7 +24,7 @@ angular.module('financieraClienteApp')
       columnDefs : [
         {field: 'Id',  displayName: 'Numero' , width: '20%'},
         {field: 'Vigencia',   displayName: 'Vigencia' , width: '20%'},
-        {field: 'TipoCompromisoTesoral.Nombre',   displayName: 'Tipo Compromiso', width: '85%'}
+        {field: 'Objeto',   displayName: 'Tipo Compromiso', width: '85%'}
       ]
 
     };

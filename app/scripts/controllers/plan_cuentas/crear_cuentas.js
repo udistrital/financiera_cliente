@@ -15,9 +15,8 @@ angular.module('financieraClienteApp')
     self.naturalezas = ["debito", "credito"];
     self.nueva_cuenta = {};
     self.niveles = [];
-    self.padre = {};
 
-    self.cargar_plan_maestro = function(){
+    self.cargar_plan_maestro = function() {
       financieraRequest.get("plan_cuentas", $.param({
         query: "PlanMaestro:" + true
       })).then(function(response) {
@@ -27,22 +26,43 @@ angular.module('financieraClienteApp')
 
 
     self.crear_cuenta = function(form) {
-      var nc = confirm("Desea Agregar la cuenta nueva?");
-      if (nc) {
-        if (self.padre.Codigo != undefined) {
+      swal({
+        title: 'Nueva Cuenta!',
+        text: "Deseas crear la nueva cuenta?",
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+      }).then(function() {
+        if (self.padre != undefined) {
           self.nueva_cuenta.Codigo = self.padre.Codigo.concat("-", self.nueva_cuenta.Codigo);
+          self.tr_padre = self.padre;
+        } else {
+          self.tr_padre = {};
         }
         self.tr_cuenta = {
           Cuenta: self.nueva_cuenta,
-          CuentaPadre: self.padre,
+          CuentaPadre: self.tr_padre,
           PlanCuentas: self.plan_maestro
         };
         financieraRequest.post('tr_cuentas_contables', self.tr_cuenta).then(function(response) {
-          alert("cuenta creada");
+          self.alerta = "";
+          for (var i = 1; i < response.data.length; i++) {
+            self.alerta = self.alerta + response.data[i] + "\n";
+          }
+          swal("", self.alerta, response.data[0]);
           self.recargar_arbol = !self.recargar_arbol;
-          self.resetear(form);
+          if (response.data[0]=="success") {
+            form.$setPristine();
+            form.$setUntouched();
+            self.nueva_cuenta = {};
+            self.padre = undefined;
+          }
+          //self.resetear(form);
         });
-      }
+      });
     };
 
 
@@ -57,7 +77,7 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('crearCuentas.padre', function() {
 
-      if (self.padre.NivelClasificacion == undefined) {
+      if (self.padre == undefined) {
         financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
           self.nivel = response.data;
           self.nueva_cuenta.NivelClasificacion = response.data;
@@ -66,15 +86,14 @@ angular.module('financieraClienteApp')
         financieraRequest.get('estructura_niveles_clasificacion', $.param({
           query: "NivelPadre:" + self.padre.NivelClasificacion.Id
         })).then(function(response) {
-          if (response.data==null) {
+          if (response.data == null) {
             financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
               alert("El nivel de clasificación siguiente no existe");
               self.nivel = response.data;
               self.nueva_cuenta.NivelClasificacion = response.data;
-              self.padre={};
+              self.padre = {};
             });
-          }
-          else{
+          } else {
             self.nivel = response.data[0].NivelHijo;
             self.nueva_cuenta.NivelClasificacion = self.nivel;
           }
@@ -84,17 +103,24 @@ angular.module('financieraClienteApp')
     }, true);
 
     self.resetear = function(form) {
-      var r = confirm("Desea Limpiar el Formulario?");
-      if (r) {
+      swal({
+        text: "Deseas limpiar el formulario?",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar',
+      }).then(function() {
         form.$setPristine();
         form.$setUntouched();
         self.nueva_cuenta = {};
-        self.padre = {};
+        self.padre = undefined;
         financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
           self.nivel = response.data;
           self.nueva_cuenta.NivelClasificacion = response.data;
         });
-      }
+      });
     };
 
     self.cargar_plan_maestro();

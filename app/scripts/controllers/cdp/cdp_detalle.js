@@ -46,7 +46,23 @@ angular.module('financieraClienteApp')
         self.alerta = self.alerta + data + "\n";
 
       });
-      swal("Alertas", self.alerta, self.alerta_anulacion_cdp[0]);
+      swal("Alertas", self.alerta, self.alerta_anulacion_cdp[0]).then(function(){
+        financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+disponibilidad.Id).then(function(response) {
+          self.gridOptions.data = response.data;
+          angular.forEach(self.gridOptions.data, function(data){
+              var saldo;
+              var rp = {
+                Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
+                Apropiacion : data.Apropiacion
+              };
+              financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                data.Saldo  = response.data;
+              });
+
+            });
+            self.gridHeight = uiGridService.getGridHeight(self.gridOptions);
+        });
+      });
       });
 
   };

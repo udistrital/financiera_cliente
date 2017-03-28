@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest) {
+  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest,financieraMidRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -24,13 +24,19 @@ angular.module('financieraClienteApp')
         {field: 'Vigencia',       cellClass:'alignleft'},
         {field: 'FechaRegistro' , displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : 'Estado'},
-        {field: 'Solicitud.Necesidad.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
+        {field: 'InfoSolicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
       ]
 
     }
     self.gridOptions.multiSelect = false;
     financieraRequest.get('disponibilidad','limit=0').then(function(response) {
       self.gridOptions.data = response.data;
+      angular.forEach(self.gridOptions.data, function(data){
+        financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {
+          data.InfoSolicitud = response.data[0];
+        });
+      });
+      console.log(self.gridOptions.data );
     });
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;

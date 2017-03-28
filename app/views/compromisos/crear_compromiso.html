@@ -94,10 +94,11 @@
 
           <fieldset class="form-group">
             <label for="compromisotipo">Tipo:</label>
-            <select class="form-control" id="compromisotipo"  ng-model="crearCompromiso.nuevo_compromiso.TipoCompromisoTesoral" ng-options="tipo.Nombre for tipo in crearCompromiso.tipos" required>
+            <select class="form-control" id="compromisotipo"  ng-model="crearCompromiso.nuevo_compromiso.TipoCompromisoTesoral" ng-options="tipo.Nombre for tipo in crearCompromiso.tipos | filter : crearCompromiso.nuevo_compromiso.Categoria.Nombre " required>
               <option value="">-- Seleccion Un Tipo --</option>
             </select>
           </fieldset>
+
 
           <fieldset class="form-group">
             <label for="compromisounidad">Unidad Ejecutora:</label>

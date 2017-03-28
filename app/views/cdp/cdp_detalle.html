@@ -29,7 +29,10 @@
               </tr>
               <tr>
                 <th>Jefe de la dependencia: </th>
-                <td>{{item.Solicitud.DependenciaSolicitante.JefeDependencia.PrimerNombre + ' ' + item.Solicitud.DependenciaSolicitante.JefeDependencia.PrimerApellido}}</td>
+                <td>{{item.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
+                      item.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
+                     item.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
+                    item.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
                 <th>Dependencia Destino: </th>
@@ -37,7 +40,10 @@
               </tr>
               <tr>
                 <th>Ordenador del Gasto: </th>
-                <td>{{item.Solicitud.DependenciaSolicitante.OrdenadorGasto.PrimerNombre + ' ' + item.Solicitud.DependenciaSolicitante.OrdenadorGasto.PrimerApellido}}</td>
+                <td>{{item.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerApellido + ' ' +
+                      item.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
+                     item.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
+                    item.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
                 <th>Objeto: </th>

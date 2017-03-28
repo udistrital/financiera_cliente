@@ -402,7 +402,17 @@ module.exports = function (grunt) {
             cwd : 'bower_components/angular-ui-grid',
             src : ['*.eot','*.svg','*.ttf','*.woff'],
             dest : '<%= yeoman.dist %>/styles'
-           }]
+           },{
+             expand : true,
+             cwd : 'bower_components/angular-tree-control/fonts',
+             src : ['*.eot','*.svg','*.ttf','*.woff'],
+             dest : '<%= yeoman.dist %>/styles'
+           },{
+             expand : true,
+             cwd : 'bower_components/angular-tree-control/images',
+             src : ['*.png'],
+             dest : '<%= yeoman.dist %>/images'
+            }]
           },
           styles: {
             expand: true,

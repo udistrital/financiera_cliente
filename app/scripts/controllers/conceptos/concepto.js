@@ -22,6 +22,12 @@ angular.module('financieraClienteApp')
         self.afectaciones=response.data;
       });
 
+      financieraRequest.get('concepto_cuenta_contable',$.param({
+        query: "Concepto:"+self.v_concepto.Id
+      })).then(function(response){
+        self.cuentas=response.data;
+      });
+
     });
 
   });

@@ -103,7 +103,46 @@ angular.module('financieraClienteApp')
             self.alerta = self.alerta + data + "\n";
 
           });
-          swal("Alertas", self.alerta, self.alerta_anulacion_rp[0]);
+          swal("Alertas", self.alerta, self.alerta_anulacion_rp[0]).then(function(){
+            financieraRequest.get('registro_presupuestal','query=Id:'+rp.Id).then(function(response) {
+                self.detalle = response.data;
+                angular.forEach(self.detalle, function(data){
+
+                  agoraRequest.get('informacion_proveedor/'+data.Beneficiario,'').then(function(response) {
+
+                        data.Beneficiario = response.data;
+
+                    });
+                  });
+                angular.forEach(self.detalle, function(data){
+                  financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion','query=RegistroPresupuestal.Id:'+data.Id).then(function(response) {
+                      self.gridOptions.data = response.data;
+                      data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
+                      angular.forEach(self.gridOptions.data, function(data){
+                        var rpdata = {
+                          Rp : data.RegistroPresupuestal,
+                          Apropiacion : data.DisponibilidadApropiacion.Apropiacion
+                        };
+                        financieraRequest.post('registro_presupuestal/SaldoRp',rpdata).then(function(response){
+                          data.Saldo  = response.data;
+                        });
+                        financieraMidRequest.get('disponibilidad/SolicitudById/'+data.DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
+                            var solicitud = response.data
+                            angular.forEach(solicitud, function(data){
+                              self.objeto = data.SolicitudDisponibilidad.Necesidad.Objeto;
+
+                            });
+
+                          });
+                        });
+                        self.gridHeight = uiGridService.getGridHeight(self.gridOptions);
+                    });
+
+                });
+                console.log("detalle:");
+                console.log(self.detalle);
+              });
+          });
         });
 
     };

@@ -2,16 +2,16 @@
 
 /**
  * @ngdoc service
- * @name financieraClienteApp.agoraService
+ * @name financieraClienteApp.argoService
  * @description
- * # agoraService
+ * # argoService
  * Service in the financieraClienteApp.
  */
- angular.module('agoraService',[])
-   .factory('agoraRequest', function ($http) {
+ angular.module('argoService',[])
+   .factory('argoRequest', function ($http) {
      // Service logic
      // ...
-     var path = "http://10.20.2.58:8086/v1/";
+     var path = "http://10.20.2.78:8080/v1/";
      // Public API here
      return {
        get: function (tabla,params) {
