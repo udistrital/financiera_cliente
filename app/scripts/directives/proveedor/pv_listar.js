@@ -7,7 +7,7 @@
  * # proveedor/pvListar
  */
 angular.module('financieraClienteApp')
-  .directive('pvListar', function (administrativaRequest) {
+  .directive('pvListar', function (agoraRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
           ]
         };
 
-        administrativaRequest.get('informacion_proveedor','limit=0').then(function(response) {
+        agoraRequest.get('informacion_proveedor','limit=0').then(function(response) {
           self.gridOptions_proveedor.data = response.data;
         });
 
