@@ -32,6 +32,7 @@ angular.module('financieraClienteApp')
     self.agregar_cuentas=function(){
       if (self.cuentas.indexOf(self.cuenta_contable) < 0 && self.cuenta_contable!=undefined) {
         if (self.cuenta_contable.Hijos == null) {
+          console.log(self.cuenta_contable.Codigo[0]);          
           self.cuentas.push(self.cuenta_contable);
           self.cuenta_contable=undefined;
         } else {

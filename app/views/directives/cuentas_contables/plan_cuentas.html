@@ -4,7 +4,7 @@
   </div>
   <div class="row">
 
-    <treecontrol class="tree-classic" tree-model="d_planCuentas.plan_cuentas" options="d_planCuentas.treeOptions" on-selection="showSelected(node);showc=true" selected-node="cuentasel">
+    <treecontrol class="tree-classic" tree-model="d_planCuentas.plan_cuentas" options="d_planCuentas.treeOptions" on-selection="showSelected(node);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}">
       [{{node.Codigo}}] {{node.Nombre}}
     </treecontrol>
     <br>
