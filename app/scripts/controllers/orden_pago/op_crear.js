@@ -42,7 +42,7 @@ angular.module('financieraClienteApp')
           })
         }else{
           //almacenamos el concepto para reportar
-          console.log("concepto sin movs o sin cuentas contables")
+          console.log("concepto sin sin cuentas contables para hacer movimientos")
         }
       })
     }
@@ -66,9 +66,8 @@ angular.module('financieraClienteApp')
       self.Data_OrdenPago_Concepto.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
       //console.log("Estructura para enviar")
       //console.log(self.Data_OrdenPago_Concepto)
-      console.log(self.TotalAfectacion)
       // validar campos obligatorios en el formulario orden Pago y se inserta registro
-      //self.validar_campos()
+      self.validar_campos()
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
@@ -97,6 +96,9 @@ angular.module('financieraClienteApp')
       }
       if (self.Concepto == undefined || self.Concepto.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
+      }
+      if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>El valor total de la afectacion es distinto al valor de la orden de pago. <br> <b>Afectacion: " + self.TotalAfectacion + "<br>Valor Orden: " +  self.OrdenPago.ValorBase + "</b></li>"
       }
       // Operar
       if(self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0 ){

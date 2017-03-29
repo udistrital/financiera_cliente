@@ -44,7 +44,6 @@ angular.module('financieraClienteApp')
             financieraRequest.get('registro_presupuestal',
               $.param({
                   query: "Beneficiario:" + $scope.beneficiaroid,
-                  limit: 0,
               })).then(function(response) {
                 self.gridOptions_rp.data = response.data;
             });
