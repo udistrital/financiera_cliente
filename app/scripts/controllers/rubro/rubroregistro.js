@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService,) {
+  .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService) {
     var self = this;
 
     self.message = 'Registro de rubros';
