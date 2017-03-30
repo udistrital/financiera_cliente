@@ -16,7 +16,6 @@
       <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds" rubrosobj="opCrear.RubrosObjIds"/>
       <!--Concepto-->
       <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto" rubroidsobj="opCrear.RubrosObjIds"/>
-      <!--<pre>{{opCrear.Concepto | json }}</pre>-->
 
       <!--Panle para Rubros -->
       <div class="panel panel-primary">
@@ -32,13 +31,14 @@
           <!-- Tab panes -->
           <div class="tab-content">
               <div class="tab-pane fade in active" ng-repeat="c in opCrear.Concepto" ng-show="opCrear.selected==c.Id">
-                    <movimientos-contables conceptoid="c.Id"  movimientos="c.movs" monto="c.Afectacion" editable validatemov="validado"/>
+                    <movimientos-contables conceptoid="c.Id"  movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado"/>
               </div>
           </div>
       </div>
       <!-- /.panel-body -->
       </div>
       <!-- -->
+      <pre>{{opCrear.Concepto | json }}</pre>
 
       <!-- <pre>{{ opCrear.OrdenPago | json}}</pre>
       <pre>{{opCrear.Concepto | json}}</pre>-->
