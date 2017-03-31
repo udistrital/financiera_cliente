@@ -88,6 +88,7 @@ angular.module('financieraClienteApp')
     self.gridApi = gridApi;
     gridApi.selection.on.rowSelectionChanged($scope,function(row){
       $scope.apropiacion = row.entity;
+      $scope.apropiacion_id = row.entity.Apropiacion.Id;
 
     });
   };
