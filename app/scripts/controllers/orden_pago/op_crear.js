@@ -27,7 +27,7 @@ angular.module('financieraClienteApp')
     // functions
     self.estructura_orden_pago_conceptos = function(conceptos){
       angular.forEach(conceptos, function(concepto){
-        if(concepto.movs.length > 0){ // tiene cuentas y se hace afectacion
+        if(concepto.validado == true){ // tiene cuentas y se hace afectacion
           // data conceptos para orden de pago
           self.ConceptoOrdenPago.push({
               'OrdenDePago':{'Id': 0},
@@ -35,10 +35,13 @@ angular.module('financieraClienteApp')
               'Valor': concepto.Afectacion
           });
           //total afectacion
-          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion ;
-          // data movimientos contables
+          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
+          // recorrer novimiento
           angular.forEach(concepto.movs, function(movimiento){
-            self.MovimientoContableConceptoOrdenPago.push(movimiento);
+            if (movimiento.Debito > 0 || movimiento.Credito > 0){
+              // data movimientos contables
+              self.MovimientoContableConceptoOrdenPago.push(movimiento);
+            }
           })
         }else{
           //almacenamos el concepto para reportar
