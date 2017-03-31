@@ -11,6 +11,7 @@
    .factory('agoraRequest', function ($http) {
      // Service logic
      // ...
+     
      var path = "http://10.20.2.58:8086/v1/";
      // Public API here
      return {
