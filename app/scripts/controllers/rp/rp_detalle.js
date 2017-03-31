@@ -34,6 +34,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $scope.apropiacion = row.entity;
+        $scope.apropiacion_id = row.entity.DisponibilidadApropiacion.Apropiacion.Id;
       });
     };
     financieraRequest.get('registro_presupuestal','query=Id:'+rp.Id).then(function(response) {
