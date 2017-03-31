@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function (financieraRequest, administrativaRequest) {
+  .directive('opProveedorVerPorId', function (financieraRequest, agoraRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -38,7 +38,7 @@ angular.module('financieraClienteApp')
         })
         // Function buscamos datos del proveedor que esta en el rp
         self.asignar_proveedor = function(beneficiario_id){
-          administrativaRequest.get('informacion_proveedor',
+          agoraRequest.get('informacion_proveedor',
             $.param({ query: "Id:" + beneficiario_id,})
           ).then(function(response) {
               self.proveedor = response.data;
