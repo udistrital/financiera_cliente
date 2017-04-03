@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
         };
         //
         $scope.$watch('rpid', function(){
-          self.refresh();
+          //self.refresh();
           if ($scope.rpid != undefined){
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
             $.param({
