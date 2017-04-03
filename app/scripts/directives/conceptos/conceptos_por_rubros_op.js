@@ -37,7 +37,9 @@ angular.module('financieraClienteApp')
               field: 'Afectacion',
               enableCellEdit: true,
               type: 'number',
-              cellTemplate: '<div ng-init="row.entity.Afectacion=0">{{row.entity.Afectacion}}</div>',
+              cellFilter: 'currency',
+              //cellTemplate: '<div ng-init="row.entity.Afectacion=0">{{row.entity.Afectacion}}</div>',
+              editableCellTemplate: '<div><form><input type="number" min="0" ng-class="\'colt\' + col.uid" ui-grid-editor ng-model="MODEL_COL_FIELD"></form></div>'
             }
           ]
         };
@@ -75,14 +77,14 @@ angular.module('financieraClienteApp')
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos sean los que se le asigno afectacion
           angular.forEach(self.gridOptions_conceptos.data, function(i){
-            if(i.Afectacion !=0 && i.Afectacion != undefined ){
+            if(i.Afectacion > 0 && i.Afectacion != undefined ){
               ++nun_conceptos;
               $scope.conceptos.push(i);
             }
           })
           // control que se afecte por lo menos un concepto
           if(nun_conceptos == 0){
-            alert("debe afectar minimo un concepto")
+            swal("Error!", "Debe Afectar por lo menos un concepto ", "error")
           }else{
             $scope.suma_afectacion = {};
             // construir objeto rubro id con su total de afectacion
