@@ -69,7 +69,7 @@ angular.module('financieraClienteApp')
             });
           }
         },true);
-        $scope.$watch('d_fuentesApropiacion.gridOptions.paginationPageSize', function(){
+        $scope.$watch('[d_fuentesApropiacion.gridOptions.paginationPageSize,d_fuentesApropiacion.gridOptions.data]', function(){
           if ((self.gridOptions.data.length<self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize== null) && self.gridOptions.data.length>0) {
             $scope.gridHeight = self.gridOptions.rowHeight * 3+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
           } else {
