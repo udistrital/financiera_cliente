@@ -29,11 +29,25 @@ angular.module('financieraClienteApp')
             {field: 'NomProveedor',    displayName: 'Nombe'}
           ]
         };
-
-        agoraRequest.get('informacion_proveedor','limit=0').then(function(response) {
+        //
+        agoraRequest.get('informacion_proveedor',
+        $.param({
+          query: "Estado.ValorParametro:ACTIVO",
+          limit:0
+        })).then(function(response) {
           self.gridOptions_proveedor.data = response.data;
+          // datos banco
         });
+        //
+        self.get_info_bamco = function (id_banco){
+          agoraRequest.get('banco',$.param({query: "id":id_banco})
+            ).then(function(response) {
+              self.banco.data = response.data;
+                console.log('banco')
+                console.log(self.banco.data)
+          });
 
+        }
         self.gridOptions_proveedor.onRegisterApi = function(gridApi){
             //set gridApi on scope
             self.gridApi = gridApi;
