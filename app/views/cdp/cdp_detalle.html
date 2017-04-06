@@ -12,8 +12,12 @@
           <div class="col-md-10 col-md-offset-1 ">
             <table class="table text-justify" ng-repeat="item in cdpDetalle.detalle">
               <tr>
-                <th>Consecutivo: </th>
+                <th>Consecutivo Del CDP: </th>
                 <td>{{item.NumeroDisponibilidad}}</td>
+              </tr>
+              <tr>
+                <th>Consecutivo de la Necesidad: </th>
+                <td>{{item.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
               </tr>
               <tr>
                 <th>Fecha de Registro: </th>

@@ -62,8 +62,7 @@ angular.module('financieraClienteApp')
                 financieraMidRequest.get('disponibilidad/SolicitudById/'+data.DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
                     var solicitud = response.data
                     angular.forEach(solicitud, function(data){
-                      self.objeto = data.SolicitudDisponibilidad.Necesidad.Objeto;
-
+                      self.Necesidad = data.SolicitudDisponibilidad.Necesidad;
                     });
 
                   });

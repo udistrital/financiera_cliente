@@ -14,6 +14,9 @@
             <th>Consecutivo del CDP: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
           </tr>
           <tr>
+            <th>Consecutivo de la Necesidad: </th><td>{{rpDetalle.Necesidad.Numero}}</td>
+          </tr>
+          <tr>
             <th>Fecha de Registro: </th><td>{{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</td>
           </tr>
           <tr>
@@ -23,7 +26,7 @@
             <th>Beneficiario: </th> <td>{{item.Beneficiario.NomProveedor + " Nº De Documento: "+item.Beneficiario.NumDocumento}}</td>
           </tr>
           <tr>
-            <th>Objeto del Contrato: </th> <td>{{rpDetalle.objeto}}</td>
+            <th>Objeto del Contrato: </th> <td>{{rpDetalle.Necesidad.Objeto}}</td>
           </tr>
           <tr>
             <th>Compromiso: </th> <td>{{item.Compromiso.TipoCompromisoTesoral.Nombre}}</td>
