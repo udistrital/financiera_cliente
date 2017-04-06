@@ -29,7 +29,7 @@
     "angular-mocks": "^1.4.0"
   },
   "resolutions": {
-    "angular": "1.6.3"
+    "angular": "1.6.4"
   },
   "appPath": "app",
   "moduleName": "financieraClienteApp",
