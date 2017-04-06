@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
       scope: {
         apropiacion: '=',
         vigencia: "=",
-        tipo: "="
+        tipo: "=",
+        selhijos: "=?"
       },
 
       templateUrl: 'views/directives/apropiaciones/lista_apropiaciones.html',
@@ -165,8 +166,7 @@ angular.module('financieraClienteApp')
         };
 
         self.gridOptions.isRowSelectable = function(row) {
-
-          if (row.treeNode.children.length > 0) {
+          if (row.treeNode.children.length > 0 && $scope.selhijos==true) {
             return false;
           } else {
             return true;
