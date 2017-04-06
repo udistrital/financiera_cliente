@@ -24,9 +24,11 @@
 
        columnDefs : [
          {field: 'Id',             visible : false},
+         {field: 'Vigencia',   displayName: 'Vigencia'},
          {field: 'NumeroDisponibilidad',   displayName: 'Consecutivo'},
          {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Objeto',   displayName: 'Objeto'},
-         {field: 'Solicitud.DependenciaSolicitante.OrdenadorGasto.Id',   displayName: 'Ordenador'}
+         {field: 'Solicitud..DependenciaSolicitante.Nombre',   displayName: 'Ordenador'},
+         {field: 'Saldo',   displayName: 'Saldo'}
        ]
 
      };
