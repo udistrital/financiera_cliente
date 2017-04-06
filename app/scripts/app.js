@@ -176,6 +176,11 @@ angular
         controller: 'OpProveedorVerPorIdCtrl',
         controllerAs: 'opProveedorVerPorId'
       })
+      .when('/cdp/cdp_anulacion', {
+        templateUrl: 'views/cdp/cdp_anulacion.html',
+        controller: 'CdpCdpAnulacionCtrl',
+        controllerAs: 'cdpAnulacion'
+      })
       .otherwise({
         redirectTo: '/'
       });

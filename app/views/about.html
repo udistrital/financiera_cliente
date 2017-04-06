@@ -12,7 +12,7 @@
 
 
           <movimientos-contables conceptoid="concepto=5"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
-          <lista-apropiaciones vigencia="2017" tipo="'3-3'" apropiacion="apro" />
+          <lista-apropiaciones vigencia="2017" tipo="'3-3'" apropiacion="apro" selhijos="true" />
 
 <!--select * from financiera.cuenta_contable where id not in (select cuenta_hijo from financiera.estructura_cuentas where plan_cuentas!=2) and id in (select cuenta_padre from financiera.estructura_cuentas where plan_cuentas=2) order by id
 

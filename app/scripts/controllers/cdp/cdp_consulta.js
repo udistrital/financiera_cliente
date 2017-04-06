@@ -20,8 +20,8 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'NumeroDisponibilidad',   displayName: 'Consecutivo'},
         {field: 'Vigencia',       cellClass:'alignleft'},
+        {field: 'NumeroDisponibilidad',   displayName: 'Consecutivo'},
         {field: 'FechaRegistro' , displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : 'Estado'},
         {field: 'InfoSolicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
