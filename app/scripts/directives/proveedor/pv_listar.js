@@ -45,6 +45,8 @@ angular.module('financieraClienteApp')
               $scope.proveedor = row.entity
               // datos banco
               self.get_info_banco($scope.proveedor.IdEntidadBancaria)
+              // dato telefono
+              self.get_tel_provee ($scope.proveedor.Id)
             });
           };
           self.gridOptions_proveedor.multiSelect = false;
@@ -57,6 +59,13 @@ angular.module('financieraClienteApp')
           });
         }
         //
+        self.get_tel_provee = function(id_prove){
+          coreRequest.get('proveedor_telefono',
+          $.param({query: "Id:" + id_prove,
+          })).then(function(response) {
+            self.tel_proveedor = response.data[0];
+          });
+        }
       },
       controllerAs:'d_pvListar'
     };
