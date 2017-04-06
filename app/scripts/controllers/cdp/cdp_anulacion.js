@@ -63,11 +63,12 @@ angular.module('financieraClienteApp')
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
-          self.ShowForm();
+
+          $("#myModal").modal();
           self.cdp = row.entity;
           financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
             self.gridOptions_rubros.data = response.data;
-            angular.forEach(self.gridOptions.data, function(data){
+            angular.forEach(self.gridOptions_rubros.data, function(data){
                 var saldo;
                 var rp = {
                   Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
