@@ -7,7 +7,7 @@
  * # proveedor/pvListar
  */
 angular.module('financieraClienteApp')
-  .directive('pvListar', function (agoraRequest) {
+  .directive('pvListar', function (agoraRequest, coreRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
           self.gridOptions_proveedor.multiSelect = false;
         //
         self.get_info_banco = function(id_banco){
-          agoraRequest.get('banco',
+          coreRequest.get('banco',
           $.param({query: "Id:" + id_banco,
           })).then(function(response) {
             self.banco_proveedor = response.data[0];

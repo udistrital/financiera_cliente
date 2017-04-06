@@ -41,7 +41,8 @@ angular
     'financieraMidService',
     'agoraService',
     'uiGridService',
-    'argoService'
+    'argoService',
+    'coreService'
   ])
 
   .run(function(amMoment) {
