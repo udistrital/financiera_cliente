@@ -12,7 +12,7 @@
      // Service logic
      // ...
 
-     var path = "http://10.20.2.58:8086/v1/";
+     var path = "http://10.20.2.134:8086/v1/";
      //var path = "http://127.0.0.1:8082/v1/";
      // Public API here
      return {
