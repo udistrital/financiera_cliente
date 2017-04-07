@@ -28,7 +28,6 @@ angular.module('financieraClienteApp')
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',       displayName: 'Codigo Rubro'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: 'Vigencia', width:'8%'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripción Rubro'},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: 'Registro Presupuestal', width:'8%'},
             {field: 'Valor',                                                    cellFilter: 'currency'},
             {field: 'Saldo',                                                    cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
           ]
@@ -45,6 +44,8 @@ angular.module('financieraClienteApp')
               angular.forEach($scope.rubros_seleccion, function(rr){
                 $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
               })
+              $scope.apropiacion_id = row.entity.DisponibilidadApropiacion.Apropiacion.Id;
+              //
             });
           };
         // refrescar
