@@ -11,12 +11,14 @@
             <div class="panel-heading">
                 <h4>Seleccione Rubros</h4>
             </div>
-            <div class="panel-body"  >
+            <div class="panel-body">
               <div style="height: {{gridHeight}}px;" ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
             </div>
         </div>
       </div>
-
+    </div>
+    <div ng-show="apropiacion_id">
+      <fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
     </div>
   </fieldset>
 </div>
