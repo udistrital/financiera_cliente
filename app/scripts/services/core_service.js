@@ -10,7 +10,7 @@
 angular.module('coreService', [])
   .service('coreRequest', function ($http) {
 
-    var path = "http://127.0.0.1:8082/v1/";
+    var path = "http://127.0.0.1:8085/v1/";
     // Public API here
     return {
       get: function (tabla,params) {
