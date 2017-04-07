@@ -117,6 +117,7 @@ angular.module('financieraClienteApp')
       });
 
     };
+    self.gridOptions_rubros.multiSelect = false;
     self.gridOptions_rubros.onRegisterApi = function(gridApi){
       //set gridApi on scope
       self.gridApi_rubros = gridApi;
