@@ -1,14 +1,24 @@
-<div class="row">
-  <div class=" col-sm-12">
-    <div class="panel panel-primary">
-        <div class="panel-heading" ng-click="panelRubrosPorRp = !panelRubrosPorRp">
-            <h4> Seleccion Rubros <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+<div class="panel-body">
+  <fieldset class="form-group">
+    <legend class="text-primary">Rubros
+      <span class="fa fa-plus pull-right"  ng-click="info_unidad_ejecutora=true" ng-show="!info_unidad_ejecutora"></span>
+      <span class="fa fa-minus pull-right" ng-click="info_unidad_ejecutora=false" ng-show="info_unidad_ejecutora"></span>
+    </legend class="text-primary">
+
+    <div class="row" ng-show="info_unidad_ejecutora">
+      <div class=" col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4>Seleccione Rubros</h4>
+            </div>
+            <div class="panel-body">
+              <div style="height: {{gridHeight}}px;" ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
+            </div>
         </div>
-        <div ng-show="panelRubrosPorRp" class="panel-body"  >
-          <div style="height: {{gridHeight}}px;" ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize></div>
-          <br>
-          <center><button class="btn btn-primary" ng-click="d_rubrosPorRpSeleccionMultiple.seleccionar_rubros()">Seleccionar Rubros</button></center>
-        </div>
+      </div>
     </div>
+    <div ng-show="apropiacion_id">
+      <fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
     </div>
+  </fieldset>
 </div>

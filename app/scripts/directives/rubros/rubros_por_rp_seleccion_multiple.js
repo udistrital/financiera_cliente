@@ -28,16 +28,26 @@ angular.module('financieraClienteApp')
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',       displayName: 'Codigo Rubro'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: 'Vigencia', width:'8%'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripción Rubro'},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: 'Registro Presupuestal', width:'8%'},
             {field: 'Valor',                                                    cellFilter: 'currency'},
             {field: 'Saldo',                                                    cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
-          ],
-          onRegisterApi : function(gridApi){
-              //set gridApi on scope
-              self.gridApi = gridApi;
-          }
+          ]
         };
         self.gridOptions_rubros.multiSelect = true;
+        //
+        self.gridOptions_rubros.onRegisterApi = function(gridApi){
+            //set gridApi on scope
+            self.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope,function(row){
+              $scope.rubros = [];
+              $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
+              $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
+              angular.forEach($scope.rubros_seleccion, function(rr){
+                $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
+              })
+              $scope.apropiacion_id = row.entity.DisponibilidadApropiacion.Apropiacion.Id;
+              //
+            });
+          };
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -71,15 +81,6 @@ angular.module('financieraClienteApp')
             });
           }
         })
-        //
-        self.seleccionar_rubros = function(){
-          $scope.rubros = [];
-          $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
-          $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
-          angular.forEach($scope.rubros_seleccion, function(rr){
-            $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
-          })
-        }
         // fin
       },
       controllerAs:'d_rubrosPorRpSeleccionMultiple'
