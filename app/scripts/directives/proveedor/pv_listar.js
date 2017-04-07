@@ -60,7 +60,7 @@ angular.module('financieraClienteApp')
         }
         //
         self.get_tel_provee = function(id_prove){
-          coreRequest.get('proveedor_telefono',
+          agoraRequest.get('proveedor_telefono',
           $.param({query: "Id:" + id_prove,
           })).then(function(response) {
             self.tel_proveedor = response.data[0];
