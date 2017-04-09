@@ -1,15 +1,12 @@
-<div class="panel-body">
-  <fieldset class="form-group">
-    <legend class="text-primary">Concepto
-      <span class="fa fa-plus pull-right"  ng-click="info_concepto=true" ng-show="!info_concepto"></span>
-      <span class="fa fa-minus pull-right" ng-click="info_concepto=false" ng-show="info_concepto"></span>
-    </legend class="text-primary">
-
-    <div class="row" ng-show="info_concepto">
+<div class="panel panel-primary">
+    <div class="panel-heading" ng-click="a=!a">
+        <h4>Conceptos <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+    </div>
+    <div class="panel-body row" ng-show="a">
       <div class=" col-sm-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h4>Seleccion Conceptos</h4>
+                Ingresar Afectación por Conceptos
             </div>
             <div class="panel-body">
               <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
@@ -17,7 +14,6 @@
               <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.operar_conceptos()">Operar Conceptos</button></center>
             </div>
         </div>
-        </div>
+      </div>
     </div>
-  </fieldset>
 </div>
