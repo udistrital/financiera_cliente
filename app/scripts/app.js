@@ -182,6 +182,11 @@ angular
         controller: 'CdpCdpAnulacionCtrl',
         controllerAs: 'cdpAnulacion'
       })
+      .when('/rp/rp_solicitud_consulta', {
+        templateUrl: 'views/rp/rp_solicitud_consulta.html',
+        controller: 'RpRpSolicitudConsultaCtrl',
+        controllerAs: 'rpSolicitudConsulta'
+      })
       .otherwise({
         redirectTo: '/'
       });
