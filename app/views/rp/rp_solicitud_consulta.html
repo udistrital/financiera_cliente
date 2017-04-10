@@ -1,0 +1,89 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    Solicitudes de Registro Presupuestal
+  </div>
+  <div class="panel-body">
+    <table style="width:95%;">
+      <tr>
+        <td>
+          <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+
+
+      <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+          <div class="row">
+            <div class="col-md-4">
+              <label>Información de la Solicitud de RP</label>
+            </div>
+            <div class="col-md-offset-7 col-md-1">
+              <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal" ng-click="rpSolicitudConsulta.actualiza_solicitudes();">&times</button>
+            </div>
+          </div>
+        </div>
+
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                Datos de la solicitud de Registro Presupuestal
+              </div>
+            </div>
+            <div class="panel-body">
+              <table class="table table-striped">
+                <tr>
+                  <th>Solicitud N°: </th> <td>{{rpSolicitudConsulta.data.Id}}</td>
+                </tr>
+                <tr>
+                  <th>Vigencia: </th> <td>{{rpSolicitudConsulta.data.Vigencia}}</td>
+                </tr>
+                <tr>
+                  <th>Fecha de la solicitud: </th> <td>{{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</td>
+                </tr>
+                <tr>
+                  <th>Consecutivo del CDP: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
+                </tr>
+                <tr>
+                  <th>Consecutivo de la Necesidad: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
+                </tr>
+		<tr>
+                  <th>Beneficiario: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NomProveedor}}</td>
+                </tr>
+		<tr>
+                  <th>Tipo Persona: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.Tipopersona}}</td>
+                </tr>	
+		<tr>
+                  <th>Documento N°: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
+                </tr>	
+		<tr>
+                  <th>Objeto: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
+                </tr>	
+                <tr>
+                  <td><button class="btn btn-danger" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="panel-title">
+                Rubros
+              </div>
+            </div>
+            <div class="panel-body">
+
+                      <div ui-grid="rpSolicitudConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="rpSolicitudConsulta.gridHeight" class="myGrid"></div>
+
+            </div>
+          </div>
+          <div  ng-show="apropiacion">
+            <fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
+          </div>
+
+
+</div>
