@@ -37,6 +37,51 @@ angular.module('financieraClienteApp')
        }
      ]
    },
+   { //Conceptos
+     "Id": 1,
+     "Nombre": "Conceptos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Conceptos
+         "Id": 1,
+         "Nombre": "Crear Conceptos",
+         "Url": "conceptos/nuevo",
+         "Opciones": null
+       }
+     ]
+   },
+   { //Plan de cuentas
+     "Id": 1,
+     "Nombre": "Plan de cuentas",
+     "Url": "",
+     "Opciones": [
+       { //Crear plan_cuentas
+         "Id": 1,
+         "Nombre": "Crear Plan de cuentas",
+         "Url": "plan_cuentas/nuevo",
+         "Opciones": null
+       },
+       { //Crear Conceptos
+         "Id": 1,
+         "Nombre": "Crear Cuenta contable",
+         "Url": "plan_cuentas/cuentas/nueva",
+         "Opciones": null
+       },
+     ]
+   },
+   { //Compromisos
+     "Id": 1,
+     "Nombre": "Compromisos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Compromisos
+         "Id": 1,
+         "Nombre": "Crear Compromisos",
+         "Url": "compromisos/nuevo",
+         "Opciones": null
+       }
+     ]
+   },
    { //RP
      "Id": 1,
      "Nombre": "RP",
@@ -142,10 +187,9 @@ angular.module('financieraClienteApp')
    recorrerArbol($scope.menu_service, "");
    paths.push({padre:["","Notificaciones","Ver Notificaciones"],path:"notificaciones"});
 
-   $scope.$on('$routeChangeStart', function(next, current) {
+   $scope.$on('$routeChangeStart', function() {
      $scope.actual = $location.path();
      update_url();
-     console.log(next + current);
    });
 
    $scope.changeLanguage = function (key) {

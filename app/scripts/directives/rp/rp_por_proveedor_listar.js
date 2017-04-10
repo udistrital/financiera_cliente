@@ -44,7 +44,6 @@ angular.module('financieraClienteApp')
             financieraRequest.get('registro_presupuestal',
               $.param({
                   query: "Beneficiario:" + $scope.beneficiaroid,
-                  limit: 0,
               })).then(function(response) {
                 self.gridOptions_rp.data = response.data;
             });
@@ -64,7 +63,11 @@ angular.module('financieraClienteApp')
                 })).then(function(response) {
                   self.rp_select_de_consulta = response.data;
               });
-              //Fin consulta datos del rp
+              //Valor total del Rp
+              financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
+                .then(function(response) {
+                  self.valor_total_rp = response.data;
+              });
             });
           };
           self.gridOptions_rp.multiSelect = false;

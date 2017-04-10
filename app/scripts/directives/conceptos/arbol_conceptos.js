@@ -28,6 +28,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("recargar",function(){
           financieraRequest.get("arbol_conceptos", "").then(function(response) {
+            console.log("entro?");
             self.arbol_conceptos = response.data;
           });
         });

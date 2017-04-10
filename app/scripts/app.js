@@ -41,7 +41,9 @@ angular
     'financieraMidService',
     'agoraService',
     'uiGridService',
-    'adminMidService'
+    'adminMidService',
+    'argoService',
+    'coreService'
   ])
 
   .run(function(amMoment) {
@@ -100,6 +102,11 @@ angular
         templateUrl: 'views/plan_cuentas/crear_plan.html',
         controller: 'PlanCuentasCrearPlanCtrl',
         controllerAs: 'crearPlan'
+      })
+      .when('/plan_cuentas/cuenta/:Id', {
+        templateUrl: 'views/plan_cuentas/cuenta.html',
+        controller: 'CuentaCtrl',
+        controllerAs: 'cuenta'
       })
       .when('/orden_pago/ver_todos', {
         templateUrl: 'views/orden_pago/op_view_all.html',
@@ -180,6 +187,16 @@ angular
         templateUrl: 'views/rp/rp_solicitud.html',
         controller: 'RpSolicitudCtrl',
         controllerAs: 'rpSolicitud'
+      })
+      .when('/cdp/cdp_anulacion', {
+        templateUrl: 'views/cdp/cdp_anulacion.html',
+        controller: 'CdpCdpAnulacionCtrl',
+        controllerAs: 'cdpAnulacion'
+      })
+      .when('/rp/rp_solicitud_consulta', {
+        templateUrl: 'views/rp/rp_solicitud_consulta.html',
+        controller: 'RpRpSolicitudConsultaCtrl',
+        controllerAs: 'rpSolicitudConsulta'
       })
       .otherwise({
         redirectTo: '/'

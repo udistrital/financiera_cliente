@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/spec/controllers/plan_cuentas/crear_cuentas.js'],
         tasks: ['newer:jshint:test', 'newer:jscs:test', 'karma']
       },
       styles: {
@@ -402,7 +402,17 @@ module.exports = function (grunt) {
             cwd : 'bower_components/angular-ui-grid',
             src : ['*.eot','*.svg','*.ttf','*.woff'],
             dest : '<%= yeoman.dist %>/styles'
-           }]
+           },{
+             expand : true,
+             cwd : 'bower_components/angular-tree-control/fonts',
+             src : ['*.eot','*.svg','*.ttf','*.woff'],
+             dest : '<%= yeoman.dist %>/styles'
+           },{
+             expand : true,
+             cwd : 'bower_components/angular-tree-control/images',
+             src : ['*.png'],
+             dest : '<%= yeoman.dist %>/images'
+            }]
           },
           styles: {
             expand: true,
@@ -422,7 +432,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
-        'imagemin',
+        // 'imagemin', no se requiere minificar imagenes, la libreria no funciona
         'svgmin'
       ]
     },

@@ -2,11 +2,10 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header" align="center">Plan de Cuentas Maestro</h2>
 
-
-
-
   <div class="col-md-6">
-    <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol"/>    
+    <div ng-if="crearCuentas.plan_maestro!=undefined">
+      <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol" planid="crearCuentas.plan_maestro.Id" />
+    </div>
   </div>
 
   <div class="col-md-6">
@@ -15,12 +14,12 @@
         <h3 class="panel-title">Crear Cuenta Contable</h3>
       </div>
       <div class="panel-body">
-        <form name="cuentas_form" ng-submit="cuentas_form.$valid && crearCuentas.crear_cuenta()">
+        <form name="cuentas_form" ng-submit="cuentas_form.$valid && crearCuentas.crear_cuenta(cuentas_form)">
 
 
           <div class="form-group">
             <label for="clasificacioncuenta">Clasificacion:</label>
-            <select class="form-control" id="naturalezacuenta" ng-model="crearCuentas.nueva_cuenta.NivelClasificacion"  disabled required>
+            <select class="form-control" id="naturalezacuenta" ng-model="crearCuentas.nueva_cuenta.NivelClasificacion" disabled required>
               <option ng-value="crearCuentas.nivel">{{crearCuentas.nivel.Nombre}}</option>
             </select>
           </div>
@@ -46,7 +45,7 @@
 
           <div class="form-group">
             <label for="desccuenta">Descripcion:</label>
-            <textarea class="form-control" id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion"></textarea>
+            <textarea class="form-control " id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion"></textarea>
           </div>
 
           <div class="form-group">
@@ -66,14 +65,13 @@
             <input class="form-control checkbox-inline" type="checkbox" id="disponiblecuenta" ng-model="crearCuentas.nueva_cuenta.Disponible"></label>
           </div>
 
-          <input type="submit" class="btn btn-outline btn-success" value="Confirmar {{cuentas_form.$valid}}">
-          <button type="button" class="btn btn-danger btn-outline" name="button">Cancelar</button>
+
+
+          <input type="submit" class="btn btn-outline btn-success" value="Confirmar">
+          <button type="button" class="btn btn-danger btn-outline" name="button" ng-click="crearCuentas.resetear(cuentas_form)">Cancelar</button>
         </form>
 
         <!--<pre>{{crearCuentas.nueva_cuenta | json}}</pre>!-->
-
-
-
       </div>
     </div>
   </div>

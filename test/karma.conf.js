@@ -53,7 +53,8 @@ module.exports = function(config) {
       'test/mock/**/*.js',
       //'test/spec/**/*.js'
       //'test/spec/controllers/about.js'
-      'test/spec/directives/cuentas_contables/movimientos_contables.js'
+      //'test/spec/directives/cuentas_contables/movimientos_contables.js'
+      'test/spec/controllers/plan_cuentas/crear_cuentas.js'
     ],
 
     // list of files / patterns to exclude

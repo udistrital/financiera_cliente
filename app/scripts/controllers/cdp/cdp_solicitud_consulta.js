@@ -11,34 +11,38 @@ angular.module('financieraClienteApp')
 .factory("solicitud_disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpSolicitudConsultaCtrl', function (solicitud_disponibilidad,financieraRequest,financieraMidRequest, $window, uiGridConstants) {
+  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $window, uiGridConstants,uiGridService) {
     var self = this;
     self.alerta = "";
     self.message = 'Solicitudes de Disponibilidad Presupuestal';
 
     self.gridOptions = {
-      enableFiltering : false,
-      enableSorting : true,
-      treeRowHeaderAlwaysVisible : false,
-      showTreeExpandNoChildren: true,
       enableRowSelection: true,
-      enableSelectAll: true,
-      rowEditWaitInterval :-1,
+      enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
         {field: 'SolicitudDisponibilidad.Numero',  displayName: 'Numero de Solicitud'},
         {field: 'DependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
         {field: 'DependenciaDestino.Nombre',  displayName: 'Dependencia Destino'},
         {field: 'SolicitudDisponibilidad.Vigencia',  displayName: 'Vigencia'},
-        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {
-            field: 'Opciones' ,displayName: 'Opciones',
-            cellTemplate: '<button class="btn" ng-click="grid.appScope.cdpSolicitudConsulta.ver_detalle_sol_disponibilidad(row)"  >ver</button>'
-        }
+        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'}
       ],
       onRegisterApi : function( gridApi ) {
         self.gridApi = gridApi;
       }
+
+    };
+    self.gridOptions_rubros =  {
+      enableRowSelection: true,
+      enableRowHeaderSelection: false,
+       columnDefs : [
+        {field: 'Id',             visible : false},
+        {field: 'Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
+        {field: 'Apropiacion.Rubro.Vigencia',  displayName: 'Vigencia',  cellClass:'alignleft'},
+        {field: 'Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
+        {field: 'Apropiacion.Rubro.Estado',    displayName: 'Estado' },
+        {field: 'MontoParcial',    displayName: 'Monto Parcial' , cellFilter: 'currency' }
+      ]
 
     };
     //cargar datos de las Solicitudes
@@ -48,7 +52,9 @@ angular.module('financieraClienteApp')
 
     });
     //-------------------------------
-
+    self.limpiar_alertas= function(){
+      self.alerta_registro_cdp = "";
+    };
 
     //funcion para actualizar grid
     self.actualiza_solicitudes = function () {
@@ -71,21 +77,55 @@ angular.module('financieraClienteApp')
         financieraMidRequest.post('disponibilidad/', solicitud).then(function(response){
           self.alerta_registro_cdp = response.data;
           angular.forEach(self.alerta_registro_cdp, function(data){
+            if (data === "error" || data === "success"){
 
-            self.alerta = self.alerta + data + "\n";
+            }else{
+              self.alerta = self.alerta + data + "\n";
+            }
+
 
           });
-          swal("Alertas", self.alerta, self.alerta_registro_cdp[0]);
+          swal("Alertas", self.alerta, self.alerta_registro_cdp[0]).then(function(){
+
+                self.alerta = "";
+              });
           //alert(data);
         });
     };
-
+    self.gridOptions.multiSelect = false;
     //ver el detalle de la solicitud
-     self.ver_detalle_sol_disponibilidad = function(row){
-        self.solicitud_disponibilidad = solicitud_disponibilidad;
-        self.solicitud_disponibilidad.Id = row.entity.SolicitudDisponibilidad.Id;
-        self.solicitud_disponibilidad.Necesidad = row.entity.SolicitudDisponibilidad.Necesidad.Id;
-        $window.location.href = '#/cdp/cdp_solicitud_detalle';
-     };
+    self.gridOptions.onRegisterApi = function(gridApi){
+      self.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        $("#myModal").modal();
+        $scope.apropiacion= undefined;
+
+      		self.data = row.entity;
+          console.log(self.data);
+        argoRequest.get('fuente_financiacion_rubro_necesidad','query=SolicitudNecesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
+      		self.gridOptions_rubros.data = response.data;
+          angular.forEach(self.gridOptions_rubros.data, function(data){
+            financieraRequest.get('apropiacion','limit=1&query=Id:'+data.Apropiacion).then(function(response) {
+
+
+              data.Apropiacion = response.data[0];
+
+            });
+            });
+      	});
+        self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
+      });
+
+    };
+    self.gridOptions_rubros.multiSelect = false;
+    self.gridOptions_rubros.onRegisterApi = function(gridApi){
+      //set gridApi on scope
+      self.gridApi_rubros = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope,function(row){
+        $scope.apropiacion = row.entity;
+        console.log(row.entity);
+        $scope.apropiacion_id = row.entity.Apropiacion.Id;
+      });
+    };
      //-----------------------------
   });

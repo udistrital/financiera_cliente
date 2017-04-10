@@ -134,7 +134,65 @@
 
       </div>
   </div>
+  <!--detalle rubro-->
+  <div class="panel panel-success">
+      <div class="panel-heading" ng-click="panelDetalleRubro = !panelDetalleRubro">
+          <h4>Detalle Rubro <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+      </div>
+      <div ng-show="panelDetalleRubro" class="panel-body">
+        <table class="table">
+          <thead>
+            <th>Código</th>
+            <th>Vigencia</th>
+            <th>Descripción</th>
+            <!--<th>Registro presupuestal</th>
+            <th>Valor</th>
+          <thead>
+          <th>Saldo</th>-->
+          <tbody ng-repeat="i in d_opProveedorVerPorId.rubros">
+            <tr>
+              <td>{{i.Codigo}}</td>
+              <td>{{i.Vigencia}}</td>
+              <td>{{i.Descripcion}}</td>
+              <!--<td></td>
+              <td></td>
+              <td></td> -->
+            </tr>
+          </tbody>
+        </table>
 
+      </div>
+  </div>
+
+  <!--detalle concepto-->
+  <div class="panel panel-success">
+      <div class="panel-heading" ng-click="panelDetalleConceptos = !panelDetalleConceptos">
+          <h4>Detalle de los Conceptos <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+      </div>
+      <div ng-show="panelDetalleConceptos" class="panel-body"  >
+        <table class="table">
+          <thead>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Tipo</th>
+            <th>Rubro</th>
+            <th>Afectacion</th>
+          <thead>
+          <tbody ng-repeat="i in d_opProveedorVerPorId.conceptos">
+            <tr>
+              <td>{{i.Concepto.Codigo}}</td>
+              <td>{{i.Concepto.Nombre}}</td>
+              <td>{{i.Concepto.Descripcion}}</td>
+              <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
+              <td>{{i.Concepto.Rubro.Codigo}}</td>
+              <td>{{i.Valor}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+  </div>
 
 
 </div>
