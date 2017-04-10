@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function (financieraRequest, agoraRequest) {
+  .directive('opProveedorVerPorId', function (financieraRequest, agoraRequest, coreRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -42,7 +42,27 @@ angular.module('financieraClienteApp')
             $.param({ query: "Id:" + beneficiario_id,})
           ).then(function(response) {
               self.proveedor = response.data;
+              // datos banco
+              self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
+              //datos telefono
+              self.get_tel_provee(self.proveedor[0].Id)
             });
+        }
+        //
+        self.get_info_banco = function(id_banco){
+          coreRequest.get('banco',
+          $.param({query: "Id:" + id_banco,
+          })).then(function(response) {
+            self.banco_proveedor = response.data[0];
+          });
+        }
+        //
+        self.get_tel_provee = function(id_prove){
+          agoraRequest.get('proveedor_telefono',
+          $.param({query: "Id:" + id_prove,
+          })).then(function(response) {
+            self.tel_proveedor = response.data[0];
+          });
         }
         // Function calcular iva
         self.calcularIva = function(valor_base, iva){
