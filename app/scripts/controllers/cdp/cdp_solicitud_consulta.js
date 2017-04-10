@@ -47,6 +47,7 @@ angular.module('financieraClienteApp')
     };
     //cargar datos de las Solicitudes
     financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
+      self.gridOptions.data.length = 0;
       self.gridOptions.data = response.data;
 
 
@@ -59,6 +60,7 @@ angular.module('financieraClienteApp')
     //funcion para actualizar grid
     self.actualiza_solicitudes = function () {
       financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
+        self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
 
 
@@ -88,6 +90,8 @@ angular.module('financieraClienteApp')
           swal("Alertas", self.alerta, self.alerta_registro_cdp[0]).then(function(){
 
                 self.alerta = "";
+                $("#myModal").modal('hide');
+                $window.location.reload();
               });
           //alert(data);
         });

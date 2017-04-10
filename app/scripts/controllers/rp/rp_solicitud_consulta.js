@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function ($scope,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function ($scope,$window,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
     var self = this;
     self.alertas = "";
     self.gridOptions = {
@@ -39,6 +39,7 @@ angular.module('financieraClienteApp')
     };
     self.actualizar_solicitudes = function(){
       financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp','').then(function(response) {
+        self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
 
 
@@ -62,7 +63,7 @@ angular.module('financieraClienteApp')
           argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
 	  console.log(response.data);
           self.gridOptions_rubros.data = response.data;
-	  
+
           angular.forEach(self.gridOptions_rubros.data, function(rubro){
             financieraRequest.get('disponibilidad_apropiacion','limit=1&query=Id:'+rubro.DisponibilidadApropiacion).then(function(response) {
               angular.forEach(response.data, function(data){
@@ -110,9 +111,11 @@ angular.module('financieraClienteApp')
           Responsable : self.data.DatosDisponibilidad.Responsable,
           Estado : estado,
           Beneficiario : self.data.DatosProveedor.Id,
-          Compromiso: self.data.DatosCompromiso
+          Compromiso: self.data.DatosCompromiso,
+          Solicitud: self.data.Id,
+          DatosSolicitud: self.data
         };
-	var rubros = []; 
+	var rubros = [];
 	for (var i = 0 ; i < self.gridOptions_rubros.data.length ; i++){
 	   self.gridOptions_rubros.data[i].DisponibilidadApropiacion.ValorAsignado = self.gridOptions_rubros.data[i].Monto;
            rubros.push(self.gridOptions_rubros.data[i].DisponibilidadApropiacion);
@@ -126,14 +129,23 @@ angular.module('financieraClienteApp')
         self.alerta_registro_rp = response.data;
         angular.forEach(self.alerta_registro_rp, function(data){
 
-          self.alerta = self.alerta + data + "\n";
+          if (data === "error" || data === "success"){
+
+          }else{
+            self.alerta = self.alerta + data + "\n";
+          }
 
         });
-        swal("Alertas", self.alerta, self.alerta_registro_rp[0]);
+        swal("Alertas", self.alerta, self.alerta_registro_rp[0]).then(function(){
+
+              self.alerta = "";
+              $("#myModal").modal('hide');
+              $window.location.reload();
+            });
         //alert(data);
         //self.limpiar();
         //console.log(registro);
-        console.log(response.data);
+
         });
 
 
