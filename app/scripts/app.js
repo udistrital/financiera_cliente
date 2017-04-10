@@ -170,6 +170,16 @@ angular
         controller: 'OpProveedorVerPorIdCtrl',
         controllerAs: 'opProveedorVerPorId'
       })
+      .when('/rp_solicitud_personas', {
+        templateUrl: 'views/rp/rp_solicitud_personas.html',
+        controller: 'RpSolicitudPersonasCtrl',
+        controllerAs: 'rpSolicitudPersonas'
+      })
+      .when('/rp_solicitud', {
+        templateUrl: 'views/rp/rp_solicitud.html',
+        controller: 'RpSolicitudCtrl',
+        controllerAs: 'rpSolicitud'
+      })
       .otherwise({
         redirectTo: '/'
       });
