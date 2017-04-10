@@ -59,6 +59,12 @@ angular.module('financieraClienteApp')
          "Nombre": "Detalle de RP",
          "Url": "rp/rp_detalle",
          "Opciones": null
+       },
+       { //Detalle de RP
+         "Id": 1,
+         "Nombre": "Solicitud de RP",
+         "Url": "rp_solicitud_personas",
+         "Opciones": null
        }
      ]
    },

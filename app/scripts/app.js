@@ -40,7 +40,8 @@ angular
     'pascalprecht.translate',
     'financieraMidService',
     'agoraService',
-    'uiGridService'
+    'uiGridService',
+    'adminMidService'
   ])
 
   .run(function(amMoment) {
