@@ -39,13 +39,13 @@ angular.module('financieraClienteApp')
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
               $scope.rubros = [];
+              $scope.apropiacion_ids = [];
               $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
               $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
               angular.forEach($scope.rubros_seleccion, function(rr){
                 $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
+                $scope.apropiacion_ids.push(rr.DisponibilidadApropiacion.Apropiacion.Id)
               })
-              $scope.apropiacion_id = row.entity.DisponibilidadApropiacion.Apropiacion.Id;
-              //
             });
           };
         // refrescar
