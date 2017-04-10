@@ -10,9 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('RpSolicitudPersonasCtrl', function($window, rp, $scope, financieraRequest, $routeParams, adminMidRequest) {
     var self = this;
-    //self.solicitudPersonas=solicitudPersonas;
     var query;
-    var bandera = false;
     $scope.vigencias = [2017, 2016];
     $scope.vigenciaModel = null;
     $scope.busquedaSinResultados = false;
