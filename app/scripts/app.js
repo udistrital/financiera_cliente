@@ -183,7 +183,7 @@ angular
         controller: 'RpSolicitudPersonasCtrl',
         controllerAs: 'rpSolicitudPersonas'
       })
-      .when('/rp_solicitud', {
+      .when('/rp/rp_solicitud/:contrato/:vigencia/:valor/:documento/:nombre', {
         templateUrl: 'views/rp/rp_solicitud.html',
         controller: 'RpSolicitudCtrl',
         controllerAs: 'rpSolicitud'
