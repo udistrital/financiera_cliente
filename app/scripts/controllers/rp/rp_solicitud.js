@@ -209,7 +209,7 @@ angular.module('financieraClienteApp')
               cancelButtonText: "Salir",
             }).then(function() {
               //si da click en ir a contratistas
-              $window.location.href = '/#/rp_solicitud_personas';
+              $window.location.href = 'kronos/#/rp_solicitud_personas';
             }, function(dismiss) {
 
               if (dismiss === 'cancel') {
