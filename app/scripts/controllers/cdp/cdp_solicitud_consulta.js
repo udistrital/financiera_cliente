@@ -79,7 +79,7 @@ angular.module('financieraClienteApp')
         financieraMidRequest.post('disponibilidad/', solicitud).then(function(response){
           self.alerta_registro_cdp = response.data;
           angular.forEach(self.alerta_registro_cdp, function(data){
-            if (data === "error" || data === "success"){
+            if (data === "error" || data === "success" || data == undefined){
 
             }else{
               self.alerta = self.alerta + data + "\n";
