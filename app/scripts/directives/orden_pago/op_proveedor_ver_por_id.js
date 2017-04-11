@@ -34,7 +34,8 @@ angular.module('financieraClienteApp')
                 self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
                 //detalle concepto
                 self.detalle_concepto(self.orden_pago[0].Id)
-
+                // detalle Cuentes contables
+                self.detalle_cuentas_contables(self.orden_pago[0].Id)
             });
           }
         })
@@ -107,6 +108,30 @@ angular.module('financieraClienteApp')
             hash[current.Id] = true;
             return exists;
           });
+        }
+        // Funcion detall cuentas contables
+        self.detalle_cuentas_contables = function(orden_pago_id){
+          financieraRequest.get('movimiento_contable',
+            $.param({
+                query: "TipoDocumentoAfectante.Id:1,CodigoDocumentoAfectante:" + orden_pago_id,
+                limit: 0,
+            })).then(function(response) {
+              self.movimientos = response.data;
+              //
+              self.agrupar_movimiento_por_concepto(self.movimientos)
+          });
+        }
+        // Funcion organizar movimiento contables agrupados por concepto
+        self.agrupar_movimiento_por_concepto = function(movimientos){
+          self.agrupado = {};
+          angular.forEach(movimientos, function(movimiento){
+            if (self.agrupado[movimiento.ConceptoCuentaContable.Concepto.Id] == undefined){
+              self.agrupado[movimiento.ConceptoCuentaContable.Concepto.Id] = [movimiento]
+            }else{
+              self.agrupado[movimiento.ConceptoCuentaContable.Concepto.Id].push(movimiento)
+            }
+          })
+          console.log(self.agrupado);
         }
       //
       },
