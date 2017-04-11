@@ -10,7 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('RpRpSolicitudConsultaCtrl', function ($scope,$window,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
     var self = this;
-    self.alertas = "";
+    self.alerta = "";
     self.gridOptions = {
       enableRowSelection: true,
       enableRowHeaderSelection: false,
@@ -129,7 +129,7 @@ angular.module('financieraClienteApp')
         self.alerta_registro_rp = response.data;
         angular.forEach(self.alerta_registro_rp, function(data){
 
-          if (data === "error" || data === "success"){
+          if (data === "error" || data === "success" || data === undefined){
 
           }else{
             self.alerta = self.alerta + data + "\n";
