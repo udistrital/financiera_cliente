@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
     self.Nombre = $routeParams.nombre;
     self.Valor = $routeParams.valor;
     self.Documento = $routeParams.documento;
-
+    $scope.rubroVacio=false;
     self.CurrentDate = new Date();
     self.alertas = false;
     self.alerta = "";
@@ -25,9 +25,6 @@ angular.module('financieraClienteApp')
     self.rubros_seleccionados = [];
     self.rubros_select = [];
 
-
-    /*prueba*/
-    /*prueba*/
 
 
     self.gridOptions_compromiso = {
@@ -58,15 +55,6 @@ angular.module('financieraClienteApp')
     financieraRequest.get('compromiso', 'limit=0').then(function(response) {
       self.gridOptions_compromiso.data = response.data;
     });
-
-    /*
-    self.gridOptions_compromiso.onRegisterApi = function(gridApi){
-      self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.compromiso = row.entity;
-        console.log($scope.compromiso);
-      });
-    };*/
 
 
     self.proveedor = {
@@ -109,13 +97,17 @@ angular.module('financieraClienteApp')
 
     self.agregarRubro = function(id) {
       var rubro_seleccionado = self.DescripcionRubro(id);
-      self.rubros_seleccionados.push(rubro_seleccionado);
-      for (var i = 0; i < self.rubros.length; i++) {
+      if(rubro_seleccionado!=undefined){
+        self.rubros_seleccionados.push(rubro_seleccionado);
+        for (var i = 0; i < self.rubros.length; i++) {
 
-        if (self.rubros[i].Id == id) {
-          self.rubros_select.push(rubro_seleccionado);
-          self.rubros.splice(i, 1)
+          if (self.rubros[i].Id == id) {
+            self.rubros_select.push(rubro_seleccionado);
+            self.rubros.splice(i, 1)
+          }
         }
+      }else{
+        swal("Alertas", "Debe seleccionar un rubro para agregar", "error");
       }
     }
 
