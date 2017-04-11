@@ -28,6 +28,8 @@ angular.module('financieraClienteApp')
                 self.orden_pago = response.data;
                 // proveedor
                 self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
+                // detalle rp
+                self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
                 //Iva
                 self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
                 //detalle concepto
@@ -64,6 +66,21 @@ angular.module('financieraClienteApp')
             self.tel_proveedor = response.data[0];
           });
         }
+        // Function detalle rp
+        self.detalle_rp = function(rp_id){
+          financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
+            $.param({
+                query: "RegistroPresupuestal.Id:" + rp_id,
+            })).then(function(response) {
+              self.rp_detalle = response.data;
+          });
+          //Valor total del Rp
+          financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
+            .then(function(response) {
+              self.valor_total_rp = response.data;
+          });
+        }
+
         // Function calcular iva
         self.calcularIva = function(valor_base, iva){
           self.ValorIva = ( parseInt(valor_base) * (parseInt(iva)/100) );

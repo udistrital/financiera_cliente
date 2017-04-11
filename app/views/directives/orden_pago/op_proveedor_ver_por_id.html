@@ -74,31 +74,39 @@
       <div class="panel-heading" ng-click="panelRp = !panelRp">
           <h4>Detalle RP <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
       </div>
-      <div ng-show="panelRp" class="panel-body"  >
+      <div ng-show="panelRp" class="panel-body">
         <table class="table">
           <tr>
             <th>Vigencia</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.Vigencia}}</td>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Vigencia}}</td>
+          </tr>
+          <tr>
+            <th>Estado</th>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Estado.Nombre}}</td>
           </tr>
           <tr>
             <th>Num. RP</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</td>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</td>
           </tr>
           <tr>
             <th>Responsable</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.Responsable}}</td>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Responsable}}</td>
           </tr>
           <tr>
             <th>Valor RP</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].Valor}}</td>
+            <td>{{d_opProveedorVerPorId.valor_total_rp | currency}}</td>
           </tr>
           <tr>
             <th>Número Disponibilidad Presupuestal (CDP)</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</td>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</td>
           </tr>
           <tr>
-            <th>Objeto Disponibilidad</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].DisponibilidadApropiacion.Disponibilidad.Objeto}}</td>
+            <th>Compromiso</th>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</td>
+          </tr>
+          <tr>
+            <th>Descripción Compromiso</th>
+            <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Compromiso.Objeto}}</td>
           </tr>
         </table>
       </div>
