@@ -3,7 +3,7 @@
   <div class="col-sm-5">
     <div class="panel panel-default">
       <div class="panel-heading" ng-click="panelCdp = !panelCdp">
-        <h4>Selección de CDP
+        <h4>{{'CDP_PANEL' | translate }}
             <span style="float:right" class="glyphicon glyphicon-chevron-down" ng-show="!panelCdp"></span>
             <span style="float:right" class="glyphicon glyphicon-chevron-up" ng-show="panelCdp"></span>
           </h4>
@@ -14,7 +14,7 @@
     </div>
     <div class="panel panel-default class">
       <div class="panel-heading" ng-click="panelApro = !panelApro">
-        <h4>Selección de compromiso
+        <h4>{{'COMPROMISO_PANEL' | translate }}
               <span style="float:right" class="glyphicon glyphicon-chevron-down" ng-show="!panelApro"></span>
               <span style="float:right" class="glyphicon glyphicon-chevron-up" ng-show="panelApro"></span>
             </h4>
@@ -29,16 +29,16 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h4>Solicitud de RP</h4>
+        <h4>{{'SOLICITUD_RP_PANEL' | translate }}</h4>
       </div>
       <div ng-show=" rpSolicitud.proveedor" class="panel-body row">
         <div class="col-sm-6">
-          <h3>Beneficiario</h3>
+          <h3>{{'BENEFICIARIO' | translate}}</h3>
           <table name="info_beneficiario" class="table">
             <tbody>
               <tr>
                 <th>
-                  Nombre:
+                  {{'NOMBRE_CONTRATISTA' | translate}}:
                 </th>
                 <td>
                   {{rpSolicitud.Nombre}}
@@ -46,7 +46,7 @@
               </tr>
               <tr>
                 <th>
-                  Documento:
+                  {{'DOCUMENTO_CONTRATISTA' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.Documento}}
@@ -58,12 +58,12 @@
         </div>
 
         <div class="col-sm-6">
-          <h3>Contrato</h3>
+          <h3>{{'CONTRATO' | translate}}</h3>
           <table name="info_beneficiario" class="table">
             <tbody>
               <tr>
                 <th>
-                  Numero contrato:
+                  {{'NUMERO_CONTRATO' | translate}}:
                 </th>
                 <td>
                   {{rpSolicitud.Contrato}}
@@ -71,7 +71,7 @@
               </tr>
               <tr>
                 <th>
-                  Vigencia:
+                  {{'VIGENCIA_CONTRATO' | translate}}:
                 </th>
                 <td>
                   {{rpSolicitud.Vigencia}}
@@ -79,7 +79,7 @@
               </tr>
               <tr>
                 <th>
-                  Valor contrato:
+                  {{'VALOR_CONTRATO' | translate}}:
                 </th>
                 <td>
                   {{rpSolicitud.Valor | currency}}
@@ -91,12 +91,12 @@
         </div>
 
         <div class="col-sm-6">
-          <h3>CDP</h3>
+          <h3>{{'CDP' | translate}}</h3>
           <table name="info_beneficiario" class="table">
             <tbody>
               <tr>
                 <th>
-                  Consecutivo:
+                  {{'CDP_CONSECUTIVO' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.cdp.NumeroDisponibilidad}}
@@ -104,7 +104,7 @@
               </tr>
               <tr>
                 <th>
-                  Objeto:
+                  {{'CDP_OBJETIVO' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}
@@ -112,7 +112,7 @@
               </tr>
               <tr>
                 <th>
-                  Ordenador:
+                  {{'CDP_ORDENADOR' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.cdp.Solicitud.DependenciaSolicitante.OrdenadorGasto.PrimerNombre+" "+ rpSolicitud.cdp.Solicitud.DependenciaSolicitante.OrdenadorGasto.PrimerApellido}}
@@ -123,12 +123,12 @@
           </table>
         </div>
         <div class="col-sm-6">
-          <h3>Compromiso</h3>
+          <h3>{{'COMPROMISO' | translate}}</h3>
           <table name="info_compromiso" class="table">
             <tbody>
               <tr>
                 <th>
-                  Vigencia:
+                  {{'COMPROMISO_ID' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.compromiso.Id}}
@@ -136,7 +136,7 @@
               </tr>
               <tr>
                 <th>
-                  Vigencia:
+                  {{'COMPROMISO_VIGENCIA' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.compromiso.Vigencia}}
@@ -144,7 +144,7 @@
               </tr>
               <tr>
                 <th>
-                  Tipo Compromiso:
+                  {{'COMPROMISO_TIPO' | translate}}
                 </th>
                 <td>
                   {{rpSolicitud.compromiso.TipoCompromisoTesoral.Nombre}}
@@ -186,7 +186,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <label>Saldo del CDP</label>
+                    <label>{{'SALDO_RP',translate}}</label>
                   </div>
                   <div class="col-md-6">
                     <input id="saldo_apropiacion" name="saldo_apropiacion" disabled type="text" ui-money-mask="0" placeholder="Saldo" class="form-control input-md currency" required="" ng-model="rubro.Saldo">
@@ -195,14 +195,16 @@
                 <br>
                 <div class="row">
                   <div class="col-md-4">
-                    <label>Valor del RP</label>
+                    <label>{{'VALOR_RP' ,translate}}</label>
                   </div>
                   <div class="col-md-6">
                     <input id="valor_rp" name="valor_rp" type="text" ui-money-mask="0" placeholder="Valor" class="form-control input-md" required="true" ng-model="rubro.ValorAsignado">
                   </div>
                 </div>
                 <div class="col-md-8">
-                  <button name="btn_quitar_rbr" class="btn btn-default" ng-click="rpSolicitud.quitarRubro(rubro.Id)">Quitar</button>
+                  <button name="btn_quitar_rbr" class="btn btn-default" ng-click="rpSolicitud.quitarRubro(rubro.Id)">
+                    {{'BTN.QUITAR_RUBRO' | translate}}
+                  </button>
                 </div>
               </div>
             </div>
@@ -211,7 +213,9 @@
         <br><br><br>
         </form>
         <div class="col-md-3 col-md-offset-3">
-          <button id="btn_registrar" name="btn_registrar" class="btn btn-outline btn-success" ng-click="rpSolicitud.Registrar()">Registrar</button>
+          <button id="btn_registrar" name="btn_registrar" class="btn btn-outline btn-success" ng-click="rpSolicitud.Registrar()">
+            {{'BTN.REGISTRAR' | translate}}
+          </button>
         </div>
       </div>
 

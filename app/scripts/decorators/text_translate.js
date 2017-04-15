@@ -34,11 +34,40 @@ var text_es = {
     SELECCIONAR: "Seleccionar",
     CANCELAR: "Cancelar",
     CONFIRMAR: "Confirmar",
-    AGREGAR: "Agregar"
+    AGREGAR: "Agregar",
+    REGISTRAR: "Registrar",
+    SOLICITAR_RP:"Solicitar RP",
+    QUITAR_RUBRO: "Quitar",
   },
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
-  DATOS_RP:"Datos del RP"
-
+  DATOS_RP:"Datos del RP",
+  //SOLICITUD RP
+  SOLICITUD_PERSONAS_PANEL:"Contratos para solicitud del registro presupuestal",
+  VIGENCIA_ACTUAL:"Vigencia actual ",
+  VIGENCIA_SELECCIONADA:"Vigencia seleccionada ",
+  CDP_PANEL:"Selección de CDP",
+  COMPROMISO_PANEL:"Selección de compromiso",
+  SOLICITUD_RP_PANEL:"Solicitud registro presupuestal",
+  BENEFICIARIO:"Beneficiario",
+  NOMBRE_CONTRATISTA: "Nombre",
+  DOCUMENTO_CONTRATISTA: "Documento",
+  CONTRATO: "Contrato",
+  NUMERO_CONTRATO: "Numero",
+  VIGENCIA_CONTRATO: "Vigencia",
+  VALOR_CONTRATO: "Valor contrato",
+  CONSECUTIVO_ID: "Consecutivo id",
+  CONSECUTIVO_OBJETO:"Objeto",
+  CONSECUTIVO_ORDENADOR:"Ordenador",
+  COMPROMISO: "Compromiso",
+  COMPROMISO_ID:"Id",
+  COMPROMISO_VIGENCIA:"Vigencia",
+  COMPROMISO_TIPO:"Tipo",
+  VALOR_RP:"Valor registro presupuestal",
+  SALDO_RP:"Saldo registro presupuestal",
+  CDP:"CDP",
+  CDP_CONSECUTIVO:"Consecutivo",
+  CDP_OBJETIVO:"Objetivo",
+  CDP_ORDENADOR:"Ordenador",
 };
 
 var text_en = {

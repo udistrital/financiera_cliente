@@ -3,17 +3,17 @@
   <div class="panel-body">
     <div class="panel panel-primary">
       <div class="panel-heading" >
-        <h3>Contratos para solicitud del registro presupuestal</h3>
+        <h3>{{'SOLICITUD_PERSONAS_PANEL' | translate}}</h3>
       </div>
     </div>
     <div class="panel panel-body">
       <div class="row">
         <div class="col-md-2 col-md-offset-3">
           <div ng-if="vigenciaModel=== null">
-            <label>Vigencia actual: <b>2017</b> </label>
+            <label>{{'VIGENCIA_ACTUAL' | translate}} <b>2017</b> </label>
           </div>
           <div ng-if="vigenciaModel !== null">
-            <label>Vigencia seleccionada: <b>{{vigenciaModel}}</b> </label>
+            <label>{{'VIGENCIA_SELECCIONADA' | translate}}<b>{{vigenciaModel}}</b> </label>
           </div>
         </div>
 
@@ -40,7 +40,9 @@
         <tr>
           <td align="center">
             <br><br>
-            <button ng-click="rpSolicitudPersonas.mostrar_estadisticas()"  class="btn btn-primary btn-lg " ng-disabled="preliquidacionPersonas.saving"> <i class="" ng-show="preliquidacionPersonas.saving"></i>Solicitar RP</button>
+            <button ng-click="rpSolicitudPersonas.mostrar_estadisticas()"  class="btn btn-primary btn-lg " ng-disabled="preliquidacionPersonas.saving"> <i class="" ng-show="preliquidacionPersonas.saving"></i>
+              {{'BTN.SOLICITAR_RP' | translate }}
+            </button>
           </td>
         </tr>
       </table>
