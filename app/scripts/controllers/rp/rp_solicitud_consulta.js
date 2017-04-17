@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
     self.gridOptions = {
       enableRowSelection: true,
       enableRowHeaderSelection: false,
+      enableFiltering : true,
       columnDefs : [
         {field: 'Id',              displayName: 'Numero'},
         {field: 'Vigencia',  displayName: 'Vigencia'},
