@@ -17,22 +17,16 @@ angular.module('financieraClienteApp')
      "Nombre": "CDP",
      "Url": "",
      "Opciones": [
+       { //solicitud_consulta de CDP
+         "Id": 1,
+         "Nombre": "Solicitudes de CDP",
+         "Url": "cdp/cdp_solicitud_consulta",
+         "Opciones": null
+       },
        { //Detalle de CDP
          "Id": 1,
          "Nombre": "Consulta de CDP",
          "Url": "cdp/cdp_consulta",
-         "Opciones": null
-       },
-       { //solicitud_consulta de CDP
-         "Id": 1,
-         "Nombre": "Consulta de Solicitud",
-         "Url": "cdp/cdp_solicitud_consulta",
-         "Opciones": null
-       },
-       { //solicitud_consulta de CDP
-         "Id": 1,
-         "Nombre": "Detalle de Solicitud",
-         "Url": "cdp/cdp_solicitud_detalle",
          "Opciones": null
        }
      ]
@@ -87,6 +81,12 @@ angular.module('financieraClienteApp')
      "Nombre": "RP",
      "Url": "",
      "Opciones": [
+       { //Consulta de solicitud de RP
+         "Id": 1,
+         "Nombre": "Solicitudes de RP",
+         "Url": "rp/rp_solicitud_consulta",
+         "Opciones": null
+       },
        { //Consulta de RP
          "Id": 1,
          "Nombre": "Consulta de RP",
@@ -97,18 +97,6 @@ angular.module('financieraClienteApp')
          "Id": 1,
          "Nombre": "Registro de RP",
          "Url": "rp/rp_registro",
-         "Opciones": null
-       },
-       { //Detalle de RP
-         "Id": 1,
-         "Nombre": "Detalle de RP",
-         "Url": "rp/rp_detalle",
-         "Opciones": null
-       },
-       { //Detalle de RP
-         "Id": 1,
-         "Nombre": "Solicitud de RP",
-         "Url": "rp_solicitud_personas",
          "Opciones": null
        }
      ]
