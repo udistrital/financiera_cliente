@@ -131,7 +131,7 @@ angular.module('financieraClienteApp')
               self.agrupado[movimiento.ConceptoCuentaContable.Concepto.Id].push(movimiento)
             }
           })
-          console.log(self.agrupado);
+          //console.log(self.agrupado);
         }
       //
       },
