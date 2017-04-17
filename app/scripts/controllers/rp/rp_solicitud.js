@@ -143,9 +143,16 @@ angular.module('financieraClienteApp')
 
     $scope.saldosValor = function() {
       $scope.banderaRubro = true;
+      var i=0;
       angular.forEach(self.rubros_seleccionados, function(v) {
-        console.log(v);
-        if (v.Saldo < v.ValorAsignado) {
+        i=+1;
+        console.log(i);
+        console.log("aca el valor asignado");
+        console.log(self.rubros_seleccionados);
+        console.log(v.ValorAsignado);
+        console.log("aca el valor asignado");
+        if (v.Saldo < v.ValorAsignado || v.ValorAsignado===0 ||                                                                                                                                                                                                                                                                                                                              isNaN(v.ValorAsignado) || v.ValorAsignado === undefined) {
+          console.log(v.ValorAsignado);
           $scope.banderaRubro = false;
         }
       });
@@ -163,9 +170,16 @@ angular.module('financieraClienteApp')
       } else if (self.compromiso == null) {
         swal("Alertas", "debe seleccionar el Compromiso del RP", "error");
         self.alerta_registro_rp = ["Debe seleccionar el Compromiso del RP"];
-      } else {
+      } else if ($scope.banderaRubro === false) {
+        swal({
+          title: 'Errorrr!',
+          text: 'Valor incorrecto del registro presupuestal',
+          type: 'error',
+          confirmButtonText: 'Corregir'
+        })
+      }
+      else {
 
-        console.log(self.rp);
         for (var i = 0; i < self.rubros_seleccionados.length; i++) {
           self.rubros_seleccionados[i].ValorAsignado = parseFloat(self.rubros_seleccionados[i].ValorAsignado);
         }
@@ -180,7 +194,6 @@ angular.module('financieraClienteApp')
           Compromiso: self.compromiso.Id
         }
 
-        if ($scope.banderaRubro) {
           administrativaRequest.post('solicitud_rp', SolicitudRp).then(function(response) {
             for (var i = 0; i < self.rubros_seleccionados.length; i++) {
               var Disponibilidad_apropiacion_solicitud_rp = {
@@ -219,14 +232,6 @@ angular.module('financieraClienteApp')
             })
 
           });
-        } else {
-          swal({
-            title: 'Error!',
-            text: 'Valor incorrecto del registro presupuestal',
-            type: 'error',
-            confirmButtonText: 'Corregir'
-          })
-        }
       }
     };
 
