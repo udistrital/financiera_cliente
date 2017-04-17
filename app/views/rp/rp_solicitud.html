@@ -186,7 +186,7 @@
               <div class="panel-body">
                 <div class="row">
                   <div class="col-md-4">
-                    <label>{{'SALDO_RP',translate}}</label>
+                    <label>{{'SALDO_RP' | translate}}</label>
                   </div>
                   <div class="col-md-6">
                     <input id="saldo_apropiacion" name="saldo_apropiacion" disabled type="text" ui-money-mask="0" placeholder="Saldo" class="form-control input-md currency" required="" ng-model="rubro.Saldo">
@@ -195,7 +195,7 @@
                 <br>
                 <div class="row">
                   <div class="col-md-4">
-                    <label>{{'VALOR_RP' ,translate}}</label>
+                    <label>{{'VALOR_RP' | translate}}</label>
                   </div>
                   <div class="col-md-6">
                     <input id="valor_rp" name="valor_rp" type="text" ui-money-mask="0" placeholder="Valor" class="form-control input-md" required="true" ng-model="rubro.ValorAsignado">
