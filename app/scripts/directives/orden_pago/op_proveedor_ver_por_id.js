@@ -34,8 +34,6 @@ angular.module('financieraClienteApp')
                 self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
                 //detalle concepto
                 self.detalle_concepto(self.orden_pago[0].Id)
-                // detalle Cuentes contables
-                self.detalle_cuentas_contables(self.orden_pago[0].Id)
             });
           }
         })

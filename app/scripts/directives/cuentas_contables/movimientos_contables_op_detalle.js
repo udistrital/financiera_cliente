@@ -87,6 +87,8 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
                 //self.gridOptions_movimientos.data = response.data
                 self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data)
+                $scope.gridHeight = self.gridOptions_movimientos.rowHeight * 2 + (self.gridOptions_movimientos.data.length * self.gridOptions_movimientos.rowHeight);
+
             });
           }
         })
