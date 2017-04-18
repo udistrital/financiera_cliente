@@ -33,7 +33,7 @@ angular.module('financieraClienteApp')
         agoraRequest.get('informacion_proveedor',
         $.param({
           query: "Estado.ValorParametro:ACTIVO",
-          limit:0
+          limit:-1
         })).then(function(response) {
           self.gridOptions_proveedor.data = response.data;
         });
