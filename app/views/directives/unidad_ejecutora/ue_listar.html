@@ -1,6 +1,8 @@
-<div class="panel panel-primary">
     <div class="panel-heading" ng-click="a=!a">
-        <h4>Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+        <legend class="text-primary">Unidad Ejecutora
+          <span class="fa fa-plus pull-right" ng-click="info_general=true" ng-show="!info_general"></span>
+          <span class="fa fa-minus pull-right" ng-click="info_general=false" ng-show="info_general"></span>
+        </legend class="text-primary">
     </div>
     <div class="panel-body row" ng-show="a">
       <div class="col-md-6">
@@ -33,7 +35,7 @@
                   <td>{{unidaejecutora.Entidad.Nombre}}</td>
                 </tr>
                 <tr>
-                  <th>Entidad Codigo</th>
+                  <th>Entidad Código</th>
                   <td>{{unidaejecutora.Entidad.CodigoEntidad}}</td>
                 </tr>
               </table>
@@ -41,4 +43,3 @@
         </div>
       </div>
     </div>
-</div>
