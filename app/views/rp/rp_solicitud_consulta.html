@@ -37,7 +37,7 @@
             <div class="panel-body">
               <table class="table table-striped">
                 <tr>
-                  <th>Solicitud N°: </th> <td>{{rpSolicitudConsulta.data.Id}}</td>
+                  <th>Solicitud No: </th> <td>{{rpSolicitudConsulta.data.Id}}</td>
                 </tr>
                 <tr>
                   <th>Vigencia: </th> <td>{{rpSolicitudConsulta.data.Vigencia}}</td>
@@ -56,13 +56,13 @@
                 </tr>
 		<tr>
                   <th>Tipo Persona: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.Tipopersona}}</td>
-                </tr>	
+                </tr>
 		<tr>
-                  <th>Documento N°: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
-                </tr>	
+                  <th>No. Documento: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
+                </tr>
 		<tr>
                   <th>Objeto: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
-                </tr>	
+                </tr>
                 <tr>
                   <td><button class="btn btn-danger" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button></td>
                 </tr>
