@@ -36,6 +36,46 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
+        // operar_repetidos
+        self.totalizar_cuentas_repetidas = function(movimientos){
+          self.retornar_movimientos = movimientos;
+          // quitar repetidos
+          var hash = {};
+          self.retornar_movimientos = self.retornar_movimientos.filter(function(current) {
+            var exists = !hash[current.ConceptoCuentaContable.CuentaContable.Codigo] || false;
+            hash[current.ConceptoCuentaContable.CuentaContable.Codigo] = true;
+            return exists;
+          });
+          //
+          $scope.counter  = {};
+          // contar los repetidos
+          movimientos.forEach(function(obj) {
+              var key = obj.ConceptoCuentaContable.CuentaContable.Codigo
+              $scope.counter[key] = ($scope.counter[key] || 0) + 1
+          })
+          // sumar
+          angular.forEach($scope.counter, function(value, key){
+            if(value > 1){
+              var debito = 0;
+              var credito = 0;
+              angular.forEach(movimientos, function(movimiento){
+                if(movimiento.ConceptoCuentaContable.CuentaContable.Codigo == key){
+                  credito = credito + movimiento.Credito;
+                  debito = debito + movimiento.Debito;
+                }
+              })
+              //asigno totales
+              angular.forEach(self.retornar_movimientos,function(mov_sin_repe){
+                if(mov_sin_repe.ConceptoCuentaContable.CuentaContable.Codigo == key){
+                  mov_sin_repe.Credito = credito;
+                  mov_sin_repe.Debito = debito;
+                }
+              })
+              //asigno totales
+            }
+          })
+          return self.retornar_movimientos
+        }
 
         $scope.$watch('codigodocumentoafectante', function(){
           self.refresh();
@@ -45,7 +85,8 @@ angular.module('financieraClienteApp')
                   query: "TipoDocumentoAfectante.Id:1,CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
                   limit: 0,
               })).then(function(response) {
-                self.gridOptions_movimientos.data = response.data;
+                //self.gridOptions_movimientos.data = response.data
+                self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data)
             });
           }
         })
