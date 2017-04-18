@@ -25,7 +25,7 @@ angular.module('financieraClienteApp')
           columnDefs : [
             {field: 'Id',              visible : false},
             {field: 'Tipopersona',     displayName: 'Tipo Persona'},
-            {field: 'NumDocumento',    displayName: 'Num Documento'},
+            {field: 'NumDocumento',    displayName: 'No. Documento'},
             {field: 'NomProveedor',    displayName: 'Nombe'}
           ]
         };
