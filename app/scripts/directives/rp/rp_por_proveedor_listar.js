@@ -25,7 +25,7 @@ angular.module('financieraClienteApp')
 
           columnDefs : [
             {field: 'Id',                             visible : false},
-            {field: 'NumeroRegistroPresupuestal',     displayName: 'Numero RP'},
+            {field: 'NumeroRegistroPresupuestal',     displayName: 'No. RP'},
             {field: 'Estado.Nombre',                  displayName: 'Estado'},
             {field: 'Vigencia',                       displayName: 'Vigencia'}
           ]
