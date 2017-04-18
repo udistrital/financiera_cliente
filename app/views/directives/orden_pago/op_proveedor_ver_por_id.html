@@ -1,10 +1,11 @@
-<!--<pre>{{d_opProveedorVerPorId.orden_pago | json}}</pre>-->
-
 <div class="row">
   <!--detalle Unidad Ejecutora-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
-          <h4>Detalle Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle Unidad Ejecutora
+            <span class="fa fa-plus pull-right" ng-click="info_ue=true" ng-show="!info_ue"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_ue=false" ng-show="info_ue"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelUnidadEjecutora" class="panel-body">
         <table class="table">
@@ -21,16 +22,19 @@
             <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</td>
           </tr>
           <tr>
-            <th>Entidad Codigo</th>
+            <th>Entidad Código</th>
             <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</td>
           </tr>
         </table>
       </div>
   </div>
   <!--detalle Proveedor-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
-          <h4>Detalle Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle Proveedor
+            <span class="fa fa-plus pull-right" ng-click="info_prov=true" ng-show="!info_prov"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_prov=false" ng-show="info_prov"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelProveedor" class="panel-body"  >
         <table class="table">
@@ -39,7 +43,7 @@
             <td>{{d_opProveedorVerPorId.proveedor[0].Tipopersona}}</td>
           </tr>
           <tr>
-            <th>Num. Documento</th>
+            <th>No. Documento</th>
             <td>{{d_opProveedorVerPorId.proveedor[0].NumDocumento}}</td>
           </tr>
           <tr>
@@ -55,7 +59,7 @@
             <td>{{d_opProveedorVerPorId.tel_proveedor.IdTelefono.NumeroTel}}</td>
           </tr>
           <tr>
-            <th>Numero de cuenta</th>
+            <th>Cuenta Bancaria</th>
             <td>{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</td>
           </tr>
           <tr>
@@ -70,9 +74,12 @@
       </div>
   </div>
   <!--Detalle RP-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelRp = !panelRp">
-          <h4>Detalle RP <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle RP
+            <span class="fa fa-plus pull-right" ng-click="info_rp=true" ng-show="!info_rp"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_rp=false" ng-show="info_rp"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelRp" class="panel-body">
         <table class="table">
@@ -85,7 +92,7 @@
             <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Estado.Nombre}}</td>
           </tr>
           <tr>
-            <th>Num. RP</th>
+            <th>No. RP</th>
             <td>{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</td>
           </tr>
           <tr>
@@ -97,7 +104,7 @@
             <td>{{d_opProveedorVerPorId.valor_total_rp | currency}}</td>
           </tr>
           <tr>
-            <th>Número Disponibilidad Presupuestal (CDP)</th>
+            <th>No. Disponibilidad Presupuestal</th>
             <td>{{d_opProveedorVerPorId.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</td>
           </tr>
           <tr>
@@ -112,9 +119,12 @@
       </div>
   </div>
   <!--Valor del Pago-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelDetallePagoProveedor = !panelDetallePagoProveedor">
-          <h4>Detalle del Pago <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+        <legend class="text-primary">Detalle del Pago
+          <span class="fa fa-plus pull-right" ng-click="info_pago=true" ng-show="!info_pago"></span>
+          <span class="fa fa-minus pull-right" ng-click="info_pago=false" ng-show="info_pago"></span>
+        </legend class="text-primary">
       </div>
       <div ng-show="panelDetallePagoProveedor" class="panel-body"  >
         <table class="table">
@@ -143,9 +153,12 @@
       </div>
   </div>
   <!--detalle rubro-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelDetalleRubro = !panelDetalleRubro">
-          <h4>Detalle Rubro <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle Rubro
+            <span class="fa fa-plus pull-right" ng-click="info_rubro=true" ng-show="!info_rubro"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_rubro=false" ng-show="info_rubro"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelDetalleRubro" class="panel-body">
         <table class="table">
@@ -173,9 +186,12 @@
   </div>
 
   <!--detalle concepto-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelDetalleConceptos = !panelDetalleConceptos">
-          <h4>Detalle de los Conceptos <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle de los Conceptos
+            <span class="fa fa-plus pull-right" ng-click="info_concep=true" ng-show="!info_concep"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_concep=false" ng-show="info_concep"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelDetalleConceptos" class="panel-body"  >
         <table class="table">
@@ -202,9 +218,12 @@
       </div>
   </div>
   <!--detalle Cuenta Contable-->
-  <div class="panel panel-success">
+  <div>
       <div class="panel-heading" ng-click="panelDetalleCuentas = !panelDetalleCuentas">
-          <h4>Detalle Cuentas Contables <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+          <legend class="text-primary">Detalle Cuentas Contables
+            <span class="fa fa-plus pull-right" ng-click="info_movimientos=true" ng-show="!info_movimientos"></span>
+            <span class="fa fa-minus pull-right" ng-click="info_movimientos=false" ng-show="info_movimientos"></span>
+          </legend class="text-primary">
       </div>
       <div ng-show="panelDetalleCuentas" class="panel-body">
         <movimientos-contables-op-detalle codigodocumentoafectante="d_opProveedorVerPorId.orden_pago[0].Id">
