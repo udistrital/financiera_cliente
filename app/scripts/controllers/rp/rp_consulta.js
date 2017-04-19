@@ -64,6 +64,7 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $("#myModal").modal();
         $scope.apropiacion= undefined;
+        $scope.apropiaciones = [];
         financieraRequest.get('registro_presupuestal','query=Id:'+row.entity.Id).then(function(response) {
 
             self.detalle = response.data;
@@ -79,28 +80,30 @@ angular.module('financieraClienteApp')
               financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion','query=RegistroPresupuestal.Id:'+data.Id).then(function(response) {
                   self.gridOptions_rubros.data = response.data;
                   data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
-                  angular.forEach(self.gridOptions_rubros.data, function(data){
+                  angular.forEach(self.gridOptions_rubros.data, function(rubros_data){
                     var rpdata = {
-                      Rp : data.RegistroPresupuestal,
-                      Apropiacion : data.DisponibilidadApropiacion.Apropiacion
+                      Rp : rubros_data.RegistroPresupuestal,
+                      Apropiacion : rubros_data.DisponibilidadApropiacion.Apropiacion
                     };
                     financieraRequest.post('registro_presupuestal/SaldoRp',rpdata).then(function(response){
-                      data.Saldo  = response.data;
+                      rubros_data.Saldo  = response.data;
                     });
-                    financieraMidRequest.get('disponibilidad/SolicitudById/'+data.DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
+                    financieraMidRequest.get('disponibilidad/SolicitudById/'+rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
                         var solicitud = response.data
                         angular.forEach(solicitud, function(data){
                           self.Necesidad = data.SolicitudDisponibilidad.Necesidad;
+                          console.log(self.Necesidad);
+                          $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
                         });
 
                       });
+
+
                     });
                     self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
                 });
 
             });
-            console.log("detalle:");
-            console.log(self.detalle);
           });
       });
     };

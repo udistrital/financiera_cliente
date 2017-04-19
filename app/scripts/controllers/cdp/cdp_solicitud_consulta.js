@@ -33,19 +33,6 @@ angular.module('financieraClienteApp')
       }
 
     };
-    self.gridOptions_rubros =  {
-      enableRowSelection: true,
-      enableRowHeaderSelection: false,
-       columnDefs : [
-        {field: 'Id',             visible : false},
-        {field: 'Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
-        {field: 'Apropiacion.Rubro.Vigencia',  displayName: 'Vigencia',  cellClass:'alignleft'},
-        {field: 'Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
-        {field: 'Apropiacion.Rubro.Estado',    displayName: 'Estado' },
-        {field: 'MontoParcial',    displayName: 'Monto Parcial' , cellFilter: 'currency' }
-      ]
-
-    };
     //cargar datos de las Solicitudes
     financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
       self.gridOptions.data.length = 0;
@@ -104,33 +91,22 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $("#myModal").modal();
         $scope.apropiacion= undefined;
-
+          $scope.apropiaciones = [];
       		self.data = row.entity;
           console.log(self.data);
         argoRequest.get('fuente_financiacion_rubro_necesidad','query=SolicitudNecesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
-      		self.gridOptions_rubros.data = response.data;
-          angular.forEach(self.gridOptions_rubros.data, function(data){
-            financieraRequest.get('apropiacion','limit=1&query=Id:'+data.Apropiacion).then(function(response) {
 
+          angular.forEach(response.data, function(data){
+            if($scope.apropiaciones.indexOf(data.Apropiacion) !== -1) {
 
-              data.Apropiacion = response.data[0];
-
-            });
+            }else{
+              $scope.apropiaciones.push(data.Apropiacion);
+            }
             });
       	});
-        self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
+
       });
 
-    };
-    self.gridOptions_rubros.multiSelect = false;
-    self.gridOptions_rubros.onRegisterApi = function(gridApi){
-      //set gridApi on scope
-      self.gridApi_rubros = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.apropiacion = row.entity;
-        console.log(row.entity);
-        $scope.apropiacion_id = row.entity.Apropiacion.Id;
-      });
     };
      //-----------------------------
   });
