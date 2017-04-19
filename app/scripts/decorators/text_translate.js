@@ -14,15 +14,27 @@ var text_es = {
   NOTIFICACION_PENDIENTE: "Notificaciones Pendientes",
   NOTIFICACION_VISTA: "Notificaciones Vistas",
   FILTRO_NOTIFICACION: "Filtrar notificación",
+
+  //GENERALES
+  CLASIFICACION: "Clasificación",
+  CODIGO_PADRE: "Código Padre",
+  CODIGO: "Código",
+  NOMBRE: "Nombre",
+  DESCRIPCION: "Descripción",
+  NATURALEZA: "Naturaleza",
+  SALDO: "Saldo",
+  DISPONIBLE: "Disponible",
+
+
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
-  NOMBRE: "Nombre",
   INGRESE_NOMBRE_PLAN_CUENTAS: "Ingresa el nombre del plan de cuentas",
   UNIDAD_EJECUTORA: "Unidad Ejecutora",
   SELECCION_UNIDAD_EJECUTORA: "Selecciona la Unidad Ejecutora",
-  DESCRIPCION: "Descripción",
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
+  PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
+  NUEVA_CUENTA: "Nueva Cuenta",
 
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
   D_PLANES_CUENTA: {
