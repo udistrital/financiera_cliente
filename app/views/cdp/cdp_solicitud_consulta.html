@@ -17,95 +17,78 @@
 
 
         <div class="modal-content col-md-offset-1 col-md-10">
+
           <div class="modal-header">
-            <div class="row">
-              <div class="col-md-4">
-                <label>Información de la Solicitud de CDP</label>
-              </div>
-              <div class="col-md-offset-7 col-md-1">
-                <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes();">&times</button>
-              </div>
-            </div>
+                <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes();">&times</button><br>
           </div>
 
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="page-header">Solicitud de CDP No {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
+              <div align="right">Fecha Solicitud: {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</div>
+            </div>
 
-        		<div class="panel panel-default">
-        			<div class="panel-heading">
-        				<div class="panel-title">
-        					Datos de la solicitud de Disponibilidad
-        				</div>
-        			</div>
-        			<div class="panel-body">
-        				<table class="table table-striped">
-        					<tr>
-        						<th>Solicitud No: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}}</td>
-        					</tr>
-        					<tr>
-        						<th>Vigencia: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</td>
-        					</tr>
-        					<tr>
-        						<th>Fecha de la solicitud: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</td>
-        					</tr>
-        				</table>
-        			</div>
-        		</div>
-        		<div class="panel panel-default">
-        			<div class="panel-heading">
-        				<div class="panel-title">
-        					Datos de la Necesidad
-        				</div>
-        			</div>
-        			<div class="panel-body">
-        				<table class="table">
-        					<tr>
-        						<th>Oficio No: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Numero}}</td>
-        					</tr>
-        					<tr>
-        						<th>Vigencia: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Vigencia}}</td>
-        					</tr>
-        					<tr>
-        						<th>Dependencia Solicitante: </th>
-        						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.Nombre}}</td>
-        					</tr>
-        					<tr>
-        						<th>Jefe de la dependencia: </th>
-        						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
-        									cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
-        								 cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
-        								cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
-        					</tr>
-        					<tr>
-        						<th>Dependencia Destino: </th>
-        						<td>{{cdpSolicitudConsulta.data.DependenciaDestino.Nombre}}</td>
-        					</tr>
-        					<tr>
-        						<th>Ordenador del Gasto: </th>
-        						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.PrimerApellido + ' ' +
-        									cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
-        								 cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
-        								cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
-        					</tr>
-        						<th>Unidad Ejecutora: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.UnidadEjecutora}}</td>
-        					</tr>
-        					<tr>
-        						<th>Objeto Contractual : </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
-        					</tr>
-        					<tr>
-        						<th>Valor de la contratación: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Valor | currency}}</td>
-        					</tr>
-        					<tr>
-        						<th>Justificacion: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Justificacion}}</td>
-        					</tr>
-        				</table>
-                <hr>
-                <h4><b>Afectación Presupuestal</b></h4>
-                <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones" />
-                <hr>
-                <div class="col-md-6 col-md-offset-3 text-center">
-                  <button class="btn btn-danger" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">Aprobar</button>
-                </div>
-        			</div>
-        		</div>
+            <div class="panel-body">
+
+
+          					<h4 class="text-info">Datos de la Necesidad</h4>
+
+
+          				<table class="table">
+          					<tr>
+          						<th>Oficio No: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Numero}}</td>
+          					</tr>
+          					<tr>
+          						<th>Vigencia: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Vigencia}}</td>
+          					</tr>
+          					<tr>
+          						<th>Dependencia Solicitante: </th>
+          						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.Nombre}}</td>
+          					</tr>
+          					<tr>
+          						<th>Jefe de la dependencia: </th>
+          						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
+          									cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
+          								 cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
+          								cdpSolicitudConsulta.data.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
+          					</tr>
+          					<tr>
+          						<th>Dependencia Destino: </th>
+          						<td>{{cdpSolicitudConsulta.data.DependenciaDestino.Nombre}}</td>
+          					</tr>
+          					<tr>
+          						<th>Ordenador del Gasto: </th>
+          						<td>{{cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.PrimerApellido + ' ' +
+          									cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
+          								 cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
+          								cdpSolicitudConsulta.data.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
+          					</tr>
+          						<th>Unidad Ejecutora: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.UnidadEjecutora}}</td>
+          					</tr>
+          					<tr>
+          						<th>Objeto Contractual : </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
+          					</tr>
+          					<tr>
+          						<th>Valor de la contratación: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Valor | currency}}</td>
+          					</tr>
+          					<tr>
+          						<th>Justificacion: </th> <td>{{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Justificacion}}</td>
+          					</tr>
+          				</table>
+                  <hr>
+                  <h4 class="text-info">Afectación Presupuestal</h4>
+                  <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones" />
+                  <hr>
+                  <center>
+                    <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">Aprobar</button>
+                  </center>
+
+
+
+
+
+            </div>
+          </div>
 
         </div>
 </div>
