@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate) {
+.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route) {
    var paths = [];
    $scope.language = {
        es:"btn btn-primary btn-circle btn-outline active",
@@ -193,6 +193,7 @@ angular.module('financieraClienteApp')
                 break;
             default:
         }
+        $route.reload();
    };
    //Pendiente por definir json del menu
    (function($) {
