@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function (financieraRequest, $location) {
+  .directive('opListarTodas', function (financieraRequest, $location, $translate) {
     return {
       restrict: 'E',
       /*scope:{
@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_listar_todas.html',
       controller:function($scope){
         var self = this;
+        console.log(self.pp);
         self.gridOrdenesDePago = {
           enableFiltering: true,
           onRegisterApi: function(gridApi){
@@ -24,15 +25,15 @@ angular.module('financieraClienteApp')
           }
         };
         self.gridOrdenesDePago.columnDefs = [
-            {field: 'Id',                                                       displayName: 'Código'},
-            {field: 'Vigencia',                                                 displayName: 'Vigencia'},
-            {field: 'FechaCreacion',                                            displayName: 'Fecha Creacion'},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: 'Registro Presupuestal'},
-            {field: 'TipoOrdenPago.Nombre',                                     displayName: 'Tipo Documento'},
-            {field: 'EstadoOrdenPago.Nombre',                                   displayName: 'Estado'},
+            {field: 'Id',                                                       displayName: $translate.instant('CODIGO')},
+            {field: 'Vigencia',                                                 displayName: $translate.instant('VIGENCIA')},
+            {field: 'FechaCreacion',                                            displayName: $translate.instant('FECHA_CREACION')},
+            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: $translate.instant('REGISTRO_PRESUPUESTAL')},
+            {field: 'TipoOrdenPago.Nombre',                                     displayName: $translate.instant('TIPO_DOCUMENTO')},
+            {field: 'EstadoOrdenPago.Nombre',                                   displayName: $translate.instant('ESTADO')},
             {
               //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
-              name: 'Operacion',
+              name: $translate.instant('OPERACION'),
               enableFiltering: false,
               cellTemplate:
               '<center>\
