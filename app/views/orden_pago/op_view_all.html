@@ -1,9 +1,13 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-      <h3> {{ 'OP_TITULO' | translate }} </h3>
-      <a class="btn btn-success" ng-href="#/orden_pago/proveedor/crear">Crear O.P. Proveedores</a>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
+  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'NUEVO_PLAN_CUENTAS' | translate }}</h3>
+      </div>
+      <div class="panel-body">
+        <op-listar-todas/>
+      </div>
     </div>
-    <div class="panel-body">
-      <op-listar-todas/>
-    </div>
+  </div>
 </div>

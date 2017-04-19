@@ -141,8 +141,21 @@ angular.module('financieraClienteApp')
    { //Ordenes de pago
      "Id": 50,
      "Nombre": "Ordenes de Pago",
-     "Url": "orden_pago/ver_todos",
-     "Opciones": null
+     "Url": "",
+     "Opciones": [
+       { //Consultar Ordenes de pago
+         "Id": 51,
+         "Nombre": "Consultar Orden de Pago",
+         "Url": "orden_pago/ver_todos",
+         "Opciones": null
+       },
+       { //Consultar Ordenes de pago
+         "Id": 51,
+         "Nombre": "Crear OP Proveedor",
+         "Url": "orden_pago/proveedor/crear",
+         "Opciones": null
+       },
+     ]
    }
  ];
 
