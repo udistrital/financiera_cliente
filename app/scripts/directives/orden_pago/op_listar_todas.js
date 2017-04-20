@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
             {field: 'Id',                                                       displayName: $translate.instant('CODIGO')},
             {field: 'Vigencia',                                                 displayName: $translate.instant('VIGENCIA')},
             {field: 'FechaCreacion',                                            displayName: $translate.instant('FECHA_CREACION')},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: $translate.instant('REGISTRO_PRESUPUESTAL')},
+            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: $translate.instant('NO_CRP')},
             {field: 'TipoOrdenPago.Nombre',                                     displayName: $translate.instant('TIPO_DOCUMENTO')},
             {field: 'EstadoOrdenPago.Nombre',                                   displayName: $translate.instant('ESTADO')},
             {

@@ -26,17 +26,20 @@ var text_es = {
   DISPONIBLE: "Disponible",
   VIGENCIA: "Vigencia",
   FECHA_CREACION: "Fecha Creación",
-  REGISTRO_PRESUPUESTAL: "CRP",
   TIPO_DOCUMENTO: "Tipo Documento",
   ESTADO: "Estado",
   OPERACION: "Operación",
+  ENTIDAD: "Entidad",
   UNIDAD_EJECUTORA: "Unidad Ejecutora",
   SELECCION_UNIDAD_EJECUTORA: "Seleccionar Unidad Ejecutora",
   DETALLE_UNIDAD_EJECUTORA: "Detalle Unidad Ejecutora",
-  ENTIDAD: "Entidad",
   PROVEEDOR: "Proveedor",
   SELECCIONE_PROVEEDOR: "Seleccionar Proveedor",
   DETALLE_PROVEEDOR: "Detalle Proveedor",
+  REGISTRO_PRESUPUESTAL: "Certificado Registro Presupuestal",
+  SELECCIONE_CRP: "Seleccione CRP",
+  DETALLE_CRP: "Detalle CRP",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -46,6 +49,14 @@ var text_es = {
   CUENTA_BANCARIA: "Cuenta Bancaria",
   SUCURSAL: "Sucursal",
   TIPO_CUENTA: "Tipo Cuenta",
+
+  //REGISTRO PRESUPUESTAL
+  NO_CRP: "No. CRP",
+  RESPONSABLE: "Responsable",
+  VALOR_CRP: "Valor CRP",
+  NO_CDP: "NO. CDP",
+  COMPROMISO: "Compromiso",
+  DESCRIPCION_COMPROMISO: "Descripción Compromiso",
 
 
 
@@ -95,17 +106,20 @@ var text_en = {
   DISPONIBLE: "Disponible",
   VIGENCIA: "Validity",
   FECHA_CREACION: "Creation Date",
-  REGISTRO_PRESUPUESTAL: "CRP",
   TIPO_DOCUMENTO: "Document Type",
   ESTADO: "State",
   OPERACION: "Operation",
+  ENTIDAD:"Entity",
   UNIDAD_EJECUTORA: "Executing Unit",
   SELECCION_UNIDAD_EJECUTORA: "Select Executing Unit",
   DETALLE_UNIDAD_EJECUTORA: "Detail Executing Unit",
-  ENTIDAD:"Entity",
   PROVEEDOR:"Provider",
   SELECCIONE_PROVEEDOR: "Select Provider",
   DETALLE_PROVEEDOR: "Detail Provider",
+  REGISTRO_PRESUPUESTAL: "Certificate Registry Budget",
+  SELECCIONE_CRP: "Select CRP",
+  DETALLE_CRP: "Detail CRP",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
@@ -115,6 +129,14 @@ var text_en = {
   CUENTA_BANCARIA: "Bank Account",
   SUCURSAL: "Branch Office",
   TIPO_CUENTA: "Account Type",
+
+  //REGISTRO PRESUPUESTAL
+  NO_CRP: "No. CRP",
+  RESPONSABLE: "Responsible",
+  VALOR_CRP: "Value CRP",
+  NO_CDP: "NO. CDP",
+  COMPROMISO: "Commitment",
+  DESCRIPCION_COMPROMISO: "Description Commitment",
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",

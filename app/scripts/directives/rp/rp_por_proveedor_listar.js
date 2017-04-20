@@ -7,7 +7,7 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function (financieraRequest, $timeout) {
+  .directive('rpPorProveedorListar', function (financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -25,9 +25,9 @@ angular.module('financieraClienteApp')
 
           columnDefs : [
             {field: 'Id',                             visible : false},
-            {field: 'NumeroRegistroPresupuestal',     displayName: 'No. RP'},
-            {field: 'Estado.Nombre',                  displayName: 'Estado'},
-            {field: 'Vigencia',                       displayName: 'Vigencia'}
+            {field: 'NumeroRegistroPresupuestal',     displayName: $translate.instant('NO_CRP')},
+            {field: 'Estado.Nombre',                  displayName: $translate.instant('ESTADO')},
+            {field: 'Vigencia',                       displayName: $translate.instant('VIGENCIA')}
           ]
         };
         // refrescar
