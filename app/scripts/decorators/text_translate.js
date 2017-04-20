@@ -85,6 +85,10 @@ var text_es = {
     QUITAR_RUBRO: "Quitar",
   },
   // Ordenes de Pago
+
+  //Rubro
+  REGISTRO_RUBRO: "Registro de Rubro",
+  CONSULTA_RUBRO: "Consulta de Rubros"
 };
 
 var text_en = {
