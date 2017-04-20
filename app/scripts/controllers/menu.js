@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
    $scope.actual = "";
    $scope.token_service = token_service;
    $scope.breadcrumb = [];
-   $scope.menu_service = [
+   $scope.menu_service = [];
+   $scope.menu_service_old = [
    { //CDP
      "Id": 1,
      "Nombre": "CDP",
@@ -159,6 +160,13 @@ angular.module('financieraClienteApp')
    }
  ];
 
+ $http.get('http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/Admin')
+   .then(function(response) {
+      $scope.menu_service = response.data;
+      recorrerArbol($scope.menu_service, "");
+      update_url();
+});
+
    var recorrerArbol = function(item, padre) {
      var padres = "";
      for (var i = 0; i < item.length; i++) {
@@ -185,7 +193,6 @@ angular.module('financieraClienteApp')
        }
      }
    };
-   recorrerArbol($scope.menu_service, "");
    paths.push({padre:["","Notificaciones","Ver Notificaciones"],path:"notificaciones"});
 
    $scope.$on('$routeChangeStart', function() {
