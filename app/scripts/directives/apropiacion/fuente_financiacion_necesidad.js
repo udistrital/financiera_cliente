@@ -21,8 +21,6 @@ angular.module('financieraClienteApp')
         $scope.$watch('apropiacion', function(){
           self.resumen_afectacion_presupuestal = [];
           if ($scope.necesidad != undefined && $scope.apropiacion != undefined){
-            console.log($scope.necesidad);
-            console.log($scope.apropiacion);
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
               administrativaRequest.get('fuente_financiacion_rubro_necesidad',$.param({
                 query: "SolicitudNecesidad.Id:"+$scope.necesidad+",Apropiacion:"+apropiacion_data,

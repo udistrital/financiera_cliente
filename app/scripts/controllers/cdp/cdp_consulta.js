@@ -71,6 +71,7 @@ angular.module('financieraClienteApp')
             }
 
               console.log($scope.apropiaciones);
+              console.log(self.cdp.Id);
               var saldo;
               var rp = {
                 Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada

@@ -26,8 +26,8 @@
        Detalle del RP
     </div>
     <div class="panel-body">
-      <div class="col-md-10 col-md-offset-1 ">
-        <table class="table text-justify " ng-repeat="item in rpConsulta.detalle">
+      <div class="col-md-10 col-md-offset-1 " ng-repeat="item in rpConsulta.detalle">
+        <table class="table text-justify " >
           <tr>
             <th>Consecutivo del RP: </th><td>{{item.NumeroRegistroPresupuestal}}</td>
           </tr>
@@ -67,18 +67,15 @@
         </table>
         <hr>
         <h4><b>Afectación Presupuestal</b></h4>
-        <fuente-financiacion-necesidad necesidad="rpConsulta.Necesidad.Id" apropiacion="apropiaciones" />
+        <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" />
       </div>
     </div>
     </div>
-    <div class="panel panel-default">
+    <!--<div class="panel panel-default">
         <div class="panel-heading">
           Rubros para este RP
         </div>
           <div ui-grid="rpConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="rpConsulta.gridHeight" class="myGrid"></div>
-    </div>
-    <div ng-show="apropiacion">
-  		<fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
-  	</div>
+    </div>-->
   </div>
 </div>

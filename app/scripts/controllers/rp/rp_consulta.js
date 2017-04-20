@@ -93,11 +93,16 @@ angular.module('financieraClienteApp')
                         angular.forEach(solicitud, function(data){
                           self.Necesidad = data.SolicitudDisponibilidad.Necesidad;
                           console.log(self.Necesidad);
-                          $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
+
+
                         });
 
                       });
+                      if($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
+                      }else{
+                        $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
+                      }
 
                     });
                     self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
