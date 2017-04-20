@@ -32,6 +32,7 @@ var text_es = {
   OPERACION: "Operación",
   UNIDAD_EJECUTORA: "Unidad Ejecutora",
   SELECCION_UNIDAD_EJECUTORA: "Seleccionar Unidad Ejecutora",
+  DETALLE_UNIDAD_EJECUTORA: "Detalle Unidad Ejecutora",
   ENTIDAD:"Entidad",
 
   //PLAN DE CUENTAS
@@ -85,6 +86,7 @@ var text_en = {
   OPERACION: "Operation",
   UNIDAD_EJECUTORA: "Executing Unit",
   SELECCION_UNIDAD_EJECUTORA: "Select Executing Unit",
+  DETALLE_UNIDAD_EJECUTORA: "Detail Executing Unit",
   ENTIDAD:"Entity",
 
   //PLAN DE CUENTAS
