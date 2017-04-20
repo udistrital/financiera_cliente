@@ -83,13 +83,15 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP:"Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    APROBAR: "Aprobar"
   },
   // Ordenes de Pago
 
   //Rubro
   REGISTRO_RUBRO: "Registro de Rubro",
   CONSULTA_RUBRO: "Consulta de Rubros",
-  CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial"
+  CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
+  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto"
 };
 
 var text_en = {
