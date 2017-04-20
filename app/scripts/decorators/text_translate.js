@@ -30,14 +30,14 @@ var text_es = {
   TIPO_DOCUMENTO: "Tipo Documento",
   ESTADO: "Estado",
   OPERACION: "Operación",
-
+  UNIDAD_EJECUTORA: "Unidad Ejecutora",
+  SELECCION_UNIDAD_EJECUTORA: "Seleccionar Unidad Ejecutora",
+  ENTIDAD:"Entidad",
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
   INGRESE_NOMBRE_PLAN_CUENTAS: "Ingresa el nombre del plan de cuentas",
-  UNIDAD_EJECUTORA: "Unidad Ejecutora",
-  SELECCION_UNIDAD_EJECUTORA: "Selecciona la Unidad Ejecutora",
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
@@ -73,7 +73,7 @@ var text_en = {
   CODIGO_PADRE: "Father Code",
   CODIGO: "Code",
   NOMBRE: "Name",
-  DESCRIPCION: "Descripción",
+  DESCRIPCION: "Description",
   NATURALEZA: "Naturaleza",
   SALDO: "Saldo",
   DISPONIBLE: "Disponible",
@@ -83,13 +83,14 @@ var text_en = {
   TIPO_DOCUMENTO: "Document Type",
   ESTADO: "State",
   OPERACION: "Operation",
+  UNIDAD_EJECUTORA: "Executing Unit",
+  SELECCION_UNIDAD_EJECUTORA: "Select Executing Unit",
+  ENTIDAD:"Entity",
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
   INGRESE_NOMBRE_PLAN_CUENTAS: "Ingresa el nombre del plan de cuentas",
-  UNIDAD_EJECUTORA: "Unidad Ejecutora",
-  SELECCION_UNIDAD_EJECUTORA: "Selecciona la Unidad Ejecutora",
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",

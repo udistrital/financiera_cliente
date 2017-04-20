@@ -7,7 +7,7 @@
  * # unidadEjecutora/ueListar
  */
 angular.module('financieraClienteApp')
-  .directive('ueListar', function (financieraRequest) {
+  .directive('ueListar', function (financieraRequest, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -23,8 +23,8 @@ angular.module('financieraClienteApp')
 
           columnDefs : [
             {field: 'Id',             visible : false},
-            {field: 'Nombre',         displayName: 'Nombre'},
-            {field: 'Descripcion',    displayName: 'Descripcion'}
+            {field: 'Nombre',         displayName: $translate.instant('NOMBRE')},
+            {field: 'Descripcion',    displayName: $translate.instant('DESCRIPCION')}
           ]
         };
 
