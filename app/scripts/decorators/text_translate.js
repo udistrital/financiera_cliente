@@ -33,7 +33,22 @@ var text_es = {
   UNIDAD_EJECUTORA: "Unidad Ejecutora",
   SELECCION_UNIDAD_EJECUTORA: "Seleccionar Unidad Ejecutora",
   DETALLE_UNIDAD_EJECUTORA: "Detalle Unidad Ejecutora",
-  ENTIDAD:"Entidad",
+  ENTIDAD: "Entidad",
+  PROVEEDOR: "Proveedor",
+  SELECCIONE_PROVEEDOR: "Seleccionar Proveedor",
+  DETALLE_PROVEEDOR: "Detalle Proveedor",
+
+  // PROVEEDOR
+  TIPO_PERSONA: "Tipo Persona",
+  NO_DOCUMENTO: "No. Documento",
+  DIRECCION: "Dirección",
+  TELEFONO: "Teléfono",
+  CUENTA_BANCARIA: "Cuenta Bancaria",
+  SUCURSAL: "Sucursal",
+  TIPO_CUENTA: "Tipo Cuenta",
+
+
+
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
@@ -88,6 +103,18 @@ var text_en = {
   SELECCION_UNIDAD_EJECUTORA: "Select Executing Unit",
   DETALLE_UNIDAD_EJECUTORA: "Detail Executing Unit",
   ENTIDAD:"Entity",
+  PROVEEDOR:"Provider",
+  SELECCIONE_PROVEEDOR: "Select Provider",
+  DETALLE_PROVEEDOR: "Detail Provider",
+
+  // PROVEEDOR
+  TIPO_PERSONA: "Type Person",
+  NO_DOCUMENTO: "No. Document",
+  DIRECCION: "Address",
+  TELEFONO: "Phone",
+  CUENTA_BANCARIA: "Bank Account",
+  SUCURSAL: "Branch Office",
+  TIPO_CUENTA: "Account Type",
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",

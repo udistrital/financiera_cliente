@@ -7,7 +7,7 @@
  * # proveedor/pvListar
  */
 angular.module('financieraClienteApp')
-  .directive('pvListar', function (agoraRequest, coreRequest) {
+  .directive('pvListar', function (agoraRequest, coreRequest, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -24,9 +24,9 @@ angular.module('financieraClienteApp')
 
           columnDefs : [
             {field: 'Id',              visible : false},
-            {field: 'Tipopersona',     displayName: 'Tipo Persona'},
-            {field: 'NumDocumento',    displayName: 'No. Documento'},
-            {field: 'NomProveedor',    displayName: 'Nombe'}
+            {field: 'Tipopersona',     displayName: $translate.instant('TIPO_PERSONA')},
+            {field: 'NumDocumento',    displayName: $translate.instant('NO_DOCUMENTO')},
+            {field: 'NomProveedor',    displayName: $translate.instant('NOMBRE')}
           ]
         };
         //
