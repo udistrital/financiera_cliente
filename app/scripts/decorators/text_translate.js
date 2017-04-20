@@ -88,7 +88,8 @@ var text_es = {
 
   //Rubro
   REGISTRO_RUBRO: "Registro de Rubro",
-  CONSULTA_RUBRO: "Consulta de Rubros"
+  CONSULTA_RUBRO: "Consulta de Rubros",
+  CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial"
 };
 
 var text_en = {
