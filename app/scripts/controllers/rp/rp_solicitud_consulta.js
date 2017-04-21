@@ -58,24 +58,31 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $("#myModal").modal();
         $scope.apropiacion= undefined;
-
+        $scope.apropiaciones = [];
           self.data = row.entity;
-	  console.log(self.data.Id);
+
           argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
-	  console.log(response.data);
+
           self.gridOptions_rubros.data = response.data;
 
           angular.forEach(self.gridOptions_rubros.data, function(rubro){
             financieraRequest.get('disponibilidad_apropiacion','limit=1&query=Id:'+rubro.DisponibilidadApropiacion).then(function(response) {
               angular.forEach(response.data, function(data){
                 rubro.DisponibilidadApropiacion = data
+                if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
+
+                }else{
+                  $scope.apropiaciones.push(data.Apropiacion.Id);
+                  console.log($scope.apropiaciones);
+                }
                 });
 
             });
+
             });
         });
         self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
-        console.log(self.gridOptions_rubros.data);
+
       });
 
     };

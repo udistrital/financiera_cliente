@@ -63,13 +63,17 @@
 		<tr>
                   <th>Objeto: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
                 </tr>
-                <tr>
-                  <td><button class="btn btn-danger" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button></td>
-                </tr>
               </table>
+              <hr>
+              <h4 class="text-info">Afectación Presupuestal</h4>
+              <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones" />
+              <hr>
+              <center>
+                <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
+              </center>
             </div>
           </div>
-          <div class="panel panel-default">
+        <!--  <div class="panel panel-default">
             <div class="panel-heading">
               <div class="panel-title">
                 Rubros
@@ -83,7 +87,7 @@
           </div>
           <div  ng-show="apropiacion">
             <fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
-          </div>
+          </div> -->
 
 
 </div>
