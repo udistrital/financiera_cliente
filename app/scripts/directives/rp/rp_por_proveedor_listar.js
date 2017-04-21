@@ -21,7 +21,16 @@ angular.module('financieraClienteApp')
         self.gridOptions_rp = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
+
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: null,
+
           enableFiltering: true,
+          enableSelectAll: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          minRowsToShow: 12,
+          useExternalPagination: false,
 
           columnDefs : [
             {field: 'Id',                             visible : false},
@@ -49,7 +58,19 @@ angular.module('financieraClienteApp')
             });
           }
         })
-
+        // control de paginacion
+        $scope.$watch('[d_rpPorProveedorListar.gridOptions_rp.paginationPageSize, d_rpPorProveedorListar.gridOptions_rp.data]', function() {
+          if ((self.gridOptions_rp.data.length <= self.gridOptions_rp.paginationPageSize || self.gridOptions_rp.paginationPageSize == null) && self.gridOptions_rp.data.length > 0) {
+            $scope.gridHeight = self.gridOptions_rp.rowHeight * 2 + (self.gridOptions_rp.data.length * self.gridOptions_rp.rowHeight);
+            if (self.gridOptions_rp.data.length <= 5) {
+              self.gridOptions_rp.enablePaginationControls = false;
+            }
+          } else {
+            $scope.gridHeight = self.gridOptions_rp.rowHeight * 3 + (self.gridOptions_rp.paginationPageSize * self.gridOptions_rp.rowHeight);
+            self.gridOptions_rp.enablePaginationControls = true;
+          }
+        }, true);
+        //
         self.gridOptions_rp.onRegisterApi = function(gridApi){
             //set gridApi on scope
             self.gridApi = gridApi;
@@ -71,7 +92,6 @@ angular.module('financieraClienteApp')
             });
           };
           self.gridOptions_rp.multiSelect = false;
-
       //
       },
       controllerAs:'d_rpPorProveedorListar'

@@ -1,77 +1,76 @@
-    <div class="panel-heading" ng-click="a=!a">
-        <legend class="text-primary">{{'REGISTRO_PRESUPUESTAL' | translate}}
-          <span class="fa fa-plus pull-right" ng-click="info_general=true" ng-show="!info_general"></span>
-          <span class="fa fa-minus pull-right" ng-click="info_general=false" ng-show="info_general"></span>
-        </legend class="text-primary">
-    </div>
-    <div class="panel-body row" ng-show="a">
-      <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {{'SELECCIONE_CRP' | translate}}
-            </div>
-            <div class="panel-body">
-              <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize></div>
-            </div>
-        </div>
+<legend class="text-primary" ng-click="a=!a">
+  {{'REGISTRO_PRESUPUESTAL' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!a"></span>
+  <span class="fa fa-minus pull-right" ng-show="a"></span>
+</legend class="text-primary">
+<div class="panel-body row" ng-show="a">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'SELECCIONE_CRP' | translate}}
       </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                {{'DETALLE_CRP' | translate}}
+      <div class="panel-body">
+        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'DETALLE_CRP' | translate}}
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Vigencia}}</span>
             </div>
-            <div class="panel-body">
-              <div class="form-horizontal">
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Vigencia}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'ESTADO' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Estado.Nombre}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'NO_CRP' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'RESPONSABLE' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Responsable}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'VALOR_CRP' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.valor_total_rp | currency}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'NO_CDP' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'COMPROMISO' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="control-label col-sm-2">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
-                  <div class="col-sm-10">
-                    <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.Objeto}}</span>
-                  </div>
-                </div>
-              </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'ESTADO' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Estado.Nombre}}</span>
             </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NO_CRP' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'RESPONSABLE' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Responsable}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'VALOR_CRP' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.valor_total_rp | currency}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NO_CDP' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'COMPROMISO' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.Objeto}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
