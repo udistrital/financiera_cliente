@@ -28,10 +28,10 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("recargar",function(){
           financieraRequest.get("arbol_conceptos", "").then(function(response) {
-            console.log("entro?");
+            console.log("recargo!");
             self.arbol_conceptos = response.data;
           });
-        });
+        },true);
 
         self.treeOptions = {
           nodeChildren: "Hijos",

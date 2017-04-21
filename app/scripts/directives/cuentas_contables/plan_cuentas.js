@@ -21,6 +21,10 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
 
+        self.seleccionar_cuenta = function(cuenta) {
+          $scope.seleccion = cuenta;
+        };
+
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: true,
@@ -49,11 +53,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("recargar", function() {
           self.cargar_arbol();
-        });
-
-        self.seleccionar_cuenta = function(cuenta) {
-          $scope.seleccion = cuenta;
-        };
+        },true);
 
       },
       controllerAs: 'd_planCuentas'
