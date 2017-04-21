@@ -1,20 +1,20 @@
-    <div class="panel-heading" ng-click="a=!a">
-        <legend class="text-primary">Conceptos
-          <span class="fa fa-plus pull-right" ng-click="info_general=true" ng-show="!info_general"></span>
-          <span class="fa fa-minus pull-right" ng-click="info_general=false" ng-show="info_general"></span>
-        </legend class="text-primary">
-    </div>
-    <div class="panel-body row" ng-show="a">
-      <div class=" col-sm-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Ingresar Afectación por Conceptos
-            </div>
-            <div class="panel-body">
-              <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
-              <br>
-              <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.operar_conceptos()">Operar Conceptos</button></center>
-            </div>
-        </div>
+<div class="panel-heading" ng-click="a=!a">
+  <legend class="text-primary">{{'CONCEPTOS' | translate}}
+    <span class="fa fa-plus pull-right" ng-click="info_general=true" ng-show="!info_general"></span>
+    <span class="fa fa-minus pull-right" ng-click="info_general=false" ng-show="info_general"></span>
+  </legend class="text-primary">
+</div>
+<div class="panel-body row" ng-show="a">
+  <div class=" col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'AFECTACION_CONCEPTO' | translate}}
+      </div>
+      <div class="panel-body">
+        <div style="height: {{gridHeight}}px;" ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
+        <br>
+        <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.operar_conceptos()">Operar Conceptos</button></center>
       </div>
     </div>
+  </div>
+</div>

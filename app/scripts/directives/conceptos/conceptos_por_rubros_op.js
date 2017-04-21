@@ -7,7 +7,7 @@
  * # conceptos/conceptosPorRubrosOp
  */
 angular.module('financieraClienteApp')
-  .directive('conceptosPorRubrosOp', function (financieraRequest, $timeout) {
+  .directive('conceptosPorRubrosOp', function (financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -27,14 +27,15 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableCellEditOnFocus: true,
           columnDefs : [
-            {field: 'Id',                         visible : false,            enableCellEdit: false},
-            {field: 'Codigo',                     displayName: 'Codigo',      enableCellEdit: false},
-            {field: 'Nombre',                     displayName: 'Nombre',      enableCellEdit: false},
-            {field: 'Descripcion',                displayName: 'Descripcion', enableCellEdit: false},
-            {field: 'TipoConcepto.Nombre',        displayName: 'Tipo',        enableCellEdit: false},
-            {field: 'Rubro.Codigo',               displayName: 'Rubro',       enableCellEdit: false},
+            {field: 'Id',                         visible : false,                                enableCellEdit: false},
+            {field: 'Codigo',                     displayName: $translate.instant('CODIGO'),      enableCellEdit: false},
+            {field: 'Nombre',                     displayName: $translate.instant('NOMBRE'),      enableCellEdit: false},
+            {field: 'Descripcion',                displayName: $translate.instant('DESCRIPCION'), enableCellEdit: false},
+            {field: 'TipoConcepto.Nombre',        displayName: $translate.instant('TIPO'),        enableCellEdit: false},
+            {field: 'Rubro.Codigo',               displayName: $translate.instant('RUBRO'),       enableCellEdit: false},
             {
               field: 'Afectacion',
+              displayName: $translate.instant('AFECTACION'),
               enableCellEdit: true,
               type: 'number',
               cellFilter: 'currency',
@@ -69,6 +70,7 @@ angular.module('financieraClienteApp')
             });
           });
           self.gridOptions_conceptos.data = self.conceptos;
+          $scope.gridHeight = self.gridOptions_conceptos.rowHeight * 4 + (self.gridOptions_conceptos.data.length * self.gridOptions_conceptos.rowHeight);
         }
         //operar concepto
         self.operar_conceptos = function(){

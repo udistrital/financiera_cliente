@@ -41,6 +41,9 @@ var text_es = {
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",
   FUENTES_FINANCIACION: "Fuentes de Financiación",
+  CONCEPTOS: "Conceptos",
+  TIPO: "Tipo",
+  AFECTACION: "Afectación",
 
 
   // PROVEEDOR
@@ -95,6 +98,8 @@ var text_es = {
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
 
+  //CONCEPTOS
+  AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
 
   //Rubro
   RUBRO: "Rubro",
@@ -139,6 +144,9 @@ var text_en = {
   DETALLE_CRP: "Detail CRP",
   VALOR: "Value",
   FUENTES_FINANCIACION: "Sources of funding",
+  CONCEPTOS: "Concept",
+  TIPO: "Type",
+  AFECTACION: "Affectation",
 
 
   // PROVEEDOR
@@ -192,6 +200,9 @@ var text_en = {
   POR_IVA: "% IVA",
   VAL_IVA: "Value IVA",
   VALOR_BRUTO: "Gross Value",
+
+  //CONCEPTOS
+  AFECTACION_CONCEPTO: "Enter Affection for Concept",
 
   //Rubro
   RUBRO: "Item",
