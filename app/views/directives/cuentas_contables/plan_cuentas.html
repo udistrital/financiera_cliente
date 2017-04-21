@@ -1,6 +1,6 @@
 <div class="panel panel-success panel-body">
   <div class="panel panel-heading">
-    <h4 class="text-center panel-title page-header">{{d_planCuentas.plan.Nombre}}</h4>
+    <h4 class="text-center panel-title">{{d_planCuentas.plan.Nombre}} <i class="fa fa-refresh pull-right" aria-hidden="true" ng-click="d_planCuentas.cargar_arbol()"></i></h4>
   </div>
   <div class="row">
 
@@ -11,24 +11,24 @@
 
     <div class="panel panel-success panel-body row" ng-show="cuentasel!=undefined && showc">
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
-      <p class="text-muted text-justify ">{{cuentasel.Descripcion| limitTo:370}} ...</p>
+      <p class="text-muted text-justify ">{{cuentasel.Descripcion | limitTo:370}} ...</p>
       <dl>
-        <dt>Codigo: {{cuentasel.Codigo}}</dt>
-        <dd>- Clasificación : {{cuentasel.NivelClasificacion.Nombre}}</dd>
-        <dd>- Naturaleza : {{cuentasel.Naturaleza | date:'d-MMMM-yyyy'}}</dd>
+        <dt>{{"CODIGO" | translate}}: {{cuentasel.Codigo}}</dt>
+        <dd>- {{"CLASIFICACION" | translate}} : {{cuentasel.NivelClasificacion.Nombre}}</dd>
+        <dd>- {{"NATURALEZA" | translate}} : {{cuentasel.Naturaleza | date:'d-MMMM-yyyy'}}</dd>
 
       </dl>
       <div class="col-md-3 col-md-offset-6">
-        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/plan_cuentas/cuenta/{{cuentasel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">ver</a>
+        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/plan_cuentas/cuenta/{{cuentasel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">{{"BTN.VER" | translate}}</a>
       </div>
       <div class="col-md-3">
-        <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_planCuentas.seleccionar_cuenta(cuentasel)" value="Seleccionar">
+        <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_planCuentas.seleccionar_cuenta(cuentasel)" value="{{'BTN.SELECCIONAR' | translate}}">
       </div>
     </div>
   </div>
 
   <div>
-    <center><button ng-show="seleccion!=undefined || cuentasel!=undefined;" class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">Cancelar Selección</button></center>
+    <center><button ng-show="seleccion!=undefined || cuentasel!=undefined;" class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
 
 </div>
