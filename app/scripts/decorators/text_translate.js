@@ -100,6 +100,7 @@ var text_es = {
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
+  OPERAR_CONCEPTO: "Operar Concepto",
 
   //Rubro
   RUBRO: "Rubro",
@@ -203,6 +204,7 @@ var text_en = {
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",
+  OPERAR_CONCEPTO: "Operate Concept",
 
   //Rubro
   RUBRO: "Item",
