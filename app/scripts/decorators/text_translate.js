@@ -44,6 +44,7 @@ var text_es = {
   CONCEPTOS: "Conceptos",
   TIPO: "Tipo",
   AFECTACION: "Afectación",
+  CUENTAS_CONTABLES: "Cuentas Contables",
 
 
   // PROVEEDOR
@@ -148,7 +149,7 @@ var text_en = {
   CONCEPTOS: "Concept",
   TIPO: "Type",
   AFECTACION: "Affectation",
-
+  CUENTAS_CONTABLES: "Accounting Accounts",
 
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
