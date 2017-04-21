@@ -54,12 +54,9 @@ var text_es = {
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsable",
   VALOR_CRP: "Valor CRP",
-  NO_CDP: "NO. CDP",
+  NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
-
-
-
 
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
@@ -74,6 +71,7 @@ var text_es = {
     LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
     NO_FILAS: "Número de Filas"
   },
+
   BTN: {
     VER: "Ver",
     SELECCIONAR: "Seleccionar",
@@ -85,7 +83,16 @@ var text_es = {
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar"
   },
-  // Ordenes de Pago
+  // ORDEN DE PAGO
+  ORDEN_PAGO: "Ordenes de Pago",
+  VALOR_PAGO: "Valor Pago",
+  DETALLE_VALOR_PAGO: "Detalle Valor Pago",
+  DETALLE_OP: "Detalle Orden de Pago",
+  VALOR_BASE_RETENCION: "Valor Base Retención",
+  POR_IVA: "% IVA",
+  VAL_IVA: "Valor IVA",
+  VALOR_BRUTO: "Valor Bruto",
+
 
   //Rubro
   REGISTRO_RUBRO: "Registro de Rubro",
@@ -127,7 +134,6 @@ var text_en = {
   SELECCIONE_CRP: "Select CRP",
   DETALLE_CRP: "Detail CRP",
 
-
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -141,7 +147,7 @@ var text_en = {
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsible",
   VALOR_CRP: "Value CRP",
-  NO_CDP: "NO. CDP",
+  NO_CDP: "No. CDP",
   COMPROMISO: "Commitment",
   DESCRIPCION_COMPROMISO: "Description Commitment",
 
@@ -158,6 +164,7 @@ var text_en = {
     LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
     NO_FILAS: "Número de Filas"
   },
+
   BTN: {
     VER: "Ver",
     SELECCIONAR: "Seleccionar",
@@ -168,7 +175,16 @@ var text_en = {
     SOLICITAR_RP:"Solicitar RP",
     QUITAR_RUBRO: "Quitar",
   },
-  // Ordenes de Pago
+
+  // ORDEN DE PAGO
+  ORDEN_PAGO: "Payment Orders",
+  DETALLE_OP: "Detail Payment Orders",
+  VALOR_PAGO: "Amount Paid",
+  DETALLE_VALOR_PAGO: "Detail Value Paid",
+  VALOR_BASE_RETENCION: "Base Value Withholding",
+  POR_IVA: "% IVA",
+  VAL_IVA: "Value IVA",
+  VALOR_BRUTO: "Gross Value",
 };
 
 angular.module('financieraClienteApp')
