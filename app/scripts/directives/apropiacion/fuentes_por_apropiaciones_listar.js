@@ -7,7 +7,7 @@
  * # apropiacion/fuentesPorApropiacionesListar
  */
 angular.module('financieraClienteApp')
-  .directive('fuentesPorApropiacionesListar', function (financieraRequest, $timeout) {
+  .directive('fuentesPorApropiacionesListar', function (financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -22,9 +22,9 @@ angular.module('financieraClienteApp')
 
           columnDefs : [
             {field: 'Id',                            visible : false},
-            {field: 'Fuente.Descripcion',            displayName: 'Descripcion'},
-            {field: 'Valor',                         displayName: 'Valor'},
-            {field: 'Apropiacion.Rubro.Codigo',      displayName: 'Rubro'}
+            {field: 'Fuente.Descripcion',            displayName: $translate.instant('DESCRIPCION')},
+            {field: 'Valor',                         displayName: $translate.instant('VALOR')},
+            {field: 'Apropiacion.Rubro.Codigo',      displayName: $translate.instant('RUBRO')}
           ]
         };
         self.gridOptions_fuente.onRegisterApi = function(gridApi){
@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
             self.refresh();
             if($scope.apropiacionids != undefined){
               self.consulta($scope.apropiacionids);
-              $scope.gridHeight = self.gridOptions_fuente.rowHeight * 6 + (self.gridOptions_fuente.data.length * self.gridOptions_fuente.rowHeight);
+              $scope.gridHeight = self.gridOptions_fuente.rowHeight * 4 + (self.gridOptions_fuente.data.length * self.gridOptions_fuente.rowHeight);
 
             }
           });

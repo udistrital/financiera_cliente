@@ -39,6 +39,8 @@ var text_es = {
   REGISTRO_PRESUPUESTAL: "Certificado Registro Presupuestal",
   SELECCIONE_CRP: "Seleccione CRP",
   DETALLE_CRP: "Detalle CRP",
+  VALOR: "Valor",
+  FUENTES_FINANCIACION: "Fuentes de Financiación",
 
 
   // PROVEEDOR
@@ -95,10 +97,12 @@ var text_es = {
 
 
   //Rubro
+  RUBRO: "Rubro",
   REGISTRO_RUBRO: "Registro de Rubro",
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
-  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto"
+  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto",
+  SELECCIONAR_RUBRO: "Seleccionar Rubro",
 };
 
 var text_en = {
@@ -116,7 +120,7 @@ var text_en = {
   NOMBRE: "Name",
   DESCRIPCION: "Description",
   NATURALEZA: "Naturaleza",
-  SALDO: "Saldo",
+  SALDO: "Balance",
   DISPONIBLE: "Disponible",
   VIGENCIA: "Validity",
   FECHA_CREACION: "Creation Date",
@@ -133,6 +137,9 @@ var text_en = {
   REGISTRO_PRESUPUESTAL: "Certificate Registry Budget",
   SELECCIONE_CRP: "Select CRP",
   DETALLE_CRP: "Detail CRP",
+  VALOR: "Value",
+  FUENTES_FINANCIACION: "Sources of funding",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
@@ -185,6 +192,14 @@ var text_en = {
   POR_IVA: "% IVA",
   VAL_IVA: "Value IVA",
   VALOR_BRUTO: "Gross Value",
+
+  //Rubro
+  RUBRO: "Item",
+  REGISTRO_RUBRO: "Registro de Rubro",
+  CONSULTA_RUBRO: "Consulta de Rubros",
+  CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
+  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto",
+  SELECCIONAR_RUBRO: "Select Item",
 };
 
 angular.module('financieraClienteApp')

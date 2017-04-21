@@ -7,7 +7,7 @@
  * # rubros/rubrosPorRpSeleccionMultiple
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosPorRpSeleccionMultiple', function (financieraRequest, $timeout) {
+  .directive('rubrosPorRpSeleccionMultiple', function (financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -25,11 +25,11 @@ angular.module('financieraClienteApp')
           enableSelectAll: true,
           columnDefs : [
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',           visible : false},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',       displayName: 'Codigo Rubro'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: 'Vigencia', width:'8%'},
-            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripción Rubro'},
-            {field: 'Valor',                                                    cellFilter: 'currency'},
-            {field: 'Saldo',                                                    cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',       displayName: $translate.instant('CODIGO')},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: $translate.instant('VIGENCIA'), width:'8%'},
+            {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: $translate.instant('DESCRIPCION')},
+            {field: 'Valor',                                                    displayName: $translate.instant('VALOR'), cellFilter: 'currency'},
+            {field: 'Saldo',                                                    displayName: $translate.instant('SALDO'), cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
           ]
         };
         self.gridOptions_rubros.multiSelect = true;
