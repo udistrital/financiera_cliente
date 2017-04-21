@@ -7,16 +7,16 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function (financieraRequest, $timeout, $translate) {
+  .directive('rpPorProveedorListar', function(financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
-      scope:{
-          beneficiaroid:'=?',
-          rpselect: '=?'
-        },
+      scope: {
+        beneficiaroid: '=?',
+        rpselect: '=?'
+      },
 
       templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
         self.gridOptions_rp = {
           enableRowSelection: true,
@@ -32,11 +32,22 @@ angular.module('financieraClienteApp')
           minRowsToShow: 12,
           useExternalPagination: false,
 
-          columnDefs : [
-            {field: 'Id',                             visible : false},
-            {field: 'NumeroRegistroPresupuestal',     displayName: $translate.instant('NO_CRP')},
-            {field: 'Estado.Nombre',                  displayName: $translate.instant('ESTADO')},
-            {field: 'Vigencia',                       displayName: $translate.instant('VIGENCIA')}
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'NumeroRegistroPresupuestal',
+              displayName: $translate.instant('NO_CRP')
+            },
+            {
+              field: 'Estado.Nombre',
+              displayName: $translate.instant('ESTADO')
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA')
+            }
           ]
         };
         // refrescar
@@ -47,14 +58,14 @@ angular.module('financieraClienteApp')
           }, 0);
         };
 
-        $scope.$watch('beneficiaroid', function(){
+        $scope.$watch('beneficiaroid', function() {
           self.refresh();
-          if($scope.beneficiaroid != undefined){
+          if ($scope.beneficiaroid != undefined) {
             financieraRequest.get('registro_presupuestal',
               $.param({
-                  query: "Beneficiario:" + $scope.beneficiaroid,
+                query: "Beneficiario:" + $scope.beneficiaroid,
               })).then(function(response) {
-                self.gridOptions_rp.data = response.data;
+              self.gridOptions_rp.data = response.data;
             });
           }
         })
@@ -71,29 +82,29 @@ angular.module('financieraClienteApp')
           }
         }, true);
         //
-        self.gridOptions_rp.onRegisterApi = function(gridApi){
-            //set gridApi on scope
-            self.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.rpselect = row.entity;
-              //consulta datos del rp
-              financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',  //en el futuro será una servició con calculo de suma total
-                $.param({
-                    query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
-                    limit: 0,
-                })).then(function(response) {
-                  self.rp_select_de_consulta = response.data;
-              });
-              //Valor total del Rp
-              financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
-                .then(function(response) {
-                  self.valor_total_rp = response.data;
-              });
+        self.gridOptions_rp.onRegisterApi = function(gridApi) {
+          //set gridApi on scope
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.rpselect = row.entity;
+            //consulta datos del rp
+            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', //en el futuro será una servició con calculo de suma total
+              $.param({
+                query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
+                limit: 0,
+              })).then(function(response) {
+              self.rp_select_de_consulta = response.data;
             });
-          };
-          self.gridOptions_rp.multiSelect = false;
-      //
+            //Valor total del Rp
+            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
+              .then(function(response) {
+                self.valor_total_rp = response.data;
+              });
+          });
+        };
+        self.gridOptions_rp.multiSelect = false;
+        //
       },
-      controllerAs:'d_rpPorProveedorListar'
+      controllerAs: 'd_rpPorProveedorListar'
     };
   });
