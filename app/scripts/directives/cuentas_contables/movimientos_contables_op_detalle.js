@@ -7,7 +7,7 @@
  * # cuentasContables/movimientosContablesOpDetalle
  */
 angular.module('financieraClienteApp')
-  .directive('movimientosContablesOpDetalle', function (financieraRequest, $timeout) {
+  .directive('movimientosContablesOpDetalle', function (financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -22,11 +22,11 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           columnDefs : [
             {field: 'Id',                                                     visible : false},
-            {field: 'ConceptoCuentaContable.CuentaContable.Codigo',           displayName: 'Código Cuenta'},
-            {field: 'ConceptoCuentaContable.CuentaContable.Nombre',           displayName: 'Nombre Cuenta'},
-            {field: 'Debito',                                                 displayName: 'Debito'},
-            {field: 'Credito',                                                displayName: 'Credito'},
-            {field: 'ConceptoCuentaContable.CuentaContable.Naturaleza',       displayName: 'Naturaleza'}
+            {field: 'ConceptoCuentaContable.CuentaContable.Codigo',           displayName: $translate.instant('CODIGO')},
+            {field: 'ConceptoCuentaContable.CuentaContable.Nombre',           displayName: $translate.instant('CUENTA')},
+            {field: 'Debito',                                                 displayName: $translate.instant('DEBITO')},
+            {field: 'Credito',                                                displayName: $translate.instant('CREDITO')},
+            {field: 'ConceptoCuentaContable.CuentaContable.Naturaleza',       displayName: $translate.instant('NATURALEZA')}
           ]
         };
         // refrescar
