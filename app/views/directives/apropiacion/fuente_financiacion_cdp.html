@@ -10,6 +10,8 @@
                 <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Descripcion + " "}}
                   <ul>
                     <li><b>Valor afectación:</b> {{" "+fuente.Valor|currency}}</li>
+                    <li><b>Total Comprometido:</b> {{" "+fuente.Comprometido|currency}}</li>
+                    <li><b>Total Anulado:</b> {{" "+fuente.Anulado|currency}}</li>
                     <li><b>Saldo:</b> {{" "+fuente.Saldo|currency}}</li>
                   </ul>
                 </li>
@@ -22,6 +24,8 @@
               <ul ng-repeat="fuente in item">
 
                 <li><b>Valor afectación:</b> {{" "+fuente.Valor|currency}}</li>
+                <li><b>Total Comprometido:</b> {{" "+fuente.Comprometido|currency}}</li>
+                <li><b>Total Anulado:</b> {{" "+fuente.Anulado|currency}}</li>
                 <li><b>Saldo:</b> {{" "+fuente.Saldo|currency}}</li>
           </li>
           </ul>

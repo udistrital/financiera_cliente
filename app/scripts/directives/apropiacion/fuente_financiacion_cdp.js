@@ -51,10 +51,13 @@ angular.module('financieraClienteApp')
 
                   var rp = {
                     Disponibilidad : rubros_data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
-                    Apropiacion : rubros_data.Apropiacion
+                    Apropiacion : rubros_data.Apropiacion,
+                    FuenteFinanciacion : rubros_data.FuenteFinanciamiento
                   };
                   financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
-                    rubros_data.Saldo  = response.data;
+                    rubros_data.Saldo  = response.data.saldo;
+                    rubros_data.Comprometido = response.data.comprometido;
+                    rubros_data.Anulado = response.data.anulado;
                     console.log(rubros_data.Saldo);
                   });
                 });
