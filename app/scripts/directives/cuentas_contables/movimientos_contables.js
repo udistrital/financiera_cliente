@@ -8,7 +8,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .directive('movimientosContables', function(financieraRequest, uiGridConstants) {
+  .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -26,12 +26,11 @@ angular.module('financieraClienteApp')
         } else {
           attrs['editable'] = false;
         }
-        console.log(attrs);
       },
       controller: function($scope) {
         var self = this;
 
-        self.gridOptionsMovimientos= {
+        self.gridOptionsMovimientos = {
           showColumnFooter: true,
           enableCellEditOnFocus: true,
           enableHorizontalScrollbar: 0,
@@ -44,10 +43,10 @@ angular.module('financieraClienteApp')
           rowEditWaitInterval: -1,
           columnDefs: [{
               field: 'CuentaContable.Codigo',
-              displayName: 'Codigo Cuenta',
+              displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
               cellClass: 'text-success',
               headerCellClass: 'text-info',
-              cellTooltip: function(row, col) {
+              cellTooltip: function(row) {
                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
               },
               enableCellEdit: false,
@@ -55,10 +54,10 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'CuentaContable.Nombre',
-              displayName: 'Nombre Cuenta',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
               cellClass: 'text-success',
               headerCellClass: 'text-info',
-              cellTooltip: function(row, col) {
+              cellTooltip: function(row) {
                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
               },
               enableCellEdit: false,
@@ -66,31 +65,35 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
               headerCellClass: 'text-info',
-              cellTemplate: '<div ng-init="row.entity.Debito=0">{{row.entity.Debito}}</div>',
+              cellTemplate: '<div ng-init="row.entity.Debito=0">{{row.entity.Debito | currency:undefined:0}}</div>',
               width: '20%',
               enableCellEdit: true,
               cellEditableCondition: function() {
-                return $scope.editable
+                return $scope.editable;
               },
               type: 'number',
+              cellFilter: 'number',
               aggregationType: uiGridConstants.aggregationTypes.sum
             },
             {
               field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
               width: '20%',
               headerCellClass: 'text-info',
               type: 'number',
+              cellFilter: 'number',
               enableCellEdit: true,
               cellEditableCondition: function() {
-                return $scope.editable
+                return $scope.editable;
               },
-              cellTemplate: '<div ng-init="row.entity.Credito=0">{{row.entity.Credito}}</div>',
+              cellTemplate: '<div ng-init="row.entity.Credito=0">{{row.entity.Credito | currency:undefined:0}}</div>',
               aggregationType: uiGridConstants.aggregationTypes.sum
             },
             {
               field: 'CuentaContable.Naturaleza',
-              displayName: 'Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
               headerCellClass: 'text-info',
               enableCellEdit: false,
               width: '15%'
@@ -112,10 +115,10 @@ angular.module('financieraClienteApp')
           headerTemplate: '<div class="ui-grid-top-panel ui-grid-cell-contents ui-grid-header-cell-primary-focus text-info" style="text-align: center">Cuentas Acreedoras</div>',
           columnDefs: [{
               field: 'CuentaContable.Codigo',
-              displayName: 'Codigo Cuenta',
+              displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
               cellClass: 'text-success',
               headerCellClass: 'text-info',
-              cellTooltip: function(row, col) {
+              cellTooltip: function(row) {
                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
               },
               enableCellEdit: false,
@@ -123,10 +126,10 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'CuentaContable.Nombre',
-              displayName: 'Nombre Cuenta',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
               cellClass: 'text-success',
               headerCellClass: 'text-info',
-              cellTooltip: function(row, col) {
+              cellTooltip: function(row) {
                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
               },
               enableCellEdit: false,
@@ -134,31 +137,35 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
               headerCellClass: 'text-info',
-              cellTemplate: '<div ng-init="row.entity.Debito=0">{{row.entity.Debito}}</div>',
+              cellTemplate: '<div ng-init="row.entity.Debito=0">{{row.entity.Debito | currency:undefined:0}}</div>',
               width: '20%',
               enableCellEdit: true,
               cellEditableCondition: function() {
-                return $scope.editable
+                return $scope.editable;
               },
               type: 'number',
+              cellFilter: 'number',
               aggregationType: uiGridConstants.aggregationTypes.sum
             },
             {
               field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
               width: '20%',
               headerCellClass: 'text-info',
               type: 'number',
+              cellFilter: 'number',
               enableCellEdit: true,
               cellEditableCondition: function() {
-                return $scope.editable
+                return $scope.editable;
               },
-              cellTemplate: '<div ng-init="row.entity.Credito=0">{{row.entity.Credito}}</div>',
+              cellTemplate: '<div ng-init="row.entity.Credito=0">{{row.entity.Credito | currency:undefined:0}}</div>',
               aggregationType: uiGridConstants.aggregationTypes.sum
             },
             {
               field: 'CuentaContable.Naturaleza',
-              displayName: 'Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
               headerCellClass: 'text-info',
               enableCellEdit: false,
               width: '15%'
@@ -166,11 +173,8 @@ angular.module('financieraClienteApp')
           ]
         };
 
-        $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2;
-
         self.cargar_cuentas = function() {
           if ($scope.conceptoid != undefined) {
-
             financieraRequest.get('concepto_cuenta_contable', $.param({
               query: "Concepto:" + $scope.conceptoid,
               limit: 0
@@ -180,12 +184,11 @@ angular.module('financieraClienteApp')
                 for (var i = 0; i < $scope.movimientos.length; i++) {
 
                   if (!$scope.movimientos[i].CuentaAcreedora) {
-                    self.gridOptionsMovimientos.data.push($scope.movimientos[i])
-                  }else {
-                    self.gridOptionsMovsAcreedores.data.push($scope.movimientos[i])
+                    self.gridOptionsMovimientos.data.push($scope.movimientos[i]);
+                  } else {
+                    self.gridOptionsMovsAcreedores.data.push($scope.movimientos[i]);
                   }
                 }
-
                 $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2 + (self.gridOptionsMovimientos.data.length * self.gridOptionsMovimientos.rowHeight);
                 $scope.grid2Height = self.gridOptionsMovsAcreedores.rowHeight * 2 + (self.gridOptionsMovsAcreedores.data.length * self.gridOptionsMovsAcreedores.rowHeight);
               } else {
@@ -195,41 +198,37 @@ angular.module('financieraClienteApp')
                 $scope.grid2Height = self.gridOptionsMovsAcreedores.rowHeight * 2;
               }
             });
-
           } else {
             $scope.movimientos = [];
             self.gridOptionsMovimientos.data = $scope.movimientos;
           }
         };
 
+        $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2;
+
         $scope.$watch('[d_movimientosContables.gridOptionsMovimientos.data,monto,d_movimientosContables.gridOptionsMovsAcreedores.data]', function() {
           if ($scope.monto == undefined) {
             $scope.monto = 0;
           }
-          self.suma1=0;
-          self.suma2=0;
-          self.suma3=0;
-          self.suma4=0;
-
+          self.suma1 = 0;
+          self.suma2 = 0;
+          self.suma3 = 0;
+          self.suma4 = 0;
           for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
             self.suma1 = self.suma1 + self.gridOptionsMovimientos.data[i].Debito;
             self.suma2 = self.suma2 + self.gridOptionsMovimientos.data[i].Credito;
           }
-          if (self.gridOptionsMovsAcreedores.data.length>0) {
-            for (var i = 0; i < self.gridOptionsMovsAcreedores.data.length; i++) {
-              self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[i].Debito;
-              self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[i].Credito;
+          if (self.gridOptionsMovsAcreedores.data.length > 0) {
+            for (var j = 0; j < self.gridOptionsMovsAcreedores.data.length; j++) {
+              self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[j].Debito;
+              self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[j].Credito;
             }
           } else {
-            self.suma3=self.suma1;
-            self.suma4=self.suma3;
+            self.suma3 = self.suma1;
+            self.suma4 = self.suma3;
           }
-
-          //console.log($scope.grid..getColumn("Debito").getAggregationValue());
           if (self.suma1 == self.suma2 && self.suma3 == self.suma4 && self.suma1 == self.suma4) {
-              console.log(self.suma1+"="+self.suma2+"="+self.suma3+"="+self.suma4);
             if ($scope.monto != self.suma1) {
-              console.log($scope.monto);
               $scope.validatemov = false;
             } else {
               $scope.validatemov = true;
@@ -241,7 +240,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('conceptoid', function() {
           self.cargar_cuentas();
-        });
+        }, true);
       },
       controllerAs: 'd_movimientosContables'
     };
