@@ -42,7 +42,7 @@ angular.module('financieraClienteApp')
       financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp','').then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
-
+        console.log(response.data);
 
       });
     };
@@ -60,7 +60,9 @@ angular.module('financieraClienteApp')
         $scope.apropiacion= undefined;
         $scope.apropiaciones = [];
           self.data = row.entity;
-
+          financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
+            self.data.Compromiso = response.data;
+          });
           argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
 
           self.gridOptions_rubros.data = response.data;

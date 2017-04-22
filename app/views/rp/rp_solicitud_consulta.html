@@ -17,39 +17,22 @@
 
       <div class="modal-content col-md-offset-1 col-md-10">
         <div class="modal-header">
-          <div class="row">
-            <div class="col-md-4">
-              <label>Información de la Solicitud de RP</label>
-            </div>
-            <div class="col-md-offset-7 col-md-1">
-              <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal" ng-click="rpSolicitudConsulta.actualiza_solicitudes();">&times</button>
-            </div>
-          </div>
+              <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
         </div>
 
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <div class="panel-title">
-                Datos de la solicitud de Registro Presupuestal
-              </div>
+                <h3 class="page-header">Solicitud de Registro Presupuestal No {{rpSolicitudConsulta.data.Id}} de {{rpSolicitudConsulta.data.Vigencia}}</h3>
+                <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</div>
             </div>
             <div class="panel-body">
-              <table class="table table-striped">
+              <table class="table ">
                 <tr>
-                  <th>Solicitud No: </th> <td>{{rpSolicitudConsulta.data.Id}}</td>
+                  <th>CDP No: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
                 </tr>
                 <tr>
-                  <th>Vigencia: </th> <td>{{rpSolicitudConsulta.data.Vigencia}}</td>
-                </tr>
-                <tr>
-                  <th>Fecha de la solicitud: </th> <td>{{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</td>
-                </tr>
-                <tr>
-                  <th>Consecutivo del CDP: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
-                </tr>
-                <tr>
-                  <th>Consecutivo de la Necesidad: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
+                  <th>Necesidad No: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
                 </tr>
 		<tr>
                   <th>Beneficiario: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NomProveedor}}</td>
@@ -59,6 +42,12 @@
                 </tr>
 		<tr>
                   <th>No. Documento: </th> <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
+                </tr>
+                <tr>
+                    <th>Compromiso: </th> <td>{{rpSolicitudConsulta.data.Compromiso.Id+" / "+rpSolicitudConsulta.data.Compromiso.Objeto}}</td>
+                </tr>
+                <tr>
+                    <th>Modalidad de selección: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Id+" / "+rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Nombre}}</td>
                 </tr>
 		<tr>
                   <th>Objeto: </th> <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>

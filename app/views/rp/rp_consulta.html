@@ -12,33 +12,21 @@
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-      <div class="row">
-        <div class="col-md-4">
-          <label>Información del RP</label>
-        </div>
-        <div class="col-md-offset-7 col-md-1">
-          <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal">&times</button>
-        </div>
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
+    </div>
+    <div class="panel panel-default" ng-repeat="item in rpConsulta.detalle">
+      <div class="panel-heading">
+          <h3 class="page-header">Registro Presupuestal No {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
+          <div align="right">Fecha de Registro: {{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</div>
       </div>
-    </div>
-    <div class="panel panel-default">
-    <div class="panel-heading">
-       Detalle del RP
-    </div>
     <div class="panel-body">
-      <div class="col-md-10 col-md-offset-1 " ng-repeat="item in rpConsulta.detalle">
+      <div class="col-md-10 col-md-offset-1 " >
         <table class="table text-justify " >
           <tr>
-            <th>Consecutivo del RP: </th><td>{{item.NumeroRegistroPresupuestal}}</td>
+            <th>CDP No: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
           </tr>
           <tr>
-            <th>Consecutivo del CDP: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
-          </tr>
-          <tr>
-            <th>Consecutivo de la Necesidad: </th><td>{{rpConsulta.Necesidad.Numero}}</td>
-          </tr>
-          <tr>
-            <th>Fecha de Registro: </th><td>{{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</td>
+            <th>Necesidad No: </th><td>{{rpConsulta.Necesidad.Numero}}</td>
           </tr>
           <tr>
             <th>Estado: </th><td>{{item.Estado.Nombre}}</td>
@@ -53,16 +41,13 @@
             <th>No. Documento: </th> <td>{{item.Beneficiario.NumDocumento}}</td>
           </tr>
           <tr>
+            <th>Compromiso: </th> <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+          </tr>
+          <tr>
+            <th>Modalidad de Selección: </th> <td>{{rpConsulta.Necesidad.ModalidadSeleccion.Id+" / "+rpConsulta.Necesidad.ModalidadSeleccion.Nombre}}</td>
+          </tr>
+          <tr>
             <th>Objeto del Contrato: </th> <td>{{rpConsulta.Necesidad.Objeto}}</td>
-          </tr>
-          <tr>
-            <th>Compromiso: </th> <td>{{item.Compromiso.TipoCompromisoTesoral.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>No De Compromiso: </th> <td>{{item.Compromiso.Id}}</td>
-          </tr>
-          <tr>
-            <th>Descripción Compromiso: </th> <td>{{item.Compromiso.Objeto}}</td>
           </tr>
         </table>
         <hr>

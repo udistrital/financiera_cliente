@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService) {
+  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -82,6 +82,16 @@ angular.module('financieraClienteApp')
               });
               self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
             });
+
+              agoraRequest.get('informacion_persona_natural',$.param({
+                query: "Id:"+self.cdp.Responsable,
+                limit: 1
+              })).then(function(response){
+                if (response.data != null){
+                  self.cdp.Responsable = response.data[0];
+                }
+
+              });
 
         });
       });

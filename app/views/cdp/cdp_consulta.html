@@ -2,7 +2,7 @@
 <div class="col-md-12 col-centered">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2>Lista de CDP</h2>
+      <h2>Lista de Certificados de Disponibilidad Presupuestal</h2>
     </div>
     <div class="panel-body">
       <div ui-grid="cdpConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
@@ -14,36 +14,20 @@
 
       <div class="modal-content col-md-offset-1 col-md-10">
         <div class="modal-header">
-          <div class="row">
-            <div class="col-md-4">
-              <label>Información del CDP</label>
-            </div>
-            <div class="col-md-offset-7 col-md-1">
-              <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal">&times</button>
-            </div>
-          </div>
+              <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
         </div>
         <div class="panel-body">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <div class="panel-title">
-                Detalle del CDP
-              </div>
+                <h3 class="page-header">Certificado de Disponibilidad Presupuestal No {{cdpConsulta.cdp.NumeroDisponibilidad}} de {{cdpConsulta.cdp.Vigencia}}</h3>
+                <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
             </div>
             <div class="panel-body">
               <div >
                 <table class="table text-justify">
                   <tr>
-                    <th>Consecutivo del CDP: </th>
-                    <td>{{cdpConsulta.cdp.NumeroDisponibilidad}}</td>
-                  </tr>
-                  <tr>
-                    <th>Consecutivo de la Necesidad: </th>
+                    <th>Necesidad No: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
-                  </tr>
-                  <tr>
-                    <th>Fecha de Registro: </th>
-                    <td>{{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</td>
                   </tr>
                   <tr>
                     <th>Estado: </th>
@@ -54,7 +38,7 @@
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Jefe de la dependencia: </th>
+                    <th>Jefe de la Dependencia: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
                           cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
@@ -70,6 +54,13 @@
                           cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
                         cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
+                  </tr>
+                  <tr>
+                    <th>Responsable Sección de Presupuesto: </th>
+                        <td>{{cdpConsulta.cdp.Responsable.PrimerApellido + ' ' +
+                              cdpConsulta.cdp.Responsable.SegundoApellido + ' ' +
+                             cdpConsulta.cdp.Responsable.PrimerNombre + ' '+
+                            cdpConsulta.cdp.Responsable.SegundoNombre + ' '}}</td>
                   </tr>
                   <tr>
                     <th>Objeto: </th>
