@@ -42,9 +42,13 @@ var text_es = {
   VALOR: "Valor",
   FUENTES_FINANCIACION: "Fuentes de Financiación",
   CONCEPTOS: "Conceptos",
+  CONCEPTO: "Concepto",
   TIPO: "Tipo",
   AFECTACION: "Afectación",
   CUENTAS_CONTABLES: "Cuentas Contables",
+  DEBITO:"Débito",
+  CREDITO:"Crédito",
+  CUENTA: "Cuenta",
 
 
   // PROVEEDOR
@@ -71,6 +75,11 @@ var text_es = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+
+  //MOVIMIENTOS CUENTAS_CONTABLES
+  PRINCIPIO_PARTIDA_DOBLE_CUMPLE:"¡El principio de la partida Doble o dualidad se cumple!",
+  PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA: "¡Recuerda que la suma de los montos debitados y de los montos acreditados debe ser la misma e igual al valor dado sobre el concepto!",
+
 
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
   D_PLANES_CUENTA: {
@@ -146,7 +155,8 @@ var text_en = {
   DETALLE_CRP: "Detail CRP",
   VALOR: "Value",
   FUENTES_FINANCIACION: "Sources of funding",
-  CONCEPTOS: "Concept",
+  CONCEPTOS: "Conceptos",
+  CONCEPTO: "Concepto",
   TIPO: "Type",
   AFECTACION: "Affectation",
   CUENTAS_CONTABLES: "Accounting Accounts",
@@ -208,7 +218,7 @@ var text_en = {
   OPERAR_CONCEPTO: "Operate Concept",
 
   //Rubro
-  RUBRO: "Item",
+  RUBRO: "Rubro",
   REGISTRO_RUBRO: "Registro de Rubro",
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",

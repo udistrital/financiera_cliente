@@ -49,7 +49,7 @@ angular.module('financieraClienteApp')
               self.plan_cuentas = response.data;
             });
           });
-        }
+        };
 
         $scope.$watch("recargar", function() {
           self.cargar_arbol();
