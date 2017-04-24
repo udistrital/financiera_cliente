@@ -29,7 +29,9 @@ angular.module('financieraClienteApp')
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',     displayName: $translate.instant('VIGENCIA'), width:'8%'},
             {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: $translate.instant('DESCRIPCION')},
             {field: 'Valor',                                                    displayName: $translate.instant('VALOR'), cellFilter: 'currency'},
-            {field: 'Saldo',                                                    displayName: $translate.instant('SALDO'), cellFilter: 'currency'} //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
+            {field: 'Saldo',                                                    displayName: $translate.instant('SALDO'), cellFilter: 'currency'}, //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
+            {field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion', displayName: $translate.instant('DESCRIPCION')},
+            {field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Codigo',      displayName: $translate.instant('DESCRIPCION')},
           ]
         };
         self.gridOptions_rubros.multiSelect = true;
