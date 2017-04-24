@@ -41,6 +41,7 @@ var text_es = {
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",
   FUENTES_FINANCIACION: "Fuentes de Financiación",
+  FUENTE_FINANCIACION_CODIGO: "Código Fuente",
   CONCEPTOS: "Conceptos",
   CONCEPTO: "Concepto",
   TIPO: "Tipo",
@@ -121,6 +122,12 @@ var text_es = {
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
 
+
+  //FUENTES DE FINANCIACIÓN
+  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
+  
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
   SOLICITUD_CDP: "Solicitud de CDP No.",
@@ -173,6 +180,7 @@ var text_en = {
   DETALLE_CRP: "Detail CRP",
   VALOR: "Value",
   FUENTES_FINANCIACION: "Sources of funding",
+  FUENTE_FINANCIACION_CODIGO: "Code Sources of funding",
   CONCEPTOS: "Concepts",
   CONCEPTO: "Concept",
   TIPO: "Type",

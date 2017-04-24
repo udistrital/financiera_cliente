@@ -43,7 +43,8 @@ angular
     'uiGridService',
     'adminMidService',
     'argoService',
-    'coreService'
+    'coreService',
+    'oikosService'
   ])
 
   .run(function(amMoment) {
@@ -197,6 +198,21 @@ angular
         templateUrl: 'views/rp/rp_solicitud_consulta.html',
         controller: 'RpRpSolicitudConsultaCtrl',
         controllerAs: 'rpSolicitudConsulta'
+      })
+      .when('/fuente_financiacion/crear_fuente', {
+        templateUrl: 'views/fuente_financiacion/crear_fuente.html',
+        controller: 'crearFuenteCtrl',
+        controllerAs: 'crearFuente'
+      })
+      .when('/fuente_financiacion/consulta_fuente', {
+        templateUrl: 'views/fuente_financiacion/consulta_fuente.html',
+        controller: 'consultaFuenteCtrl',
+        controllerAs: 'consultaFuente'
+      })
+      .when('/fuente_financiacion/detalle_fuente', {
+        templateUrl: 'views/fuente_financiacion/detalle_fuente.html',
+        controller: 'detalleFuenteCtrl',
+        controllerAs: 'detalleFuente'
       })
       .otherwise({
         redirectTo: '/'

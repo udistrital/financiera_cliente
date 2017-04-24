@@ -38,8 +38,7 @@ angular.module('financieraClienteApp')
               cellTemplate:
               '<center>\
                 <button ng-click="grid.appScope.d_opListarTodas.op_detalle(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
-                <button ng-click="grid.appScope.d_opListarTodas.op_editar(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
-              </center>'
+               </center>'
             }
           ];
         self.op_detalle = function(row){
