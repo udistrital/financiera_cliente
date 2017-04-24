@@ -46,6 +46,7 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
               cellClass: 'text-success',
               headerCellClass: 'text-info',
+              cellClass: 'input_center',
               cellTooltip: function(row) {
                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
               },
@@ -66,6 +67,7 @@ angular.module('financieraClienteApp')
             {
               field: 'Debito',
               displayName: $translate.instant('DEBITO'),
+              cellClass: 'input_right',
               headerCellClass: 'text-info',
               cellTemplate: '<div ng-init="row.entity.Debito=0">{{row.entity.Debito | currency:undefined:0}}</div>',
               width: '20%',
@@ -75,11 +77,14 @@ angular.module('financieraClienteApp')
               },
               type: 'number',
               cellFilter: 'number',
-              aggregationType: uiGridConstants.aggregationTypes.sum
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+              footerCellClass: 'input_right'
             },
             {
               field: 'Credito',
               displayName: $translate.instant('CREDITO'),
+              cellClass: 'input_right',
               width: '20%',
               headerCellClass: 'text-info',
               type: 'number',
@@ -89,7 +94,9 @@ angular.module('financieraClienteApp')
                 return $scope.editable;
               },
               cellTemplate: '<div ng-init="row.entity.Credito=0">{{row.entity.Credito | currency:undefined:0}}</div>',
-              aggregationType: uiGridConstants.aggregationTypes.sum
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+              footerCellClass: 'input_right'
             },
             {
               field: 'CuentaContable.Naturaleza',
