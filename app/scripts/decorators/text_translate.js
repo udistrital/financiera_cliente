@@ -122,6 +122,12 @@ var text_es = {
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
 
+
+  //FUENTES DE FINANCIACIÓN
+  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
+  
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
   SOLICITUD_CDP: "Solicitud de CDP No.",
