@@ -1,9 +1,5 @@
-<br>
-<div class="col-md-12 col-centered">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2>Lista De Certificados De Disponibilidad Presupuestal</h2>
-    </div>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'LISTA_CDP' | translate}}</h2>
     <div class="panel-body">
       <div ui-grid="cdpConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
     </div>
@@ -23,65 +19,50 @@
                 <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
             </div>
             <div class="panel-body">
+              <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
               <div >
                 <table class="table text-justify">
                   <tr>
-                    <th>Necesidad No: </th>
+                    <th>{{'NECESIDAD_NO' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
                   </tr>
                   <tr>
-                    <th>Estado: </th>
+                    <th>{{'ESTADO' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Estado.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Dependencia Solicitante: </th>
+                    <th>{{'DEPENDENCIA_SOLICITANTE' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Jefe De La Dependencia: </th>
+                    <th>{{'JEFE_DEPENDENCIA' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
                           cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
                         cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
                   </tr>
                   <tr>
-                    <th>Dependencia Destino: </th>
+                    <th>{{'DEPENDENCIA_DESTINO' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Responsable Sección De Presupuesto: </th>
+                    <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
                         <td>{{cdpConsulta.cdp.Responsable.PrimerApellido + ' ' +
                               cdpConsulta.cdp.Responsable.SegundoApellido + ' ' +
                              cdpConsulta.cdp.Responsable.PrimerNombre + ' '+
                             cdpConsulta.cdp.Responsable.SegundoNombre + ' '}}</td>
                   </tr>
                   <tr>
-                    <th>Objeto: </th>
+                    <th>{{'OBJETO' | translate}}: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
                   </tr>
                 </table>
                 <hr>
-                <h4><b>Afectación Presupuestal</b></h4>
+                <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
                 <fuente-financiacion-cdp cdp="cdpConsulta.cdp.Id" apropiacion="apropiaciones"></fuente-financiacion-cdp>
               </div>
             </div>
           </div>
-
-          <!--
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <div class="panel-title">
-                    Rubros para este CDP
-                  </div>
-                </div>
-                <div ui-grid="cdpConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="cdpConsulta.gridHeight" class="myGrid"></div>
-              </div>
-              	<div  ng-show="apropiacion">
-              		<fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
-              	</div>
-              -->
         </div>
       </div>
-
-
 </div>
