@@ -40,7 +40,7 @@ var text_es = {
   SELECCIONE_CRP: "Seleccione CRP",
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",
-  FUENTES_FINANCIACION: "Fuentes de Financiación",
+  FUENTES_FINANCIACION: "Fuentes Financiación",
   FUENTE_FINANCIACION_CODIGO: "Código Fuente",
   CONCEPTOS: "Conceptos",
   CONCEPTO: "Concepto",
@@ -127,7 +127,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
-  
+
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
   SOLICITUD_CDP: "Solicitud de CDP No.",
