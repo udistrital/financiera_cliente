@@ -41,7 +41,7 @@ angular.module('financieraClienteApp')
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
               cellClass: 'input_right',
-              footerCellTemplate: '<div> TOTAL {{col.getAggregationValue() | currency}}</div>',
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
               footerCellClass: 'input_right'
             },
             {
@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
               cellClass: 'input_right',
-              footerCellTemplate: '<div> TOTAL {{col.getAggregationValue() | currency}}</div>',
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
               footerCellClass: 'input_right'
             },
             {

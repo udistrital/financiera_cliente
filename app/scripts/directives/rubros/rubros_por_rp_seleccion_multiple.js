@@ -47,14 +47,14 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('VALOR'),
               cellFilter: 'currency',
               width: '14%',
-              cellClass: 'input_center'
+              cellClass: 'input_right'
             },
             {
               field: 'Saldo',
               displayName: $translate.instant('SALDO'),
               cellFilter: 'currency',
               width: '14%',
-              cellClass: 'input_center'
+              cellClass: 'input_right'
             }, //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
             {
               field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion',
