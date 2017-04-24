@@ -120,6 +120,23 @@ var text_es = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
+
+  //CDP
+  TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
+  SOLICITUD_CDP: "Solicitud de CDP No.",
+  DEPENDENCIA_SOLICITANTE: "Dependencia Solicitante",
+  JEFE_DEPENDENCIA: 'Jefe de la Dependencia',
+  DEPENDENCIA_DESTINO: 'Dependencia Destino',
+  ORDENADOR_GASTO: 'Ordenador del Gasto',
+  OBJETO_CONTRACTUAL: 'Objeto Contractual ',
+  VALOR_CONTRATACION: 'Valor De La Contratación',
+  JUSTIFICACION: 'Justificación',
+  AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
+  LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
+  DATOS_NECESIDAD: "Datos de la Necesidad",
+  NECESIDAD_NO:"Necesidad No. ",
+  RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
+  OBJETO:"Objeto",
 };
 
 var text_en = {
@@ -205,6 +222,7 @@ var text_en = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    APROBAR: "Aprobar"
   },
 
   // ORDEN DE PAGO
