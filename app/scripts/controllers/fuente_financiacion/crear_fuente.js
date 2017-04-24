@@ -66,7 +66,7 @@ self.dependencia=['1','2'];
                     enableRowHeaderSelection: false,
 
                 columnDefs: [
-                      { name:'codigo', field: 'Rubro.Codigo',width: '35%'},
+                      { name:'Código', field: 'Rubro.Codigo',width: '35%'},
                       { name:'Rubro', field: 'Rubro.Descripcion' ,width: '35%'},
                       { name:'Vigencia', cellTemplate:'<div align="center">{{row.entity.Vigencia}}</div>',width: '15%', },
                       { name:'Estado', field: 'Estado.Nombre',width: '15%'},
