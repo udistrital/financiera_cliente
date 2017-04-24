@@ -46,8 +46,8 @@ var text_es = {
   TIPO: "Tipo",
   AFECTACION: "Afectación",
   CUENTAS_CONTABLES: "Cuentas Contables",
-  DEBITO:"Débito",
-  CREDITO:"Crédito",
+  DEBITO: "Débito",
+  CREDITO: "Crédito",
   CUENTA: "Cuenta",
 
 
@@ -77,7 +77,7 @@ var text_es = {
   NUEVA_CUENTA: "Nueva Cuenta",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
-  PRINCIPIO_PARTIDA_DOBLE_CUMPLE:"¡El principio de la partida Doble o dualidad se cumple!",
+  PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
   PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA: "¡Recuerda que la suma de los montos debitados y de los montos acreditados debe ser la misma e igual al valor dado sobre el concepto!",
 
 
@@ -94,12 +94,13 @@ var text_es = {
     CONFIRMAR: "Confirmar",
     AGREGAR: "Agregar",
     REGISTRAR: "Registrar",
-    SOLICITAR_RP:"Solicitar RP",
+    SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar"
   },
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
+  DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",
   DETALLE_OP: "Detalle Orden de Pago",
@@ -117,7 +118,7 @@ var text_es = {
   REGISTRO_RUBRO: "Registro de Rubro",
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
-  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto",
+  APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
 };
 
@@ -143,11 +144,11 @@ var text_en = {
   TIPO_DOCUMENTO: "Document Type",
   ESTADO: "State",
   OPERACION: "Operation",
-  ENTIDAD:"Entity",
+  ENTIDAD: "Entity",
   UNIDAD_EJECUTORA: "Executing Unit",
   SELECCION_UNIDAD_EJECUTORA: "Select Executing Unit",
   DETALLE_UNIDAD_EJECUTORA: "Detail Executing Unit",
-  PROVEEDOR:"Provider",
+  PROVEEDOR: "Provider",
   SELECCIONE_PROVEEDOR: "Select Provider",
   DETALLE_PROVEEDOR: "Detail Provider",
   REGISTRO_PRESUPUESTAL: "Certificate Registry Budget",
@@ -160,8 +161,8 @@ var text_en = {
   TIPO: "Type",
   AFECTACION: "Affectation",
   CUENTAS_CONTABLES: "Accounting Accounts",
-  DEBITO:"Debit",
-  CREDITO:"Credit",
+  DEBITO: "Debit",
+  CREDITO: "Credit",
   CUENTA: "Account",
 
   // PROVEEDOR
@@ -202,12 +203,13 @@ var text_en = {
     CONFIRMAR: "Confirmar",
     AGREGAR: "Agregar",
     REGISTRAR: "Registrar",
-    SOLICITAR_RP:"Solicitar RP",
+    SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
   },
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
+  DETALLE_ORDEN_PAGO: 'Detail Payment Orders',
   DETALLE_OP: "Detail Payment Orders",
   VALOR_PAGO: "Amount Paid",
   DETALLE_VALOR_PAGO: "Detail Value Paid",
@@ -225,7 +227,7 @@ var text_en = {
   REGISTRO_RUBRO: "Registro de Rubro",
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
-  APROBACION_PRESUPUESTO:"Aprobación de Presupuesto",
+  APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Select Item",
 };
 
