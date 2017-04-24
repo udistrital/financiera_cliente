@@ -2,7 +2,7 @@
 <div class="col-md-12 col-centered">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h2>Lista de Certificados de Disponibilidad Presupuestal</h2>
+      <h2>Lista De Certificados De Disponibilidad Presupuestal</h2>
     </div>
     <div class="panel-body">
       <div ui-grid="cdpConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
@@ -19,7 +19,7 @@
         <div class="panel-body">
           <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="page-header">Certificado de Disponibilidad Presupuestal No {{cdpConsulta.cdp.NumeroDisponibilidad}} de {{cdpConsulta.cdp.Vigencia}}</h3>
+                <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpConsulta.cdp.NumeroDisponibilidad}} de {{cdpConsulta.cdp.Vigencia}}</h3>
                 <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
             </div>
             <div class="panel-body">
@@ -38,7 +38,7 @@
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Jefe de la Dependencia: </th>
+                    <th>Jefe De La Dependencia: </th>
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
                           cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
@@ -49,14 +49,7 @@
                     <td>{{cdpConsulta.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
                   </tr>
                   <tr>
-                    <th>Ordenador del Gasto: </th>
-                    <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerApellido + ' ' +
-                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
-                         cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
-                        cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
-                  </tr>
-                  <tr>
-                    <th>Responsable Sección de Presupuesto: </th>
+                    <th>Responsable Sección De Presupuesto: </th>
                         <td>{{cdpConsulta.cdp.Responsable.PrimerApellido + ' ' +
                               cdpConsulta.cdp.Responsable.SegundoApellido + ' ' +
                              cdpConsulta.cdp.Responsable.PrimerNombre + ' '+
