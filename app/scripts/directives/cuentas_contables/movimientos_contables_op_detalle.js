@@ -19,7 +19,6 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.gridOptions_movimientos = {
-          showGridFooter: true,
           showColumnFooter: true,
           enableRowSelection: true,
           enableRowHeaderSelection: false,
