@@ -16,11 +16,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       enableFiltering : true,
       columnDefs : [
-        {field: 'Id',              displayName: 'Numero'},
-        {field: 'Vigencia',  displayName: 'Vigencia'},
-        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Consecutivo Disponibilidad'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Consecutivo Necesidad'},
+        {field: 'Id',              displayName: 'No.', cellClass: 'input_center'},
+        {field: 'Vigencia',  displayName: 'Vigencia', cellClass: 'input_center'},
+        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Disponibilidad No. ', cellClass: 'input_center'},
+        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Necesidad No. ', cellClass: 'input_center'},
         {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
     ]
 
