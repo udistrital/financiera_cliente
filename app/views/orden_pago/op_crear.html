@@ -1,40 +1,48 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3>Crear Orden de Pago para Prooveedor<h3>
-        <a class="btn btn-success" ng-href="/#/orden_pago/ver_todos">Regresar</a>
-    </div>
-    <div class="panel-body">
-      <!--unidad ejecutora -->
-      <ue-listar unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"/>
-      <!--Proveedor -->
-      <pv-listar proveedor="opCrear.OrdenPagoConsulta.Proveedor"/>
-      <!--RP-->
-      <rp-por-proveedor-listar beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id" rpselect="opCrear.OrdenPago.RegistroPresupuestal"/>
-      <!--detalle pago -->
-      <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase"/>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
+  <div class="panel-body">
 
-      <div class="row">
-        <div class=" col-sm-6">
-          <!--Rubros-->
-          <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds"/>
-          {{opCrear.RubrosIds}}
-        </div>
-        <div class=" col-sm-6">
-          <!--Concepto-->
-          <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto"/>
+    <!--unidad ejecutora -->
+    <ue-listar unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"> </ue-listar>
+    <!--Proveedor -->
+    <pv-listar proveedor="opCrear.OrdenPagoConsulta.Proveedor"> </pv-listar>
+    <!--RP-->
+    <rp-por-proveedor-listar beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id" rpselect="opCrear.OrdenPago.RegistroPresupuestal">
+    </rp-por-proveedor-listar>
+    <!--detalle pago -->
+    <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase">
+    </op-proveedor-detalle-pago>
+    <!--Rubros-->
+    <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds" rubrosobj="opCrear.RubrosObjIds">
+    </rubros-por-rp-seleccion-multiple>
+    <!--Concepto-->
+    <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto" rubroidsobj="opCrear.RubrosObjIds">
+    </conceptos-por-rubros-op>
+
+    <!--Cuentas contables -->
+    <legend class="text-primary" ng-click="a=!a">
+      {{'CUENTAS_CONTABLES' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!a"></span>
+      <span class="fa fa-minus pull-right" ng-show="a"></span>
+    </legend class="text-primary">
+    <div class="panel-body row" ng-show="a">
+      <div class=" col-sm-12">
+        <div class="panel-body">
+          <ul class="nav nav-tabs">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in opCrear.Concepto"><a href ng-click="opCrear.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane fade in active" ng-repeat="c in opCrear.Concepto" ng-show="opCrear.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado">
+              </movimientos-contables>
+            </div>
+          </div>
         </div>
       </div>
-      <!--<pre>{{opCrear.Concepto | json }}</pre>-->
-      <div ng-repeat="c in opCrear.Concepto">
-        <movimientos-contables conceptoid="c.Id"  movimientos="opCrear.movs" monto="c.Afectacion" editable validatemov="validado"/>
-        <pre>{{opCrear.movs |json}}</pre>
-      </div>
-      <!-- <pre>{{ opCrear.OrdenPago | json}}</pre> -->
-      <!--<pre>{{opCrear.Concepto | json}}</pre>-->
-      <center><button class="btn btn-primary" ng-click="opCrear.addOpProveedor()">Registrar</button></center>
-      <!--
-      <p>resultado</p>
-      {{opCrear.resultado | json}}
-      -->
     </div>
+    <!--Boton Crear Orden Pago Proveedor -->
+    <center><button class="btn btn-primary" ng-click="opCrear.addOpProveedor()">Registrar</button></center>
+  </div>
 </div>

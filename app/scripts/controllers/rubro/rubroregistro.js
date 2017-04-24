@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest) {
+  .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService) {
     var self = this;
 
     self.message = 'Registro de rubros';
@@ -19,15 +19,12 @@ angular.module('financieraClienteApp')
       paginationPageSize: 250,
       enableColumnResizing: true,
       enableFiltering : true,
-      enableFiltering : false,
       enableSorting : true,
       treeRowHeaderAlwaysVisible : false,
       showTreeExpandNoChildren: false,
 
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Entidad.Nombre',  displayName: 'Entidad' },
-        {field: 'Vigencia',  cellClass:'alignleft'},
         {field: 'Codigo',  cellTemplate: '<div ng-click="grid.appScope.rubroRegistro.agregar_padre(row)"> {{row.entity.Codigo}} </div>',
           cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
             if (grid.getCellValue(row ,col).toLowerCase() === self.ultimo_registro) {
@@ -35,10 +32,7 @@ angular.module('financieraClienteApp')
             }
           }
         },
-        {field: 'Descripcion'},
-        {field: 'TipoPlan'},
-        {field: 'Administracion'},
-        {field: 'Estado'}
+        {field: 'Descripcion', width: "*"}
       ]
 
     };
@@ -94,6 +88,7 @@ angular.module('financieraClienteApp')
          }else{
            self.gridOptions.data = [];
          }
+         //self.gridHeight = uiGridService.getGridHeight(self.gridOptions);
 
        });
      }

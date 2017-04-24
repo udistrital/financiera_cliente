@@ -1,0 +1,58 @@
+<div class="col-md-10 col-md-offset-1">
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-8">
+          <h3 class="page-header">{{cuenta.v_cuenta.Nombre}}</h3>
+          <span>Codigo: {{cuenta.v_cuenta.Codigo}}</span>
+        </div>
+
+        <div class="col-md-4" name="fechas" align="right">
+          <h3>
+          <small><span style="color: white">naturaleza {{cuenta.v_cuenta.Naturaleza}}</span> </small><br />
+          <small><span style="color: white">Tipo Clasificación {{cuenta.v_cuenta.NivelClasificacion.Nombre}}</span> </small>
+          </h3>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="col-md-12 row line">
+        <blockquote>
+          <p>
+            {{cuenta.v_cuenta.Descripcion}}
+          </p>
+        </blockquote>
+      </div>
+
+      <div class="col-md-12 row line">
+          <p>
+          <strong>Saldo Inicial: {{cuenta.v_cuenta.Saldo}}</strong>
+          </p>
+      </div>
+
+
+
+
+      <div class="col-md-12 row line" ng-if="crearcuenta.tipo_cuenta.Nombre!='Ingreso'">
+        <div class="col-md-2">
+          <label><h5>Movimientos:<h5></label>
+        </div>
+
+        <div class="panel panel-warning panel-body col-md-10">
+          <center>Aqui movimientos!</center>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="panel-footer">
+      <!--{{cuenta.afectaciones}}!-->
+    </div>
+  </div>
+
+</div>

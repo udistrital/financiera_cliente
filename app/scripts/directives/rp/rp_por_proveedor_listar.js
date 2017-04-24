@@ -7,27 +7,47 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function (financieraRequest, $timeout) {
+  .directive('rpPorProveedorListar', function(financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
-      scope:{
-          beneficiaroid:'=?',
-          rpselect: '=?'
-        },
+      scope: {
+        beneficiaroid: '=?',
+        rpselect: '=?'
+      },
 
       templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
         self.gridOptions_rp = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
-          enableFiltering: true,
 
-          columnDefs : [
-            {field: 'Id',                             visible : false},
-            {field: 'NumeroRegistroPresupuestal',     displayName: 'Numero RP'},
-            {field: 'Estado.Nombre',                  displayName: 'Estado'},
-            {field: 'Vigencia',                       displayName: 'Vigencia'}
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: null,
+
+          enableFiltering: true,
+          enableSelectAll: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'NumeroRegistroPresupuestal',
+              displayName: $translate.instant('NO_CRP')
+            },
+            {
+              field: 'Estado.Nombre',
+              displayName: $translate.instant('ESTADO')
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA')
+            }
           ]
         };
         // refrescar
@@ -38,39 +58,53 @@ angular.module('financieraClienteApp')
           }, 0);
         };
 
-        $scope.$watch('beneficiaroid', function(){
+        $scope.$watch('beneficiaroid', function() {
           self.refresh();
-          if($scope.beneficiaroid != undefined){
+          if ($scope.beneficiaroid != undefined) {
             financieraRequest.get('registro_presupuestal',
               $.param({
-                  query: "Beneficiario:" + $scope.beneficiaroid,
-                  limit: 0,
+                query: "Beneficiario:" + $scope.beneficiaroid,
               })).then(function(response) {
-                self.gridOptions_rp.data = response.data;
+              self.gridOptions_rp.data = response.data;
             });
           }
         })
-
-        self.gridOptions_rp.onRegisterApi = function(gridApi){
-            //set gridApi on scope
-            self.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope,function(row){
-              $scope.rpselect = row.entity;
-              //consulta datos del rp
-              financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',  //en el futuro será una servició con calculo de suma total
-                $.param({
-                    query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
-                    limit: 0,
-                })).then(function(response) {
-                  self.rp_select_de_consulta = response.data;
-              });
-              //Fin consulta datos del rp
+        // control de paginacion
+        $scope.$watch('[d_rpPorProveedorListar.gridOptions_rp.paginationPageSize, d_rpPorProveedorListar.gridOptions_rp.data]', function() {
+          if ((self.gridOptions_rp.data.length <= self.gridOptions_rp.paginationPageSize || self.gridOptions_rp.paginationPageSize == null) && self.gridOptions_rp.data.length > 0) {
+            $scope.gridHeight = self.gridOptions_rp.rowHeight * 2 + (self.gridOptions_rp.data.length * self.gridOptions_rp.rowHeight);
+            if (self.gridOptions_rp.data.length <= 5) {
+              self.gridOptions_rp.enablePaginationControls = false;
+            }
+          } else {
+            $scope.gridHeight = self.gridOptions_rp.rowHeight * 3 + (self.gridOptions_rp.paginationPageSize * self.gridOptions_rp.rowHeight);
+            self.gridOptions_rp.enablePaginationControls = true;
+          }
+        }, true);
+        //
+        self.gridOptions_rp.onRegisterApi = function(gridApi) {
+          //set gridApi on scope
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.rpselect = row.entity;
+            //consulta datos del rp
+            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', //en el futuro será una servició con calculo de suma total
+              $.param({
+                query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
+                limit: 0,
+              })).then(function(response) {
+              self.rp_select_de_consulta = response.data;
             });
-          };
-          self.gridOptions_rp.multiSelect = false;
-
-      //
+            //Valor total del Rp
+            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
+              .then(function(response) {
+                self.valor_total_rp = response.data;
+              });
+          });
+        };
+        self.gridOptions_rp.multiSelect = false;
+        //
       },
-      controllerAs:'d_rpPorProveedorListar'
+      controllerAs: 'd_rpPorProveedorListar'
     };
   });

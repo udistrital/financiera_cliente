@@ -1,16 +1,13 @@
-<br>
-<div class="col-md-12  col-centered ">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2> Aprobación de Presupuesto</h2>
-    </div>
-  </div>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'APROBACION_PRESUPUESTO' | translate }}</h2>
   <div class="panel-body">
     <div ng-controller='RubroRubroApropiacionAprobacionCtrl'>
       <div ui-grid="rubroApropiacionAprobacion.gridOptions" ui-grid-selection ui-grid-cellNav ui-grid-tree-view class="myGrid"></div>
-      <div>
-        <button class="btn btn-success" ng-click="rubroApropiacionAprobacion.aprobar_celdas_editadas()">Aprobar</button>
-      </div>
     </div>
+  </div>
+  <div class="panel-footer" align="center" >
+      <button class="btn btn-outline btn-success ng-binding" ng-click="rubroApropiacionAprobacion.aprobar_celdas_editadas()" >
+        {{ 'BTN.APROBAR' | translate }}
+      </button>
   </div>
 </div>

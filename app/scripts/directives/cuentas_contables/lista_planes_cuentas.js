@@ -86,7 +86,11 @@ angular.module('financieraClienteApp')
               displayName: 'Unidad Ejecutora',
               headerCellClass:'text-info',
               cellTooltip: function(row, col) {
-                return  row.entity.UnidadEjecutora.Nombre + " <"+row.entity.UnidadEjecutora.Entidad.Nombre+">";
+                if (row.entity.UnidadEjecutora!=null) {
+                  return  row.entity.UnidadEjecutora.Nombre + " <"+row.entity.UnidadEjecutora.Entidad.Nombre+">";
+                } else {
+                  return ""
+                }
               }
             }
           ]

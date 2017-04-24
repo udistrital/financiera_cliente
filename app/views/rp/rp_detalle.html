@@ -1,18 +1,20 @@
-<br>
 <div class="row">
-  <div class="col-md-8  col-md-offset-2 col-centered">
+    <div ng-class="{'col-md-10 col-xs-offset-1': !rpDetalle.formVisibility, 'col-md-6 col-xs-offset-1': rpDetalle.formVisibility}">
     <div class="panel panel-default">
     <div class="panel-heading">
       <h2> Detalle del RP</h2>
     </div>
     <div class="panel-body">
-      <div class="col-md-8 col-md-offset-2 ">
+      <div class="col-md-10 col-md-offset-1 ">
         <table class="table text-justify " ng-repeat="item in rpDetalle.detalle">
           <tr>
             <th>Consecutivo del RP: </th><td>{{item.NumeroRegistroPresupuestal}}</td>
           </tr>
           <tr>
             <th>Consecutivo del CDP: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
+          </tr>
+          <tr>
+            <th>Consecutivo de la Necesidad: </th><td>{{rpDetalle.Necesidad.Numero}}</td>
           </tr>
           <tr>
             <th>Fecha de Registro: </th><td>{{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</td>
@@ -24,7 +26,7 @@
             <th>Beneficiario: </th> <td>{{item.Beneficiario.NomProveedor + " Nº De Documento: "+item.Beneficiario.NumDocumento}}</td>
           </tr>
           <tr>
-            <th>Objeto del Contrato: </th> <td>{{rpDetalle.objeto}}</td>
+            <th>Objeto del Contrato: </th> <td>{{rpDetalle.Necesidad.Objeto}}</td>
           </tr>
           <tr>
             <th>Compromiso: </th> <td>{{item.Compromiso.TipoCompromisoTesoral.Nombre}}</td>
@@ -35,45 +37,58 @@
           <tr>
             <th>Descripción Compromiso: </th> <td>{{item.Compromiso.Objeto}}</td>
           </tr>
-          <tr>
-            <th>Opciones: </th> <td> <button type="button" class="btn btn-danger" ng-click='rpDetalle.ShowForm()' ng-hide="rpDetalle.formVisibility" >Anular</button> </td>
-          </tr>
         </table>
+        <hr>
+        <div class="col-md-3 col-md-offset-9">
+          <button type="button" class="btn btn-outline btn-danger btn-md btn-block" ng-click='rpDetalle.ShowForm()' ng-hide="rpDetalle.formVisibility">Anular</button>
+        </div>
       </div>
     </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-8  col-md-offset-2 col-centered" ng-show='rpDetalle.formVisibility'>
-      <form class="form-ctrol">
+
+  <div class="col-md-4" ng-show='rpDetalle.formVisibility'>
+      <form class="form-ctrl">
           <div class="panel panel-default">
             <div class="panel-heading">
-              Anulación de RP
+              <div class="panel-title">
+                Anulación de RP
+              </div>
             </div>
-      <!-- Textarea -->
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <label>Motivo de la Anulación</label>
+                </div>
+                <div class="col-md-8">
+                     <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpDetalle.motivo"></textarea>
+                </div>
+              </div>
             <br>
-            <label class="col-md-4 ">Motivo de la Anulación</label>
-            <div class="col-md-8">
-                 <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpDetalle.motivo"></textarea>
-            </div>
-            <br>
-            <label class="col-md-4 ">Tipo de Anulación</label>
-            <div class="col-md-8">
+            <div class="row">
+              <div class="col-md-4">
+                <label>Tipo de Anulación</label>
+              </div>
+              <div class="col-md-8">
                 <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpDetalle.tipoAnulacion">
                     <option value="P">Parcial</option>
                     <option value="T">Total</option>
                  </select>
+               </div>
             </div>
-            <div ng-hide="rpDetalle.tipoAnulacion == 'T' ">
-                <label class="col-md-4">Rubro</label>
-                  <div class="col-md-8">
-                     <input ng-model="apropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo" id="txtRubro" name="txtRubro" type="text" placeholder="seleccione el rubro" class="form-control input-md" required="" disabled="true">
-                     <span class="help-block" ng-show ="apropiacion.Apropiacion.Rubro.Codigo === null || apropiacion.Apropiacion.Rubro.Codigo === 'undefined'" >Debe seleccionar el rubro en la tabla "Rubros para este RP"</span>
-                 </div>
+            <br>
+            <div class="row" ng-hide="rpDetalle.tipoAnulacion == 'T' ">
+              <div class="col-md-4">
+                <label>Rubro</label>
+              </div>
+              <div class="col-md-8">
+                   <input ng-model="apropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo" id="txtRubro" name="txtRubro" type="text" placeholder="seleccione el rubro" class="form-control" required="" disabled="true">
+                   <span class="help-block" ng-show ="apropiacion.Apropiacion.Rubro.Codigo === null || apropiacion.Apropiacion.Rubro.Codigo === 'undefined'" >Debe seleccionar el rubro en la tabla "Rubros para este RP"</span>
+              </div>
             </div>
             <!-- Text input-->
-            <div ng-hide="rpDetalle.tipoAnulacion == 'T' ">
+            <br>
+            <div class="row" ng-hide="rpDetalle.tipoAnulacion == 'T' ">
                 <label class="col-md-4 control-label" for="txtValor">Valor de la anulacion</label>
                 <div class="col-md-8">
                     <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control input-md" required="" ng-model="rpDetalle.Valor" >
@@ -82,27 +97,32 @@
             <!-- Button (Double) -->
             <br>
             <div class="row">
-              <br>
-              <div class="col-md-9 col-md-offset-3">
-                 <div class="col-md-6">
-                   <button  id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-lg btn-block"  ng-click="rpDetalle.anular()" >Anular</button>
-                 </div>
-                 <div class="col-md-6">
-                   <a  id="btnCancelar" name="btnCancelar" class="btn btn-outline btn-primary btn-lg btn-block" ng-click='rpDetalle.ShowForm()' >Cancelar</a>
-                 </div>
-               </div>
+              <div class="col-md-6 col-md-offset-6">
+                <div class="col-md-6">
+                  <button  id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block"  ng-click="rpDetalle.anular()" >Anular</button>
+                </div>
+                <div class="col-md-6">
+                  <a  id="btnCancelar" name="btnCancelar" class="btn btn-outline btn-primary btn-md btn-block" ng-click='rpDetalle.ShowForm()' >Cancelar</a>
+                </div>
+              </div>
             </div>
+
          </div>
       </form>
    </div>
 </div>
 <div class="row">
-  <div class="col-md-8  col-md-offset-2 col-centered">
+  <div class="col-md-10  col-md-offset-1">
     <div class="panel panel-default">
         <div class="panel-heading">
           <h2>Rubros para este RP</h2>
         </div>
-                  <div ui-grid="rpDetalle.gridOptions" ui-grid-selection ui-grid-auto-resize ng-style="rpDetalle.gridHeight" class="myGrid"></div>
+          <div ui-grid="rpDetalle.gridOptions" ui-grid-selection ui-grid-auto-resize ng-style="rpDetalle.gridHeight" class="myGrid"></div>
     </div>
   </div>
+</div>
+<div class="row">
+	<div class="col-md-10 col-xs-offset-1" ng-show="apropiacion">
+		<fuentes-apropiacion apropiacion = "apropiacion_id" fuenteapropiacion = "fuente" />
+	</div>
 </div>

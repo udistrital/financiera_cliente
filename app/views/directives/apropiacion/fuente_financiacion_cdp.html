@@ -1,0 +1,35 @@
+
+      <ul class="list-unstyled"  ng-repeat="item in fuenteFinanciacionCdp.resumen_afectacion_presupuestal">
+        <hr class="hr-primary">
+          <li><b>Rubro:</b> {{item[0].Apropiacion.Rubro.Codigo+" / "+item[0].Apropiacion.Rubro.Descripcion}}
+          <ul>
+            <li ng-show="item[0].FuenteFinanciamiento" ><b>Fuentes de Financiación Afectadas:</b>
+
+              <ul ng-repeat="fuente in item">
+
+                <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Descripcion + " "}}
+                  <ul>
+                    <li><b>Valor afectación:</b> {{" "+fuente.Valor|currency}}</li>
+                    <li><b>Total Comprometido:</b> {{" "+fuente.Comprometido|currency}}</li>
+                    <li><b>Total Anulado:</b> {{" "+fuente.Anulado|currency}}</li>
+                    <li><b>Saldo:</b> {{" "+fuente.Saldo|currency}}</li>
+                  </ul>
+                </li>
+
+              </ul>
+
+            </li>
+            <li ng-show="!item[0].FuenteFinanciamiento" ><b>Valor de la Afectación (Funcionamiento):</b>
+
+              <ul ng-repeat="fuente in item">
+
+                <li><b>Valor afectación:</b> {{" "+fuente.Valor|currency}}</li>
+                <li><b>Total Comprometido:</b> {{" "+fuente.Comprometido|currency}}</li>
+                <li><b>Total Anulado:</b> {{" "+fuente.Anulado|currency}}</li>
+                <li><b>Saldo:</b> {{" "+fuente.Saldo|currency}}</li>
+          </li>
+          </ul>
+
+
+
+      </ul>

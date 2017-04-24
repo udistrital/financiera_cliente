@@ -14,13 +14,16 @@ angular.module('financieraClienteApp')
         seleccion: '=?',
         filtro: '=?',
         cuentasel: '=?',
-        recargar: '=?'
+        recargar: '=?',
+        planid: '='
       },
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html',
       controller: function($scope) {
         var self = this;
 
-        self.cuenta_estructura={};
+        self.seleccionar_cuenta = function(cuenta) {
+          $scope.seleccion = cuenta;
+        };
 
         self.treeOptions = {
           nodeChildren: "Hijos",
@@ -37,24 +40,20 @@ angular.module('financieraClienteApp')
           }
         };
 
-        self.cargar_arbol=function(){
-          financieraRequest.get("plan_cuentas",$.param({
-            query:"PlanMaestro:"+true
+        self.cargar_arbol = function() {
+          financieraRequest.get("plan_cuentas", $.param({
+            query: "Id:" + $scope.planid
           })).then(function(response) {
-            self.plan_maestro=response.data[0];
-            financieraRequest.get("arbol_plan_cuentas/"+self.plan_maestro.Id, "").then(function(response) {
+            self.plan = response.data[0];
+            financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
               self.plan_cuentas = response.data;
             });
           });
-        }
-
-        $scope.$watch("recargar",function(){
-          self.cargar_arbol();
-        });
-
-        self.seleccionar_cuenta = function(cuenta) {
-          $scope.seleccion = cuenta;
         };
+
+        $scope.$watch("recargar", function() {
+          self.cargar_arbol();
+        },true);
 
       },
       controllerAs: 'd_planCuentas'

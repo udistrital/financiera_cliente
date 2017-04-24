@@ -1,11 +1,68 @@
-<br>
-<div class="col-md-12 col-centered">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2>Lista de CDP</h2>
-    </div>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'LISTA_CDP' | translate}}</h2>
     <div class="panel-body">
       <div ui-grid="cdpConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
     </div>
   </div>
+</div>
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+
+
+      <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+              <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
+        </div>
+        <div class="panel-body">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpConsulta.cdp.NumeroDisponibilidad}} de {{cdpConsulta.cdp.Vigencia}}</h3>
+                <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+            </div>
+            <div class="panel-body">
+              <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
+              <div >
+                <table class="table text-justify">
+                  <tr>
+                    <th>{{'NECESIDAD_NO' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'ESTADO' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Estado.Nombre}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'DEPENDENCIA_SOLICITANTE' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'JEFE_DEPENDENCIA' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
+                          cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
+                         cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
+                        cdpConsulta.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'DEPENDENCIA_DESTINO' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
+                        <td>{{cdpConsulta.cdp.Responsable.PrimerApellido + ' ' +
+                              cdpConsulta.cdp.Responsable.SegundoApellido + ' ' +
+                             cdpConsulta.cdp.Responsable.PrimerNombre + ' '+
+                            cdpConsulta.cdp.Responsable.SegundoNombre + ' '}}</td>
+                  </tr>
+                  <tr>
+                    <th>{{'OBJETO' | translate}}: </th>
+                    <td>{{cdpConsulta.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
+                  </tr>
+                </table>
+                <hr>
+                <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+                <fuente-financiacion-cdp cdp="cdpConsulta.cdp.Id" apropiacion="apropiaciones"></fuente-financiacion-cdp>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>

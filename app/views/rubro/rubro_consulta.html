@@ -1,9 +1,7 @@
-<div class="col-md-12 col-centered">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2>Consulta de Rubros</h2>
-    </div>
-    <div class="panel-body">
+
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'CONSULTA_RUBRO' | translate }}</h2>
+  <div class="panel-body">
       <table style="width:95%;">
         <tr>
           <td width="5%">
@@ -11,7 +9,7 @@
           <td width="20%">
             <div>
               <form>
-                <label for="select_vigencia">Vigencia </label>
+                <label for="select_vigencia">{{ 'VIGENCIA' | translate }} </label>
                 <select name="select_vigencia" id="select_vigencia" ng-model="rubroConsulta.selectVigencia" ng-change="rubroConsulta.actualiza_rubros()">
                   <option selected disabled>Seleccione...</option>
                   <option selected>2016</option>
@@ -32,6 +30,3 @@
       </table>
     </div>
   </div>
-
-
-</div>

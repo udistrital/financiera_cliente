@@ -1,14 +1,19 @@
-<div class="row">
+<legend class="text-primary" ng-click="a=!a">
+  {{'CONCEPTOS' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!a"></span>
+  <span class="fa fa-minus pull-right" ng-show="a"></span>
+</legend class="text-primary">
+<div class="panel-body row" ng-show="a">
   <div class=" col-sm-12">
-    <div class="panel panel-primary">
-        <div class="panel-heading" ng-click="panelConceptosPorRubro = !panelConceptosPorRubro">
-            <h4>Seleccion Conceptos <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
-        </div>
-        <div ng-show="panelConceptosPorRubro" class="panel-body"  >
-          <div ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
-          <br>
-          <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.igualar()">Operar Conceptos</button></center>
-        </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'AFECTACION_CONCEPTO' | translate}}
+      </div>
+      <div class="panel-body">
+        <div style="height: {{gridHeight}}px;" ng-if="!refresh" ui-grid="d_conceptosPorRubrosOp.gridOptions_conceptos" ui-grid-edit ui-grid-auto-resize></div>
+        <br>
+        <center><button class="btn btn-primary" ng-click="d_conceptosPorRubrosOp.operar_conceptos()">{{'OPERAR_CONCEPTO' | translate}}</button></center>
+      </div>
     </div>
-    </div>
+  </div>
 </div>

@@ -17,7 +17,14 @@ describe('Controller: PlanCuentasCrearCuentasCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(PlanCuentasCrearCuentasCtrl.awesomeThings.length).toBe(3);
+  it('Verifica que existan naturalezas y estas sean 2: debito y credito', function () {
+    expect(PlanCuentasCrearCuentasCtrl.naturalezas.length).toBe(2);
   });
+
+  it('Verifica que se cargue el plan maestro de la base de datos', function () {
+    expect(PlanCuentasCrearCuentasCtrl.plan_maestro).toBeUndefined();
+    PlanCuentasCrearCuentasCtrl.cargar_plan_maestro();
+    expect(PlanCuentasCrearCuentasCtrl.plan_maestro).toBeDefined(); 
+  });
+
 });

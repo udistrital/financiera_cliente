@@ -7,7 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         }
       },
       jsTest: {
-        files: ['test/spec/{,*/}*.js'],
+        files: ['test/spec/controllers/plan_cuentas/crear_cuentas.js'],
         tasks: ['newer:jshint:test', 'newer:jscs:test', 'karma']
       },
       styles: {
@@ -78,7 +78,7 @@ module.exports = function (grunt) {
       livereload: {
         options: {
           open: true,
-          middleware: function (connect) {
+          middleware: function(connect) {
             return [
               connect.static('.tmp'),
               connect().use(
@@ -97,7 +97,7 @@ module.exports = function (grunt) {
       test: {
         options: {
           port: 9001,
-          middleware: function (connect) {
+          middleware: function(connect) {
             return [
               connect.static('.tmp'),
               connect.static('test'),
@@ -138,6 +138,11 @@ module.exports = function (grunt) {
       }
     },
 
+    //Documentation
+    ngdocs: {
+      all: ['<%= yeoman.app %>/scripts/**/*.js']
+    },
+
     // Make sure code styles are up to par
     jscs: {
       options: {
@@ -174,7 +179,9 @@ module.exports = function (grunt) {
     postcss: {
       options: {
         processors: [
-          require('autoprefixer-core')({browsers: ['last 1 version']})
+          require('autoprefixer-core')({
+            browsers: ['last 1 version']
+          })
         ]
       },
       server: {
@@ -202,23 +209,23 @@ module.exports = function (grunt) {
     wiredep: {
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        ignorePath: /\.\.\//
       },
       test: {
         devDependencies: true,
         src: '<%= karma.unit.configFile %>',
-        ignorePath:  /\.\.\//,
-        fileTypes:{
+        ignorePath: /\.\.\//,
+        fileTypes: {
           js: {
             block: /(([\s\t]*)\/{2}\s*?bower:\s*?(\S*))(\n|\r|.)*?(\/{2}\s*endbower)/gi,
-              detect: {
-                js: /'(.*\.js)'/gi
-              },
-              replace: {
-                js: '\'{{filePath}}\','
-              }
+            detect: {
+              js: /'(.*\.js)'/gi
+            },
+            replace: {
+              js: '\'{{filePath}}\','
             }
           }
+        }
       }
     },
 
@@ -265,7 +272,9 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/styles'
         ],
         patterns: {
-          js: [[/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']]
+          js: [
+            [/(images\/[^''""]*\.(png|jpg|jpeg|gif|webp|svg))/g, 'Replacing references to images']
+          ]
         }
       }
     },
@@ -392,24 +401,34 @@ module.exports = function (grunt) {
           cwd: 'bower_components/bootstrap/dist',
           src: 'fonts/*',
           dest: '<%= yeoman.dist %>'
-          },{
-            expand: true,
-            cwd: '<%= yeoman.app %>/views',
-            src: '**/*.html',
-            dest: '<%= yeoman.dist %>/views'
-          },{
-            expand : true,
-            cwd : 'bower_components/angular-ui-grid',
-            src : ['*.eot','*.svg','*.ttf','*.woff'],
-            dest : '<%= yeoman.dist %>/styles'
-           }]
-          },
-          styles: {
-            expand: true,
-            cwd: '<%= yeoman.app %>/styles',
-            dest: '.tmp/styles/',
-            src: '{,*/}*.css'
-          }
+        }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/views',
+          src: '**/*.html',
+          dest: '<%= yeoman.dist %>/views'
+        }, {
+          expand: true,
+          cwd: 'bower_components/angular-ui-grid',
+          src: ['*.eot', '*.svg', '*.ttf', '*.woff'],
+          dest: '<%= yeoman.dist %>/styles'
+        }, {
+          expand: true,
+          cwd: 'bower_components/angular-tree-control/fonts',
+          src: ['*.eot', '*.svg', '*.ttf', '*.woff'],
+          dest: '<%= yeoman.dist %>/styles'
+        }, {
+          expand: true,
+          cwd: 'bower_components/angular-tree-control/images',
+          src: ['*.png'],
+          dest: '<%= yeoman.dist %>/images'
+        }]
+      },
+      styles: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/styles',
+        dest: '.tmp/styles/',
+        src: '{,*/}*.css'
+      }
     },
 
     // Run some tasks in parallel to speed up the build process
@@ -422,7 +441,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
-        'imagemin',
+        // 'imagemin', no se requiere minificar imagenes, la libreria no funciona
         'svgmin'
       ]
     },
@@ -437,7 +456,7 @@ module.exports = function (grunt) {
   });
 
 
-  grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
+  grunt.registerTask('serve', 'Compile then start a connect web server', function(target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
     }
@@ -452,7 +471,7 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function (target) {
+  grunt.registerTask('server', 'DEPRECATED TASK. Use the "serve" task instead', function(target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
     grunt.task.run(['serve:' + target]);
   });

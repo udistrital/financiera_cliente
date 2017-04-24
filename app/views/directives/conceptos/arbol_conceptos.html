@@ -1,12 +1,13 @@
 <div class="panel panel-info panel-body">
   <div class="panel panel-primary panel-heading ">
-    <h4 class="text-center panel-title page-header">Conceptos</h4>
+    <h4 class="text-center panel-title">Conceptos <i class="fa fa-refresh pull-right" aria-hidden="true" ng-click="recargar=!recargar"></i></h4>
   </div>
   <div class="row">
 
     <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
       <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
     </treecontrol>
+    <br>
 
     <div class="panel panel-info panel-body row" ng-show="conceptosel!=undefined && showc">
       <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
@@ -26,7 +27,7 @@
     </div>
 
   </div>
-  <div class="panel-footer">
-    <center><button class="btn btn-default" ng-click="seleccion={}; showc=false">Cancelar Selección</button></center>
+  <div>
+    <center><button ng-show="seleccion!=undefined || conceptosel!=undefined;" class="btn btn-info btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">Cancelar Selección</button></center>
   </div>
 </div>

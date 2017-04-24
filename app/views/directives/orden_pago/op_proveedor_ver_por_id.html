@@ -1,140 +1,226 @@
-<!--<pre>{{d_opProveedorVerPorId.orden_pago | json}}</pre>-->
-
-<div class="row">
-  <!--detalle Unidad Ejecutora-->
-  <div class="panel panel-success">
-      <div class="panel-heading" ng-click="panelUnidadEjecutora = !panelUnidadEjecutora">
-          <h4>Detalle Unidad Ejecutora <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+<!--detalle Unidad Ejecutora-->
+<legend class="text-primary" ng-click="panelUnidadEjecutora=!panelUnidadEjecutora">
+  {{'UNIDAD_EJECUTORA' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelUnidadEjecutora"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelUnidadEjecutora"></span>
+</legend class="text-primary">
+<div ng-show="panelUnidadEjecutora" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Nombre}}</span>
       </div>
-      <div ng-show="panelUnidadEjecutora" class="panel-body">
-        <table class="table">
-          <tr>
-            <th>Unidad Ejecutora</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>Unidad Ejecutora Descripción</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Descripcion}}</td>
-          </tr>
-          <tr>
-            <th>Entidad</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>Entidad Codigo</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</td>
-          </tr>
-        </table>
+      <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
+      <div class="col-sm-5">
+        <textarea readonly class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Descripcion}}</textarea>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</span>
+      </div>
+    </div>
   </div>
-  <!--detalle Proveedor-->
-  <div class="panel panel-success">
-      <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
-          <h4>Detalle Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+</div>
+<!--detalle Proveedor-->
+<legend class="text-primary" ng-click="panelProveedor=!panelProveedor">
+  {{'PROVEEDOR' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelProveedor"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelProveedor"></span>
+</legend class="text-primary">
+<div ng-show="panelProveedor" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'TIPO_PERSONA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].Tipopersona}}</span>
       </div>
-      <div ng-show="panelProveedor" class="panel-body"  >
-        <table class="table">
-          <tr>
-            <th>Tipo Persona</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].Tipopersona}}</td>
-          </tr>
-          <tr>
-            <th>Num. Documento</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].NumDocumento}}</td>
-          </tr>
-          <tr>
-            <th>Nombre</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].NomProveedor}}</td>
-          </tr>
-          <tr>
-            <th>Dirección</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].Direccion}}</td>
-          </tr>
-          <tr>
-            <th>Teléfono</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].TelAsesor}}</td>
-          </tr>
-          <tr>
-            <th>Numero de cuenta</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</td>
-          </tr>
-          <tr>
-            <th>Sucursal</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</td>
-          </tr>
-          <tr>
-            <th>Tipo Cuenta</th>
-            <td>{{d_opProveedorVerPorId.proveedor[0].TipoCuentaBancaria}}</td>
-          </tr>
-        </table>
+      <label class="control-label col-sm-1">{{'NO_DOCUMENTO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].NumDocumento}}</span>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'NOMBRE' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].NomProveedor}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'DIRECCION' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].Direccion}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'TELEFONO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.tel_proveedor.IdTelefono.NumeroTel}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'CUENTA_BANCARIA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].NumCuentaBancaria}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'SUCURSAL' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.banco_proveedor.NombreBanco}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'TIPO_CUENTA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.proveedor[0].TipoCuentaBancaria}}</span>
+      </div>
+    </div>
   </div>
-  <!--Detalle RP-->
-  <div class="panel panel-success">
-      <div class="panel-heading" ng-click="panelRp = !panelRp">
-          <h4>Detalle RP <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+</div>
+<!--Detalle RP-->
+<legend class="text-primary" ng-click="panelRp=!panelRp">
+  {{'REGISTRO_PRESUPUESTAL' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelRp"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelRp"></span>
+</legend class="text-primary">
+<div ng-show="panelRp" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Vigencia}}</span>
       </div>
-      <div ng-show="panelRp" class="panel-body"  >
-        <table class="table">
-          <tr>
-            <th>Vigencia</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.Vigencia}}</td>
-          </tr>
-          <tr>
-            <th>Num. RP</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</td>
-          </tr>
-          <tr>
-            <th>Responsable</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].RegistroPresupuestal.Responsable}}</td>
-          </tr>
-          <tr>
-            <th>Valor RP</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].Valor}}</td>
-          </tr>
-          <tr>
-            <th>Número Disponibilidad Presupuestal (CDP)</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</td>
-          </tr>
-          <tr>
-            <th>Objeto Disponibilidad</th>
-            <td>{{d_opProveedorVerPorId.orden_pago[0].DisponibilidadApropiacion.Disponibilidad.Objeto}}</td>
-          </tr>
-        </table>
+      <label class="control-label col-sm-1">{{'ESTADO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Estado.Nombre}}</span>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'RESPONSABLE' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Responsable}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VALOR_CRP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.valor_total_rp | currency}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'NO_CDP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorVerPorId.rp_detalle[0].RegistroPresupuestal.Compromiso.Objeto}}</span>
+      </div>
+    </div>
   </div>
-  <!--Valor del Pago-->
-  <div class="panel panel-success">
-      <div class="panel-heading" ng-click="panelDetallePagoProveedor = !panelDetallePagoProveedor">
-          <h4>Detalle del Pago <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+</div>
+<!--Valor del Pago-->
+<legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
+  {{'DETALLE_OP' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetallePagoProveedor"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetallePagoProveedor"></span>
+</legend class="text-primary">
+<div ng-show="panelDetallePagoProveedor" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'TIPO_DOCUMENTO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].TipoOrdenPago.Nombre}}</span>
       </div>
-      <div ng-show="panelDetallePagoProveedor" class="panel-body"  >
-        <table class="table">
-          <tr>
-            <th>Tipo Documento</th>
-            <td> <input class="input_right" style="border: none;" ng-model="d_opProveedorVerPorId.orden_pago[0].TipoOrdenPago.Nombre" disabled="true"/></td>
-          </tr>
-          <tr>
-            <th>Valor Base Retención</th>
-            <td><input class="input_right" style="border: none;" ng-model="d_opProveedorVerPorId.orden_pago[0].ValorBase" ui-number-mask disabled="true"/></td>
-          </tr>
-          <tr>
-            <th>% IVA</th>
-            <td><input class="input_right" style="border: none;" ng-model="d_opProveedorVerPorId.orden_pago[0].Iva.Valor" ui-number-mask disabled="true"/></td>
-          </tr>
-          <tr>
-            <th>Valor IVA</th>
-            <td><input class="input_right" ng-model="d_opProveedorVerPorId.ValorIva" ui-number-mask disabled="true"/></td>
-          </tr>
-          <tr>
-            <th>Valor Bruto</th>
-            <td> <input  class="input_right" style="border: none;" ng-model="d_opProveedorVerPorId.ValorBruto" ui-number-mask disabled="true"/></td>
-          </tr>
-        </table>
-
+      <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency }}</span>
       </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'POR_IVA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Iva.Valor}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency }}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency }}</span>
+      </div>
+    </div>
   </div>
+</div>
+<!--detalle rubro-->
+<legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">
+  {{'RUBRO' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetalleRubro"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetalleRubro"></span>
+</legend class="text-primary">
+<div ng-show="panelDetalleRubro" class="panel-body">
+  <table class="table">
+    <thead>
+      <th>{{'CODIGO' | translate}}</th>
+      <th>{{'VIGENCIA' | translate}}</th>
+      <th>{{'DESCRIPCION' | translate}}</th>
+      <tbody ng-repeat="i in d_opProveedorVerPorId.rubros">
+        <tr>
+          <td>{{i.Codigo}}</td>
+          <td>{{i.Vigencia}}</td>
+          <td>{{i.Descripcion}}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>
 
-
-
+<!--detalle concepto-->
+<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
+  {{'CONCEPTO' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
+</legend class="text-primary">
+<div ng-show="panelDetalleConceptos" class="panel-body">
+  <table class="table">
+    <thead>
+      <th>{{'CODIGO' | translate}}</th>
+      <th>{{'NOMBRE' | translate}}</th>
+      <th>{{'DESCRIPCION' | translate}}</th>
+      <th>{{'TIPO' | translate}}</th>
+      <th>{{'RUBRO' | translate}}</th>
+      <th>{{'AFECTACION' | translate}}</th>
+      <thead>
+        <tbody ng-repeat="i in d_opProveedorVerPorId.conceptos">
+          <tr>
+            <td>{{i.Concepto.Codigo}}</td>
+            <td>{{i.Concepto.Nombre}}</td>
+            <td>{{i.Concepto.Descripcion}}</td>
+            <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
+            <td>{{i.Concepto.Rubro.Codigo}}</td>
+            <td class="input_right">{{i.Valor | currency}}</td>
+          </tr>
+        </tbody>
+  </table>
+</div>
+<!--detalle Cuenta Contable-->
+<legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
+  {{'CUENTAS_CONTABLES' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetalleCuentas"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
+</legend class="text-primary">
+<div ng-show="panelDetalleCuentas" class="panel-body">
+  <movimientos-contables-op-detalle codigodocumentoafectante="d_opProveedorVerPorId.orden_pago[0].Id">
+  </movimientos-contables-op-detalle>
 </div>

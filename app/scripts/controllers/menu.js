@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate) {
+.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route) {
    var paths = [];
    $scope.language = {
        es:"btn btn-primary btn-circle btn-outline active",
@@ -11,28 +11,68 @@ angular.module('financieraClienteApp')
    $scope.actual = "";
    $scope.token_service = token_service;
    $scope.breadcrumb = [];
-   $scope.menu_service = [
+   $scope.menu_service = [];
+   $scope.menu_service_old = [
    { //CDP
      "Id": 1,
      "Nombre": "CDP",
      "Url": "",
      "Opciones": [
+       { //solicitud_consulta de CDP
+         "Id": 1,
+         "Nombre": "Solicitudes de CDP",
+         "Url": "cdp/cdp_solicitud_consulta",
+         "Opciones": null
+       },
        { //Detalle de CDP
          "Id": 1,
          "Nombre": "Consulta de CDP",
          "Url": "cdp/cdp_consulta",
          "Opciones": null
-       },
-       { //solicitud_consulta de CDP
+       }
+     ]
+   },
+   { //Conceptos
+     "Id": 1,
+     "Nombre": "Conceptos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Conceptos
          "Id": 1,
-         "Nombre": "Consulta de Solicitud",
-         "Url": "cdp/cdp_solicitud_consulta",
+         "Nombre": "Crear Conceptos",
+         "Url": "conceptos/nuevo",
+         "Opciones": null
+       }
+     ]
+   },
+   { //Plan de cuentas
+     "Id": 1,
+     "Nombre": "Plan de cuentas",
+     "Url": "",
+     "Opciones": [
+       { //Crear plan_cuentas
+         "Id": 1,
+         "Nombre": "Crear Plan de cuentas",
+         "Url": "plan_cuentas/nuevo",
          "Opciones": null
        },
-       { //solicitud_consulta de CDP
+       { //Crear Conceptos
          "Id": 1,
-         "Nombre": "Detalle de Solicitud",
-         "Url": "cdp/cdp_solicitud_detalle",
+         "Nombre": "Crear Cuenta contable",
+         "Url": "plan_cuentas/cuentas/nueva",
+         "Opciones": null
+       },
+     ]
+   },
+   { //Compromisos
+     "Id": 1,
+     "Nombre": "Compromisos",
+     "Url": "",
+     "Opciones": [
+       { //Crear Compromisos
+         "Id": 1,
+         "Nombre": "Crear Compromisos",
+         "Url": "compromisos/nuevo",
          "Opciones": null
        }
      ]
@@ -42,6 +82,12 @@ angular.module('financieraClienteApp')
      "Nombre": "RP",
      "Url": "",
      "Opciones": [
+       { //Consulta de solicitud de RP
+         "Id": 1,
+         "Nombre": "Solicitudes de RP",
+         "Url": "rp/rp_solicitud_consulta",
+         "Opciones": null
+       },
        { //Consulta de RP
          "Id": 1,
          "Nombre": "Consulta de RP",
@@ -52,12 +98,6 @@ angular.module('financieraClienteApp')
          "Id": 1,
          "Nombre": "Registro de RP",
          "Url": "rp/rp_registro",
-         "Opciones": null
-       },
-       { //Detalle de RP
-         "Id": 1,
-         "Nombre": "Detalle de RP",
-         "Url": "rp/rp_detalle",
          "Opciones": null
        }
      ]
@@ -102,10 +142,30 @@ angular.module('financieraClienteApp')
    { //Ordenes de pago
      "Id": 50,
      "Nombre": "Ordenes de Pago",
-     "Url": "orden_pago/ver_todos",
-     "Opciones": null
+     "Url": "",
+     "Opciones": [
+       { //Consultar Ordenes de pago
+         "Id": 51,
+         "Nombre": "Consultar Orden de Pago",
+         "Url": "orden_pago/ver_todos",
+         "Opciones": null
+       },
+       { //Consultar Ordenes de pago
+         "Id": 51,
+         "Nombre": "Crear OP Proveedor",
+         "Url": "orden_pago/proveedor/crear",
+         "Opciones": null
+       },
+     ]
    }
  ];
+
+ $http.get('http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/Admin')
+   .then(function(response) {
+      $scope.menu_service = response.data;
+      recorrerArbol($scope.menu_service, "");
+      update_url();
+});
 
    var recorrerArbol = function(item, padre) {
      var padres = "";
@@ -133,13 +193,11 @@ angular.module('financieraClienteApp')
        }
      }
    };
-   recorrerArbol($scope.menu_service, "");
    paths.push({padre:["","Notificaciones","Ver Notificaciones"],path:"notificaciones"});
 
-   $scope.$on('$routeChangeStart', function(next, current) {
+   $scope.$on('$routeChangeStart', function() {
      $scope.actual = $location.path();
      update_url();
-     console.log(next + current);
    });
 
    $scope.changeLanguage = function (key) {
@@ -155,6 +213,7 @@ angular.module('financieraClienteApp')
                 break;
             default:
         }
+        $route.reload();
    };
    //Pendiente por definir json del menu
    (function($) {

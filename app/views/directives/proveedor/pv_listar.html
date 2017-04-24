@@ -1,56 +1,76 @@
-<div class="row">
+<legend class="text-primary" ng-click="a=!a">
+  {{'PROVEEDOR' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!a"></span>
+  <span class="fa fa-minus pull-right" ng-show="a"></span>
+</legend class="text-primary">
+<div class="panel-body row" ng-show="a">
   <div class="col-md-6">
-    <div class="panel panel-primary">
-        <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
-            <h4>Seleccione Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
-        </div>
-        <div ng-show="panelProveedor" class="panel-body"  >
-          <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize></div>
-        </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{ 'SELECCIONE_PROVEEDOR' | translate }}
+      </div>
+      <div class="panel-body">
+        <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      </div>
     </div>
   </div>
   <div class="col-md-6">
-    <div class="panel panel-success">
-        <div class="panel-heading" ng-click="panelProveedor = !panelProveedor">
-            <h4>Detalle Proveedor <span style="float:right;" class="glyphicon glyphicon-collapse-down"></span></h4>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{ 'DETALLE_PROVEEDOR' | translate }}
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'TIPO_PERSONA' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.Tipopersona}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NO_DOCUMENTO' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.NumDocumento}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NOMBRE' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.NomProveedor}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'DIRECCION' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.Direccion}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'TELEFONO' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_pvListar.tel_proveedor.IdTelefono.NumeroTel}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'CUENTA_BANCARIA' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.NumCuentaBancaria}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'SUCURSAL' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{d_pvListar.banco_proveedor.NombreBanco}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'TIPO_CUENTA' | translate}}</label>
+            <div class="col-sm-10">
+              <span class="form-control">{{proveedor.TipoCuentaBancaria}}</span>
+            </div>
+          </div>
         </div>
-        <div ng-show="panelProveedor" class="panel-body"  >
-          <table class="table">
-            <tr>
-              <th>Tipo Persona</th>
-              <td>{{proveedor.Tipopersona}}</td>
-            </tr>
-            <tr>
-              <th>Num. Documento</th>
-              <td>{{proveedor.NumDocumento}}</td>
-            </tr>
-            <tr>
-              <th>Nombre</th>
-              <td>{{proveedor.NomProveedor}}</td>
-            </tr>
-            <tr>
-              <th>Dirección</th>
-              <td>{{proveedor.Direccion}}</td>
-            </tr>
-            <tr>
-              <th>Teléfono</th>
-              <td>{{proveedor.TelAsesor}}</td>
-            </tr>
-            <tr>
-              <th>Numero de cuenta</th>
-              <td>{{proveedor.NumCuentaBancaria}}</td>
-            </tr>
-            <tr>
-              <th>Sucursal</th>
-              <td>{{proveedor.NumCuentaBancaria}}</td>
-            </tr>
-            <tr>
-              <th>Tipo Cuenta</th>
-              <td>{{proveedor.TipoCuentaBancaria}}</td>
-            </tr>
-          </table>
-
-        </div>
+      </div>
     </div>
   </div>
 </div>
