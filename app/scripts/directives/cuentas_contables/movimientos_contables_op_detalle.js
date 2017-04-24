@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
             {
               field: 'ConceptoCuentaContable.CuentaContable.Codigo',
               displayName: $translate.instant('CODIGO'),
-              cellClass: 'aligncenter'
+              cellClass: 'input_center'
             },
             {
               field: 'ConceptoCuentaContable.CuentaContable.Nombre',

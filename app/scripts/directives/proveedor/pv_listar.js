@@ -36,16 +36,19 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'Tipopersona',
-              displayName: $translate.instant('TIPO_PERSONA')
-            },
-            {
               field: 'NumDocumento',
-              displayName: $translate.instant('NO_DOCUMENTO')
+              displayName: $translate.instant('NO_DOCUMENTO'),
+              width:'21%',
+              cellClass: 'input_center'
             },
             {
               field: 'NomProveedor',
               displayName: $translate.instant('NOMBRE')
+            },
+            {
+              field: 'Tipopersona',
+              displayName: $translate.instant('TIPO_PERSONA'),
+              width:'20%'
             }
           ]
         };
