@@ -441,7 +441,7 @@ module.exports = function(grunt) {
       ],
       dist: [
         'copy:styles',
-        // 'imagemin', no se requiere minificar imagenes, la libreria no funciona
+        'imagemin', 
         'svgmin'
       ]
     },
