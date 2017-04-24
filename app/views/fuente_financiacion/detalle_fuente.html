@@ -1,0 +1,46 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'TITULO_FUENTES_DETALLE' | translate }}</h2>
+
+
+<div class="row">
+  <div class="col-md-12 ">
+    <div class="panel panel-default">
+
+    <div class="panel-body">
+      <div class="col-md-12">
+        <table name="info_fuente" class="table" ng-repeat="n in detalleFuente.fuente_select">
+          <tbody>
+          <tr>
+            <th>Codigo: </th><td>{{ n.Codigo }}</td>
+          </tr>
+          <tr>
+            <th>sigla: </th><td>{{n.Sigla}}</td>
+          </tr>
+          <tr>
+            <th>Descripcion: </th><td>{{n.Descripcion}}</td>
+          </tr>
+      </tbody>
+        </table>
+
+
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+
+
+</div>
+<div class="row">
+  <div class="col-md-12 ">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          <h3 class="panel-title">Rubros Asignados Fuente De Financiación </h3>
+      </div>
+                  <div ui-grid="detalleFuente.gridOptions" class="myGrid"></div>
+    </div>
+  </div>
+</div>
+
+</div>
