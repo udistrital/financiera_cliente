@@ -24,8 +24,8 @@ angular.module('financieraClienteApp')
             {field: 'Id',                                                     visible : false},
             {field: 'ConceptoCuentaContable.CuentaContable.Codigo',           displayName: $translate.instant('CODIGO')},
             {field: 'ConceptoCuentaContable.CuentaContable.Nombre',           displayName: $translate.instant('CUENTA')},
-            {field: 'Debito',                                                 displayName: $translate.instant('DEBITO')},
-            {field: 'Credito',                                                displayName: $translate.instant('CREDITO')},
+            {field: 'Debito',                                                 displayName: $translate.instant('DEBITO'), cellFilter: 'currency'},
+            {field: 'Credito',                                                displayName: $translate.instant('CREDITO'), cellFilter: 'currency'},
             {field: 'ConceptoCuentaContable.CuentaContable.Naturaleza',       displayName: $translate.instant('NATURALEZA')}
           ]
         };

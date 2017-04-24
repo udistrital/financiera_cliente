@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
           enableSelectAll: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
-          minRowsToShow: 12,
+          minRowsToShow: 10,
           useExternalPagination: false,
 
           columnDefs: [{

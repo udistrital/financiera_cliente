@@ -109,7 +109,7 @@
     <div class="form-group">
       <label class="control-label col-sm-1">{{'VALOR_CRP' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorVerPorId.valor_total_rp | currency}}</span>
+        <span class="form-control input_right">{{d_opProveedorVerPorId.valor_total_rp | currency}}</span>
       </div>
       <label class="control-label col-sm-1">{{'NO_CDP' | translate}}</label>
       <div class="col-sm-5">
@@ -209,7 +209,7 @@
             <td>{{i.Concepto.Descripcion}}</td>
             <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
             <td>{{i.Concepto.Rubro.Codigo}}</td>
-            <td>{{i.Valor}}</td>
+            <td class="input_right">{{i.Valor | currency}}</td>
           </tr>
         </tbody>
   </table>
