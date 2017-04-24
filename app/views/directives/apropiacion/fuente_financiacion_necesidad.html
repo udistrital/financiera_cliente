@@ -1,35 +1,27 @@
-
-          <!--<div class="">
+<!--<div class="">
             <pre>{{fuenteFinanciacionNecesidad.resumen_afectacion_presupuestal|json}}</pre>
           </div> -->
 
 
 
-      <ul class="list-unstyled"  ng-repeat="item in fuenteFinanciacionNecesidad.resumen_afectacion_presupuestal">
-        <hr class="hr-primary">
-          <li><b>Rubro:</b> {{item[0].Apropiacion.Rubro.Codigo+" / "+item[0].Apropiacion.Rubro.Descripcion}}
-          <ul>
-            <li ng-show="item[0].FuenteFinanciacion" ><b>Fuentes de Financiación Afectadas:</b>
-
-              <ul ng-repeat="fuente in item">
-
-                <li>{{fuente.FuenteFinanciacion.Codigo + " / "+fuente.FuenteFinanciacion.Descripcion + " "}}
-                  <ul>
-                    <li><b>Valor afectación:</b> {{" "+fuente.MontoParcial|currency}}</li>
-                  </ul>
-                </li>
-
-              </ul>
-
-            </li>
-            <li ng-show="!item[0].FuenteFinanciacion" ><b>Valor de la Afectación (Funcionamiento):</b>
-
-              <ul ng-repeat="fuente in item">
-                <li>{{" "+fuente.MontoParcial|currency}}</li>
-              </ul>
+<ul class="list-unstyled" ng-repeat="item in fuenteFinanciacionNecesidad.resumen_afectacion_presupuestal">
+  <hr class="hr-primary">
+  <li><b>Rubro:</b> {{item[0].Apropiacion.Rubro.Codigo+" / "+item[0].Apropiacion.Rubro.Descripcion}}
+    <ul>
+      <li ng-show="item[0].FuenteFinanciacion"><b>Fuentes de Financiación Afectadas:</b>
+        <ul ng-repeat="fuente in item">
+          <li>{{fuente.FuenteFinanciacion.Codigo + " / "+fuente.FuenteFinanciacion.Descripcion + " "}}
+            <ul>
+              <li><b>Valor afectación:</b> {{" "+fuente.MontoParcial|currency}}</li>
+            </ul>
           </li>
-
-
-
-
-      </ul>
+        </ul>
+      </li>
+      <li ng-show="!item[0].FuenteFinanciacion"><b>Valor de la Afectación (Funcionamiento):</b>
+        <ul ng-repeat="fuente in item">
+          <li>{{" "+fuente.MontoParcial|currency}}</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>

@@ -14,10 +14,7 @@
   </div>
   </div>
   <div id="myModal" class="modal fade col-md-12" role="dialog">
-
-
         <div class="modal-content col-md-offset-1 col-md-10">
-
           <div class="modal-header">
                 <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes();">&times</button><br>
           </div>
@@ -77,7 +74,8 @@
           				</table>
                   <hr>
                   <h4 class="text-info">Afectación Presupuestal</h4>
-                  <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones" />
+                  <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones">
+                  </fuente-financiacion-necesidad>
                   <hr>
                   <center>
                     <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">Aprobar</button>
