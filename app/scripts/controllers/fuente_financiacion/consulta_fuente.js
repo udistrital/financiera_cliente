@@ -21,8 +21,8 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Codigo',   displayName: 'Codigo',width: '20%',},
-        {field: 'Sigla',       cellClass:'Sigla',width: '20%',},
+        {field: 'Codigo',   cellTemplate:'<div align="center">{{row.entity.Codigo}}</div>' ,width: '20%',},
+        {field: 'Sigla',    cellTemplate:'<div align="center">{{row.entity.Sigla}}</div>' ,width: '20%',},
         {field: 'Descripcion', displayName : 'Descripción',width: '60%',},
       ]
 
