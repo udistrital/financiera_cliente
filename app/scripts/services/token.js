@@ -47,16 +47,15 @@ angular.module('financieraClienteApp')
       header: null,
       token: null,
       //Configuracion de parametros identificacion unica oas-wso2
-      /*
-      config: {
 
-        AUTORIZATION_URL: "https://wso2.intranetoas.udistrital.edu.co:9443/oauth2/authorize",
-        CLIENTE_ID: "mEEMLpePonJ91jKYB_s8sbE8slQa",
-        REDIRECT_URL:  "http://10.20.2.52/prototipo/app",
+      config: {
+        AUTORIZATION_URL: "https://wso2.udistritaloas.edu.co:9443/oauth2/authorize",
+        CLIENTE_ID: "erUwZgne4K0FusAGYYTMDFBe61Ia",
+        REDIRECT_URL:  "http://10.20.0.254/kronos",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid profile email",
         BUTTON_CLASS: "btn btn-outline btn-primary btn-sm"
-      },*/
+      },
       //Configuracion de parametros oidc unica google
       /*
       config: {
