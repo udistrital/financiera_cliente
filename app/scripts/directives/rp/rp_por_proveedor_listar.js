@@ -38,15 +38,17 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'NumeroRegistroPresupuestal',
-              displayName: $translate.instant('NO_CRP')
+              displayName: $translate.instant('NO_CRP'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              cellClass: 'input_center'
             },
             {
               field: 'Estado.Nombre',
               displayName: $translate.instant('ESTADO')
-            },
-            {
-              field: 'Vigencia',
-              displayName: $translate.instant('VIGENCIA')
             }
           ]
         };
