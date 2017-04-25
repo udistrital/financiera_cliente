@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-.controller('detalleFuenteCtrl', function ($scope,financieraRequest,fuente,oikosRequest) {
+.controller('detalleFuenteCtrl', function ($scope,financieraRequest,$translate,fuente,oikosRequest) {
 
     var self = this;
 
@@ -21,11 +21,11 @@ angular.module('financieraClienteApp')
 
          columnDefs : [
            {field: 'Id',               visible : false},
-           {field: 'Apropiacion.Rubro.Codigo',     width: '25%',  displayName: 'Código'},
-           {field: 'Apropiacion.FechaCreacion',         width: '12%', displayName: 'Fecha Creación',cellTemplate: '<div align="center">{{row.entity.FechaCreacion | date:"yyyy-MM-dd":"+0900"}}</div>'},
-           {field: 'Apropiacion.Rubro.Descripcion',width: '39%', resizable : true,           displayName: 'Descripción'},
-           {field: 'Dependencia',    width: '9%',  cellTemplate:'<div align="center">{{row.entity.Dependencia }}</div>',  enableCellEdit: false},
-           {field: 'Valor',   cellTemplate:'<div align="right">{{row.entity.Valor | currency}}</div>',    width: '15%'},
+           {field: 'Apropiacion.Rubro.Codigo',     width: '25%',  displayName:$translate.instant('CODIGO')},
+           {field: 'Apropiacion.FechaCreacion',         width: '12%', displayName:$translate.instant('FECHA_CREACION'),cellTemplate: '<div align="center">{{row.entity.FechaCreacion | date:"yyyy-MM-dd":"+0900"}}</div>'},
+           {field: 'Apropiacion.Rubro.Descripcion',width: '39%', resizable : true,   displayName:$translate.instant('DESCRIPCION')},
+           {field: 'Dependencia',    width: '9%',  cellTemplate:'<div align="center">{{row.entity.Dependencia }}</div>',  enableCellEdit: false , displayName:$translate.instant('DEPENDENCIA')},
+           {field: 'Valor',   cellTemplate:'<div align="right">{{row.entity.Valor | currency}}</div>',    width: '15%',displayName:$translate.instant('VALOR')},
 
       ]
     };

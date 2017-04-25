@@ -11,13 +11,13 @@
         <table name="info_fuente" class="table" ng-repeat="n in detalleFuente.fuente_select">
           <tbody>
           <tr>
-            <th>Codigo: </th><td>{{ n.Codigo }}</td>
+            <th>{{ 'CODIGO' | translate }}: </th><td>{{ n.Codigo }}</td>
           </tr>
           <tr>
-            <th>sigla: </th><td>{{n.Sigla}}</td>
+            <th>{{ 'SIGLA' | translate }}: </th><td>{{n.Sigla}}</td>
           </tr>
           <tr>
-            <th>Descripcion: </th><td>{{n.Descripcion}}</td>
+            <th>{{ 'DESCRIPCION' | translate }}: </th><td>{{n.Descripcion}}</td>
           </tr>
       </tbody>
         </table>
@@ -36,7 +36,7 @@
   <div class="col-md-12 ">
     <div class="panel panel-default">
       <div class="panel-heading">
-          <h3 class="panel-title">Rubros Asignados Fuente De Financiación </h3>
+          <h3 class="panel-title">{{ 'RUBROS_ASIGNADOS_FUENTE' | translate }} </h3>
       </div>
                   <div ui-grid="detalleFuente.gridOptions" class="myGrid"></div>
     </div>

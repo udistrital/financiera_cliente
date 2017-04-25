@@ -50,6 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  DEPENDENCIA: "Dependencia",
 
 
   // PROVEEDOR
@@ -124,10 +125,24 @@ var text_es = {
 
 
   //FUENTES DE FINANCIACIÓN
-  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
-  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
-  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
-  
+  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
+  INGRESAR_MONTO: "Ingresar Monto",
+  FUENTE_FINANCIAMIENTO: "Fuentes de Financiamiento",
+  FORMULARIO_FUENTE: "Formulario Creación Fuente de Financiamiento",
+  SIGLA: "Sigla",
+  RUBRO_SELECCIONADO: "Rubro Seleccionado",
+  RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
+  INGRESAR_FECHA_CREACION: "Ingresar Fecha de Creación",
+  INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
+  SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
+  CREAR_FUENTE: "Asignar Fuente Financiamiento",
+  QUITAR: "Quitar",
+  QUITAR_RUBRO: "Quitar Rubro",
+  AGREGAR_DEPENDENCIA: "Agregar Dependencia",
+
+
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
   SOLICITUD_CDP: "Solicitud de CDP No.",
@@ -231,6 +246,7 @@ var text_en = {
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar"
+
   },
 
   // ORDEN DE PAGO
