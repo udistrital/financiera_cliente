@@ -108,16 +108,17 @@ angular.module('financieraClienteApp')
         // insert
         financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
           .then(function(data) {   //error con el success
-            console.log(data)
-            self.resultado = data
+            self.resultado = data;
+            //mensaje
+            swal({
+              title: 'Registro Exitoso',
+              text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
+              type: 'success',
+            }).then(function(){
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+            //
           })
-        swal({
-          title: 'Registro Exitoso',
-          text: 'La orden de pago se ha Registrado',
-          type: 'success',
-        }).then(function(){
-          $window.location.href = '#/orden_pago/ver_todos';
-        })
       }else{
         // mesnajes de error
         swal({
