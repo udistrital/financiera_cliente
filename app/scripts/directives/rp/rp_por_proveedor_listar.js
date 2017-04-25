@@ -69,20 +69,21 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.gridOptions_rp.data = response.data;
             });
+            // control de paginacion
+            $scope.$watch('[d_rpPorProveedorListar.gridOptions_rp.paginationPageSize, d_rpPorProveedorListar.gridOptions_rp.data]', function() {
+              if ((self.gridOptions_rp.data.length <= self.gridOptions_rp.paginationPageSize || self.gridOptions_rp.paginationPageSize == null) && self.gridOptions_rp.data.length > 0) {
+                $scope.gridHeight = self.gridOptions_rp.rowHeight * 2 + (self.gridOptions_rp.data.length * self.gridOptions_rp.rowHeight);
+                if (self.gridOptions_rp.data.length <= 5) {
+                  self.gridOptions_rp.enablePaginationControls = false;
+                }
+              } else {
+                $scope.gridHeight = self.gridOptions_rp.rowHeight * 3 + (self.gridOptions_rp.paginationPageSize * self.gridOptions_rp.rowHeight);
+                self.gridOptions_rp.enablePaginationControls = true;
+              }
+            }, true);
           }
         })
-        // control de paginacion
-        $scope.$watch('[d_rpPorProveedorListar.gridOptions_rp.paginationPageSize, d_rpPorProveedorListar.gridOptions_rp.data]', function() {
-          if ((self.gridOptions_rp.data.length <= self.gridOptions_rp.paginationPageSize || self.gridOptions_rp.paginationPageSize == null) && self.gridOptions_rp.data.length > 0) {
-            $scope.gridHeight = self.gridOptions_rp.rowHeight * 2 + (self.gridOptions_rp.data.length * self.gridOptions_rp.rowHeight);
-            if (self.gridOptions_rp.data.length <= 5) {
-              self.gridOptions_rp.enablePaginationControls = false;
-            }
-          } else {
-            $scope.gridHeight = self.gridOptions_rp.rowHeight * 3 + (self.gridOptions_rp.paginationPageSize * self.gridOptions_rp.rowHeight);
-            self.gridOptions_rp.enablePaginationControls = true;
-          }
-        }, true);
+
         //
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           //set gridApi on scope
