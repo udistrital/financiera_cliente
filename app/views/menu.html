@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default" role="navigation" style="margin-bottom: 0">
   <div class="navbar-header">
     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
       <span class="sr-only">Toggle navigation</span>
@@ -8,25 +8,25 @@
     </button>
     <a class="navbar-brand" ng-href="#/">KRONOS</a>
   </div>
-  <div id="navbar" class="navbar-collapse collapse in">
-    <ul class="nav navbar-top-links navbar-right">
-      <li ng-repeat="nivel_1 in menu_service">
+  <div class="navbar-collapse collapse in">
+    <ul class="nav navbar-nav navbar-right">
+      <li ng-repeat="nivel_1 in menu_service" class="dropdown">
         <a ng-if="nivel_1.Opciones === null" ng-href="{{'#/' + nivel_1.Url}}">
           {{nivel_1.Nombre}}
         </a>
       </li>
       <li ng-repeat="nivel_1 in menu_service" class="dropdown">
-        <a ng-if="nivel_1.Opciones !== null" ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown">
+        <a ng-if="nivel_1.Opciones !== null" ng-href="{{actual}}" data-toggle="dropdown" data-submenu="">
             {{nivel_1.Nombre}} <b class="caret">
           </b>
         </a>
         <ul class="dropdown-menu">
-          <li ng-repeat="nivel_2 in nivel_1.Opciones">
+          <li ng-repeat="nivel_2 in nivel_1.Opciones" class="dropdown-submenu">
             <a ng-href="{{'#/' + nivel_2.Url}}" ng-if="nivel_2.Opciones === null">
               {{nivel_2.Nombre}}
             </a>
           </li>
-          <li class="dropdown dropdown-submenu" ng-repeat="nivel_2 in nivel_1.Opciones">
+          <li class="dropdown-submenu" ng-repeat="nivel_2 in nivel_1.Opciones">
             <a ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="nivel_2.Opciones !== null">
               {{nivel_2.Nombre}}
             </a>
@@ -52,7 +52,7 @@
       </li>
 
       <!-- /.dropdown Notifications-->
-      <li class="dropdown">
+      <li class="dropdown ">
         <a class="dropdown-toggle notificacion_vista" data-toggle="dropdown" ng-href="{{actual}}" ng-if="notificacion.no_vistos() > 0">
           <i class="fa fa-bell fa-fw"></i>{{notificacion.no_vistos()}}
           <i class="fa fa-caret-down"></i>
