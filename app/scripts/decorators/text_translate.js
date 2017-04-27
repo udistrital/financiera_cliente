@@ -101,6 +101,7 @@ var text_es = {
   },
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
   ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
@@ -236,6 +237,7 @@ var text_en = {
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
+  ORDEN_PAGO_SELECCIOANR: "Select Payment Order",
   ORDEN_PAGO_ACTUALIZAR: "Update Payment Orders",
   DETALLE_ORDEN_PAGO: 'Detail Payment Orders',
   DETALLE_OP: "Detail Payment Orders",
