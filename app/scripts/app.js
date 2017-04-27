@@ -214,6 +214,11 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
+      .when('/orden_pago/actualizar_todos', {
+        templateUrl: 'views/orden_pago/op_listar_todas_update.html',
+        controller: 'OpListarTodasUpdateCtrl',
+        controllerAs: 'opListarTodasUpdate'
+      })
       .otherwise({
         redirectTo: '/'
       });

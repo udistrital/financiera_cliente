@@ -2,20 +2,20 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:ordenPago/opListarTodas
+ * @name financieraClienteApp.directive:ordenPago/opListarTodasUpdate
  * @description
- * # ordenPago/opListarTodas
+ * # ordenPago/opListarTodasUpdate
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function(financieraRequest, $location, $translate) {
+  .directive('opListarTodasUpdate', function(financieraRequest, $location, $translate) {
     return {
       restrict: 'E',
       /*scope:{
           var:'='
         },
       */
-      templateUrl: 'views/directives/orden_pago/op_listar_todas.html',
-      controller: function($scope) {
+      templateUrl: 'views/directives/orden_pago/op_listar_todas_update.html',
+      controller: function() {
         var self = this;
         self.gridOrdenesDePago = {
           enableFiltering: true,
@@ -59,19 +59,19 @@ angular.module('financieraClienteApp')
             name: $translate.instant('OPERACION'),
             enableFiltering: false,
             cellTemplate: '<center>\
-                <button ng-click="grid.appScope.d_opListarTodas.op_detalle(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
+                <button ng-click="grid.appScope.d_opListarTodasUpdate.op_editar(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-pencil"></i></button>\
                </center>'
           }
         ];
-        self.op_detalle = function(row) {
-          var path = "/orden_pago/proveedor/"
-          $location.url(path + row.entity.Id);
+        self.op_editar = function(row) {
+          console.log("Editar");
+          console.log(row.entity);
         }
-        financieraRequest.get('orden_pago', 'limit=0').then(function(response) {
+        financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
         });
-        //
+        // fin
       },
-      controllerAs: 'd_opListarTodas'
+      controllerAs: 'd_opListarTodasUpdate'
     };
   });
