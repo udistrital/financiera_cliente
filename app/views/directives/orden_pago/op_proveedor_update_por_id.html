@@ -128,42 +128,12 @@
     </div>
   </div>
 </div>
-<!--Valor del Pago-->
-<legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
-  {{'DETALLE_OP' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!panelDetallePagoProveedor"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetallePagoProveedor"></span>
-</legend class="text-primary">
-<div ng-show="panelDetallePagoProveedor" class="panel-body">
-  <div class="form-horizontal">
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'TIPO_DOCUMENTO' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorUpdatePorId.orden_pago[0].TipoOrdenPago.Nombre}}</span>
-      </div>
-      <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorUpdatePorId.orden_pago[0].ValorBase  | currency }}</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'POR_IVA' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorUpdatePorId.orden_pago[0].Iva.Valor}}</span>
-      </div>
-      <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorUpdatePorId.ValorIva  | currency }}</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorUpdatePorId.ValorBruto  | currency }}</span>
-      </div>
-    </div>
-  </div>
-</div>
+<!--detalle pago -->
+<op-proveedor-detalle-pago
+  tipoordenpago="d_opProveedorUpdatePorId.orden_pago[0].TipoOrdenPago"
+  iva="d_opProveedorUpdatePorId.orden_pago[0].Iva"
+  valorbase="d_opProveedorUpdatePorId.orden_pago[0].ValorBase">
+</op-proveedor-detalle-pago>
 <!--detalle rubro-->
 <legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">
   {{'RUBRO' | translate}}
