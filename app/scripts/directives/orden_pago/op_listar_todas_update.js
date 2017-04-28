@@ -64,10 +64,10 @@ angular.module('financieraClienteApp')
           }
         ];
         self.op_editar = function(row) {
-          var path_update = "";
-          console.log("Editar");
-          console.log(row.entity);
+          var path_update = "/orden_pago/proveedor/actualizar/";
+          $location.url(path_update + row.entity.Id);
         }
+        //
         financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
         });
