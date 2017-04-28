@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
         swal("", "Debe seleccionar el rubro afectado por el cdp a anular.", "error")
       }else {
         var valor = 0;
-        self.alerta = "<ul>"
+        self.alerta = "<ol>"
         var disponibilidad_apropiacion =[];
         var anulacion = {
           Motivo : self.motivo,
@@ -173,7 +173,7 @@ angular.module('financieraClienteApp')
 
 
           });
-          self.alerta = self.alerta + "</ul>";
+          self.alerta = self.alerta + "</ol>";
           swal("", self.alerta, self.alerta_anulacion_cdp[0]).then(function(){
             self.limpiar();
             self.actualizarLista();
