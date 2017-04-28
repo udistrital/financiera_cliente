@@ -2,19 +2,19 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:ordenPago/opProveedorVerPorId
+ * @name financieraClienteApp.directive:ordenPago/opProveedorUpdatePorId
  * @description
- * # ordenPago/opProveedorVerPorId
+ * # ordenPago/opProveedorUpdatePorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function(financieraRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
         opproveedorid: '='
       },
 
-      templateUrl: 'views/directives/orden_pago/op_proveedor_ver_por_id.html',
+      templateUrl: 'views/directives/orden_pago/op_proveedor_update_por_id.html',
       controller: function($scope) {
         var self = this;
         self.rubros = [];
@@ -121,8 +121,9 @@ angular.module('financieraClienteApp')
             return exists;
           });
         }
-        //
+
+        //fin
       },
-      controllerAs: 'd_opProveedorVerPorId'
+      controllerAs: 'd_opProveedorUpdatePorId'
     };
   });
