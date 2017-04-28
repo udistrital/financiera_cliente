@@ -64,6 +64,7 @@ angular.module('financieraClienteApp')
           }
         ];
         self.op_editar = function(row) {
+          var path_update = "";
           console.log("Editar");
           console.log(row.entity);
         }

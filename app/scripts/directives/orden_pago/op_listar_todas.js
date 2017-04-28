@@ -64,7 +64,7 @@ angular.module('financieraClienteApp')
           }
         ];
         self.op_detalle = function(row) {
-          var path = "/orden_pago/proveedor/"
+          var path = "/orden_pago/proveedor/ver/";
           $location.url(path + row.entity.Id);
         }
         financieraRequest.get('orden_pago', 'limit=0').then(function(response) {
