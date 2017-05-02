@@ -22,6 +22,12 @@ angular.module('financieraClienteApp')
         //
         self.RubrosIds = [];
         self.RubrosObjIds = null;
+        self.Concepto = [];
+        self.ConceptoOrdenPago = [];
+        self.Data_OrdenPago_Concepto = {};
+        self.MovimientoContableConceptoOrdenPago = [];
+        self.MensajesAlerta = null;
+        self.TotalAfectacion = null;
         // paneles
         $scope.panelUnidadEjecutora = true;
         $scope.panelProveedor = true;
@@ -44,8 +50,6 @@ angular.module('financieraClienteApp')
               self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
               //Iva
               self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
-              //detalle concepto
-              self.detalle_concepto(self.orden_pago[0].Id)
             });
           }
         })
@@ -95,36 +99,108 @@ angular.module('financieraClienteApp')
               self.valor_total_rp = response.data;
             });
         }
-
         // Function calcular iva
         self.calcularIva = function(valor_base, iva) {
           self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
           self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
         }
-        // Function detall concepto
-        self.detalle_concepto = function(orden_pago_id) {
-          financieraRequest.get('concepto_orden_pago',
-            $.param({
-              query: "OrdenDePago:" + orden_pago_id,
-            })
-          ).then(function(response) {
-            self.conceptos = response.data;
-            self.detalle_rubros(self.conceptos)
-          });
-        }
-        //construir arreglo de rubros
-        self.detalle_rubros = function(concepto_orden_pago) {
-          angular.forEach(concepto_orden_pago, function(i) {
-            self.rubros.push(i.Concepto.Rubro)
+        //Funciones de validacion y update data
+        self.estructura_orden_pago_conceptos = function(conceptos) {
+          angular.forEach(conceptos, function(concepto) {
+            if (concepto.validado == true) { // tiene cuentas y se hace afectacion
+              // data conceptos para orden de pago
+              self.ConceptoOrdenPago.push({
+                'OrdenDePago': {
+                  'Id': 0
+                },
+                'Concepto': {
+                  'Id': concepto.Id
+                },
+                'Valor': concepto.Afectacion
+              });
+              //total afectacion
+              self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
+              // recorrer novimiento
+              angular.forEach(concepto.movs, function(movimiento) {
+                if (movimiento.Debito > 0 || movimiento.Credito > 0) {
+                  // data movimientos contables
+                  self.MovimientoContableConceptoOrdenPago.push(movimiento);
+                }
+              })
+            } else {
+              //almacenamos el concepto para reportar
+              console.log("concepto sin sin cuentas contables para hacer movimientos")
+            }
           })
-          // quitar repetidos
-          var hash = {};
-          self.rubros = self.rubros.filter(function(current) {
-            var exists = !hash[current.Id] || false;
-            hash[current.Id] = true;
-            return exists;
-          });
         }
+        // Insert Orden Pago
+        self.addOpProveedor = function() {
+          // trabajar estructura de conceptos
+          self.Data_OrdenPago_Concepto = {};
+          self.ConceptoOrdenPago = [];
+          self.MovimientoContableConceptoOrdenPago = [];
+          self.TotalAfectacion = 0;
+          //
+          if (self.Concepto != undefined) {
+            self.estructura_orden_pago_conceptos(self.Concepto);
+          }
+          //construir data send
+          self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
+          self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
+          self.Data_OrdenPago_Concepto.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
+          //console.log("Estructura para enviar")
+          //console.log(self.Data_OrdenPago_Concepto)
+          // validar campos obligatorios en el formulario orden Pago y se inserta registro
+          self.validar_campos()
+        }
+
+        // Funcion encargada de validar la obligatoriedad de los campos
+        self.validar_campos = function() {
+          self.MensajesAlerta = '';
+          if (self.OrdenPago.TipoOrdenPago == undefined) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el tipo de Documento en la Sección Valor del Pago</li>"
+          }
+          if (self.OrdenPago.Iva == undefined) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor del Iva en la Sección Valor del Pago</li>"
+          }
+          if (self.OrdenPago.ValorBase == undefined) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor Base en la Sección Valor del Pago</li>"
+          }
+          if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Seleccionar por lo minimo un Rubro</li>"
+          }
+          if (self.Concepto == undefined || self.Concepto.length == 0) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
+          }
+          if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>El valor total de la afectacion es distinto al valor de la orden de pago. <br> <b>Afectacion: " + self.TotalAfectacion + "<br>Valor Orden: " + self.OrdenPago.ValorBase + "</b></li>"
+          }
+          // Operar
+          if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+            // insert
+            financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
+              .then(function(data) { //error con el success
+                self.resultado = data;
+                //mensaje
+                swal({
+                  title: 'Registro Exitoso',
+                  text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
+                  type: 'success',
+                }).then(function() {
+                  $window.location.href = '#/orden_pago/ver_todos';
+                })
+                //
+              })
+          } else {
+            // mesnajes de error
+            swal({
+              title: 'Error!',
+              html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+              type: 'error'
+            })
+          }
+        }
+
 
         //fin
       },

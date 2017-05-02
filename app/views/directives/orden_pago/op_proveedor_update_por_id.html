@@ -173,15 +173,5 @@
   </div>
 </div>
 
-
-
-<!--detalle Cuenta Contable-->
-<legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
-  {{'CUENTAS_CONTABLES' | translate}} consullllllllllta
-  <span class="fa fa-plus pull-right" ng-show="!panelDetalleCuentas"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
-</legend class="text-primary">
-<div ng-show="panelDetalleCuentas" class="panel-body">
-  <movimientos-contables-op-detalle codigodocumentoafectante="d_opProveedorUpdatePorId.orden_pago[0].Id">
-  </movimientos-contables-op-detalle>
-</div>
+<!--Boton Crear Orden Pago Proveedor -->
+<center><button class="btn btn-primary" ng-click="d_opProveedorUpdatePorId.addOpProveedor()">Registrar</button></center>
