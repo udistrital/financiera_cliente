@@ -214,6 +214,11 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
+      .when('/plan_cuentas/crear_descuento', {
+        templateUrl: 'views/plan_cuentas/crear_descuento.html',
+        controller: 'CrearDescuentoCtrl',
+        controllerAs: 'crearDescuento'
+      })
       .otherwise({
         redirectTo: '/'
       });
