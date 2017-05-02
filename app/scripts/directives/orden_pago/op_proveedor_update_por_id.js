@@ -18,6 +18,10 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.rubros = [];
+        self.Concepto = [];
+        //
+        self.RubrosIds = [];
+        self.RubrosObjIds = null;
         // paneles
         $scope.panelUnidadEjecutora = true;
         $scope.panelProveedor = true;
