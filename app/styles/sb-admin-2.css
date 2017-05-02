@@ -1,4 +1,6 @@
-
+.navbar-right .dropdown-submenu .dropdown-menu {
+    right: auto;
+}
 body {
     background-color: #f8f8f8;
 }
