@@ -19,11 +19,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'alignleft', cellClass: 'input_center'},
-        {field: 'NumeroDisponibilidad',   displayName: 'Consecutivo', cellClass: 'input_center'},
-        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' , cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'Estado.Nombre', displayName : 'Estado'},
-        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
+        {field: 'Vigencia',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('VIGENCIA') },
+        {field: 'NumeroDisponibilidad',   displayName: $translate.instant('NO'), cellClass: 'input_center'},
+        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
+        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
       ]
 
     };

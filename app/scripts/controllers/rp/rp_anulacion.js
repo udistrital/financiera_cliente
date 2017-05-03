@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpAnulacionCtrl', function ($window,rp,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
+  .controller('RpRpAnulacionCtrl', function ($window,rp,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest,$translate) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -17,12 +17,12 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'input_center'},
-        {field: 'NumeroRegistroPresupuestal',   displayName: 'No.', cellClass:'input_center'},
-        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: 'CDP No.', cellClass:'input_center'},
-        {field: 'Necesidad.Numero',   displayName: 'Necesidad No. ' ,cellClass:'input_center'},
-        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'Estado.Nombre', displayName : 'Estado'},
+        {field: 'Vigencia',       cellClass:'input_center' , displayName: $translate.instant('VIGENCIA') },
+        {field: 'NumeroRegistroPresupuestal',   displayName: $translate.instant('NO') , cellClass:'input_center'},
+        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: $translate.instant('CDP_NUMERO'), cellClass:'input_center'},
+        {field: 'Necesidad.Numero',   displayName: $translate.instant('NECESIDAD_NO') ,cellClass:'input_center'},
+        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : $translate.instant('FECHA_CREACION') , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
       ]
 
     };

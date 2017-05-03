@@ -153,6 +153,7 @@ var text_es = {
   SELECCION_RUBRO:"Seleccione el Rubro",
   VALOR:"Valor",
   ANULAR: "Anular",
+  NO: "No.",
 
   //RP
   LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
