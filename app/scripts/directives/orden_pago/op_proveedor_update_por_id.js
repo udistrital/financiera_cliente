@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_proveedor_update_por_id.html',
       controller: function($scope) {
         var self = this;
+        self.OrdenPago = {};
         self.rubros = [];
         self.Concepto = [];
         //
@@ -45,11 +46,15 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.orden_pago = response.data;
               // proveedor
-              self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
+              self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario);
               // detalle rp
-              self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
+              self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id);
               //Iva
-              self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
+              self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor);
+              //definir valores
+              self.OrdenPago.Iva = self.orden_pago[0].Iva;
+              self.OrdenPago.ValorBase = self.orden_pago[0].ValorBase;
+              self.OrdenPago.TipoOrdenPago = self.orden_pago[0].TipoOrdenPago;
             });
           }
         })
