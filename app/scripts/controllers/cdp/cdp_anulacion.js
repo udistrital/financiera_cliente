@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CdpCdpAnulacionCtrl', function ($scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
+  .controller('CdpCdpAnulacionCtrl', function ($scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest,$translate) {
     var self = this;
     self.formVisibility = false;
     self.rubros_afectados = [];
@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
         {field: 'NumeroDisponibilidad',   displayName: $translate.instant('NO'), cellClass: 'input_center'},
         {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
-        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
+        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
       ]
 
     };
