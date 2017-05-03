@@ -144,6 +144,23 @@ var text_es = {
   NECESIDAD_NO:"Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
   OBJETO:"Objeto",
+  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
+  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
+  TIPO_ANULACION:"Tipo de Anulación",
+  ANULACION_PARCIAL: "Parcial",
+  ANULACION_TOTAL:"Total",
+  SELECCION_RUBRO:"Seleccione el Rubro",
+  VALOR:"Valor",
+  ANULAR: "Anular",
+  NO: "No.",
+
+  //RP
+  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  CDP_NUMERO: "CDP No.",
+  BENEFECIARIO: "Beneficiario",
+  MODALIDAD_DE_SELECCION: "Modalidad de Selección"
+
 };
 
 var text_en = {
