@@ -19,8 +19,6 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/conceptos/conceptos_por_rubros_op.html',
       controller: function($scope) {
         var self = this;
-        self.conceptos = [];
-        $scope.suma_afectacion = {};
         self.mensajes_alerta_conceptos = null;
         self.gridOptions_conceptos = {
           enableRowSelection: false,
@@ -100,7 +98,7 @@ angular.module('financieraClienteApp')
           self.gridOptions_conceptos.data = self.conceptos;
           $scope.gridHeight = self.gridOptions_conceptos.rowHeight * 4 + (self.gridOptions_conceptos.data.length * self.gridOptions_conceptos.rowHeight);
         }
-        //operar concepto
+        //operar concepto accion de boton
         self.operar_conceptos = function() {
           $scope.conceptos = [];
           self.mensajes_alerta_conceptos = '';
