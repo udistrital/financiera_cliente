@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">Lista de Registros Presupuestales a Anular</h2>
+  <h2 class="page-header" align="center">{{'LISTA_RP_ANULACION' | translate}}</h2>
     <div class="panel-body">
       <div ui-grid="rpAnulacion.gridOptions" ui-grid-selection class="myGrid"></div>
     </div>
@@ -19,31 +19,31 @@
       <div class="col-md-10 col-md-offset-1 " >
         <table class="table text-justify " >
           <tr>
-            <th>CDP No: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
+            <th>{{'CDP_NUMERO' | translate}}: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
           </tr>
           <tr>
-            <th>Necesidad No: </th><td>{{rpAnulacion.Necesidad.Numero}}</td>
+            <th>{{'NECESIDAD_NO' | translate}}: </th><td>{{rpAnulacion.Necesidad.Numero}}</td>
           </tr>
           <tr>
-            <th>Estado: </th><td>{{item.Estado.Nombre}}</td>
+            <th>{{'ESTADO' | translate}}: </th><td>{{item.Estado.Nombre}}</td>
           </tr>
           <tr>
-            <th>Beneficiario: </th> <td>{{item.Beneficiario.NomProveedor}}</td>
+            <th>{{'BENEFECIARIO' | translate}}: </th> <td>{{item.Beneficiario.NomProveedor}}</td>
           </tr>
           <tr>
-            <th>Tipo de Persona: </th> <td>{{item.Beneficiario.Tipopersona}}</td>
+            <th>{{'TIPO_PERSONA' | translate}}: </th> <td>{{item.Beneficiario.Tipopersona}}</td>
           </tr>
           <tr>
-            <th>No. Documento: </th> <td>{{item.Beneficiario.NumDocumento}}</td>
+            <th>{{'NO_DOCUMENTO' | translate}}: </th> <td>{{item.Beneficiario.NumDocumento}}</td>
           </tr>
           <tr>
-            <th>Compromiso: </th> <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+            <th>{{'COMPROMISO' | translate}}: </th> <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
           </tr>
           <tr>
-            <th>Modalidad de Selección: </th> <td>{{rpAnulacion.Necesidad.ModalidadSeleccion.Id+" / "+rpAnulacion.Necesidad.ModalidadSeleccion.Nombre}}</td>
+            <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th> <td>{{rpAnulacion.Necesidad.ModalidadSeleccion.Id+" / "+rpAnulacion.Necesidad.ModalidadSeleccion.Nombre}}</td>
           </tr>
           <tr>
-            <th>Objeto del Contrato: </th> <td>{{rpAnulacion.Necesidad.Objeto}}</td>
+            <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th> <td>{{rpAnulacion.Necesidad.Objeto}}</td>
           </tr>
         </table>
         <hr>

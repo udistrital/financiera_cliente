@@ -152,7 +152,14 @@ var text_es = {
   ANULACION_TOTAL:"Total",
   SELECCION_RUBRO:"Seleccione el Rubro",
   VALOR:"Valor",
-  ANULAR: "Anular"
+  ANULAR: "Anular",
+
+  //RP
+  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  CDP_NUMERO: "CDP No.",
+  BENEFECIARIO: "Beneficiario",
+  MODALIDAD_DE_SELECCION: "Modalidad de Selección"
+
 };
 
 var text_en = {
