@@ -13,9 +13,9 @@ angular.module('financieraClienteApp')
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.RubrosIds = [];
+    //self.RubrosIds = [];
     //self.RubrosIds = [35619, 35618];
-    //self.OrdenPago.RegistroPresupuestal = {'Id':44};
+    self.OrdenPago.RegistroPresupuestal = {'Id':56};
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.ConceptoOrdenPago = [];

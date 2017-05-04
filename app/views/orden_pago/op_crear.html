@@ -13,10 +13,12 @@
     <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase">
     </op-proveedor-detalle-pago>
     <!--Rubros-->
-    <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds" rubrosobj="opCrear.RubrosObjIds">
+    <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubrosobj="opCrear.RubrosObjIds">
     </rubros-por-rp-seleccion-multiple>
+    <!--<pre>{{opCrear.RubrosObjIds | json}}</pre>-->
+
     <!--Concepto-->
-    <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto" rubroidsobj="opCrear.RubrosObjIds">
+    <conceptos-por-rubros-op rubroidsobj="opCrear.RubrosObjIds" conceptos="opCrear.Concepto">
     </conceptos-por-rubros-op>
 
     <!--Cuentas contables -->
