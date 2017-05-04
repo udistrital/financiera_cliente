@@ -1,6 +1,6 @@
 <div class="panel panel-primary panel-body">
   <center>
-    <h3 class="page-header">Descuentos</h3></center>
+    <h3 class="page-header">Descuentos y Devengos</h3></center>
 
   <div class="col-md-6">
     <div ng-if="crearDescuento.plan_maestro!=undefined">
@@ -11,79 +11,65 @@
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title">Nuevo Descuento</h3>
+        <h3 class="panel-title">Agregar Nuevo</h3>
       </div>
       <div class="panel-body">
         <form>
-          <div class="form-group">
-            <label for="nomdescuento">{{"NOMBRE" | translate}}:</label>
-            <input type="text" class="form-control" id="nomdescuento" ng-model="crearDescuento.descuento_nuevo.Nombre" placeholder="Ingerese el nombre del descuento" required>
-          </div>
 
           <div class="form-group">
-            <label for="descdescuento">{{"DESCRIPCION" | translate}}:</label>
-            <textarea type="text" class="form-control" id="descdescuento" placeholder="Ingrese una descripción para el descuento" rows="5" />
+            <label for="nomdescuento">{{"TIPO" | translate}} {{"CUENTA" | translate}}:</label>
+            <select type="text" class="form-control" id="nomdescuento" ng-model="crearDescuento.tipo_cuenta" ng-options="tipo as tipo.Nombre for tipo in crearDescuento.tipos_cuentas" required>
+            <option value="" selected disabled>--Selecciona una opción--</option></select>
           </div>
 
-          <div>
-            <div class="form-group col-md-4" >
-              <label for="acreedor">Nit Acreedor:</label>
-              <input type="text" class="form-control" id="acreedor" placeholder="">
+          <div ng-show="crearDescuento.tipo_cuenta!=null">
+
+            <div class="form-group">
+              <label for="cuentadescuento">Cuenta Contable:</label>
+              <span class="form-control" readonly>{{crearDescuento.cuenta_contable.Codigo}} {{crearDescuento.cuenta_contable.Nombre}}</span>
             </div>
 
-            <div class="form-group col-md-8">
-              <label for="nomacrre">Nombre Acreedor:</label>
-              <input type="text" class="form-control" id="nomacrre" placeholder="">
+            <div class="form-group">
+              <label for="descdescuento">{{"DESCRIPCION" | translate}}:</label>
+              <textarea type="text" class="form-control" id="descdescuento" placeholder="Ingrese una descripción para el {{crearDescuento.tipo_cuenta.Nombre}}" rows="5" />
             </div>
-          </div>
 
-          <div class="form-group">
-            <label for="cuentadescuento">Cuenta Contable:</label>
-            <span class="form-control" readonly>{{crearDescuento.cuenta_contable.Codigo}}</span>
-          </div>
-
-          <div class="form-group">
-            <label for="porcdescuento">Porcentaje:</label>
-            <input type="text" class="form-control" name="field" ng-model="number" ui-number-mask="2" id="porcdescuento" placeholder="0.00">
-          </div>
-
-          <div class="form-group">
-            <label for="basemin">Base Minima:</label>
-            <input type="text" class="form-control" id="basemin" ng-model="crearDescuento.descuento_nuevo.BaseMin" placeholder="Indica el valor minimo" ui-money-mask="0">
-          </div>
-
-          <div class="form-group">
-            <label for="basemax">Base Maxima:</label>
-            <input type="text" class="form-control" id="basemax" ng-model="crearDescuento.descuento_nuevo.BaseMax" placeholder="Indica el valor maximo" ui-money-mask="0">
-          </div>
-
-          <div class="form-group col-md-6">
-              <label>Fecha Inicio:</label>
-              <div class="input-group date" data-provide="datepicker">
-                <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearDescuento.descuento_nuevo.FechaInicio" ></md-datepicker>
+            <div>
+              <div class="form-group col-md-4" >
+                <label for="acreedor">Nit Acreedor:</label>
+                <input type="text" class="form-control" id="acreedor" placeholder="">
               </div>
-          </div>
 
-          <div class="form-group col-md-6">
-              <label>Fecha Expiración:</label>
-              <div class="input-group date" data-provide="datepicker">
-                <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearDescuento.descuento_nuevo.FechaExpiracion" ></md-datepicker>
+              <div class="form-group col-md-8">
+                <label for="nomacrre">Nombre Acreedor:</label>
+                <input type="text" class="form-control" id="nomacrre" placeholder="">
               </div>
-          </div>
+            </div>
 
-          <div class="form-group">
-            <label for="deducible">Deducible:</label>
-            <input type="checkbox" class="checkbox-inline" id="deducible">
-          </div>
+            <div ng-show="crearDescuento.tipo_cuenta.Nombre=='Devengo'">
+              <div class="form-group">
+                <label for="porcdescuento">Porcentaje:</label>
+                <input type="text" class="form-control" name="field" ng-model="number" ui-number-mask="2" id="porcdescuento" placeholder="0.00">
+              </div>
 
+              <div class="form-group">
+                <label for="basemin">Base Minima UVT:</label>
+                <input type="text" class="form-control" id="basemin" ng-model="crearDescuento.descuento_nuevo.BaseMin" placeholder="Indica el valor minimo" ui-money-mask="0">
+              </div>
 
+              <div class="form-group">
+                <label for="deducible">Deducible:</label>
+                <input type="checkbox" class="checkbox-inline" id="deducible">
+              </div>
+            </div>
 
+            <div class="form-group">
+              <center>
+                <input type="submit" class="btn btn-success btn-outline" value="Crear">
+                <button class="btn btn-danger btn-outline" >Cancelar</button>
+              </center>
 
-          <div class="form-group">
-            <center>
-              <input type="submit" class="btn btn-success btn-outline" value="Crear">
-              <button class="btn btn-danger btn-outline" >Cancelar</button>
-            </center>
+            </div>
 
           </div>
 

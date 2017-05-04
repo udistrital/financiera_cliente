@@ -12,6 +12,10 @@ angular.module('financieraClienteApp')
     var self=this;
     self.descuento_nuevo={};
 
+    self.tipos_cuentas=[
+      {Id:1,Nombre:"Descuento"},{Id:2,Nombre:"Devengo"}
+    ];
+
 
     self.cargar_plan_maestro = function() {
       financieraRequest.get("plan_cuentas", $.param({
