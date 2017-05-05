@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+    <h3 class="page-header">{{d_verCuentaContable.v_cuenta.Codigo}}. {{d_verCuentaContable.v_cuenta.Nombre}}
+        </h3>
+  </div>
+
+  <div class="panel-body">
+
+    <div class="col-md-12 row line">
+      <span class="pull-right"><label>{{"NATURALEZA" | translate}}:</label> {{d_verCuentaContable.v_cuenta.Naturaleza}}</span>
+      <span><label>{{"CLASIFICACION" | translate}}:</label> {{d_verCuentaContable.v_cuenta.NivelClasificacion.Nombre}}</span>
+      <blockquote>
+        <p class="text-justify">
+          <em><small><cite>{{d_verCuentaContable.v_cuenta.Descripcion}}</cite>  </small></em>
+        </p>
+      </blockquote>
+    </div>
+
+    <div class="col-md-12 row line">
+      <p>
+        <strong>{{"SALDO" | translate}} {{"INICIAL" | translate}}: {{d_verCuentaContable.v_cuenta.Saldo}}</strong>
+      </p>
+    </div>
+
+    <div class="col-md-12 row line" ng-if="crearcuenta.tipo_cuenta.Nombre!='Ingreso'">
+      <label>{{"MOVIMIENTOS" | translate}}: <span class="btn btn-xs btn-success" ng-click="d_verCuentaContable.cmovs=!d_verCuentaContable.cmovs">{{"BTN.VER" | translate}}</span></label>
+      <div ng-if="d_verCuentaContable.cmovs" class="panel panel-warning panel-body">
+        <center>Aqui movimientos!</center>
+      </div>
+    </div>
+    
+  </div>
+
+</div>

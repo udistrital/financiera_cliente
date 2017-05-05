@@ -4,12 +4,21 @@
   </div>
   <div class="row">
 
-    <treecontrol class="tree-classic" tree-model="d_planCuentas.plan_cuentas" options="d_planCuentas.treeOptions" on-selection="showSelected(node);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}">
-      [{{node.Codigo}}] {{node.Nombre}}
+    <treecontrol class="tree-classic" tree-model="d_planCuentas.plan_cuentas" options="d_planCuentas.treeOptions" on-selection="showSelected(node);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}" >
+      <span class="text-success">{{node.Codigo}}:</span>  {{node.Nombre}}
     </treecontrol>
     <br>
 
-    <div class="panel panel-success panel-body row" ng-show="cuentasel!=undefined && showc">
+    <style>
+      div.sticky {
+        position: sticky;
+        bottom: 0;
+        right: 1;
+      }
+    </style>
+
+    <div class="panel panel-success panel-body row sticky" ng-show="cuentasel!=undefined && showc">
+      <span class="pull-right text-danger" ng-click="cuentasel=undefined">X</span>
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
       <p class="text-muted text-justify ">{{cuentasel.Descripcion | limitTo:370}} ...</p>
       <dl>
@@ -19,16 +28,31 @@
 
       </dl>
       <div class="col-md-3 col-md-offset-6">
-        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/plan_cuentas/cuenta/{{cuentasel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">{{"BTN.VER" | translate}}</a>
+        <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalCuentas">{{"BTN.VER" | translate}}</button>
       </div>
+
       <div class="col-md-3">
         <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_planCuentas.seleccionar_cuenta(cuentasel)" value="{{'BTN.SELECCIONAR' | translate}}">
       </div>
     </div>
+
   </div>
 
   <div>
     <center><button ng-show="seleccion!=undefined || cuentasel!=undefined;" class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
+
+  <div id="modalCuentas" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body" ng-if="cuentasel.Codigo!=undefined">
+        <ver-cuenta-contable codigocuenta="cuentasel.Codigo" />
+      </div>
+    </div>
+
+  </div>
+
 
 </div>
