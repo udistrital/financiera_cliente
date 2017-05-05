@@ -95,7 +95,6 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               if (response.data) {
-                i.DisponibilidadApropiacion.Conceptos = response.data; //agrego los conceptos al rubroidsobj
                 angular.forEach(response.data, function(datas) {
                   datas.FuenteFinanciamiento = i.DisponibilidadApropiacion.FuenteFinanciamiento;
                   self.conceptosGridData.push(datas);
@@ -104,7 +103,7 @@ angular.module('financieraClienteApp')
             });
           });
           self.gridOptions_conceptos.data = self.conceptosGridData;
-          $scope.gridHeight = self.gridOptions_conceptos.rowHeight * 4 + (self.gridOptions_conceptos.data.length * self.gridOptions_conceptos.rowHeight);
+          $scope.gridHeight = self.gridOptions_conceptos.rowHeight * 6 + (self.gridOptions_conceptos.data.length * self.gridOptions_conceptos.rowHeight);
         }
         //operar concepto accion de boton
         self.operar_conceptos = function() {
@@ -151,12 +150,22 @@ angular.module('financieraClienteApp')
               html: '<ol align="left">' + self.mensajes_alerta_conceptos + '</ol>',
               type: 'error'
             })
+          } else {
+            angular.forEach($scope.rubroidsobj, function(objeto) { //objeto rubor
+              var contenedor_conceptos = [];
+              angular.forEach($scope.conceptos, function(concepto) { //conceptos afectantes
+                if (concepto.Rubro.Id == objeto.DisponibilidadApropiacion.Apropiacion.Rubro.Id && concepto.FuenteFinanciamiento.Id == objeto.DisponibilidadApropiacion.FuenteFinanciamiento.Id) {
+                  contenedor_conceptos.push(concepto);
+                }
+              })
+              objeto.DisponibilidadApropiacion.Concepto = contenedor_conceptos;
+            })
           }
         }
         // fin operar concepto
         $scope.$watch('rubroidsobj', function() {
           self.refresh();
-          if($scope.rubroidsobj != null){
+          if ($scope.rubroidsobj != null) {
             self.consulta($scope.rubroidsobj);
           }
         })
