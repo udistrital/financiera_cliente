@@ -12,13 +12,14 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           apropiacion:'=',
-          rp: '='
+          rp: '=',
+          resumen: '=?'
         },
       templateUrl: 'views/directives/apropiacion/fuente_financiacion_rp.html',
       controller:function($scope){
         var self = this;
         self.resumen_afectacion_presupuestal = [];
-
+        $scope.resumen = [];
         $scope.$watch('apropiacion', function(){
           self.resumen_afectacion_presupuestal = [];
           console.log($scope.rp);
@@ -32,20 +33,24 @@ angular.module('financieraClienteApp')
                 self.rubros_afectados = response.data;
                 console.log(self.rubros_afectados);
                 angular.forEach(self.rubros_afectados, function(rubros_data) {
+                  $scope.resumen.push(rubros_data);
                   financieraRequest.get('apropiacion',$.param({
                     query: "Id:"+rubros_data.DisponibilidadApropiacion.Apropiacion.Id,
                     limit: 1
                   })).then(function(response) {
                     rubros_data.Apropiacion = response.data[0];
                   });
-                  
+
                   rubros_data.FuenteFinanciamiento = rubros_data.DisponibilidadApropiacion.FuenteFinanciamiento;
                   var rpdata = {
                     Rp : rubros_data.RegistroPresupuestal,
-                    Apropiacion : rubros_data.DisponibilidadApropiacion.Apropiacion
+                    Apropiacion : rubros_data.DisponibilidadApropiacion.Apropiacion,
+                    FuenteFinanciacion : rubros_data.DisponibilidadApropiacion.FuenteFinanciamiento
                   };
                   financieraRequest.post('registro_presupuestal/SaldoRp',rpdata).then(function(response){
-                    rubros_data.Saldo  = response.data;
+                    rubros_data.Saldo  = response.data.saldo;
+                    rubros_data.Comprometido = response.data.comprometido;
+                    rubros_data.Anulado = response.data.anulado;
                   });
                 });
 

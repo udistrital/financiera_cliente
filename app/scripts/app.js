@@ -214,6 +214,12 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
+
+      .when('/rp/rp_anulacion', {
+        templateUrl: 'views/rp/rp_anulacion.html',
+        controller: 'RpRpAnulacionCtrl',
+        controllerAs: 'rpAnulacion'
+       })
       .when('/plan_cuentas/crear_descuento', {
         templateUrl: 'views/plan_cuentas/crear_descuento.html',
         controller: 'CrearDescuentoCtrl',

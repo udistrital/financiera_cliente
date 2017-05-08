@@ -50,7 +50,8 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
-
+  TOTAL_COMPROMETIDO: "Total Comprometido",
+  TOTAL_ANULADO: "Total Anulado",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -127,6 +128,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
+  FUENTES_AFECTADAS:"Fuentes de Financiación Afectadas",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -139,11 +141,30 @@ var text_es = {
   VALOR_CONTRATACION: 'Valor De La Contratación',
   JUSTIFICACION: 'Justificación',
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
+  VALOR_AFECTACION: "Valor afectación",
+  VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
   NECESIDAD_NO:"Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
   OBJETO:"Objeto",
+  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
+  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
+  TIPO_ANULACION:"Tipo de Anulación",
+  ANULACION_PARCIAL: "Parcial",
+  ANULACION_TOTAL:"Total",
+  SELECCION_RUBRO:"Seleccione el Rubro",
+  VALOR:"Valor",
+  ANULAR: "Anular",
+  NO: "No.",
+
+  //RP
+  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  CDP_NUMERO: "CDP No.",
+  BENEFECIARIO: "Beneficiario",
+  MODALIDAD_DE_SELECCION: "Modalidad de Selección"
+
 };
 
 var text_en = {
