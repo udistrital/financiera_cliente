@@ -50,8 +50,18 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+
+  MOVIMIENTOS: "Movimientos",
+  INICIAL: "Inicial",
+  FECHA: "Fecha",
+  CREACION:"Creación",
+  VENCIMIENTO:"Vencimiento",
+  INGRESO:"Ingreso",
+  EGRESO: "Egreso",
+
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
