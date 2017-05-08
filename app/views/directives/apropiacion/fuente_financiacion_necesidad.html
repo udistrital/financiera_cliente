@@ -19,7 +19,7 @@
       </li>
       <li ng-show="!item[0].FuenteFinanciacion"><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
         <ul ng-repeat="fuente in item">
-          <li>{{" "+fuente.MontoParcial|currency}}</li>
+          <li>b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.MontoParcial|currency}}</li>
         </ul>
       </li>
     </ul>
