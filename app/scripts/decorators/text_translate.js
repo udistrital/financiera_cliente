@@ -127,6 +127,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
+  FUENTES_AFECTADAS:"Fuentes de Financiación Afectadas",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -139,6 +140,8 @@ var text_es = {
   VALOR_CONTRATACION: 'Valor De La Contratación',
   JUSTIFICACION: 'Justificación',
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
+  VALOR_AFECTACION: "Valor afectación",
+  VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
   NECESIDAD_NO:"Necesidad No. ",
