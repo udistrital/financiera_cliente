@@ -1,0 +1,44 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }} ({{tipoAvance.referencia}}) {{tipoAvance.nombre}}</h2>
+  <div id="div-horizontal2">
+    <!--p align="center"-->
+    <a id="IdTipo" href="#/listarTiposAvance">
+      << Regresar </a>
+        <!--/p-->
+  </div>
+  <div id="div-horizontal">
+    <p align="center"> {{ message }} </p>
+    <p align="center">
+      <button onclick="window.location.href='#/agregarRequisitoAvance'" ng-click="selectIdtipo({{tipoAvance.idtipo}})" class="btn btn-info">NUEVO REQUISITO</button></p>
+  </div>
+  <div id="div-horizontal2"> </div>
+  <div class="contenedor" data-ng-show="viewState === possibleStates[0]">
+    <table id="tipoAvance" class="table datatable table-striped table-bordered ">
+      <thead>
+        <tr>
+          <th>Tipo Avance</th>
+          <th>Referencia Requisito</th>
+          <th>Nombre Requisito </th>
+          <th>Descripcion</th>
+          <th>Etapa</th>
+          <th>Estado</th>
+          <th>FechaRegistro</th>
+          <th align="center">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="ra in data">
+          <td>{{ra.ReferenciaAvn}} {{ra.NombreAvn}}</td>
+          <td>{{ra.ReferenciaReq}}</td>
+          <td>{{ra.NombreReq}}</td>
+          <td>{{ra.DescripcionReq}}</td>
+          <td>{{ra.EtapaReq}}</td>
+          <td>{{ra.Estado}}</td>
+          <td>{{ra.FechaRegistro}}</td>
+          <td><a id="IdTipo" href="#/editarRequisitoAvance/{{ra.IdTipo}}/{{ra.IdReq}}">Editar</a></td>
+          <!--td><a id="IdTipo" href="" ng-click="deleteTipo(d.IdTipo)" onclick="return confirm('¿Esta seguro de Borrar el registro?');" >Borrar</a></td></td-->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

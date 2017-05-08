@@ -1,0 +1,32 @@
+<h2>{{ title }}</h2>
+<div>
+  <p align="center"> {{ message }} </p>
+  <p align="center">
+    <button onclick="window.location.href='#/agregarRequisito'" class="btn btn-info">NUEVO REQUISITO</button></p>
+</div>
+<div class="contenedor" data-ng-show="viewState === possibleStates[0]">
+  <table id="requisito" class="table datatable table-striped table-bordered ">
+    <thead>
+      <tr>
+        <th>Referencia</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Estado</th>
+        <th>Etapa</th>
+        <th>FechaRegistro</th>
+        <th align="center">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="r in data">
+        <td>{{r.Referencia}}</td>
+        <td>{{r.Nombre}}</td>
+        <td>{{r.Descripcion}}</td>
+        <td>{{r.Estado}}</td>
+        <td>{{r.Etapa}}</td>
+        <td>{{r.FechaRegistro}}</td>
+        <td><a id="IdTipo" href="#/editarRequisito/" ng-click="selectId(r.IdReq)">Editar</a></td>
+        <!--td><a id="IdTipo" href="" ng-click="deleteTipo(d.IdTipo)" onclick="return confirm('¿Esta seguro de Borrar el registro?');" >Borrar</a></td></td-->
+      </tr>
+    </tbody>
+  </table>

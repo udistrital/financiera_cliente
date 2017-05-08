@@ -44,7 +44,8 @@ angular
     'adminMidService',
     'argoService',
     'coreService',
-    'oikosService'
+    'oikosService',
+    'avancesService'
   ])
 
   .run(function(amMoment) {
@@ -218,6 +219,21 @@ angular
         templateUrl: 'views/plan_cuentas/crear_descuento.html',
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
+      })
+      .when('/tesoreria/avances/tipos_avance/agregar_tipo_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/agregar_tipo_avance.html',
+        controller: 'AgregarTipoAvanceCtrl',
+        controllerAs: 'agregarTipoAvance'
+      })
+      .when('/tesoreria/avances/tipos_avance/editar_tipo_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/editar_tipo_avance.html',
+        controller: 'EditarTipoAvanceCtrl',
+        controllerAs: 'editarTipoAvance'
+      })
+      .when('/tesoreria/avances/tipos_avance/listar_tipos_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/listar_tipos_avance.html',
+        controller: 'ListarTiposAvanceCtrl',
+        controllerAs: 'listarTiposAvance'
       })
       .otherwise({
         redirectTo: '/'

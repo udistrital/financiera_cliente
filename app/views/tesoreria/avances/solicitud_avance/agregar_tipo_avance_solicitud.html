@@ -1,0 +1,83 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }} </h2>
+  <div id="div-horizontal2">
+    <!--p align="center"-->
+    <a id="IdTipo" href="#/consultarSolicitudAvance/{{solicitudAvance.Solicitud.Vigencia}}/{{solicitudAvance.Solicitud.Consecutivo}}">
+      << Regresar </a>
+        <!--/p-->
+  </div>
+  <div id="div-horizontal">
+    <p align="center"> {{ message }} </p>
+  </div>
+  <div id="div-horizontal2"> </div>
+  <div ng-controller="addTipoSolicitudAvanceController" class="container">
+    <form name="solicitudavanceForm" class="form-horizontal">
+      <div class="container">
+        <div class="form-group">
+          <label for="Vigencia" class="col-sm-2 control-label">Vigencia:</label>
+          <div class="col-sm-4">
+            <input name="Vigencia" type="text" ng-model="solicitudAvance.Solicitud.Vigencia" class="form-control" min="0" ng-disabled="true" />
+          </div>
+          <label for="Consecutivo" class="col-sm-2 control-label">Consecutivo:</label>
+          <div class="col-sm-4">
+            <input name="Consecutivo" type="text" ng-model="solicitudAvance.Solicitud.Consecutivo" class="form-control" min="0" ng-disabled="true" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="ValorTotal" class="col-sm-2 control-label">Valor Avance:</label>
+          <div class="col-sm-4">
+            <input name="ValorTotal" type="text" ng-model="solicitudAvance.Solicitud.ValorTotal | currency" class="form-control" min="0" ng-disabled="true" />
+          </div>
+          <label for="EstadoActual" class="col-sm-2 control-label">Estado Actual:</label>
+          <div class="col-sm-4">
+            <input name="EstadoActual" type="text" ng-model="solicitudAvance.Solicitud.EstadoActual" class="form-control" min="0" ng-disabled="true" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Objetivo" class="col-sm-2 control-label">Objetivo:</label>
+          <div class="col-sm-10">
+            <textarea name="Objetivo" ng-model="solicitudAvance.Solicitud.Objetivo" class="form-control" ng-disabled="true"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Justificacion" class="col-sm-2 control-label">Justificacion:</label>
+          <div class="col-sm-10">
+            <textarea name="Justificacion" ng-model="solicitudAvance.Solicitud.Justificacion" class="form-control" ng-disabled="true"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <p align="left"> <u>Detalle Avance </u> </p>
+        <div class="form-group">
+          <label for="IdTipo" class="col-sm-2 control-label">Tipo Avance:</label>
+          <div class="col-sm-10">
+            <select name="IdTipo" ng-model="solicitudAvance.Tipoavance.IdTipo" class="form-control">
+              <option ng-repeat="tipo in tipoAvance" value={{tipo.IdTipo}} >({{tipo.Referencia}}) {{tipo.Nombre}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Descripcion" class="col-sm-2 control-label">Descripcion:</label>
+          <div class="col-sm-10">
+            <textarea name="Descripcion" ng-model="solicitudAvance.Tipoavance.Descripcion" class="form-control"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Valor" class="col-sm-2 control-label">Valor:</label>
+          <div class="col-sm-10">
+            <input name="Valor" type="text" ng-model="solicitudAvance.Tipoavance.Valor" value="{{solicitudAvance.Tipoavance.Valor | currency}}" class="form-control" min="0" />
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input name="Vigencia" type="hidden" ng-model="solicitudAvance.Solicitud.Vigencia" />
+          <input name="Consecutivo" type="hidden" ng-model="solicitudAvance.Solicitud.Consecutivo" />
+          <input name="Usuario" type="hidden" ng-model="solicitudAvance.Estadosolicitud.Usuario" />
+          <input type="submit" ng-click="addTipo()" value="Guardar" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+    <!--pre>Form = {{solicitudAvance | json}}</pre-->
+  </div>
+</div>

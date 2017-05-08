@@ -1,0 +1,178 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }} </h2>
+  <div id="div-horizontal2">
+    <!--p align="center"-->
+    <a id="IdTipo" href="#/listarSolicitudAvance">
+      << Regresar </a>
+        <!--/p-->
+  </div>
+  <div id="div-horizontal">
+    <p align="center"> {{ message }} </p>
+  </div>
+  <div id="div-horizontal2"> </div>
+  <div ng-controller="selSolicitudAvanceController" class="container">
+    <div class="container">
+      <div class="form-group">
+        <label for="Vigencia" class="col-sm-2 control-label">Vigencia:</label>
+        <div class="col-sm-4">
+          <input name="Vigencia" type="text" ng-model="solicitudAvance.Solicitud.Vigencia" class="form-control" min="0" ng-disabled="true" />
+        </div>
+        <label for="Consecutivo" class="col-sm-2 control-label">Consecutivo:</label>
+        <div class="col-sm-4">
+          <input name="Consecutivo" type="text" ng-model="solicitudAvance.Solicitud.Consecutivo" class="form-control" min="0" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ValorTotal" class="col-sm-2 control-label">Valor Avance:</label>
+        <div class="col-sm-4">
+          <input name="ValorTotal" type="text" ng-model="solicitudAvance.Solicitud.ValorTotal | currency" class="form-control" min="0" ng-disabled="true" />
+        </div>
+        <label for="EstadoActual" class="col-sm-2 control-label">Estado Actual:</label>
+        <div class="col-sm-4">
+          <input name="EstadoActual" type="text" ng-model="solicitudAvance.Solicitud.EstadoActual" class="form-control" min="0" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Objetivo" class="col-sm-2 control-label">Objetivo:</label>
+        <div class="col-sm-10">
+          <textarea name="Objetivo" ng-model="solicitudAvance.Solicitud.Objetivo" class="form-control" ng-disabled="true"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Justificacion" class="col-sm-2 control-label">Justificacion:</label>
+        <div class="col-sm-10">
+          <textarea name="Justificacion" ng-model="solicitudAvance.Solicitud.Justificacion" class="form-control" ng-disabled="true"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Dependencia" class="col-sm-2 control-label">Dependencia:</label>
+        <div class="col-sm-10">
+          <input name="Dependencia" type="text" ng-model="solicitudAvance.Solicitud.Dependencia" class="form-control" min="0" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="CodigoFacultad" class="col-sm-2 control-label">Facultad:</label>
+        <div class="col-sm-10">
+          <input name="Facultad" type="text" ng-model="solicitudAvance.Solicitud.Facultad" class="form-control" min="0" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="CodigoProyectoCur" class="col-sm-2 control-label">Proyecto Curricular:</label>
+        <div class="col-sm-10">
+          <input name="ProyectoCur" type="text" ng-model="solicitudAvance.Solicitud.ProyectoCur" class="form-control" min="0" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="CodigoConvenio" class="col-sm-2 control-label">Convenio:</label>
+        <div class="col-sm-2">
+          <input name="CodigoConvenio" type="text" ng-model="solicitudAvance.Solicitud.CodigoConvenio" class="form-control" placeholder="Código Convenio" ng-disabled="true" />
+        </div>
+        <div class="col-sm-8">
+          <input name="Convenio" type="text" ng-model="solicitudAvance.Solicitud.Convenio" class="form-control" placeholder="Nombre Convenio" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="CodigoProyectoInv" class="col-sm-2 control-label">Proyecto Investigación:</label>
+        <div class="col-sm-2">
+          <input name="CodigoProyectoInv" type="text" ng-model="solicitudAvance.Solicitud.CodigoProyectoInv" class="form-control" placeholder="Código Proyecto" ng-disabled="true" />
+        </div>
+        <div class="col-sm-8">
+          <input name="ProyectoInv" type="text" ng-model="solicitudAvance.Solicitud.ProyectoInv" class="form-control" placeholder="Nombre Proyecto" ng-disabled="true" />
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <p align="left"> <u>Beneficiario </u> </p>
+      <div class="form-group">
+        <label for="Documento" class="col-sm-2 control-label">Documento:</label>
+        <div class="col-sm-4">
+          <input name="Documento" type="text" ng-model="solicitudAvance.Beneficiario.Documento" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="TipoDocumento" class="col-sm-2 control-label">Tipo Documento:</label>
+        <div class="col-sm-4">
+          <input name="TipoDocumento" type="text" ng-model="solicitudAvance.Beneficiario.TipoDocumento" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="LugarDocumento" class="col-sm-2 control-label">Lugar del Documento:</label>
+        <div class="col-sm-10">
+          <input name="LugarDocumento" type="text" ng-model="solicitudAvance.Beneficiario.LugarDocumento" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="Nombre" class="col-sm-2 control-label">Nombre:</label>
+        <div class="col-sm-10">
+          <input name="Nombre" type="text" ng-model="solicitudAvance.Beneficiario.Nombre" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Apellido" class="col-sm-2 control-label">Apellidos:</label>
+        <div class="col-sm-10">
+          <input name="Apellido" type="text" ng-model="solicitudAvance.Beneficiario.Apellido" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Direccion" class="col-sm-2 control-label">Dirección:</label>
+        <div class="col-sm-10">
+          <input name="Direccion" type="text" ng-model="solicitudAvance.Beneficiario.Direccion" ng-disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Correo" class="col-sm-2 control-label">Correo Electrónico:</label>
+        <div class="col-sm-10">
+          <input name="Correo" type="email" ng-model="solicitudAvance.Beneficiario.Correo" class="form-control" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Telefono" class="col-sm-2 control-label">Número Telefono:</label>
+        <div class="col-sm-4">
+          <input name="Telefono" type="text" ng-model="solicitudAvance.Beneficiario.Telefono" class="form-control" ng-disabled="true" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="Celular" class="col-sm-2 control-label">Número Celular:</label>
+        <div class="col-sm-4">
+          <input name="Celular" type="text" ng-model="solicitudAvance.Beneficiario.Celular" class="form-control" ng-disabled="true" />
+        </div>
+        <div class="contenedor">
+          <p align="left"> <u>Tipo de Avance </u> </p>
+          <p align="center">
+            <div ng-if="solicitudAvance.Solicitud.EstadoActual == 'Registrado'">
+              <a id="IdTipo" href="#/agregarTipoAvanceSolicitud/{{solicitudAvance.Solicitud.Vigencia}}/{{solicitudAvance.Solicitud.Consecutivo}}" class="btn btn-info"> NUEVO TIPO </a> </p>
+          </div>
+          <table id="solicitudAvance" class="table datatable table-striped table-bordered ">
+            <thead>
+              <tr>
+                <th>Referencia</th>
+                <th>Nombre</th>
+                <th>Valor</th>
+                <th>Descripcion</th>
+                <th align="center" colspan="2">Requisitos - Etápa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="tav in solicitudAvance.TipoAvance">
+                <td>{{tav.Referencia}}</td>
+                <td>{{tav.Nombre}}</td>
+                <td>{{tav.Valor | currency }}</td>
+                <td>{{tav.Descripcion}}</td>
+                <td colspan="2">
+                  <table>
+                    <tr ng-repeat="req in tav.Requisitos">
+                      <td width="15%">{{req.Referencia}}</td>
+                      <td width="60%">{{req.Nombre}}</td>
+                      <td width="25%">( {{req.Etapa}} )</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--pre>Form = {{solicitudAvance | json}}</pre-->
+    </div>
+  </div>

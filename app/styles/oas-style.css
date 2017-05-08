@@ -1,3 +1,26 @@
+ /* UI-GRID*/
+
+ [ui-grid-row] {
+display: table-row;
+}
+
+.ui-grid-row, .ui-grid-cell {
+height: auto!important;
+width: auto!important;
+}
+
+.ui-grid-cell {
+float: none;
+display: table-cell;
+}
+
+.ui-grid-header-cell, .ui-grid-cell-contents {
+white-space: normal;
+padding: 2px;
+word-break: break-word;
+}
+
+
 .page-header {
     padding-bottom: 0px;
     margin: 20px;

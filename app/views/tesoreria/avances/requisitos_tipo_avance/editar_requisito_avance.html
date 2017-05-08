@@ -1,0 +1,55 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }} ({{requisitoAvanceupd.referenciaAvn}}) {{requisitoAvanceupd.nombreAvn}}</h2>
+  <div id="div-horizontal2">
+    <!--p align="center"-->
+    <a id="IdTipo" href="#/listarRequisitosAvance/{{requisitoAvanceupd.idtipo}}">
+      << Regresar </a>
+        <!--/p-->
+  </div>
+  <div id="div-horizontal">
+    <p align="center"> {{ message }} </p>
+  </div>
+  <div id="div-horizontal2"> </div>
+  <div ng-controller="addRequisitoAvanceController" class="container">
+    <form name="requisitoavanceForm" class="form-horizontal">
+      <div class="form-group">
+        <label for="referencia" class="col-sm-2 control-label">Referencia:</label>
+        <div class="col-sm-10">
+          <input name="referencia" type="text" ng-model="requisitoAvanceupd.referencia" readonly="readonly" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nombre" class="col-sm-2 control-label">Nombre:</label>
+        <div class="col-sm-10">
+          <input name="nombre" type="text" ng-model="requisitoAvanceupd.nombre" disabled="true" class="form-control" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="etapa" class="col-sm-2 control-label">Etapá:</label>
+        <div class="col-sm-10">
+          <select name="etapa" ng-model="requisitoAvanceupd.etapa" disabled="true" class="form-control">
+          <option value="solicitar">Solicitud</option>
+          <option value="legalizar">Legalización</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
+        <div class="col-sm-10">
+          <select name="estado" ng-model="requisitoAvanceupd.estado" class="form-control">
+          <option value="A">Activo</option>
+          <option value="I">Inactivo</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input name="idtipo" type="hidden" ng-model="requisitoAvanceupd.idtipo" />
+          <input name="idreq" type="hidden" ng-model="requisitoAvanceupd.idreq" />
+          <input type="submit" ng-click="upd()" value="Actualizar" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+    <!--pre>Form = {{requisitoAvanceupd | json}}</pre-->
+  </div>
+</div>

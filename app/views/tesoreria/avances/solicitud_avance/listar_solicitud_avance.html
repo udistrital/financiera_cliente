@@ -1,0 +1,74 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }}</h2>
+  <div class="form-group">
+    <p align="center"> {{ message }} </p>
+    <p align="center"> <button onclick="window.location.href='#/agregarSolicitudAvance'" class="btn btn-info">NUEVA SOLICITUD</button></p>
+  </div>
+  <div class="contenedor" data-ng-show="viewState === possibleStates[0]">
+    <table id="solicitudAvance" class="table datatable table-striped table-bordered ">
+      <thead>
+        <tr>
+          <th>
+            <div class="col-sm-8">
+              <select name="vig" ng-model="vigencias.vig" class="form-control" ng-change="selectVigencia(vigencias.vig)">
+            <option ng-repeat="anio in vigencias" value={{anio.vig}} >{{anio.vig}}</option>
+          </select>
+            </div>
+          </th>
+          <th><input ng-model="search.Consecutivo" class="col-sm-1"></th>
+          <th><input ng-model="search.Objetivo"></th>
+          <th></th>
+          <!--th><input ng-model="search.Dependencia"></th>
+        <th><input ng-model="search.Facultad"></th>
+        <th><input ng-model="search.ProyectoCurricular"></th>
+        <th><input ng-model="search.Convenio"></th>
+        <th><input ng-model="search.ProyectoInv"></th-->
+          <th><input ng-model="search.FechaRegistro"></th>
+          <th colspan="2"><input ng-model="search.Documento"></th>
+          <th><input ng-model="search.EstadoActual"></th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>
+          <th>Vigencia</th>
+          <th>Consecutivo</th>
+          <th>Objetivo</th>
+          <th>Valor Total</th>
+          <!--th>Dependencia</th>
+        <th>Facultad</th>
+        <th>Proyecto Curricular</th>
+        <th>Convenio</th>
+        <th>Proyecto Investigacion</th-->
+          <th>Fecha Registro</th>
+          <th colspan="2">Beneficiario</th>
+          <th>Estado Actual</th>
+          <th colspan="2" align="center">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="sav in data  | filter:search:strict">
+          <td>{{sav.Vigencia}}</td>
+          <td>{{sav.Consecutivo}}</td>
+          <td>{{sav.Objetivo}}</td>
+          <td>{{sav.ValorTotal | currency }}</td>
+          <!--td>{{sav.Dependencia}}</td>
+        <td>{{sav.Facultad}}</td>
+        <td>{{sav.ProyectoCurricular}}</td>
+        <td>{{sav.Convenio}}</td>
+        <td>{{sav.ProyectoInv}}</td-->
+          <td>{{sav.FechaRegistro}}</td>
+          <td>{{sav.Documento}}</td>
+          <td>{{sav.Nombre}} {{sav.Apellido}}</td>
+          <td>{{sav.EstadoActual}}</td>
+          <td><a href="#/consultarSolicitudAvance/{{sav.Vigencia}}/{{sav.Consecutivo}}">Consultar</a></td>
+          <td>
+            <div ng-if="sav.EstadoActual == 'Registrado'">
+              <a href="#/cancelarSolicitudAvance/listarSolicitud/{{sav.Vigencia}}/{{sav.Consecutivo}}">Cancelar Solicitud</a> </p>
+            </div>
+          </td>
+          <!--td><a id="IdTipo" href="" ng-click="deleteTipo(d.IdTipo)" onclick="return confirm('¿Esta seguro de Borrar el registro?');" >Borrar</a></td></td-->
+        </tr>
+      </tbody>
+    </table>
+  </div>

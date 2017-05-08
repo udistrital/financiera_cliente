@@ -1,0 +1,67 @@
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 align="center">{{ title }}</h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+    </div>
+    <div class="contenedor" data-ng-show="viewState === possibleStates[0]">
+      <table id="solicitudAvance" class="table table-bordered">
+        <thead align="center">
+          <tr>
+            <th>
+              <div class="col-sm-12">
+                <select name="vig" ng-model="vigencias.vig" class="form-control" ng-change="selectVigencia(vigencias.vig)">
+            <option ng-repeat="anio in vigencias" value={{anio.vig}} >{{anio.vig}}</option>
+          </select>
+              </div>
+            </th>
+            <th><input class="form-control" ng-model="search.Consecutivo"></th>
+            <th><input class="form-control" ng-model="search.Objetivo"></th>
+            <th></th>
+            <th><input class="form-control" ng-model="search.FechaRegistro"></th>
+            <th colspan="2"><input class="form-control" ng-model="search.Documento"></th>
+            <th></th>
+            <th colspan="3"></th>
+          </tr>
+        </thead>
+        <thead>
+          <tr>
+            <th>Vigencia</th>
+            <th>Consecutivo</th>
+            <th>Objetivo</th>
+            <th>Valor Total</th>
+            <th>Fecha Registro</th>
+            <th colspan="2">Beneficiario</th>
+            <th>Estado Actual</th>
+            <th colspan="3" align="center">Certificar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="sav in solicitud | filter:search:strict">
+            <td>{{sav.Vigencia}}</td>
+            <td>{{sav.Consecutivo}}</td>
+            <td>{{sav.Objetivo}}</td>
+            <td align="right">{{sav.ValorTotal | currency }}</td>
+            <td>{{sav.FechaRegistro | date:'medium'}}</td>
+            <td>{{sav.Documento}}</td>
+            <td>{{sav.Nombre}} {{sav.Apellido}}</td>
+            <td>{{sav.EstadoActual}}</td>
+            <td>
+              <div ng-if="sav.EstadoActual == 'Verificado'">
+                <a class="btn btn-outline btn-primary btn-sm" id="IdTipo" href="#/certificarNecesidadAvance/{{sav.Vigencia}}/{{sav.Consecutivo}}">Necesidad</a>
+              </div>
+              <div ng-if="sav.EstadoActual == 'Verificado'">
+                <a class="btn btn-outline btn-primary btn-sm"  href="#/certificarApruebaAvance/{{sav.Vigencia}}/{{sav.Consecutivo}}">Aprobación</a> </p>
+              </div>
+              <div ng-if="sav.EstadoActual == 'Aprobado'">
+                <a class="btn btn-outline btn-primary btn-sm" href="#/certificar_giro_avance/{{sav.Vigencia}}/{{sav.Consecutivo}}">Giro</a> </p>
+              </div>
+            </td>
+            <!--td><a class="btn btn-outline btn-primary btn-md" id="IdTipo" href="" ng-click="deleteTipo(d.IdTipo)" onclick="return confirm('¿Esta seguro de Borrar el registro?');" >Borrar</a></td></td-->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

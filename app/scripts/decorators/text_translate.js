@@ -97,7 +97,10 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+    LIMPIAR: "Limpiar",
+    GUARDAR: "Guardar",
+    NUEVO: "Nuevo"
   },
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
@@ -144,6 +147,15 @@ var text_es = {
   NECESIDAD_NO:"Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
   OBJETO:"Objeto",
+
+    //TIPO AVANCES
+
+    AVANCES:  'AVANCES',
+    LISTA_AVANCES :  'Listado de Tipos de Avances',
+    REFERENCIA: 'Referencia',
+    FECHA_REGISTRO: 'Fecha registro',
+    NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
+    EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance'
 };
 
 var text_en = {
@@ -255,6 +267,7 @@ var text_en = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Select Item",
+
 };
 
 angular.module('financieraClienteApp')

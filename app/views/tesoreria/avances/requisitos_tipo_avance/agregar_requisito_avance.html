@@ -1,0 +1,32 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }} ({{requisitoAvance.referencia}}) {{requisitoAvance.nombre}}</h2>
+  <div id="div-horizontal2">
+    <!--p align="center"-->
+    <a id="IdTipo" href="#/listarRequisitosAvance/{{requisitoAvance.idtipo}}">
+      << Regresar </a>
+        <!--/p-->
+  </div>
+  <div id="div-horizontal">
+    <p align="center"> {{ message }} </p>
+  </div>
+  <div id="div-horizontal2"> </div>
+  <div ng-controller="addRequisitoAvanceController" class="container">
+    <form name="requisitoavanceForm" class="form-horizontal">
+      <div class="form-group">
+        <label for="requisito" class="col-sm-2 control-label">Requisito:</label>
+        <div class="col-sm-10">
+          <select name="requisitoavance" ng-model="requisitoAvance.idreq" class="form-control">
+          <option ng-repeat="req in dataReq" value={{req.IdReq}} >({{req.Referencia}}) {{req.Nombre}} - {{req.Etapa}}</option>
+        </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <input name="idtipo" type="hidden" ng-model="requisitoAvance.idtipo" />
+          <input type="submit" ng-click="add()" value="Guardar" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+    <!--pre>Form = {{requisitoAvance | json}}</pre-->
+  </div>
+</div>

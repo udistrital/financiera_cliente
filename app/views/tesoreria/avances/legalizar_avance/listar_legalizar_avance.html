@@ -1,0 +1,76 @@
+<h2>{{ 'TITULO_LEGALIZACION_AVANCE' | translate }}</h2>
+<div class="form-group">
+  <p align="center"> {{ 'LISTADO_AVANCES' | translate }} </p>
+</div>
+<div class="contenedor" data-ng-show="viewState === possibleStates[0]">
+  <table id="solicitudAvance" class="table datatable table-striped table-bordered ">
+    <thead>
+      <tr>
+        <th>
+          <select name="vig" ng-model="vigencias.vig" class="form-control" ng-change="selectVigencia(vigencias.vig)">
+            <option ng-repeat="anio in vigencias" value={{anio.vig}} >{{anio.vig}}</option>
+          </select>
+        </th>
+        <th><input class="form-control" ng-model="search.Consecutivo"></th>
+        <th><input class="form-control" ng-model="search.Objetivo"></th>
+        <th></th>
+        <th colspan="2"><input class="form-control" ng-model="search.Documento"></th>
+        <th></th>
+        <th><input class="form-control" ng-model="search.FechaCertificacion"></th>
+        <th></th>
+        <th></th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th>{{"VIGENCIA" | translate}}</th>
+        <th>{{"CONSECUTIVO" | translate}}</th>
+        <th>{{ "OBJETIVO" | translate}}</th>
+        <th>{{ "VALOR_TOTAL" | translate}}</th>
+        <th colspan="2">{{ "BENEFICIARIO" | translate}}</th>
+        <th>{{ "ESTADO_ACTUAL" | translate}}</th>
+        <th>{{ "FECHA_CERTIFICACION_GIRO" | translate}}</th>
+        <th>{{ "FECHA_LIMITE_LEGALIZAR" | translate}}</th>
+        <th>{{ "OBSERVACIONES" | translate}}</th>
+        <th colspan="2" align="center">{{ "OPCIONES" | translate}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="sav in solicitud | filter:search:strict">
+        <td>{{sav.Vigencia}}</td>
+        <td>{{sav.Consecutivo}}</td>
+        <td>{{sav.Objetivo}}</td>
+        <td>{{sav.ValorTotal | currency }}</td>
+        <td>{{sav.Documento}}</td>
+        <td>{{sav.Nombre}} {{sav.Apellido}}</td>
+        <td>{{sav.EstadoActual}}</td>
+        <td>{{sav.FechaCertificacion}}</td>
+        <td>
+          <div ng-init="fechaMax = fechaLegalizar(sav.FechaCertificacion)">{{ fechaMax }}
+          </div>
+        </td>
+        <td>
+          <div ng-init="fechaDiferencia = fechaDiferencia(hoy,fechaMax)" ng-if=" hoy >= fechaMax">
+            <span class="messages" style="color:red" ng-if=" hoy > fechaMax">
+                <span ng-init="fechaDiferencia = fechaDiferencia(hoy,fechaMax)" > {{ 'LEGALIZACION' | translate + fechaDiferencia + 'DIAS_RETRASO' | translate}}  </span>
+            </span>
+            <span class="messages" style="color:green" ng-if=" hoy == fechaMax">
+                <span><b></b></span>
+            </span>
+          </div>
+        </td>
+        <td>
+          <div ng-if="sav.EstadoActual == 'Girado'">
+            <a class="btn btn-outline btn-primary btn-sm" id="IdTipo" href="#/verificar_soportes_avance/{{sav.Vigencia}}/{{sav.Consecutivo}}">{{'BTN.VERIFICAR_SOPORTES' | translate}}</a>
+          </div>
+        </td>
+        <td>
+          <div ng-if="sav.EstadoActual == 'Girado'">
+            <a class="btn btn-outline btn-primary btn-sm" href="#/legalizar_avance/{{sav.Vigencia}}/{{sav.Consecutivo}}">{{'BTN.LEGALIZAR' | translate}}</a> </p>
+          </div>
+        </td>
+        <!--td><a id="IdTipo" href="" ng-click="deleteTipo(d.IdTipo)" onclick="return confirm('¿Esta seguro de Borrar el registro?');" >Borrar</a></td></td-->
+      </tr>
+    </tbody>
+  </table>

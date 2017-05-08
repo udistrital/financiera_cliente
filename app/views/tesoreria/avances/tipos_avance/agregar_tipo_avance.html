@@ -1,0 +1,40 @@
+<div class="jumbotron text-center">
+  <h2>{{ title }}</h2>
+  <div id="div-horizontal2">
+  <!--p align="center"-->
+          <a id="IdTipo" href="#/listarTiposAvance"> << Regresar </a><!--/p-->
+  </div>
+  <div id="div-horizontal" >
+      <p align="center"> {{ message }} </p>
+  </div>
+  <div id="div-horizontal2">  </div>
+  <div ng-controller="addTiposAvanceController" class="container">
+    <form name="tipoAvanceForm" class="form-horizontal">
+     <div class="form-group">
+       <label for="referencia" class="col-sm-2 control-label">Referencia:</label>
+       <div class="col-sm-10">
+         <input name="referencia" type="text" ng-model="tipoAvance.referencia" class="form-control"/>
+       </div>
+     </div>
+     <div class="form-group">
+       <label for="nombre" class="col-sm-2 control-label">Nombre:</label>
+       <div class="col-sm-10">
+         <input name="referencia" type="text" ng-model="tipoAvance.nombre" class="form-control"/>
+       </div>
+     </div>
+     <div class="form-group">
+       <label for="descripcion" class="col-sm-2 control-label">Descripción:</label>
+       <div class="col-sm-10">
+         <textarea name="descripcion" ng-model="tipoAvance.descripcion" class="form-control"></textarea>
+       </div>
+     </div>
+     <div class="form-group">
+       <div class="col-sm-offset-2 col-sm-10">
+          <input type="reset" ng-click="reset()" value="Limpiar" class="btn btn-default"/>
+          <input type="submit" ng-click="add()" value="Guardar" class="btn btn-primary"/>
+       </div>
+     </div>
+    </form>
+    <!--pre>Form = {{tipoAvance | json}}</pre-->
+  </div>
+</div>
