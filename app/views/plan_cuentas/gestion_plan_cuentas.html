@@ -1,14 +1,16 @@
-<br>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        plan_cuentas/gestion_plan_cuentas.
+<div class="panel panel-primary panel-body">
+    <center><h3 class="page-header">
+        {{"PLAN_CUENTAS" | translate}}
+    </h3></center>
+
+    <div class="col-md-8 col-md-offset-2" ng-if="gestionPlanCuentas.plan_maestro!=undefined">
+      <plan-cuentas filtro="filtro_padre" seleccion="gestionPlanCuentas.padre" recargar="gestionPlanCuentas.recargar_arbol" planid="gestionPlanCuentas.plan_maestro.Id" />
     </div>
-    <div class="panel-body">
-        <p>
-          Ahora puede empezar a construir la vista de plan_cuentas/gestion_plan_cuentas.
-        </p>
+
+    <div class="col-md-12">
+      <center>
+      <a href="#/plan_cuentas/cuentas/nueva" type="button" class="btn btn-info btn-outline" name="button">{{"BTN.AGREGAR" | translate}} {{"CUENTA" | translate}}</a>
+    </center>
     </div>
-    <div class="panel-footer">
-        Panel Footer
-    </div>
+
 </div>
