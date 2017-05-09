@@ -225,6 +225,11 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
+      .when('/plan_cuentas/gestion_plan_cuentas', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_cuentas.html',
+        controller: 'GestionPlanCuentasCtrl',
+        controllerAs: 'gestionPlanCuentas'
+      })
       .otherwise({
         redirectTo: '/'
       });
