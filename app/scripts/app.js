@@ -215,6 +215,12 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
+
+      .when('/rp/rp_anulacion', {
+        templateUrl: 'views/rp/rp_anulacion.html',
+        controller: 'RpRpAnulacionCtrl',
+        controllerAs: 'rpAnulacion'
+       })
       .when('/plan_cuentas/crear_descuento', {
         templateUrl: 'views/plan_cuentas/crear_descuento.html',
         controller: 'CrearDescuentoCtrl',
@@ -224,6 +230,11 @@ angular
         templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
         controller: 'TiposAvanceCtrl',
         controllerAs: 'TiposAvance'
+       })
+      .when('/plan_cuentas/gestion_plan_cuentas', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_cuentas.html',
+        controller: 'GestionPlanCuentasCtrl',
+        controllerAs: 'gestionPlanCuentas'
       })
       .otherwise({
         redirectTo: '/'

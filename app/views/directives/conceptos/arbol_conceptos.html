@@ -1,15 +1,23 @@
 <div class="panel panel-info panel-body">
+
   <div class="panel panel-primary panel-heading ">
     <h4 class="text-center panel-title">Conceptos <i class="fa fa-refresh pull-right" aria-hidden="true" ng-click="recargar=!recargar"></i></h4>
   </div>
-  <div class="row">
 
+  <div class="row">
     <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
       <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
     </treecontrol>
     <br>
-
-    <div class="panel panel-info panel-body row" ng-show="conceptosel!=undefined && showc">
+    <style>
+      div.sticky {
+        position: sticky;
+        bottom: 0;
+        right: 1;
+      }
+    </style>
+    <div class="panel panel-info panel-body row sticky" ng-show="conceptosel!=undefined && showc">
+      <span class="pull-right text-danger" ng-click="conceptosel=undefined">X</span>
       <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
       <p class="text-muted">{{conceptosel.Descripcion}}</p>
       <dl>
@@ -19,15 +27,28 @@
         <dd>- Expiracion: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
       </dl>
       <div class="col-md-3 col-md-offset-6">
-        <a class="btn btn-outline btn-primary btn-sm btn-block" href="#/conceptos/concepto/{{conceptosel.Codigo}}" onclick="window.open(this.href, '', 'resizable=yes,status=no,location=center,toolbar=no,menubar=no,fullscreen=yes,scrollbars=yes,dependent=no,width=1150,height=1600'); return false;">ver</a>
+        <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalConceptos">{{"BTN.VER" | translate}}</button>
       </div>
       <div class="col-md-3">
         <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)" value="Seleccionar">
       </div>
     </div>
-
   </div>
+  
   <div>
     <center><button ng-show="seleccion!=undefined || conceptosel!=undefined;" class="btn btn-info btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">Cancelar Selección</button></center>
   </div>
+
+  <div id="modalConceptos" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body" ng-if="conceptosel.Codigo!=undefined">
+        <ver-concepto codigoconcepto="conceptosel.Codigo" />
+      </div>
+    </div>
+
+  </div>
+
 </div>
