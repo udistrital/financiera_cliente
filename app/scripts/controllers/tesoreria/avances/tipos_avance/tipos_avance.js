@@ -55,11 +55,16 @@ angular.module('financieraClienteApp')
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
           width: '8%',
-          cellTemplate: '<center>\
-            <a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" ><i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="Ver !"></i></a> \
-            <a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i data-toggle="tooltip" title="Editar !" class="fa fa-cog fa-lg" aria-hidden="true"></i></a>  \
-            <a class="borrar" ng-click="grid.appScope.TiposAvance.load_row(row,\'delete\');" data-toggle="modal" data-target="#myModal"><i data-toggle="tooltip" title="Borrar !" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>\
-           </center>'
+
+          cellTemplate:
+            '<center>' +
+            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" >'+
+            '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+            '<a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">'+
+            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> '+
+            '<a class="borrar" ng-click="grid.appScope.TiposAvance.load_row(row,\'delete\');" data-toggle="modal" data-target="#myModal">'+
+            '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>'+
+            '</center>'
         }
       ]
     };

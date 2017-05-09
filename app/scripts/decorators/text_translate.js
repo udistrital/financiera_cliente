@@ -100,8 +100,11 @@ var text_es = {
     APROBAR: "Aprobar",
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
-    NUEVO: "Nuevo"
+    NUEVO: "Nuevo",
+    EDITAR: "Editar",
+    BORRAR: "Borrar"
   },
+  
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
