@@ -2,9 +2,9 @@
 
 /**
  * @ngdoc function
- * @name financieraClienteApp.controller:TesoreriaAvancesTiposAvanceListarTiposAvanceCtrl
+ * @name financieraClienteApp.controller:TiposAvanceCtrl
  * @description
- * # TesoreriaAvancesTiposAvanceListarTiposAvanceCtrl
+ * # TiposAvanceCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
@@ -56,9 +56,9 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '8%',
           cellTemplate: '<center>\
-            <a href="" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a> \
-            <a href="" ng-click="grid.appScope.listarTiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i class="fa fa-wrench fa-lg" aria-hidden="true"></i></a> \
-            <a href="" ng-click="grid.appScope.listarTiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>\
+            <a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" ><i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="Ver !"></i></a> \
+            <a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i data-toggle="tooltip" title="Editar !" class="fa fa-cog fa-lg" aria-hidden="true"></i></a>  \
+            <a class="borrar" ng-click="grid.appScope.TiposAvance.load_row(row,\'delete\');" data-toggle="modal" data-target="#myModal"><i data-toggle="tooltip" title="Borrar !" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>\
            </center>'
         }
       ]
@@ -80,6 +80,7 @@ angular.module('financieraClienteApp')
     ctrl.get_all_avances();
 
     ctrl.load_row = function(row, operacion) {
+      console.log(operacion);
       ctrl.operacion = operacion;
       if (row === "") {
         ctrl.tipo_avance.Referencia = "";

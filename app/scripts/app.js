@@ -220,8 +220,8 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
-      .when('/tesoreria/avances/tipos_avance/listar_tipos_avance', {
-        templateUrl: 'views/tesoreria/avances/tipos_avance/listar_tipos_avance.html',
+      .when('/tesoreria/avances/tipos_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
         controller: 'TiposAvanceCtrl',
         controllerAs: 'TiposAvance'
       })

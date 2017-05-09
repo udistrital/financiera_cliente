@@ -218,6 +218,7 @@ angular.module('financieraClienteApp')
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();   
        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
          event.preventDefault();
          event.stopPropagation();
