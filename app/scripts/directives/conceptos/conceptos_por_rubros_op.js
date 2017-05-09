@@ -19,6 +19,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.mensajes_alerta_conceptos = null;
+        self.mensajes = [];
         //
         self.gridOptions_conceptos = {
           enableRowSelection: false,
@@ -107,11 +108,8 @@ angular.module('financieraClienteApp')
         }
         //operar concepto accion de boton
         self.operar_conceptos = function() {
-          console.log("original")
-          console.log($scope.rubroidsobj)
-
           $scope.conceptos = [];
-          //self.mensajeCuentasContables = [];
+          $scope.conceptosAgrupado = [];
           self.mensajes_alerta_conceptos = '';
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos sean los que se le asigno afectacion
@@ -125,33 +123,44 @@ angular.module('financieraClienteApp')
           if (nun_conceptos == 0) {
             swal("Error!", "Debe Afectar por lo menos un concepto ", "error")
           } else {
-            //console.log("conceptos afectados")
-            //console.log($scope.conceptos)
-
             $scope.suma_afectacion = {};
-            // construir objeto rubro id con su total de afectacion
+            // construir objeto rubro id con su total de afectacion para validar
             angular.forEach($scope.conceptos, function(concepto) {
-              if ($scope.suma_afectacion[concepto.Rubro.Id] == undefined) {
-                $scope.suma_afectacion[concepto.Rubro.Id] = concepto.Afectacion
-              } else {
-                $scope.suma_afectacion[concepto.Rubro.Id] = $scope.suma_afectacion[concepto.Rubro.Id] + concepto.Afectacion
+              if (concepto.FuenteFinanciamiento == null) { //sin fuentes
+                if ($scope.suma_afectacion[concepto.Rubro.Id] == undefined) {
+                  $scope.suma_afectacion[concepto.Rubro.Id] = concepto.Afectacion
+                } else {
+                  $scope.suma_afectacion[concepto.Rubro.Id] = $scope.suma_afectacion[concepto.Rubro.Id] + concepto.Afectacion
+                }
+              }else{ //con fuentse
+                if ($scope.suma_afectacion[concepto.Rubro.Id + '_' + concepto.FuenteFinanciamiento.Id] == undefined) {
+                  $scope.suma_afectacion[concepto.Rubro.Id + '_' + concepto.FuenteFinanciamiento.Id] = concepto.Afectacion
+                } else {
+                  $scope.suma_afectacion[concepto.Rubro.Id + '_' + concepto.FuenteFinanciamiento.Id] = $scope.suma_afectacion[concepto.Rubro.Id + '_' + concepto.FuenteFinanciamiento.Id] + concepto.Afectacion
+                }
               }
+
             });
             // validar que la suma de las afectaciones por conceptos pertenecientes a cada rubro no sobrepase el valor del saldo
             angular.forEach($scope.suma_afectacion, function(value, key) {
               angular.forEach($scope.rubroidsobj, function(rubro) {
-                if (rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id == key && value > rubro.Saldo) {
-                  self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + "  supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
+                if(rubro.DisponibilidadApropiacion.FuenteFinanciamiento == null){ //sin fuentes
+                  if (rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id == key && value > rubro.Saldo) {
+                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + "  supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
+                  }
+                }else{ // con fuentes
+                  console.log(rubro);
+                  var llave = rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id + '_' + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Id
+                  if (llave == key && value > rubro.Saldo) {
+                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + " y Fuente " + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion  +", supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
+                  }
                 }
               })
             })
-            //valida que los conceptos tengan cuentas contables
-            var mensajeCuentasContables = self.cuentasContablesPorConceptos($scope.conceptos);
-            console.log(mensajeCuentasContables)
-            angular.forEach(mensajeCuentasContables, function(mensaje){
-              console.log(mensaje)
-            })
-
+            // valida que los conceptos tengan cuentas contables
+            self.cuentasContablesPorConceptos();
+            console.log(self.mensajes_alerta_conceptos)
+            // no funcionó
           }
           // valida si hay errores y lanzamos la alerta
           if (self.mensajes_alerta_conceptos.length != 0) {
@@ -162,14 +171,15 @@ angular.module('financieraClienteApp')
               type: 'error'
             })
           } else {
+            //  ** construir objeto rubro con concepto asociados
             angular.forEach($scope.rubroidsobj, function(objeto) { //objeto rubor
               var contenedor_conceptos = [];
               angular.forEach($scope.conceptos, function(concepto) { //conceptos afectantes
-                if(concepto.FuenteFinanciamiento != null){  //con fuentes de finanaciacion
+                if (concepto.FuenteFinanciamiento != null) { //con fuentes de finanaciacion
                   if (concepto.Rubro.Id == objeto.DisponibilidadApropiacion.Apropiacion.Rubro.Id && concepto.FuenteFinanciamiento.Id == objeto.DisponibilidadApropiacion.FuenteFinanciamiento.Id) {
                     contenedor_conceptos.push(concepto);
                   }
-                }else{
+                } else {
                   if (concepto.Rubro.Id == objeto.DisponibilidadApropiacion.Apropiacion.Rubro.Id) {
                     contenedor_conceptos.push(concepto);
                   }
@@ -177,23 +187,27 @@ angular.module('financieraClienteApp')
               })
               objeto.DisponibilidadApropiacion.Concepto = contenedor_conceptos;
             })
+            console.log("rubroidsobj")
+            console.log($scope.rubroidsobj)
+            console.log("rubroidsobj")
+            // ** construir agrupado de conceptos
+            console.log("AAA")
+            console.log($scope.suma_afectacion)
           }
-        }// fin operar concepto
+        } // fin operar concepto
         // consulta que los conceptos tengan cuenta contables
-        self.cuentasContablesPorConceptos = function(conceptos_ids){
-          var mensajes = [];
-          angular.forEach(conceptos_ids, function(concepto){
+        self.cuentasContablesPorConceptos = function() {
+          angular.forEach($scope.conceptos, function(concepto) {
             financieraRequest.get('concepto_cuenta_contable',
               $.param({
                 query: "Concepto.Id:" + concepto.Id
               })
             ).then(function(response) {
               if (!response.data) {
-                mensajes.push('<li> El Concepto ' + concepto.Codigo + ' No tiene Cuentas Contables Asociadas </li>')
+                self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + '<li> El Concepto ' + concepto.Codigo + ' No tiene Cuentas Contables Asociadas </li>'
               }
             });
           })
-          return mensajes;
         }
         //
         $scope.$watch('rubroidsobj', function() {
