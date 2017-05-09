@@ -44,7 +44,8 @@ angular
     'adminMidService',
     'argoService',
     'coreService',
-    'oikosService'
+    'oikosService',
+    'avancesService'
   ])
 
   .run(function(amMoment) {
@@ -225,6 +226,11 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
+      .when('/tesoreria/avances/tipos_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
+        controller: 'TiposAvanceCtrl',
+        controllerAs: 'TiposAvance'
+       })
       .when('/plan_cuentas/gestion_plan_cuentas', {
         templateUrl: 'views/plan_cuentas/gestion_plan_cuentas.html',
         controller: 'GestionPlanCuentasCtrl',
