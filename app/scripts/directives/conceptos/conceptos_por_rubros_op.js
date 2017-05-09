@@ -149,8 +149,7 @@ angular.module('financieraClienteApp')
                     self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + "  supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
                   }
                 }else{ // con fuentes
-                  console.log(rubro);
-                  var llave = rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id + '_' + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Id
+                  var llave = rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id + '_' + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Id;
                   if (llave == key && value > rubro.Saldo) {
                     self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + " y Fuente " + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion  +", supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
                   }
@@ -189,10 +188,9 @@ angular.module('financieraClienteApp')
             })
             console.log("rubroidsobj")
             console.log($scope.rubroidsobj)
-            console.log("rubroidsobj")
-            // ** construir agrupado de conceptos
-            console.log("AAA")
-            console.log($scope.suma_afectacion)
+            // ** construir agrupado de conceptos para cuentas contables
+            console.log("AAAAA")
+            console.log($scope.conceptos)
           }
         } // fin operar concepto
         // consulta que los conceptos tengan cuenta contables
