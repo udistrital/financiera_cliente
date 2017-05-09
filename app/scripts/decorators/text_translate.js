@@ -50,6 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  PLAN_CUENTAS:"Plan de Cuentas",
 
   MOVIMIENTOS: "Movimientos",
   INICIAL: "Inicial",
@@ -220,6 +221,7 @@ var text_en = {
   DEBITO: "Debit",
   CREDITO: "Credit",
   CUENTA: "Account",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
