@@ -31,17 +31,17 @@
 
       <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && listarTiposAvance.add_edit()">
         <br>
-        <div class="row" >
+        <div class="row">
           <label for="referencia" class="col-sm-2 control-label">{{'REFERENCIA' | translate }}:</label>
           <div class="col-sm-9">
-            <input name="referencia" type="text" ng-model="listarTiposAvance.tipo_avance.Referencia" class="form-control" ng-required="true"/>
+            <input name="referencia" type="text" ng-model="listarTiposAvance.tipo_avance.Referencia" class="form-control" ng-required="true" />
           </div>
         </div>
         <br>
         <div class="row">
           <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
           <div class="col-sm-9">
-            <input name="referencia" type="text" ng-model="listarTiposAvance.tipo_avance.Nombre" class="form-control" ng-required="true"/>
+            <input name="referencia" type="text" ng-model="listarTiposAvance.tipo_avance.Nombre" class="form-control" ng-required="true" />
           </div>
         </div>
         <br>
@@ -52,9 +52,19 @@
           </div>
         </div>
         <br>
+        <div class="row" ng-if="listarTiposAvance.operacion ==='edit'">
+          <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
+          <div class="col-sm-9">
+            <select name="estado" ng-model="listarTiposAvance.tipo_avance.Estado" class="form-control">
+               <option value="A">Activo</option>
+               <option value="I">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        <br>
         <center>
-          <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}"/>
-          <input type="submit"  class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}"/>
+          <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" />
+          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
         </center>
       </form>
       <br>

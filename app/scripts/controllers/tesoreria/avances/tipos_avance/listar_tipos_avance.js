@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ListarTiposAvanceCtrl', function(CONF, $scope, avancesRequest, $translate) {
+  .controller('TiposAvanceCtrl', function(CONF, $scope, avancesRequest, $translate) {
     var ctrl = this;
     ctrl.operacion = "";
     ctrl.row_entity = {};
@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
         {
           field: 'Descripcion',
           displayName: $translate.instant('DESCRIPCION'),
-          width: '50%',
+          width: '47%',
         },
         {
           field: 'Estado',
@@ -54,10 +54,11 @@ angular.module('financieraClienteApp')
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
-          width: '5%',
+          width: '8%',
           cellTemplate: '<center>\
-            <a ng-click="grid.appScope.d_opListarTodas.op_detalle(row)"  class="btn btn-primary btn-outline btn-circle"><i class="glyphicon glyphicon-search"></i></a>\
-            <a ng-click="grid.appScope.listarTiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-outline btn-circle"><i class="glyphicon  glyphicon-pencil"></i></a>\
+            <a href="" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)"><i class="fa fa-eye fa-lg" aria-hidden="true"></i></a> \
+            <a href="" ng-click="grid.appScope.listarTiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i class="fa fa-wrench fa-lg" aria-hidden="true"></i></a> \
+            <a href="" ng-click="grid.appScope.listarTiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal"><i class="fa fa-times fa-lg" aria-hidden="true"></i></a>\
            </center>'
         }
       ]
@@ -89,6 +90,7 @@ angular.module('financieraClienteApp')
         ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
         ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
         ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
+        ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
       }
     };
 
@@ -100,7 +102,7 @@ angular.module('financieraClienteApp')
             Referencia: ctrl.tipo_avance.Referencia,
             Nombre: ctrl.tipo_avance.Nombre,
             Descripcion: ctrl.tipo_avance.Descripcion,
-            Estado: ctrl.row_entity.Estado,
+            Estado: ctrl.tipo_avance.Estado,
             IdTipo: ctrl.row_entity.IdTipo,
             FechaRegistro: ""
           };
