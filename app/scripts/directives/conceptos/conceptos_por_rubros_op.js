@@ -186,11 +186,15 @@ angular.module('financieraClienteApp')
               })
               objeto.DisponibilidadApropiacion.Concepto = contenedor_conceptos;
             })
-            console.log("rubroidsobj")
-            console.log($scope.rubroidsobj)
+            //console.log("rubroidsobj")
+            //console.log($scope.rubroidsobj)
             // ** construir agrupado de conceptos para cuentas contables
             console.log("AAAAA")
             console.log($scope.conceptos)
+            $scope.conceptosAgrupado = angular.copy($scope.conceptos);
+            var hash = {};
+            console.log($scope.conceptosAgrupado);
+            console.log("AAAAA")
           }
         } // fin operar concepto
         // consulta que los conceptos tengan cuenta contables
