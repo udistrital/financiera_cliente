@@ -13,8 +13,6 @@ angular.module('financieraClienteApp')
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    //self.RubrosIds = [];
-    //self.RubrosIds = [35619, 35618];
     self.OrdenPago.RegistroPresupuestal = {'Id':56};
     self.RubrosObjIds = null;
     self.Concepto = [];
@@ -94,9 +92,9 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.ValorBase == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor Base en la Sección Valor del Pago</li>"
       }
-      if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
+      /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
-      }
+      }*/
       if (self.Concepto == undefined || self.Concepto.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
       }
