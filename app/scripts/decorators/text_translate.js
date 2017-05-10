@@ -116,7 +116,7 @@ var text_es = {
     EDITAR: "Editar",
     BORRAR: "Borrar"
   },
-  
+
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
@@ -181,7 +181,6 @@ var text_es = {
   ANULACION_PARCIAL: "Parcial",
   ANULACION_TOTAL:"Total",
   SELECCION_RUBRO:"Seleccione el Rubro",
-  VALOR:"Valor",
   ANULAR: "Anular",
   NO: "No.",
 
