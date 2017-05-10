@@ -68,8 +68,8 @@ angular.module('financieraClienteApp')
       self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
       self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
       self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
-      console.log("Estructura para enviar")
-      console.log(self.dataOrdenPagoInsert)
+      //console.log("Estructura para enviar")
+      //console.log(self.dataOrdenPagoInsert)
       // validar campos obligatorios en el formulario orden Pago y se inserta registro
       self.validar_campos()
     }
