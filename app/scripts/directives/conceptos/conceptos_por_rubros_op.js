@@ -109,7 +109,7 @@ angular.module('financieraClienteApp')
         //operar concepto accion de boton
         self.operar_conceptos = function() {
           $scope.conceptos = [];
-          $scope.conceptosAgrupado = [];
+          $scope.conceptosCopy = [];
           self.mensajes_alerta_conceptos = '';
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos sean los que se le asigno afectacion
@@ -186,15 +186,30 @@ angular.module('financieraClienteApp')
               })
               objeto.DisponibilidadApropiacion.Concepto = contenedor_conceptos;
             })
-            //console.log("rubroidsobj")
-            //console.log($scope.rubroidsobj)
+            console.log("rubroidsobj")
+            console.log($scope.rubroidsobj)
+            console.log("rubroidsobj")
             // ** construir agrupado de conceptos para cuentas contables
-            console.log("AAAAA")
-            console.log($scope.conceptos)
-            $scope.conceptosAgrupado = angular.copy($scope.conceptos);
+            $scope.conceptosCopy = angular.copy($scope.conceptos);
             var hash = {};
-            console.log($scope.conceptosAgrupado);
-            console.log("AAAAA")
+            $scope.conceptosCopy = $scope.conceptosCopy.filter(function(current) {
+              var exists = !hash[current.Id] || false;
+              hash[current.Id] = true;
+              return exists;
+            });
+            //totalizar
+            angular.forEach($scope.conceptosCopy, function(concepto){
+              concepto.Afectacion = 0;
+              angular.forEach($scope.conceptos, function(copy){
+                if(copy.Id == concepto.Id){
+                  concepto.Afectacion = concepto.Afectacion + copy.Afectacion;
+                }
+              })
+            })
+            //
+            console.log('totalizado')
+            console.log($scope.conceptosCopy);
+            console.log("totalizado")
           }
         } // fin operar concepto
         // consulta que los conceptos tengan cuenta contables
