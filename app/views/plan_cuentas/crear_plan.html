@@ -3,39 +3,56 @@
 
   <h2 class="page-header text-center">{{ 'PLANES_CUENTAS' | translate }}</h2>
 
-  <div class="col-md-6">
-    <lista-planes-cuentas plansel="plancuenta" seleccion="miasel" recargar="crearPlan.actualizar" />
+  <div>
+    <div style="height: {{gridHeight}}px" ui-grid="crearPlan.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination class="grid"></div>
   </div>
+<br />
+  <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform">{{"BTN.AGREGAR" | translate}}</button></button></center>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{ 'NUEVO_PLAN_CUENTAS' | translate }}</h3>
+  <!--<div class="col-md-6">
+    <lista-planes-cuentas plansel="plancuenta" seleccion="miasel" recargar="crearPlan.actualizar" />
+  </div>-->
+
+  <div id="modalform" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
       </div>
-      <div class="panel-body">
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'NUEVO_PLAN_CUENTAS' | translate }}</h3>
+          </div>
+          <div class="panel-body">
+            <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan(formplan)">
+              <fieldset class="form-group">
+                <label for="nombreplan">{{ 'NOMBRE' | translate }}:</label>
+                <input type="text" class="form-control" id="nombreplan" placeholder="{{ 'INGRESE_NOMBRE_PLAN_CUENTAS' | translate }}" ng-model="crearPlan.nuevo_plan.Nombre" required>
+              </fieldset>
 
-        <form name="formplan" ng-submit="formplan.$valid && crearPlan.crear_plan(formplan)">
-          <fieldset class="form-group">
-            <label for="nombreplan">{{ 'NOMBRE' | translate }}:</label>
-            <input type="text" class="form-control" id="nombreplan" placeholder="{{ 'INGRESE_NOMBRE_PLAN_CUENTAS' | translate }}" ng-model="crearPlan.nuevo_plan.Nombre" required>
-          </fieldset>
+              <fieldset class="form-group">
+                <label for="unidadplan">{{ 'UNIDAD_EJECUTORA' | translate }}:</label>
+                <select class="form-control" id="unidadplan" ng-model="crearPlan.nuevo_plan.UnidadEjecutora" ng-options="u as u.Nombre+' <'+u.Entidad.Nombre+'>' for u in crearPlan.unidades_ejecutoras" required>
+                  <option value="" disabled>{{ 'SELECCION_UNIDAD_EJECUTORA' | translate }}</option>
+                </select>
+              </fieldset>
 
-          <fieldset class="form-group">
-            <label for="unidadplan">{{ 'UNIDAD_EJECUTORA' | translate }}:</label>
-            <select class="form-control" id="unidadplan" ng-model="crearPlan.nuevo_plan.UnidadEjecutora" ng-options="u as u.Nombre+' <'+u.Entidad.Nombre+'>' for u in crearPlan.unidades_ejecutoras" required>
-              <option value="" disabled>{{ 'SELECCION_UNIDAD_EJECUTORA' | translate }}</option>
-            </select>
-          </fieldset>
+              <fieldset class="form-group">
+                <label for="descripcionplan">{{ 'DESCRIPCION' | translate }}:</label>
+                <textarea class="form-control" id="descripcionplan" rows="4" ng-model="crearPlan.nuevo_plan.Descripcion" placeholder="{{'DESCRIPCION_PLAN' | translate}}"></textarea>
+              </fieldset>
 
-          <fieldset class="form-group">
-            <label for="descripcionplan">{{ 'DESCRIPCION' | translate }}:</label>
-            <textarea class="form-control" id="descripcionplan" rows="4" ng-model="crearPlan.nuevo_plan.Descripcion" placeholder="{{'DESCRIPCION_PLAN' | translate}}"></textarea>
-          </fieldset>
-
-          <button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button>
-        </form>
-
+              <button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
+
+
+
+
+
 </div>
