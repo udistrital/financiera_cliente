@@ -99,10 +99,11 @@ angular.module('financieraClienteApp')
               angular.forEach(self.gridOptions_rubros.data, function(data) {
                 var rpData = {
                   Rp: data.RegistroPresupuestal,
-                  Apropiacion: data.DisponibilidadApropiacion.Apropiacion
+                  Apropiacion: data.DisponibilidadApropiacion.Apropiacion,
+                  FuenteFinanciacion: data.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData).then(function(response) {
-                  data.Saldo = response.data;
+                  data.Saldo = response.data.saldo;
                 });
               });
               //fin get saldos de lor rp

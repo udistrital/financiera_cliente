@@ -121,6 +121,10 @@ var text_es = {
   MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
   MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
 
+  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
+  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos pertenecientes al Rubro",
+  MSN_SUPERA_SALDO: 'supera el valor del saldo',
+
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",
