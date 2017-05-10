@@ -158,7 +158,6 @@ angular.module('financieraClienteApp')
             })
             // valida que los conceptos tengan cuentas contables
             self.cuentasContablesPorConceptos();
-            console.log(self.mensajes_alerta_conceptos)
             // no funcionó
           }
           // valida si hay errores y lanzamos la alerta
