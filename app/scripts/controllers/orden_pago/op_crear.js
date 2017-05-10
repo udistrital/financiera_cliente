@@ -8,12 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest, $window) {
+  .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest, $window, $translate) {
     //
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.OrdenPago.RegistroPresupuestal = {'Id':56};
+    //self.OrdenPago.RegistroPresupuestal = {'Id':56};
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
@@ -78,31 +78,31 @@ angular.module('financieraClienteApp')
     self.validar_campos = function(){
       self.MensajesAlerta = '';
       if (self.OrdenPago.UnidadEjecutora == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar la Unidad Ejecutora</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_UNIDAD') + "</li>"
       }
       if (self.OrdenPagoConsulta.Proveedor == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el Proveedor para la orden de pago</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>"
       }
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el Registro Presupuestal</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>"
       }
       if (self.OrdenPago.TipoOrdenPago == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el tipo de Documento en la Sección Valor del Pago</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>"
       }
       if (self.OrdenPago.Iva == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor del Iva en la Sección Valor del Pago</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_IVA') + "</li>"
       }
       if (self.OrdenPago.ValorBase == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor Base en la Sección Valor del Pago</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE')  + "</li>"
       }
       /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
       }*/
       if (self.Concepto == undefined || self.Concepto.length == 0) {
-        self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
+        self.MensajesAlerta = self.MensajesAlerta +  "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') +"</li>"
       }
       if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>El valor total de la afectacion es distinto al valor de la orden de pago. <br> <b>Afectacion: " + self.TotalAfectacion + "<br>Valor Orden: " +  self.OrdenPago.ValorBase + "</b></li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') +": " + self.TotalAfectacion + "<br>" +  $translate.instant('VALOR_PAGO')  + ': ' +  self.OrdenPago.ValorBase + "</b></li>"
       }
       // Operar
       if(self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0 ){

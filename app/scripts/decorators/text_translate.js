@@ -112,6 +112,14 @@ var text_es = {
   POR_IVA: "% IVA",
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
+  MSN_DEBE_UNIDAD: "Debe seleccionar la Unidad Ejecutora",
+  MSN_DEBE_PROVEEDOR: "Debe seleccionar el Proveedor para la orden de pago",
+  MSN_DEBE_REGISTRO: "Debe seleccionar el Registro Presupuestal",
+  MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
+  MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
+  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
+  MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
@@ -144,9 +152,9 @@ var text_es = {
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
-  NECESIDAD_NO:"Necesidad No. ",
-  RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
-  OBJETO:"Objeto",
+  NECESIDAD_NO: "Necesidad No. ",
+  RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
+  OBJETO: "Objeto",
 };
 
 var text_en = {
@@ -249,6 +257,14 @@ var text_en = {
   POR_IVA: "% IVA",
   VAL_IVA: "Value IVA",
   VALOR_BRUTO: "Gross Value",
+  MSN_DEBE_UNIDAD: "You must select Executing Unit",
+  MSN_DEBE_PROVEEDOR: "You must select Supplier for the Payment Order",
+  MSN_DEBE_REGISTRO: "You must select Certificate Registry Budget",
+  MSN_DEBE_TIPO_OP: "You must select el tipo de Documento en la in Payment Amount Section",
+  MSN_DEBE_IVA: "You must indicate the value of the IVA in the Payment Value Section",
+  MSN_DEBE_VAL_BASE: "You must indicate the Base Value in the Payment Value Section",
+  MSN_DEBE_CONCEPTO: "You must select at least one Concept",
+  MSN_DEBE_TOTAL_AFECTACION: "The total value of the assignment is different from the value of the payment order",
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",
