@@ -12,7 +12,7 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         rubroidsobj: '=?', //objeto rubro que contine el saldo
-        conceptos: '=?',
+        conceptosoutput: '=?',
       },
 
       templateUrl: 'views/directives/conceptos/conceptos_por_rubros_op.html',
@@ -109,7 +109,7 @@ angular.module('financieraClienteApp')
         //operar concepto accion de boton
         self.operar_conceptos = function() {
           $scope.conceptos = [];
-          $scope.conceptosCopy = [];
+          $scope.conceptosoutput = [];
           self.mensajes_alerta_conceptos = '';
           var nun_conceptos = 0;
           // Controla que el retorno de los conceptos sean los que se le asigno afectacion
@@ -190,15 +190,15 @@ angular.module('financieraClienteApp')
             console.log($scope.rubroidsobj)
             console.log("rubroidsobj")
             // ** construir agrupado de conceptos para cuentas contables
-            $scope.conceptosCopy = angular.copy($scope.conceptos);
+            $scope.conceptosoutput = angular.copy($scope.conceptos);
             var hash = {};
-            $scope.conceptosCopy = $scope.conceptosCopy.filter(function(current) {
+            $scope.conceptosoutput = $scope.conceptosoutput.filter(function(current) {
               var exists = !hash[current.Id] || false;
               hash[current.Id] = true;
               return exists;
             });
             //totalizar
-            angular.forEach($scope.conceptosCopy, function(concepto){
+            angular.forEach($scope.conceptosoutput, function(concepto){
               concepto.Afectacion = 0;
               angular.forEach($scope.conceptos, function(copy){
                 if(copy.Id == concepto.Id){
@@ -208,7 +208,7 @@ angular.module('financieraClienteApp')
             })
             //
             console.log('totalizado')
-            console.log($scope.conceptosCopy);
+            console.log($scope.conceptosoutput);
             console.log("totalizado")
           }
         } // fin operar concepto

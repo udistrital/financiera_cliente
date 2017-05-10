@@ -14,7 +14,7 @@
 
 
      var path = "http://10.20.0.254/agora_api/v1/";
-     //var path = "http://127.0.0.1:8089/v1/";
+     var path = "http://127.0.0.1:8089/v1/";
 
      // Public API here
      return {
