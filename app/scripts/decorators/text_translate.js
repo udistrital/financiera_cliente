@@ -120,10 +120,10 @@ var text_es = {
   MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
   MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
   MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
-
   MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
-  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos pertenecientes al Rubro",
+  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos del Rubro",
   MSN_SUPERA_SALDO: 'supera el valor del saldo',
+  MSN_Y: 'y',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
@@ -269,6 +269,10 @@ var text_en = {
   MSN_DEBE_VAL_BASE: "You must indicate the Base Value in the Payment Value Section",
   MSN_DEBE_CONCEPTO: "You must select at least one Concept",
   MSN_DEBE_TOTAL_AFECTACION: "The total value of the assignment is different from the value of the payment order",
+  MSN_DEBE_MIN_CONCEPTO: "Must affect at least one concept",
+  MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
+  MSN_SUPERA_SALDO: 'exceeds the value of the balance',
+  MSN_Y: 'and',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",

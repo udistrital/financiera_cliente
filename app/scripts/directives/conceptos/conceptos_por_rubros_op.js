@@ -121,7 +121,7 @@ angular.module('financieraClienteApp')
           })
           // control que se afecte por lo menos un concepto
           if (nun_conceptos == 0) {
-            swal("Error!", "Debe Afectar por lo menos un concepto ", "error")
+            swal("Error!", $translate.instant('MSN_DEBE_MIN_CONCEPTO'), "error")
           } else {
             $scope.suma_afectacion = {};
             // construir objeto rubro id con su total de afectacion para validar
@@ -146,12 +146,12 @@ angular.module('financieraClienteApp')
               angular.forEach($scope.rubroidsobj, function(rubro) {
                 if(rubro.DisponibilidadApropiacion.FuenteFinanciamiento == null){ //sin fuentes
                   if (rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id == key && value > rubro.Saldo) {
-                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + "  supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
+                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li>" + $translate.instant('MSN_TOTAL_AECTACION') +': ' + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + $translate.instant('MSN_SUPERA_SALDO') + ".<br><b>" + $translate.instant('AFECTACION') + ": " + value + "<br>" + $translate.instant('SALDO') + ": " + rubro.Saldo + "</b></li>"
                   }
                 }else{ // con fuentes
                   var llave = rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Id + '_' + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Id;
                   if (llave == key && value > rubro.Saldo) {
-                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li> El Total de la afectación a los Conceptos pertenecientes al Rubro: " + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + " y Fuente " + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion  +", supera el valor del saldo. <br> <b>Afectación:" + value + "<br>Saldo:" + rubro.Saldo + "</b></li>"
+                    self.mensajes_alerta_conceptos = self.mensajes_alerta_conceptos + "<li>" + $translate.instant('MSN_TOTAL_AECTACION') +": "  + rubro.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo + " " + $translate.instant('MSN_Y') + " " + $translate.instant('FUENTES_FINANCIACION')+ ' <B>' + rubro.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion  +"</b> " + $translate.instant('MSN_SUPERA_SALDO')  + ".<br><b>" + $translate.instant('AFECTACION') + ": " + value + "<br>" + $translate.instant('SALDO') + ": " + rubro.Saldo + "</b></li>"
                   }
                 }
               })
