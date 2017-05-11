@@ -88,6 +88,7 @@ var text_es = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -261,6 +262,7 @@ var text_en = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
   D_PLANES_CUENTA: {

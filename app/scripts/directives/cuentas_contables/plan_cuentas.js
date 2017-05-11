@@ -83,7 +83,7 @@ angular.module('financieraClienteApp')
          * @param {undefined} recargar variable que activa el evento
          * @description Si la variable recargar tiene un cambio el evento se activa recargando la estructura del plan de cuentas por la funcion cargar_arbol
          */
-        $scope.$watch("recargar", function() {
+        $scope.$watch("[recargar,planid]", function() {
           self.cargar_arbol();
         }, true);
 
