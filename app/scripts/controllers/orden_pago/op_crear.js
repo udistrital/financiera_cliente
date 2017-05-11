@@ -8,12 +8,14 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoOpCrearCtrl', function ($scope, financieraRequest, $window, $translate) {
+  .controller('OrdenPagoOpCrearCtrl', function($scope, financieraRequest, $window, $translate) {
     //
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.OrdenPago.RegistroPresupuestal = {'Id':56};
+    self.OrdenPago.RegistroPresupuestal = {
+      'Id': 56
+    };
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
@@ -23,15 +25,15 @@ angular.module('financieraClienteApp')
     self.TotalAfectacion = null;
 
     // functions
-    self.estructurarDataSend = function(conceptos){
+    self.estructurarDataSend = function(conceptos) {
       // estrurctura total afectacion y movimientos contables
-      angular.forEach(conceptos, function(concepto){
-        if(concepto.validado == true){ // tiene cuentas y se hace afectacion
+      angular.forEach(conceptos, function(concepto) {
+        if (concepto.validado == true) { // tiene cuentas y se hace afectacion
           //total afectacion
           self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
           // recorrer novimiento
-          angular.forEach(concepto.movs, function(movimiento){
-            if (movimiento.Debito > 0 || movimiento.Credito > 0){
+          angular.forEach(concepto.movs, function(movimiento) {
+            if (movimiento.Debito > 0 || movimiento.Credito > 0) {
               // data movimientos contables
               self.MovimientoContableConceptoOrdenPago.push(movimiento);
             }
@@ -39,20 +41,28 @@ angular.module('financieraClienteApp')
         }
       })
       // estructurar concepto orden
-      angular.forEach(self.RubrosObjIds, function(rubro){
-        angular.forEach(rubro.DisponibilidadApropiacion.Concepto, function(concepto){
+      angular.forEach(self.RubrosObjIds, function(rubro) {
+        angular.forEach(rubro.DisponibilidadApropiacion.Concepto, function(concepto) {
           self.ConceptoOrdenPago.push({
-            'OrdenDePago':{'Id': 0},
-            'Concepto': {'Id': concepto.Id},
+            'OrdenDePago': {
+              'Id': 0
+            },
+            'Concepto': {
+              'Id': concepto.Id
+            },
             'Valor': concepto.Afectacion,
-            'RegistroPresupuestalDisponibilidadApropiacion': {'Id': rubro.Id}
+            'RegistroPresupuestalDisponibilidadApropiacion': {
+              'Id': rubro.Id
+            }
           });
         })
       })
     }
     // Insert Orden Pago
-    self.addOpProveedor = function(){
-      self.OrdenPago.EstadoOrdenPago = {'Id': 1};
+    self.addOpProveedor = function() {
+      self.OrdenPago.EstadoOrdenPago = {
+        'Id': 1
+      };
       self.OrdenPago.Vigencia = 2017;
       self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
@@ -61,7 +71,7 @@ angular.module('financieraClienteApp')
       self.MovimientoContableConceptoOrdenPago = [];
       self.TotalAfectacion = 0;
       //
-      if(self.Concepto != undefined){
+      if (self.Concepto != undefined) {
         self.estructurarDataSend(self.Concepto);
       }
       //construir data send
@@ -75,7 +85,7 @@ angular.module('financieraClienteApp')
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
-    self.validar_campos = function(){
+    self.validar_campos = function() {
       self.MensajesAlerta = '';
       if (self.OrdenPago.UnidadEjecutora == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_UNIDAD') + "</li>"
@@ -93,38 +103,38 @@ angular.module('financieraClienteApp')
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_IVA') + "</li>"
       }
       if (self.OrdenPago.ValorBase == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE')  + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
       }
       /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
       }*/
       if (self.Concepto == undefined || self.Concepto.length == 0) {
-        self.MensajesAlerta = self.MensajesAlerta +  "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') +"</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
       }
       if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') +": " + self.TotalAfectacion + "<br>" +  $translate.instant('VALOR_PAGO')  + ': ' +  self.OrdenPago.ValorBase + "</b></li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') + ": " + self.TotalAfectacion + "<br>" + $translate.instant('VALOR_PAGO') + ': ' + self.OrdenPago.ValorBase + "</b></li>"
       }
       // Operar
-      if(self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0 ){
+      if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insert
         financieraRequest.post("orden_pago/RegistrarOp", self.dataOrdenPagoInsert)
-          .then(function(data) {   //error con el success
+          .then(function(data) { //error con el success
             self.resultado = data;
             //mensaje
             swal({
               title: 'Registro Exitoso',
               text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
               type: 'success',
-            }).then(function(){
+            }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
             })
             //
           })
-      }else{
+      } else {
         // mesnajes de error
         swal({
           title: 'Error!',
-          html:  '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
           type: 'error'
         })
       }

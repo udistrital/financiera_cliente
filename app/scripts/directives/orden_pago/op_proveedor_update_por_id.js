@@ -21,7 +21,6 @@ angular.module('financieraClienteApp')
         self.rubros = [];
         self.Concepto = [];
         //
-        self.RubrosIds = [];
         self.RubrosObjIds = null;
         self.Concepto = [];
         self.ConceptoOrdenPago = [];
@@ -110,19 +109,12 @@ angular.module('financieraClienteApp')
           self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
         }
         //Funciones de validacion y update data
-        self.estructura_orden_pago_conceptos = function(conceptos) {
+
+        // functions
+        self.estructurarDataSend = function(conceptos) {
+          // estrurctura total afectacion y movimientos contables
           angular.forEach(conceptos, function(concepto) {
             if (concepto.validado == true) { // tiene cuentas y se hace afectacion
-              // data conceptos para orden de pago
-              self.ConceptoOrdenPago.push({
-                'OrdenDePago': {
-                  'Id': 0
-                },
-                'Concepto': {
-                  'Id': concepto.Id
-                },
-                'Valor': concepto.Afectacion
-              });
               //total afectacion
               self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
               // recorrer novimiento
@@ -132,29 +124,43 @@ angular.module('financieraClienteApp')
                   self.MovimientoContableConceptoOrdenPago.push(movimiento);
                 }
               })
-            } else {
-              //almacenamos el concepto para reportar
-              console.log("concepto sin sin cuentas contables para hacer movimientos")
             }
+          })
+          // estructurar concepto orden
+          angular.forEach(self.RubrosObjIds, function(rubro) {
+            angular.forEach(rubro.DisponibilidadApropiacion.Concepto, function(concepto) {
+              self.ConceptoOrdenPago.push({
+                'OrdenDePago': {
+                  'Id': 0
+                },
+                'Concepto': {
+                  'Id': concepto.Id
+                },
+                'Valor': concepto.Afectacion,
+                'RegistroPresupuestalDisponibilidadApropiacion': {
+                  'Id': rubro.Id
+                }
+              });
+            })
           })
         }
         // Insert Orden Pago
         self.addOpProveedor = function() {
           // trabajar estructura de conceptos
-          self.Data_OrdenPago_Concepto = {};
+          self.dataOrdenPagoInsert = {};
           self.ConceptoOrdenPago = [];
           self.MovimientoContableConceptoOrdenPago = [];
           self.TotalAfectacion = 0;
           //
           if (self.Concepto != undefined) {
-            self.estructura_orden_pago_conceptos(self.Concepto);
+            self.estructurarDataSend(self.Concepto);
           }
           //construir data send
-          self.Data_OrdenPago_Concepto.OrdenPago = self.OrdenPago;
-          self.Data_OrdenPago_Concepto.ConceptoOrdenPago = self.ConceptoOrdenPago;
-          self.Data_OrdenPago_Concepto.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
+          self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+          self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+          self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
           //console.log("Estructura para enviar")
-          //console.log(self.Data_OrdenPago_Concepto)
+          //console.log(self.dataOrdenPagoInsert)
           // validar campos obligatorios en el formulario orden Pago y se inserta registro
           self.validar_campos()
         }
@@ -163,22 +169,22 @@ angular.module('financieraClienteApp')
         self.validar_campos = function() {
           self.MensajesAlerta = '';
           if (self.OrdenPago.TipoOrdenPago == undefined) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe seleccionar el tipo de Documento en la Sección Valor del Pago</li>"
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>"
           }
           if (self.OrdenPago.Iva == undefined) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor del Iva en la Sección Valor del Pago</li>"
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_IVA') + "</li>"
           }
           if (self.OrdenPago.ValorBase == undefined) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Indicar el Valor Base en la Sección Valor del Pago</li>"
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
           }
-          if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Seleccionar por lo minimo un Rubro</li>"
-          }
+          /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
+            self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
+          }*/
           if (self.Concepto == undefined || self.Concepto.length == 0) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>Debe Seleccionar por lo minimo un Comcepto</li>"
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
           }
           if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>El valor total de la afectacion es distinto al valor de la orden de pago. <br> <b>Afectacion: " + self.TotalAfectacion + "<br>Valor Orden: " + self.OrdenPago.ValorBase + "</b></li>"
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') + ": " + self.TotalAfectacion + "<br>" + $translate.instant('VALOR_PAGO') + ': ' + self.OrdenPago.ValorBase + "</b></li>"
           }
           // Operar
           if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
@@ -205,8 +211,6 @@ angular.module('financieraClienteApp')
             })
           }
         }
-
-
         //fin
       },
       controllerAs: 'd_opProveedorUpdatePorId'
