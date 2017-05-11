@@ -45,7 +45,7 @@ angular.module('financieraClienteApp')
             'OrdenDePago':{'Id': 0},
             'Concepto': {'Id': concepto.Id},
             'Valor': concepto.Afectacion,
-            'RegistroPresupuestalDisponibilidadApropiacion': rubro.Id
+            'RegistroPresupuestalDisponibilidadApropiacion': {'Id': rubro.Id}
           });
         })
       })
