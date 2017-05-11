@@ -111,7 +111,7 @@ angular.module('financieraClienteApp')
         //construir arreglo de rubros
         self.detalle_rubros = function(concepto_orden_pago) {
           angular.forEach(concepto_orden_pago, function(i) {
-            self.rubros.push(i.Concepto.Rubro)
+            self.rubros.push(i.RegistroPresupuestalDisponibilidadApropiacion)
           })
           // quitar repetidos
           var hash = {};

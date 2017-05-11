@@ -176,11 +176,17 @@
       <th>{{'CODIGO' | translate}}</th>
       <th>{{'VIGENCIA' | translate}}</th>
       <th>{{'DESCRIPCION' | translate}}</th>
+      <th>{{'VALOR' | translate}}</th>
+      <th>{{'FUENTES_FINANCIACION' | translate}}</th>
+      <th>{{'FUENTE_FINANCIACION_CODIGO' | translate}}</th>
       <tbody ng-repeat="i in d_opProveedorVerPorId.rubros">
         <tr>
-          <td>{{i.Codigo}}</td>
-          <td>{{i.Vigencia}}</td>
-          <td>{{i.Descripcion}}</td>
+          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo}}</td>
+          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia}}</td>
+          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion}}</td>
+          <td>{{i.Valor}}</td>
+          <td>{{i.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion}}</td>
+          <td>{{i.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo}}</td>
         </tr>
       </tbody>
   </table>
