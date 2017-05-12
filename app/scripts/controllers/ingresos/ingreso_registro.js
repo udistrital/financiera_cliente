@@ -8,17 +8,25 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistroCtrl', function(financieraRequest,pagosRequest) {
+  .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest) {
     var self = this;
     self.cargandoDatosPagos = false;
-    self.gridOptions = {};
+    self.gridOptions = {
+      enableRowSelection: true,
+      enableHorizontalScrollbar:0,
+      enableVerticalScrollbar:0,
+      paginationPageSizes: [10, 50, 75],
+      paginationPageSize: 10,
+      useExternalPagination: false,
+      enableFiltering: true
+    };
     self.gridOptions.columnDefs = [
-      { name: 'VIGENCIA', displayName: 'Vigencia'  },
-      { name: 'IDENTIFICACION', displayName: 'Identificación'  },
-      { name: 'NOMBRE', displayName: 'Nombre' },
+      { name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info'  },
+      { name: 'IDENTIFICACION', displayName: 'Identificación', headerCellClass: 'text-info'  },
+      { name: 'NOMBRE', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
       //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-      { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta'  },
-      { name: 'TIPO_INGRESO', displayName: 'Ingreso' },
+      { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
+      { name: 'TIPO_INGRESO', displayName: 'Ingreso' , headerCellClass: 'text-info' },
     ];
 
 
@@ -73,8 +81,34 @@ angular.module('financieraClienteApp')
       }).finally(function() {
         // called no matter success or failure
         self.cargandoDatosPagos = false;
-  });;
+  });
 
     }
+
+    self.gridOptions.onRegisterApi = function(gridApi){
+      self.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope,function(row){
+          $scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
+          console.log($scope.ingresoBanco);
+        });
+    };
+
+
+    $scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){
+      console.log("af"+self.gridOptions.data.length);
+          if ((self.gridOptions.data.length<=self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize== null) && self.gridOptions.data.length>0) {
+            $scope.gridHeight = self.gridOptions.rowHeight * 3+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
+            if (self.gridOptions.data.length<=10) {
+              $scope.gridHeight = self.gridOptions.rowHeight * 2+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
+              self.gridOptions.enablePaginationControls= false;
+            }
+          } else {
+            $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
+            self.gridOptions.enablePaginationControls= true;
+          }
+        },true);
+
+
+
 
   });

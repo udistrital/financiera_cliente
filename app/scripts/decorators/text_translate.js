@@ -168,7 +168,7 @@ var text_es = {
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",
   TIPO_INGRESO: "Tipo de Ingreso",
-  TABLA_INGRESOS: "Lista de Ingresos"
+  TABLA_INGRESOS_BANCO: "Lista de Consignaciones"
 };
 
 var text_en = {

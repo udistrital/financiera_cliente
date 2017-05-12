@@ -33,10 +33,10 @@
 
       </div>
 
-        <div class="panel panel-primary panel-body" ng-if="ingresoRegistro.pagos">
-          <h2 class="page-header" align="center">{{'TABLA_INGRESOS' | translate}}</h2>
+        <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
+          <h2 class="page-header" align="center">{{'TABLA_INGRESOS_BANCO' | translate}}</h2>
           <div class="panel-body">
-              <div  ui-grid="ingresoRegistro.gridOptions"></div>
+              <div style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
           </div>
         </div>
         <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger" >
