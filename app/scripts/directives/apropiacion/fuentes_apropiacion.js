@@ -2,7 +2,7 @@
 
 /**
  * @ngdoc directive
- * @name necesidadArgoApp.directive:apropiacion/fuentesApropiacion
+ * @name financieraClienteApp.directive:apropiacion/fuentesApropiacion
  * @description
  * # apropiacion/fuentesApropiacion
  */

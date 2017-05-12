@@ -44,7 +44,8 @@ angular
     'adminMidService',
     'argoService',
     'coreService',
-    'oikosService'
+    'oikosService',
+    'avancesService'
   ])
 
   .run(function(amMoment) {
@@ -193,7 +194,7 @@ angular
         templateUrl: 'views/fuente_financiacion/consulta_fuente.html',
         controller: 'consultaFuenteCtrl',
         controllerAs: 'consultaFuente'
-      })
+      })orden_pago/proveedor
       .when('/fuente_financiacion/detalle_fuente', {
         templateUrl: 'views/fuente_financiacion/detalle_fuente.html',
         controller: 'detalleFuenteCtrl',
@@ -223,6 +224,26 @@ angular
         templateUrl: 'views/orden_pago/op_proveedor_update_por_id.html',
         controller: 'OpProveedorUpdatePorIdCtrl',
         controllerAs: 'opProveedorUpdatePorId'
+       })
+      .when('/rp/rp_anulacion', {
+        templateUrl: 'views/rp/rp_anulacion.html',
+        controller: 'RpRpAnulacionCtrl',
+        controllerAs: 'rpAnulacion'
+       })
+      .when('/plan_cuentas/crear_descuento', {
+        templateUrl: 'views/plan_cuentas/crear_descuento.html',
+        controller: 'CrearDescuentoCtrl',
+        controllerAs: 'crearDescuento'
+      })
+      .when('/tesoreria/avances/tipos_avance', {
+        templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
+        controller: 'TiposAvanceCtrl',
+        controllerAs: 'TiposAvance'
+       })
+      .when('/plan_cuentas/gestion_plan_cuentas', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_cuentas.html',
+        controller: 'GestionPlanCuentasCtrl',
+        controllerAs: 'gestionPlanCuentas'
       })
       .otherwise({
         redirectTo: '/'

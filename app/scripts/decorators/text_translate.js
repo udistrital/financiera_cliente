@@ -51,6 +51,18 @@ var text_es = {
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
   ACTUALIZAR: "Actualizar",
+  PLAN_CUENTAS:"Plan de Cuentas",
+
+  MOVIMIENTOS: "Movimientos",
+  INICIAL: "Inicial",
+  FECHA: "Fecha",
+  CREACION:"Creación",
+  VENCIMIENTO:"Vencimiento",
+  INGRESO:"Ingreso",
+  EGRESO: "Egreso",
+
+  TOTAL_COMPROMETIDO: "Total Comprometido",
+  TOTAL_ANULADO: "Total Anulado",
 
 
   // PROVEEDOR
@@ -77,6 +89,7 @@ var text_es = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -98,8 +111,14 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+    LIMPIAR: "Limpiar",
+    GUARDAR: "Guardar",
+    NUEVO: "Nuevo",
+    EDITAR: "Editar",
+    BORRAR: "Borrar"
   },
+
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
   ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
@@ -142,6 +161,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
+  FUENTES_AFECTADAS:"Fuentes de Financiación Afectadas",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -154,11 +174,41 @@ var text_es = {
   VALOR_CONTRATACION: 'Valor De La Contratación',
   JUSTIFICACION: 'Justificación',
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
+  VALOR_AFECTACION: "Valor afectación",
+  VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
+  NECESIDAD_NO:"Necesidad No. ",
+  RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
+  OBJETO:"Objeto",
+
+    //TIPO AVANCES
+
+  AVANCES:  'AVANCES',
+  LISTA_AVANCES :  'Listado de Tipos de Avances',
+  REFERENCIA: 'Referencia',
+  FECHA_REGISTRO: 'Fecha registro',
+  NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
+  EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
+  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
+  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
+  TIPO_ANULACION:"Tipo de Anulación",
+  ANULACION_PARCIAL: "Parcial",
+  ANULACION_TOTAL:"Total",
+  SELECCION_RUBRO:"Seleccione el Rubro",
+  ANULAR: "Anular",
+  NO: "No.",
+
+  //RP
+  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  CDP_NUMERO: "CDP No.",
+  BENEFECIARIO: "Beneficiario",
+  MODALIDAD_DE_SELECCION: "Modalidad de Selección"
+
 };
 
 var text_en = {
@@ -206,6 +256,7 @@ var text_en = {
   CUENTA: "Account",
   ACTUALIZAR: "Update",
 
+
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -230,6 +281,7 @@ var text_en = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
   D_PLANES_CUENTA: {
@@ -285,6 +337,7 @@ var text_en = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Select Item",
+
 };
 
 angular.module('financieraClienteApp')

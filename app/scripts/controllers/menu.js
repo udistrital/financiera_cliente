@@ -159,6 +159,13 @@ angular.module('financieraClienteApp')
      ]
    }
  ];
+ $scope.notificacion.get_crud('notificacion',$.param({
+   query: "UsuarioDestino:2"
+ }))
+  .then(function(response){
+    $scope.notificacion.log = response.data;
+    console.log($scope.notificacion.log);
+  });
 
  $http.get('http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/Admin')
    .then(function(response) {
@@ -218,6 +225,7 @@ angular.module('financieraClienteApp')
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
          event.preventDefault();
          event.stopPropagation();

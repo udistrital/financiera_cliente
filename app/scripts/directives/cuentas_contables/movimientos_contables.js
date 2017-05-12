@@ -3,8 +3,20 @@
 /**
  * @ngdoc directive
  * @name financieraClienteApp.directive:movimientosContables
- * @description directiva para la gestión de movimientos contables
- * #movimientosContables
+ * @restrict E
+ * @scope
+ * @requires financieraService.service:financieraRequest
+ * @requires uiGridConstants
+ * @requires $translate
+ * @requires $scope
+ * @param {boolean} validatemov variable que confirma si la transaccion es correcta o no
+ * @param {object|array} movimientos movimientos realizados sobre cada cuenta contable
+ * @param {undefined} editable bandera de cualquier tipo para conocer si se requiere que la directiva permita edición
+ * @param {int} monto monto dado sobre el concepto
+ * @param {string|int} conceptoid Id del concepto a registrar movimientos
+ * @description
+ * # movimientosContables
+ * Directiva en la cual se realiza la gestion de los movimientos contables producidos en una transacción referente a un concepto
  */
 
 angular.module('financieraClienteApp')
@@ -30,6 +42,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
 
+        //grid para movimientos generales
         self.gridOptionsMovimientos = {
           showColumnFooter: true,
           enableCellEditOnFocus: true,
@@ -108,6 +121,7 @@ angular.module('financieraClienteApp')
           ]
         };
 
+        //grid para movimientos acreedores
         self.gridOptionsMovsAcreedores = {
           showColumnFooter: true,
           enableCellEditOnFocus: true,
@@ -180,6 +194,14 @@ angular.module('financieraClienteApp')
           ]
         };
 
+        /**
+         * @ngdoc function
+         * @name financieraClienteApp.directive:movimientosContables#cargar_cuentas
+         * @methodOf financieraClienteApp.directive:movimientosContables
+         * @description En base al conceptoid dado por el scope de la directiva se consume el servicio
+         * {@link financieraService.service:financieraRequest financieraRequest}  para obtener las cuentas contables asociadas al concepto
+         * y con estas manejar los movimientos que se vallan a realizar
+         */
         self.cargar_cuentas = function() {
           if ($scope.conceptoid != undefined) {
             financieraRequest.get('concepto_cuenta_contable', $.param({
@@ -213,6 +235,15 @@ angular.module('financieraClienteApp')
 
         $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2;
 
+        /**
+         * @ngdoc event
+         * @name financieraClienteApp.directive:movimientosContables#watch_on_grids_data
+         * @eventOf financieraClienteApp.directive:movimientosContables
+         * @param {array} gridOptionsMovimientos variable que activa el evento
+         * @param {array} gridOptionsMovsAcreedores variable que activa el evento
+         * @description Si el data de alguno de los grids surge un cambio Se activa el evento que se encarga de realizar la validacion
+         * por medio de la suma de los valores del principio de partida doble, y muestra un mensaje dependiendo si este se cumple o no con el cambio generado.
+         */
         $scope.$watch('[d_movimientosContables.gridOptionsMovimientos.data,monto,d_movimientosContables.gridOptionsMovsAcreedores.data]', function() {
           if ($scope.monto == undefined) {
             $scope.monto = 0;
@@ -245,6 +276,13 @@ angular.module('financieraClienteApp')
           }
         }, true);
 
+        /**
+         * @ngdoc event
+         * @name financieraClienteApp.directive:movimientosContables#watch_on_conceptoid
+         * @eventOf financieraClienteApp.directive:movimientosContables
+         * @param {string|int} conceptoid variable que activa el evento
+         * @description Si la variable conceptoid cambia el evento se activa recargando las cuentas contables
+         */
         $scope.$watch('conceptoid', function() {
           self.cargar_cuentas();
         }, true);
