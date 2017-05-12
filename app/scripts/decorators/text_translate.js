@@ -50,6 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  ACTUALIZAR: "Actualizar",
   PLAN_CUENTAS:"Plan de Cuentas",
 
   MOVIMIENTOS: "Movimientos",
@@ -120,6 +121,8 @@ var text_es = {
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
+  ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",
@@ -128,6 +131,18 @@ var text_es = {
   POR_IVA: "% IVA",
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
+  MSN_DEBE_UNIDAD: "Debe seleccionar la Unidad Ejecutora",
+  MSN_DEBE_PROVEEDOR: "Debe seleccionar el Proveedor para la orden de pago",
+  MSN_DEBE_REGISTRO: "Debe seleccionar el Registro Presupuestal",
+  MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
+  MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
+  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
+  MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
+  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
+  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos del Rubro",
+  MSN_SUPERA_SALDO: 'supera el valor del saldo',
+  MSN_Y: 'y',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
@@ -163,6 +178,9 @@ var text_es = {
   VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
+  NECESIDAD_NO: "Necesidad No. ",
+  RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
+  OBJETO: "Objeto",
   NECESIDAD_NO:"Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
   OBJETO:"Objeto",
@@ -236,6 +254,7 @@ var text_en = {
   DEBITO: "Debit",
   CREDITO: "Credit",
   CUENTA: "Account",
+  ACTUALIZAR: "Update",
 
 
   // PROVEEDOR
@@ -284,6 +303,8 @@ var text_en = {
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
+  ORDEN_PAGO_SELECCIOANR: "Select Payment Order",
+  ORDEN_PAGO_ACTUALIZAR: "Update Payment Orders",
   DETALLE_ORDEN_PAGO: 'Detail Payment Orders',
   DETALLE_OP: "Detail Payment Orders",
   VALOR_PAGO: "Amount Paid",
@@ -292,6 +313,18 @@ var text_en = {
   POR_IVA: "% IVA",
   VAL_IVA: "Value IVA",
   VALOR_BRUTO: "Gross Value",
+  MSN_DEBE_UNIDAD: "You must select Executing Unit",
+  MSN_DEBE_PROVEEDOR: "You must select Supplier for the Payment Order",
+  MSN_DEBE_REGISTRO: "You must select Certificate Registry Budget",
+  MSN_DEBE_TIPO_OP: "You must select el tipo de Documento en la in Payment Amount Section",
+  MSN_DEBE_IVA: "You must indicate the value of the IVA in the Payment Value Section",
+  MSN_DEBE_VAL_BASE: "You must indicate the Base Value in the Payment Value Section",
+  MSN_DEBE_CONCEPTO: "You must select at least one Concept",
+  MSN_DEBE_TOTAL_AFECTACION: "The total value of the assignment is different from the value of the payment order",
+  MSN_DEBE_MIN_CONCEPTO: "Must affect at least one concept",
+  MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
+  MSN_SUPERA_SALDO: 'exceeds the value of the balance',
+  MSN_Y: 'and',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",

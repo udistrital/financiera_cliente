@@ -80,11 +80,6 @@ angular
         controller: 'IvaCtrl',
         controllerAs: 'iva'
       })
-      .when('/orden_pago/proveedor/crear', {
-        templateUrl: 'views/orden_pago/op_crear.html',
-        controller: 'OrdenPagoOpCrearCtrl',
-        controllerAs: 'opCrear'
-      })
       .when('/conceptos/concepto/:Id', {
         templateUrl: 'views/conceptos/concepto.html',
         controller: 'ConceptoCtrl',
@@ -109,11 +104,6 @@ angular
         templateUrl: 'views/plan_cuentas/cuenta.html',
         controller: 'CuentaCtrl',
         controllerAs: 'cuenta'
-      })
-      .when('/orden_pago/ver_todos', {
-        templateUrl: 'views/orden_pago/op_view_all.html',
-        controller: 'OrdenPagoOpViewAllCtrl',
-        controllerAs: 'opViewAll'
       })
       .when('/rubro/rubro_registro', {
         templateUrl: 'views/rubro/rubroregistro.html',
@@ -175,11 +165,6 @@ angular
         controller: 'CdpCdpSolicitudDetalleCtrl',
         controllerAs: 'cdpSolicitudDetalle'
       })
-      .when('/orden_pago/proveedor/:Id', {
-        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
-        controller: 'OpProveedorVerPorIdCtrl',
-        controllerAs: 'opProveedorVerPorId'
-      })
       .when('/rp_solicitud_personas', {
         templateUrl: 'views/rp/rp_solicitud_personas.html',
         controller: 'RpSolicitudPersonasCtrl',
@@ -209,13 +194,37 @@ angular
         templateUrl: 'views/fuente_financiacion/consulta_fuente.html',
         controller: 'consultaFuenteCtrl',
         controllerAs: 'consultaFuente'
-      })
+      })orden_pago/proveedor
       .when('/fuente_financiacion/detalle_fuente', {
         templateUrl: 'views/fuente_financiacion/detalle_fuente.html',
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
-
+      .when('/orden_pago/proveedor/crear', {
+        templateUrl: 'views/orden_pago/op_crear.html',
+        controller: 'OrdenPagoOpCrearCtrl',
+        controllerAs: 'opCrear'
+      })
+      .when('/orden_pago/ver_todos', {
+        templateUrl: 'views/orden_pago/op_view_all.html',
+        controller: 'OrdenPagoOpViewAllCtrl',
+        controllerAs: 'opViewAll'
+      })
+      .when('/orden_pago/proveedor/ver/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+        controller: 'OpProveedorVerPorIdCtrl',
+        controllerAs: 'opProveedorVerPorId'
+      })
+      .when('/orden_pago/actualizar_todos', {
+        templateUrl: 'views/orden_pago/op_listar_todas_update.html',
+        controller: 'OpListarTodasUpdateCtrl',
+        controllerAs: 'opListarTodasUpdate'
+      })
+      .when('/orden_pago/proveedor/actualizar/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_update_por_id.html',
+        controller: 'OpProveedorUpdatePorIdCtrl',
+        controllerAs: 'opProveedorUpdatePorId'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
