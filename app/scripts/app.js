@@ -236,6 +236,11 @@ angular
         controller: 'GestionPlanCuentasCtrl',
         controllerAs: 'gestionPlanCuentas'
       })
+      .when('/tesoreria/avances/requisitos/requisitos', {
+        templateUrl: 'views/tesoreria/avances/requisitos/requisitos.html',
+        controller: 'RequisitosCtrl',
+        controllerAs: 'requisitos'
+      })
       .otherwise({
         redirectTo: '/'
       });

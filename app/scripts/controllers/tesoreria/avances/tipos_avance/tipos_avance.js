@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TiposAvanceCtrl', function(CONF, $scope, avancesRequest, $translate) {
+  .controller('TiposAvanceCtrl', function($scope, financieraRequest, $translate) {
     var ctrl = this;
     ctrl.operacion = "";
     ctrl.row_entity = {};
@@ -61,7 +61,9 @@ angular.module('financieraClienteApp')
             '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" >'+
             '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">'+
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> '+
+            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg" aria-hidden="true"></i></a> '+
+            '<a class="configuracion" ng-click="grid.appScope.TiposAvance.load_row(row,\'config\');" data-toggle="modal" data-target="#myModal">'+
+            '<i data-toggle="tooltip" title="{{\'BTN.CONFIGURAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> '+
             '<a class="borrar" ng-click="grid.appScope.TiposAvance.load_row(row,\'delete\');" data-toggle="modal" data-target="#myModal">'+
             '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>'+
             '</center>'
@@ -70,7 +72,9 @@ angular.module('financieraClienteApp')
     };
     ctrl.gridOptions.multiSelect = false;
     ctrl.get_all_avances = function() {
-      avancesRequest.get(CONF.HOST_TIPO_AVANCE, "")
+      financieraRequest.get("tipo_avance", $.param({
+        limit:-1
+      }))
         .then(function(response) {
           ctrl.gridOptions.data = response.data;
           console.log(ctrl.gridOptions.data);
@@ -99,20 +103,23 @@ angular.module('financieraClienteApp')
         ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
       }
     };
+    ctrl.delete_tipo = function(){
 
+    };
     ctrl.add_edit = function() {
       var data = {};
       switch (ctrl.operacion) {
         case 'edit':
           data = {
+            Id: ctrl.row_entity.Id,
             Referencia: ctrl.tipo_avance.Referencia,
             Nombre: ctrl.tipo_avance.Nombre,
             Descripcion: ctrl.tipo_avance.Descripcion,
             Estado: ctrl.tipo_avance.Estado,
-            IdTipo: ctrl.row_entity.IdTipo,
-            FechaRegistro: ""
+            FechaRegistro: ctrl.row_entity.FechaRegistro
           };
-          avancesRequest.put(CONF.HOST_TIPO_AVANCE, data)
+          console.log(data);
+          financieraRequest.put("tipo_avance",data.Id, data)
             .then(function(info) {
               console.log(info);
               ctrl.get_all_avances();
@@ -124,7 +131,7 @@ angular.module('financieraClienteApp')
             Nombre: ctrl.tipo_avance.Nombre,
             Descripcion: ctrl.tipo_avance.Descripcion
           };
-          avancesRequest.post(CONF.HOST_TIPO_AVANCE, data)
+          financieraRequest.post("tipo_avance", data)
             .then(function(info) {
               console.log(info);
               ctrl.get_all_avances();

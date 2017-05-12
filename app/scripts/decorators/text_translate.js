@@ -114,7 +114,8 @@ var text_es = {
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
     EDITAR: "Editar",
-    BORRAR: "Borrar"
+    BORRAR: "Borrar",
+    CONFIGURAR:"Configurar"
   },
 
   // ORDEN DE PAGO
@@ -166,14 +167,18 @@ var text_es = {
   RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
   OBJETO:"Objeto",
 
-    //TIPO AVANCES
-
+    //AVANCES
+  ETAPA:"Etapa",
+  REQUISITOS_AVANCE : "Requisitos de Avance",
+  LISTA_REQUISITOS_AVANCE : "listado de Requisitos de Avance",
   AVANCES:  'AVANCES',
   LISTA_AVANCES :  'Listado de Tipos de Avances',
   REFERENCIA: 'Referencia',
   FECHA_REGISTRO: 'Fecha registro',
   NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
+  NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
+  EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
   LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
   ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
   MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
