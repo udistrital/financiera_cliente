@@ -163,8 +163,12 @@ var text_es = {
   LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
   CDP_NUMERO: "CDP No.",
   BENEFECIARIO: "Beneficiario",
-  MODALIDAD_DE_SELECCION: "Modalidad de Selección"
-
+  MODALIDAD_DE_SELECCION: "Modalidad de Selección",
+  //INGRESOS
+  REGISTRO_INGRESOS: "Registro de Ingresos",
+  FECHA_CONSIG: "Fecha de Consignanción",
+  TIPO_INGRESO: "Tipo de Ingreso",
+  TABLA_INGRESOS: "Lista de Ingresos"
 };
 
 var text_en = {

@@ -44,7 +44,8 @@ angular
     'adminMidService',
     'argoService',
     'coreService',
-    'oikosService'
+    'oikosService',
+    'pagosService'
   ])
 
   .run(function(amMoment) {
@@ -214,7 +215,11 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
-
+      .when('/plan_cuentas/crear_descuento', {
+        templateUrl: 'views/plan_cuentas/crear_descuento.html',
+        controller: 'CrearDescuentoCtrl',
+        controllerAs: 'crearDescuento'
+      })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -224,6 +229,11 @@ angular
         templateUrl: 'views/plan_cuentas/crear_descuento.html',
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
+      })
+      .when('/ingresos/ingreso_registro', {
+        templateUrl: 'views/ingresos/ingreso_registro.html',
+        controller: 'IngresosIngresoRegistroCtrl',
+        controllerAs: 'ingresoRegistro'
       })
       .otherwise({
         redirectTo: '/'
