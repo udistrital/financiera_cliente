@@ -194,7 +194,7 @@ angular
         templateUrl: 'views/fuente_financiacion/consulta_fuente.html',
         controller: 'consultaFuenteCtrl',
         controllerAs: 'consultaFuente'
-      })orden_pago/proveedor
+      })
       .when('/fuente_financiacion/detalle_fuente', {
         templateUrl: 'views/fuente_financiacion/detalle_fuente.html',
         controller: 'detalleFuenteCtrl',

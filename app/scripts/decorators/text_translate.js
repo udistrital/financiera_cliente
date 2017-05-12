@@ -181,9 +181,6 @@ var text_es = {
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
-  NECESIDAD_NO:"Necesidad No. ",
-  RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
-  OBJETO:"Objeto",
 
     //TIPO AVANCES
 
