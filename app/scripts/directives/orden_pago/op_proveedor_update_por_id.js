@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorUpdatePorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
           })
         }
         // Insert Orden Pago
-        self.addOpProveedor = function() {
+        self.updateOpProveedor = function() {
           // trabajar estructura de conceptos
           self.dataOrdenPagoInsert = {};
           self.ConceptoOrdenPago = [];
@@ -156,11 +156,12 @@ angular.module('financieraClienteApp')
             self.estructurarDataSend(self.Concepto);
           }
           //construir data send
+          self.OrdenPago.Id = self.orden_pago[0].Id; //definimos id en OrdenPago
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
-          //console.log("Estructura para enviar")
-          //console.log(self.dataOrdenPagoInsert)
+          console.log("Estructura para enviar")
+          console.log(self.dataOrdenPagoInsert)
           // validar campos obligatorios en el formulario orden Pago y se inserta registro
           self.validar_campos()
         }
@@ -189,13 +190,13 @@ angular.module('financieraClienteApp')
           // Operar
           if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
             // insert
-            financieraRequest.post("orden_pago/RegistrarOp", self.Data_OrdenPago_Concepto)
+            financieraRequest.post("orden_pago/ActualizarOpProveedor", self.dataOrdenPagoInsert)
               .then(function(data) { //error con el success
                 self.resultado = data;
                 //mensaje
                 swal({
                   title: 'Registro Exitoso',
-                  text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
+                  text: 'Orden de Pago Proveedo Actualizado. ',
                   type: 'success',
                 }).then(function() {
                   $window.location.href = '#/orden_pago/ver_todos';
