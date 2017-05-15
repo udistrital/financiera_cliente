@@ -23,20 +23,18 @@
        </td>
        <td class="col-md-2">
          <br>
-         <button type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></button>
+         <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
        </td>
       </table>
-      <div class="text-center" ng-show="ingresoRegistro.cargandoDatosPagos">
-        <br>
-        <br>
-        <i class="fa fa-spinner fa-spin text-info" aria-hidden="true" style="font-size:96px"></i>
-
+      <div class="loading" ng-show="ingresoRegistro.cargandoDatosPagos">
+        <i class="fa fa-clock-o fa-spin faa-burst animated  text-info" aria-hidden="true" style="font-size:96px"></i>
       </div>
 
         <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
           <h2 class="page-header" align="center">{{'TABLA_INGRESOS_BANCO' | translate}}</h2>
           <div class="panel-body">
               <div style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
           </div>
         </div>
         <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger" >
