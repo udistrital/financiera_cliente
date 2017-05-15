@@ -1,3 +1,9 @@
+
+.loading{
+  margin: 10%;
+  text-align: center;
+}
+
  /* UI-GRID*/
 
  [ui-grid-row] {
@@ -38,6 +44,7 @@ word-break: break-word;
   font-size: 16px;
   color: #00B16A
 }
+
 
 
 .page-header {

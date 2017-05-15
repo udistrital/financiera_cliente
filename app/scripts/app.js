@@ -45,7 +45,11 @@ angular
     'argoService',
     'coreService',
     'oikosService',
+
+    'pagosService'
+
     'avancesService'
+
   ])
 
   .run(function(amMoment) {
@@ -200,6 +204,13 @@ angular
         controller: 'detalleFuenteCtrl',
         controllerAs: 'detalleFuente'
       })
+
+      .when('/plan_cuentas/crear_descuento', {
+        templateUrl: 'views/plan_cuentas/crear_descuento.html',
+        controller: 'CrearDescuentoCtrl',
+        controllerAs: 'crearDescuento'
+      })
+
       .when('/orden_pago/proveedor/crear', {
         templateUrl: 'views/orden_pago/op_crear.html',
         controller: 'OrdenPagoOpCrearCtrl',
@@ -225,6 +236,7 @@ angular
         controller: 'OpProveedorUpdatePorIdCtrl',
         controllerAs: 'opProveedorUpdatePorId'
        })
+
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -235,6 +247,12 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
+
+      .when('/ingresos/ingreso_registro', {
+        templateUrl: 'views/ingresos/ingreso_registro.html',
+        controller: 'IngresosIngresoRegistroCtrl',
+        controllerAs: 'ingresoRegistro'
+    })
       .when('/tesoreria/avances/tipos_avance', {
         templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
         controller: 'TiposAvanceCtrl',

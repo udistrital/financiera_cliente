@@ -45,19 +45,21 @@ angular.module('financieraClienteApp')
     };
 
     self.gridOptions.multiSelect = false;
+    self.cargandoDatosPagos = true;
     financieraRequest.get('registro_presupuestal','limit=0').then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
         financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion','limit=1&query=RegistroPresupuestal:'+data.Id).then(function(response) {
           data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
           financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Disponibilidad.Solicitud,'').then(function(response) {
-
+            self.cargandoDatosPagos = false;
                 data.Necesidad = response.data[0].SolicitudDisponibilidad.Necesidad;
-
-
             });
         });
       });
+        // called no matter success or failure
+
+
     });
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
