@@ -51,7 +51,10 @@ angular.module('financieraClienteApp')
             self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
           }
         }
-
+        //cuando entran valores
+        $scope.$watch('valorbase', function() {
+          self.get_valor_bruto($scope.valorbase, $scope.iva);
+        })
 
       },
       controllerAs: 'd_opProveedorDetallePago'

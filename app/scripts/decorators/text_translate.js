@@ -50,8 +50,20 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  ACTUALIZAR: "Actualizar",
+  PLAN_CUENTAS:"Plan de Cuentas",
+
+  MOVIMIENTOS: "Movimientos",
+  INICIAL: "Inicial",
+  FECHA: "Fecha",
+  CREACION:"Creación",
+  VENCIMIENTO:"Vencimiento",
+  INGRESO:"Ingreso",
+  EGRESO: "Egreso",
+
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -77,6 +89,7 @@ var text_es = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -98,10 +111,18 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+    LIMPIAR: "Limpiar",
+    GUARDAR: "Guardar",
+    NUEVO: "Nuevo",
+    EDITAR: "Editar",
+    BORRAR: "Borrar"
   },
+
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
+  ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",
@@ -110,6 +131,18 @@ var text_es = {
   POR_IVA: "% IVA",
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
+  MSN_DEBE_UNIDAD: "Debe seleccionar la Unidad Ejecutora",
+  MSN_DEBE_PROVEEDOR: "Debe seleccionar el Proveedor para la orden de pago",
+  MSN_DEBE_REGISTRO: "Debe seleccionar el Registro Presupuestal",
+  MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
+  MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
+  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
+  MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
+  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
+  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos del Rubro",
+  MSN_SUPERA_SALDO: 'supera el valor del saldo',
+  MSN_Y: 'y',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
@@ -145,9 +178,18 @@ var text_es = {
   VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
-  NECESIDAD_NO:"Necesidad No. ",
-  RESPONSABLE_SELECCION_PRESUPUESTO:"Responsable Sección De Presupuesto",
-  OBJETO:"Objeto",
+  NECESIDAD_NO: "Necesidad No. ",
+  RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
+  OBJETO: "Objeto",
+
+    //TIPO AVANCES
+
+  AVANCES:  'AVANCES',
+  LISTA_AVANCES :  'Listado de Tipos de Avances',
+  REFERENCIA: 'Referencia',
+  FECHA_REGISTRO: 'Fecha registro',
+  NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
+  EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
   ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
   MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
@@ -155,7 +197,6 @@ var text_es = {
   ANULACION_PARCIAL: "Parcial",
   ANULACION_TOTAL:"Total",
   SELECCION_RUBRO:"Seleccione el Rubro",
-  VALOR:"Valor",
   ANULAR: "Anular",
   NO: "No.",
 
@@ -214,6 +255,8 @@ var text_en = {
   DEBITO: "Debit",
   CREDITO: "Credit",
   CUENTA: "Account",
+  ACTUALIZAR: "Update",
+
 
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
@@ -239,6 +282,7 @@ var text_en = {
   DESCRIPCION_PLAN: " Descripción del nuevo plan...",
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
+  EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
 
   //DIRECTIVE/CUENTAS_CONTABLES/PLANES_CUENTAS
   D_PLANES_CUENTA: {
@@ -260,6 +304,8 @@ var text_en = {
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
+  ORDEN_PAGO_SELECCIOANR: "Select Payment Order",
+  ORDEN_PAGO_ACTUALIZAR: "Update Payment Orders",
   DETALLE_ORDEN_PAGO: 'Detail Payment Orders',
   DETALLE_OP: "Detail Payment Orders",
   VALOR_PAGO: "Amount Paid",
@@ -268,6 +314,18 @@ var text_en = {
   POR_IVA: "% IVA",
   VAL_IVA: "Value IVA",
   VALOR_BRUTO: "Gross Value",
+  MSN_DEBE_UNIDAD: "You must select Executing Unit",
+  MSN_DEBE_PROVEEDOR: "You must select Supplier for the Payment Order",
+  MSN_DEBE_REGISTRO: "You must select Certificate Registry Budget",
+  MSN_DEBE_TIPO_OP: "You must select el tipo de Documento en la in Payment Amount Section",
+  MSN_DEBE_IVA: "You must indicate the value of the IVA in the Payment Value Section",
+  MSN_DEBE_VAL_BASE: "You must indicate the Base Value in the Payment Value Section",
+  MSN_DEBE_CONCEPTO: "You must select at least one Concept",
+  MSN_DEBE_TOTAL_AFECTACION: "The total value of the assignment is different from the value of the payment order",
+  MSN_DEBE_MIN_CONCEPTO: "Must affect at least one concept",
+  MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
+  MSN_SUPERA_SALDO: 'exceeds the value of the balance',
+  MSN_Y: 'and',
 
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",
@@ -280,6 +338,7 @@ var text_en = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Select Item",
+
 };
 
 angular.module('financieraClienteApp')

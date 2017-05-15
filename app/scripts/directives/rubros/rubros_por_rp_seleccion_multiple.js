@@ -12,7 +12,6 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         rpid: '=?',
-        rubros: '=?',
         rubrosobj: '=?'
       },
 
@@ -74,14 +73,7 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.rubros = [];
-            $scope.apropiacion_ids = [];
-            $scope.rubros_seleccion = self.gridApi.selection.getSelectedRows();
             $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
-            angular.forEach($scope.rubros_seleccion, function(rr) {
-              $scope.rubros.push(rr.DisponibilidadApropiacion.Apropiacion.Rubro.Id)
-              $scope.apropiacion_ids.push(rr.DisponibilidadApropiacion.Apropiacion.Id)
-            })
           });
         };
         // refrescar
@@ -107,10 +99,11 @@ angular.module('financieraClienteApp')
               angular.forEach(self.gridOptions_rubros.data, function(data) {
                 var rpData = {
                   Rp: data.RegistroPresupuestal,
-                  Apropiacion: data.DisponibilidadApropiacion.Apropiacion
+                  Apropiacion: data.DisponibilidadApropiacion.Apropiacion,
+                  FuenteFinanciacion: data.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData).then(function(response) {
-                  data.Saldo = response.data;
+                  data.Saldo = response.data.saldo;
                 });
               });
               //fin get saldos de lor rp
