@@ -46,7 +46,7 @@ angular
     'coreService',
     'oikosService',
 
-    'pagosService'
+    'pagosService',
 
     'avancesService'
 
