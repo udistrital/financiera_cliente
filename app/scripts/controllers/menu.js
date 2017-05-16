@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route) {
+.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route, $mdSidenav) {
    var paths = [];
    $scope.language = {
        es:"btn btn-primary btn-circle btn-outline active",
@@ -222,6 +222,13 @@ angular.module('financieraClienteApp')
         }
         $route.reload();
    };
+   function buildToggler(componentId) {
+      return function() {
+        $mdSidenav(componentId).toggle();
+      };
+    };
+$scope.toggleLeft = buildToggler('left');
+$scope.toggleRight = buildToggler('right');
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {

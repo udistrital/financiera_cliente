@@ -1,8 +1,26 @@
+md-sidenav {
+  width: 100px;
+}
+md-sidenav > md-content > md-button > md-card > img:hover{
+    opacity: 10%;
+}
+
+.my-icon-button {
+  padding: 10px !important;
+  min-width: 0;
+  min-height: 0;
+  line-height: normal;
+}
+
+.logo{
+    height:80px;
+}
 
 .loading{
-  margin: 10%;
+  margin: 8%;
   text-align: center;
 }
+
 
  /* UI-GRID*/
 
@@ -112,17 +130,7 @@ legend:hover {
   background-color: #1a1a1a;
 }
 
-
-
-
 /* NOTIFICATION*/
-
-.img-responsive{
-    max-width: 100px;
-    height: 80px;
-    background-color: #6C7A89;
-    margin: 1%
-}
 
 .notificacion_vista{
     color: #e74c3c;
@@ -366,15 +374,23 @@ body {
 }
 
 @media(min-width:768px) {
-  .sidebar {
-    z-index: 1;
-    position: absolute;
-    width: 250px;
-    margin-top: 51px;
-  }
+
   .navbar-top-links .dropdown-messages, .navbar-top-links .dropdown-tasks, .navbar-top-links .dropdown-alerts {
     margin-left: auto;
   }
+}
+@media screen and (max-width: 699px) and (min-width: 456px) {
+    md-sidenav {
+      width: 100px;
+    }
+}
+@media screen and (max-width: 556px) {
+    md-sidenav {
+      width: 70px;
+    }
+    .img-responsive{
+        width: 70px
+    }
 }
 
 .btn-outline {
