@@ -45,21 +45,19 @@ word-break: break-word;
 
  /*BUTTONS OPTIONS*/
 
-.borrar > i:hover{
-  padding: 3%;
-  font-size: 20px;
+.borrar:hover{
   color: #DB0A5B
 }
 
 .editar:hover{
-  padding: 3%;
-  font-size: 16px;
+  color: #F39C12
+}
+
+.configuracion:hover{
   color: #9A12B3
 }
 
 .ver:hover{
-  padding: 3%;
-  font-size: 16px;
   color: #00B16A
 }
 
