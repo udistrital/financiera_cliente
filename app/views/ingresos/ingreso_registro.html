@@ -62,7 +62,7 @@
                 <div class="form-group">
                   <label for="concepto">{{'CONCEPTO' | translate}}</label>
                   <br>
-                  
+
                 <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto" conceptosel="nodo" recargar="crearConcepto.recargar" />
                 </div>
                 <div ng-show="ingresoRegistro.concepto">
@@ -72,12 +72,14 @@
                     <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto.Rubro.Codigo+" / "+ingresoRegistro.concepto.Rubro.Descripcion}}
                       <ul>
                         <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
+                      </ul>
                     </li>
 
 
 
 
                     </ul>
+
                 </div>
                 <hr />
               </div>

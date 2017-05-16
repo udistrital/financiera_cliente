@@ -1,11 +1,20 @@
 'use strict';
 
 /**
- * @ngdoc function
+ * @ngdoc controller
  * @name financieraClienteApp.controller:RpRpAnulacionCtrl
+ * @alias Anular RP
+ * @requires $scope
+ * @requires financieraService.service:financieraRequest
+ * @requires financieraMidService.service:financieraMidRequest
+ * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
+  * @param {service} financieraMidRequest Servicio para el API de financiera {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+ * @param {injector} $scope scope del controlador
  * @description
  * # RpRpAnulacionCtrl
- * Controller of the financieraClienteApp
+ * Controlador para la anulacion de Registros Presupuestales Expedidos de forma total o parcial.
+ *
+ *
  */
 angular.module('financieraClienteApp')
   .controller('RpRpAnulacionCtrl', function ($window,rp,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest,$translate) {
@@ -59,6 +68,13 @@ angular.module('financieraClienteApp')
         });
       });
     });
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpAnulacionCtrl#actualizarLista
+     * @methodOf financieraClienteApp.controller:RpRpAnulacionCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y obtener los registros presupuestales que no esten en estado agotado.
+     */
     self.actualizarLista= function(){
       financieraRequest.get('registro_presupuestal',$.param({
         query: "Estado.Nombre__not_in:Agotado",
@@ -131,14 +147,26 @@ angular.module('financieraClienteApp')
           });
       });
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpAnulacionCtrl#limpiar
+     * @methodOf financieraClienteApp.controller:RpRpAnulacionCtrl
+     * @description Se encarga de limiar los datos seleccionados por el usuario
+     *
+     */
     self.limpiar= function(){
       self.motivo = undefined;
       self.Valor = undefined;
       self.Rubro_sel = undefined;
       self.alerta = "";
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpAnulacionCtrl#anular
+     * @methodOf financieraClienteApp.controller:RpRpAnulacionCtrl
+     * @description Se encarga de solicitar al servicio {@link financieraService.service:financieraRequest financieraRequest} para realizar la anulacion
+     *
+     */
     self.anular = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
         swal("", "Debe Digitar el motivo de la anulación", "error")
