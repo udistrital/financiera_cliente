@@ -52,7 +52,7 @@ var text_es = {
   CUENTA: "Cuenta",
   ACTUALIZAR: "Actualizar",
   PLAN_CUENTAS:"Plan de Cuentas",
-
+  OBSERVACIONES: "Observaciones",
   MOVIMIENTOS: "Movimientos",
   INICIAL: "Inicial",
   FECHA: "Fecha",
@@ -221,7 +221,8 @@ var text_es = {
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",
   TIPO_INGRESO: "Tipo de Ingreso",
-  TABLA_INGRESOS_BANCO: "Lista de Consignaciones"
+  TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
+  DATOS_REG_INGRESO: "Datos para este ingreso"
 };
 
 var text_en = {
