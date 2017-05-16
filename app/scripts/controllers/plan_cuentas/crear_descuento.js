@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, agoraRequest) {
+  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, agoraRequest, $translate) {
     var self = this;
     self.descuento_nuevo = {};
 
@@ -24,22 +24,21 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       columnDefs: [{
           field: 'Id',
-          displayName: 'Nit',
+          displayName: $translate.instant('NIT'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width:'30%'
+          width: '30%'
         },
         {
           field: 'NomProveedor',
-          displayName: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width:'69%'
+          width: '69%'
         }
       ]
     };
 
     self.gridOptions.multiSelect = false;
     self.gridOptions.modifierKeysToMultiSelect = false;
-  //  self.gridOptions.noUnselect = true;
 
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
@@ -47,7 +46,6 @@ angular.module('financieraClienteApp')
         self.proveedor = self.gridApi.selection.getSelectedRows()[0];
       });
     };
-
 
     self.cargar = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
@@ -66,15 +64,15 @@ angular.module('financieraClienteApp')
     };
 
     self.crear_nuevo = function() {
-      var alerta="";
-      if (self.cuenta_contable==undefined || self.proveedor==undefined) {
-        if (self.cuenta_contable==undefined) {
-          alerta +=  "<li>Es necesario seleccionar la cuenta contable asociada al descuento</li>";
+      var alerta = "";
+      if (self.cuenta_contable == undefined || self.proveedor == undefined) {
+        if (self.cuenta_contable == undefined) {
+          alerta += "<li>Es necesario seleccionar la cuenta contable asociada al descuento</li>";
         }
-        if (self.proveedor==undefined) {
+        if (self.proveedor == undefined) {
           alerta += "<li>Es necesario seleccionar el proveedor asociado al descuento</li>";
         }
-        swal("", alerta,"error");
+        swal("", alerta, "error");
       } else {
         var nuevo = {
           Descripcion: self.descripcion,
@@ -83,15 +81,15 @@ angular.module('financieraClienteApp')
           InformacionPersonaJuridica: self.proveedor.Id
         };
         console.log(self.proveedor.Id);
-        if (self.tipo_cuenta.Nombre == "Impuesto") {
+        if (self.tipo_cuenta.Nombre === "Impuesto") {
           nuevo.Porcentaje = self.porcentaje;
           nuevo.TarifaUvt = self.base_min;
           nuevo.Deducible = self.deducible;
         }
         self.descuento_nuevo = nuevo;
-        financieraRequest.post("cuenta_especial",nuevo).then(function(response){
+        financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
           console.log(response);
-          swal("", "La cuenta se creo exitosamente","success");
+          swal("", "La cuenta se creo exitosamente", "success");
         });
       }
     };
@@ -99,7 +97,7 @@ angular.module('financieraClienteApp')
     self.cargar();
 
     $scope.$watch('crearDescuento.cuenta_contable', function() {
-      if (self.cuenta_contable!==undefined) {
+      if (self.cuenta_contable !== undefined) {
         if (self.cuenta_contable.Hijos != null) {
           self.cuenta_contable = undefined;
           swal("Espera!", "Unicamente puedes seleccionar cuentas que no tengan hijos", "warning");

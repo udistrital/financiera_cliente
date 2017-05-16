@@ -50,7 +50,13 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
-
+  IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
+  NUEVO: "Nuevo",
+  CUENTA_CONTABLE: "Cuenta Contable",
+  PORCENTAJE: "Porcentaje",
+  BASE_UVT: "Base UVT",
+  DEDUCIBLE: "Deducible",
+  SELECCION_OPCION: "Selecciona una opción",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -97,7 +103,8 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+    EDITAR: "Editar"
   },
   // ORDEN DE PAGO
   ORDEN_PAGO: "Ordenes de Pago",

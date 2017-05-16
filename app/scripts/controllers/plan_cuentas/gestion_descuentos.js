@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionDescuentosCtrl', function ($scope, financieraRequest, $translate ) {
+  .controller('GestionDescuentosCtrl', function($scope, financieraRequest, $translate) {
     var self = this;
 
     self.gridOptions = {
@@ -23,29 +23,51 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       columnDefs: [{
           field: 'CuentaContable.Codigo',
-          displayName: 'Codigo',
+          displayName: $translate.instant('CODIGO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width:'20%'
+          width: '15%'
         },
         {
-          field: 'TipoCuentaEspecial.Nombre',
-          displayName: 'Tipo',
+          field: 'CuentaContable.Nombre',
+          displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width:'20%'
+          width: '30%'
+        },
+        {
+          field: 'TarifaUvt',
+          displayName: $translate.instant('UVT'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '5%'
+        },
+        {
+          field: 'Porcentaje',
+          displayName: $translate.instant('PORCENTAJE'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '9%'
+        },
+        {
+          field: 'Deducible',
+          displayName: $translate.instant('DEDUCIBLE'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '8%'
         },
         {
           field: 'InformacionPersonaJuridica',
-          displayName: 'Proveedor',
+          displayName: $translate.instant('PROVEEDOR'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width:'45%'
+          width: '15%'
+        },
+        {
+          field: 'TipoCuentaEspecial.Nombre',
+          displayName: $translate.instant('TIPO'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '8%'
         },
         {
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
-          width: '15%',
+          width: '10%',
           cellTemplate: '<center>' +
-            '<a href="" class="ver" data-toggle="modal" data-target="#modalverplan">' +
-            '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
             '</center>'
@@ -55,8 +77,6 @@ angular.module('financieraClienteApp')
 
     self.gridOptions.multiSelect = false;
     self.gridOptions.modifierKeysToMultiSelect = false;
-  //  self.gridOptions.noUnselect = true;
-
 
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
@@ -65,12 +85,11 @@ angular.module('financieraClienteApp')
       });
     };
 
-
     self.cargar = function() {
-      financieraRequest.get("cuenta_especial",$.param({
-        limit:-1
+      financieraRequest.get("cuenta_especial", $.param({
+        limit: -1
       })).then(function(response) {
-        self.gridOptions.data= response.data;
+        self.gridOptions.data = response.data;
       });
     };
 
