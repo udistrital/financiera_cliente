@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorUpdatePorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, $translate) {
+  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, $translate, $window) {
     return {
       restrict: 'E',
       scope: {
