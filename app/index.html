@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.css" />
   <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.css" />
   <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.min.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -67,7 +68,7 @@
     <script src="bower_components/pdfmake/build/pdfmake.js"></script>
     <script src="bower_components/pdfmake/build/vfs_fonts.js"></script>
     <script src="bower_components/ngstorage/ngStorage.js"></script>
-    <script src="bower_components/kjur-jsrsasign/jsrsasign-latest-all-min.js"></script>
+    <script src="bower_components/kjur-jsrsasign/jsrsasign-all-min.js"></script>
     <script src="bower_components/angular-websocket/dist/angular-websocket.js"></script>
     <script src="bower_components/angular-input-masks/angular-input-masks-standalone.js"></script>
     <script src="bower_components/moment/moment.js"></script>
@@ -75,8 +76,8 @@
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="bower_components/es6-promise/es6-promise.js"></script>
     <script src="bower_components/sweetalert2/dist/sweetalert2.js"></script>
+    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -162,8 +163,28 @@
   <script src="scripts/controllers/fuente_financiacion/crear_fuente.js"></script>
   <script src="scripts/controllers/fuente_financiacion/detalle_fuente.js"></script>
 
+
+  <script src="scripts/directives/orden_pago/op_listar_todas_update.js"></script>
+  <script src="scripts/controllers/orden_pago/op_listar_todas_update.js"></script>
+  <script src="scripts/controllers/orden_pago/op_proveedor_update_por_id.js"></script>
+  <script src="scripts/directives/orden_pago/op_proveedor_update_por_id.js"></script>
+  <script src="scripts/controllers/rp/rp_anulacion.js"></script>
   <script src="scripts/controllers/plan_cuentas/crear_descuento.js"></script>
-  <script src="scripts/controllers/plan_cuentas/gestion_descuentos.js"></script>
+  <script src="scripts/controllers/plan_cuentas/gestion_descuentos.js"></script>  
+  <script src="scripts/controllers/rp/rp_anulacion.js"></script>
+
+  <script src="scripts/controllers/ingresos/ingreso_registro.js"></script>
+  <script src="scripts/services/pagos_service.js"></script>
+  <script src="scripts/directives/loading.js"></script>
+  <script src="scripts/services/config.js"></script>
+  <script src="scripts/services/avances_service.js"></script>
+  <script src="scripts/controllers/tesoreria/avances/tipos_avance/tipos_avance.js"></script>
+  <script src="scripts/directives/cuentas_contables/ver_cuenta_contable.js"></script>
+  <script src="scripts/directives/conceptos/ver_concepto.js"></script>
+  <script src="scripts/controllers/plan_cuentas/gestion_plan_cuentas.js"></script>
+
+  <script src="scripts/controllers/tesoreria/avances/requisitos/requisitos.js"></script>
+
   <!-- endbuild -->
 
   <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>

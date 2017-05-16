@@ -45,7 +45,7 @@ angular.module('financieraClienteApp')
 
 
     self.gridOptions.multiSelect = false;
-    financieraRequest.get('disponibilidad','limit=0').then(function(response) {
+    financieraRequest.get('disponibilidad','limit=-1').then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
         financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route) {
+.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route, $mdSidenav) {
    var paths = [];
    $scope.language = {
        es:"btn btn-primary btn-circle btn-outline active",
@@ -159,6 +159,13 @@ angular.module('financieraClienteApp')
      ]
    }
  ];
+ $scope.notificacion.get_crud('notificacion',$.param({
+   query: "UsuarioDestino:2"
+ }))
+  .then(function(response){
+    $scope.notificacion.log = response.data;
+    console.log($scope.notificacion.log);
+  });
 
  $http.get('http://10.20.0.254/configuracion_api/v1/menu_opcion_padre/ArbolMenus/Admin')
    .then(function(response) {
@@ -215,9 +222,17 @@ angular.module('financieraClienteApp')
         }
         $route.reload();
    };
+   function buildToggler(componentId) {
+      return function() {
+        $mdSidenav(componentId).toggle();
+      };
+    };
+$scope.toggleLeft = buildToggler('left');
+$scope.toggleRight = buildToggler('right');
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {
+        $('[data-toggle="tooltip"]').tooltip();
        $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
          event.preventDefault();
          event.stopPropagation();

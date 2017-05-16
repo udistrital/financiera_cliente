@@ -1,8 +1,6 @@
 <div class="col-centered">
   <div class="panel panel-default" ng-hide='cdpAnulacion.formVisibility'>
-    <div class="panel-heading">
-      <h2>Lista de CDP para Anular</h2>
-    </div>
+    <h2 class="page-header" align="center">{{'LISTA_CDP_ANULACION' | translate}}</h2>
     <div class="panel-body">
       <div ui-grid="cdpAnulacion.gridOptions" ui-grid-selection class="myGrid"></div>
     </div>
@@ -11,124 +9,109 @@
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-      <div class="row">
-        <div class="col-md-4">
-          <label>Anulación del CDP</label>
-        </div>
-        <div class="col-md-offset-7 col-md-1">
-          <button type="button" class="btn btn-outline btn-danger btn-md " data-dismiss="modal">&times</button>
-        </div>
-      </div>
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpAnulacion.limpiar();self.actualizarLista()">&times</button><br>
     </div>
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <div class="panel-title">
-            Detalle del CDP
-          </div>
+            <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAnulacion.cdp.Vigencia}}</h3>
+            <div align="right">Fecha de Registro: {{cdpAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
         </div>
         <div class="panel-body">
+          <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
           <div >
             <table class="table text-justify">
               <tr>
-                <th>Consecutivo: </th>
-                <td>{{cdpAnulacion.cdp.NumeroDisponibilidad}}</td>
+                <th>{{'NECESIDAD_NO' | translate}}: </th>
+                <td>{{cdpAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
               </tr>
               <tr>
-                <th>Fecha de Registro: </th>
-                <td>{{cdpAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</td>
-              </tr>
-              <tr>
-                <th>Estado: </th>
+                <th>{{'ESTADO' | translate}}: </th>
                 <td>{{cdpAnulacion.cdp.Estado.Nombre}}</td>
               </tr>
               <tr>
-                <th>Dependencia Solicitante: </th>
+                <th>{{'DEPENDENCIA_SOLICITANTE' | translate}}: </th>
                 <td>{{cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
               </tr>
               <tr>
-                <th>Jefe de la dependencia: </th>
+                <th>{{'JEFE_DEPENDENCIA' | translate}}: </th>
                 <td>{{cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
                       cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
                      cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
                     cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
-                <th>Dependencia Destino: </th>
+                <th>{{'DEPENDENCIA_DESTINO' | translate}}: </th>
                 <td>{{cdpAnulacion.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
               </tr>
               <tr>
-                <th>Ordenador del Gasto: </th>
-                <td>{{cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerApellido + ' ' +
-                      cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoApellido + ' ' +
-                     cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.PrimerNombre + ' '+
-                    cdpAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoOrdenador.SegundoNombre + ' '}}</td>
+                <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
+                    <td>{{cdpAnulacion.cdp.Responsable.PrimerApellido + ' ' +
+                          cdpAnulacion.cdp.Responsable.SegundoApellido + ' ' +
+                         cdpAnulacion.cdp.Responsable.PrimerNombre + ' '+
+                        cdpAnulacion.cdp.Responsable.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
-                <th>Objeto: </th>
+                <th>{{'OBJETO' | translate}}: </th>
                 <td>{{cdpAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
               </tr>
             </table>
+            <hr>
+            <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+            <fuente-financiacion-cdp cdp="cdpAnulacion.cdp.Id" apropiacion="apropiaciones" resumen="cdpAnulacion.rubros_afectados"></fuente-financiacion-cdp>
           </div>
         </div>
       </div>
 
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <div class="panel-title">
-                Rubros para este CDP
-              </div>
-            </div>
-            <div ui-grid="cdpAnulacion.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="cdpAnulacion.gridHeight" class="myGrid"></div>
-          </div>
 
 
       <form class="form-ctrl">
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-title">
-              Anulación de CDP
+              {{'ANULACION_CDP_TITULO_FORM' | translate}}
             </div>
           </div>
           <div class="panel-body">
             <div class="row">
-              <div class="col-md-4">
-                <label>Motivo de la Anulación</label>
+              <div class="col-md-3">
+                <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
               </div>
-              <div class="col-md-8">
-                <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpDetalle.motivo"></textarea>
+              <div class="col-md-9">
+                <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAnulacion.motivo"></textarea>
               </div>
             </div>
             <br>
             <div class="row">
-              <div class="col-md-4 ">
-                <label>Tipo de Anulación</label>
+              <div class="col-md-3 ">
+                <label>{{'TIPO_ANULACION' | translate}}</label>
               </div>
-              <div class="col-md-8">
-                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="cdpDetalle.tipoAnulacion">
-                    <option value="P">Parcial</option>
-                  <option value="T">Total</option>
+              <div class="col-md-9">
+                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control selectpicker" ng-model="cdpAnulacion.tipoAnulacion">
+                    <option value="P">{{'ANULACION_PARCIAL' | translate}}</option>
+                  <option value="T">{{'ANULACION_TOTAL' | translate}}</option>
                </select>
               </div>
             </div>
             <br>
-            <div ng-hide="cdpDetalle.tipoAnulacion == 'T'" class="row">
-              <div class="col-md-4 ">
-                <label>Rubro</label>
+            <div ng-hide="cdpAnulacion.tipoAnulacion == 'T'" class="row">
+              <div class="col-md-3 ">
+                <label>{{'SELECCION_RUBRO' | translate}}</label>
               </div>
-              <div class="col-md-8">
-                <input ng-model="apropiacion.Apropiacion.Rubro.Codigo" id="txtRubro" name="txtRubro" type="text" placeholder="seleccione el rubro" class="form-control input-md" required="" disabled="true">
-                <span class="help-block" ng-show="apropiacion.Apropiacion.Rubro.Codigo === null || apropiacion.Apropiacion.Rubro.Codigo === 'undefined'">Debe seleccionar el rubro en la tabla "Rubros para este CDP"</span>
+              <div class="col-md-9">
+                 <select class="selectpicker" ng-model="cdpAnulacion.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpAnulacion.rubros_afectados" >
+                 </select>
               </div>
             </div>
             <br>
-            <div ng-hide="cdpDetalle.tipoAnulacion == 'T' " class="row">
-              <div class="col-md-4">
-                <label class="control-label" for="txtValor">Valor de la anulación</label>
+            <div ng-hide="cdpAnulacion.tipoAnulacion == 'T' " class="row">
+              <div class="col-md-3">
+                <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
               </div>
-              <div class="col-md-8">
-                <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control" required="" ng-model="cdpDetalle.Valor">
+
+              <div class="col-md-9">
+                <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control" required="" ng-model="cdpAnulacion.Valor" ui-money-mask="0">
               </div>
             </div>
             <!-- Button (Double) -->
@@ -136,10 +119,7 @@
             <div class="row">
               <div class="col-md-6 col-md-offset-6">
                 <div class="col-md-6">
-                  <button id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block" ng-click="cdpAnulacion.anular()">Anular</button>
-                </div>
-                <div class="col-md-6">
-                  <a id="btnCancelar" name="btnCancelar" class="btn btn-outline btn-primary btn-md btn-block glyphicon glyphicon-chevron-left" ng-click='cdpAnulacion.ShowForm()'> Volver </a>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block" ng-click="cdpAnulacion.anular()">{{'ANULAR' | translate}}</button>
                 </div>
               </div>
             </div>

@@ -1,0 +1,104 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'LISTA_AVANCES' | translate }}</h2>
+  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{ 'LISTA_AVANCES' | translate }}
+      </div>
+      <div class="panel-body">
+        <div ui-grid="TiposAvance.gridOptions" ui-grid-selection class="myGrid"></div>
+      </div>
+      <div class="panel-footer">
+        <div align="center"> <button ng-click="TiposAvance.load_row('', 'add')" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
+  <div class="modal-content col-md-offset-2 col-md-8" >
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" ng-if="TiposAvance.operacion === 'add' ">
+        {{'NUEVO_TIPO_AVANCE' | translate }}
+      </div>
+      <div class="panel-heading" ng-if="TiposAvance.operacion === 'edit' ">
+        {{'EDITAR_TIPO_AVANCE' | translate }}
+      </div>
+
+
+      <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && TiposAvance.add_edit()">
+        <br>
+        <div class="row">
+          <label for="referencia" class="col-sm-2 control-label">{{'REFERENCIA' | translate }}:</label>
+          <div class="col-sm-9">
+            <input name="referencia" type="text" ng-model="TiposAvance.tipo_avance.Referencia" class="form-control" ng-required="true" />
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
+          <div class="col-sm-9">
+            <input name="referencia" type="text" ng-model="TiposAvance.tipo_avance.Nombre" class="form-control" ng-required="true" />
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
+          <div class="col-sm-9">
+            <textarea name="descripcion" ng-model="TiposAvance.tipo_avance.Descripcion" rows=7 class="form-control" required="true"></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="row" ng-if="TiposAvance.operacion ==='edit'">
+          <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
+          <div class="col-sm-9">
+            <select name="estado" ng-model="TiposAvance.tipo_avance.Estado" class="form-control">
+               <option value="A">Activo</option>
+               <option value="I">Inactivo</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <center>
+          <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" />
+          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
+        </center>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
+
+
+<div id="modalConf" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
+  <div class="modal-content col-md-offset-3 col-md-6" >
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'AGREGAR_REQUISITO' | translate }}
+      </div>
+
+      <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.add_requisito()">
+        <br>
+        <div class="row">
+          <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
+          <div class="col-sm-9">
+            <select name="requisito" ng-model="TiposAvance.anadir_requisito" class="form-control">
+               <option ng-repeat="r in TiposAvance.requisito_avance" value="r.Id">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <center>
+          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.ANADIR' | translate }}" />
+        </center>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
