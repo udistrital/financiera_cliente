@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div id="myModal" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+<div id="myModal" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
   <div class="modal-content col-md-offset-2 col-md-8" >
     <div class="modal-header">
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
@@ -73,8 +73,32 @@
 </div>
 
 
+<div id="modalConf" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
+  <div class="modal-content col-md-offset-3 col-md-6" >
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'AGREGAR_REQUISITO' | translate }}
+      </div>
 
-
-
-<a id="requisito" href="#/listarRequisitosAvance/{{d.IdTipo}}">Requisitos</a>
-<a id="editar" href="#/editarTiposAvance/" ng-click="selectId(d.IdTipo)">Editar</a>
+      <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.add_requisito()">
+        <br>
+        <div class="row">
+          <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
+          <div class="col-sm-9">
+            <select name="requisito" ng-model="TiposAvance.anadir_requisito" class="form-control">
+               <option ng-repeat="r in TiposAvance.requisito_avance" value="r.Id">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
+            </select>
+          </div>
+        </div>
+        <br>
+        <center>
+          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.ANADIR' | translate }}" />
+        </center>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>

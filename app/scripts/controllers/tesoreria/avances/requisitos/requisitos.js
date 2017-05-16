@@ -105,9 +105,7 @@ angular.module('financieraClienteApp')
         ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
       }
     };
-    ctrl.delete_tipo = function() {
 
-    };
     ctrl.add_edit = function() {
       var data = {};
       switch (ctrl.operacion) {
@@ -140,6 +138,9 @@ angular.module('financieraClienteApp')
               console.log(info);
               ctrl.get_all_avances();
             });
+          break;
+        case 'delete':
+          ctrl.delete_tipo();
           break;
         default:
       }

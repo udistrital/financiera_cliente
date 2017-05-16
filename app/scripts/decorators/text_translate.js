@@ -115,7 +115,8 @@ var text_es = {
     NUEVO: "Nuevo",
     EDITAR: "Editar",
     BORRAR: "Borrar",
-    CONFIGURAR:"Configurar"
+    CONFIGURAR:"Configurar",
+    ANADIR:"Añadir",
   },
 
   // ORDEN DE PAGO
@@ -188,6 +189,12 @@ var text_es = {
   SELECCION_RUBRO:"Seleccione el Rubro",
   ANULAR: "Anular",
   NO: "No.",
+  ELIMINARA: "Se eliminará",
+  ELIMINADO: "Eliminado",
+  ACTUALIZADO: "Actualizado",
+  FUE_ELIMINADO: "ha sido eliminado",
+  FUE_ACTUALIZADO: "ha sido actualizado",
+  AGREGAR_REQUISITO: "Añadir Requisito",
 
   //RP
   LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
