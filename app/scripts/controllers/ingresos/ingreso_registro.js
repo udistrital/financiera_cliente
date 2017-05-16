@@ -14,11 +14,12 @@ angular.module('financieraClienteApp')
     self.gridOptions = {
       enableRowSelection: true,
       enableHorizontalScrollbar:0,
-      enableVerticalScrollbar:0,
-      paginationPageSizes: [10, 50, 75],
-      paginationPageSize: 10,
+      enableVerticalScrollbar:1,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
       useExternalPagination: false,
-      enableFiltering: true
+      enableFiltering: true,
+      rowHeight: 45
     };
     self.gridOptions.columnDefs = [
       { name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info'  },
@@ -41,13 +42,24 @@ angular.module('financieraClienteApp')
       });
     };
 
+    self.cargarUnidadesEjecutoras = function(){
+      financieraRequest.get('unidad_ejecutora', $.param({
+        limit: -1
+      })).then(function(response) {
+        self.unidadesejecutoras = response.data;
+      });
+    };
+
+    
+
     self.registrarIngreso = function(){
+
       self.ingreso = {};
       self.ingreso.FormaIngreso = self.tipoIngresoSelec;
       self.ingreso.FechaIngreso = self.fechaConsignacion;
-      console.log("day: "+(self.ingreso.FechaIngreso.getDate()));
-      console.log("month: "+(self.ingreso.FechaIngreso.getMonth()+1));
-      console.log("year: "+self.ingreso.FechaIngreso.getFullYear());
+      self.ingreso.Observaciones = self.observaciones;
+      self.ingreso.UnidadEjecutora = self.unidadejecutora;
+
     };
 
     self.consultarPagos= function(){
@@ -91,6 +103,10 @@ angular.module('financieraClienteApp')
           $scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
           console.log($scope.ingresoBanco);
         });
+        gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+          $scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
+          console.log($scope.ingresoBanco);
+      });
     };
 
 
@@ -98,9 +114,10 @@ angular.module('financieraClienteApp')
       console.log("af"+self.gridOptions.data.length);
           if ((self.gridOptions.data.length<=self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize== null) && self.gridOptions.data.length>0) {
             $scope.gridHeight = self.gridOptions.rowHeight * 3+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
-            if (self.gridOptions.data.length<=10) {
+            if (self.gridOptions.data.length<=6) {
               $scope.gridHeight = self.gridOptions.rowHeight * 2+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
               self.gridOptions.enablePaginationControls= false;
+
             }
           } else {
             $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
