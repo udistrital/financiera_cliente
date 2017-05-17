@@ -31,14 +31,12 @@
 
             <div class="form-group">
               <label for="descdescuento">{{"DESCRIPCION" | translate}}:</label>
-              <textarea type="text" class="form-control" ng-model="crearDescuento.descripcion" id="descdescuento" placeholder="Ingrese una descripción para el {{crearDescuento.tipo_cuenta.Nombre}}" rows="5" />
+              <textarea type="text" class="form-control" ng-model="crearDescuento.descripcion" id="descdescuento" placeholder="{{'DESCRIPCION' | translate}} {{crearDescuento.tipo_cuenta.Nombre}}" rows="5"></textarea>
             </div>
 
             <div class="form-group">
               <label for="descdescuento">*{{"PROVEEDOR" | translate}}:</label><span> {{crearDescuento.proveedor.NomProveedor}}</span>
-
               <div style="height: {{gridHeight}}px" ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-
             </div>
 
             <div ng-if="crearDescuento.tipo_cuenta.Nombre=='Impuesto'">
