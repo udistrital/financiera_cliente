@@ -39,7 +39,7 @@ display: table-cell;
 
 .ui-grid-header-cell, .ui-grid-cell-contents {
 white-space: normal;
-padding: auto !important;
+padding: 2px;
 word-break: break-word;
 }
 
