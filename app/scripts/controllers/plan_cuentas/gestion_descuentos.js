@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
+      enableVerticalScrollbar: 1,
       useExternalPagination: false,
       enableSelectAll: false,
       columnDefs: [{
@@ -49,6 +49,7 @@ angular.module('financieraClienteApp')
           field: 'Deducible',
           displayName: $translate.instant('DEDUCIBLE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.Deducible" disabled></center>',
           width: '8%'
         },
         {

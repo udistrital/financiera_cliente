@@ -22,10 +22,7 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
-          field: 'Id',
-          visible: false
-        },
+      columnDefs: [
         {
           field: 'Nombre',
           cellClass: 'text-success',

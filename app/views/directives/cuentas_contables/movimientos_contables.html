@@ -1,4 +1,5 @@
 <div class="panel panel-default" ng-show="showmovs">
+
   <div class="panel-heading">
 
     <div class="row">
@@ -21,6 +22,22 @@
 
   <div style="height: {{gridHeight}}px; " ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
   <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" style="height: {{grid2Height}}px; " ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+
+  <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">Agregar Impuestos y Descuentos</button></center>
+
+  <div id="modalDescuentos" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <ver-descuentos cuentasel="cuen" opciones/>
+      </div>
+    </div>
+  </div>
+
+
+
 
   <div class="panel-footer" align="center">
     <div ng-show="validatemov" class=" text-success">
