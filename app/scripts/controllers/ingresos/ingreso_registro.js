@@ -50,50 +50,71 @@ angular.module('financieraClienteApp')
       });
     };
 
-    
+
 
     self.registrarIngreso = function(){
+      if ($scope.ingresoBanco == null){
+        swal("", "Debe seleccionar por lo menos uno de los ingresos del banco", "error");
+      }else if(self.unidadejecutora == null){
+        swal("", "Debe seleccionar la unidad ejecutora", "error");
+      }else if (self.concepto == null){
+        swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
+      }else{
+        self.ingreso = {};
+        self.ingreso.Ingreso = {};
+        self.ingreso.Ingreso.FormaIngreso = self.tipoIngresoSelec;
+        self.ingreso.Ingreso.FechaConsignacion = self.fechaConsignacion;
+        self.ingreso.Ingreso.Observaciones = self.observaciones;
+        self.ingreso.Ingreso.UnidadEjecutora = self.unidadejecutora;
+        self.ingreso.IngresoBanco = $scope.ingresoBanco;
+        self.ingreso.Concepto = self.concepto;
+        financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
+            console.log(response.data);
+        });
+      }
 
-      self.ingreso = {};
-      self.ingreso.FormaIngreso = self.tipoIngresoSelec;
-      self.ingreso.FechaIngreso = self.fechaConsignacion;
-      self.ingreso.Observaciones = self.observaciones;
-      self.ingreso.UnidadEjecutora = self.unidadejecutora;
 
     };
 
     self.consultarPagos= function(){
-      var parametros = {
-        'dia': self.fechaConsignacion.getDate(),
-        'mes': self.fechaConsignacion.getMonth()+1,
-        'anio': self.fechaConsignacion.getFullYear(),
-        'rango_ini': self.rango_inicial,
-        'rango_fin': self.rango_fin
+      if (self.tipoIngresoSelec == null){
+        swal("", "Debe seleccionar la forma de ingreso", "error");
+      }else if (self.fechaConsignacion == null){
+        swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
+      }else {
+        var parametros = {
+          'dia': self.fechaConsignacion.getDate(),
+          'mes': self.fechaConsignacion.getMonth()+1,
+          'anio': self.fechaConsignacion.getFullYear(),
+          'rango_ini': self.rango_inicial,
+          'rango_fin': self.rango_fin
 
-      };
-      self.rta=null;
-      self.pagos=null;
-      self.cargandoDatosPagos = true;
-      pagosRequest.get(parametros).then(function(response){
-        if(response!=null){
-          if(typeof response==="string"){
+        };
+        self.rta=null;
+        self.pagos=null;
+        self.cargandoDatosPagos = true;
+        pagosRequest.get(parametros).then(function(response){
+          if(response!=null){
+            if(typeof response==="string"){
 
-            console.log(response);
-            self.rta=response;
+              console.log(response);
+              self.rta=response;
+            }else{
+
+              self.pagos=response;
+              self.gridOptions.data = self.pagos;
+
+            }
           }else{
 
-            self.pagos=response;
-            self.gridOptions.data = self.pagos;
-
           }
-        }else{
 
-        }
+        }).finally(function() {
+          // called no matter success or failure
+          self.cargandoDatosPagos = false;
+    });
+      }
 
-      }).finally(function() {
-        // called no matter success or failure
-        self.cargandoDatosPagos = false;
-  });
 
     }
 
