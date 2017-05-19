@@ -41,6 +41,7 @@ angular.module('financieraClienteApp')
       },
       controller: function($scope) {
         var self = this;
+        self.descuentos_nuevos=[];
 
         //grid para movimientos generales
         self.gridOptionsMovimientos = {
@@ -193,6 +194,15 @@ angular.module('financieraClienteApp')
             }
           ]
         };
+
+
+        self.agregar_descuento=function(item){
+          if (self.descuentos_nuevos.indexOf(item) < 0 && item != undefined) {
+            console.log(item);
+            self.descuentos_nuevos.push(item);
+          }
+        };
+
 
         /**
          * @ngdoc function

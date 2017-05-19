@@ -37,7 +37,8 @@ float: none;
 display: table-cell;
 }
 
-.ui-grid-header-cell, .ui-grid-cell-contents {
+.ui-grid-header-cell{
+white-space: normal; /*EDITAR*/
 padding: auto !important;
 word-break: break-word;
 }
