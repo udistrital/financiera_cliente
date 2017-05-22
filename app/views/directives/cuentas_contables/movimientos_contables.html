@@ -38,6 +38,9 @@
         </div>
         <div class="panel-body panel-primary">
           <label>Cuentas:</label>
+
+          <div style="height: {{grid2Height}}px; " ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+
           <ul>
             <li ng-repeat="c in d_movimientosContables.descuentos_nuevos track by $index">
             {{c.CuentaContable.Codigo}} {{c.CuentaContable.Nombre}} {{monto*c.Porcentaje}}</li>
