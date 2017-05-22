@@ -58,9 +58,9 @@ angular.module('financieraClienteApp')
     }
     // Insert Orden Pago
     self.addOpProveedor = function() {
-      self.OrdenPago.EstadoOrdenPago = {
-        'Id': 1
-      };
+      self.OrdenPago.EstadoOrdenPago = {};
+      self.OrdenPago.Nomina = '';
+      //
       self.OrdenPago.Vigencia = 2017;
       self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
