@@ -67,6 +67,7 @@ var text_es = {
   VENCIMIENTO:"Vencimiento",
   INGRESO:"Ingreso",
   EGRESO: "Egreso",
+  NOMINA: 'Nomina',
 
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
@@ -276,6 +277,8 @@ var text_en = {
   CREDITO: "Credit",
   CUENTA: "Account",
   ACTUALIZAR: "Update",
+  NOMINA: 'Roster',
+
 
 
   // PROVEEDOR

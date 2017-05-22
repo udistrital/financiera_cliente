@@ -51,6 +51,10 @@ angular.module('financieraClienteApp')
             displayName: $translate.instant('TIPO_DOCUMENTO')
           },
           {
+            field: 'Nomina',
+            displayName: $translate.instant('NOMINA')
+          },
+          {
             field: 'EstadoOrdenPago.Nombre',
             displayName: $translate.instant('ESTADO')
           },
@@ -58,14 +62,21 @@ angular.module('financieraClienteApp')
             //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
             name: $translate.instant('OPERACION'),
             enableFiltering: false,
-            cellTemplate: '<center>\
-                <button ng-click="grid.appScope.d_opListarTodas.op_detalle(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
-               </center>'
+            cellTemplate: '<center>' +
+            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
+            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+            '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
+            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
+            '</center>'
           }
         ];
         self.op_detalle = function(row) {
           var path = "/orden_pago/proveedor/ver/";
           $location.url(path + row.entity.Id);
+        }
+        self.op_editar = function(row) {
+          var path_update = "/orden_pago/proveedor/actualizar/";
+          $location.url(path_update + row.entity.Id);
         }
         financieraRequest.get('orden_pago', 'limit=0').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
