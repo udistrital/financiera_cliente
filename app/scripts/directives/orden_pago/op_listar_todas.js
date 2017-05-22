@@ -70,15 +70,21 @@ angular.module('financieraClienteApp')
             '</center>'
           }
         ];
+        // OP Proveedores
         self.op_detalle = function(row) {
-          var path = "/orden_pago/proveedor/ver/";
-          $location.url(path + row.entity.Id);
+          if(row.entity.Nomina  = 'PROVEEDOR'){
+            var path = "/orden_pago/proveedor/ver/";
+            $location.url(path + row.entity.Id);
+          }
         }
         self.op_editar = function(row) {
-          var path_update = "/orden_pago/proveedor/actualizar/";
-          $location.url(path_update + row.entity.Id);
+          if(row.entity.Nomina  = 'PROVEEDOR'){
+            var path_update = "/orden_pago/proveedor/actualizar/";
+            $location.url(path_update + row.entity.Id);
+          }
         }
-        financieraRequest.get('orden_pago', 'limit=0').then(function(response) {
+        // data OP
+        financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
         });
         //

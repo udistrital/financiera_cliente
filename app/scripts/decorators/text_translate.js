@@ -58,14 +58,14 @@ var text_es = {
   DEDUCIBLE: "Deducible",
   SELECCION_OPCION: "Selecciona una opción",
   ACTUALIZAR: "Actualizar",
-  PLAN_CUENTAS:"Plan de Cuentas",
+  PLAN_CUENTAS: "Plan de Cuentas",
   OBSERVACIONES: "Observaciones",
   MOVIMIENTOS: "Movimientos",
   INICIAL: "Inicial",
   FECHA: "Fecha",
-  CREACION:"Creación",
-  VENCIMIENTO:"Vencimiento",
-  INGRESO:"Ingreso",
+  CREACION: "Creación",
+  VENCIMIENTO: "Vencimiento",
+  INGRESO: "Ingreso",
   EGRESO: "Egreso",
   NOMINA: 'Nomina',
 
@@ -125,8 +125,10 @@ var text_es = {
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
     BORRAR: "Borrar",
-    CONFIGURAR:"Configurar",
-    ANADIR:"Añadir"
+    CONFIGURAR: "Configurar",
+    ANADIR: "Añadir",
+    NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
+    NUEVO_OP_PLANTA: 'Nuevo OP Planta'
   },
 
   // ORDEN DE PAGO
@@ -171,7 +173,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
-  FUENTES_AFECTADAS:"Fuentes de Financiación Afectadas",
+  FUENTES_AFECTADAS: "Fuentes de Financiación Afectadas",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -185,32 +187,32 @@ var text_es = {
   JUSTIFICACION: 'Justificación',
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
   VALOR_AFECTACION: "Valor afectación",
-  VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
+  VALOR_AFECTACION_FUNCIONAMIENTO: "Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
 
-    //AVANCES
-  ETAPA:"Etapa",
-  REQUISITOS_AVANCE : "Requisitos de Avance",
-  LISTA_REQUISITOS_AVANCE : "listado de Requisitos de Avance",
-  AVANCES:  'AVANCES',
-  LISTA_AVANCES :  'Listado de Tipos de Avances',
+  //AVANCES
+  ETAPA: "Etapa",
+  REQUISITOS_AVANCE: "Requisitos de Avance",
+  LISTA_REQUISITOS_AVANCE: "listado de Requisitos de Avance",
+  AVANCES: 'AVANCES',
+  LISTA_AVANCES: 'Listado de Tipos de Avances',
   REFERENCIA: 'Referencia',
   FECHA_REGISTRO: 'Fecha registro',
   NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
   EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
-  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
-  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
-  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
-  TIPO_ANULACION:"Tipo de Anulación",
+  LISTA_CDP_ANULACION: "Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM: "Anulación de CDP",
+  MOTIVO_ANULACION_CDP: "Motivo de la Anulación",
+  TIPO_ANULACION: "Tipo de Anulación",
   ANULACION_PARCIAL: "Parcial",
-  ANULACION_TOTAL:"Total",
-  SELECCION_RUBRO:"Seleccione el Rubro",
+  ANULACION_TOTAL: "Total",
+  SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
   NO: "No.",
   ELIMINARA: "Se eliminará",
@@ -322,7 +324,10 @@ var text_en = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+
+    NUEVO_OP_PROVEEDOR: 'New PO Supplier',
+    NUEVO_OP_PLANTA: 'New PO Floor'
   },
 
   // ORDEN DE PAGO
