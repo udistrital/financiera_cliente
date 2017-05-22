@@ -263,6 +263,11 @@ angular
         controller: 'GestionPlanCuentasCtrl',
         controllerAs: 'gestionPlanCuentas'
       })
+      .when('/ingresos/ingreso_consulta', {
+        templateUrl: 'views/ingresos/ingreso_consulta.html',
+        controller: 'IngresosIngresoConsultaCtrl',
+        controllerAs: 'ingresoConsulta'
+      })
       .otherwise({
         redirectTo: '/'
       });

@@ -28,6 +28,7 @@ angular.module('financieraClienteApp')
       //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
       { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
       { name: 'TIPO_INGRESO', displayName: 'Ingreso' , headerCellClass: 'text-info' },
+      { name: 'VALOR', displayName: 'Valor' , headerCellClass: 'text-info' }
     ];
 
 
@@ -66,7 +67,7 @@ angular.module('financieraClienteApp')
         self.ingreso.Ingreso.FechaConsignacion = self.fechaConsignacion;
         self.ingreso.Ingreso.Observaciones = self.observaciones;
         self.ingreso.Ingreso.UnidadEjecutora = self.unidadejecutora;
-        self.ingreso.IngresoBanco = $scope.ingresoBanco;
+        self.ingreso.IngresoBanco = self.totalIngresos;//sumatoria no individual ******
         self.ingreso.Concepto = self.concepto;
         financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
             console.log(response.data);
@@ -75,6 +76,18 @@ angular.module('financieraClienteApp')
 
 
     };
+
+    self.calcularTotalIngresos = function(){
+      self.totalIngresos = 0;
+      if ($scope.ingresoBanco != null){
+        angular.forEach($scope.ingresoBanco,function(data){
+          self.totalIngresos = self.totalIngresos + data.VALOR;
+        });
+      }else{
+
+      }
+    };
+
 
     self.consultarPagos= function(){
       if (self.tipoIngresoSelec == null){
@@ -102,6 +115,9 @@ angular.module('financieraClienteApp')
             }else{
 
               self.pagos=response;
+              angular.forEach(self.pagos,function(data){
+                data.VALOR = 100;
+              });
               self.gridOptions.data = self.pagos;
 
             }
@@ -122,10 +138,12 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
           $scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
+          self.calcularTotalIngresos();
           console.log($scope.ingresoBanco);
         });
         gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
           $scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
+          self.calcularTotalIngresos();
           console.log($scope.ingresoBanco);
       });
     };
