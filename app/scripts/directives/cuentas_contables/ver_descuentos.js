@@ -12,11 +12,13 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           seldesc:'=?',
-          cuentasel:'=?'
+          cuentasel:'=?',
+          noheader: '=?'
         },
       templateUrl: 'views/directives/cuentas_contables/ver_descuentos.html',
       controller:function($scope, $attrs){
         console.log($attrs);
+        $scope.vhead='noheader' in $attrs;
         var self = this;
         self.gridOptions = {
           paginationPageSizes: [5, 10, 15],

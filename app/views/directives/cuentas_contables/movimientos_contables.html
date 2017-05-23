@@ -27,26 +27,20 @@
 
   <div id="modalDescuentos" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
-      <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
-      </div>
+
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+
       <div class="modal-body">
         <legend>Seleccionar Impuestos y Descuentos a utilizar</legend>
-        <ver-descuentos seldesc="cuen"/>
+        <ver-descuentos seldesc="cuen" noheader/>
         <div class="form-group">
           <centeR><button type="button" class="btn btn-success" ng-click="d_movimientosContables.agregar_descuento(cuen)">Agregar</button></center>
         </div>
-        <div class="panel-body panel-primary">
-          <label>Cuentas:</label>
 
-          <div style="height: {{grid2Height}}px; " ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
-
-          <ul>
-            <li ng-repeat="c in d_movimientosContables.descuentos_nuevos track by $index">
-            {{c.CuentaContable.Codigo}} {{c.CuentaContable.Nombre}} {{monto*c.Porcentaje}}</li>
-          </ul>
+        <div ng-show="d_movimientosContables.gridOptionsDescuentos.data.length">
+          <legend>Cuentas:</legend>
+              <div style="height: {{grid2Height}}px; position:inherit" ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize  ui-grid-selection></div>
         </div>
-        <pre>{{d_movimientosContables.descuentos_nuevos | json}}</pre>
       </div>
     </div>
   </div>
