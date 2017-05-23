@@ -37,7 +37,7 @@
           <span class="fa fa-plus pull-right" ng-show="b"></span>
           <span class="fa fa-minus pull-right" ng-show="!b"></span>
         </legend>
-        <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+        <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions"  ui-grid-pagination ui-grid-auto-resize></div>
         <br>
         <legend class="text-primary" ng-click="a=!a">
           {{'DATOS_REG_INGRESO' | translate}}
@@ -71,7 +71,7 @@
               <hr class="hr-primary">
               <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto.Rubro.Codigo+" / "+ingresoRegistro.concepto.Rubro.Descripcion}}
                 <ul>
-                  <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
+                  <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoRegistro.totalIngresos|currency}}</li>
                 </ul>
               </li>
 
@@ -91,6 +91,5 @@
     <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger">
       {{ingresoRegistro.rta}}
     </div>
-    <pre>{{ingresoRegistro.ingreso | json}}</pre>
   </div>
 </div>
