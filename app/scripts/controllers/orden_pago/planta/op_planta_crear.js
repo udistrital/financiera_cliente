@@ -8,10 +8,6 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaCrearCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('OpPlantaCrearCtrl', function ($scope, financieraRequest, $window, $translate) {
+    $scope.a = true;
   });
