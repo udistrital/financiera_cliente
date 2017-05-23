@@ -236,7 +236,6 @@ angular
         controller: 'OpProveedorUpdatePorIdCtrl',
         controllerAs: 'opProveedorUpdatePorId'
        })
-
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -247,7 +246,11 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
-
+      .when('/plan_cuentas/gestion_descuentos', {
+        templateUrl: 'views/plan_cuentas/gestion_descuentos.html',
+        controller: 'GestionDescuentosCtrl',
+        controllerAs: 'gestionDescuentos'
+      })
       .when('/ingresos/ingreso_registro', {
         templateUrl: 'views/ingresos/ingreso_registro.html',
         controller: 'IngresosIngresoRegistroCtrl',
@@ -263,10 +266,16 @@ angular
         controller: 'GestionPlanCuentasCtrl',
         controllerAs: 'gestionPlanCuentas'
       })
+
       .when('/ingresos/ingreso_consulta', {
         templateUrl: 'views/ingresos/ingreso_consulta.html',
         controller: 'IngresosIngresoConsultaCtrl',
         controllerAs: 'ingresoConsulta'
+      })
+      .when('/tesoreria/avances/requisitos/requisitos', {
+        templateUrl: 'views/tesoreria/avances/requisitos/requisitos.html',
+        controller: 'RequisitosCtrl',
+        controllerAs: 'requisitos'
       })
       .otherwise({
         redirectTo: '/'

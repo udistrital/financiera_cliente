@@ -115,7 +115,7 @@ angular.module('financieraClienteApp')
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insert
-        financieraRequest.post("orden_pago/RegistrarOp", self.dataOrdenPagoInsert)
+        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) { //error con el success
             self.resultado = data;
             //mensaje
