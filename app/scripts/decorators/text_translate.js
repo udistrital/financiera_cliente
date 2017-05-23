@@ -213,7 +213,10 @@ var text_es = {
   TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
   DATOS_REG_INGRESO: "Datos para este ingreso",
   INGRESO_NO: "Ingreso No.",
-  CONSULTA_INGRESOS: "Consulta Ingresos"
+  CONSULTA_INGRESOS: "Consulta Ingresos",
+
+  //CODIGOS
+  S_543: "Se registro el Ingreso con el consecutivo "
 };
 
 var text_en = {

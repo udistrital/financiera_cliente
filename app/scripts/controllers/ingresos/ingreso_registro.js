@@ -8,11 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest) {
+  .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest,$translate) {
     var self = this;
     self.cargandoDatosPagos = false;
     self.gridOptions = {
-      enableRowSelection: true,
       enableHorizontalScrollbar:0,
       enableVerticalScrollbar:1,
       paginationPageSizes: [5, 10, 15],
@@ -54,9 +53,7 @@ angular.module('financieraClienteApp')
 
 
     self.registrarIngreso = function(){
-      if ($scope.ingresoBanco == null){
-        swal("", "Debe seleccionar por lo menos uno de los ingresos del banco", "error");
-      }else if(self.unidadejecutora == null){
+      if(self.unidadejecutora == null){
         swal("", "Debe seleccionar la unidad ejecutora", "error");
       }else if (self.concepto == null){
         swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
@@ -71,6 +68,15 @@ angular.module('financieraClienteApp')
         self.ingreso.Concepto = self.concepto;
         financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
             console.log(response.data);
+            if (response.data.Type !== undefined){
+              swal('',$translate.instant(response.data.Code)+response.data.Body.Consecutivo,response.data.Type);
+            }
+        }).finally(function(){
+          self.pagos = undefined;
+          self.tipoIngresoSelec = undefined;
+          self.observaciones = undefined;
+          self.unidadejecutora = undefined;
+          self.concepto = undefined;
         });
       }
 
@@ -79,8 +85,8 @@ angular.module('financieraClienteApp')
 
     self.calcularTotalIngresos = function(){
       self.totalIngresos = 0;
-      if ($scope.ingresoBanco != null){
-        angular.forEach($scope.ingresoBanco,function(data){
+      if (self.gridOptions.data != null){
+        angular.forEach(self.gridOptions.data ,function(data){
           self.totalIngresos = self.totalIngresos + data.VALOR;
         });
       }else{
@@ -147,6 +153,12 @@ angular.module('financieraClienteApp')
           console.log($scope.ingresoBanco);
       });
     };
+
+
+    $scope.$watch('ingresoRegistro.concepto',function(){
+      console.log("cambio");
+      self.calcularTotalIngresos();
+    },true);
 
 
     $scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){

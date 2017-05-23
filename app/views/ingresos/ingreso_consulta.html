@@ -36,6 +36,13 @@
               </tr>
             </table>
             <hr>
+            <legend class="text-primary" ng-click="b=!b">
+              {{'TABLA_INGRESOS_BANCO' | translate}}
+              <span class="fa fa-plus pull-right" ng-show="b"></span>
+              <span class="fa fa-minus pull-right" ng-show="!b"></span>
+            </legend>
+            <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoConsulta.gridOptions_ingresosbanco" ui-grid-pagination ui-grid-auto-resize></div>
+            <hr>
             <div >
               <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
               <ul class="list-unstyled" ng-repeat=" ingresoconcepto in ingresoConsulta.ingresoSel.IngresoConcepto">
