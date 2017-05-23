@@ -12,7 +12,7 @@ angular.module('financieraClienteApp')
     var self = this;
 
     self.gridOptions = {
-      paginationPageSizes: [5, 10, 15],
+      paginationPageSizes: [5,10,15,20,50],
       paginationPageSize: 5,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
@@ -78,14 +78,12 @@ angular.module('financieraClienteApp')
 
     self.gridOptions.multiSelect = false;
     self.gridOptions.modifierKeysToMultiSelect = false;
-
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
         self.cuenta = self.gridApi.selection.getSelectedRows()[0];
       });
     };
-
     self.cargar = function() {
       financieraRequest.get("cuenta_especial", $.param({
         limit: -1
@@ -93,19 +91,6 @@ angular.module('financieraClienteApp')
         self.gridOptions.data = response.data;
       });
     };
-
     self.cargar();
-
-    $scope.$watch('[gestionDescuentos.gridOptions.paginationPageSize,gestionDescuentos.gridOptions.data]', function() {
-      if ((self.gridOptions.data.length <= self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize == null) && self.gridOptions.data.length > 0) {
-        $scope.gridHeight = self.gridOptions.rowHeight * 2 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
-        if (self.gridOptions.data.length <= 5) {
-          self.gridOptions.enablePaginationControls = false;
-        }
-      } else {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
-        self.gridOptions.enablePaginationControls = true;
-      }
-    }, true);
-
+    self.gridOptions.enablePaginationControls = true;
   });

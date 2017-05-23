@@ -20,32 +20,35 @@
     </div>
   </div>
 
-  <div style="height: {{gridHeight}}px; " ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
-  <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" style="height: {{grid2Height}}px; " ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0"  ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
 
   <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">Agregar Impuestos y Descuentos</button></center>
 
-  <div id="modalDescuentos" class="modal fade" role="dialog">
+  <div id="modalDescuentos" class="modal fade" >
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
 
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
 
       <div class="modal-body">
         <legend>Seleccionar Impuestos y Descuentos a utilizar</legend>
-        <ver-descuentos seldesc="cuen" noheader/>
+        <ver-descuentos seldesc="cuen"/><br>
         <div class="form-group">
           <centeR><button type="button" class="btn btn-success" ng-click="d_movimientosContables.agregar_descuento(cuen)">Agregar</button></center>
         </div>
 
         <div ng-show="d_movimientosContables.gridOptionsDescuentos.data.length">
           <legend>Cuentas:</legend>
-              <div style="height: {{grid2Height}}px; position:inherit" ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize  ui-grid-selection></div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Cuentas Seleccionadas</h3>
+            </div>
+            <div ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize  ui-grid-selection></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
-
 
 
   <div class="panel-footer" align="center">

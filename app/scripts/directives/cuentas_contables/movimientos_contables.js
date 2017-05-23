@@ -401,8 +401,6 @@ angular.module('financieraClienteApp')
                 self.gridOptionsMovsAcreedores.data.push($scope.movimientos[i]);
               }
             }
-            $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2 + (self.gridOptionsMovimientos.data.length * self.gridOptionsMovimientos.rowHeight);
-            $scope.grid2Height = self.gridOptionsMovsAcreedores.rowHeight * 2 + (self.gridOptionsMovsAcreedores.data.length * self.gridOptionsMovsAcreedores.rowHeight);
           }
           /*else {
                          $scope.movimientos = [];
@@ -412,7 +410,6 @@ angular.module('financieraClienteApp')
                        } */
         };
 
-        $scope.gridHeight = self.gridOptionsMovimientos.rowHeight * 2;
 
         /**
          * @ngdoc event
