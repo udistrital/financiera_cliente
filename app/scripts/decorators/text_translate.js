@@ -68,6 +68,7 @@ var text_es = {
   INGRESO: "Ingreso",
   EGRESO: "Egreso",
   NOMINA: 'Nomina',
+  PLANTA: 'Planta',
 
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
@@ -280,6 +281,7 @@ var text_en = {
   CUENTA: "Account",
   ACTUALIZAR: "Update",
   NOMINA: 'Roster',
+  PLANTA: 'Floor',
 
 
 

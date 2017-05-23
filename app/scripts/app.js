@@ -236,6 +236,11 @@ angular
         controller: 'OpProveedorUpdatePorIdCtrl',
         controllerAs: 'opProveedorUpdatePorId'
        })
+       .when('/orden_pago/planta/crear', {
+         templateUrl: 'views/orden_pago/planta/op_planta_crear.html',
+         controller: 'OpPlantaCrearCtrl',
+         controllerAs: 'opPlantaCrear'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
