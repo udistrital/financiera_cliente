@@ -180,6 +180,10 @@ var text_es = {
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
   EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
+  SELECCIONE: "Seleccione",
+
+
+  //ANULACIONES
   LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
   ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
   MOTIVO_ANULACION_CDP:"Motivo de la Anulación",

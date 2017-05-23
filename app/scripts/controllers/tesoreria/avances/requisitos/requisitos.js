@@ -53,7 +53,7 @@ angular.module('financieraClienteApp')
         {
           field: 'FechaRegistro',
           displayName: $translate.instant('FECHA_REGISTRO'),
-          cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
+          cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span></div>',
           width: '10%',
         },
         {
@@ -63,19 +63,29 @@ angular.module('financieraClienteApp')
           width: '8%',
 
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" >' +
-            '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.requisitos.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
-            '<a class="borrar" ng-click="grid.appScope.requisitos.load_row(row,\'delete\');" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg" aria-hidden="true"></i></a>' +
-            '</center>'
+              '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' + '</a> ' +
+              //boton borrar
+              '<a class="borrar" ng-click="grid.appScope.requisitos.load_row(row,\'delete\');">' +
+              '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a>' +
+              '</center>'
         }
       ]
     };
+
+    var sumarDias = function(data, dias){
+      var fecha = new Date(data);
+      fecha.setDate(fecha.getDate() + dias);
+      return fecha;
+    };
+
     ctrl.gridOptions.multiSelect = false;
     ctrl.get_all_avances = function() {
-      financieraRequest.get("requisito_avance", "limit=-1")
+      financieraRequest.get("requisito_avance", $.param({
+          limit: -1,
+          sortby: "Id",
+          order: "asc"
+        }))
         .then(function(response) {
           ctrl.gridOptions.data = response.data;
           console.log(ctrl.gridOptions.data);
@@ -90,20 +100,52 @@ angular.module('financieraClienteApp')
     ctrl.get_all_avances();
 
     ctrl.load_row = function(row, operacion) {
-      console.log(operacion);
       ctrl.operacion = operacion;
-      if (row === "") {
-        ctrl.tipo_avance.Referencia = "";
-        ctrl.tipo_avance.Nombre = "";
-        ctrl.tipo_avance.Descripcion = "";
-      } else {
-        ctrl.row_entity = row.entity;
-        ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
-        ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
-        ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
-        ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
-        ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
+      switch (operacion) {
+        case "add":
+          ctrl.tipo_avance.Referencia = "";
+          ctrl.tipo_avance.Nombre = "";
+          ctrl.tipo_avance.Descripcion = "";
+          break;
+        case "edit":
+          ctrl.row_entity = row.entity;
+          ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
+          ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
+          ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
+          ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
+          ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
+          ctrl.tipo_avance.FechaRegistro = sumarDias(ctrl.row_entity.FechaRegistro, 1);
+          break;
+        case "delete":
+          ctrl.row_entity = row.entity;
+          ctrl.delete_requisito();
+          break;
       }
+    };
+
+    ctrl.delete_requisito = function() {
+      swal({
+        title: 'Está seguro ?',
+        text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Referencia,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: $translate.instant('BTN.BORRAR')
+      }).then(function() {
+        financieraRequest.delete("requisito_avance", ctrl.row_entity.Id)
+          .then(function(response) {
+            if (response.status === 200) {
+              swal(
+                $translate.instant('ELIMINADO'),
+                ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ELIMINADO'),
+                'success'
+              );
+              ctrl.get_all_avances();
+            }
+          });
+      })
+
     };
 
     ctrl.add_edit = function() {
@@ -117,7 +159,7 @@ angular.module('financieraClienteApp')
             Descripcion: ctrl.tipo_avance.Descripcion,
             Estado: ctrl.tipo_avance.Estado,
             Etapa: ctrl.tipo_avance.Etapa,
-            FechaRegistro: ctrl.row_entity.FechaRegistro
+            FechaRegistro: ctrl.tipo_avance.FechaRegistro
           };
           console.log(data);
           financieraRequest.put("requisito_avance", data.Id, data)
