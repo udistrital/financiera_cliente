@@ -36,8 +36,8 @@
 
             <div class="form-group">
               <label for="descdescuento">*{{"PROVEEDOR" | translate}}:</label><span> {{crearDescuento.proveedor.NomProveedor}}</span>
-              <div style="height: {{gridHeight}}px" ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-            </div>
+              <div ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+            </div><br>
 
             <div ng-if="crearDescuento.tipo_cuenta.Nombre=='Impuesto'">
               <div class="form-group">

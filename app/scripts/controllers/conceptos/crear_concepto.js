@@ -97,9 +97,14 @@ angular.module('financieraClienteApp')
     };
 
     self.gridOptions = {
+      paginationPageSizes: [5, 10, 15, 20, 50],
+      paginationPageSize: 5,
+      enableHorizontalScrollbar: 0,
+      enableVerticalScrollbar:0,
+      useExternalPagination: false,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
-      enableFiltering: false,
+      enableFiltering: true,
       enableSorting: true,
       treeRowHeaderAlwaysVisible: false,
       showTreeExpandNoChildren: true,

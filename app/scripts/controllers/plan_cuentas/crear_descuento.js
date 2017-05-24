@@ -105,14 +105,10 @@ angular.module('financieraClienteApp')
       }
     }, true);
 
-    $scope.$watch('[crearDescuento.gridOptions.paginationPageSize,crearDescuento.gridOptions.data]', function() {
-      if ((self.gridOptions.data.length <= self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize == null) && self.gridOptions.data.length > 0) {
-        $scope.gridHeight = self.gridOptions.rowHeight * 2 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
+    $scope.$watch('crearDescuento.gridOptions.data', function() {
         if (self.gridOptions.data.length <= 5) {
           self.gridOptions.enablePaginationControls = false;
-        }
       } else {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
         self.gridOptions.enablePaginationControls = true;
       }
     }, true);
