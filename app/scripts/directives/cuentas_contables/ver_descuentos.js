@@ -17,7 +17,6 @@ angular.module('financieraClienteApp')
       },
       templateUrl: 'views/directives/cuentas_contables/ver_descuentos.html',
       controller: function($scope, $attrs) {
-        console.log($attrs);
         $scope.vhead = 'noheader' in $attrs;
         var self = this;
         self.gridOptions = {
