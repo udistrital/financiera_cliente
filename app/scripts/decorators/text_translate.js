@@ -67,7 +67,7 @@ var text_es = {
   VENCIMIENTO:"Vencimiento",
   INGRESO:"Ingreso",
   EGRESO: "Egreso",
-
+  FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
 
@@ -125,9 +125,15 @@ var text_es = {
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
+
+    EDITAR: "Editar",
+    BORRAR: "Borrar",
+    RECHAZAR: "Rechazar",
+
     BORRAR: "Borrar",
     CONFIGURAR:"Configurar",
     ANADIR:"Añadir"
+
   },
 
   // ORDEN DE PAGO
@@ -205,6 +211,10 @@ var text_es = {
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
   EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
+  SELECCIONE: "Seleccione",
+
+
+  //ANULACIONES
   LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
   ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
   MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
@@ -231,7 +241,12 @@ var text_es = {
   FECHA_CONSIG: "Fecha de Consignanción",
   TIPO_INGRESO: "Tipo de Ingreso",
   TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
-  DATOS_REG_INGRESO: "Datos para este ingreso"
+  DATOS_REG_INGRESO: "Datos para este ingreso",
+  INGRESO_NO: "Ingreso No.",
+  CONSULTA_INGRESOS: "Consulta Ingresos",
+
+  //CODIGOS
+  S_543: "Se registro el Ingreso con el consecutivo "
 };
 
 var text_en = {

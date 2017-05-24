@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
           width: '8%',
 
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row,\'ver\')" >' +
+            '<a class="ver" ng-click="grid.appScope.TiposAvance.load_row(row,\'ver\')" >' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
@@ -82,13 +82,16 @@ angular.module('financieraClienteApp')
           console.log(ctrl.gridOptions.data);
         });
     };
-
+    var sumarDias = function(data, dias){
+      var fecha = new Date(data);
+      fecha.setDate(fecha.getDate() + dias);
+      return fecha;
+    };
     ctrl.gridOptions.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {});
     };
     ctrl.update_config = function() {
-
       financieraRequest.get("requisito_avance", $.param({
           limit: -1,
           sortby: "Id",
@@ -101,9 +104,14 @@ angular.module('financieraClienteApp')
     };
     ctrl.get_all_avances();
 
+
+
     ctrl.load_row = function(row, operacion) {
       ctrl.operacion = operacion;
       switch (operacion) {
+        case "ver":
+          ctrl.row_entity = row.entity;
+          break;
         case "add":
           ctrl.tipo_avance.Referencia = "";
           ctrl.tipo_avance.Nombre = "";
@@ -115,6 +123,7 @@ angular.module('financieraClienteApp')
           ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
           ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
           ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
+          ctrl.tipo_avance.FechaRegistro = sumarDias(ctrl.row_entity.FechaRegistro, 1);
           break;
         case "delete":
           ctrl.row_entity = row.entity;
@@ -161,7 +170,7 @@ angular.module('financieraClienteApp')
             Nombre: ctrl.tipo_avance.Nombre,
             Descripcion: ctrl.tipo_avance.Descripcion,
             Estado: ctrl.tipo_avance.Estado,
-            FechaRegistro: ctrl.row_entity.FechaRegistro
+            FechaRegistro: ctrl.tipo_avance.FechaRegistro,
           };
           console.log(data);
           financieraRequest.put("tipo_avance", data.Id, data)

@@ -2,100 +2,94 @@
   <h2 class="page-header" align="center">{{'REGISTRO_INGRESOS' | translate}}</h2>
   <div class="panel-body">
 
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
 
-          <table>
-            <td class="col-md-4">
-              <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
-              <br>
-              <select class="form-control" ng-focus="ingresoRegistro.cargarTiposIngreso()" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso">
+
+    <table>
+      <tr>
+        <td class="col-md-4">
+          <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
+          <br>
+          <select class="form-control" ng-focus="ingresoRegistro.cargarTiposIngreso()" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso">
           </select>
-            </td>
-            <td class="col-md-1">
-              <br>
-            </td>
-            <td class="col-md-4">
-              <label for="tipo_ingreso">{{'FECHA_CONSIG' | translate}}</label>
-              <br>
-              <md-datepicker ng-model="ingresoRegistro.fechaConsignacion" md-placeholder="{{'FECHA_CONSIG' | translate}}" flex></md-datepicker>
-            </td>
-            <td class="col-md-2">
-              <br>
-              <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
-            </td>
-          </table>
-          <loading load="ingresoRegistro.cargandoDatosPagos" tam="5" />
+        </td>
+        <td class="col-md-1">
+          <br>
+        </td>
+        <td class="col-md-4">
+          <label for="tipo_ingreso">{{'FECHA_CONSIG' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="ingresoRegistro.fechaConsignacion" md-placeholder="{{'FECHA_CONSIG' | translate}}" flex></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+        </td>
+      </tr>
+    </table>
+    <loading load="ingresoRegistro.cargandoDatosPagos" tam="5"></loading>
 
 
-          <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
+    <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
 
-            <div class="panel-body">
-              <legend class="text-primary" ng-click="b=!b">
-                {{'TABLA_INGRESOS_BANCO' | translate}}
-                <span class="fa fa-plus pull-right" ng-show="b"></span>
-                <span class="fa fa-minus pull-right" ng-show="!b"></span>
-              </legend class="text-primary">
-              <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-              <br>
-              <legend class="text-primary" ng-click="a=!a">
-                {{'DATOS_REG_INGRESO' | translate}}
-                <span class="fa fa-plus pull-right" ng-show="!a"></span>
-                <span class="fa fa-minus pull-right" ng-show="a"></span>
-              </legend class="text-primary">
-              <div ng-show="a">
-                <div class="form-group">
-                  <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-                  <select class="form-control" ng-focus="ingresoRegistro.cargarUnidadesEjecutoras()" ng-model="ingresoRegistro.unidadejecutora" ng-options="o as o.Nombre for o in ingresoRegistro.unidadesejecutoras">
+      <div class="panel-body">
+        <legend class="text-primary" ng-click="b=!b">
+          {{'TABLA_INGRESOS_BANCO' | translate}}
+          <span class="fa fa-plus pull-right" ng-show="b"></span>
+          <span class="fa fa-minus pull-right" ng-show="!b"></span>
+        </legend>
+        <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions"  ui-grid-pagination ui-grid-auto-resize></div>
+        <br>
+        <legend class="text-primary" ng-click="a=!a">
+          {{'DATOS_REG_INGRESO' | translate}}
+          <span class="fa fa-plus pull-right" ng-show="!a"></span>
+          <span class="fa fa-minus pull-right" ng-show="a"></span>
+        </legend>
+        <div ng-show="a">
+          <div class="form-group">
+            <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+            <select class="form-control" ng-focus="ingresoRegistro.cargarUnidadesEjecutoras()" ng-model="ingresoRegistro.unidadejecutora" ng-options="o as o.Nombre for o in ingresoRegistro.unidadesejecutoras">
 
                 </select>
-                </div>
-                <br>
-                <div class="form-group">
-                  <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-                  <br>
-                  <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistro.observaciones">
+          </div>
+          <br>
+          <div class="form-group">
+            <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
+            <br>
+            <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistro.observaciones">
 
                 </textarea>
-                </div>
-                <div class="form-group">
-                  <label for="concepto">{{'CONCEPTO' | translate}}</label>
-                  <br>
-
-                <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto" conceptosel="nodo" recargar="crearConcepto.recargar" />
-                </div>
-                <div ng-show="ingresoRegistro.concepto">
-                  <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
-                  <ul class="list-unstyled">
-                    <hr class="hr-primary">
-                    <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto.Rubro.Codigo+" / "+ingresoRegistro.concepto.Rubro.Descripcion}}
-                      <ul>
-                        <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
-                      </ul>
-                    </li>
-
-
-
-
-                    </ul>
-
-                </div>
-                <hr />
-              </div>
-              <div class="form-group text-center">
-                <a type="button" class="btn btn-outline btn-success" ng-click="ingresoRegistro.registrarIngreso()"> Registrar </a>
-              </div>
-            </div>
           </div>
-          <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger">
-            {{ingresoRegistro.rta}}
+          <div class="form-group">
+            <label for="concepto">{{'CONCEPTO' | translate}}</label>
+            <br>
+
+            <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto" conceptosel="nodo" recargar="crearConcepto.recargar" />
           </div>
-          <pre>{{ingresoRegistro.ingreso | json}}</pre>
+          <div ng-show="ingresoRegistro.concepto">
+            <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
+            <ul class="list-unstyled">
+              <hr class="hr-primary">
+              <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto.Rubro.Codigo+" / "+ingresoRegistro.concepto.Rubro.Descripcion}}
+                <ul>
+                  <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoRegistro.totalIngresos|currency}}</li>
+                </ul>
+              </li>
+
+
+
+
+            </ul>
+
+          </div>
+          <hr/>
+        </div>
+        <div class="form-group text-center">
+          <a type="button" class="btn btn-outline btn-success" ng-click="ingresoRegistro.registrarIngreso()"> Registrar </a>
         </div>
       </div>
     </div>
-
+    <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger">
+      {{ingresoRegistro.rta}}
+    </div>
   </div>
-</div>
 </div>

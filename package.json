@@ -44,7 +44,8 @@
   },
   "dependencies": {
     "angular-websocket": "^2.0.1",
-    "bower-config": "^1.4.0"
+    "bower-config": "^1.4.0",
+    "ui-grid-auto-fit-columns": "^1.1.4"
   },
   "description": "This project is generated with [yo oas-generator](https://github.com/fabianLeon/oas) version 0.0.16.",
   "version": "1.0.0",
