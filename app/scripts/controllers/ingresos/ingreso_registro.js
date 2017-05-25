@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
   .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest,$translate) {
     var self = this;
     self.cargandoDatosPagos = false;
+    self.concepto = [];
     self.gridOptions = {
       enableHorizontalScrollbar:0,
       enableVerticalScrollbar:1,
