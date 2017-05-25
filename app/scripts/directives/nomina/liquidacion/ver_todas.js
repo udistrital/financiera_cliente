@@ -11,8 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        inputdataliquidacion: '=',
-        inputpestanaabierta: '=',
+        inputdataliquidacion: '=?',
+        inputpestanaabierta: '=?',
         outputliquidacion: '=?'
       },
 
@@ -56,7 +56,8 @@ angular.module('financieraClienteApp')
             {
               field: 'FechaLiquidacion',
               displayName: $translate.instant('FECHA'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              cellTemplate: '<span>{{row.entity.FechaLiquidacion | date:"yyyy-MM-dd":"+0900"}}</span>'
             },
             {
               field: 'Nomina.Nombre',
@@ -101,44 +102,39 @@ angular.module('financieraClienteApp')
               self.query = self.query + ',Nomina.Periodo:' + data.Vigencia
             }
           }
-
+          if (data.TipoNomina != undefined) {
+            if (self.query.length == 0) {
+              self.query = self.query + 'Nomina.TipoNomina.Nombre:' + data.TipoNomina
+            } else {
+              self.query = self.query + ',Nomina.TipoNomina.Nombre:' + data.TipoNomina
+            }
+          }
+          if (data.Vigencia != undefined && data.Mes != undefined) {
+            if (self.query.length == 0) {
+              self.query = self.query + 'FechaLiquidacion__startswith:' + data.Vigencia + '-' + data.Mes
+            } else {
+              self.query = self.query + ',FechaLiquidacion__startswith:' + data.Vigencia + '-' + data.Mes
+            }
+          }
         }
+
         $scope.$watch('inputpestanaabierta', function() {
-          console.log($scope.inputpestanaabierta)
           if ($scope.inputpestanaabierta){
-            $scope.a = true;
+          $scope.a = true;
           }
         })
         $scope.$watch('inputdataliquidacion', function() {
-          self.refresh();
           if ($scope.inputdataliquidacion != undefined) {
-            console.log("AAAAAAA")
-            console.log($scope.inputdataliquidacion)
-            console.log("AAAAAAA")
             self.construirQuery($scope.inputdataliquidacion)
-            console.log(self.query)
-
             titanRequest.get('liquidacion',
               $.param({
-                query: "Id:7",
+                query: self.query, //"Nomina.Periodo:2017,Nomina.TipoNomina.Nombre:FP",
               })).then(function(response) {
+              self.refresh();
               self.gridOptions_liquid.data = response.data;
-              console.log(response.data);
             });
-            // control de paginacion
-            $scope.$watch('[d_liquidacionVerTodas.gridOptions_liquid.paginationPageSize, d_liquidacionVerTodas.gridOptions_liquid.data]', function() {
-              if ((self.gridOptions_liquid.data.length <= self.gridOptions_liquid.paginationPageSize || self.gridOptions_liquid.paginationPageSize == null) && self.gridOptions_liquid.data.length > 0) {
-                $scope.gridHeight = self.gridOptions_liquid.rowHeight * 2 + (self.gridOptions_liquid.data.length * self.gridOptions_liquid.rowHeight);
-                if (self.gridOptions_liquid.data.length <= 5) {
-                  self.gridOptions_liquid.enablePaginationControls = false;
-                }
-              } else {
-                $scope.gridHeight = self.gridOptions_liquid.rowHeight * 3 + (self.gridOptions_liquid.paginationPageSize * self.gridOptions_liquid.rowHeight);
-                self.gridOptions_liquid.enablePaginationControls = true;
-              }
-            }, true);
           }
-        })
+        },true)
 
         //
         self.gridOptions_liquid.onRegisterApi = function(gridApi) {
@@ -149,6 +145,7 @@ angular.module('financieraClienteApp')
           });
         };
         self.gridOptions_liquid.multiSelect = false;
+        self.gridOptions_liquid.enablePaginationControls = true;
 
         // fin
       },
