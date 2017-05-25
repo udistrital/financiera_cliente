@@ -87,6 +87,8 @@ var text_es = {
   PRIMERA: 'Primera',
   SEGUNADA: 'Segunda',
   ELABORADO_POR: 'Elaborado Por',
+  VINCULACION: 'Vinculacion',
+  LIQUIDACION: 'Liquidacion',
 
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
@@ -318,7 +320,8 @@ var text_en = {
   PRIMERA: 'Frist',
   SEGUNADA: 'Second',
   ELABORADO_POR: 'Elaborated By',
-
+  VINCULACION: 'Bonding',
+  LIQUIDACION: 'Liquidation',
 
 
   // PROVEEDOR

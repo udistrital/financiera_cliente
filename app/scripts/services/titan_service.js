@@ -7,7 +7,7 @@
  * # titanService
  * Factory in the financieraClienteApp.
  */
-angular.module('titanService')
+angular.module('titanService', [])
   .factory('titanRequest', function ($http) {
     // Service logic
     // ...

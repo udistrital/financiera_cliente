@@ -45,6 +45,7 @@ angular
     'argoService',
     'coreService',
     'oikosService',
+    'titanService',
 
     'pagosService',
 

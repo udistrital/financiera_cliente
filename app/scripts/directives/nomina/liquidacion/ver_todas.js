@@ -7,11 +7,13 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(financieraRequest, $timeout, $translate) {
+  .directive('liquidacionVerTodas', function(titanRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
-        inputdataliquidacion: '='
+        inputdataliquidacion: '=',
+        inputpestanaabierta: '=',
+        outputliquidacion: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
@@ -20,7 +22,7 @@ angular.module('financieraClienteApp')
 
         self.gridOptions_liquid = {
           enableRowSelection: true,
-          enableRowHeaderSelection: false,
+          enableRowHeaderSelection: true,
 
           paginationPageSizes: [5, 10, 15],
           paginationPageSize: null,
@@ -37,19 +39,50 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'NumeroRegistroPresupuestal',
-              displayName: $translate.instant('NO_CRP'),
+              field: 'NombreLiquidacion',
+              displayName: $translate.instant('NOMBRE'),
               cellClass: 'input_center'
             },
             {
-              field: 'Vigencia',
+              field: 'IdUsuario',
+              displayName: $translate.instant('ELABORADO_POR'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'EstadoLiquidacion',
+              displayName: $translate.instant('ESTADO'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'FechaLiquidacion',
+              displayName: $translate.instant('FECHA'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Nomina.Nombre',
+              displayName: $translate.instant('NOMINA'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Nomina.Descripcion',
+              displayName: $translate.instant('DESCRIPCION'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Nomina.Periodo',
               displayName: $translate.instant('VIGENCIA'),
               cellClass: 'input_center'
             },
             {
-              field: 'Estado.Nombre',
-              displayName: $translate.instant('ESTADO')
-            }
+              field: 'Nomina.TipoNomina.Nombre',
+              displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Nomina.Vinculacion.Nombre',
+              displayName: $translate.instant('VINCULACION'),
+              cellClass: 'input_center'
+            },
           ]
         };
         // refrescar
@@ -70,7 +103,12 @@ angular.module('financieraClienteApp')
           }
 
         }
-
+        $scope.$watch('inputpestanaabierta', function() {
+          console.log($scope.inputpestanaabierta)
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         $scope.$watch('inputdataliquidacion', function() {
           self.refresh();
           if ($scope.inputdataliquidacion != undefined) {
@@ -80,11 +118,12 @@ angular.module('financieraClienteApp')
             self.construirQuery($scope.inputdataliquidacion)
             console.log(self.query)
 
-            financieraRequest.get('registro_presupuestal',
+            titanRequest.get('liquidacion',
               $.param({
-                query: "Beneficiario:" + $scope.beneficiaroid,
+                query: "Id:7",
               })).then(function(response) {
               self.gridOptions_liquid.data = response.data;
+              console.log(response.data);
             });
             // control de paginacion
             $scope.$watch('[d_liquidacionVerTodas.gridOptions_liquid.paginationPageSize, d_liquidacionVerTodas.gridOptions_liquid.data]', function() {
@@ -106,20 +145,7 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.rpselect = row.entity;
-            //consulta datos del rp
-            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', //en el futuro será una servició con calculo de suma total
-              $.param({
-                query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
-                limit: 0,
-              })).then(function(response) {
-              self.rp_select_de_consulta = response.data;
-            });
-            //Valor total del Rp
-            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
-              .then(function(response) {
-                self.valor_total_rp = response.data;
-              });
+            $scope.outputliquidacion = row.entity;
           });
         };
         self.gridOptions_liquid.multiSelect = false;
