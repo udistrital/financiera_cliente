@@ -65,11 +65,11 @@
 
             <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto[0]" conceptosel="nodo" recargar="crearConcepto.recargar" />
           </div>
-          <div ng-show="ingresoRegistro.concepto">
+          <div ng-show="ingresoRegistro.concepto[0]">
             <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
             <ul class="list-unstyled">
               <hr class="hr-primary">
-              <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto.Rubro.Codigo+" / "+ingresoRegistro.concepto.Rubro.Descripcion}}
+              <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto[0].Rubro.Codigo+" / "+ingresoRegistro.concepto[0].Rubro.Descripcion}}
                 <ul>
                   <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoRegistro.totalIngresos|currency}}</li>
                 </ul>
@@ -97,8 +97,9 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                   <div class="tab-pane fade in active" ng-repeat="c in ingresoRegistro.concepto" ng-show="ingresoRegistro.selected==c.Id">
-                    <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado">
+                    <movimientos-contables conceptoid="c.Id" movimientos="ingresoRegistro.movs" monto="ingresoRegistro.totalIngresos" editable validatemov="c.validado">
                     </movimientos-contables>
+
                   </div>
                 </div>
               </div>
@@ -114,4 +115,5 @@
       {{ingresoRegistro.rta}}
     </div>
   </div>
+  <pre>{{ingresoRegistro.ingreso| json}}</pre>
 </div>

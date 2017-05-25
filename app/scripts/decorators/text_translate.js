@@ -246,7 +246,8 @@ var text_es = {
   CONSULTA_INGRESOS: "Consulta Ingresos",
 
   //CODIGOS
-  S_543: "Se registro el Ingreso con el consecutivo "
+  S_543: "Se registro el Ingreso con el consecutivo ",
+  E_23503: "No se encontraron algunos campos" //FK
 };
 
 var text_en = {
