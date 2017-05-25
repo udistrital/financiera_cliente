@@ -181,6 +181,11 @@ var text_es = {
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
   EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
   SELECCIONE: "Seleccione",
+  REQUISITOS: "Requisitos",
+  ACTIVO: "Activo",
+  INACTIVO: "Inactivo",
+  SOLICITUD: "Solicitud",
+  LEGALIZACION :"Legalización",  
 
 
   //ANULACIONES

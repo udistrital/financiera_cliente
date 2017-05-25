@@ -56,9 +56,9 @@
           <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
           <div class="col-sm-9">
             <select name="estado" ng-model="TiposAvance.tipo_avance.Estado" class="form-control">
-              <option selected value="" disabled>Seleccione ...</option>
-               <option value="A">Activo</option>
-               <option value="I">Inactivo</option>
+              <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
+               <option value="A">{{"ACTIVO" | translate }}</option>
+               <option value="I">{{"INACTIVO" | translate }}</option>
             </select>
           </div>
         </div>
@@ -87,7 +87,7 @@
       <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.add_requisito()">
         <br>
         <div class="row">
-          <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
+          <label for="descripcion" class="col-sm-2 control-label">{{'REQUISITOS' | translate }}:</label>
           <div class="col-sm-9">
             <select name="requisito" ng-model="TiposAvance.anadir_requisito" class="form-control"  ng-required="true" >
                <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
