@@ -97,6 +97,8 @@ var text_es = {
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
   EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
+  CUENTAS_SELECCIONADAS:"Cuentas Seleccionadas",
+  SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",

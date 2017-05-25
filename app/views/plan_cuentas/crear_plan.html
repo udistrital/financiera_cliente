@@ -4,10 +4,13 @@
   <h2 class="page-header text-center">{{ 'PLANES_CUENTAS' | translate }}</h2>
 
   <div>
-    <div style="height: {{gridHeight}}px" ui-grid="crearPlan.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination class="grid"></div>
+    <div ui-grid="crearPlan.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination class="grid"></div>
   </div>
 <br />
+<div class="col-md-12">
   <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button></center>
+</div>
+
 
   <!--<div class="col-md-6">
     <lista-planes-cuentas plansel="plancuenta" seleccion="miasel" recargar="crearPlan.actualizar" />
@@ -57,7 +60,7 @@
                 <label for="descripcionplan">{{ 'DESCRIPCION' | translate }}:</label>
                 <textarea class="form-control" id="descripcionplan" rows="4" ng-model="crearPlan.nuevo_plan.Descripcion" placeholder="{{'DESCRIPCION_PLAN' | translate}}"></textarea>
               </fieldset>
-              <button  type="submit" class="btn btn-outline btn-primary" >{{'BTN.CONFIRMAR' | translate}} </button>
+              <center><button  type="submit" class="btn btn-outline btn-primary" >{{'BTN.CONFIRMAR' | translate}} </button></center>
             </form>
           </div>
         </div>
