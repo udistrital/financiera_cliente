@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         beneficiaroid: '=?',
-        rpselect: '=?'
+        rpselect: '=?',
+        inputpestanaabierta: '=?',
       },
 
       templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
@@ -59,7 +60,13 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
+        //
         $scope.$watch('beneficiaroid', function() {
           self.refresh();
           if ($scope.beneficiaroid != undefined) {

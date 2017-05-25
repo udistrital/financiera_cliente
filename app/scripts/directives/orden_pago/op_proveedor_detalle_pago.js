@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
       scope: {
         tipoordenpago: '=?',
         iva: '=?',
-        valorbase: '=?'
+        valorbase: '=?',
+        inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/orden_pago/op_proveedor_detalle_pago.html',
@@ -54,6 +55,12 @@ angular.module('financieraClienteApp')
         //cuando entran valores
         $scope.$watch('valorbase', function() {
           self.get_valor_bruto($scope.valorbase, $scope.iva);
+        })
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
         })
 
       },

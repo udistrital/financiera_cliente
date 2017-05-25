@@ -2,7 +2,9 @@
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'PLANTA' | translate }}</h2>
   <div class="panel-body">
     <!--unidad ejecutora -->
-    <ue-listar unidaejecutora="opPlantaCrear.OrdenPago.UnidadEjecutora">
+    <ue-listar
+      unidaejecutora="opPlantaCrear.OrdenPago.UnidadEjecutora"
+      inputpestanaabierta="true">
     </ue-listar>
     <!--detalle -->
     <legend class="text-primary" ng-click="a=!a">

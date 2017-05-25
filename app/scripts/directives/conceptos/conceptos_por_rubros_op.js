@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
       scope: {
         rubroidsobj: '=?', //objeto rubro que contine el saldo
         conceptosoutput: '=?',
+        inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/conceptos/conceptos_por_rubros_op.html',
@@ -218,6 +219,12 @@ angular.module('financieraClienteApp')
             });
           })
         }
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         //
         $scope.$watch('rubroidsobj', function() {
           self.refresh();

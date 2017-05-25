@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
     self.MovimientoContableConceptoOrdenPago = [];
     self.MensajesAlerta = null;
     self.TotalAfectacion = null;
+    self.PestanaAbierta = true;
 
     // functions
     self.estructurarDataSend = function(conceptos) {
