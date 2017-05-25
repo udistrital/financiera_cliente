@@ -233,7 +233,7 @@ $scope.toggleRight = buildToggler('right');
    (function($) {
      $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
-       $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+        $('ul.dropdown-menu [data-toggle=dropdown-submenu]').on('click', function(event) {
          event.preventDefault();
          event.stopPropagation();
          $(this).parent().siblings().removeClass('open');
