@@ -63,7 +63,7 @@
             <label for="concepto">{{'CONCEPTO' | translate}}</label>
             <br>
 
-            
+            <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto[0]" conceptosel="nodo" recargar="crearConcepto.recargar" />
           </div>
           <div ng-show="ingresoRegistro.concepto[0]">
             <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
