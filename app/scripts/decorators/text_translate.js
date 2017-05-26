@@ -90,6 +90,7 @@ var text_es = {
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
 
+  FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
 
@@ -119,6 +120,8 @@ var text_es = {
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
   EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
+  CUENTAS_SELECCIONADAS:"Cuentas Seleccionadas",
+  SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -145,11 +148,18 @@ var text_es = {
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
+
+    EDITAR: "Editar",
+    BORRAR: "Borrar",
+    RECHAZAR: "Rechazar",
+
     BORRAR: "Borrar",
     CONFIGURAR: "Configurar",
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta'
+    CONFIGURAR:"Configurar",
+    ANADIR:"Añadir"
   },
 
   // ORDEN DE PAGO
@@ -231,6 +241,14 @@ var text_es = {
   ANULACION_CDP_TITULO_FORM: "Anulación de CDP",
   MOTIVO_ANULACION_CDP: "Motivo de la Anulación",
   TIPO_ANULACION: "Tipo de Anulación",
+  SELECCIONE: "Seleccione",
+
+
+  //ANULACIONES
+  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
+  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
+  TIPO_ANULACION:"Tipo de Anulación",
   ANULACION_PARCIAL: "Parcial",
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
@@ -253,7 +271,13 @@ var text_es = {
   FECHA_CONSIG: "Fecha de Consignanción",
   TIPO_INGRESO: "Tipo de Ingreso",
   TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
-  DATOS_REG_INGRESO: "Datos para este ingreso"
+  DATOS_REG_INGRESO: "Datos para este ingreso",
+  INGRESO_NO: "Ingreso No.",
+  CONSULTA_INGRESOS: "Consulta Ingresos",
+
+  //CODIGOS
+  S_543: "Se registro el Ingreso con el consecutivo ",
+  E_23503: "No se encontraron algunos campos" //FK
 };
 
 var text_en = {

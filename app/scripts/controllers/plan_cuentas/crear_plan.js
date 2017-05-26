@@ -13,8 +13,8 @@ angular.module('financieraClienteApp')
     self.nuevo_plan = {};
 
     self.gridOptions = {
-      paginationPageSizes: [10, 15, 20],
-      paginationPageSize: 10,
+      paginationPageSizes: [5, 15, 20],
+      paginationPageSize: 5,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       enableFiltering: true,
@@ -22,10 +22,7 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
-          field: 'Id',
-          visible: false
-        },
+      columnDefs: [
         {
           field: 'Nombre',
           cellClass: 'text-success',
@@ -147,18 +144,8 @@ angular.module('financieraClienteApp')
       }
     });
 
-    $scope.$watch('[crearPlan.gridOptions.paginationPageSize,crearPlan.gridOptions.data]', function() {
-      console.log("sisss" + self.gridOptions.paginationPageSize);
-      if ((self.gridOptions.data.length <= self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize == null) && self.gridOptions.data.length > 0) {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
-        if (self.gridOptions.data.length <= 10) {
-          self.gridOptions.enablePaginationControls = false;
-          $scope.gridHeight = self.gridOptions.rowHeight * 2 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
-        }
-      } else {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
-        self.gridOptions.enablePaginationControls = true;
-      }
-    }, true);
+    self.gridOptions.enablePaginationControls = true;
+
+
 
   });
