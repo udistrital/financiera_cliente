@@ -1,0 +1,15 @@
+<legend class="text-primary" ng-click="a=!a">
+  {{'LIQUIDACION' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!a"></span>
+  <span class="fa fa-minus pull-right" ng-show="a"></span>
+</legend class="text-primary">
+<div class="panel-body row" ng-show="a">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{'BTN.SELECCIONAR' | translate}} {{'LIQUIDACION' | translate}}
+    </div>
+    <div class="panel-body">
+      <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptions_liquid" ui-grid-selection ui-grid-auto-resize></div>
+    </div>
+  </div>
+</div>

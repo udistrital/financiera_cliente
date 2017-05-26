@@ -1,0 +1,86 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'PLANTA' | translate }}</h2>
+  <div class="panel-body">
+    <!--unidad ejecutora -->
+    <ue-listar
+      unidaejecutora="opPlantaCrear.OrdenPago.UnidadEjecutora"
+      inputpestanaabierta="true">
+    </ue-listar>
+    <!--detalle -->
+    <legend class="text-primary" ng-click="a=!a">
+      {{'DETALLE_OP' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!a"></span>
+      <span class="fa fa-minus pull-right" ng-show="a"></span>
+    </legend class="text-primary">
+    <div class="panel-body row" ng-show="a">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          {{'DETALLE_OP' | translate}}
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group">
+
+              <label class="col-sm-2 control-label">{{'TIPO_EMPLEADO' | translate }}</label>
+              <div class="col-sm-4">
+                <select ng-model="opPlantaCrear.dataLiquidacionConsulta.TipoNomina" class="form-control" required>
+                    <option value="">{{'BTN.SELECCIONAR' | translate }} {{'TIPO_EMPLEADO' | translate }}</option>
+                    <option value="FP">Administrativo</option> <!--equivalente a titan FP = Planta administrativa-->
+                    <option value="DP">Docentes</option>       <!--equivalente a titan DP = Planta docente-->
+                  </select>
+              </div>
+
+              <label class="col-sm-2 control-label">{{'MES' | translate}}</label>
+              <div class="col-sm-4">
+                <select ng-model="opPlantaCrear.dataLiquidacionConsulta.Mes" class="form-control" required>
+                    <option value="">{{'BTN.SELECCIONAR' | translate }} {{'MES' | translate }}</option>
+                    <option value="01">{{'MES_ENERO' | translate }}</option>
+                    <option value="02">{{'MES_FEBRERO' | translate }}</option>
+                    <option value="03">{{'MES_MARZO' | translate }}</option>
+                    <option value="04">{{'MES_ABRIL' | translate }}</option>
+                    <option value="05">{{'MES_MAYO' | translate }}</option>
+                    <option value="06">{{'MES_JUNION' | translate }}</option>
+                    <option value="07">{{'MES_JULIO' | translate }}</option>
+                    <option value="08">{{'MES_AGOSTO' | translate }}</option>
+                    <option value="09">{{'MES_SEPTIEMBRE' | translate }}</option>
+                    <option value="10">{{'MES_OCTUBRE' | translate }}</option>
+                    <option value="11">{{'MES_NOBIEMBRE' | translate }}</option>
+                    <option value="12">{{'MES_DICIEMBRE' | translate }}</option>
+                  </select>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{'NO_QUINCENA' | translate}}</label>
+              <div class="col-sm-4">
+                <select ng-model="opPlantaCrear.dataLiquidacionConsulta.Quincena" class="form-control" required>
+                    <option value="">{{'BTN.SELECCIONAR' | translate }} {{'NO_QUINCENA' | translate }}</option>
+                    <option value="01-15">{{'PRIMERA' | translate }}</option>
+                    <option value="15-30">{{'SEGUNADA' | translate }}</option>
+                  </select>
+              </div>
+              <label class="col-sm-2 control-label">{{'VIGENCIA' | translate }}</label>
+              <div class="col-sm-4">
+                <input ng-model="opPlantaCrear.OrdenPago.Vigencia" type="text" class="form-control input_right" disabled/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">{{'ELABORADO_POR' | translate }}</label>
+              <div class="col-sm-4">
+                <input ng-model="opPlantaCrear.OrdenPago.PersonaElaboro" type="text" class="form-control input_right" disabled/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Liquidaciones -->
+    <liquidacion-ver-todas
+      inputdataliquidacion="opPlantaCrear.dataLiquidacionConsulta"
+      inputpestanaabierta="true"
+      outputliquidacion="opPlantaCrear.Liquidacion"
+      >
+    </liquidacion-ver-todas>
+    <!-- Liquidaciones -->
+  </div>
+</div>
