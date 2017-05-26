@@ -242,6 +242,11 @@ angular
          controller: 'OpPlantaCrearCtrl',
          controllerAs: 'opPlantaCrear'
        })
+       .when('/orden_pago/planta/ver/:Id', {
+         templateUrl: 'views/orden_pago/planta/op_planta_ver_por_id.html',
+         controller: 'OpPlantaVerPorIdCtrl',
+         controllerAs: 'opPlantaVerPorId'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -277,6 +282,7 @@ angular
         controller: 'RequisitosCtrl',
         controllerAs: 'requisitos'
       })
+
       .otherwise({
         redirectTo: '/'
       });

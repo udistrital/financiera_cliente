@@ -72,13 +72,17 @@ angular.module('financieraClienteApp')
         ];
         // OP Proveedores
         self.op_detalle = function(row) {
-          if(row.entity.Nomina  = 'PROVEEDOR'){
+          if(row.entity.Nomina  == 'PROVEEDOR'){
             var path = "/orden_pago/proveedor/ver/";
+            $location.url(path + row.entity.Id);
+          }
+          if(row.entity.Nomina  == 'PLANTA'){
+            var path = "/orden_pago/planta/ver/";
             $location.url(path + row.entity.Id);
           }
         }
         self.op_editar = function(row) {
-          if(row.entity.Nomina  = 'PROVEEDOR'){
+          if(row.entity.Nomina  == 'PROVEEDOR'){
             var path_update = "/orden_pago/proveedor/actualizar/";
             $location.url(path_update + row.entity.Id);
           }
