@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        proveedor: '='
+        proveedor: '=',
+        inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/proveedor/pv_listar.html',
@@ -73,6 +74,12 @@ angular.module('financieraClienteApp')
           });
         };
         self.gridOptions_proveedor.multiSelect = false;
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         // control ocultar paginación
         $scope.$watch('[d_pvListar.gridOptions_proveedor.paginationPageSize, d_pvListar.gridOptions_proveedor.data]', function() {
           if ((self.gridOptions_proveedor.data.length <= self.gridOptions_proveedor.paginationPageSize || self.gridOptions_proveedor.paginationPageSize == null) && self.gridOptions_proveedor.data.length > 0) {
