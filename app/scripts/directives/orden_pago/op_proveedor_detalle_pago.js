@@ -14,13 +14,18 @@ angular.module('financieraClienteApp')
         tipoordenpago: '=?',
         iva: '=?',
         valorbase: '=?',
+        vigencia: '=?',
         inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/orden_pago/op_proveedor_detalle_pago.html',
       controller: function($scope) {
         var self = this;
-
+        //
+        financieraRequest.get("orden_pago/FechaActual/2006")  //formato de entrada  https://golang.org/src/time/format.go
+          .then(function(data) { //error con el success
+            $scope.vigencia = parseInt(data.data);
+        })
         //tipo_documentos
         financieraRequest.get('tipo_orden_pago',
           $.param({

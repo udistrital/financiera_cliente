@@ -62,7 +62,6 @@ angular.module('financieraClienteApp')
       self.OrdenPago.EstadoOrdenPago = {};
       self.OrdenPago.Nomina = '';
       //
-      self.OrdenPago.Vigencia = 2017;
       self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
       self.dataOrdenPagoInsert = {};
