@@ -157,7 +157,7 @@ var text_es = {
     CONFIGURAR: "Configurar",
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
-    NUEVO_OP_PLANTA: 'Nuevo OP Planta'
+    NUEVO_OP_PLANTA: 'Nuevo OP Planta',
     CONFIGURAR:"Configurar",
     ANADIR:"Añadir"
   },
