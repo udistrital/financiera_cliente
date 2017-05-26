@@ -93,7 +93,7 @@ var text_es = {
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
-
+  AFECTACION_CONTABLE: "Afectación Contable",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
