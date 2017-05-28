@@ -20,11 +20,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'alignleft'},
-        {field: 'NumeroRegistroPresupuestal',   displayName: 'Consecutivo del RP'},
-        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: 'Consecutivo del CDP'},
-        {field: 'Necesidad.Numero',   displayName: 'Consecutivo de la Necesidad'},
-        {field: 'FechaMovimiento' , displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'Vigencia',       cellClass:'input_center'},
+        {field: 'NumeroRegistroPresupuestal',   displayName: 'No.', cellClass:'input_center'},
+        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: 'CDP No.', cellClass:'input_center'},
+        {field: 'Necesidad.Numero',   displayName: 'Necesidad No. ' ,cellClass:'input_center'},
+        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : 'Estado'},
       ]
 

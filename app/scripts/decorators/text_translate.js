@@ -40,7 +40,7 @@ var text_es = {
   SELECCIONE_CRP: "Seleccione CRP",
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",
-  FUENTES_FINANCIACION: "Fuentes de Financiación",
+  FUENTES_FINANCIACION: "Fuentes Financiación",
   FUENTE_FINANCIACION_CODIGO: "Código Fuente",
   CONCEPTOS: "Conceptos",
   CONCEPTO: "Concepto",
@@ -125,6 +125,7 @@ var text_es = {
 
 
   //FUENTES DE FINANCIACIÓN
+<<<<<<< HEAD
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
@@ -142,6 +143,11 @@ var text_es = {
   QUITAR_RUBRO: "Quitar Rubro",
   AGREGAR_DEPENDENCIA: "Agregar Dependencia",
 
+=======
+  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
+>>>>>>> 59c3a667094552cfa93a941c4e0dd074876f757d
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",

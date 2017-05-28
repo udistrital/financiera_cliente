@@ -22,11 +22,11 @@ angular.module('financieraClienteApp')
       enableFiltering : true,
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
-        {field: 'SolicitudDisponibilidad.Numero',  displayName: 'Numero de Solicitud'},
+        {field: 'SolicitudDisponibilidad.Numero',  displayName: 'No. ', cellClass: 'input_center',},
         {field: 'DependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
         {field: 'DependenciaDestino.Nombre',  displayName: 'Dependencia Destino'},
-        {field: 'SolicitudDisponibilidad.Vigencia',  displayName: 'Vigencia'},
-        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'}
+        {field: 'SolicitudDisponibilidad.Vigencia',  displayName: 'Vigencia', cellClass: 'input_center',},
+        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: 'Fecha de Solicitud' , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'}
       ],
       onRegisterApi : function( gridApi ) {
         self.gridApi = gridApi;
