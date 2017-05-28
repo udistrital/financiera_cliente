@@ -20,10 +20,10 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'alignleft'},
-        {field: 'NumeroDisponibilidad',   displayName: 'Consecutivo'},
-        {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero' , displayName : 'Consecutivo De La Necesidad'},
-        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'Vigencia',       cellClass: 'input_center'},
+        {field: 'NumeroDisponibilidad',   displayName: 'No.', cellClass: 'input_center'},
+        {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero' , displayName : 'Necesidad No.', cellClass: 'input_center'},
+        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' ,cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : 'Estado'},
         {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
       ]
@@ -45,7 +45,7 @@ angular.module('financieraClienteApp')
 
 
     self.gridOptions.multiSelect = false;
-    financieraRequest.get('disponibilidad','limit=0').then(function(response) {
+    financieraRequest.get('disponibilidad','limit=-1').then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
         financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {

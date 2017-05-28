@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/,*/*/,*/*/*/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/{,**/}*.js'],
         tasks: ['newer:jshint:all', 'newer:jscs:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -441,7 +441,7 @@ module.exports = function(grunt) {
       ],
       dist: [
         'copy:styles',
-        // 'imagemin', no se requiere minificar imagenes, la libreria no funciona
+        'imagemin',
         'svgmin'
       ]
     },

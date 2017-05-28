@@ -1,0 +1,77 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+
+    <div class="row">
+      <div class="col-md-8">
+        <h3 class="page-header">{{d_verConcepto.v_concepto.Codigo}}. {{d_verConcepto.v_concepto.Nombre}}</h3>
+      </div>
+
+      <div class="col-md-4 pull-right" name="fechas">
+        <h3>
+          <small><span style="color: white">{{"CONCEPTO" | translate}} {{"TIPO" | translate}} {{d_verConcepto.v_concepto.TipoConcepto.Nombre}}</span> </small><br>
+          <small>{{"FECHA" | translate}} {{"CREACION" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaCreacion | date: "yyyy-MM-dd"}}</span> </small><br>
+          <small>{{"FECHA" | translate}} {{"VENCIMIENTO" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaExpiracion | date: "yyyy-MM-dd"}}</span></small>
+          </h3>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="panel-body">
+
+    <div class="col-md-12 row line">
+      <blockquote>
+        <p class="text-justify">
+          <small><cite>{{d_verConcepto.v_concepto.Descripcion}}</cite></small>
+        </p>
+      </blockquote>
+    </div>
+
+    <div class="col-md-12 row line">
+      <div class="col-md-2">
+        <label><h5>{{"AFECTACION" | translate}}:<h5></label>
+      </div>
+      <div class="col-md-10">
+        <table class="table table-bordered table-responsive table-hover">
+          <tr>
+            <td>{{"TIPO" | translate}} {{"AFECTACION" | translate}}</td>
+            <td>{{"INGRESO" | translate}}</td>
+            <td>{{"EGRESO" | translate}}</td>
+          </tr>
+          <tr ng-repeat="tipo_afect in d_verConcepto.afectaciones">
+            <td>{{tipo_afect.TipoAfectacion.Nombre}}</td>
+            <td><input ng-model="tipo_afect.AfectacionIngreso" type="checkbox" disabled></td>
+            <td><input ng-model="tipo_afect.AfectacionEgreso" type="checkbox" disabled></td>
+          </tr>
+
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-12 row line">
+      <div class="col-md-2">
+        <label><h5>{{"RUBRO" | translate}}:<h5></label>
+      </div>
+      <div class="panel panel-info panel-body col-md-10">
+        <h4 class="text-primary">{{d_verConcepto.v_concepto.Rubro.Descripcion}}</h4>
+        <p class="text-muted">{{d_verConcepto.v_concepto.Rubro.Entidad.Nombre}}</p>
+        <dl>
+          <dt>{{"CODIGO" | translate}}: {{d_verConcepto.v_concepto.Rubro.Codigo}}</dt>
+          <dd>- {{"VIGENCIA" | translate}} : {{d_verConcepto.v_concepto.Rubro.Vigencia}}</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="col-md-12 row line">
+      <div class="col-md-2">
+        <label><h5>{{"CUENTAS_CONTABLES" | translate}}:<h5></label>
+      </div>
+
+      <div class="panel panel-warning panel-body col-md-10">
+        <li ng-repeat="c in d_verConcepto.cuentas"> <span class="text-warning">{{c.CuentaContable.Codigo}}:</span> {{c.CuentaContable.Nombre}}</li>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -12,15 +12,18 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           apropiacion:'=',
-          cdp: '='
+          cdp: '=',
+          resumen: '=?'
         },
       templateUrl: 'views/directives/apropiacion/fuente_financiacion_cdp.html',
       controller:function($scope){
         var self = this;
         self.resumen_afectacion_presupuestal = [];
+        $scope.resumen = [];
         console.log("entro");
         $scope.$watch('apropiacion', function(){
           self.resumen_afectacion_presupuestal = [];
+          $scope.resumen = [];
           console.log("entro");
           if ($scope.cdp != undefined && $scope.apropiacion != undefined){
 
@@ -30,8 +33,9 @@ angular.module('financieraClienteApp')
                 limit: -1
               })).then(function(response) {
                 self.rubros_afectados = response.data;
-                console.log(self.rubros_afectados);
                 angular.forEach(self.rubros_afectados, function(rubros_data) {
+                  $scope.resumen.push(rubros_data);
+                  console.log($scope.resumen);
                   financieraRequest.get('apropiacion',$.param({
                     query: "Id:"+rubros_data.Apropiacion.Id,
                     limit: 1
@@ -63,6 +67,7 @@ angular.module('financieraClienteApp')
                 });
 
                 self.resumen_afectacion_presupuestal.push(self.rubros_afectados);
+
               });
 
             });

@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        proveedor: '='
+        proveedor: '=',
+        inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/proveedor/pv_listar.html',
@@ -36,16 +37,19 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'Tipopersona',
-              displayName: $translate.instant('TIPO_PERSONA')
-            },
-            {
               field: 'NumDocumento',
-              displayName: $translate.instant('NO_DOCUMENTO')
+              displayName: $translate.instant('NO_DOCUMENTO'),
+              width:'21%',
+              cellClass: 'input_center'
             },
             {
               field: 'NomProveedor',
               displayName: $translate.instant('NOMBRE')
+            },
+            {
+              field: 'Tipopersona',
+              displayName: $translate.instant('TIPO_PERSONA'),
+              width:'20%'
             }
           ]
         };
@@ -70,6 +74,12 @@ angular.module('financieraClienteApp')
           });
         };
         self.gridOptions_proveedor.multiSelect = false;
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         // control ocultar paginación
         $scope.$watch('[d_pvListar.gridOptions_proveedor.paginationPageSize, d_pvListar.gridOptions_proveedor.data]', function() {
           if ((self.gridOptions_proveedor.data.length <= self.gridOptions_proveedor.paginationPageSize || self.gridOptions_proveedor.paginationPageSize == null) && self.gridOptions_proveedor.data.length > 0) {

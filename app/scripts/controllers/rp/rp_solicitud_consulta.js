@@ -16,11 +16,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       enableFiltering : true,
       columnDefs : [
-        {field: 'Id',              displayName: 'Numero'},
-        {field: 'Vigencia',  displayName: 'Vigencia'},
-        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Consecutivo Disponibilidad'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Consecutivo Necesidad'},
+        {field: 'Id',              displayName: 'No.', cellClass: 'input_center'},
+        {field: 'Vigencia',  displayName: 'Vigencia', cellClass: 'input_center'},
+        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Disponibilidad No. ', cellClass: 'input_center'},
+        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Necesidad No. ', cellClass: 'input_center'},
         {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
     ]
 
@@ -61,7 +61,7 @@ angular.module('financieraClienteApp')
         $scope.apropiaciones = [];
           self.data = row.entity;
           financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
-            self.data.Compromiso = response.data;
+            self.data.InfoCompromiso = response.data;
           });
           argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
 
@@ -125,9 +125,11 @@ angular.module('financieraClienteApp')
           Solicitud: self.data.Id,
           DatosSolicitud: self.data
         };
+        console.log(rp);
 	var rubros = [];
 	for (var i = 0 ; i < self.gridOptions_rubros.data.length ; i++){
 	   self.gridOptions_rubros.data[i].DisponibilidadApropiacion.ValorAsignado = self.gridOptions_rubros.data[i].Monto;
+           self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciacion = self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciamiento;
            rubros.push(self.gridOptions_rubros.data[i].DisponibilidadApropiacion);
         }
         var registro = {

@@ -1,11 +1,7 @@
-<br>
-<div class="col-md-12 col-centered">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h2>Lista de RP</h2>
-    </div>
+<div class="panel panel-primary panel-body"  ng-show="!rpConsulta.cargandoDatosPagos">
+  <h2 class="page-header" align="center">Lista de Registros Presupuestales</h2>
     <div class="panel-body">
-      <div ui-grid="rpConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
+      <div ui-grid="rpConsulta.gridOptions" ui-grid-selection ui-grid-auto-resize class="myGrid"></div>
     </div>
   </div>
 </div>
@@ -64,3 +60,10 @@
     </div>-->
   </div>
 </div>
+<loading load="rpConsulta.cargandoDatosPagos" tam ="5"/>
+<!--<div class="row loading" ng-show="rpConsulta.cargandoDatosPagos">
+  <br>
+  <br>
+  <i class="fa fa-clock-o fa-spin fa-5x faa-burst animated  text-info" aria-hidden="true"></i>
+
+</div> -->

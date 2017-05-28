@@ -1,0 +1,274 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'TITULO_FUENTES_CREAR' | translate }}</h2>
+<form name="fuentes_form" ng-submit="fuentes_form.$valid ">
+
+
+  <div class="col-md-6">
+
+    <div class="panel panel-default">
+
+
+    <div class="panel-heading">
+        <h3 class="panel-title">Formulario Fuente De Financiación </h3>
+    </div>
+
+    <div class="panel-body">
+
+
+
+                <div class="col-md-6"><p></p>
+                  <label for="codigocuenta">Código:</label>
+                  <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="Ingresar código" required>
+
+                </div>
+
+
+                <div class="col-md-6"><p></p>
+                    <label for="sigla">Sigla:</label>
+                    <input class="form-control" type="text" id="sigla" ng-model="crearFuente.nueva_fuente.Sigla"  placeholder="Ingresar sigla" required>
+
+                </div>
+
+              <div class="col-md-12"><p></p>
+                <label for="nombrefuente">Descripción:</label>
+                <input class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="Ingresar Descripcion" required>
+
+              </div>
+
+
+
+
+                <div class="col-md-7"><p></p>
+                  <label for="monto">Ingresar Valor de la Fuente de Financiacion:</label>
+                  <input class="form-control" type="text" id="monto" ui-money-mask="0" ng-model="crearFuente.nueva_fuente_apropiacion.Monto" placeholder="Ingresar Monto Total de la Fuente de Financiacion" required>
+
+                </div>
+
+                <div class="col-md-5"><p></p>
+                  <label for="fechainicio">Ingresar Fecha de Inicio:</label>
+                  <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="Ingresar la fecha de Inicio"></md-datepicker>
+
+                </div>
+
+
+                <div class="col-md-12"><p></p>
+                <div id="grid1" ui-grid="crearFuente.gridOptionsapropiacion" ui-grid-selection class="grid"></div>
+
+              </div><p></p>
+              <div class="col-md-7">
+
+              </div>
+
+                <div class="col-md-5"><p></p>
+                    <button ng-click='crearFuente.crear_fuente()' class="btn btn-outline btn-success btn-md btn-block">Asignar Fuente Financiación</button>
+                </div>
+                <label for="espacio"></label>
+
+              </div>
+            </div>
+            </div>
+
+
+
+            <div class="col-md-6">
+
+              <div class="panel panel-success">
+
+
+              <div class="panel-heading">
+                  <h3 class="panel-title">Rubros Seleccionados </h3>
+              </div>
+
+              <div class="panel-body">
+
+
+
+
+            <div class="info panel-success" ng-repeat="rubro in crearFuente.rubros_seleccionados" >
+                <div class="form-group row">
+                 <label for="codigo_rubro" class="col-sm-5 col-form-label">Rubro:  </label>
+                 <div class="col-md-12">
+                   <input id="codigo_rubro" name="codigo_rubro"  disabled type="text" placeholder="Codigo" class="form-control input-md" required="" value="{{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}">
+                 </div>
+               </div>
+
+               <div class="form-group" ng-repeat="asignado in rubro.seleccionado" >
+
+                 <p></p><div class="col-md-7">
+                   <label for="dependencia">Dependencia:</label>
+                   <select class="form-control"  id="dependencia" ng-model="asignado.Dependencia"required>
+                     <option value="">Seleccione la dependencia</option>
+                   <option ng-repeat="n in crearFuente.dependencia"  value={{n.Id}}>{{n.Nombre}}</option>
+                   </select>
+                 </div><p></p>
+
+                 <div class="col-md-3">
+                   <label for="valor">Valor:</label>
+                   <input class="form-control" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="Ingrese el Valor" required>
+                 </div><p></p>
+
+
+                 <div class="form-group col-md-2"><p></p>
+                   <label for="valor">                               </label>
+                   <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="crearFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">Quitar </button>
+                 </div>
+
+
+               </div><p></p>
+
+
+              <!-- Button (Double) -->
+              <div class="form-group">
+
+
+              <div class="col-md-6"><p></p>
+                  <button ng-click='crearFuente.agregar_dependencia(rubro.Id)' class="btn btn-outline btn-success btn-md btn-block">Agregar Dependencia</button>
+                  <label for="espacio"></label>
+              </div>
+              <div class="col-md-6"><p></p>
+                  <button ng-click='crearFuente.quitarRubro(rubro.Id)' class="btn btn-outline btn-danger btn-md btn-block">Quitar Rubro</button>
+                  <label for="esoacio"></label>
+              </div>
+                </div>
+              <label for="dfjk"></label>
+              <legend></legend>
+
+              </div>
+
+            </div>
+
+            </div>
+
+            </div>
+
+          </div>
+
+
+            <div class="col-md-12 panel panel-primary" ng-show='crearFuente.formVisibility'><p></p>
+
+              <div class="col-sm-5">
+                <h3>Fuente de Financiacion</h3>
+                <table name="info_fuente" class="table">
+                  <tbody>
+                    <tr >
+                       <th>
+                           Codigo:
+                       </th>
+                       <td>
+                           {{ crearFuente.nueva_fuente.Codigo }}
+                       </td>
+                     </tr>
+                     <tr >
+                      <th>
+                          Sigla:
+                      </th>
+                      <td>
+                          {{ crearFuente.nueva_fuente.Sigla }}
+                      </td>
+                    </tr>
+                     <tr >
+                        <th>
+                            Descripcion:
+                        </th>
+                        <td>
+                            {{ crearFuente.nueva_fuente.Descripcion }}
+                        </td>
+                      </tr>
+                      <tr>
+                         <th>
+                             Valor:
+                         </th>
+                         <td>
+                             {{ crearFuente.nueva_fuente_apropiacion.Monto }}
+                         </td>
+                       </tr>
+                       <tr>
+                          <th>
+                              Valor Asignado:
+                          </th>
+                          <td>
+                              {{ crearFuente.totalmont() }}
+                          </td>
+                        </tr>
+                      <tr >
+                         <th>
+                             Fecha de Creacion:
+                         </th>
+                         <td>
+                             {{ crearFuente.nueva_fuente_apropiacion.Fechainicio }}
+                         </td>
+                       </tr>
+                       <tr >
+                          <th>Dependencia:
+                          </th>
+                          <td>
+                              {{ crearFuente.nueva_fuente_apropiacion.Dependencia}}
+                          </td>
+                        </tr>
+
+
+
+                  </tbody>
+
+                  </table>
+
+                  <input type="submit" class="btn btn-success" value="Asignar Fuente Financiacion" ng-click="crearFuente.crear_fuente()">
+                  <pre>
+                    {{crearFuente.nueva_fuente | json}}
+                    {{crearFuente.rubros_seleccionados | json}}
+                  </pre>
+
+              </div>
+
+              <div class="col-sm-7">
+
+                  <h3>Rubros Asignados</h3>
+
+                <div class="col-sm-12">
+
+                <table name="info_fuente" class="table" ng-repeat="rubro in crearFuente.rubros_seleccionados">
+                  <tbody>
+                    <tr >
+                       <th>
+                           Rubro:
+                       </th>
+                       <td>
+                           {{ rubro.Rubro.Codigo }} / {{ rubro.Rubro.Descripcion }}
+                       </td>
+
+                     </tr>
+
+                  </tbody>
+                  <table name="info_d" class="table" ng-repeat="asignado in rubro.seleccionado">
+                    <tbody>
+                      <tr>
+
+                      <th>
+                          Dependencia:
+                      </th>
+                      <td>
+                          {{ asignado.Dependencia }}
+                      </td>
+                      <th>
+                          valor:
+                      </th>
+                      <td>
+                          {{ asignado.Valor }}
+                      </td>
+                      </tr>
+                     </tbody>
+                   </table>
+                  </table>
+
+
+                  </div>
+
+
+
+              </div>
+
+
+            </div>
+
+</form>
+</div>

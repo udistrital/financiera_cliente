@@ -20,11 +20,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'alignleft'},
-        {field: 'NumeroRegistroPresupuestal',   displayName: 'Consecutivo del RP'},
-        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: 'Consecutivo del CDP'},
-        {field: 'Necesidad.Numero',   displayName: 'Consecutivo de la Necesidad'},
-        {field: 'FechaMovimiento' , displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'Vigencia',       cellClass:'input_center'},
+        {field: 'NumeroRegistroPresupuestal',   displayName: 'No.', cellClass:'input_center'},
+        {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: 'CDP No.', cellClass:'input_center'},
+        {field: 'Necesidad.Numero',   displayName: 'Necesidad No. ' ,cellClass:'input_center'},
+        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : 'Fecha de Registro' , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'Estado.Nombre', displayName : 'Estado'},
       ]
 
@@ -45,19 +45,21 @@ angular.module('financieraClienteApp')
     };
 
     self.gridOptions.multiSelect = false;
+    self.cargandoDatosPagos = true;
     financieraRequest.get('registro_presupuestal','limit=0').then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
         financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion','limit=1&query=RegistroPresupuestal:'+data.Id).then(function(response) {
           data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
           financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Disponibilidad.Solicitud,'').then(function(response) {
-
+            self.cargandoDatosPagos = false;
                 data.Necesidad = response.data[0].SolicitudDisponibilidad.Necesidad;
-
-
             });
         });
       });
+        // called no matter success or failure
+
+
     });
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
