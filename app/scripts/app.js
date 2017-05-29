@@ -288,7 +288,11 @@ angular
         controller: 'RequisitosCtrl',
         controllerAs: 'requisitos'
       })
-
+      .when('/fuente_financiacion/modificacion_fuente', {
+        templateUrl: 'views/fuente_financiacion/modificacion_fuente.html',
+        controller: 'modificacionFuenteCtrl',
+        controllerAs: 'modificacionFuente'
+      })
       .otherwise({
         redirectTo: '/'
       });

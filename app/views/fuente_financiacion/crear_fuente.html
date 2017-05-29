@@ -273,3 +273,51 @@
 
 </form>
 </div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes();">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="page-header">{{ 'TITULO_FUENTES_CREAR' | translate }}</h3>
+        <div align="right">Fecha Solicitud: {{crearFuente.nueva_fuente_apropiacion.fechainicio | date:"yyyy-MM-dd":"+0900"}}</div>
+      </div>
+      <div class="panel-body">
+        <h4 class="text-info">{{'FUENTE_FINANCIACION' | translate}}</h4>
+        <table class="table">
+          <tr>
+            <th>{{'CODIGO' | translate}}: </th>
+            <td>{{crearFuente.nueva_fuente.Codigo }}</td>
+          </tr>
+          <tr>
+            <th>{{ 'SIGLA' | translate }}: </th>
+            <td>{{crearFuente.nueva_fuente.Sigla}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'DESCRIPCION' | translate }}: </th>
+            <td>{{crearFuente.nueva_fuente.Descripcion}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'VALOR' | translate }}: </th>
+            <td>{{{{ crearFuente.nueva_fuente_apropiacion.Monto }}}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'FECHA' | translate }}: </th>
+            <td>{{{{ crearFuente.nueva_fuente_apropiacion.Fechainicio }}}}</td>
+          </tr>
+
+        </table>
+        <hr>
+        <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+        <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones">
+        </fuente-financiacion-necesidad>
+        <hr>
+        <center>
+          <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
