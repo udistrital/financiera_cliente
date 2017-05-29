@@ -38,10 +38,6 @@ module.exports = function(config) {
       'bower_components/pdfmake/build/pdfmake.js',
       'bower_components/pdfmake/build/vfs_fonts.js',
       'bower_components/ngstorage/ngStorage.js',
-<<<<<<< HEAD
-=======
-      'bower_components/kjur-jsrsasign/jsrsasign-all-min.js',
->>>>>>> 6e37d2668141f0ab6efab5c3e661629f4a8614f2
       'bower_components/angular-websocket/dist/angular-websocket.js',
       'bower_components/angular-input-masks/angular-input-masks-standalone.js',
       'bower_components/moment/moment.js',
@@ -50,6 +46,7 @@ module.exports = function(config) {
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/sweetalert/dist/sweetalert.min.js',
       'bower_components/sweetalert2/dist/sweetalert2.js',
+      'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
