@@ -90,7 +90,8 @@ self.tipo=[{ Id:'1', Nombre: $translate.instant('ADICION')},{ Id:'2', Nombre: $t
                       Rubro: apropiacion.Rubro.Id,
                       ValorTotal: 0,
                       Valor: "",
-                      Dependencia: ""
+                      Dependencia: "",
+                      NomDependencia: ""
                     }
 
                     self.rubros_seleccionados[self.rubros_seleccionados.length-1].seleccionado=[];
@@ -146,7 +147,8 @@ self.tipo=[{ Id:'1', Nombre: $translate.instant('ADICION')},{ Id:'2', Nombre: $t
                           Rubro: id,
                           ValorTotal: valor,
                           Valor: "",
-                          Dependencia: dependencia
+                          Dependencia: dependencia,
+                          NomDependencia: ""
                         }
                         for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
                           if(dependencia==self.rubros_seleccionados[i].seleccionado[j].Dependencia){
@@ -177,7 +179,8 @@ self.tipo=[{ Id:'1', Nombre: $translate.instant('ADICION')},{ Id:'2', Nombre: $t
                           Rubro: id,
                           ValorTotal: 0,
                           Valor: "",
-                          Dependencia: ""
+                          Dependencia: "",
+                          NomDependencia: ""
                         }
                         self.rubros_seleccionados[i].seleccionado.push(data);
                       }
@@ -220,6 +223,11 @@ self.montoAsignado=function(){
   self.totalMonto=0;
   for (var i = 0; i < self.rubros_seleccionados.length; i++) {
     for (var j = 0; j  < self.rubros_seleccionados[i].seleccionado.length; j++) {
+      for (var k = 0; k < self.dependencia.length; k++) {
+        if(self.rubros_seleccionados[i].seleccionado[j].Dependencia==self.dependencia[k].Id){
+          self.rubros_seleccionados[i].seleccionado[j].NomDependencia=self.dependencia[k].Nombre;
+        }
+      }
       self.totalMonto=self.totalMonto+parseInt(self.rubros_seleccionados[i].seleccionado[j].Valor);
       console.log(self.totalMonto);
     }
@@ -233,9 +241,13 @@ self.montoAsignado=function(){
     return false;
   }
 };
+self.Codigo="1";
+self.Sigla="d";
+self.Descripcion="d";
 
+self.comprobar_fuente=function(){
 
-self.crear_fuente= function(){
+  self.registrar=true;
 
   if (self.modificar_fuente==null) {
     swal( $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO'), "error");
@@ -249,6 +261,7 @@ self.crear_fuente= function(){
       swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
   }else{
 
+
     for (var i = 0; i < self.rubros_seleccionados.length; i++) {
       for (var j = 0; j  < self.rubros_seleccionados[i].seleccionado.length; j++) {
         if (self.rubros_seleccionados[i].seleccionado[j].Valor==0) {
@@ -261,28 +274,42 @@ self.crear_fuente= function(){
         }
       }
     }
-    if(self.registrar){
+    if (self.registrar) {
     if(self.montoAsignado()){
-      console.log("montoAsignado" , self.modificar_fuente.Id)
+      $("#myModal").modal();
+    }else{
+    swal($translate.instant('ERROR'),$translate.instant('MONTO_MAYOR_FUENTE_FINANCIAMIENTO'), "error");
+    }
+    }
+  }
+  for (var i = 0; i < self.fuente_financiacion.length; i++) {
+    console.log(self.fuente_financiacion[i].Id+" "+self.modificar_fuente)
+    if(self.fuente_financiacion[i].Id==self.modificar_fuente){
+      self.Codigo=self.fuente_financiacion[i].Codigo;
+      self.Sigla=self.fuente_financiacion[i].Sigla;
+      self.Descripcion=self.fuente_financiacion[i].Descripcion;
+      console.log(self.nueva_fuente)
+
+    }
+  }
+};
+
+    self.cerrar_ventana= function(){
+      $("#myModal").modal('hide');
+    };
+
+
+self.crear_fuente= function(){
 
   for (var i = 0; i < self.fuente_financiacion.length; i++) {
     if (self.fuente_financiacion[i].Id==self.modificar_fuente) {
       self.asignar_rubros(self.fuente_financiacion[i].Id);
       self.fente_encontrada=true;
       swal($translate.instant('PROCESO_COMPLETADO'),$translate.instant('REGISTRO_CORRECTO'), "success");
-
-      // registro fuente en el historial
-
       $window.location.href = '#/fuente_financiacion/consulta_fuente';
     }
   }
-}
-  else{
 
-    swal($translate.instant('ERROR'),$translate.instant('MONTO_MAYOR_FUENTE_FINANCIAMIENTO'), "error");
- }
- }
- }
 };
 
 self.asignar_rubros= function(id){

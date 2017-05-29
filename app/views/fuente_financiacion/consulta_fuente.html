@@ -4,3 +4,47 @@
       <div ui-grid="consultaFuente.gridOptions" ui-grid-selection class="myGrid"></div>
     </div>
 </div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="consultaFuente.cerrar_ventana()">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
+      </div>
+          <table class="table">
+              <tr>
+                <th>{{'CODIGO' | translate}}: </th>
+                <td>{{consultaFuente.fuente_seleccionada.Codigo }}</td>
+              </tr>
+              <tr>
+                <th>{{ 'SIGLA' | translate }}: </th>
+                <td>{{consultaFuente.fuente_seleccionada.Sigla}}</td>
+              </tr>
+              <tr>
+                <th>{{ 'DESCRIPCION' | translate }}: </th>
+                <td>{{consultaFuente.fuente_seleccionada.Descripcion}}</td>
+              </tr>
+              <tr>
+                <th>{{ 'VALOR' | translate }}: </th>
+                <td>{{ consultaFuente.fuente_seleccionada.Valor}}</td>
+              </tr>
+        </table>
+        <hr>
+        <h4 class="text-info">{{'RUBROS' | translate}}</h4>
+
+        <div class="modal-content">
+          <div class="modal-header">
+          </div>
+          <div class="modal-body">
+            <div ui-grid="consultaFuente.gridOptionsapropiacion" class="myGrid"></div>
+
+        </div>
+        </div>
+
+      
+    </div>
+  </div>
+</div>

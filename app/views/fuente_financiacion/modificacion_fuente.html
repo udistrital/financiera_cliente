@@ -51,7 +51,7 @@
                 </div><p></p>
 
                 <div class="col-md-12"><p></p>
-                    <button ng-click='modificacionFuente.crear_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
+                    <button ng-click='modificacionFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
                 </div>
                 <label for="espacio"></label>
 
@@ -77,16 +77,14 @@
 
             <div class="info panel-success" ng-repeat="rubro in modificacionFuente.rubros_seleccionados" >
 
-                <div class="form-group col-md-12">
-                  <legend class="text-default" disable>
-                    {{'RUBRO' | translate}} : {{rubro.Codigo + ' / ' + rubro.Descripcion}}
-                  </legend class="text-success">
+              <div class="form-group col-md-12">
+                <legend class="text-default" disable>
+                  {{'RUBRO' | translate}} : {{rubro.Codigo + ' / ' + rubro.Descripcion}}
+                </legend class="text-success">
 
-               </div>
+             </div>
 
                <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
-
-
 
                     <div class="" visible="false">
                         <td>
@@ -94,20 +92,21 @@
                         </td>
                     </div>
 
-                    <div class="col-md-7">
+                    <div class="col-md-8">
                      <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
-                     <select title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
+                     <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
                     </div>
 
-                 <div class="col-md-3">
-                   <label for="valor">{{'VALOR' | translate }}:</label>
-                   <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$">
-                 </div><p></p>
+                    <div class="col-md-3">
+                      <label for="valor">{{'VALOR' | translate }}:</label>
+                      <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$" >
+                    </div><p></p>
 
 
-                 <div class="form-group col-md-2"><p></p>
-                   <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="modificacionFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
-                 </div>
+                    <div class="form-group col-md-1">
+                      <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
+                      <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="modificacionFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
+                    </div>
 
 
                </div><p></p>
@@ -128,12 +127,7 @@
 
                 </div>
 
-
-              <label for="espacio"></label>
-
-
               </div>
-
 
             </div>
 
@@ -143,134 +137,65 @@
 
           </div>
 
-
-            <div class="col-md-12 panel panel-primary" ng-show='crearFuente.formVisibility'><p></p>
-
-              <td>{{modificacionFuente.actualizar()}}</td>
-
-              <div class="col-sm-5">
-                <h3>Fuente de Financiacion</h3>
-                <table name="info_fuente" class="table">
-                  <tbody>
-                    <tr >
-                       <th>
-                           Codigo:
-                       </th>
-                       <td>
-                           {{ crearFuente.nueva_fuente.Codigo }}
-                       </td>
-                     </tr>
-                     <tr >
-                      <th>
-                          Sigla:
-                      </th>
-                      <td>
-                          {{ crearFuente.nueva_fuente.Sigla }}
-                      </td>
-                    </tr>
-                     <tr >
-                        <th>
-                            Descripcion:
-                        </th>
-                        <td>
-                            {{ crearFuente.nueva_fuente.Descripcion }}
-                        </td>
-                      </tr>
-                      <tr>
-                         <th>
-                             Valor:
-                         </th>
-                         <td>
-                             {{ crearFuente.nueva_fuente_apropiacion.Monto }}
-                         </td>
-                       </tr>
-                       <tr>
-                          <th>
-                              Valor Asignado:
-                          </th>
-                          <td>
-                              {{ crearFuente.totalmont() }}
-                          </td>
-                        </tr>
-                      <tr >
-                         <th>
-                             Fecha de Creacion:
-                         </th>
-                         <td>
-                             {{ crearFuente.nueva_fuente_apropiacion.Fechainicio }}
-                         </td>
-                       </tr>
-                       <tr >
-                          <th>Dependencia:
-                          </th>
-                          <td>
-                              {{ crearFuente.nueva_fuente_apropiacion.Dependencia}}
-                          </td>
-                        </tr>
-
-
-
-                  </tbody>
-
-                  </table>
-
-                  <input type="submit" class="btn btn-success" value="Asignar Fuente Financiacion" ng-click="crearFuente.crear_fuente()">
-                  <pre>
-                    {{crearFuente.nueva_fuente | json}}
-                    {{crearFuente.rubros_seleccionados | json}}
-                  </pre>
-
-              </div>
-
-              <div class="col-sm-7">
-
-                  <h3>Rubros Asignados</h3>
-
-                <div class="col-sm-12">
-
-                <table name="info_fuente" class="table" ng-repeat="rubro in crearFuente.rubros_seleccionados">
-                  <tbody>
-                    <tr >
-                       <th>
-                           Rubro:
-                       </th>
-                       <td>
-                           {{ rubro.Rubro.Codigo }} / {{ rubro.Rubro.Descripcion }}
-                       </td>
-
-                     </tr>
-
-                  </tbody>
-                  <table name="info_d" class="table" ng-repeat="asignado in rubro.seleccionado">
-                    <tbody>
-                      <tr>
-
-                      <th>
-                          Dependencia:
-                      </th>
-                      <td>
-                          {{ asignado.Dependencia }}
-                      </td>
-                      <th>
-                          valor:
-                      </th>
-                      <td>
-                          {{ asignado.Valor }}
-                      </td>
-                      </tr>
-                     </tbody>
-                   </table>
-                  </table>
-
-
-                  </div>
-
-
-
-              </div>
-
-
-            </div>
 
 </form>
-          </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="modificacionFuente.cerrar_ventana()">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="page-header">{{ 'MODIFICACION_PRESUPUESTAL' | translate }}</h3>
+        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{modificacionFuente.nueva_fuente_apropiacion.Fechainicio | date:"yyyy-MM-dd":"+0900"}}</div>
+      </div>
+      <div class="panel-body">
+        <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
+        <table class="table">
+          <tr>
+            <th>{{'CODIGO' | translate}}: </th>
+            <td>{{modificacionFuente.Codigo }}</td>
+          </tr>
+          <tr>
+            <th>{{ 'SIGLA' | translate }}: </th>
+            <td>{{modificacionFuente.Sigla}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'DESCRIPCION' | translate }}: </th>
+            <td>{{modificacionFuente.Descripcion}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'VALOR' | translate }}: </th>
+            <td>{{ modificacionFuente.nueva_fuente_apropiacion.Monto }}</td>
+          </tr>
+
+        </table>
+        <hr>
+        <h4 class="text-info">{{'RUBROS' | translate}}</h4>
+
+        <ul class="list-unstyled" ng-repeat="rubro in modificacionFuente.rubros_seleccionados">
+          <hr class="hr-primary">
+          <li><b>{{'RUBRO' | translate}}:</b> {{rubro.Codigo+" / "+rubro.Descripcion}}
+            <ul>
+              <li><b>{{'DEPENDENCIAS' | translate}}:</b>
+                <ul ng-repeat="asignado in rubro.seleccionado">
+                  <li>{{asignado.NomDependencia}}
+                    <ul>
+                      <li><b>{{'VALOR' | translate}}:</b> {{" "+asignado.Valor |currency}}</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <hr>
+        <center>
+          <button ng-click='modificacionFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
+        </center>
+      </div>
+    </div>
+  </div>
+</div>
