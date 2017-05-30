@@ -11,7 +11,11 @@ angular.module('financieraClienteApp')
 .factory("fuente",function(){
         return {};
   })
+<<<<<<< HEAD
   .controller('consultaFuenteCtrl', function ($window,fuente,$scope,$translate,financieraRequest) {
+=======
+  .controller('consultaFuenteCtrl', function ($window,$scope,financieraRequest) {
+>>>>>>> dev
 
     var self = this;
     self.gridOptions = {
@@ -28,16 +32,49 @@ angular.module('financieraClienteApp')
 
     };
     self.gridOptions.multiSelect = false;
-    financieraRequest.get('fuente_financiacion','limit=0').then(function(response) {
+
+    financieraRequest.get('fuente_financiacion','limit=-1').then(function(response) {
       self.gridOptions.data = response.data;
     });
+
+    self.gridOptionsapropiacion = {
+      enableFiltering : false,
+      enableSorting : false,
+      treeRowHeaderAlwaysVisible : false,
+      showTreeExpandNoChildren: false,
+      rowEditWaitInterval :-1,
+
+         columnDefs : [
+           {field: 'Id',               visible : false},
+           {field: 'Apropiacion.Rubro.Codigo',     width: '25%',  displayName: 'Código'},
+           {field: 'Apropiacion.FechaCreacion',         width: '12%', displayName: 'Fecha Creación',cellTemplate: '<div align="center">{{row.entity.FechaCreacion | date:"yyyy-MM-dd":"+0900"}}</div>'},
+           {field: 'Apropiacion.Rubro.Descripcion',width: '39%', resizable : true,           displayName: 'Descripción'},
+           {field: 'Dependencia',    width: '9%',  cellTemplate:'<div align="center">{{row.entity.Dependencia }}</div>',  enableCellEdit: false},
+           {field: 'Valor',   cellTemplate:'<div align="right">{{row.entity.Valor | currency}}</div>',    width: '15%'},
+
+      ]
+    };
+    self.gridOptionsapropiacion.multiSelect = false;
+
+    self.cerrar_ventana= function(){
+      $("#myModal").modal('hide');
+    };
+
+    self.fuente_seleccionada={};
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.fuente = fuente;
-        $scope.fuente.Id = row.entity.Id;
+
+        financieraRequest.get('fuente_financiacion_apropiacion','limit=-1&query=fuente:'+row.entity.Id).then(function(response) {
+            self.gridOptionsapropiacion.data = response.data;
+            self.fuente_seleccionada=row.entity;
+
+        });
+
         console.log(row.entity.Id);
-        $window.location.href = '#/fuente_financiacion/detalle_fuente';
+          $("#myModal").modal();
       });
     };
+
+
   });

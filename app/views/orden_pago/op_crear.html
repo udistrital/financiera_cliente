@@ -3,20 +3,45 @@
   <div class="panel-body">
 
     <!--unidad ejecutora -->
-    <ue-listar unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"> </ue-listar>
+    <ue-listar
+      unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"
+      inputpestanaabierta="opCrear.PestanaAbierta">
+    </ue-listar>
+
     <!--Proveedor -->
-    <pv-listar proveedor="opCrear.OrdenPagoConsulta.Proveedor"> </pv-listar>
+    <pv-listar
+      proveedor="opCrear.OrdenPagoConsulta.Proveedor"
+      inputpestanaabierta="opCrear.PestanaAbierta">
+    </pv-listar>
+
     <!--RP-->
-    <rp-por-proveedor-listar beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id" rpselect="opCrear.OrdenPago.RegistroPresupuestal">
+    <rp-por-proveedor-listar
+      beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id"
+      rpselect="opCrear.OrdenPago.RegistroPresupuestal"
+      inputpestanaabierta="opCrear.PestanaAbierta">
     </rp-por-proveedor-listar>
+
     <!--detalle pago -->
-    <op-proveedor-detalle-pago tipoordenpago="opCrear.OrdenPago.TipoOrdenPago" iva="opCrear.OrdenPago.Iva" valorbase="opCrear.OrdenPago.ValorBase">
+    <op-proveedor-detalle-pago
+      tipoordenpago="opCrear.OrdenPago.TipoOrdenPago"
+      iva="opCrear.OrdenPago.Iva"
+      valorbase="opCrear.OrdenPago.ValorBase"
+      inputpestanaabierta="opCrear.PestanaAbierta"
+      vigencia="opCrear.OrdenPago.Vigencia">
     </op-proveedor-detalle-pago>
+
     <!--Rubros-->
-    <rubros-por-rp-seleccion-multiple rpid="opCrear.OrdenPago.RegistroPresupuestal.Id" rubros="opCrear.RubrosIds" rubrosobj="opCrear.RubrosObjIds">
+    <rubros-por-rp-seleccion-multiple
+      rpid="opCrear.OrdenPago.RegistroPresupuestal.Id"
+      rubrosobj="opCrear.RubrosObjIds"
+      inputpestanaabierta="opCrear.PestanaAbierta">
     </rubros-por-rp-seleccion-multiple>
+
     <!--Concepto-->
-    <conceptos-por-rubros-op rubroids="opCrear.RubrosIds" conceptos="opCrear.Concepto" rubroidsobj="opCrear.RubrosObjIds">
+    <conceptos-por-rubros-op
+      rubroidsobj="opCrear.RubrosObjIds"
+      conceptosoutput="opCrear.Concepto"
+      inputpestanaabierta="opCrear.PestanaAbierta">
     </conceptos-por-rubros-op>
 
     <!--Cuentas contables -->

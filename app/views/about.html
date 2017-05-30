@@ -11,16 +11,28 @@
           <br> <br> <br> <br>
 
 
-          <movimientos-contables conceptoid="concepto=5"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
-          <lista-apropiaciones vigencia="2017" tipo="'3-3'" apropiacion="apro" selhijos="true" />
-          <fuente-financiacion-necesidad necesidad="10" apropiacion="[256]" />
+
+          <ver-descuentos cuentasel="cuen"/>
+          <br>
+          cuenta:
+          <pre>{{cuen | json}}</pre>
+          <movimientos-contables conceptoid="concepto=25"  movimientos="movs" monto="montmov" editable validatemov="validado"/>
+movimientos::::
+          <pre>{{movs | json}}</pre>
+        <!--  -->
+        <!--  <lista-apropiaciones vigencia="2017" tipo="'3-3'" apropiacion="apro" selhijos="true" />
+          <fuente-financiacion-necesidad necesidad="10" apropiacion="[256]" />-->
 <!--select * from financiera.cuenta_contable where id not in (select cuenta_hijo from financiera.estructura_cuentas where plan_cuentas!=2) and id in (select cuenta_padre from financiera.estructura_cuentas where plan_cuentas=2) order by id
 
-select a.* from financiera.cuenta_contable a left join financiera.estructura_cuentas b on a.id =b.cuenta_hijo where b.cuenta_padre=1 and b.plan_cuentas = 2 ORDER BY a.id -->
+select a.* from financiera.cuenta_contable a left join financiera.estructura_cuentas b on a.id =b.cuenta_hijo where b.cuenta_padre=1 and b.plan_cuentas = 2 ORDER BY a.id
+</p>
+
+<ver-concepto codigoconcepto="1" />
+-->
 
 
 
-        </p>
+
     </div>
     <div class="panel-footer">
         Panel Footer

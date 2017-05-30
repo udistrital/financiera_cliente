@@ -19,7 +19,6 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.gridOptions_movimientos = {
-          showGridFooter: true,
           showColumnFooter: true,
           enableRowSelection: true,
           enableRowHeaderSelection: false,
@@ -30,7 +29,7 @@ angular.module('financieraClienteApp')
             {
               field: 'ConceptoCuentaContable.CuentaContable.Codigo',
               displayName: $translate.instant('CODIGO'),
-              cellClass: 'aligncenter'
+              cellClass: 'input_center'
             },
             {
               field: 'ConceptoCuentaContable.CuentaContable.Nombre',
@@ -42,7 +41,7 @@ angular.module('financieraClienteApp')
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
               cellClass: 'input_right',
-              footerCellTemplate: '<div> TOTAL {{col.getAggregationValue() | currency}}</div>',
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
               footerCellClass: 'input_right'
             },
             {
@@ -51,7 +50,7 @@ angular.module('financieraClienteApp')
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
               cellClass: 'input_right',
-              footerCellTemplate: '<div> TOTAL {{col.getAggregationValue() | currency}}</div>',
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
               footerCellClass: 'input_right'
             },
             {
