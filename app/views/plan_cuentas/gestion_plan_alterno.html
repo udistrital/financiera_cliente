@@ -1,0 +1,22 @@
+<div class="panel panel-primary panel-body">
+    <center><h3 class="page-header">
+        Plan alterno
+    </h3></center>
+    <div class="panel-body">
+
+      <div class="col-md-6">
+        <plan-cuentas filtro="filtro_padre" cuentasel="padre" recargar="recargar_arbol" planid="1" arbol="my_arbol" noresumen/>
+      </div>
+
+      <div class="col-md-6">
+        <plan-cuentas recargar="recargar_arbol" planid="gestionPlanAlterno.plan_maestro.Id" cuentasel="gestionPlanAlterno.nueva_cuenta" ramasel="gestionPlanAlterno.nueva_rama" noresumen/>
+      </div>
+
+<button type="button" name="button" ng-click="agregar(padre)">add</button>
+<pre>{{gestionPlanAlterno.nueva_rama | json}}</pre>
+
+    </div>
+    <div class="panel-footer">
+        Panel Footer
+    </div>
+</div>

@@ -289,6 +289,11 @@ angular
         controllerAs: 'requisitos'
       })
 
+      .when('/plan_cuentas/gestion_plan_alterno', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
+        controller: 'GestionPlanAlternoCtrl',
+        controllerAs: 'gestionPlanAlterno'
+      })
       .otherwise({
         redirectTo: '/'
       });

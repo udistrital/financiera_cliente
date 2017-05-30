@@ -26,10 +26,14 @@ angular.module('financieraClienteApp')
         filtro: '=?',
         cuentasel: '=?',
         recargar: '=?',
-        planid: '='
+        planid: '=?',
+        arbol: '=?',
+        noresumen: '@?',
+        ramasel: '=?'
       },
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html', //url del template de la directiva
-      controller: function($scope) {
+      controller: function($scope, $attrs) {
+        $scope.vista_resumen= 'noresumen' in $attrs;
         var self = this;
 
         /**
@@ -71,7 +75,10 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
             self.plan = response.data[0];
             financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
-              self.plan_cuentas = response.data;
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
             });
           });
         };
@@ -83,9 +90,28 @@ angular.module('financieraClienteApp')
          * @param {undefined} recargar variable que activa el evento
          * @description Si la variable recargar tiene un cambio el evento se activa recargando la estructura del plan de cuentas por la funcion cargar_arbol
          */
-        $scope.$watch("[recargar,planid]", function() {
-          self.cargar_arbol();
-        }, true);
+         $scope.$watch("[recargar,planid]", function() {
+           if ($scope.planid !== undefined) {
+             self.cargar_arbol();
+           }
+         }, true);
+
+         /*if ('arbol' in $attrs) {
+           console.log("afsa",$scope.arbol);
+           if ($scope.arbol !== undefined) {
+             self.plan_cuentas=$scope.arbol;
+           } else {
+             console.log("fff");
+             $scope.arbol=self.plan_cuentas;
+             console.log($scope.arbol);
+           }
+         }*/
+
+         $scope.showSelected = function(node, $path) {
+            $scope.ramasel = $path();
+        };
+
+
 
       },
       controllerAs: 'd_planCuentas' //alias del controlador de la directiva

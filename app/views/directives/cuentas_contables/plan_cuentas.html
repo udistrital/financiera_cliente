@@ -4,7 +4,7 @@
   </div>
   <div class="row">
 
-    <treecontrol class="tree-classic" tree-model="d_planCuentas.plan_cuentas" options="d_planCuentas.treeOptions" on-selection="showSelected(node);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}" >
+    <treecontrol class="tree-classic" tree-model="arbol" options="d_planCuentas.treeOptions" on-selection="showSelected(node, $path);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}" >
       <span class="text-success">{{node.Codigo}}:</span>  {{node.Nombre}}
     </treecontrol>
     <br>
@@ -17,7 +17,7 @@
       }
     </style>
 
-    <div class="panel panel-success panel-body row sticky" ng-show="cuentasel!=undefined && showc">
+    <div class="panel panel-success panel-body row sticky" ng-show="cuentasel!=undefined && showc && !vista_resumen">
       <span class="pull-right text-danger" ng-click="cuentasel=undefined">X</span>
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
       <p class="text-muted text-justify ">{{cuentasel.Descripcion | limitTo:370}} ...</p>
