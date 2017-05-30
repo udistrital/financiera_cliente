@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.OrdenPagoConsulta.Proveedor = {Id: 469};
+    self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
     // obtener vigencia
@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insertc
         console.log("Insertar DATA");
-        /*financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
+        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataOrdenPagoInsert)
           .then(function(data) { //error con el success
             self.resultado = data;
             //mensaje
@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
               $window.location.href = '#/orden_pago/ver_todos';
             })
             //
-          })*/
+          })
       } else {
         // mesnajes de error
         swal({
@@ -64,7 +64,22 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      console.log(self.OrdenPago)
+      self.OrdenPago.EstadoOrdenPago = {};
+      self.OrdenPago.Nomina = '';
+      //
+      self.OrdenPago.PersonaElaboro = 1;
+      self.OrdenPago.Iva= {Id: 1}             // iva del  0%
+      self.OrdenPago.TipoOrdenPago= {Id: 2}  //2 = cuenta cobro
+
+      //construir data send
+      self.dataOrdenPagoInsert = {};
+      self.ConceptoOrdenPago = [];
+      self.MovimientoContableConceptoOrdenPago = [];
+      //
+      self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+      self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+      self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
+      //console.log(self.OrdenPago);
       self.validar_campos()
     }
   });
