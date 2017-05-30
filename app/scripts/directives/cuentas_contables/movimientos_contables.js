@@ -27,6 +27,7 @@ angular.module('financieraClienteApp')
         conceptoid: '=?',
         movimientos: '=?',
         editable: '@?',
+        impydesc: '@?',
         monto: '=?',
         validatemov: '=?'
       },
@@ -40,6 +41,7 @@ angular.module('financieraClienteApp')
         }
       },
       controller: function($scope, $attrs) {
+        $scope.show_descs= 'impydesc' in $attrs;
         var self = this;
         self.descuentos_nuevos = [];
 
