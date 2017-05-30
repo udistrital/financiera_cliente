@@ -50,9 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
-<<<<<<< HEAD
   DEPENDENCIA: "Dependencia",
-=======
   IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
   NUEVO: "Nuevo",
   CUENTA_CONTABLE: "Cuenta Contable",
@@ -92,7 +90,6 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
->>>>>>> dev
 
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
@@ -204,10 +201,8 @@ var text_es = {
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
   RUBROS: "Rubros",
 
-
-<<<<<<< HEAD
   //FUENTES DE FINANCIACIÓN
-<<<<<<< HEAD
+
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
@@ -220,7 +215,7 @@ var text_es = {
   INGRESAR_FECHA_CREACION: "Ingresar Fecha de Creación",
   INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
   SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
-=======
+
   //FUENTES DE FINANCIAMIENTO
   TITULO_FUENTES_CREAR: "Crear Fuente de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
@@ -241,19 +236,17 @@ var text_es = {
   INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
   SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
->>>>>>> dev
+
   CREAR_FUENTE: "Asignar Fuente Financiamiento",
   QUITAR: "Quitar",
   QUITAR_RUBRO: "Quitar Rubro",
   AGREGAR_DEPENDENCIA: "Agregar Dependencia",
-<<<<<<< HEAD
 
-=======
+
+
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
->>>>>>> 59c3a667094552cfa93a941c4e0dd074876f757d
-=======
   SELECCIONAR_FUENTE: "Seleccione la Fuente de Financiamiento",
   SELECCIONAR_TIPO: "Seleccione tipo de tramite",
   MODIFICACIONES_PRESUPUESTALES: "Modificaciones Presupuestales",
@@ -265,7 +258,6 @@ var text_es = {
   MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingrasado Supera el Valor de la Fuente de Financiamiento",
   DEPENDENCIAS: "Dependecias",
   DEPENDENCIA: "Dependecia",
->>>>>>> dev
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -450,16 +442,10 @@ var text_en = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-<<<<<<< HEAD
-    APROBAR: "Aprobar"
-
-=======
     APROBAR: "Aprobar",
-
+},
     NUEVO_OP_PROVEEDOR: 'New PO Supplier',
-    NUEVO_OP_PLANTA: 'New PO Floor'
->>>>>>> dev
-  },
+    NUEVO_OP_PLANTA: 'New PO Floor',
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
@@ -496,7 +482,7 @@ var text_en = {
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
-  SELECCIONAR_RUBRO: "Select Item",
+  SELECCIONAR_RUBRO: "Select Item"
 
 };
 

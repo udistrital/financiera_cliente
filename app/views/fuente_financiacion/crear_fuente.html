@@ -17,49 +17,38 @@
 
                 <div class="col-md-6"><p></p>
                   <label for="codigocuenta">{{'CODIGO' | translate }}:</label>
-<<<<<<< HEAD
-                  <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'CODIGO' | translate}}" required>
-=======
                   <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}" >
->>>>>>> dev
-
                 </div>
 
 
                 <div class="col-md-6"><p></p>
                     <label for="sigla">{{'SIGLA' | translate }}:</label>
-<<<<<<< HEAD
-                    <input class="form-control" type="text" id="sigla" ng-model="crearFuente.nueva_fuente.Sigla"  placeholder="{{'SIGLA' | translate }}" required>
-=======
+
+
                     <input class="form-control" type="text" id="sigla" ng-model="crearFuente.nueva_fuente.Sigla"  placeholder="{{'INGRESE_SIGLA' | translate }}" >
->>>>>>> dev
 
                 </div>
 
               <div class="col-md-12"><p></p>
                 <label for="nombrefuente">{{'DESCRIPCION' | translate }}:</label>
-<<<<<<< HEAD
-                <input class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'DESCRIPCION' | translate }}" required>
-=======
+
+
                 <input class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}" >
->>>>>>> dev
+
 
               </div>
 
                 <div class="col-md-7"><p></p>
                   <label for="monto">{{'INGRESAR_VALOR_FUENTE' | translate }}:</label>
-<<<<<<< HEAD
-                  <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="crearFuente.nueva_fuente_apropiacion.Monto" placeholder="$" required>
-=======
+
                   <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="crearFuente.nueva_fuente_apropiacion.Monto" placeholder="$" >
->>>>>>> dev
+
 
                 </div>
 
-                <div class="col-md-5"><p></p>
-                  <label for="fechainicio">{{'INGRESAR_FECHA_CREACION' | translate }}:</label>
+                <div class="col-md-5">
+                  <label for="fechainicio"> {{'INGRESAR_FECHA_CREACION' | translate }}: </label>
                   <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'INGRESAR_FECHA_CREACION' | translate }}"></md-datepicker>
-
                 </div>
 
 
@@ -73,11 +62,9 @@
               </div>
 
                 <div class="col-md-5"><p></p>
-<<<<<<< HEAD
-                    <button ng-click='crearFuente.crear_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
-=======
+
                     <button ng-click='crearFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
->>>>>>> dev
+
                 </div>
                 <label for="espacio"></label>
 
@@ -102,33 +89,6 @@
 
 
             <div class="info panel-success" ng-repeat="rubro in crearFuente.rubros_seleccionados" >
-<<<<<<< HEAD
-                <div class="form-group row">
-                 <label for="codigo_rubro" class="col-sm-5 col-form-label">{{'RUBRO' | translate }}:  </label>
-                 <div class="col-md-12">
-                   <input id="codigo_rubro" name="codigo_rubro"  disabled type="text" placeholder="Codigo" class="form-control input-md" required="" value="{{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}">
-                 </div>
-               </div>
-
-               <div class="form-group" ng-repeat="asignado in rubro.seleccionado" >
-
-                 <p></p><div class="col-md-7">
-                   <label for="dependencia">{{'DEPENDENCIA' | translate }}:</label>
-                   <select class="form-control"  id="dependencia" ng-model="asignado.Dependencia"required>
-                     <option value="">{{'SELECCIONAR_DEPENDENCIA' | translate }}</option>
-                   <option ng-repeat="n in crearFuente.dependencia"  value={{n.Id}}>{{n.Nombre}}</option>
-                   </select>
-                 </div><p></p>
-
-                 <div class="col-md-3">
-                   <label for="valor">{{'VALOR' | translate }}:</label>
-                   <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$" required>
-                 </div><p></p>
-
-
-                 <div class="form-group col-md-2"><p></p>
-                   <label for="valor">                               </label>
-=======
 
               <div class="form-group col-md-12">
                 <legend class="text-default" disable>
@@ -156,9 +116,8 @@
                  </div><p></p>
 
 
-                 <div class="form-group col-md-2">
+                 <div class="col-md-2">
                    <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
->>>>>>> dev
                    <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="crearFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
                  </div>
 
@@ -181,11 +140,6 @@
               </div>
                 </div>
               <label for="espacio"></label>
-<<<<<<< HEAD
-              
-=======
-
->>>>>>> dev
 
               </div>
 

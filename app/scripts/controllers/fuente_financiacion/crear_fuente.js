@@ -8,17 +8,6 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-<<<<<<< HEAD
-.controller('crearFuenteCtrl', function ($window,$scope,financieraRequest,$translate,oikosRequest) {
-
-var self= this;
-
-
-
-  financieraRequest.get("fuente_financiacion", $.param({
-                  limit: 0,
-              })).then(function(response){
-=======
 .controller('crearFuenteCtrl', function ($window,$scope,financieraRequest,$translate,oikosRequest,$timeout) {
 
 var self= this;
@@ -27,7 +16,6 @@ self.fecha = new Date();
 self.year=self.fecha.getFullYear();
 
 financieraRequest.get("fuente_financiacion",'limit=-1&sortby=descripcion&order=asc').then(function(response){
->>>>>>> dev
    self.fuente_financiacion=response.data;
   });
 
@@ -58,16 +46,8 @@ self.nueva_fuente_apropiacion={};
                     enableRowHeaderSelection: false,
 
                 columnDefs: [
-<<<<<<< HEAD
-                      { displayName:$translate.instant('CODIGO'), field: 'Rubro.Codigo',width: '35%' },
-                      { displayName:$translate.instant('RUBRO'), field: 'Rubro.Descripcion' ,width: '35%'},
-                      { name:'Vigencia', cellTemplate:'<div align="center">{{row.entity.Vigencia}}</div>',width: '15%' },
-                      { displayName:$translate.instant('ESTADO'), field: 'Estado.Nombre',width: '15%'},
-
-=======
                       { displayName:$translate.instant('CODIGO'), field: 'Rubro.Codigo',width: '50%' },
                       { displayName:$translate.instant('RUBRO'), field: 'Rubro.Descripcion' ,width: '50%'},
->>>>>>> dev
                     ]
                   };
 
@@ -252,16 +232,10 @@ self.crear_fuente= function(){
   for (var i = 0; i < self.fuente_financiacion.length; i++) {
     if (self.fuente_financiacion[i].Codigo==self.nueva_fuente.Codigo) {
       self.asignar_rubros(self.fuente_financiacion[i].Id);
-<<<<<<< HEAD
       self.fente_encontrada=true;
       swal("Proceso Completado", "La Fuente de Financiación se ha registrado con éxito", "success");
-      /* self.nueva_fuente={};
-       self.rubros_seleccionados=[];
-       self.nueva_fuente_apropiacion={};*/
-=======
       self.fuente_encontrada=true;
       swal($translate.instant('PROCESO_COMPLETADO'),$translate.instant('REGISTRO_CORRECTO'), "success");
->>>>>>> dev
       $window.location.href = '#/fuente_financiacion/consulta_fuente';
     }
   }

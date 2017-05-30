@@ -11,11 +11,8 @@ angular.module('financieraClienteApp')
 .factory("fuente",function(){
         return {};
   })
-<<<<<<< HEAD
+
   .controller('consultaFuenteCtrl', function ($window,fuente,$scope,$translate,financieraRequest) {
-=======
-  .controller('consultaFuenteCtrl', function ($window,$scope,financieraRequest) {
->>>>>>> dev
 
     var self = this;
     self.gridOptions = {
