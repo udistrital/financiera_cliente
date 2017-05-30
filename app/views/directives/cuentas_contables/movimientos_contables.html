@@ -34,17 +34,21 @@
         <legend>{{"SELECCIONAR_DESCUENTOS" | translate}}</legend>
         <ver-descuentos seldesc="cuen" /><br>
         <div class="form-group">
-          <centeR><button type="button" class="btn btn-success" ng-click="d_movimientosContables.agregar_descuento(cuen)">Agregar</button></center>
+          <centeR><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">Agregar</button></center>
         </div>
 
-        <div ng-show="d_movimientosContables.gridOptionsDescuentos.data.length">
+        <div>
           <legend>{{"CUENTAS_CONTABLES" | translate}}:</legend>
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">{{"CUENTAS_SELECCIONADAS" | translate}}</h3>
             </div>
-            <div ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-auto-resize ui-grid-selection></div>
+            <div ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-cellnav ui-grid-auto-resize ui-grid-edit ></div><br>
           </div>
+        </div>
+
+        <div class="form-group">
+          <center><button type="button" class="btn btn-success btn-outline" name="button" data-dismiss="modal">Finalizar</button></center>
         </div>
       </div>
     </div>
