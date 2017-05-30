@@ -69,7 +69,7 @@ angular.module('financieraClienteApp')
     };
     self.gridOptions.columnDefs = [{
         field: 'Id',
-        //visible: false
+        visible: false
       }, {
         field: 'Vigencia',
         displayName: 'Vigencia',
