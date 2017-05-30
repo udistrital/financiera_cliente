@@ -10,6 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, pagosRequest, $scope) {
     var self = this;
+    $scope.doc = 0;
     self.ingresoSel = null;
 
 
@@ -67,39 +68,42 @@ angular.module('financieraClienteApp')
       rowHeight: 45
     };
     self.gridOptions.columnDefs = [{
-        name: 'Vigencia',
+        field: 'Id',
+        //visible: false
+      }, {
+        field: 'Vigencia',
         displayName: 'Vigencia',
         headerCellClass: 'text-info'
       },
       {
-        name: 'Consecutivo',
+        field: 'Consecutivo',
         displayName: 'Consecutivo',
         headerCellClass: 'text-info'
       },
       {
-        name: 'FechaIngreso',
+        field: 'FechaIngreso',
         displayName: 'Fecha de Ingreso',
         headerCellClass: 'text-info',
         cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"+0900"}}</span>'
       },
       {
-        name: 'FechaConsignacion',
+        field: 'FechaConsignacion',
         displayName: 'Fecha de consignación',
         headerCellClass: 'text-info',
         cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"+0900"}}</span>'
       },
       {
-        name: 'FormaIngreso.Nombre',
+        field: 'FormaIngreso.Nombre',
         displayName: 'Forma de Ingreso',
         headerCellClass: 'text-info'
       },
       {
-        name: 'EstadoIngreso.Nombre',
+        field: 'EstadoIngreso.Nombre',
         displayName: 'Estado',
         headerCellClass: 'text-info'
       },
       {
-        name: 'Opciones',
+        field: 'Opciones',
         cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.ingresoConsulta.verIngreso(row)" ></a>',
         headerCellClass: 'text-info'
       }
@@ -164,30 +168,19 @@ angular.module('financieraClienteApp')
     self.cargarIngresos();
 
     self.verIngreso = function(row) {
-      self.ingresoSel = null;
+
       self.ingresoSel = row.entity;
+      $scope.documm = row.entity.Id;
+      console.log("sss");
       self.consultarPagos();
       $("#myModal").modal();
-      console.log(self.ingresoSel);
+
     };
 
 
 
 
-    $scope.$watch('[ingresoConsulta.gridOptions_ingresosbanco.paginationPageSize,ingresoConsulta.gridOptions_ingresosbanco.data]', function() {
 
-      if ((self.gridOptions_ingresosbanco.data.length <= self.gridOptions_ingresosbanco.paginationPageSize || self.gridOptions_ingresosbanco.paginationPageSize == null) && self.gridOptions_ingresosbanco.data.length > 0) {
-        $scope.gridHeight = self.gridOptions_ingresosbanco.rowHeight * 3 + (self.gridOptions_ingresosbanco.data.length * self.gridOptions_ingresosbanco.rowHeight);
-        if (self.gridOptions_ingresosbanco.data.length <= 6) {
-          $scope.gridHeight = self.gridOptions_ingresosbanco.rowHeight * 2 + (self.gridOptions_ingresosbanco.data.length * self.gridOptions_ingresosbanco.rowHeight);
-          self.gridOptions_ingresosbanco.enablePaginationControls = false;
-
-        }
-      } else {
-        $scope.gridHeight = self.gridOptions_ingresosbanco.rowHeight * 3 + (self.gridOptions_ingresosbanco.paginationPageSize * self.gridOptions_ingresosbanco.rowHeight);
-        self.gridOptions_ingresosbanco.enablePaginationControls = true;
-      }
-    }, true);
 
 
   });

@@ -2,7 +2,6 @@
   <h2 class="page-header" align="center">{{'CONSULTA_INGRESOS' | translate}}</h2>
   <div class="panel-body">
     <div ui-grid="ingresoConsulta.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
-
   </div>
 
   <div id="myModal" class="modal fade col-md-12" role="dialog">
@@ -17,6 +16,7 @@
               <div align="right">{{'FECHA_REGISTRO' | translate}}: {{ingresoConsulta.ingresoSel.FechaIngreso | date:"yyyy-MM-dd":"+0900"}}</div>
           </div>
           <div class="panel-body">
+
             <table class="table text-justify">
               <tr>
                 <th>{{'TIPO_INGRESO' | translate}}: </th>
@@ -60,16 +60,17 @@
 
             </div>
             <br>
+
             <div >
               <h4 class="text-info">{{'AFECTACION_CONTABLE' | translate}}</h4>
-              <afectacion-contable-ingreso obs="true" tipodoc="2" iddoc="62" />
+              
+              <afectacion-contable-ingreso obs="true" tipodoc="2" id="documm" />
             </div>
 
             <center ng-if="ingresoConsulta.ingresoSel.EstadoIngreso.Nombre=='Registrado'">
               <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
               <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.RECHAZAR' | translate }}</button>
             </center>
-
           </div>
         </div>
       </div>
