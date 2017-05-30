@@ -235,15 +235,13 @@ angular.module('financieraClienteApp')
           enableRowSelection: true,
           multiSelect: false,
           modifierKeysToMultiSelect: false,
-          //enableCellEditOnFocus: true,
+          enableCellEditOnFocus: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
           enableRowHeaderSelection: false,
           enableFiltering: false,
           enableSorting: true,
-          //treeRowHeaderAlwaysVisible: false,
-          //showTreeExpandNoChildren: true,
-          //rowEditWaitInterval: -1,
+          rowEditWaitInterval: -1,
           columnDefs: [{
               field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
@@ -252,7 +250,7 @@ angular.module('financieraClienteApp')
               cellTooltip: function(row) {
                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
               },
-              //enableCellEdit: false,
+              enableCellEdit: false,
               width: '15%'
             },
             {
@@ -263,7 +261,7 @@ angular.module('financieraClienteApp')
               cellTooltip: function(row) {
                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
               },
-              //enableCellEdit: false,
+              enableCellEdit: false,
               width: '30%'
             },
             {
@@ -273,10 +271,18 @@ angular.module('financieraClienteApp')
               headerCellClass: 'text-info',
               cellTemplate: '<div>{{row.entity.Debito | currency:undefined:0}}</div>',
               width: '15%',
-              //enableCellEdit: false,
-              //cellEditableCondition: function() {
-              //  return $scope.editable;
-              //},
+              enableCellEdit: true,
+              cellEditableCondition: function($scope) {
+                if ($scope.row.entity.TipoCuentaEspecial == undefined) {
+                  return true;
+                } else {
+                  if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
+              },
               type: 'number',
               cellFilter: 'number',
               aggregationType: uiGridConstants.aggregationTypes.sum,
@@ -291,10 +297,18 @@ angular.module('financieraClienteApp')
               headerCellClass: 'text-info',
               type: 'number',
               cellFilter: 'number',
-              //enableCellEdit: false,
-              //cellEditableCondition: function() {
-              //  return $scope.editable;
-              //},
+              enableCellEdit: true,
+              cellEditableCondition: function($scope) {
+                if ($scope.row.entity.TipoCuentaEspecial == undefined) {
+                  return true;
+                } else {
+                  if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                }
+              },
               cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
               aggregationType: uiGridConstants.aggregationTypes.sum,
               footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
@@ -305,14 +319,14 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('NATURALEZA'),
               headerCellClass: 'text-info',
               cellClass: 'text-info',
-              //enableCellEdit: false,
+              enableCellEdit: false,
               width: '15%'
             },
             {
               name: $translate.instant('OPCIONES'),
               //enableFiltering: false,
               width: '10%',
-              //enableCellEdit: false,
+              enableCellEdit: false,
               cellTemplate: '<center>' +
                 '<a href="" class="borrar" data-toggle="modal" data-target="#modalverplan" ng-click="grid.appScope.d_movimientosContables.quitar_descuento(row.entity)">' +
                 '<i class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}"></i></a> ' +
@@ -352,6 +366,15 @@ angular.module('financieraClienteApp')
             }
           }
         };
+
+        /*self.agregar_desc_mov=function(){
+            for (var i = 0; i < self.gridOptionsDescuentos.data.length; i++) {
+              if ($scope.movimientos.indexOf(self.gridOptionsDescuentos.data[i]) < 0) {
+                $scope.movimientos.unshift(self.gridOptionsDescuentos.data[i]);
+                self.cargar_cuentas_grid();
+              }
+            }
+        };*/
 
         self.cargar_concepto = function() {
           if ($scope.conceptoid != undefined) {
