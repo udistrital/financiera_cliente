@@ -59,6 +59,12 @@
               </ul>
 
             </div>
+            <br>
+            <div >
+              <h4 class="text-info">{{'AFECTACION_CONTABLE' | translate}}</h4>
+              <afectacion-contable-ingreso obs="true" tipodoc="2" iddoc="62" />
+            </div>
+
             <center ng-if="ingresoConsulta.ingresoSel.EstadoIngreso.Nombre=='Registrado'">
               <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
               <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.RECHAZAR' | translate }}</button>
