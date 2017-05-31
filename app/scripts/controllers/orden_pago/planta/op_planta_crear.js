@@ -66,7 +66,13 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
+      self.OrdenPago.Liquidacion = 1;
+      self.OrdenPago.ValorBase = 0;
+      self.OrdenPago.EstadoOrdenPago = {};
+      self.OrdenPago.Nomina = '';
       //
+      self.OrdenPago.PersonaElaboro = 1;
+
       /*self.OrdenPago.PersonaElaboro = 1;
       self.OrdenPago.Iva= {Id: 1}             // iva del  0%
       self.OrdenPago.TipoOrdenPago= {Id: 2}  //2 = cuenta cobro
