@@ -34,6 +34,10 @@
                 <th>{{'OBSERVACIONES' | translate}}: </th>
                 <td>{{ingresoConsulta.ingresoSel.Observaciones }}</td>
               </tr>
+              <tr ng-if="ingresoConsulta.ingresoSel.MotivoRechazo">
+                <th >{{'MOTIVO_RECHAZO' | translate}}: </th>
+                <td>{{ingresoConsulta.ingresoSel.MotivoRechazo }}</td>
+              </tr>
             </table>
             <hr>
             <legend class="text-primary" ng-click="b=!b">
@@ -63,13 +67,13 @@
 
             <div >
               <h4 class="text-info">{{'AFECTACION_CONTABLE' | translate}}</h4>
-              
-              <afectacion-contable-ingreso obs="true" tipodoc="2" id="documm" />
+
+              <afectacion-contable-ingreso movs="movimientos" tipodoc="2" id="documm" />
             </div>
 
             <center ng-if="ingresoConsulta.ingresoSel.EstadoIngreso.Nombre=='Registrado'">
-              <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
-              <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.RECHAZAR' | translate }}</button>
+              <button class="btn btn-success btn-outline" ng-click="ingresoConsulta.Aprobar()">{{ 'BTN.APROBAR' | translate }}</button>
+              <button class="btn btn-danger btn-outline" ng-click="ingresoConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
             </center>
           </div>
         </div>

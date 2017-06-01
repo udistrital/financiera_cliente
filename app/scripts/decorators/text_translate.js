@@ -277,6 +277,8 @@ var text_es = {
 
   //CODIGOS
   S_543: "Se registro el Ingreso con el consecutivo ",
+  S_544: "Se Aprobo el Ingreso con el consecutivo ",
+  S_545: "Se Aprobo el Ingreso con el consecutivo ",
   E_23503: "No se encontraron algunos campos" //FK
 };
 
