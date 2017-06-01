@@ -1,22 +1,45 @@
 <div class="panel panel-primary panel-body">
     <center><h3 class="page-header">
-        Plan alterno
+        {{gestionPlanAlterno.plan_alterno.Nombre}}
     </h3></center>
     <div class="panel-body">
 
-      <div class="col-md-6">
-        <plan-cuentas filtro="filtro_padre" cuentasel="padre" recargar="recargar_arbol" planid="1" arbol="my_arbol" noresumen/>
+      <blockquote>
+        <small>{{gestionPlanAlterno.plan_alterno.Descripcion}}</small>
+      </blockquote>
+
+      <div class="col-md-12">
+
+        <div ng-show="btn_agregar" class="form-group">
+          <center>
+          <button type="button" class="btn btn-success" ng-click="gestionPlanAlterno.agregar_rama(gestionPlanAlterno.nueva_cuenta)">Agregar Cuenta</button>
+      </center>
+        </div>
+
+        <div ng-show="btn_cancelar" class="form-group">
+          <center>
+        <button  type="button" class="btn btn-danger" ng-click="gestionPlanAlterno.quitar_cuenta()">Quitar Cuenta</button>
+      </center>
+        </div>
+
+
       </div>
 
-      <div class="col-md-6">
-        <plan-cuentas recargar="recargar_arbol" planid="gestionPlanAlterno.plan_maestro.Id" cuentasel="gestionPlanAlterno.nueva_cuenta" ramasel="gestionPlanAlterno.nueva_rama" noresumen/>
+      <div class="col-md-12">
+        <div class="col-lg-6">
+          <plan-cuentas  recargar="recargar_arbol" planid="gestionPlanAlterno.idPlan"  cuentasel="gestionPlanAlterno.cuenta_plan"/>
+        </div>
+
+        <div class="col-lg-6">
+          <plan-cuentas planid="gestionPlanAlterno.plan_maestro.Id" cuentasel="gestionPlanAlterno.nueva_cuenta" ramasel="gestionPlanAlterno.nueva_rama" />
+        </div>
       </div>
 
-<button type="button" name="button" ng-click="agregar(padre)">add</button>
-<pre>{{gestionPlanAlterno.nueva_rama | json}}</pre>
+      <button ng-click="gestionPlanAlterno.crear_rama()" name="button">Crear</button>
+
+      <pre>{{gestionPlanAlterno.rama_unica | json}}</pre>
+
 
     </div>
-    <div class="panel-footer">
-        Panel Footer
-    </div>
+
 </div>

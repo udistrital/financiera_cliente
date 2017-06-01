@@ -289,7 +289,7 @@ angular
         controllerAs: 'requisitos'
       })
 
-      .when('/plan_cuentas/gestion_plan_alterno', {
+      .when('/plan_cuentas/gestion_plan_alterno/:Id', {
         templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
         controller: 'GestionPlanAlternoCtrl',
         controllerAs: 'gestionPlanAlterno'
