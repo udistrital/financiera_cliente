@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate) {
+  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest) {
     var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
@@ -42,9 +42,11 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.OrdenPago);
         console.log("Insertar DATA");
-        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.OrdenPago)
+        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.OrdenPago)
+        financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
           .then(function(data) { //error con el success
             self.resultado = data;
+            console.log(self.resultado.data);
             //mensaje
             swal({
               title: 'Registro Exitoso',
