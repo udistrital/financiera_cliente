@@ -26,7 +26,7 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableFiltering: true,
           enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 1,
+          enableVerticalScrollbar: 0,
           useExternalPagination: false,
           enableSelectAll: false,
           columnDefs: [{
@@ -64,7 +64,7 @@ angular.module('financieraClienteApp')
               field: 'InformacionPersonaJuridica',
               displayName: $translate.instant('PROVEEDOR'),
               headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '24%'
+              width: '25%'
             },
             {
               field: 'TipoCuentaEspecial.Nombre',
