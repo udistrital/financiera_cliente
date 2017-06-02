@@ -148,18 +148,12 @@ var text_es = {
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
-
-    EDITAR: "Editar",
     BORRAR: "Borrar",
     RECHAZAR: "Rechazar",
-
-    BORRAR: "Borrar",
     CONFIGURAR: "Configurar",
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
-    CONFIGURAR:"Configurar",
-    ANADIR:"Añadir"
   },
 
   // ORDEN DE PAGO
@@ -232,7 +226,6 @@ var text_es = {
   AVANCES: 'AVANCES',
   LISTA_AVANCES: 'Listado de Tipos de Avances',
   REFERENCIA: 'Referencia',
-  FECHA_REGISTRO: 'Fecha registro',
   NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
@@ -245,10 +238,6 @@ var text_es = {
 
 
   //ANULACIONES
-  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
-  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
-  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
-  TIPO_ANULACION:"Tipo de Anulación",
   ANULACION_PARCIAL: "Parcial",
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
