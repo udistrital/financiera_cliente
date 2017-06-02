@@ -265,8 +265,10 @@ var text_es = {
   CONSULTA_INGRESOS: "Consulta Ingresos",
 
   //CODIGOS
-  S_543: "Se registro el Ingreso con el consecutivo ",
-  E_23503: "No se encontraron algunos campos" //FK
+  S_543: "Se registro exitosamente",
+  S_554: "Se eliminio exitosamente",
+  E_23503: "No se encontraron algunos campos", //FK
+  E_0458: "Los datos enviados son erroneos"
 };
 
 var text_en = {

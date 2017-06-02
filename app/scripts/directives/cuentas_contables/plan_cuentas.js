@@ -70,6 +70,7 @@ angular.module('financieraClienteApp')
          * @description Recarga la estructura del plan de cuentas con el id adquirido por el scope haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
          */
         self.cargar_arbol = function() {
+          $scope.load=true;
           financieraRequest.get("plan_cuentas", $.param({
             query: "Id:" + $scope.planid
           })).then(function(response) {
@@ -79,6 +80,7 @@ angular.module('financieraClienteApp')
               if (response.data !== null) {
                 $scope.arbol = response.data;
               }
+              $scope.load=false;
             });
           });
         };
@@ -95,18 +97,7 @@ angular.module('financieraClienteApp')
              self.cargar_arbol();
            }
          }, true);
-
-         /*if ('arbol' in $attrs) {
-           console.log("afsa",$scope.arbol);
-           if ($scope.arbol !== undefined) {
-             self.plan_cuentas=$scope.arbol;
-           } else {
-             console.log("fff");
-             $scope.arbol=self.plan_cuentas;
-             console.log($scope.arbol);
-           }
-         }*/
-
+         
          $scope.showSelected = function(node, $path) {
             $scope.ramasel = $path();
         };
