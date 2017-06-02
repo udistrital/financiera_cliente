@@ -322,8 +322,7 @@ var text_en = {
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
-  SELECCIONAR_RUBRO: "Select Item",
-
+  SELECCIONAR_RUBRO: "Select Item"
 };
 
 angular.module('financieraClienteApp')

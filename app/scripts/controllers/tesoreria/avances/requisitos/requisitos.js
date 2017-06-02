@@ -73,12 +73,6 @@ angular.module('financieraClienteApp')
       ]
     };
 
-    var sumarDias = function(data, dias){
-      var fecha = new Date(data);
-      fecha.setDate(fecha.getDate() + dias);
-      return fecha;
-    };
-
     ctrl.gridOptions.multiSelect = false;
     ctrl.get_all_avances = function() {
       financieraRequest.get("requisito_avance", $.param({
@@ -114,7 +108,7 @@ angular.module('financieraClienteApp')
           ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
           ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
           ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
-          ctrl.tipo_avance.FechaRegistro = sumarDias(ctrl.row_entity.FechaRegistro, 1);
+          ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
           break;
         case "delete":
           ctrl.row_entity = row.entity;
