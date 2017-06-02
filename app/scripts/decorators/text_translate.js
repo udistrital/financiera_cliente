@@ -143,6 +143,7 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    QUITAR: "Quitar",
     APROBAR: "Aprobar",
     EDITAR: "Editar",
     LIMPIAR: "Limpiar",
@@ -268,10 +269,17 @@ var text_es = {
   DATOS_REG_INGRESO: "Datos para este ingreso",
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
+  MOTIVO_RECHAZO: "Motivo del rechazo",
 
   //CODIGOS
-  S_543: "Se registro el Ingreso con el consecutivo ",
-  E_23503: "No se encontraron algunos campos" //FK
+
+  S_543: "Se registro exitosamente",
+  S_554: "Se eliminio exitosamente",  
+  S_544: "Se Aprobo el Ingreso con el consecutivo ",
+  S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  E_23503: "No se encontraron algunos campos", //FK
+  E_0458: "Los datos enviados son erroneos",
+
 };
 
 var text_en = {
