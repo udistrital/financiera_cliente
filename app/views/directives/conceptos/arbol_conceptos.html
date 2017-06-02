@@ -34,9 +34,9 @@
       </div>
     </div>
   </div>
-  
-  <div>
-    <center><button ng-show="seleccion!=undefined || conceptosel!=undefined;" class="btn btn-info btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">Cancelar Selección</button></center>
+
+  <div ng-show="seleccion!=undefined || conceptosel!=undefined;">
+    <center><button class="btn btn-info btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">Cancelar Selección</button></center>
   </div>
 
   <div id="modalConceptos" class="modal fade" role="dialog">
