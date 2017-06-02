@@ -201,8 +201,8 @@ angular.module('financieraClienteApp')
       };
 
 
-
 self.Rechazar = function() {
+  $("#myModal").modal('hide');
 
       swal({
         title: 'Indica una justificación por el rechazo',
@@ -219,14 +219,17 @@ self.Rechazar = function() {
         }
       }).then(function(text) {
         console.log(text);
-        self.IngresoSel.MotivoRechazo = text;
-          financieraRequest.post('ingreso/RechazarIngreso', self.IngresoSel).then(function(response) {
+        console.log(self.ingresoSel);
+        self.ingresoSel.MotivoRechazo = text;
+          financieraRequest.post('ingreso/RechazarIngreso', self.ingresoSel).then(function(response) {
+            console.log(response.data);
             if (response.data.Type !== undefined) {
               if (response.data.Type === "error") {
                 swal('', $translate.instant(response.data.Code), response.data.Type);
+                self.cargarIngresos();
               } else {
                 swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
-                  $("#myModal").modal('hide');
+
                   self.cargarIngresos();
                 });
               }
