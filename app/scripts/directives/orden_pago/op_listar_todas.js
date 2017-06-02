@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function (financieraRequest, $location, $translate) {
+  .directive('opListarTodas', function(financieraRequest, $location, $translate) {
     return {
       restrict: 'E',
       /*scope:{
@@ -15,45 +15,84 @@ angular.module('financieraClienteApp')
         },
       */
       templateUrl: 'views/directives/orden_pago/op_listar_todas.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
-        console.log(self.pp);
         self.gridOrdenesDePago = {
           enableFiltering: true,
-          onRegisterApi: function(gridApi){
+          onRegisterApi: function(gridApi) {
             self.gridApi = gridApi;
           }
         };
-        self.gridOrdenesDePago.columnDefs = [
-            {field: 'Id',                                                       displayName: $translate.instant('CODIGO')},
-            {field: 'Vigencia',                                                 displayName: $translate.instant('VIGENCIA')},
-            {field: 'FechaCreacion',                                            displayName: $translate.instant('FECHA_CREACION')},
-            {field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',          displayName: $translate.instant('NO_CRP')},
-            {field: 'TipoOrdenPago.Nombre',                                     displayName: $translate.instant('TIPO_DOCUMENTO')},
-            {field: 'EstadoOrdenPago.Nombre',                                   displayName: $translate.instant('ESTADO')},
-            {
-              //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
-              name: $translate.instant('OPERACION'),
-              enableFiltering: false,
-              cellTemplate:
-              '<center>\
-                <button ng-click="grid.appScope.d_opListarTodas.op_detalle(row)" type="button" class="btn btn-primary btn-circle"><i class="glyphicon glyphicon-search"></i></button>\
-               </center>'
-            }
-          ];
-        self.op_detalle = function(row){
-          var path = "/orden_pago/proveedor/"
-          $location.url(path + row.entity.Id);
+        self.gridOrdenesDePago.columnDefs = [{
+            field: 'Id',
+            displayName: $translate.instant('CODIGO'),
+            width: '8%',
+            cellClass: 'input_center'
+          },
+          {
+            field: 'Vigencia',
+            displayName: $translate.instant('VIGENCIA'),
+            width: '8%',
+            cellClass: 'input_center'
+          },
+          {
+            field: 'FechaCreacion',
+            displayName: $translate.instant('FECHA_CREACION'),
+            cellClass: 'input_center'
+          },
+          {
+            field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
+            displayName: $translate.instant('NO_CRP'),
+            width: '8%',
+            cellClass: 'input_center'
+          },
+          {
+            field: 'TipoOrdenPago.Nombre',
+            displayName: $translate.instant('TIPO_DOCUMENTO')
+          },
+          {
+            field: 'Nomina',
+            displayName: $translate.instant('NOMINA')
+          },
+          {
+            field: 'EstadoOrdenPago.Nombre',
+            displayName: $translate.instant('ESTADO')
+          },
+          {
+            //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
+            name: $translate.instant('OPERACION'),
+            enableFiltering: false,
+            cellTemplate: '<center>' +
+            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
+            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+            '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
+            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
+            '</center>'
+          }
+        ];
+        // OP Proveedores
+        self.op_detalle = function(row) {
+          if(row.entity.Nomina  == 'PROVEEDOR'){
+            var path = "/orden_pago/proveedor/ver/";
+            $location.url(path + row.entity.Id);
+          }
+          if(row.entity.Nomina  == 'PLANTA'){
+            var path = "/orden_pago/planta/ver/";
+            $location.url(path + row.entity.Id);
+          }
         }
-        self.op_editar = function(row){
-          console.log("Editar");
-          console.log(row.entity);
+        self.op_editar = function(row) {
+          if(row.entity.Nomina  == 'PROVEEDOR'){
+            var path_update = "/orden_pago/proveedor/actualizar/";
+            $location.url(path_update + row.entity.Id);
+          }
         }
-        financieraRequest.get('orden_pago','limit=0').then(function(response) {
+        // data OP
+        financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
         });
-      //
+        //
       },
-      controllerAs:'d_opListarTodas'
+      controllerAs: 'd_opListarTodas'
     };
   });

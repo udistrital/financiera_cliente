@@ -54,7 +54,7 @@ angular.module('financieraClienteApp')
         REDIRECT_URL:  "http://10.20.0.254/kronos",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid profile email",
-        BUTTON_CLASS: "btn btn-outline btn-primary btn-sm"
+        BUTTON_CLASS: "btn btn-warning btn-sm"
       },
       //Configuracion de parametros oidc unica google
       /*

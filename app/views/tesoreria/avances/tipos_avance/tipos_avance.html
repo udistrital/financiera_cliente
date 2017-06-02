@@ -90,7 +90,6 @@
           <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
           <div class="col-sm-7">
             <select name="requisito" ng-model="TiposAvance.requisito" class="form-control"  ng-required="true" >
-
                <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
                <option ng-repeat="r in TiposAvance.requisito_select" value="{{r.Id}}">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
             </select>

@@ -34,9 +34,27 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="control-label col-sm-4">{{'VAL_IVA' | translate}}</label>
+            <div class="col-sm-8">
+              <span class="form-control input_right">{{d_opProveedorDetallePago.ValorIva  | currency }}</span>
+            </div>
+          </div>
+          <div class="form-group">
             <label for="valor_bruto" class="col-sm-4 control-label">{{'VALOR_BRUTO' | translate }}</label>
             <div class="col-sm-8">
               <input type="text" class="form-control input_right" ng-model="d_opProveedorDetallePago.ValorBruto" id="valor_bruto" placeholder="Valor Bruto" disabled ui-number-mask/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'ELABORADO_POR' | translate }}</label>
+            <div class="col-sm-8">
+              <input ng-model="" type="text" class="form-control input_right" disabled/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'VIGENCIA' | translate }}</label>
+            <div class="col-sm-8">
+              <input ng-model="vigencia" type="text" class="form-control input_right" disabled/>
             </div>
           </div>
         </div>
@@ -78,6 +96,18 @@
             <label class="control-label col-sm-4">{{'VALOR_BRUTO' | translate}}</label>
             <div class="col-sm-8">
               <span class="form-control input_right">{{d_opProveedorDetallePago.ValorBruto  | currency }}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'ELABORADO_POR' | translate }}</label>
+            <div class="col-sm-8">
+              <input ng-model="" type="text" class="form-control input_right" disabled/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-4 control-label">{{'VIGENCIA' | translate }}</label>
+            <div class="col-sm-8">
+              <input ng-model="vigencia" type="text" class="form-control input_right" disabled/>
             </div>
           </div>
         </div>

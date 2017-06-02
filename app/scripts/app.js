@@ -46,6 +46,8 @@ angular
     'argoService',
     'coreService',
     'oikosService',
+    'titanService',
+    'pagosService',
     'avancesService'
   ])
 
@@ -84,11 +86,6 @@ angular
         controller: 'IvaCtrl',
         controllerAs: 'iva'
       })
-      .when('/orden_pago/proveedor/crear', {
-        templateUrl: 'views/orden_pago/op_crear.html',
-        controller: 'OrdenPagoOpCrearCtrl',
-        controllerAs: 'opCrear'
-      })
       .when('/conceptos/concepto/:Id', {
         templateUrl: 'views/conceptos/concepto.html',
         controller: 'ConceptoCtrl',
@@ -113,11 +110,6 @@ angular
         templateUrl: 'views/plan_cuentas/cuenta.html',
         controller: 'CuentaCtrl',
         controllerAs: 'cuenta'
-      })
-      .when('/orden_pago/ver_todos', {
-        templateUrl: 'views/orden_pago/op_view_all.html',
-        controller: 'OrdenPagoOpViewAllCtrl',
-        controllerAs: 'opViewAll'
       })
       .when('/rubro/rubro_registro', {
         templateUrl: 'views/rubro/rubroregistro.html',
@@ -179,11 +171,6 @@ angular
         controller: 'CdpCdpSolicitudDetalleCtrl',
         controllerAs: 'cdpSolicitudDetalle'
       })
-      .when('/orden_pago/proveedor/:Id', {
-        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
-        controller: 'OpProveedorVerPorIdCtrl',
-        controllerAs: 'opProveedorVerPorId'
-      })
       .when('/rp_solicitud_personas', {
         templateUrl: 'views/rp/rp_solicitud_personas.html',
         controller: 'RpSolicitudPersonasCtrl',
@@ -220,6 +207,47 @@ angular
         controllerAs: 'detalleFuente'
       })
 
+      .when('/plan_cuentas/crear_descuento', {
+        templateUrl: 'views/plan_cuentas/crear_descuento.html',
+        controller: 'CrearDescuentoCtrl',
+        controllerAs: 'crearDescuento'
+      })
+
+      .when('/orden_pago/proveedor/crear', {
+        templateUrl: 'views/orden_pago/op_crear.html',
+        controller: 'OrdenPagoOpCrearCtrl',
+        controllerAs: 'opCrear'
+      })
+      .when('/orden_pago/ver_todos', {
+        templateUrl: 'views/orden_pago/op_view_all.html',
+        controller: 'OrdenPagoOpViewAllCtrl',
+        controllerAs: 'opViewAll'
+      })
+      .when('/orden_pago/proveedor/ver/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+        controller: 'OpProveedorVerPorIdCtrl',
+        controllerAs: 'opProveedorVerPorId'
+      })
+      .when('/orden_pago/actualizar_todos', {
+        templateUrl: 'views/orden_pago/op_listar_todas_update.html',
+        controller: 'OpListarTodasUpdateCtrl',
+        controllerAs: 'opListarTodasUpdate'
+      })
+      .when('/orden_pago/proveedor/actualizar/:Id', {
+        templateUrl: 'views/orden_pago/op_proveedor_update_por_id.html',
+        controller: 'OpProveedorUpdatePorIdCtrl',
+        controllerAs: 'opProveedorUpdatePorId'
+       })
+       .when('/orden_pago/planta/crear', {
+         templateUrl: 'views/orden_pago/planta/op_planta_crear.html',
+         controller: 'OpPlantaCrearCtrl',
+         controllerAs: 'opPlantaCrear'
+       })
+       .when('/orden_pago/planta/ver/:Id', {
+         templateUrl: 'views/orden_pago/planta/op_planta_ver_por_id.html',
+         controller: 'OpPlantaVerPorIdCtrl',
+         controllerAs: 'opPlantaVerPorId'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -230,6 +258,16 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
+      .when('/plan_cuentas/gestion_descuentos', {
+        templateUrl: 'views/plan_cuentas/gestion_descuentos.html',
+        controller: 'GestionDescuentosCtrl',
+        controllerAs: 'gestionDescuentos'
+      })
+      .when('/ingresos/ingreso_registro', {
+        templateUrl: 'views/ingresos/ingreso_registro.html',
+        controller: 'IngresosIngresoRegistroCtrl',
+        controllerAs: 'ingresoRegistro'
+    })
       .when('/tesoreria/avances/tipos_avance', {
         templateUrl: 'views/tesoreria/avances/tipos_avance/tipos_avance.html',
         controller: 'TiposAvanceCtrl',
@@ -240,11 +278,18 @@ angular
         controller: 'GestionPlanCuentasCtrl',
         controllerAs: 'gestionPlanCuentas'
       })
+
+      .when('/ingresos/ingreso_consulta', {
+        templateUrl: 'views/ingresos/ingreso_consulta.html',
+        controller: 'IngresosIngresoConsultaCtrl',
+        controllerAs: 'ingresoConsulta'
+      })
       .when('/tesoreria/avances/requisitos/requisitos', {
         templateUrl: 'views/tesoreria/avances/requisitos/requisitos.html',
         controller: 'RequisitosCtrl',
         controllerAs: 'requisitos'
       })
+
       .otherwise({
         redirectTo: '/'
       });
