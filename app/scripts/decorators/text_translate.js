@@ -143,6 +143,7 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    QUITAR: "Quitar",
     APROBAR: "Aprobar",
     EDITAR: "Editar",
     LIMPIAR: "Limpiar",
