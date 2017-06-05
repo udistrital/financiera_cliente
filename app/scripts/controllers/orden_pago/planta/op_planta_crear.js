@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest) {
+  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest) {
     var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
@@ -25,6 +25,21 @@ angular.module('financieraClienteApp')
     // ***************
     // Funciones
     // ***************
+    self.get_liguidacion = function (){
+      titanRequest.get('detalle_liquidacion',
+        $.param({
+          query:'Liquidacion:1',
+          sortby:'Concepto',
+          order:"desc",
+          limit:-1,
+        })).then(function(response){
+          self.dataSend.DetalleLiquidacion = response.data;
+        });
+    }
+
+    self.dataSend = {};
+    self.get_liguidacion();
+
     self.validar_campos = function() {
       self.MensajesAlerta = '';
       if (self.OrdenPago.UnidadEjecutora == undefined) {
@@ -40,21 +55,22 @@ angular.module('financieraClienteApp')
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insertc
         console.log("Insertar DATA");
-        console.log(self.OrdenPago);
+        console.log(self.dataSend);
         console.log("Insertar DATA");
-        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.OrdenPago)
-        financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
+        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
+        //financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
           .then(function(data) { //error con el success
             self.resultado = data;
             console.log(self.resultado.data);
             //mensaje
+            /*
             swal({
               title: 'Registro Exitoso',
               text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
               type: 'success',
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
-            })
+            })*/
             //
           })
       } else {
@@ -68,10 +84,13 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
+
+      //
       self.OrdenPago.Liquidacion = 1;
       self.OrdenPago.ValorBase = 0;
       self.OrdenPago.PersonaElaboro = 1;
+      self.dataSend.OrdenPago = self.OrdenPago;
       //
-      self.validar_campos()
+      self.validar_campos();
     }
   });
