@@ -222,13 +222,14 @@ angular.module('financieraClienteApp')
         }
         $route.reload();
    };
-   function buildToggler(componentId) {
+function buildToggler(componentId) {
       return function() {
         $mdSidenav(componentId).toggle();
       };
-    };
+    }
 $scope.toggleLeft = buildToggler('left');
 $scope.toggleRight = buildToggler('right');
+
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {

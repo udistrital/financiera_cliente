@@ -10,6 +10,7 @@
  */
 angular
   .module('financieraClienteApp', [
+    'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
     'ngMessages',
@@ -46,17 +47,17 @@ angular
     'coreService',
     'oikosService',
     'titanService',
-
     'pagosService',
-
     'avancesService'
-
   ])
 
   .run(function(amMoment) {
     amMoment.changeLocale('es');
   })
-
+  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+    cfpLoadingBarProvider.spinnerTemplate ='<div><span class="fa fa-spinner">Custom Loading Message...</div>';
+  }])
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider

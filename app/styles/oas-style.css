@@ -1,7 +1,13 @@
+
+
+#loading-bar .bar {
+  background-color:#eea236;
+
 div.sticky {
   position: sticky;
   bottom: 0;
   right: 1;
+
 }
 
 md-sidenav {
@@ -18,6 +24,8 @@ md-sidenav>md-content>md-button>md-card>img:hover {
   min-height: 0;
   line-height: normal;
 }
+
+ /* UI-GRID*/
 
 .logo {
   height: 55px;
