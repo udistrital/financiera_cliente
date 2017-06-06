@@ -1,20 +1,20 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<nav class="navbar navbar-default navbar-static-top navbar-inverse" role="navigation" style="margin-bottom: 0">
   <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse" aria-expanded="false">
       <span class="sr-only">Toggle navigation</span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
     <a href="" class="navbar-brand" ng-click="toggleLeft()">
-      <i class="fa fa fa-th-list faa-pulse animated-hover" aria-hidden="true"></i>
+      <i class="fa fa-university faa-shake animated-hover" aria-hidden="true"></i>
     </a>
     <a ng-href="#/">
       <img src="images/kronos.logo.png" class="logo" alt="">
     </a>
   </div>
   <div id="navbar" class="navbar-collapse collapse in">
-    <ul class="nav navbar-top-links navbar-right">
+    <ul class="nav navbar-nav navbar-right">
       <li ng-repeat="nivel_1 in menu_service">
         <a ng-if="nivel_1.Opciones === null" ng-href="{{'#/' + nivel_1.Url}}">
           {{nivel_1.Nombre}}
@@ -31,7 +31,7 @@
               {{nivel_2.Nombre}}
             </a>
           </li>
-          <li class="dropdown dropdown-submenu" ng-repeat="nivel_2 in nivel_1.Opciones">
+          <li class="dropdown dropdown-submenu" aria-haspopup="true" aria-expanded="false" ng-repeat="nivel_2 in nivel_1.Opciones">
             <a ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="nivel_2.Opciones !== null">
               {{nivel_2.Nombre}}
             </a>
@@ -41,7 +41,7 @@
                   {{nivel_3.Nombre}}
                 </a>
               </li>
-              <li class="dropdown dropdown-submenu" ng-repeat="nivel_3 in nivel_2.Opciones">
+              <li class="dropdown dropdown-submenu" aria-haspopup="true" aria-expanded="false" ng-repeat="nivel_3 in nivel_2.Opciones">
                 <a ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="nivel_3.Opciones !== null">{{nivel_3.Nombre}}
                 </a>
                 <ul class="dropdown-menu">
@@ -58,8 +58,8 @@
 
       <!-- /.dropdown Notifications-->
       <li class="dropdown">
-        <a class="dropdown-toggle notificacion_vista" data-toggle="dropdown" ng-href="{{actual}}" ng-if="notificacion.no_vistos() > 0">
-          <i class="fa fa-bell fa-fw"></i>{{notificacion.no_vistos()}}
+        <a class=" notificacion_vista dropdown-toggle" data-toggle="dropdown" ng-href="{{actual}}" ng-if="notificacion.no_vistos() > 0">
+          <i class="fa fa-bell fa-fw faa-ring animated"></i>{{notificacion.no_vistos()}}
           <i class="fa fa-caret-down"></i>
         </a>
         <a class="dropdown-toggle" data-toggle="dropdown" ng-href="{{actual}}" ng-if="notificacion.no_vistos() == 0">
@@ -120,6 +120,7 @@
   <!-- /.navbar-top-links -->
   <!-- /.navbar-static-side -->
 </nav>
+<div id="loading-bar-container"></div>
 <ul class="breadcrumb">
   <li ng-repeat="option in breadcrumb" ng-if="option === ''" class="breadcrumb-item">
     <a href="#"><i class="fa fa-home" aria-hidden="true"></i>{{option}}</a>
@@ -138,26 +139,10 @@
 <div layout="column" ng-cloak>
   <section layout="row" flex>
     <md-sidenav class="md-sidenav-left" md-component-id="left">
-      <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Disabled Backdrop</h1>
-      </md-toolbar>
-      <md-content layout-margin>
-        <md-button  ng-click="toggleLeft()" class="md-primary my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/agora" target="_blank">
-         <img class="img-responsive" src="images/LogoAgora.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/argo" target="_blank">
-         <img class="img-responsive" src="images/LogoArgo.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/arka" target="_blank">
-         <img class="img-responsive" src="images/LogoArka.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/temis" target="_blank">
-         <img class="img-responsive" src="images/LogoTemis.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://10.20.0.254/polux" target="_blank">
-         <img class="img-responsive" src="images/LogoPolux.png" alt="Bookmark">
-        </md-button>
-
+      <md-content>
+        <a ng-repeat="app in menu_app" title="{{app.title}}" ng-href="{{app.url}}" target="_blank">
+            <img class="menu-app" id="{{app.id}}"></img>
+        </a>
       </md-content>
     </md-sidenav>
   </section>

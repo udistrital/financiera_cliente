@@ -11,6 +11,47 @@ angular.module('financieraClienteApp')
    $scope.actual = "";
    $scope.token_service = token_service;
    $scope.breadcrumb = [];
+   $scope.menu_app = [
+
+       {
+           id:"kronos",
+           title:"KRONOS",
+           url:"http://10.20.0.254/kronos"
+       },
+       {
+           id:"agora",
+           title:"AGORA",
+           url:"https://pruebasfuncionarios.intranetoas.udistrital.edu.co/agora"
+       },{
+           id:"argo",
+           title:"ARGO",
+           url:"https://pruebasfuncionarios.intranetoas.udistrital.edu.co/argo"
+       },{
+           id:"arka",
+           title:"ARKA",
+           url:"https://pruebasfuncionarios.intranetoas.udistrital.edu.co/arka"
+       },{
+           id:"temis",
+           title:"TEMIS",
+           url:"https://pruebasfuncionarios.intranetoas.udistrital.edu.co/gefad"
+       },{
+           id:"polux",
+           title:"POLUX",
+           url:"http://10.20.0.254/polux"
+       },{
+           id:"jano",
+           title:"JANO",
+           url:"http://10.20.0.254/kronos"
+       },{
+           id:"kyron",
+           title:"KYRON",
+           url:"http://10.20.0.254/kronos"
+       },{
+           id:"sga",
+           title:"SGA",
+           url:"http://10.20.0.254/kronos"
+       }
+   ];
    $scope.menu_service = [];
    $scope.menu_service_old = [
    { //CDP
@@ -222,18 +263,19 @@ angular.module('financieraClienteApp')
         }
         $route.reload();
    };
-   function buildToggler(componentId) {
+function buildToggler(componentId) {
       return function() {
         $mdSidenav(componentId).toggle();
       };
-    };
+    }
 $scope.toggleLeft = buildToggler('left');
 $scope.toggleRight = buildToggler('right');
+
    //Pendiente por definir json del menu
    (function($) {
      $(document).ready(function() {
         $('[data-toggle="tooltip"]').tooltip();
-       $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+        $('ul.dropdown-menu [data-toggle=dropdown-submenu]').on('click', function(event) {
          event.preventDefault();
          event.stopPropagation();
          $(this).parent().siblings().removeClass('open');
