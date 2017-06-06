@@ -7,7 +7,7 @@
       <span class="icon-bar"></span>
     </button>
     <a href="" class="navbar-brand" ng-click="toggleLeft()">
-      <i class="fa fa fa-th-list faa-pulse animated-hover" aria-hidden="true"></i>
+      <i class="fa fa-university faa-shake animated-hover" aria-hidden="true"></i>
     </a>
     <a ng-href="#/">
       <img src="images/kronos.logo.png" class="logo" alt="">
@@ -139,26 +139,10 @@
 <div layout="column" ng-cloak>
   <section layout="row" flex>
     <md-sidenav class="md-sidenav-left" md-component-id="left">
-      <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools">Disabled Backdrop</h1>
-      </md-toolbar>
-      <md-content layout-margin>
-        <md-button  ng-click="toggleLeft()" class="md-primary my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/agora" target="_blank">
-         <img class="img-responsive" src="images/LogoAgora.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/argo" target="_blank">
-         <img class="img-responsive" src="images/LogoArgo.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/arka" target="_blank">
-         <img class="img-responsive" src="images/LogoArka.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://pruebasfuncionarios.portaloas.udistrital.edu.co/temis" target="_blank">
-         <img class="img-responsive" src="images/LogoTemis.png" alt="Bookmark">
-        </md-button>
-        <md-button  ng-click="toggleLeft()" class="md-icon my-icon-button" ng-href="http://10.20.0.254/polux" target="_blank">
-         <img class="img-responsive" src="images/LogoPolux.png" alt="Bookmark">
-        </md-button>
-
+      <md-content>
+        <a ng-repeat="app in menu_app" title="{{app.title}}" ng-href="{{app.url}}" target="_blank">
+            <img class="menu-app" id="{{app.id}}"></img>
+        </a>
       </md-content>
     </md-sidenav>
   </section>
