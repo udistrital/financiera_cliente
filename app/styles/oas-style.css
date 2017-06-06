@@ -1,13 +1,13 @@
 
-
 #loading-bar .bar {
   background-color:#eea236;
+  position: relative;
+}
 
 div.sticky {
   position: sticky;
   bottom: 0;
   right: 1;
-
 }
 
 md-sidenav {
