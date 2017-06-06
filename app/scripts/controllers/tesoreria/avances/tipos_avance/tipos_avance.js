@@ -100,28 +100,27 @@ angular.module('financieraClienteApp')
         .then(function(response) {
           ctrl.requisito_select = [];
           ctrl.requisito_avance = response.data;
-        });
-
-      financieraRequest.get("requisito_tipo_avance", $.param({
-          query: "TipoAvance.Id:" + ctrl.row_entity.Id,
-          limit: -1,
-          sortby: "Id",
-          order: "asc"
-        }))
-        .then(function(response) {
-          ctrl.requisito_tipo_avance = response.data;
-            angular.forEach(ctrl.requisito_avance, function(ra) {
-              var distint = 0;
-              angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
-                if (rta.RequisitoAvance.Id === ra.Id) {
-                  distint++;
-                }
-              });
-              if (distint === 0) {
-                ctrl.requisito_select.push(ra);
-              }
+          financieraRequest.get("requisito_tipo_avance", $.param({
+              query: "TipoAvance.Id:" + ctrl.row_entity.Id,
+              limit: -1,
+              sortby: "Id",
+              order: "asc"
+            }))
+            .then(function(response) {
+              ctrl.requisito_tipo_avance = response.data;
+                angular.forEach(ctrl.requisito_avance, function(ra) {
+                  var distint = 0;
+                  angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
+                    if (rta.RequisitoAvance.Id === ra.Id) {
+                      distint++;
+                    }
+                  });
+                  if (distint === 0) {
+                    ctrl.requisito_select.push(ra);
+                  }
+                });
+              console.log(ctrl.requisito_select);
             });
-          console.log(ctrl.requisito_select);
         });
     };
     ctrl.get_all_avances();
