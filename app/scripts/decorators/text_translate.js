@@ -122,6 +122,9 @@ var text_es = {
   EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
   CUENTAS_SELECCIONADAS:"Cuentas Seleccionadas",
   SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
+  ALERTA_SELECCIONAR_CUENTA: "Es necesario seleccionar la cuenta contable",
+  ALERTA_SELECCIONAR_PROVEEDOR: "Es necesario selecccionar un proveedor",
+  ALERTA_SELECCIONAR_CUENTA_SIN_HIJOS: "Unicamente se pueden seleccionar cuentas que no tengan hijos",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -274,7 +277,7 @@ var text_es = {
   //CODIGOS
 
   S_543: "Se registro exitosamente",
-  S_554: "Se eliminio exitosamente",  
+  S_554: "Se eliminio exitosamente",
   S_544: "Se Aprobo el Ingreso con el consecutivo ",
   S_545: "Se Rechazo el Ingreso con el consecutivo ",
   E_23503: "No se encontraron algunos campos", //FK
