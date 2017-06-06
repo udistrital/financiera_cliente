@@ -13,8 +13,8 @@ angular.module('financieraClienteApp')
     self.nuevo_plan = {};
 
     self.gridOptions = {
-      paginationPageSizes: [10, 15, 20],
-      paginationPageSize: 10,
+      paginationPageSizes: [5, 15, 20],
+      paginationPageSize: 5,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       enableFiltering: true,
@@ -22,10 +22,7 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
-          field: 'Id',
-          visible: false
-        },
+      columnDefs: [
         {
           field: 'Nombre',
           cellClass: 'text-success',
@@ -61,7 +58,7 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '20%',
           cellTemplate: '<center>' +
-            '<a href="" class="ver" data-toggle="modal" data-target="#modalverplan">' +
+            '<a href="#/plan_cuentas/gestion_plan_alterno/{{row.entity.Id}}" class="ver" data-toggle="modal" data-target="#modalverplan">' +
             '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
@@ -147,18 +144,8 @@ angular.module('financieraClienteApp')
       }
     });
 
-    $scope.$watch('[crearPlan.gridOptions.paginationPageSize,crearPlan.gridOptions.data]', function() {
-      console.log("sisss" + self.gridOptions.paginationPageSize);
-      if ((self.gridOptions.data.length <= self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize == null) && self.gridOptions.data.length > 0) {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
-        if (self.gridOptions.data.length <= 10) {
-          self.gridOptions.enablePaginationControls = false;
-          $scope.gridHeight = self.gridOptions.rowHeight * 2 + (self.gridOptions.data.length * self.gridOptions.rowHeight);
-        }
-      } else {
-        $scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
-        self.gridOptions.enablePaginationControls = true;
-      }
-    }, true);
+    self.gridOptions.enablePaginationControls = true;
+
+
 
   });

@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
     self.MovimientoContableConceptoOrdenPago = [];
     self.MensajesAlerta = null;
     self.TotalAfectacion = null;
+    self.PestanaAbierta = true;
 
     // functions
     self.estructurarDataSend = function(conceptos) {
@@ -58,10 +59,9 @@ angular.module('financieraClienteApp')
     }
     // Insert Orden Pago
     self.addOpProveedor = function() {
-      self.OrdenPago.EstadoOrdenPago = {
-        'Id': 1
-      };
-      self.OrdenPago.Vigencia = 2017;
+      self.OrdenPago.EstadoOrdenPago = {};
+      self.OrdenPago.Nomina = '';
+      //
       self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
       self.dataOrdenPagoInsert = {};
@@ -115,7 +115,7 @@ angular.module('financieraClienteApp')
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insert
-        financieraRequest.post("orden_pago/RegistrarOp", self.dataOrdenPagoInsert)
+        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) { //error con el success
             self.resultado = data;
             //mensaje

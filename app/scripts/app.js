@@ -10,6 +10,7 @@
  */
 angular
   .module('financieraClienteApp', [
+    'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
     'ngMessages',
@@ -45,17 +46,18 @@ angular
     'argoService',
     'coreService',
     'oikosService',
-
+    'titanService',
     'pagosService',
-
     'avancesService'
-
   ])
 
   .run(function(amMoment) {
     amMoment.changeLocale('es');
   })
-
+  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+      cfpLoadingBarProvider.parentSelector = '#loading-bar-container'
+      cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
+  }])
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
@@ -236,7 +238,16 @@ angular
         controller: 'OpProveedorUpdatePorIdCtrl',
         controllerAs: 'opProveedorUpdatePorId'
        })
-
+       .when('/orden_pago/planta/crear', {
+         templateUrl: 'views/orden_pago/planta/op_planta_crear.html',
+         controller: 'OpPlantaCrearCtrl',
+         controllerAs: 'opPlantaCrear'
+       })
+       .when('/orden_pago/planta/ver/:Id', {
+         templateUrl: 'views/orden_pago/planta/op_planta_ver_por_id.html',
+         controller: 'OpPlantaVerPorIdCtrl',
+         controllerAs: 'opPlantaVerPorId'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -247,7 +258,11 @@ angular
         controller: 'CrearDescuentoCtrl',
         controllerAs: 'crearDescuento'
       })
-
+      .when('/plan_cuentas/gestion_descuentos', {
+        templateUrl: 'views/plan_cuentas/gestion_descuentos.html',
+        controller: 'GestionDescuentosCtrl',
+        controllerAs: 'gestionDescuentos'
+      })
       .when('/ingresos/ingreso_registro', {
         templateUrl: 'views/ingresos/ingreso_registro.html',
         controller: 'IngresosIngresoRegistroCtrl',
@@ -262,6 +277,23 @@ angular
         templateUrl: 'views/plan_cuentas/gestion_plan_cuentas.html',
         controller: 'GestionPlanCuentasCtrl',
         controllerAs: 'gestionPlanCuentas'
+      })
+
+      .when('/ingresos/ingreso_consulta', {
+        templateUrl: 'views/ingresos/ingreso_consulta.html',
+        controller: 'IngresosIngresoConsultaCtrl',
+        controllerAs: 'ingresoConsulta'
+      })
+      .when('/tesoreria/avances/requisitos/requisitos', {
+        templateUrl: 'views/tesoreria/avances/requisitos/requisitos.html',
+        controller: 'RequisitosCtrl',
+        controllerAs: 'requisitos'
+      })
+
+      .when('/plan_cuentas/gestion_plan_alterno/:Id', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
+        controller: 'GestionPlanAlternoCtrl',
+        controllerAs: 'gestionPlanAlterno'
       })
       .otherwise({
         redirectTo: '/'

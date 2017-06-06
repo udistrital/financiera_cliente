@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         rpid: '=?',
-        rubrosobj: '=?'
+        rubrosobj: '=?',
+        inputpestanaabierta: '=?'
       },
 
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
@@ -83,6 +84,12 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         //
         $scope.$watch('rpid', function() {
           //self.refresh();

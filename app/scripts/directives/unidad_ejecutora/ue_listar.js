@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          unidaejecutora:'='
+          unidaejecutora:'=',
+          inputpestanaabierta: '=?',
         },
 
       templateUrl: 'views/directives/unidad_ejecutora/ue_listar.html',
@@ -50,6 +51,12 @@ angular.module('financieraClienteApp')
             });
           };
           self.gridOptions_unidad_ejecutora.multiSelect = false;
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         // Control para aparecer Filtros de ui-grid
         $scope.$watch('[d_ueListar.gridOptions_unidad_ejecutora.paginationPageSize, d_ueListar.gridOptions_unidad_ejecutora.data]', function() {
           if ((self.gridOptions_unidad_ejecutora.data.length <= self.gridOptions_unidad_ejecutora.paginationPageSize || self.gridOptions_unidad_ejecutora.paginationPageSize == null) && self.gridOptions_unidad_ejecutora.data.length > 0) {

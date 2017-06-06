@@ -1,0 +1,22 @@
+
+<ul class="list-unstyled" ng-repeat=" movimiento in d_afectacionContableIngreso.movimientosregistrados">
+  <hr class="hr-primary">
+  <li><b>{{'CONCEPTO' | translate}}:</b> {{movimiento.Codigo+" / "+movimiento.Nombre}}
+    <ul>
+      <li><b>{{'CUENTAS_CONTABLES' | translate}}:</b>
+        <ul>
+          <li ng-repeat="resumencuentas in movimiento.Cuentas">
+            <b>{{'CUENTA' | translate}} : </b> {{resumencuentas.Codigo}} / {{resumencuentas.Nombre}}
+            <ul>
+              <li><b>{{'DEBITO' | translate}} : </b> {{resumencuentas.Debito}}</li>
+              <li><b>{{'CREDITO' | translate}} : </b> {{resumencuentas.Credito}}</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+
+
+
+</ul>

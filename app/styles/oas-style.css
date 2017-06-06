@@ -4,6 +4,7 @@
   position: relative;
 }
 
+
 .menu-app{
   background: url(/images/logos-75.png);
   display: inline-block;
@@ -62,8 +63,6 @@ md-sidenav {
   width: 100px;
 }
 
-
-
 .my-icon-button {
   padding: 10px !important;
   min-width: 0;
@@ -119,7 +118,6 @@ md-sidenav {
 .ui-grid-pager-container {
   float: none !important;
 }
-
 
 /*BUTTONS OPTIONS*/
 

@@ -50,20 +50,50 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
+  NUEVO: "Nuevo",
+  CUENTA_CONTABLE: "Cuenta Contable",
+  PORCENTAJE: "Porcentaje",
+  BASE_UVT: "Base UVT",
+  DEDUCIBLE: "Deducible",
+  SELECCION_OPCION: "Selecciona una opción",
   ACTUALIZAR: "Actualizar",
-  PLAN_CUENTAS:"Plan de Cuentas",
-
+  PLAN_CUENTAS: "Plan de Cuentas",
+  OBSERVACIONES: "Observaciones",
   MOVIMIENTOS: "Movimientos",
   INICIAL: "Inicial",
   FECHA: "Fecha",
-  CREACION:"Creación",
-  VENCIMIENTO:"Vencimiento",
-  INGRESO:"Ingreso",
+  CREACION: "Creación",
+  VENCIMIENTO: "Vencimiento",
+  INGRESO: "Ingreso",
   EGRESO: "Egreso",
+  NOMINA: 'Nomina',
+  PLANTA: 'Planta',
+  TIPO_EMPLEADO: 'Tipo Empleado',
+  MES: 'Mes',
+  MES_ENERO: 'Enero',
+  MES_FEBRERO: 'Febrero',
+  MES_MARZO: 'Marzo',
+  MES_ABRIL: 'Abril',
+  MES_MAYO: 'Mayo',
+  MES_JUNION: 'Junio',
+  MES_JULIO: 'Julio',
+  MES_AGOSTO: 'Agosto',
+  MES_SEPTIEMBRE: 'Septiembre',
+  MES_OCTUBRE: 'Octubre',
+  MES_NOBIEMBRE: 'Nobiembre',
+  MES_DICIEMBRE: 'diciembre',
+  NO_QUINCENA: 'Nro. Quincena',
+  PRIMERA: 'Primera',
+  SEGUNADA: 'Segunda',
+  ELABORADO_POR: 'Elaborado Por',
+  VINCULACION: 'Vinculacion',
+  LIQUIDACION: 'Liquidacion',
 
+  FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
-
+  AFECTACION_CONTABLE: "Afectación Contable",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -90,6 +120,11 @@ var text_es = {
   PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
   NUEVA_CUENTA: "Nueva Cuenta",
   EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
+  CUENTAS_SELECCIONADAS:"Cuentas Seleccionadas",
+  SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
+  ALERTA_SELECCIONAR_CUENTA: "Es necesario seleccionar la cuenta contable",
+  ALERTA_SELECCIONAR_PROVEEDOR: "Es necesario selecccionar un proveedor",
+  ALERTA_SELECCIONAR_CUENTA_SIN_HIJOS: "Unicamente se pueden seleccionar cuentas que no tengan hijos",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -111,12 +146,18 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    QUITAR: "Quitar",
     APROBAR: "Aprobar",
+    EDITAR: "Editar",
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
-    EDITAR: "Editar",
-    BORRAR: "Borrar"
+    BORRAR: "Borrar",
+    RECHAZAR: "Rechazar",
+    CONFIGURAR: "Configurar",
+    ANADIR: "Añadir",
+    NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
+    NUEVO_OP_PLANTA: 'Nuevo OP Planta',
   },
 
   // ORDEN DE PAGO
@@ -161,7 +202,7 @@ var text_es = {
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
-  FUENTES_AFECTADAS:"Fuentes de Financiación Afectadas",
+  FUENTES_AFECTADAS: "Fuentes de Financiación Afectadas",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -175,30 +216,48 @@ var text_es = {
   JUSTIFICACION: 'Justificación',
   AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
   VALOR_AFECTACION: "Valor afectación",
-  VALOR_AFECTACION_FUNCIONAMIENTO:"Valor de la Afectación (Funcionamiento)",
+  VALOR_AFECTACION_FUNCIONAMIENTO: "Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
 
-    //TIPO AVANCES
-
-  AVANCES:  'AVANCES',
-  LISTA_AVANCES :  'Listado de Tipos de Avances',
+  //AVANCES
+  ETAPA: "Etapa",
+  REQUISITOS_AVANCE: "Requisitos de Avance",
+  LISTA_REQUISITOS_AVANCE: "listado de Requisitos de Avance",
+  AVANCES: 'AVANCES',
+  LISTA_AVANCES: 'Listado de Tipos de Avances',
   REFERENCIA: 'Referencia',
-  FECHA_REGISTRO: 'Fecha registro',
   NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
-  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
-  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
-  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
-  TIPO_ANULACION:"Tipo de Anulación",
+  NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
+  EDITAR_REQUISITO_AVANCE: 'Editar Requisito de Avance',
+  LISTA_CDP_ANULACION: "Lista De Certificados De Disponibilidad Presupuestal a Anular",
+  ANULACION_CDP_TITULO_FORM: "Anulación de CDP",
+  MOTIVO_ANULACION_CDP: "Motivo de la Anulación",
+  TIPO_ANULACION: "Tipo de Anulación",
+  SELECCIONE: "Seleccione",
+  REQUISITOS: "Requisitos",
+  ACTIVO: "Activo",
+  INACTIVO: "Inactivo",
+  SOLICITUD: "Solicitud",
+  LEGALIZACION :"Legalización",
+
+
+  //ANULACIONES
   ANULACION_PARCIAL: "Parcial",
-  ANULACION_TOTAL:"Total",
-  SELECCION_RUBRO:"Seleccione el Rubro",
+  ANULACION_TOTAL: "Total",
+  SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
   NO: "No.",
+  ELIMINARA: "Se eliminará",
+  ELIMINADO: "Eliminado",
+  ACTUALIZADO: "Actualizado",
+  FUE_ELIMINADO: "ha sido eliminado",
+  FUE_ACTUALIZADO: "ha sido actualizado",
+  AGREGAR_REQUISITO: "Añadir Requisito",
 
   //RP
   LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
@@ -209,7 +268,21 @@ var text_es = {
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",
   TIPO_INGRESO: "Tipo de Ingreso",
-  TABLA_INGRESOS_BANCO: "Lista de Consignaciones"
+  TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
+  DATOS_REG_INGRESO: "Datos para este ingreso",
+  INGRESO_NO: "Ingreso No.",
+  CONSULTA_INGRESOS: "Consulta Ingresos",
+  MOTIVO_RECHAZO: "Motivo del rechazo",
+
+  //CODIGOS
+
+  S_543: "Se registro exitosamente",
+  S_554: "Se eliminio exitosamente",
+  S_544: "Se Aprobo el Ingreso con el consecutivo ",
+  S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  E_23503: "No se encontraron algunos campos", //FK
+  E_0458: "Los datos enviados son erroneos",
+
 };
 
 var text_en = {
@@ -256,6 +329,28 @@ var text_en = {
   CREDITO: "Credit",
   CUENTA: "Account",
   ACTUALIZAR: "Update",
+  NOMINA: 'Roster',
+  PLANTA: 'Floor',
+  TIPO_EMPLEADO: 'Employee Type',
+  MES: 'Month',
+  MES_ENERO: 'January',
+  MES_FEBRERO: 'February',
+  MES_MARZO: 'March',
+  MES_ABRIL: 'April',
+  MES_MAYO: 'May',
+  MES_JUNION: 'June',
+  MES_JULIO: 'July',
+  MES_AGOSTO: 'August',
+  MES_SEPTIEMBRE: 'september',
+  MES_OCTUBRE: 'October',
+  MES_NOBIEMBRE: 'November',
+  MES_DICIEMBRE: 'December',
+  NO_QUINCENA: 'Nro. Fortnight',
+  PRIMERA: 'Frist',
+  SEGUNADA: 'Second',
+  ELABORADO_POR: 'Elaborated By',
+  VINCULACION: 'Bonding',
+  LIQUIDACION: 'Liquidation',
 
 
   // PROVEEDOR
@@ -292,14 +387,17 @@ var text_en = {
 
   BTN: {
     VER: "Ver",
-    SELECCIONAR: "Seleccionar",
+    SELECCIONAR: "Select",
     CANCELAR: "Cancelar",
     CONFIRMAR: "Confirmar",
     AGREGAR: "Agregar",
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
-    APROBAR: "Aprobar"
+    APROBAR: "Aprobar",
+
+    NUEVO_OP_PROVEEDOR: 'New PO Supplier',
+    NUEVO_OP_PLANTA: 'New PO Floor'
   },
 
   // ORDEN DE PAGO
@@ -337,8 +435,7 @@ var text_en = {
   CONSULTA_RUBRO: "Consulta de Rubros",
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
-  SELECCIONAR_RUBRO: "Select Item",
-
+  SELECCIONAR_RUBRO: "Select Item"
 };
 
 angular.module('financieraClienteApp')
