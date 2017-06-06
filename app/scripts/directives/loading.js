@@ -12,15 +12,15 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           load:'=',
-          tam:'='
+          tam:'=?'
         },
-
       template: '<div class="loading" ng-show="load">' +
                    '<i class="fa fa-clock-o fa-spin fa-{{tam}}x faa-burst animated  text-info" aria-hidden="true" ></i>' +
                    '</div>',
       controller:function($scope){
-        console.log($scope.load);
-      },
-      controllerAs:'d_loading'
+        if ($scope.tam===undefined) {
+          $scope.tam=5;
+        }
+      }
     };
   });

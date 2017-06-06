@@ -55,8 +55,8 @@ angular
     amMoment.changeLocale('es');
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
-    cfpLoadingBarProvider.spinnerTemplate ='<div><span class="fa fa-spinner">Custom Loading Message...</div>';
+      cfpLoadingBarProvider.parentSelector = '#loading-bar-container'
+      cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
   }])
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
@@ -290,6 +290,11 @@ angular
         controllerAs: 'requisitos'
       })
 
+      .when('/plan_cuentas/gestion_plan_alterno/:Id', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
+        controller: 'GestionPlanAlternoCtrl',
+        controllerAs: 'gestionPlanAlterno'
+      })
       .otherwise({
         redirectTo: '/'
       });
