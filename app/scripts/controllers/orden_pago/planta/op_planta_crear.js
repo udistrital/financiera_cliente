@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest) {
+  .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest, $http) {
     var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
@@ -22,6 +22,11 @@ angular.module('financieraClienteApp')
         self.OrdenPago.Vigencia = parseInt(data.data);
         self.dataLiquidacionConsulta.Vigencia = self.OrdenPago.Vigencia;
       })
+    //
+    self.dataSend = {};
+    $http.get('detalle_liquidacion.json').then(function(data){
+      self.dataSend.DetalleLiquidacion = data.data;
+    })
     // ***************
     // Funciones
     // ***************
@@ -57,8 +62,8 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.dataSend);
         console.log("Insertar DATA");
-        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
-        //financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
+        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
+        financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
           .then(function(data) { //error con el success
             self.resultado = data;
             console.log(self.resultado.data);
