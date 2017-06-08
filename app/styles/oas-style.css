@@ -1,19 +1,65 @@
 #loading-bar .bar {
   background-color:#eea236;
+  position: relative;
+}
+
+
+.menu-app{
+  background: url('../images/logos-75.png');
+  display: inline-block;
+  height: 75px;
+  width: 75px;
+  margin-top: 3px;
+  border-color: #34495e
+
+}
+
+.menu-app:hover{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color:  #95a5a6
+}
+
+#polux{
+  background-position: 0px 0px;
+}
+#jano {
+  background-position: -75px 0px;
+}
+#kyron {
+  background-position: -150px 0px;
+}
+#sga {
+  background-position: -225px 0px;
+}
+#kronos {
+  background-position: -301px 0px;
+}
+
+#agora{
+  background-position: 0px -75px;
+}
+#argo{
+  background-position: -75px -75px;
+}
+#arka{
+  background-position: -150px -75px;
+}
+#temis{
+  background-position: -225px -75px;
+}
 
 div.sticky {
   position: sticky;
   bottom: 0;
   right: 1;
-
 }
 
 md-sidenav {
+  padding-left: 5px;
+  padding-bottom: 80px;
+  padding-top: 80px;
   width: 100px;
-}
-
-md-sidenav>md-content>md-button>md-card>img:hover {
-  opacity: 10%;
 }
 
 .my-icon-button {
@@ -72,7 +118,6 @@ md-sidenav>md-content>md-button>md-card>img:hover {
 .ui-grid-pager-container {
   float: none !important;
 }
-
 
 /*BUTTONS OPTIONS*/
 

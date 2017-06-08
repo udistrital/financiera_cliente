@@ -15,6 +15,48 @@ angular.module('financieraClienteApp')
     ctrl.row_entity = {};
     ctrl.tipo_avance = {};
     ctrl.requisito_select = [];
+
+    ctrl.grid_option_requisito={
+      enableFiltering: true,
+      enableSorting: true,
+      enableRowSelection: true,
+      enableRowHeaderSelection: false,
+      columnDefs: [{
+          field: 'IdTipo',
+          visible: false
+        },
+        {
+          field: 'Referencia',
+          displayName: $translate.instant('REFERENCIA'),
+          cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Referencia}}</div>',
+          width: '10%',
+        },
+        {
+          field: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
+          cellTemplate: '<div align="left">{{row.entity.RequisitoAvance.Nombre}}</div>',
+          width: '20%',
+        },
+        {
+          field: 'Descripcion',
+          displayName: $translate.instant('DESCRIPCION'),
+          cellTemplate: '<div align="left">{{row.entity.RequisitoAvance.Descripcion}}</div>',
+          width: '50%',
+        },
+        {
+          field: 'Estado',
+          displayName: $translate.instant('ESTADO'),
+          cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Estado}}</div>',
+          width: '10%',
+        },
+        {
+          field: 'FechaRegistro',
+          displayName: $translate.instant('FECHA'),
+          cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
+          width: '10%',
+        }]
+      };
+
     ctrl.gridOptions = {
       paginationPageSizes: [5, 15, 20],
       paginationPageSize: 5,
@@ -61,7 +103,7 @@ angular.module('financieraClienteApp')
           width: '8%',
 
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.TiposAvance.load_row(row,\'ver\')" >' +
+            '<a class="ver" ng-click="grid.appScope.TiposAvance.load_row(row,\'ver\')" data-toggle="modal" data-target="#modalVer">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
@@ -91,6 +133,17 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope, function() {});
     };
 
+    ctrl.get_requisito_tipo_avance = function(id){
+      financieraRequest.get("requisito_tipo_avance", $.param({
+          query: "TipoAvance.Id:" + id,
+          limit: -1,
+          sortby: "Id",
+          order: "asc"
+        }))
+        .then(function(response) {
+          ctrl.grid_option_requisito.data = response.data;
+        });
+    };
     ctrl.update_config = function() {
       financieraRequest.get("requisito_avance", $.param({
           limit: -1,
@@ -100,28 +153,28 @@ angular.module('financieraClienteApp')
         .then(function(response) {
           ctrl.requisito_select = [];
           ctrl.requisito_avance = response.data;
-        });
-
-      financieraRequest.get("requisito_tipo_avance", $.param({
-          query: "TipoAvance.Id:" + ctrl.row_entity.Id,
-          limit: -1,
-          sortby: "Id",
-          order: "asc"
-        }))
-        .then(function(response) {
-          ctrl.requisito_tipo_avance = response.data;
-            angular.forEach(ctrl.requisito_avance, function(ra) {
-              var distint = 0;
-              angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
-                if (rta.RequisitoAvance.Id === ra.Id) {
-                  distint++;
-                }
-              });
-              if (distint === 0) {
-                ctrl.requisito_select.push(ra);
-              }
+          financieraRequest.get("requisito_tipo_avance", $.param({
+              query: "TipoAvance.Id:" + ctrl.row_entity.Id,
+              limit: -1,
+              sortby: "Id",
+              order: "asc"
+            }))
+            .then(function(response) {
+              ctrl.grid_option_requisito.data = response.data;
+              console.log(ctrl.grid_option_requisito);
+              ctrl.requisito_tipo_avance = response.data;
+                angular.forEach(ctrl.requisito_avance, function(ra) {
+                  var distint = 0;
+                  angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
+                    if (rta.RequisitoAvance.Id === ra.Id) {
+                      distint++;
+                    }
+                  });
+                  if (distint === 0) {
+                    ctrl.requisito_select.push(ra);
+                  }
+                });
             });
-          console.log(ctrl.requisito_select);
         });
     };
     ctrl.get_all_avances();
@@ -157,6 +210,7 @@ angular.module('financieraClienteApp')
       switch (operacion) {
         case "ver":
           ctrl.row_entity = row.entity;
+          ctrl.get_requisito_tipo_avance(ctrl.row_entity.Id);
           break;
         case "add":
           ctrl.tipo_avance.Referencia = "";
