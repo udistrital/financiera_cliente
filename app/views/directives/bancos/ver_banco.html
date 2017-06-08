@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="page-header">{{d_verBanco.banco.NombreBanco}}<h3>
+    </div>
+    <div class="panel-body">
+
+      <div class="col-md-12">
+        <label>DenominacionBanco:</label> <span>{{d_verBanco.banco.DenominacionBanco}}</span><br>
+        <label>NIT:</label> <span>{{d_verBanco.banco.Nit}}</span><br>
+        <label>ACH:</label> <span>{{d_verBanco.banco.CodigoAch}}</span><br>
+        <label>CODIGO_SUPER:</label> <span>{{d_verBanco.banco.CodigoSuperintendencia}}</span><br>
+        <label>Descripcion:</label><br>
+        <blockquote>
+          <small>{{d_verBanco.banco.Descripcion}}</small>
+        </blockquote>
+
+        <label>Sucursales:</label>
+        <div class="panel-primary panel-body" ng-repeat="sucursal in d_verBanco.banco.sucursalesa">
+          
+        </div>
+
+
+
+      </div>
+
+        <pre>
+          {{d_verBanco.banco | json}}
+        </pre>
+    </div>
+</div>

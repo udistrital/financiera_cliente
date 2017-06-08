@@ -295,6 +295,11 @@ angular
         controller: 'GestionPlanAlternoCtrl',
         controllerAs: 'gestionPlanAlterno'
       })
+      .when('/bancos/gestion_bancos', {
+        templateUrl: 'views/bancos/gestion_bancos.html',
+        controller: 'GestionBancosCtrl',
+        controllerAs: 'gestionBancos'
+      })
       .otherwise({
         redirectTo: '/'
       });
