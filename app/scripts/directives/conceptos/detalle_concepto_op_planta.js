@@ -10,14 +10,15 @@ angular.module('financieraClienteApp')
   .directive('detalleConceptoOpPlanta', function (financieraRequest, $translate) {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
+      scope:{
+          inputidordenpago:'=',
+          inputpestanaabierta: '=?',
         },
-      */
+
       templateUrl: '/views/directives/conceptos/detalle_concepto_op_planta.html',
-      controller:function(){
+      controller:function($scope){
         var self = this;
-        self.gridOptions_unidad_ejecutora = {
+        self.gridOptions_concepto_orden_pago = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
 
@@ -28,33 +29,45 @@ angular.module('financieraClienteApp')
           enableSelectAll: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
-          minRowsToShow: 6,
+          minRowsToShow: 12,
           useExternalPagination: false,
 
           columnDefs : [
-            {field: 'Id',             visible : false},
-            {field: 'Nombre',         displayName: $translate.instant('NOMBRE')},
-            {field: 'Descripcion',    displayName: $translate.instant('DESCRIPCION')}
+            {field: 'Concepto.Id',             visible : false},
+            {field: 'Concepto.Codigo',         displayName: $translate.instant('CODIGO')},
+            {field: 'Concepto.Nombre',         displayName: $translate.instant('NOMBRE')},
+            {field: 'Concepto.Descripcion',    displayName: $translate.instant('DESCRIPCION')},
+            {field: 'Concepto.TipoConcepto.Nombre',    displayName: $translate.instant('TIPO')}
           ]
         };
+        //
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta){
+            $scope.a = true;
+          }
+        })
         // Data para grid
-        financieraRequest.get('unidad_ejecutora','limit=0').then(function(response) {
-          self.gridOptions_unidad_ejecutora.data = response.data;
-        });
+        $scope.$watch('inputidordenpago', function() {
+          //get data
+          if($scope.inputidordenpago != undefined){
+            financieraRequest.get('concepto_orden_pago',
+            $.param({
+                query: "OrdenDePago.Id:" + $scope.inputidordenpago,
+            })).then(function(response) {
+              self.gridOptions_concepto_orden_pago.data = response.data;
+            });
+          }
 
-        // Data para grid
-        financieraRequest.get('unidad_ejecutora','limit=0').then(function(response) {
-          self.gridOptions_unidad_ejecutora.data = response.data;
-        });
+        })
         // select registro
-        self.gridOptions_unidad_ejecutora.onRegisterApi = function(gridApi){
+        self.gridOptions_concepto_orden_pago.onRegisterApi = function(gridApi){
             //set gridApi on scope
             self.gridApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope,function(row){
               $scope.unidaejecutora = row.entity
             });
           };
-          self.gridOptions_unidad_ejecutora.multiSelect = false;
+          self.gridOptions_concepto_orden_pago.multiSelect = false;
 
       // fin
       },

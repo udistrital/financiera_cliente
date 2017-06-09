@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
     $scope.panelUnidadEjecutora = true;
     $scope.panelProveedor = true;
     $scope.panelRp = true;
+    $scope.pestana_abierta = true;
     // get data OP
     financieraRequest.get('orden_pago',
       $.param({
