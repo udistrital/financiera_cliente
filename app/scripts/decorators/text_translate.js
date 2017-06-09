@@ -89,6 +89,7 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
+  COMPANIA : 'Compañia',
 
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
@@ -335,6 +336,7 @@ var text_en = {
   ELABORADO_POR: 'Elaborated By',
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
+  COMPANIA : 'Company',
 
 
   // PROVEEDOR

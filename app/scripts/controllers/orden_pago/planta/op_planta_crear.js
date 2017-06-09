@@ -42,8 +42,8 @@ angular.module('financieraClienteApp')
         });
     }
 
-    self.dataSend = {};
-    self.get_liguidacion();
+    //self.dataSend = {};
+    //self.get_liguidacion();
 
     self.validar_campos = function() {
       self.MensajesAlerta = '';
@@ -62,8 +62,8 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.dataSend);
         console.log("Insertar DATA");
-        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
-        financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
+        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
+        //financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
           .then(function(data) { //error con el success
             self.resultado = data;
             console.log(self.resultado.data);
