@@ -67,7 +67,8 @@ angular.module('financieraClienteApp')
               $scope.unidaejecutora = row.entity
             });
           };
-          self.gridOptions_concepto_orden_pago.multiSelect = false;
+        //
+        self.gridOptions_concepto_orden_pago.multiSelect = false;
 
       // fin
       },
