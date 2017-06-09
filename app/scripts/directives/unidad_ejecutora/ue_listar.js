@@ -57,20 +57,7 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         })
-        // Control para aparecer Filtros de ui-grid
-        $scope.$watch('[d_ueListar.gridOptions_unidad_ejecutora.paginationPageSize, d_ueListar.gridOptions_unidad_ejecutora.data]', function() {
-          if ((self.gridOptions_unidad_ejecutora.data.length <= self.gridOptions_unidad_ejecutora.paginationPageSize || self.gridOptions_unidad_ejecutora.paginationPageSize == null) && self.gridOptions_unidad_ejecutora.data.length > 0) {
-            $scope.gridHeight = self.gridOptions_unidad_ejecutora.rowHeight * 2 + (self.gridOptions_unidad_ejecutora.data.length * self.gridOptions_unidad_ejecutora.rowHeight);
-            if (self.gridOptions_unidad_ejecutora.data.length <= 5) {
-              self.gridOptions_unidad_ejecutora.enablePaginationControls = false;
-            }
-          } else {
-            $scope.gridHeight = self.gridOptions_unidad_ejecutora.rowHeight * 3 + (self.gridOptions_unidad_ejecutora.paginationPageSize * self.gridOptions_unidad_ejecutora.rowHeight);
-            self.gridOptions_unidad_ejecutora.enablePaginationControls = true;
-          }
-        }, true);
-
-        //
+      // fin
       },
       controllerAs:'d_ueListar'
     };
