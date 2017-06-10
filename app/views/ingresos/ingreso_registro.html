@@ -6,7 +6,7 @@
 
     <table>
       <tr>
-        <td class="col-md-4">
+        <td class="col-md-3">
           <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
           <br>
           <select class="form-control" ng-focus="ingresoRegistro.cargarTiposIngreso()" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso">
@@ -15,7 +15,15 @@
         <td class="col-md-1">
           <br>
         </td>
-        <td class="col-md-4">
+        <td class="col-md-3">
+          <label for="tipo_ingreso">{{'FACULTAD' | translate}}</label>
+          <br>
+          <select class="form-control" ng-model="ingresoRegistro.facultadSelec" ng-options="o as o.FACULTAD for o in ingresoRegistro.codigo_facultad">
+        </td>
+        <td class="col-md-1">
+          <br>
+        </td>
+        <td class="col-md-2">
           <label for="tipo_ingreso">{{'FECHA_CONSIG' | translate}}</label>
           <br>
           <md-datepicker ng-model="ingresoRegistro.fechaConsignacion" md-placeholder="{{'FECHA_CONSIG' | translate}}" flex></md-datepicker>
@@ -115,5 +123,5 @@
       {{ingresoRegistro.rta}}
     </div>
   </div>
-  
+
 </div>

@@ -94,6 +94,7 @@ var text_es = {
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
+  FACULTAD: "Facultad",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
