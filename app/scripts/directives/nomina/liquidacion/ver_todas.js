@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
       scope: {
         inputdataliquidacion: '=?',
         inputpestanaabierta: '=?',
-        outputliquidacion: '=?'
+        outputliquidacion: '=?',
+        outputliquidacionid: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
@@ -142,6 +143,7 @@ angular.module('financieraClienteApp')
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.outputliquidacion = row.entity;
+            $scope.outputliquidacionid = row.entity.Id;
           });
         };
         self.gridOptions_liquid.multiSelect = false;
