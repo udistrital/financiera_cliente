@@ -68,14 +68,13 @@ angular.module('financieraClienteApp')
             self.resultado = data;
             console.log(self.resultado.data);
             //mensaje
-            /*
             swal({
               title: 'Registro Exitoso',
               text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
               type: 'success',
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
-            })*/
+            })
             //
           })
       } else {
