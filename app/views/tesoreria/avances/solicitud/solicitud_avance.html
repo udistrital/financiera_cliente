@@ -93,12 +93,10 @@
           <div class="row">
             <div class="col-md-4">
               <input class="form-control" placeholder="{{'CODIGO_CONVENIO' | translate}}">
-                {{solicitudAvance.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular}}
               </input>
             </div>
             <div class="col-md-8">
               <input class="form-control" placeholder="{{'NOMBRE_CONVENIO' | translate}}">
-                {{solicitudAvance.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular}}
               </input>
             </div>
           </div>
@@ -107,12 +105,10 @@
           <div class="row">
             <div class="col-md-4">
               <input class="form-control" placeholder="{{'CODIGO_PROYECTO' | translate}}">
-                {{solicitudAvance.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular}}
               </input>
             </div>
             <div class="col-md-8">
               <input class="form-control" placeholder="{{'NOMBRE_PROYECTO' | translate}}">
-                {{solicitudAvance.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular}}
               </input>
             </div>
           </div>
@@ -126,20 +122,19 @@
 </fieldset>
 
 <fieldset class="form-group">
-  <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"DESCRIPCION_AVANCES" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_detalle_avances"></span></legend>
+  <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"DETALLE_AVANCES" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_detalle_avances"></span></legend>
 
   <div class="panel-body" ng-show="info_detalle_avances">
 
     <div class="row">
+      <div class="col-md-3">
+        <label for="dep_destino" class="control-label">{{"TIPO_AVANCE" | translate}}</label>
+      </div>
       <div class="col-md-6">
-        <label for="dep_destino" class="control-label">{{"OBJETIVO" | translate}}</label>
-        <textarea class="form-control" ng-model="solicitudAvance.objetivo" rows="3"></textarea>
-
-        <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
-        <textarea class="form-control" ng-model="solicitudAvance.justificacion" rows="3"></textarea>
-
-        <label for="jefe_solicitante" class="control-label">{{"VALOR_AVANCE" | translate}}</label>
-        <input class="form-control input_right" ng-model="solicitudAvance.valor_avance" ui-money-mask="0"></input>
+            <select name="requisito" ng-model="solicitudAvance.tipo_avance_select" class="form-control" ng-required="true">
+               <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
+               <option ng-repeat="r in solicitudAvance.tipos_avance" value="{{r.Id}}">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
+            </select>
       </div>
 
       <div class="col-md-6">

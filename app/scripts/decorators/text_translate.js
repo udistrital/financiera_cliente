@@ -265,6 +265,7 @@ var text_es = {
   PROYECTO_INVESTIGACION:"Proyecto de Investigación",
   CODIGO_PROYECTO:"Código del Proyecto",
   NOMBRE_PROYECTO:"Nombre del Proyecto",
+  TIPO_AVANCE:"Tipo de Avance",
 
   //ANULACIONES
   ANULACION_PARCIAL: "Parcial",
