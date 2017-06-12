@@ -134,7 +134,8 @@ angular.module('financieraClienteApp')
           'anio': self.fechaConsignacion.getFullYear(),
           'rango_ini': self.rango_inicial,
           'rango_fin': self.rango_fin,
-          'facultad' : self.facultadSelec.COD_FAC
+          'facultad' : self.facultadSelec.COD_FAC,
+          'concepto' : self.tipoIngresoSelec.Nombre
 
         };
         self.rta=null;
