@@ -295,6 +295,11 @@ angular
         controller: 'GestionPlanAlternoCtrl',
         controllerAs: 'gestionPlanAlterno'
       })
+      .when('/tesoreria/avances/solicitud_avance', {
+        templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',
+        controller: 'SolicitudAvanceCtrl',
+        controllerAs: 'solicitudAvance'
+      })
       .otherwise({
         redirectTo: '/'
       });
