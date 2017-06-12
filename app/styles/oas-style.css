@@ -146,6 +146,7 @@ md-sidenav {
 
 legend {
   border-bottom: 1px solid #528ec2 !important;
+    padding: 5px;
 }
 
 legend:hover {
