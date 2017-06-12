@@ -94,6 +94,9 @@ var text_es = {
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
+  DENOMINACION: 'Denominación',
+  CODIGO_SUPER: 'Codigo Superintendencia',
+  ACH: 'Código ACH',
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",

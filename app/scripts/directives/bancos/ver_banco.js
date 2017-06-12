@@ -25,11 +25,18 @@ angular.module('financieraClienteApp')
             self.banco=response.data[0];
             coreRequest.get('sucursal',$.param({
               query: "Banco:"+self.banco.Id,
-              field: "Id,Nombre",
+              fields: "Id,Nombre",
               limit:-1
             })).then(function(response){
               self.banco.sucursales=response.data;
-              //angular.forEach()
+              angular.forEach(self.banco.sucursales,function(item){
+                coreRequest.get('contacto_sucursal',$.param({
+                  query: 'Sucursal:'+item.Id,
+                  fields: 'Contacto,TipoContacto'
+                })).then(function(response){
+                  item.Contactos=response.data;
+                });
+              });
             });
           });
         };

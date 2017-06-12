@@ -1,6 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="page-header">{{d_verBanco.banco.NombreBanco}}<h3>
+  <div class="panel-heading">
+    <h3 class="page-header">{{d_verBanco.banco.NombreBanco}}<h3>
     </div>
     <div class="panel-body">
 
@@ -14,17 +14,16 @@
           <small>{{d_verBanco.banco.Descripcion}}</small>
         </blockquote>
 
-        <label>Sucursales:</label>
-        <div class="panel-primary panel-body" ng-repeat="sucursal in d_verBanco.banco.sucursalesa">
-          
+        <label ng-if="d_verBanco.banco.sucursales.length>0">Sucursales:</label>
+        <div class="panel-primary panel-body" ng-repeat="sucursal in d_verBanco.banco.sucursales">
+          <ul>
+            <li>{{sucursal.Nombre}}</li>
+            <li ng-repeat="contacto in sucursal.Contactos">
+            <label>{{contacto.TipoContacto.Nombre}}:</label><span>{{contacto.Contacto}}</span>
+            </li>
+          </ul>
         </div>
 
-
-
       </div>
-
-        <pre>
-          {{d_verBanco.banco | json}}
-        </pre>
     </div>
 </div>

@@ -10,6 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('GestionBancosCtrl', function (coreRequest, $scope, $translate) {
     var self = this;
+    self.nuevo_banco={};
 
     self.gridOptions = {
       paginationPageSizes: [5, 10, 15, 20, 50],
@@ -68,7 +69,7 @@ angular.module('financieraClienteApp')
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
           width: '8%',
-          cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalverplan" ng-click="grid.appScope.id_banco=row.entity.Id">' +
+          cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalbanco" ng-click="grid.appScope.id_banco=row.entity.Id">' +
           '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
@@ -103,6 +104,14 @@ angular.module('financieraClienteApp')
         limit:-1
       })).then(function(response){
         banco.sucursales=response.data;
+      });
+    };
+
+    self.agregar_banco=function(){
+      self.nuevo_banco.EstadoActivo=true;
+      coreRequest.post('banco',self.nuevo_banco).then(function(response){
+        console.log(response);
+        self.nuevo_banco={};
       });
     };
 
