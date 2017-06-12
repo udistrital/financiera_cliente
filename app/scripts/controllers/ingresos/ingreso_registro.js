@@ -67,7 +67,12 @@ angular.module('financieraClienteApp')
         self.ingreso.Ingreso.UnidadEjecutora = self.unidadejecutora;
         self.ingreso.IngresoBanco = self.totalIngresos;//sumatoria no individual ******
         self.ingreso.Concepto = self.concepto[0];
+
+        angular.forEach(self.movs, function(data){
+          delete data.Id;
+        });
         self.ingreso.Movimientos = self.movs;
+        console.log(self.ingreso.Movimientos);
         financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
             console.log(response.data);
             if (response.data.Type !== undefined){
