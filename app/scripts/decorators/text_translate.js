@@ -89,6 +89,7 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
+  COMPANIA : 'Compañia',
 
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
@@ -172,19 +173,19 @@ var text_es = {
   POR_IVA: "% IVA",
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
-  MSN_DEBE_UNIDAD: "Debe seleccionar la Unidad Ejecutora",
-  MSN_DEBE_PROVEEDOR: "Debe seleccionar el Proveedor para la orden de pago",
-  MSN_DEBE_REGISTRO: "Debe seleccionar el Registro Presupuestal",
-  MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_UNIDAD: "Debe Seleccionar la Unidad Ejecutora",
+  MSN_DEBE_PROVEEDOR: "Debe Seleccionar el Proveedor para la Orden de Pago",
+  MSN_DEBE_REGISTRO: "Debe Seleccionar el Registro Presupuestal",
+  MSN_DEBE_TIPO_OP: "Debe Seleccionar el Tipo de Documento en la Sección Valor del Pago",
   MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
   MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
-  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
-  MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
-  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
-  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos del Rubro",
-  MSN_SUPERA_SALDO: 'supera el valor del saldo',
+  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo Minimo un Comcepto",
+  MSN_DEBE_TOTAL_AFECTACION: "El Valor Total de la Afectacion es Distinto al Valor de la Orden de Pago",
+  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo Menos un concepto",
+  MSN_TOTAL_AECTACION: "El Total de la Afectación a los Conceptos del Rubro",
+  MSN_SUPERA_SALDO: 'Supera el Valor del Saldo',
   MSN_Y: 'y',
-
+  MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",
@@ -351,6 +352,7 @@ var text_en = {
   ELABORADO_POR: 'Elaborated By',
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
+  COMPANIA : 'Company',
 
 
   // PROVEEDOR
@@ -424,7 +426,7 @@ var text_en = {
   MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
   MSN_SUPERA_SALDO: 'exceeds the value of the balance',
   MSN_Y: 'and',
-
+  MSN_DEBE_LIQUIDACION: "You must select a liquidation",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",
   OPERAR_CONCEPTO: "Operate Concept",
