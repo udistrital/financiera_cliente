@@ -127,7 +127,9 @@ angular.module('financieraClienteApp')
         swal("", "Debe seleccionar la forma de ingreso", "error");
       }else if (self.fechaConsignacion == null){
         swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
-      }else {
+      }else if (self.facultadSelec == null){
+        swal("", "Debe seleccionar la facultad", "error");
+      }else{
         var parametros = {
           'dia': self.fechaConsignacion.getDate(),
           'mes': self.fechaConsignacion.getMonth()+1,
