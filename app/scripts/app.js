@@ -48,7 +48,9 @@ angular
     'oikosService',
     'titanService',
     'pagosService',
-    'avancesService'
+    'avancesService',
+    'ui.grid.expandable',
+    'ui.grid.pinning'
   ])
 
   .run(function(amMoment) {
