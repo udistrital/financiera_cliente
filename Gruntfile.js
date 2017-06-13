@@ -404,9 +404,14 @@ module.exports = function(grunt) {
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/views',
-          src: '**/*.html',
+          src: 'directives/**/*.html',
           dest: '<%= yeoman.dist %>/views'
         }, {
+          expand: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          src: '**/*.json',
+          dest: '<%= yeoman.dist %>/scripts'
+        } ,{
           expand: true,
           cwd: 'bower_components/angular-ui-grid',
           src: ['*.eot', '*.svg', '*.ttf', '*.woff'],
