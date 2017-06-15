@@ -28,10 +28,18 @@
           <div class="panel-body">
             <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco()">
 
-              <fieldset class="form-group col-md-12">
-                <label>{{ 'NIT' | translate }}:</label>
-                <input type="text" class="form-control" placeholder="{{ 'NIT' | translate }}" ng-model="gestionBancos.nuevo_banco.Nit" required>
-              </fieldset>
+              <div class="col-md-12">
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'CODIGO' | translate }}:</label>
+                  <input type="number" class="form-control" placeholder="{{ 'CODIGO' | translate }}" ng-model="gestionBancos.nuevo_banco.Id" required>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'NIT' | translate }}:</label>
+                  <input type="text" class="form-control" placeholder="{{ 'NIT' | translate }}" ng-model="gestionBancos.nuevo_banco.Nit" required>
+                </fieldset>
+              </div>
+
 
               <div class="col-md-12">
                 <fieldset class="form-group col-md-6">
