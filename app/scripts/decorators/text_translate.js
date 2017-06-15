@@ -303,9 +303,19 @@ var text_es = {
   S_554: "Se eliminio exitosamente",
   S_544: "Se Aprobo el Ingreso con el consecutivo ",
   S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
+
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
-  E_25P02: "Este registro ya ha sido creado."
+  E_25P02: "Este registro ya ha sido creado.",
+
+  // Errores Orden PAgo
+  E_OPP_01: "No se puede registrar la Orden de Pago",
+  E_OPP_01_1: "No se obtubo  ValorCalculado de titan",
+  E_OPP_01_2: "No se obtubo  Id Concepto de Titan",
+  E_OPP_02: "No se Encontro Concepto Homologado",
+  E_OPP_03: "No se puede registrar concepto_orden_pago",
+  E_OPP_04: "No se puede registrar los Movimeitos Contables"
 
 };
 

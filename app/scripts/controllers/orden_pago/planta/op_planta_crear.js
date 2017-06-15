@@ -63,15 +63,13 @@ angular.module('financieraClienteApp')
         console.log(self.dataSend);
         console.log("Insertar DATA");
         financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
-        //financieraMidRequest.post("Orden_pago_planta", self.OrdenPago)
-          .then(function(data) { //error con el success
+          .then(function(data) {
             self.resultado = data;
-            console.log(self.resultado.data);
             //mensaje
             swal({
-              title: 'Registro Exitoso',
-              text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
-              type: 'success',
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+              type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
             })
