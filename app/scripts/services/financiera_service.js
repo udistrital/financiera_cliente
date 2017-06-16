@@ -21,7 +21,7 @@ angular.module('financieraService', [])
    */
   .factory('financieraRequest', function($http) {
     var path = "http://10.20.0.254/financiera_api/v1/";
-    //var path = "http://127.0.0.1:8080/v1/";       //path local para el desarrollo
+    //var path = "http://127.0.0.1:8084/v1/";       //path local para el desarrollo
     // Public API here
     return {
       /**

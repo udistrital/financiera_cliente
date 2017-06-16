@@ -55,12 +55,14 @@
           </tr>
         </table>
         <hr>
+        
         <h4 class="text-info">Afectación Presupuestal</h4>
         <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones">
         </fuente-financiacion-solicitud-rp>
           <hr>
-          <center>
+          <center ng-if="!rpSolicitudConsulta.data.Expedida">
             <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
+            <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
           </center>
       </div>
     </div>

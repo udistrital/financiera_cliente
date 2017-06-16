@@ -66,9 +66,11 @@
         <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
         <fuente-financiacion-necesidad necesidad="cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Id" apropiacion="apropiaciones">
         </fuente-financiacion-necesidad>
+
         <hr>
-        <center>
+        <center ng-if="!cdpSolicitudConsulta.data.SolicitudDisponibilidad.Expedida">
           <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
+            <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
         </center>
       </div>
     </div>
