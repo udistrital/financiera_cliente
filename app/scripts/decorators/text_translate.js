@@ -90,6 +90,7 @@ var text_es = {
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
   BANCO: 'Banco',
+  BANCOS: "Bancos",
 
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
@@ -97,7 +98,7 @@ var text_es = {
   AFECTACION_CONTABLE: "Afectación Contable",
   DENOMINACION: 'Denominación',
   CODIGO_SUPER: 'Codigo Superintendencia',
-  ACH: 'Código ACH',
+  ACH: 'ACH',
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",

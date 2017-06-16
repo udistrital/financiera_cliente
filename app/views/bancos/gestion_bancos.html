@@ -1,6 +1,6 @@
 <div class="panel panel-primary panel-body">
   <h3 class="page-header">
-        Bancos {{id_banco}}
+        {{"BANCOS" | translate}}
     </h3>
   <div class="panel-body">
     <div>
@@ -68,6 +68,12 @@
                   <label>{{ 'CODIGO_SUPER' | translate }}:</label>
                   <input type="number" class="form-control" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.CodigoSuperintendencia" required>
                 </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'ACTIVO' | translate }}:</label>
+                  <input type="checkbox" class="checkbox-inline" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.EstadoActivo">
+                </fieldset>
+
               </div>
 
               <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>

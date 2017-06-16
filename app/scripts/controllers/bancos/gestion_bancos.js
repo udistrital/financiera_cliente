@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate) {
+  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants) {
     var self = this;
     self.nuevo_banco = {};
 
@@ -24,29 +24,33 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       columnDefs: [{
           field: 'Nit',
+          sort: {
+            direction: uiGridConstants.DESC,
+            priority: 1
+          },
           displayName: $translate.instant('NIT'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '10%'
+          width: '15%'
         },
         /*{
           field: 'DenominacionBanco',
           displayName: $translate.instant('DENOMINACION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '25%'
+          width: '20%'
         },*/
         {
           field: 'NombreBanco',
           displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '25%'
+          width: '30%'
         },
         {
           field: 'Descripcion',
           displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '29%'
+          width: '39%'
         },
-        {
+        /*{
           field: 'CodigoAch',
           displayName: $translate.instant('ACH'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
@@ -57,7 +61,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO_SUPER'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '15%'
-        },
+        },*/
         {
           field: 'EstadoActivo',
           displayName: $translate.instant('ACTIVO'),
@@ -130,10 +134,10 @@ angular.module('financieraClienteApp')
       }
     };
 
-    $scope.$watch('editar',function(){
+    $scope.$watch('editar', function() {
       console.log($scope.editar);
-      if ($scope.editar===false){
-        self.nuevo_banco={};
+      if ($scope.editar === false) {
+        self.nuevo_banco = {};
       }
     });
 
