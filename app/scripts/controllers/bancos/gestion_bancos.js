@@ -8,9 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionBancosCtrl', function (coreRequest, $scope, $translate) {
+  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate) {
     var self = this;
-    self.nuevo_banco={};
+    self.nuevo_banco = {};
 
     self.gridOptions = {
       paginationPageSizes: [5, 10, 15, 20, 50],
@@ -70,8 +70,8 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '8%',
           cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalbanco" ng-click="grid.appScope.id_banco=row.entity.Id">' +
-          '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
+            '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+            '<a href="" class="editar" ng-click="grid.appScope.gestionBancos.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
             '</center>'
         }
@@ -89,31 +89,53 @@ angular.module('financieraClienteApp')
       });
     };
 
-    self.cargar_bancos=function(){
-      coreRequest.get('banco',$.param({
-        limit:-1
-      })).then(function(response){
-        self.gridOptions.data=response.data;
+    self.cargar_bancos = function() {
+      coreRequest.get('banco', $.param({
+        limit: -1
+      })).then(function(response) {
+        self.gridOptions.data = response.data;
       });
     };
 
-    self.cargar_sucursales_banco=function(banco){
-      coreRequest.get('sucursal',$.param({
-        query: "Banco:"+banco.Id,
+    /*self.cargar_sucursales_banco = function(banco) {
+      coreRequest.get('sucursal', $.param({
+        query: "Banco:" + banco.Id,
         field: "Id,Nombre",
-        limit:-1
-      })).then(function(response){
-        banco.sucursales=response.data;
+        limit: -1
+      })).then(function(response) {
+        banco.sucursales = response.data;
       });
+    };*/
+
+    self.modo_editar = function(banco) {
+      self.nuevo_banco = JSON.parse(JSON.stringify(banco));
     };
 
-    self.agregar_banco=function(){
-      self.nuevo_banco.EstadoActivo=true;
-      coreRequest.post('banco',self.nuevo_banco).then(function(response){
-        console.log(response);
-        self.nuevo_banco={};
-      });
+    self.agregar_banco = function(form) {
+      if ($scope.editar) {
+        coreRequest.put('banco', self.nuevo_banco.Id, self.nuevo_banco).then(function(response) {
+          console.log(response);
+          self.nuevo_banco = {};
+          self.cargar_bancos();
+          $("#modalform").modal("hide");
+          form.$setPristine();
+          form.$setUntouched();
+        });
+      } else {
+        coreRequest.post('banco', self.nuevo_banco).then(function(response) {
+          console.log(response);
+          self.nuevo_banco = {};
+          self.cargar_bancos();
+        });
+      }
     };
+
+    $scope.$watch('editar',function(){
+      console.log($scope.editar);
+      if ($scope.editar===false){
+        self.nuevo_banco={};
+      }
+    });
 
     self.cargar_bancos();
 

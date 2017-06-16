@@ -89,6 +89,7 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
+  BANCO: 'Banco',
 
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
