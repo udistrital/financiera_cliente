@@ -23,10 +23,12 @@ angular.module('financieraClienteApp')
         self.dataLiquidacionConsulta.Vigencia = self.OrdenPago.Vigencia;
       })
     //
+    /*
     self.dataSend = {};
     $http.get('detalle_liquidacion.json').then(function(data){
       self.dataSend.DetalleLiquidacion = data.data;
     })
+    */
     // ***************
     // Funciones
     // ***************
@@ -42,8 +44,8 @@ angular.module('financieraClienteApp')
         });
     }
 
-    //self.dataSend = {};
-    //self.get_liguidacion();
+    self.dataSend = {};
+    self.get_liguidacion();
 
     self.validar_campos = function() {
       self.MensajesAlerta = '';
