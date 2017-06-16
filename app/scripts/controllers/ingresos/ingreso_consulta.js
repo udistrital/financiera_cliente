@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -211,6 +212,7 @@ self.Rechazar = function() {
                 swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
                   self.cargarIngresos();
+
                 });
               }
 
