@@ -89,13 +89,17 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
+  BANCO: 'Banco',
+  BANCOS: "Bancos",
   COMPANIA : 'Compañia',
-
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
-
+  DENOMINACION: 'Denominación',
+  CODIGO_SUPER: 'Codigo Superintendencia',
+  ACH: 'ACH',
+  FACULTAD: "Facultad",
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -103,6 +107,7 @@ var text_es = {
   TELEFONO: "Teléfono",
   CUENTA_BANCARIA: "Cuenta Bancaria",
   SUCURSAL: "Sucursal",
+  SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
 
   //REGISTRO PRESUPUESTAL
@@ -302,8 +307,21 @@ var text_es = {
   S_554: "Se eliminio exitosamente",
   S_544: "Se Aprobo el Ingreso con el consecutivo ",
   S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  S_588: "El registro se actualizó exitosamente",
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
+  E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
+  
+  S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
+  E_25P02: "Este registro ya ha sido creado.",
+
+  // Errores Orden PAgo
+  E_OPP_01: "No se puede registrar la Orden de Pago",
+  E_OPP_01_1: "No se obtubo  ValorCalculado de titan",
+  E_OPP_01_2: "No se obtubo  Id Concepto de Titan",
+  E_OPP_02: "No se Encontro Concepto Homologado",
+  E_OPP_03: "No se puede registrar concepto_orden_pago",
+  E_OPP_04: "No se puede registrar los Movimeitos Contables"
 
 };
 

@@ -48,7 +48,9 @@ angular
     'oikosService',
     'titanService',
     'pagosService',
-    'avancesService'
+    'avancesService',
+    'ui.grid.expandable',
+    'ui.grid.pinning'
   ])
 
   .run(function(amMoment) {
@@ -294,6 +296,11 @@ angular
         templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
         controller: 'GestionPlanAlternoCtrl',
         controllerAs: 'gestionPlanAlterno'
+      })
+      .when('/bancos/gestion_bancos', {
+        templateUrl: 'views/bancos/gestion_bancos.html',
+        controller: 'GestionBancosCtrl',
+        controllerAs: 'gestionBancos'
       })
       .when('/tesoreria/avances/solicitud_avance', {
         templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',

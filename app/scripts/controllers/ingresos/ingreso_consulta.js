@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -24,37 +25,17 @@ angular.module('financieraClienteApp')
         enableFiltering: true,
         rowHeight: 45
       };
-      self.gridOptions_ingresosbanco.columnDefs = [{
-          name: 'VIGENCIA',
-          displayName: 'Vigencia',
-          headerCellClass: 'text-info'
-        },
-        {
-          name: 'IDENTIFICACION',
-          displayName: 'Identificación',
-          headerCellClass: 'text-info'
-        },
-        {
-          name: 'NOMBRE',
-          displayName: 'Nombre',
-          headerCellClass: 'text-info'
-        },
+      self.gridOptions_ingresosbanco.columnDefs = [
+        { name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info'  },
+        { name: 'IDENTIFICACION', displayName: 'Identificación', headerCellClass: 'text-info'  },
+        { name: 'NOMBRE', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
         //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-        {
-          name: 'NUMERO_CUENTA',
-          displayName: 'N° Cuenta',
-          headerCellClass: 'text-info'
-        },
-        {
-          name: 'TIPO_INGRESO',
-          displayName: 'Ingreso',
-          headerCellClass: 'text-info'
-        },
-        {
-          name: 'VALOR',
-          displayName: 'Valor',
-          headerCellClass: 'text-info'
-        }
+        { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
+        { name: 'TIPO_RECIBO', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
+        { name: 'PAGO_REPORTADO', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'MATRICULA', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'SEGURO', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'CARNET', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
       ];
 
 
@@ -231,6 +212,7 @@ self.Rechazar = function() {
                 swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
                   self.cargarIngresos();
+
                 });
               }
 

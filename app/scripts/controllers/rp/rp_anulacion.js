@@ -8,7 +8,7 @@
  * @requires financieraService.service:financieraRequest
  * @requires financieraMidService.service:financieraMidRequest
  * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
-  * @param {service} financieraMidRequest Servicio para el API de financiera {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+ * @param {service} financieraMidRequest Servicio para el API de financiera {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
  * @param {injector} $scope scope del controlador
  * @description
  * # RpRpAnulacionCtrl

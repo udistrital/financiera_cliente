@@ -163,4 +163,48 @@ angular.module('financieraClienteApp')
 
       }
     };
+
+    self.Rechazar = function (){
+      var solicitud = self.gridApi.selection.getSelectedRows();
+      $("#myModal").modal('hide');
+      swal({
+        title: 'Indique una justificación por el rechazo',
+        input: 'textarea',
+        showCancelButton: true,
+        inputValidator: function (value) {
+          return new Promise(function (resolve, reject) {
+            if (value) {
+              resolve();
+            } else {
+              reject('Por favor indica una justificación!');
+            }
+          });
+        }
+      }).then(function(text) {
+        console.log(text);
+        console.log(solicitud);
+        self.solicitud.MotivoRechazo = text;
+          argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
+            console.log(response.data);
+            if (response.data.Type !== undefined) {
+              if (response.data.Type === "error") {
+                swal('', $translate.instant(response.data.Code), response.data.Type);
+                self.cargarIngresos();
+              } else {
+                swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
+
+                  self.cargarIngresos();
+                });
+              }
+
+            }
+
+          });
+
+      });
+    };
+
+
+
+
   });

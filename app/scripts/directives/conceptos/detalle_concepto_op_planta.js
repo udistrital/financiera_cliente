@@ -31,7 +31,43 @@ angular.module('financieraClienteApp')
           enableVerticalScrollbar: 0,
           minRowsToShow: 12,
           useExternalPagination: false,
-
+          // fin sub tabla
+          expandableRowTemplate: 'expandableRowUpc.html',
+          expandableRowHeight: 100,
+          onRegisterApi: function (gridApi) {
+           gridApi.expandable.on.rowExpandedStateChanged($scope, function (row) {
+             if (row.isExpanded) {
+               row.entity.subGridOptions = {
+                 columnDefs: [
+                   { field: 'Id', visible: false},
+                   {
+                     field: 'Codigo',
+                     displayName: 'Concepto ' + $translate.instant('CODIGO'),
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'Vigencia',
+                     displayName: $translate.instant('VIGENCIA'),
+                     width: '5%',
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'Descripcion',
+                     displayName: $translate.instant('DESCRIPCION')
+                   }
+                 ]};
+                 financieraRequest.get('rubro',
+                 $.param({
+                   query: "Id:" + row.entity.Concepto.Rubro.Id,
+                 })).then(function(response) {
+                     console.log(response.data);
+                     row.entity.subGridOptions.data = response.data;
+                 });
+                 row.entity.subGridOptions.data = row.entity.Concepto.Rubro;
+               }
+             });
+           },
+           // fin sub tabla
           columnDefs : [
             {field: 'Concepto.Id',             visible : false},
             {field: 'Concepto.Codigo',         displayName: $translate.instant('CODIGO')},
@@ -60,6 +96,7 @@ angular.module('financieraClienteApp')
 
         })
         // select registro
+        /*
         self.gridOptions_concepto_orden_pago.onRegisterApi = function(gridApi){
             //set gridApi on scope
             self.gridApi = gridApi;
@@ -69,7 +106,7 @@ angular.module('financieraClienteApp')
           };
         //
         self.gridOptions_concepto_orden_pago.multiSelect = false;
-
+        */
       // fin
       },
       controllerAs:'d_detalleConceptoOpPlanta'
