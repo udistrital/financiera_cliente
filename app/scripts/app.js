@@ -297,6 +297,11 @@ angular
         controller: 'GestionPlanAlternoCtrl',
         controllerAs: 'gestionPlanAlterno'
       })
+      .when('/bancos/gestion_bancos', {
+        templateUrl: 'views/bancos/gestion_bancos.html',
+        controller: 'GestionBancosCtrl',
+        controllerAs: 'gestionBancos'
+      })
       .when('/tesoreria/avances/solicitud_avance', {
         templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',
         controller: 'SolicitudAvanceCtrl',

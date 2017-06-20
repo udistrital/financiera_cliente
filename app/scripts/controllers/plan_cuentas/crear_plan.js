@@ -25,6 +25,7 @@ angular.module('financieraClienteApp')
       columnDefs: [
         {
           field: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
           cellClass: 'text-success',
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
@@ -34,6 +35,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'Descripcion',
+          displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
             return row.entity.Descripcion;
@@ -42,7 +44,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'UnidadEjecutora.Nombre',
-          displayName: 'Unidad Ejecutora',
+          displayName: $translate.instant('UNIDAD_EJECUTORA'),
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
             if (row.entity.UnidadEjecutora != null) {

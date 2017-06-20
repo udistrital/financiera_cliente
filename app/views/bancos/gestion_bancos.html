@@ -1,0 +1,103 @@
+<div class="panel panel-primary panel-body">
+
+  <h3 class="page-header">
+        {{"BANCOS" | translate}}
+  </h3>
+
+  <div class="panel-body">
+    <div>
+      <div ui-grid="gestionBancos.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
+    <br>
+  </div>
+
+  <div>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button>
+    </center>
+  </div>
+
+
+  <div id="modalform" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'BANCO' | translate }}</h3>
+          </div>
+          <div class="panel-body">
+
+            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
+              <div class="col-md-12">
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'CODIGO' | translate }}:</label>
+                  <input type="number" class="form-control" placeholder="{{ 'CODIGO' | translate }}" ng-model="gestionBancos.nuevo_banco.Id" required>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'NIT' | translate }}:</label>
+                  <input type="text" class="form-control" placeholder="{{ 'NIT' | translate }}" ng-model="gestionBancos.nuevo_banco.Nit" required>
+                </fieldset>
+              </div>
+
+              <div class="col-md-12">
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'NOMBRE' | translate }}:</label>
+                  <input type="text" class="form-control" placeholder="{{ 'NOMBRE' | translate }}" ng-model="gestionBancos.nuevo_banco.NombreBanco" required>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'DENOMINACION' | translate }}:</label>
+                  <input type="text" class="form-control" placeholder="{{ 'DENOMINACION' | translate }}" ng-model="gestionBancos.nuevo_banco.DenominacionBanco">
+                </fieldset>
+              </div>
+
+              <fieldset class="form-group col-md-12">
+                <label>{{ 'DESCRIPCION' | translate }}:</label>
+                <textarea class="form-control" rows="4" ng-model="gestionBancos.nuevo_banco.Descripcion" placeholder="{{'DESCRIPCION' | translate}}"></textarea>
+              </fieldset>
+
+              <div class="col-md-12">
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'ACH' | translate }}:</label>
+                  <input type="number" class="form-control" placeholder="{{ 'ACH' | translate }}" ng-model="gestionBancos.nuevo_banco.CodigoAch" required>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'CODIGO_SUPER' | translate }}:</label>
+                  <input type="number" class="form-control" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.CodigoSuperintendencia" required>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'ACTIVO' | translate }}:</label>
+                  <input type="checkbox" class="checkbox-inline" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.EstadoActivo">
+                </fieldset>
+
+              </div>
+
+              <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div id="modalbanco" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button>
+      </div>
+      <div class="modal-body">
+        <ver-banco idbanco="id_banco" />
+      </div>
+    </div>
+  </div>
+
+</div>
