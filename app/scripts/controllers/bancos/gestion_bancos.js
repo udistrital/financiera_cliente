@@ -118,7 +118,7 @@ angular.module('financieraClienteApp')
     self.agregar_banco = function(form) {
       if ($scope.editar) {
         coreRequest.put('banco', self.nuevo_banco.Id, self.nuevo_banco).then(function(response) {
-          console.log(response);
+          swal('', $translate.instant(response.data.Code), response.data.Type);
           self.nuevo_banco = {};
           self.cargar_bancos();
           $("#modalform").modal("hide");
@@ -127,9 +127,12 @@ angular.module('financieraClienteApp')
         });
       } else {
         coreRequest.post('banco', self.nuevo_banco).then(function(response) {
-          console.log(response);
+          swal('', $translate.instant(response.data.Code), response.data.Type);
           self.nuevo_banco = {};
           self.cargar_bancos();
+          $("#modalform").modal("hide");
+          form.$setPristine();
+          form.$setUntouched();
         });
       }
     };

@@ -286,8 +286,10 @@ var text_es = {
   S_554: "Se eliminio exitosamente",
   S_544: "Se Aprobo el Ingreso con el consecutivo ",
   S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  S_588: "El registro se actualizó exitosamente",
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
+  E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
 
 };
 
