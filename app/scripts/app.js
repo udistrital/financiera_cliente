@@ -307,6 +307,11 @@ angular
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
       })
+      .when('/calendario_tributario/gestion_calendario', {
+        templateUrl: 'views/calendario_tributario/gestion_calendario.html',
+        controller: 'GestionCalendarioCtrl',
+        controllerAs: 'gestionCalendario'
+      })
       .otherwise({
         redirectTo: '/'
       });
