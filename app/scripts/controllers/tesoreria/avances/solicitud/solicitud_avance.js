@@ -48,7 +48,7 @@ angular.module('financieraClienteApp')
       var Solicitud = {};
       var TipoAvance = {};
       var SolicitudAvance = {};
-      Solicitud.IdBeneficiario = ctrl.documento;
+      Solicitud.IdBeneficiario = parseInt(ctrl.documento);
       Solicitud.Objetivo = ctrl.objetivo;
       Solicitud.Justificacion = ctrl.justificacion;
       Solicitud.CodigoDependencia = ctrl.terceros.dependencia.id;
@@ -57,19 +57,25 @@ angular.module('financieraClienteApp')
       Solicitud.Facultad = ctrl.terceros.proyecto_curricular.facultad.Facultad;
       Solicitud.CodigoProyectoCur = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.id;
       Solicitud.ProyectoCurricular = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular;
+      Solicitud.ValorTotal = ctrl.valor_avance;
+
 
       Solicitud.CodigoConvenio = ctrl.codigo_convenio;
       Solicitud.Convenio = ctrl.nombre_convenio;
       Solicitud.CodigoProyectoInv = ctrl.codigo_proyecto_inv;
       Solicitud.ProyectoInv = ctrl.nombre_proyecto_inv;
 
-      TipoAvance.IdTipo = parseInt(ctrl.tipo_avance_select);
+      TipoAvance.Id = parseInt(ctrl.tipo_avance_select);
       TipoAvance.Descripcion = ctrl.descripcion;
       TipoAvance.Valor = parseFloat(ctrl.valor_avance);
 
       SolicitudAvance.Solicitud = Solicitud;
       SolicitudAvance.TipoAvance = TipoAvance;
       console.log(SolicitudAvance);
+      financieraRequest.post("solicitud_avance/TrSolicitudAvance", SolicitudAvance)
+        .then(function(response) {
+          console.log(response);
+        });
     };
 
 
