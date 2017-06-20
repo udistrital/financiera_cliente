@@ -5,7 +5,7 @@
 
 
 .menu-app{
-  background: url('../images/logos-75.png');
+  background: url('https://s3.amazonaws.com/assets-oas/logos-75.png');
   display: inline-block;
   height: 75px;
   width: 75px;
@@ -147,6 +147,7 @@ md-sidenav {
 /*da color azulado al margen inferior de donde se utilice la etiqueta*/
 legend {
   border-bottom: 1px solid #528ec2 !important;
+    padding: 5px;
 }
 
 /* hace un resaltado azulado al pasar el mause sobre lo que contenga*/

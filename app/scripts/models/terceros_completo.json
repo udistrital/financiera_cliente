@@ -1,0 +1,34 @@
+{
+	"id": "1",
+	"nombres": "CARLOS ENRIQUE",
+	"apellidos": "MONTENEGRO MARIN",
+	"documento": "80093200",
+	"tipo_documento": {
+		"id":"1",
+		"tipo_documento":"CC"
+		},
+	"direccion": "Calle 71 B No 89-77",
+	"correo": "ingcarlosmontenegro@gmail.com",
+	"telefono": "2242301",
+	"celular": "3212212121",
+	"municipio_expedicion_documento": {
+		"id": "1",
+		"municipio": "BOGOTÁ D.C.",
+		"id_departamento": "1",
+		"departamento": "CUNDINAMARCA"
+	},
+	"dependencia": {
+		"id": "5",
+		"dependencia": "NO APLICA"
+	},
+	"proyecto_curricular": {
+		"CodigoProyectoCurricular": {
+			"id": "20",
+			"ProyectoCurricular": "INGENIERIA DE SISTEMAS"
+		},
+		"facultad": {
+			"id": "33",
+			"Facultad": "FACULTAD DE INGENIERIA"
+		}
+	}
+}
