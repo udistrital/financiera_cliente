@@ -1,8 +1,8 @@
-
 <ul class="list-unstyled" ng-repeat=" movimiento in d_afectacionContableIngreso.movimientosregistrados">
   <hr class="hr-primary">
   <li><b>{{'CONCEPTO' | translate}}:</b> {{movimiento.Codigo+" / "+movimiento.Nombre}}
     <ul>
+      <li><b>{{'CUENTAS_CONTABLES' | translate}}: </b>
       <li><b>{{'CUENTAS_CONTABLES' | translate}}:</b>
         <ul>
           <li ng-repeat="resumencuentas in movimiento.Cuentas">

@@ -87,7 +87,7 @@
       <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.anadir_requisito()">
         <br>
         <div class="row">
-          <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
+          <label for="descripcion" class="col-sm-2 control-label">{{'REQUISITOS' | translate }}:</label>
           <div class="col-sm-7">
             <select name="requisito" ng-model="TiposAvance.requisito" class="form-control" ng-required="true">
                <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
