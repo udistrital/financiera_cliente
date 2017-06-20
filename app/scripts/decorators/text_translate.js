@@ -107,6 +107,7 @@ var text_es = {
   TELEFONO: "Teléfono",
   CUENTA_BANCARIA: "Cuenta Bancaria",
   SUCURSAL: "Sucursal",
+  SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
 
   //REGISTRO PRESUPUESTAL

@@ -1,7 +1,9 @@
 <div class="panel panel-primary panel-body">
+
   <h3 class="page-header">
         {{"BANCOS" | translate}}
-    </h3>
+  </h3>
+
   <div class="panel-body">
     <div>
       <div ui-grid="gestionBancos.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
@@ -26,9 +28,10 @@
             <h3 class="panel-title">{{ 'BANCO' | translate }}</h3>
           </div>
           <div class="panel-body">
-            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
 
+            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
               <div class="col-md-12">
+
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'CODIGO' | translate }}:</label>
                   <input type="number" class="form-control" placeholder="{{ 'CODIGO' | translate }}" ng-model="gestionBancos.nuevo_banco.Id" required>
@@ -40,7 +43,6 @@
                 </fieldset>
               </div>
 
-
               <div class="col-md-12">
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'NOMBRE' | translate }}:</label>
@@ -49,7 +51,7 @@
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'DENOMINACION' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{ 'DENOMINACION' | translate }}" ng-model="gestionBancos.nuevo_banco.DenominacionBanco" >
+                  <input type="text" class="form-control" placeholder="{{ 'DENOMINACION' | translate }}" ng-model="gestionBancos.nuevo_banco.DenominacionBanco">
                 </fieldset>
               </div>
 
@@ -77,6 +79,7 @@
               </div>
 
               <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+
             </form>
           </div>
         </div>
@@ -92,7 +95,7 @@
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button>
       </div>
       <div class="modal-body">
-            <ver-banco idbanco="id_banco" />
+        <ver-banco idbanco="id_banco" />
       </div>
     </div>
   </div>
