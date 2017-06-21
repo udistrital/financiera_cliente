@@ -404,7 +404,7 @@ module.exports = function(grunt) {
         }, {
           expand: true,
           cwd: '<%= yeoman.app %>/views',
-          src: 'directives/**/*.html',
+          src: '**/*.html',
           dest: '<%= yeoman.dist %>/views'
         }, {
           expand: true,
