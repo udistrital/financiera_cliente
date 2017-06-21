@@ -8,8 +8,18 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionCalendarioCtrl', function ($scope,$translate,uiGridConstants) {
+  .controller('GestionCalendarioCtrl', function ($scope,$translate,uiGridConstants,financieraRequest) {
     var self=this;
+
+    self.nuevo_calendario={};
+
+    financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+      var year = parseInt(response.data)+1;
+      self.vigencias = [];
+        for(var i=0;i<5;i++) {
+          self.vigencias.push(year - i);
+        }
+     });
 
 
     self.gridOptions = {
@@ -127,6 +137,24 @@ angular.module('financieraClienteApp')
         Responsable: 19654664
       }
     ];
+
+    $scope.$watch('gestionCalendario.nuevo_calendario.Vigencia',function(){
+      self.nuevo_calendario.FechaInicio=undefined;
+      self.nuevo_calendario.FechaFin=undefined;
+      console.log(self.nuevo_calendario.Vigencia);
+      self.fechamin=new Date(
+        self.nuevo_calendario.Vigencia,
+        0,1
+      );
+      self.fechamax=new Date(
+        self.nuevo_calendario.Vigencia,
+        12,0
+      );
+    },true);
+
+    $scope.$watch('gestionCalendario.nuevo_calendario.FechaInicio',function(){
+      self.nuevo_calendario.FechaFin=undefined;
+    },true);
 
 
   });

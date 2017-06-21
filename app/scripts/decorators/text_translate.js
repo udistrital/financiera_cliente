@@ -104,6 +104,7 @@ var text_es = {
   FACULTAD: "Facultad",
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
   FINALIZAR: "Finalizar",
+  SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",

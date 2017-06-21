@@ -1,73 +1,89 @@
 <div class="panel panel-primary panel-body">
-    <center><h3 class="page-header">
+  <center>
+    <h3 class="page-header">
         {{"CALENDARIO_TRIBUTARIO" | translate}}
     </h3></center>
-    <div class="panel-body">
-        <div ui-grid="gestionCalendario.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-        <br>
+  <div class="panel-body">
+    <div ui-grid="gestionCalendario.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    <br>
+  </div>
+
+  <div>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button>
+    </center>
+  </div>
+
+
+  <div id="modalform" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
       </div>
-
-    <div>
-      <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button>
-      </center>
-    </div>
-
-
-      <div id="modalform" class="modal fade" role="dialog">
-        <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
-          <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'CALENDARIO_TRIBUTARIO' | translate }}</h3>
           </div>
-          <div class="modal-body">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">{{ 'CALENDARIO_TRIBUTARIO' | translate }}</h3>
+          <div class="panel-body">
+
+            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
+              <div class="col-md-12">
+                <fieldset class="form-group">
+                  <label>{{ 'DESCRIPCION' | translate }}*:</label>
+                  <input type="text" class="form-control" placeholder="{{ 'DESCRIPCION' | translate }}" ng-model="gestionCalendario.nuevo_calendario.Descripcion" required>
+                </fieldset>
               </div>
-              <div class="panel-body">
 
-                <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
-                  <div class="col-md-12">
-                    <fieldset class="form-group">
-                      <label>{{ 'DESCRIPCION' | translate }}:</label>
-                      <input type="text" class="form-control" placeholder="{{ 'DESCRIPCION' | translate }}" ng-model="gestionCalendario.nuevo_calendario.Descripcion" required>
-                    </fieldset>
+              <div class="col-md-12">
+
+                <style>
+                  .md-datepicker-calendar-pane {
+                    z-index: 1200
+                  }
+                </style>
+                <fieldset class="form-group col-md-4">
+                  <label>{{ 'VIGENCIA' | translate }}*:</label>
+                  <select class="form-control" ng-model="gestionCalendario.nuevo_calendario.Vigencia" ng-options="v as v for v in gestionCalendario.vigencias">
+                    <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
+                  </select>
+                </fieldset>
+
+                <fieldset class="form-group col-md-4">
+                  <label>{{ 'FECHA_INICIO' | translate }}*:</label>
+                  <div class="input-group date" data-provide="datepicker">
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaInicio"  md-min-date="gestionCalendario.fechamin" md-max-date="gestionCalendario.fechamax"></md-datepicker>
                   </div>
+                </fieldset>
 
-                  <div class="col-md-12">
-
-                  <style>
-.md-datepicker-calendar-pane{
-z-index: 1200}
-</style>
-                    <fieldset class="form-group col-md-4">
-                      <label>{{ 'VIGENCIA' | translate }}:</label>
-                      <input class="form-control" ui-number-mask="0" ui-hide-group-sep maxlength="4" ng-model="pageNum" required>
-                    </fieldset>
-
-                    <fieldset class="form-group col-md-4">
-                      <label>{{ 'FECHA_INICIO' | translate }}:</label>
-                      <div class="input-group date" data-provide="datepicker">
-                        <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion" ></md-datepicker>
-                      </div>
-                    </fieldset>
-
-                    <fieldset class="form-group col-md-4">
-                      <label>{{ 'FECHA_FIN' | translate }}:</label>
-                      <div class="input-group date" data-provide="datepicker">
-                        <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion" ></md-datepicker>
-                      </div>
-                    </fieldset>
+                <fieldset class="form-group col-md-4">
+                  <label>{{ 'FECHA_FIN' | translate }}*:</label>
+                  <div class="input-group date" data-provide="datepicker">
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaFin" md-min-date="gestionCalendario.nuevo_calendario.FechaInicio" md-max-date="gestionCalendario.fechamax"></md-datepicker>
                   </div>
-
-                  <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
-
-                </form>
+                </fieldset>
               </div>
-            </div>
+
+              <div class="col-md-12">
+                <br>
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'ENTIDAD' | translate }}*:</label><span> Universidad Distrital</span>
+                </fieldset>
+
+                <fieldset class="form-group col-md-6">
+                  <label>{{ 'RESPONSABLE' | translate }}*:</label><span> JACQUELINE ORTIZ ARENAS (Jefe de Tesoreria)</span>
+                </fieldset>
+
+              </div>
+
+              <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+
+            </form>
           </div>
         </div>
-
       </div>
+    </div>
+
+  </div>
 
 
 
