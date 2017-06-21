@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
    var id = 2;
    var path = "http://10.20.0.254/configuracion_api/v1/";
    var dataStream = $websocket("ws://10.20.0.254:8100/register?id="+id+"&profile=Admin");
+   
    var log = [];
    dataStream.onMessage(function(message) {
      log.unshift(JSON.parse(message.data));
