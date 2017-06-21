@@ -103,6 +103,7 @@ var text_es = {
   ACH: 'ACH',
   FACULTAD: "Facultad",
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
+  FINALIZAR: "Finalizar",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
