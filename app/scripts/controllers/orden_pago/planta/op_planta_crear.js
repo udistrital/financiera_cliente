@@ -22,30 +22,23 @@ angular.module('financieraClienteApp')
         self.OrdenPago.Vigencia = parseInt(data.data);
         self.dataLiquidacionConsulta.Vigencia = self.OrdenPago.Vigencia;
       })
-    //
-    /*
-    self.dataSend = {};
-    $http.get('detalle_liquidacion.json').then(function(data){
-      self.dataSend.DetalleLiquidacion = data.data;
-    })
-    */
     // ***************
     // Funciones
     // ***************
-    self.get_liguidacion = function (){
-      titanRequest.get('detalle_liquidacion',
-        $.param({
-          query:'Liquidacion:1',
-          sortby:'Concepto',
-          order:"desc",
-          limit:-1,
-        })).then(function(response){
-          self.dataSend.DetalleLiquidacion = response.data;
-        });
-    }
-
-    self.dataSend = {};
-    self.get_liguidacion();
+    // self.get_liguidacion = function (){
+    //   titanRequest.get('detalle_liquidacion',
+    //     $.param({
+    //       query:'Liquidacion:1',
+    //       sortby:'Concepto',
+    //       order:"desc",
+    //       limit:-1,
+    //     })).then(function(response){
+    //       self.dataSend.DetalleLiquidacion = response.data;
+    //     });
+    // }
+    //
+    // self.dataSend = {};
+    // self.get_liguidacion();
 
     self.validar_campos = function() {
       self.MensajesAlerta = '';
@@ -64,7 +57,8 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.dataSend);
         console.log("Insertar DATA");
-        financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
+        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
+        financieraMidRequest.post("Orden_pago_planta", self.dataSend)
           .then(function(data) {
             self.resultado = data;
             //mensaje
@@ -88,11 +82,10 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-
-      //
       self.OrdenPago.Liquidacion = 1;
       self.OrdenPago.ValorBase = 0;
       self.OrdenPago.PersonaElaboro = 1;
+      self.dataSend = {};
       self.dataSend.OrdenPago = self.OrdenPago;
       //
       self.validar_campos();
