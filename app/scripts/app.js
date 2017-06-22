@@ -302,6 +302,11 @@ angular
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
       })
+      .when('/pac/reporte_pac', {
+        templateUrl: 'views/pac/reporte_pac.html',
+        controller: 'PacReportePacCtrl',
+        controllerAs: 'reportePac'
+      })
       .otherwise({
         redirectTo: '/'
       });

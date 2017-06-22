@@ -96,6 +96,9 @@ var text_es = {
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
   FACULTAD: "Facultad",
+  FECHA_INICIO: "Fecha de inicio",
+  FECHA_FINAL: "Fecha Final",
+  ORIGEN: "Origen",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -296,6 +299,9 @@ var text_es = {
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
   MOTIVO_RECHAZO: "Motivo del rechazo",
+
+  //PAC
+  GENERACION_PAC: "Generar Reporte Pac",
 
   //CODIGOS
 

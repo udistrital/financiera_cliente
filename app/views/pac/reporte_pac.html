@@ -1,0 +1,48 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'GENERACION_PAC' | translate}}</h2>
+  <div class="panel-body">
+    <table>
+      <tr>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="reportePac.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="reportePac.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="reportePac.generarReporte()" class="fa fa-paper-plane btn btn-info btn-outline" aria-hidden="true"></a>
+        </td>
+      </tr>
+    </table>
+    <br>
+      <div class="col-md-6" ui-grid="reportePac.gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
+      <div class="col-md-4">
+        <pre>{{reportePac.resumen|json}}</pre>
+      </div>
+  </div>
+
+</div>
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="ingresoConsulta.cargarIngresos()">&times</button><br>
+    </div>
+    <div class="panel-body">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="page-header">{{'RESUMEN_PAC' | translate}} para el rubro {{reportePac.resumen.codigo}} / {{reportePac.resumen.descripcion}} </h3>
+        </div>
+        <div class="panel-body">
+          <div  ui-grid="reportePac.gridOptions_meses" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
