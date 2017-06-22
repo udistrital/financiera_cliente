@@ -7,7 +7,7 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function(financieraRequest, $timeout, $translate) {
+  .directive('rpPorProveedorListar', function(financieraRequest, administrativaRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -98,18 +98,26 @@ angular.module('financieraClienteApp')
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.rpselect = row.entity;
             //consulta datos del rp
-            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', //en el futuro será una servició con calculo de suma total
+            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
                 query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
                 limit: 0,
               })).then(function(response) {
               self.rp_select_de_consulta = response.data;
+              // detalle necesidad
+              administrativaRequest.get('necesidad',
+                $.param({
+                  query: "Id:" +self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad,
+                })).then(function(response) {
+                  self.necesidad = response.data;
+                });
             });
             //Valor total del Rp
             financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
               .then(function(response) {
                 self.valor_total_rp = response.data;
               });
+
           });
         };
         self.gridOptions_rp.multiSelect = false;
