@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function(financieraRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorVerPorId', function(financieraRequest, administrativaRequest, agoraRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -84,6 +84,13 @@ angular.module('financieraClienteApp')
               query: "RegistroPresupuestal.Id:" + rp_id,
             })).then(function(response) {
             self.rp_detalle = response.data;
+            //data necesidad
+            administrativaRequest.get('necesidad',
+              $.param({
+                query: "Id:" +self.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad,
+              })).then(function(response) {
+                self.necesidad = response.data;
+              });
           });
           //Valor total del Rp
           financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
