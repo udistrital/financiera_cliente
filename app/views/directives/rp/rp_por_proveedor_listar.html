@@ -64,11 +64,11 @@
           <div class="form-group">
             <label class="control-label col-sm-2">{{'NECESIDAD_NO' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.necesidad[0].Numero}}</span>
+              <span class="form-control">{{d_rpPorProveedorListar.solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</span>
             </div>
             <label class="control-label col-sm-2">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
             <div class="col-sm-4">
-              <textarea class="form-control" rows="2" readonly> {{d_rpPorProveedorListar.necesidad[0].Objeto}} </textarea>
+              <textarea class="form-control" rows="2" readonly> {{d_rpPorProveedorListar.solicitud.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
             </div>
           </div>
         </div>

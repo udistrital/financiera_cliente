@@ -7,7 +7,7 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function(financieraRequest, administrativaRequest, $timeout, $translate) {
+  .directive('rpPorProveedorListar', function(financieraRequest, financieraMidRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -105,11 +105,9 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.rp_select_de_consulta = response.data;
               // detalle necesidad
-              administrativaRequest.get('necesidad',
-                $.param({
-                  query: "Id:" +self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad,
-                })).then(function(response) {
-                  self.necesidad = response.data;
+              financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+                .then(function(response) {
+                  self.solicitud = response.data[0];
                 });
             });
             //Valor total del Rp
