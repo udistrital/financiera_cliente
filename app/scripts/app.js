@@ -312,6 +312,11 @@ angular
         controller: 'GestionCalendarioCtrl',
         controllerAs: 'gestionCalendario'
       })
+      .when('/calendario_tributario/admin_calendario/:Id', {
+        templateUrl: 'views/calendario_tributario/admin_calendario.html',
+        controller: 'AdminCalendarioCtrl',
+        controllerAs: 'adminCalendario'
+      })
       .otherwise({
         redirectTo: '/'
       });

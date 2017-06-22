@@ -105,6 +105,7 @@ var text_es = {
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
   FINALIZAR: "Finalizar",
   SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
+  VALOR_BASE: "Valor Base",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",

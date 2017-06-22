@@ -1,0 +1,102 @@
+<div class="panel panel-primary panel-body">
+  <center>
+    <h3 class="page-header">
+        {{"CALENDARIO_TRIBUTARIO" | translate}}
+    </h3></center>
+  <div class="panel-body">
+
+    <table class="table table-condensed table-bordered table-striped">
+      <caption class="text-center">Entidad: <span class="text-center"> {{adminCalendario.calendario.Entidad.CodigoEntidad}}  {{adminCalendario.calendario.Entidad.Nombre}}</span></caption>
+      <tr>
+
+
+        <th class="text-center" colspan="3">
+          <h4><span>{{adminCalendario.calendario.Descripcion}} </span></h4></th>
+
+        <th class="text-center" colspan="3">
+          <h4><span> De {{adminCalendario.calendario.FechaInicio}} Hasta {{adminCalendario.calendario.FechaFin}}</span> </h4></th>
+
+
+      </tr>
+
+      <tr class="text-justify">
+        <td class="text-center" colspan="3">
+          <label>{{"VIGENCIA" | translate}}: </label>
+          <span>{{adminCalendario.calendario.Vigencia}}</span>
+        </td>
+        <td class="text-center" colspan="3"><label>{{"RESPONSABLE" | translate}}: </label>
+          <span>JACQUELINE ORTIZ ARENAS (Jefe de Tesoreria)</span></td>
+      </tr>
+
+      <tr>
+        <th  colspan="2" rowspan="2">
+          Impuestos:
+        </th>
+        <td colspan="2">
+          <label>RETENCION ESTAMPILLA UD LEY 45646 :</label> 6.75
+        </td>
+        <td colspan="2" >
+          <label>Valor Total:</label> 105.808
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <label>RETENCION FUENTE :</label> 6.75
+        </td>
+        <td colspan="2" >
+          <label>Valor Total:</label> 505.808
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="2" >
+          <label>Valor Total:</label> 50.045.470
+        </td>
+        <td colspan="2">
+          <label>Diferencia:</label> 6.75
+        </td>
+        <td colspan="2" >
+          <label>Valor Base:</label> 50.045.464.25
+
+        </td>
+      </tr>
+
+
+
+
+    </table>
+
+
+
+    <legend ng-click="showdetalle=!showdetalle">Detalle <span class="fa fa-plus pull-right"  ng-show="!showdetalle"></span> <span class="fa fa-minus pull-right" ng-show="showdetalle"></span></legend>
+
+    <div ng-show="showdetalle">
+      <fieldset class="form-group">
+        <label>RETENCION ESTAMPILLA UD LEY 45646</label>
+        <div ui-grid="adminCalendario.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <label>RETENCION FUENTE</label>
+        <div ui-grid="adminCalendario.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+      </fieldset>
+    </div>
+
+
+
+    <div>
+      <center>
+      <button type="button" name="button" class="btn btn-success btn-outline">Aprobar</button>
+      <button type="button" name="button" class="btn btn-danger btn-outline">Rechazar</button>
+      <center>
+    </div>
+
+
+
+
+
+
+  </div>
+
+</div>
