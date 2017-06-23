@@ -8,51 +8,86 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('PacReportePacCtrl', function (financieraRequest) {
+  .controller('PacReportePacCtrl', function(financieraRequest, $scope) {
     var self = this;
     self.resumen = {}
-    self.gridOptions = {
-      enableHorizontalScrollbar:0,
-      enableVerticalScrollbar:1,
-      paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 5,
-      useExternalPagination: false,
+    $scope.gridOptions = {
+      enableHorizontalScrollbar: 1,
+      enableVerticalScrollbar: 1,
       enableFiltering: true,
-      rowHeight: 45
+      rowHeight: 100,
+      onRegisterApi: function(gridApi) {
+        $scope.gridApi = gridApi;
+      }
     };
-    self.gridOptions.columnDefs = [
-      { name: 'descripcion', displayName: 'RUBRO', headerCellClass: 'text-info'  },
-      { name: 'codigo', displayName: 'Codigo', headerCellClass: 'text-info'  },
-      { name: 'Opciones', cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.reportePac.verResumen(row)" ></a>', headerCellClass: 'text-info'}
+    $scope.gridOptions.columnDefs = [{
+        name: 'fdescrip',
+        displayName: 'Fuente',
+        headerCellClass: 'text-info',
+        width: "20%",
+
+        pinnedLeft:true
+      },
+      {
+        name: 'descripcion',
+        displayName: 'RUBRO',
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft:true
+      },
+      {
+        name: 'codigo',
+        displayName: 'Codigo',
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft:true
+      },
+
+      /*{
+        name: 'Opciones',
+        cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.reportePac.verResumen(row)" ></a>',
+        headerCellClass: 'text-info',
+        width: "5%"
+      },*/
+      {
+        name: 'Tipo',
+        headerCellClass: 'text-info',
+        width: "10%"
+      }
     ];
-    self.gridOptions_meses = {
-      enableHorizontalScrollbar:0,
-      enableVerticalScrollbar:1,
-      paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 5,
-      useExternalPagination: false,
-      enableFiltering: true,
-      rowHeight: 45
-    };
-    self.gridOptions.columnDefs_meses = [];
-    self.generarReporte = function(){
+
+    self.generarReporte = function() {
       var consulta = {
-        inicio : self.fechaInicio,
-        fin : self.fechaFin
+        inicio: self.fechaInicio,
+        fin: self.fechaFin
       };
-      financieraRequest.post('rubro/RubroReporte', consulta).then(function(response){
+      financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
         console.log(response.data);
-        self.gridOptions.data = response.data;
+        for (var i = 0 ; i < response.data[0].reporte.length ; i++){
+          $scope.gridOptions.columnDefs.push({
+            name: ''+ response.data[0].reporte[i].mes+' EJC',
+            field: '',
+            cellTemplate: ' <div>{{row.entity.reporte['+i+'].egresos.valor}}</div>',
+            headerCellClass: 'text-info',
+            width: "8%"
+          });
+          $scope.gridOptions.columnDefs.push({
+            name: ''+ response.data[0].reporte[i].mes+' PROY',
+            field: '',
+            headerCellClass: 'text-info',
+            width: "8%"
+            //cellTemplate: ' <div>{{row.entity.reporte['+i+'].egresos.valor}}</div>'
+          });
+
+        }
+
+        $scope.gridOptions.data = response.data;
+
       });
     }
 
-    self.verResumen = function(row){
+    self.verResumen = function(row) {
       self.resumen = row.entity;
-      angular.forEach(self.resumen.reporte, function(data){
-        console.log(data);
-        self.gridOptions.columnDefs_meses.push({ name: '', displayName: ''+data.mes, headerCellClass: 'text-info'  });
-      });
-      console.log(row);
-      $("#myModal").modal();
+
     }
   });
