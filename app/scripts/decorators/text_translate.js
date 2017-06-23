@@ -312,14 +312,17 @@ var text_es = {
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
-  
+
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado.",
 
   // Errores Orden PAgo
   E_OPP_01: "No se puede registrar la Orden de Pago",
-  E_OPP_01_1: "No se obtubo  ValorCalculado de titan",
-  E_OPP_01_2: "No se obtubo  Id Concepto de Titan",
+  E_OPP_01_1: "No se obtubo ValorCalculado de titan",
+  E_OPP_01_2: "No se obtubo Id Concepto de Titan",
+  E_OPP_01_3: "No se obtubo Id de la liquidacion",
+  E_OPP_01_4: "No se obtubo detalle de la liquidacion del modulo Titan",
+  E_OPP_01_5: "No se se cuenta con un detalle de la liquidacion del modulo Titan",
   E_OPP_02: "No se Encontro Concepto Homologado",
   E_OPP_03: "No se puede registrar concepto_orden_pago",
   E_OPP_04: "No se puede registrar los Movimeitos Contables"

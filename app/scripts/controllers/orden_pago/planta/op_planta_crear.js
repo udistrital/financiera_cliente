@@ -86,7 +86,7 @@ angular.module('financieraClienteApp')
       self.OrdenPago.ValorBase = 0;
       self.OrdenPago.PersonaElaboro = 1;
       self.dataSend = {};
-      self.dataSend.OrdenPago = self.OrdenPago;
+      self.dataSend = self.OrdenPago;
       //
       self.validar_campos();
     }
