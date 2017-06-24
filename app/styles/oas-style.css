@@ -79,8 +79,22 @@ md-sidenav {
   margin: 8%;
   text-align: center;
 }
-
-
+/*TABLE*/
+.table-fixed thead {
+  width: 97%;
+}
+.table-fixed tbody {
+  height: 230px;
+  overflow-y: auto;
+  width: 100%;
+}
+.table-fixed thead, .table-fixed tbody, .table-fixed tr, .table-fixed td, .table-fixed th {
+  display: block;
+}
+.table-fixed tbody td, .table-fixed thead > tr> th {
+  float: left;
+  border-bottom-width: 0;
+}
 /* UI-GRID*/
 
 /*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/

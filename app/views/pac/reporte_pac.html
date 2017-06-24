@@ -21,7 +21,33 @@
       </tr>
     </table>
     <br>
-      <div class="col-md-12" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns ui-grid-pinning></div>
+      <!--div class="col-md-12" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns ui-grid-pinning></div-->
+        <table class="table table-bordered table-fixed">
+          <thead>
+            <tr>
+              <th>Fuente</th><th>Rubro</th><th>Codigo</th><th>Tipo</th><th ng-repeat="data in gridOptions.data[0].reporte">{{data.mes}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>{{'EGRESOS' | translate}}</th>
+            </tr>
+            <tr ng-repeat="data in gridOptions.data">
+              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'EGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.egresos.valor|currency}}</td>
+            </tr>
+            <tr>
+              <th>{{'INGRESOS' | translate}}</th>
+            </tr>
+            <tr ng-repeat="data in gridOptions.data">
+              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'INGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.ingresos.valor|currency}}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+
+
       <div class="col-md-4">
         <pre>{{reportePac.resumen|json}}</pre>
       </div>
