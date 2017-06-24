@@ -299,6 +299,10 @@ var text_es = {
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
   MOTIVO_RECHAZO: "Motivo del rechazo",
+  PAGO_REPORTADO: "Pago reportado",
+  MATRICULA: "Matricula",
+  SEGURO: "Seguro",
+  CARNET: "Carnet",
 
   //PAC
   GENERACION_PAC: "Generar Reporte Pac",

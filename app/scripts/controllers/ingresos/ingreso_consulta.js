@@ -26,16 +26,16 @@ angular.module('financieraClienteApp')
         rowHeight: 45
       };
       self.gridOptions_ingresosbanco.columnDefs = [
-        { name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info'  },
-        { name: 'IDENTIFICACION', displayName: 'Identificación', headerCellClass: 'text-info'  },
-        { name: 'NOMBRE', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
+        { name: 'VIGENCIA', displayName:  displayName: $translate.instant('VIGENCIA'), headerCellClass: 'text-info'  },
+        { name: 'IDENTIFICACION', displayName: $translate.instant('NO_DOCUMENTO'), headerCellClass: 'text-info'  },
+        { name: 'NOMBRE', displayName: $translate.instant('NOMBRE') ,  headerCellClass: 'text-info'},
         //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-        { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
-        { name: 'TIPO_RECIBO', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
-        { name: 'PAGO_REPORTADO', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
-        { name: 'MATRICULA', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
-        { name: 'SEGURO', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
-        { name: 'CARNET', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
+        { name: 'NUMERO_CUENTA', displayName: $translate.instant('CUENTA') , headerCellClass: 'text-info' },
+        { name: 'TIPO_RECIBO', displayName: $translate.instant('TIPO') , headerCellClass: 'text-info' },
+        { name: 'PAGO_REPORTADO',  displayName: $translate.instant('PAGO_RERPORTADO'), headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'MATRICULA', displayName: $translate.instant('MATRICULA') , headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'SEGURO',  displayName: $translate.instant('SEGURO'), headerCellClass: 'text-info',cellFilter: 'currency'},
+        { name: 'CARNET',  displayName: $translate.instant('CARNET') , headerCellClass: 'text-info',cellFilter: 'currency'}
       ];
 
 
