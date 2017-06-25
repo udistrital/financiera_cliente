@@ -317,12 +317,17 @@ var text_es = {
   E_25P02: "Este registro ya ha sido creado.",
 
   // Errores Orden PAgo
+  //Proveedores
+  //Nomina api_mid_financiera
+  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina",
+  E_OPN_01_2: "No se obtubo Id de la liquidacion",
+  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan",
+  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan",
+  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos",
+  //Nomina api_financiera
   E_OPP_01: "No se puede registrar la Orden de Pago",
   E_OPP_01_1: "No se obtubo ValorCalculado de titan",
   E_OPP_01_2: "No se obtubo Id Concepto de Titan",
-  E_OPP_01_3: "No se obtubo Id de la liquidacion",
-  E_OPP_01_4: "No se obtubo detalle de la liquidacion del modulo Titan",
-  E_OPP_01_5: "No se se cuenta con un detalle de la liquidacion del modulo Titan",
   E_OPP_02: "No se Encontro Concepto Homologado",
   E_OPP_03: "No se puede registrar concepto_orden_pago",
   E_OPP_04: "No se puede registrar los Movimeitos Contables"

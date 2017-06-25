@@ -25,20 +25,6 @@ angular.module('financieraClienteApp')
     // ***************
     // Funciones
     // ***************
-    // self.get_liguidacion = function (){
-    //   titanRequest.get('detalle_liquidacion',
-    //     $.param({
-    //       query:'Liquidacion:1',
-    //       sortby:'Concepto',
-    //       order:"desc",
-    //       limit:-1,
-    //     })).then(function(response){
-    //       self.dataSend.DetalleLiquidacion = response.data;
-    //     });
-    // }
-    //
-    // self.dataSend = {};
-    // self.get_liguidacion();
 
     self.validar_campos = function() {
       self.MensajesAlerta = '';
