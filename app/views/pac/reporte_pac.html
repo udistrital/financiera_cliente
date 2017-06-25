@@ -29,19 +29,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>{{'EGRESOS' | translate}}</th>
-            </tr>
             <tr ng-repeat="data in gridOptions.data">
-              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'EGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.egresos.valor|currency}}</td>
+              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'EGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.valores.valor|currency}}</td>
             </tr>
-            <tr>
-              <th>{{'INGRESOS' | translate}}</th>
-            </tr>
-            <tr ng-repeat="data in gridOptions.data">
-              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'INGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.ingresos.valor|currency}}</td>
-            </tr>
-
           </tbody>
 
         </table>
