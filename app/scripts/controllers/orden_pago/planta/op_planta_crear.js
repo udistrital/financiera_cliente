@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
     self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
+
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
       .then(function(data) { //error con el success
@@ -25,7 +26,6 @@ angular.module('financieraClienteApp')
     // ***************
     // Funciones
     // ***************
-
     self.validar_campos = function() {
       self.MensajesAlerta = '';
       if (self.OrdenPago.UnidadEjecutora == undefined) {
@@ -43,8 +43,8 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.dataSend);
         console.log("Insertar DATA");
-        //financieraRequest.post("orden_pago/RegistrarOpPlanta", self.dataSend)
-        financieraMidRequest.post("Orden_pago_planta", self.dataSend)
+        //financieraRequest.post("orden_pago/RegistrarOpNomina", self.dataSend)
+        financieraMidRequest.post("orden_pago_nomina", self.dataSend)
           .then(function(data) {
             self.resultado = data;
             //mensaje
@@ -68,12 +68,12 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      self.OrdenPago.Liquidacion = 1;
-      self.OrdenPago.ValorBase = 0;
+      self.OrdenPago.ValorBase = 0;       // se obtendra del rp
       self.OrdenPago.PersonaElaboro = 1;
-      self.dataSend = {};
-      self.dataSend = self.OrdenPago;
-      //
+      self.dataSend = self.OrdenPago; // para api_mid
+      //para tes directo desde cliente hacia kronos
+      //self.dataSend.OrdenPago = self.OrdenPago;
+
       self.validar_campos();
     }
   });

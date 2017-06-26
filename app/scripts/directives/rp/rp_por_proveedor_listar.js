@@ -93,10 +93,10 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.rp_select_de_consulta = response.data;
               // detalle necesidad
-              financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
-                .then(function(response) {
-                  self.solicitud = response.data[0];
-                });
+              // financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+              //   .then(function(response) {
+              //     self.solicitud = response.data[0];
+              //   });
             });
             //Valor total del Rp
             financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
