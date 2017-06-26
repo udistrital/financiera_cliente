@@ -14,6 +14,8 @@ angular.module('financieraClienteApp')
     $scope.gridOptions = {
       enableHorizontalScrollbar: 1,
       enableVerticalScrollbar: 1,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
       enableFiltering: true,
       rowHeight: 100,
       onRegisterApi: function(gridApi) {
@@ -62,17 +64,17 @@ angular.module('financieraClienteApp')
         fin: self.fechaFin
       };
       financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
-        console.log(response.data);
-        for (var i = 0 ; i < response.data[0].reporte.length ; i++){
+        console.log(response.data.egresos);
+        for (var i = 0 ; i < response.data.egresos[0].reporte.length ; i++){
           $scope.gridOptions.columnDefs.push({
-            name: ''+ response.data[0].reporte[i].mes+' EJC',
+            name: ''+ response.data.egresos[0].reporte[i].mes+' EJC',
             field: '',
-            cellTemplate: ' <div>{{row.entity.reporte['+i+'].egresos.valor}}</div>',
+            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.valor}}</div>',
             headerCellClass: 'text-info',
             width: "8%"
           });
           $scope.gridOptions.columnDefs.push({
-            name: ''+ response.data[0].reporte[i].mes+' PROY',
+            name: ''+ response.data.egresos[0].reporte[i].mes+' PROY',
             field: '',
             headerCellClass: 'text-info',
             width: "8%"
@@ -81,7 +83,7 @@ angular.module('financieraClienteApp')
 
         }
 
-        $scope.gridOptions.data = response.data;
+        $scope.gridOptions.data = response.data.egresos;
 
       });
     }
