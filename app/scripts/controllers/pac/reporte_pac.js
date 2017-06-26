@@ -51,11 +51,6 @@ angular.module('financieraClienteApp')
         headerCellClass: 'text-info',
         width: "5%"
       },*/
-      {
-        name: 'Tipo',
-        headerCellClass: 'text-info',
-        width: "10%"
-      }
     ];
 
     self.generarReporte = function() {
@@ -64,7 +59,7 @@ angular.module('financieraClienteApp')
         fin: self.fechaFin
       };
       financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
-        console.log(response.data.egresos);
+        console.log(response.data);
         for (var i = 0 ; i < response.data.egresos[0].reporte.length ; i++){
           $scope.gridOptions.columnDefs.push({
             name: ''+ response.data.egresos[0].reporte[i].mes+' EJC',
@@ -77,10 +72,16 @@ angular.module('financieraClienteApp')
             name: ''+ response.data.egresos[0].reporte[i].mes+' PROY',
             field: '',
             headerCellClass: 'text-info',
-            width: "8%"
-            //cellTemplate: ' <div>{{row.entity.reporte['+i+'].egresos.valor}}</div>'
+            width: "8%",
+            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.proyeccion}}</div>'
           });
-
+          $scope.gridOptions.columnDefs.push({
+            name: ''+ response.data.egresos[0].reporte[i].mes+' VAR',
+            field: '',
+            headerCellClass: 'text-info',
+            width: "8%",
+            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.variacion}}</div>'
+          });
         }
 
         $scope.gridOptions.data = response.data.egresos;
