@@ -64,6 +64,59 @@
       <legend class="text-primary" ng-click="info_desc_avances=!info_desc_avances">{{"DESCRIPCION_AVANCES" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_desc_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_desc_avances"></span></legend>
       <div class="panel-body" ng-show="info_desc_avances">
         <div class="row">
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="dep_destino" class="control-label">{{"OBJETIVO" | translate}}</label>
+              <textarea class="form-control" ng-model="solicitudAvance.objetivo" rows="5" ng-required="true"></textarea>
+              <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
+              <textarea class="form-control" ng-model="solicitudAvance.justificacion" rows="5" ng-required="true"></textarea>
+            </div>
+            <div class="col-md-6">
+              <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
+              <span class="form-control">{{solicitudAvance.terceros.dependencia.dependencia}}</span>
+
+              <label for="rol_ordenador_gasto" class="control-label">{{"FACULTAD" | translate}}</label>
+              <span class="form-control">{{solicitudAvance.terceros.proyecto_curricular.facultad.Facultad}}</span>
+
+              <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_CURRICULAR" | translate}}</label>
+              <span class="form-control">{{solicitudAvance.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular}}</span>
+              <label for="rol_ordenador_gasto" class="control-label">{{"CONVENIO" | translate}}</label>
+              <div class="row">
+                <div class="col-md-4">
+                  <input class="form-control" ng-model="solicitudAvance.codigo_convenio" placeholder="{{'CODIGO_CONVENIO' | translate}}" ng-required="true">
+                  </input>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" ng-model="solicitudAvance.nombre_convenio" placeholder="{{'NOMBRE_CONVENIO' | translate}}" ng-required="true">
+                  </input>
+                </div>
+              </div>
+
+              <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_INVESTIGACION" | translate}}</label>
+              <div class="row">
+                <div class="col-md-4">
+                  <input class="form-control" ng-model="solicitudAvance.codigo_proyecto_inv" placeholder="{{'CODIGO_PROYECTO' | translate}}" ng-required="true">
+                  </input>
+                </div>
+                <div class="col-md-8">
+                  <input class="form-control" ng-model="solicitudAvance.nombre_proyecto_inv" placeholder="{{'NOMBRE_PROYECTO' | translate}}" ng-required="true">
+                  </input>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+    </fieldset>
+
+
+    <fieldset class="form-group">
+      <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"DESCRIPCION_AVANCES" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_desc_avances"></span></legend>
+      <div class="panel-body" ng-show="info_detalle_avances">
+        <div class="row">
           <div class="col-md-2 col-md-offset-2">
             <label for="dep_destino" class="control-label">{{"TIPO_AVANCE" | translate}}</label>
           </div>
