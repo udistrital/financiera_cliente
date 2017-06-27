@@ -40,7 +40,6 @@ angular.module('financieraClienteApp')
             {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
-              //width:'21%',
               cellClass: 'input_center'
             },
             {
@@ -50,22 +49,18 @@ angular.module('financieraClienteApp')
             {
               field: 'NumeroFactura',
               displayName: $translate.instant('NO') + $translate.instant('FACTURA'),
-              //width:'20%'
             },
             {
               field: 'Sede',
               displayName: $translate.instant('SEDE'),
-              //width:'20%'
             },
             {
               field: 'Dependencia',
               displayName: $translate.instant('DEPENDENCIA'),
-              //width:'20%'
             },
             {
               field: 'Observaciones',
               displayName: $translate.instant('OBSERVACIONES'),
-              //width:'20%'
             },
           ]
         };
@@ -88,7 +83,6 @@ angular.module('financieraClienteApp')
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.outputentradaalmacen = row.entity;
-            console.log($scope.outputentradaalmacen );
           });
         };
         self.gridOptions_entrada.multiSelect = false;
