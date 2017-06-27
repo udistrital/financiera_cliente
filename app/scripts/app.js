@@ -50,7 +50,8 @@ angular
     'pagosService',
     'avancesService',
     'ui.grid.expandable',
-    'ui.grid.pinning'
+    'ui.grid.pinning',
+    'arkaService'
   ])
 
   .run(function(amMoment) {

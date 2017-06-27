@@ -7,11 +7,12 @@
  * # arkaService
  * Factory in the financieraClienteApp.
  */
-angular.module('arkaService')
-  .factory('arkaRequest', function() {
+angular.module('arkaService', [])
+  .factory('arkaRequest', function($http) {
     // Service logic
     // ...
     var path = "http://10.20.0.254/arka_api_crud/v1/";
+    // Public API here
     return {
       get: function(tabla, params) {
         return $http.get(path + tabla + "/?" + params);
