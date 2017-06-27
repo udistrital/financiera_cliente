@@ -2,6 +2,9 @@
   <center>
     <h3 class="page-header">
         {{"CALENDARIO_TRIBUTARIO" | translate}}
+        <select class="form-control form-control-inline" ng-model="gestionCalendario.vigencia_calendarios" ng-options="v as v for v in gestionCalendario.vigencias track by v" >
+          <option value="">{{"TODOS" | translate}}</option>
+        </select>
     </h3></center>
   <div class="panel-body">
     <div ui-grid="gestionCalendario.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
@@ -26,7 +29,7 @@
           </div>
           <div class="panel-body">
 
-            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
+            <form class="row" name="formcalendario" ng-submit="formcalendario.$valid && gestionCalendario.crear_calendario()">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label>{{ 'DESCRIPCION' | translate }}*:</label>

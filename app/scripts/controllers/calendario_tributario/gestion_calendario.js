@@ -13,14 +13,18 @@ angular.module('financieraClienteApp')
 
     self.nuevo_calendario={};
 
-    financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
-      var year = parseInt(response.data)+1;
-      self.vigencias = [];
-        for(var i=0;i<5;i++) {
-          self.vigencias.push(year - i);
-        }
-     });
+    self.cargar_vigencia=function(){
+      financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+        self.vigencia_calendarios=parseInt(response.data);
+        var year = parseInt(response.data)+1;
+        self.vigencias = [];
+          for(var i=0;i<5;i++) {
+            self.vigencias.push(year - i);
+          }
+       });
+    };
 
+    self.cargar_vigencia();
 
     self.gridOptions = {
       paginationPageSizes: [5, 10, 15, 20, 50],
@@ -63,12 +67,14 @@ angular.module('financieraClienteApp')
         {
           field: 'FechaInicio',
           displayName: $translate.instant('FECHA_INICIO'),
+          cellFilter: "date:'dd/MM/yyyy' : 'UTC'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '10%'
         },
         {
           field: 'FechaFin',
           displayName: $translate.instant('FECHA_FIN'),
+          cellFilter: "date:'dd/MM/yyyy' : 'UTC'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '9%'
         },
@@ -91,7 +97,7 @@ angular.module('financieraClienteApp')
           width: '7%',
           cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalbanco" ng-click="grid.appScope.id_banco=row.entity.Id">' +
             '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a href="" class="editar" ng-click="grid.appScope.gestionBancos.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
+            '<a href="" class="editar" ng-click="grid.appScope.gestionCalendario.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
             '</center>'
         }
@@ -109,39 +115,61 @@ angular.module('financieraClienteApp')
       });
     };
 
-    self.gridOptions.data=[
-      {
-        Descripcion: "Calendario prueba",
-        FechaInicio: "01-05-2015",
-        FechaFin: "30-06-2015",
-        Vigencia: 2015,
-        Entidad: {
-          Nombre:"U Distrital"
-        },
-        EstadoCalendario: {
-          Nombre:"Sin pagar"
-        },
-        Responsable: 19654664
-      },
-      {
-        Descripcion: "Calendario prueba 2",
-        FechaInicio: "01-05-2015",
-        FechaFin: "30-06-2015",
-        Vigencia: 2015,
-        Entidad: {
-          Nombre:"U Distrital"
-        },
-        EstadoCalendario: {
-          Nombre:"Sin pagar"
-        },
-        Responsable: 19654664
-      }
-    ];
+    self.cargar_calendarios_full=function(){
+      financieraRequest.get('calendario_tributario',$.param({
+        limit: -1
+      })).then(function(response){
+        if (response.data===null) {
+          self.gridOptions.data=[];
+        } else {
+          self.gridOptions.data=response.data;
+        }
+      });
+    };
+
+    self.cargar_calendarios_vigencia=function(vigencia){
+      financieraRequest.get('calendario_tributario',$.param({
+        limit: -1,
+        query: 'Vigencia:'+vigencia
+      })).then(function(response){
+        if (response.data===null) {
+          self.gridOptions.data=[];
+        } else {
+          self.gridOptions.data=response.data;
+        }
+      });
+    };
+
+    self.modo_editar=function(calendario){
+      self.nuevo_calendario=calendario;
+    };
+
+    self.crear_calendario=function(){
+      var nuevo={
+        Vigencia: self.nuevo_calendario.Vigencia,
+        Entidad: {Id:1},
+        Descripcion: self.nuevo_calendario.Descripcion,
+        FechaInicio: self.nuevo_calendario.FechaInicio,
+        FechaFin: self.nuevo_calendario.FechaFin,
+        EstadoCalendario: {Id:1},
+        Responsable: 546546556
+      };
+
+      financieraRequest.post('calendario_tributario', nuevo).then(function(response){
+        console.log(response);
+        if (self.vigencia_calendarios===null) {
+          self.cargar_calendarios_full();
+        } else {
+          self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+        }
+      });
+    };
 
     $scope.$watch('gestionCalendario.nuevo_calendario.Vigencia',function(){
-      self.nuevo_calendario.FechaInicio=undefined;
-      self.nuevo_calendario.FechaFin=undefined;
-      console.log(self.nuevo_calendario.Vigencia);
+      console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+      if (self.nuevo_calendario.Vigencia!==self.nuevo_calendario.FechaInicio.getFullYear()) {
+        self.nuevo_calendario.FechaInicio=undefined;
+      }
       self.fechamin=new Date(
         self.nuevo_calendario.Vigencia,
         0,1
@@ -153,7 +181,17 @@ angular.module('financieraClienteApp')
     },true);
 
     $scope.$watch('gestionCalendario.nuevo_calendario.FechaInicio',function(){
-      self.nuevo_calendario.FechaFin=undefined;
+      if (self.nuevo_calendario.FechaInicio>=self.nuevo_calendario.FechaFin) {
+        self.nuevo_calendario.FechaFin=undefined;
+      }
+    },true);
+
+    $scope.$watch('gestionCalendario.vigencia_calendarios',function(){
+      if (self.vigencia_calendarios===null) {
+        self.cargar_calendarios_full();
+      } else {
+        self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+      }
     },true);
 
 

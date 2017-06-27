@@ -106,6 +106,7 @@ var text_es = {
   FINALIZAR: "Finalizar",
   SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
   VALOR_BASE: "Valor Base",
+  TODOS: "Todos",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
