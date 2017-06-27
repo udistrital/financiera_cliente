@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
     $scope.info_desc_avances = true;
     $scope.info_detalle_avances = true;
     ctrl.tipos_avance = [];
+    ctrl.lista_tipos = [];
 
     ctrl.get_tipos_avance = function() {
       financieraRequest.get("tipo_avance", $.param({
@@ -43,17 +44,24 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.anadir_tipo = function(){
-      var TipoAvance = {};
-      ctrl.lista_tipos = [];
-      if (ctrl.tipo_avance_select !== 'undefined') {
-        for (var i = 0; i < tipos_avance.length; i++) {
-          if (ctrl.tipos_avance[i].Id === tipo_avance_select){
+      if  (ctrl.tipo_avance_select !== '' && ctrl.tipo_avance_select !== 'undefined' &&
+          ctrl.valor_avance !== '' && ctrl.valor_avance !== 'undefined' &&
+          ctrl.descripcion !== '' && ctrl.descripcion !== 'undefined' ){
+        var TipoAvance = {};
+        for (var i = 0; i < ctrl.tipos_avance.length; i++) {
+          if (ctrl.tipos_avance[i].Id == ctrl.tipo_avance_select){
+            console.log(ctrl.tipos_avance[i]);
             TipoAvance.Descripcion = ctrl.descripcion;
             TipoAvance.Valor = parseFloat(ctrl.valor_avance);
-            TipoAvance.TipoAvance = ctrl.tipos_avance.splice(i, 1);
+            var tipo = ctrl.tipos_avance.splice(i, 1);
+            TipoAvance.TipoAvance = tipo[0];
             ctrl.lista_tipos.push(TipoAvance);
+            ctrl.descripcion = '';
+            ctrl.valor_avance = '';
+            ctrl.tipo_avance_select = '';
           }
         }
+        console.log(ctrl.lista_tipos);
       }
     };
 
@@ -70,7 +78,7 @@ angular.module('financieraClienteApp')
       Solicitud.Facultad = ctrl.terceros.proyecto_curricular.facultad.Facultad;
       Solicitud.CodigoProyectoCur = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.id;
       Solicitud.ProyectoCurricular = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular;
-      Solicitud.ValorTotal = ctrl.valor_avance;
+      Solicitud.ValorTotal = 0;
 
       Solicitud.CodigoConvenio = ctrl.codigo_convenio;
       Solicitud.Convenio = ctrl.nombre_convenio;
@@ -80,7 +88,7 @@ angular.module('financieraClienteApp')
 
 
       SolicitudAvance.Solicitud = Solicitud;
-      SolicitudAvance.TipoAvance = TipoAvance;
+      SolicitudAvance.TipoAvance = ctrl.lista_tipos;
       console.log(SolicitudAvance);
       financieraRequest.post("solicitud_avance/TrSolicitudAvance", SolicitudAvance)
         .then(function(response) {

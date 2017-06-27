@@ -95,6 +95,7 @@ angular.module('financieraClienteApp')
               }else{
                 swal('',$translate.instant(response.data.Code)+response.data.Body.Consecutivo,response.data.Type);
               }
+
             }
         }).finally(function(){
           self.pagos = undefined;
