@@ -109,6 +109,10 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
+  ENTRADA_ALMACEN: "Entrada Alamacen",
+  SEDE: "Sede",
+  FACTURA: "Factura",
+  SELECCIONAR: "Seleccionar",
 
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
