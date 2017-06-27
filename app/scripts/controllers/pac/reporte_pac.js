@@ -17,32 +17,31 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableFiltering: true,
-      rowHeight: 100,
-      onRegisterApi: function(gridApi) {
-        $scope.gridApi = gridApi;
-      }
+      rowHeight: 300,
+      onRegisterApi: function(gridApi){
+      $scope.gridApi = gridApi;
+    }
     };
     $scope.gridOptions.columnDefs = [{
         name: 'fdescrip',
         displayName: 'Fuente',
         headerCellClass: 'text-info',
         width: "20%",
-
-        pinnedLeft:true
+        pinnedLeft: true
       },
       {
         name: 'descripcion',
         displayName: 'RUBRO',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft:true
+        pinnedLeft: true
       },
       {
         name: 'codigo',
         displayName: 'Codigo',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft:true
+        pinnedLeft: true
       },
 
       /*{
@@ -60,35 +59,43 @@ angular.module('financieraClienteApp')
       };
       financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
         console.log(response.data);
-        for (var i = 0 ; i < response.data.egresos[0].reporte.length ; i++){
+        for (var i = 0; i < response.data.egresos[0].reporte.length; i++) {
           $scope.gridOptions.columnDefs.push({
-            name: ''+ response.data.egresos[0].reporte[i].mes+' EJC',
+            name: '' + response.data.egresos[0].reporte[i].mes + ' EJC',
             field: '',
-            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.valor}}</div>',
+            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor}}</div>',
             headerCellClass: 'text-info',
-            width: "8%"
+            width: "8%",
+            enablePinning:false
           });
           $scope.gridOptions.columnDefs.push({
-            name: ''+ response.data.egresos[0].reporte[i].mes+' PROY',
+            name: '' + response.data.egresos[0].reporte[i].mes + ' PROY',
             field: '',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.proyeccion}}</div>'
+            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
+            enablePinning:false
           });
           $scope.gridOptions.columnDefs.push({
-            name: ''+ response.data.egresos[0].reporte[i].mes+' VAR',
-            field: '',
+            name: '' + response.data.egresos[0].reporte[i].mes + ' VAR',
+            field: '' + response.data.egresos[0].reporte[i].mes,
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div>{{row.entity.reporte['+i+'].valores.variacion}}</div>'
+            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
+            enablePinning:false
           });
         }
-
         $scope.gridOptions.data = response.data.egresos;
-
+        $scope.gridApi.core.handleWindowResize()
       });
     }
-
+    self.changeCellClass = function (val) {
+      if(val >= 0 && val <= 0,2){
+        return 'bg-success'
+      }else{
+        return ''
+      }
+    }
     self.verResumen = function(row) {
       self.resumen = row.entity;
 

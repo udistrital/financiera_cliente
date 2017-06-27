@@ -21,26 +21,27 @@
       </tr>
     </table>
     <br>
-      <div class="col-md-12" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns ui-grid-pinning></div>
-        <!--table class="table table-bordered table-fixed">
+    <!--table class="table table-bordered table-fixed">
           <thead>
             <tr>
-              <th>Fuente</th><th>Rubro</th><th>Codigo</th><th>Tipo</th><th ng-repeat="data in gridOptions.data[0].reporte">{{data.mes}}</th>
+              <th>Fuente</th>
+              <th>Rubro</th>
+              <th>Codigo</th>
+              <th ng-repeat="data in gridOptions.data[0].reporte">{{data.mes}}</th>
             </tr>
           </thead>
           <tbody>
             <tr ng-repeat="data in gridOptions.data">
-              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td>{{'EGRESOS' | translate}}</td><td ng-repeat="reporte in data.reporte">{{reporte.valores.valor|currency}}</td>
+              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td ng-repeat="reporte in data.reporte">{{reporte.valores.valor|currency}}</td>
             </tr>
           </tbody>
 
-        </table-->
+        </table  ui-grid-pinning -->
 
-
-
-      <div class="col-md-4">
-        <pre>{{reportePac.resumen|json}}</pre>
-      </div>
   </div>
-
+</div>
+<div class="row-fluid">
+  <div class="span12">
+    <div ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+  </div>
 </div>
