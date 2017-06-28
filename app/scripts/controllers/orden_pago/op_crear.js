@@ -22,7 +22,11 @@ angular.module('financieraClienteApp')
     self.MensajesAlerta = null;
     self.TotalAfectacion = null;
     self.PestanaAbierta = true;
-
+    // obtener vigencia
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(data) { //error con el success
+        self.Vigencia = parseInt(data.data);
+      })
     // functions
     self.estructurarDataSend = function(conceptos) {
       // estrurctura total afectacion y movimientos contables

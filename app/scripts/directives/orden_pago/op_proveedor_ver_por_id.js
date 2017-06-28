@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function(financieraRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorVerPorId', function(financieraRequest, financieraMidRequest, agoraRequest, arkaRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -84,6 +84,11 @@ angular.module('financieraClienteApp')
               query: "RegistroPresupuestal.Id:" + rp_id,
             })).then(function(response) {
             self.rp_detalle = response.data;
+            //data necesidad
+            financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+              .then(function(response) {
+                self.solicitud = response.data[0];
+              });
           });
           //Valor total del Rp
           financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
@@ -91,7 +96,10 @@ angular.module('financieraClienteApp')
               self.valor_total_rp = response.data;
             });
         }
-
+        // Funcion entrada almacen
+        self.entradaAlmace = function(entrada_id){
+          console.log("HOLA");
+        }
         // Function calcular iva
         self.calcularIva = function(valor_base, iva) {
           self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
