@@ -8,12 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, financieraRequest) {
+  .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, financieraRequest, $translate) {
     var ctrl = this;
     $scope.info_terceros = true;
     $scope.info_desc_avances = true;
     $scope.info_detalle_avances = true;
     ctrl.tipos_avance = [];
+    ctrl.lista_tipos = [];
 
     ctrl.get_tipos_avance = function() {
       financieraRequest.get("tipo_avance", $.param({
@@ -42,11 +43,31 @@ angular.module('financieraClienteApp')
         });
     };
 
-
+    ctrl.anadir_tipo = function(){
+      if  (ctrl.tipo_avance_select !== '' && ctrl.tipo_avance_select !== 'undefined' &&
+          ctrl.valor_avance !== '' && ctrl.valor_avance !== 'undefined' &&
+          ctrl.descripcion !== '' && ctrl.descripcion !== 'undefined' ){
+        var TipoAvance = {};
+        for (var i = 0; i < ctrl.tipos_avance.length; i++) {
+          if (ctrl.tipos_avance[i].Id == ctrl.tipo_avance_select){
+            console.log(ctrl.tipos_avance[i]);
+            TipoAvance.Descripcion = ctrl.descripcion;
+            TipoAvance.Valor = parseFloat(ctrl.valor_avance);
+            var tipo = ctrl.tipos_avance.splice(i, 1);
+            TipoAvance.TipoAvance = tipo[0];
+            ctrl.lista_tipos.push(TipoAvance);
+            ctrl.descripcion = '';
+            ctrl.valor_avance = '';
+            ctrl.tipo_avance_select = '';
+          }
+        }
+        console.log(ctrl.lista_tipos);
+      }
+    };
 
     ctrl.enviar = function(){
       var Solicitud = {};
-      var TipoAvance = {};
+
       var SolicitudAvance = {};
       Solicitud.IdBeneficiario = parseInt(ctrl.documento);
       Solicitud.Objetivo = ctrl.objetivo;
@@ -57,24 +78,28 @@ angular.module('financieraClienteApp')
       Solicitud.Facultad = ctrl.terceros.proyecto_curricular.facultad.Facultad;
       Solicitud.CodigoProyectoCur = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.id;
       Solicitud.ProyectoCurricular = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular;
-      Solicitud.ValorTotal = ctrl.valor_avance;
-
+      Solicitud.ValorTotal = 0;
 
       Solicitud.CodigoConvenio = ctrl.codigo_convenio;
       Solicitud.Convenio = ctrl.nombre_convenio;
       Solicitud.CodigoProyectoInv = ctrl.codigo_proyecto_inv;
       Solicitud.ProyectoInv = ctrl.nombre_proyecto_inv;
 
-      TipoAvance.Id = parseInt(ctrl.tipo_avance_select);
-      TipoAvance.Descripcion = ctrl.descripcion;
-      TipoAvance.Valor = parseFloat(ctrl.valor_avance);
+
 
       SolicitudAvance.Solicitud = Solicitud;
-      SolicitudAvance.TipoAvance = TipoAvance;
+      SolicitudAvance.TipoAvance = ctrl.lista_tipos;
       console.log(SolicitudAvance);
       financieraRequest.post("solicitud_avance/TrSolicitudAvance", SolicitudAvance)
         .then(function(response) {
-          console.log(response);
+          console.log(response.data);
+          if (response.data.Type !== undefined){
+            if (response.data.Type === "error"){
+              swal('',$translate.instant(response.data.Code),response.data.Type);
+            }else{
+              swal('',$translate.instant(response.data.Code)+response.data.Body.Consecutivo,response.data.Type);
+            }
+          }
         });
     };
 
