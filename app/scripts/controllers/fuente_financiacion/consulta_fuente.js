@@ -123,7 +123,7 @@ angular.module('financieraClienteApp')
         for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
-        self.gridOptionsapropiacion.core.refresh();
+        console.log("-")
 
       });
     };

@@ -236,6 +236,7 @@ var text_es = {
   INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
   SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
+  ANULACION_FUENTE_FINANCIAMIENTO: "Anular Fuente de Financiamiento",
 
   CREAR_FUENTE: "Asignar Fuente Financiamiento",
   QUITAR: "Quitar",

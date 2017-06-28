@@ -87,8 +87,6 @@ angular.module('financieraClienteApp')
     };
 
 
-
-
     self.comprobarRubro = function(id) {
       var repetido = true;
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
@@ -341,6 +339,7 @@ angular.module('financieraClienteApp')
     });
     self.actualizar = function() {
       $('.selectpicker').selectpicker('refresh');
+      console.log("si")
     };
 
 

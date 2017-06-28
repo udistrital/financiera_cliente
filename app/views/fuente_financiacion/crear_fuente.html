@@ -3,7 +3,7 @@
   <form name="fuentes_form">
 
 
-    <div class="col-md-6">
+    <div class="col-md-5">
 
       <div class="panel panel-default">
 
@@ -21,27 +21,19 @@
             <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}">
           </div>
 
-
           <div class="col-md-6">
             <p></p>
             <label for="sigla">{{'SIGLA' | translate }}:</label>
-
-
             <input class="form-control" type="text" id="sigla" ng-model="crearFuente.nueva_fuente.Sigla" placeholder="{{'INGRESE_SIGLA' | translate }}">
-
           </div>
 
           <div class="col-md-12">
             <p></p>
             <label for="nombrefuente">{{'DESCRIPCION' | translate }}:</label>
-
-
             <input class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}">
-
-
           </div>
 
-          <div class="col-md-7">
+          <div class="col-md-12">
             <p></p>
             <label for="monto">{{'INGRESAR_VALOR_FUENTE' | translate }}:</label>
 
@@ -50,7 +42,7 @@
 
           </div>
 
-          <div class="col-md-5">
+          <div class="col-md-12">
             <label for="fechainicio"> {{'INGRESAR_FECHA_CREACION' | translate }}: </label>
             <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'INGRESAR_FECHA_CREACION' | translate }}"></md-datepicker>
           </div>
@@ -81,7 +73,7 @@
 
 
 
-    <div class="col-md-6">
+    <div class="col-md-7">
 
       <div class="panel panel-success">
 
