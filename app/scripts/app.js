@@ -307,6 +307,11 @@ angular
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
       })
+      .when('/tesoreria/avances/lista_solicitud', {
+        templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
+        controller: 'ListaSolicitudCtrl',
+        controllerAs: 'listaSolicitud'
+      })
       .otherwise({
         redirectTo: '/'
       });
