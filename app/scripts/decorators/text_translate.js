@@ -262,7 +262,6 @@ var text_es = {
   DETALLE_AVANCES:"Detalle de Avances",
   OBJETIVO:"Objetivo",
   VALOR_AVANCE:"Valor de Avance",
-  FACULTAD:"Facultad",
   DEPENDENCIA:"Dependencia",
   PROYECTO_CURRICULAR:"Proyecto Curricular",
   CONVENIO:"Convenio",
@@ -311,7 +310,7 @@ var text_es = {
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
-  
+
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado.",
 
