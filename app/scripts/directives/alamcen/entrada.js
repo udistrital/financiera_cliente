@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
           inputproveedor: '=',
           inputvigencia: '=',
           inputpestanaabierta: '=?',
-          outputentradaalmacen: '=',
+          outputentradaalmacenid: '=',
         },
       templateUrl: 'views/directives/alamcen/entrada.html',
       controller:function($scope){
@@ -82,7 +82,7 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputentradaalmacen = row.entity;
+            $scope.outputentradaalmacenid = row.entity.Id;
           });
         };
         self.gridOptions_entrada.multiSelect = false;

@@ -283,7 +283,7 @@ var text_es = {
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
-  NO: "No.",
+  NO: "No. ",
   ELIMINARA: "Se eliminará",
   ELIMINADO: "Eliminado",
   ACTUALIZADO: "Actualizado",
@@ -405,8 +405,6 @@ var text_en = {
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
   COMPANIA : 'Company',
-
-
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -415,7 +413,10 @@ var text_en = {
   CUENTA_BANCARIA: "Bank Account",
   SUCURSAL: "Branch Office",
   TIPO_CUENTA: "Account Type",
-
+  ENTRADA_ALMACEN: "Warehouse Entryss",
+  SEDE: "Headquarters",
+  FACTURA: "Bill",
+  SELECCIONAR: "Select",
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsible",
