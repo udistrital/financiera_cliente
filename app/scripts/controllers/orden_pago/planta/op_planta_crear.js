@@ -43,7 +43,6 @@ angular.module('financieraClienteApp')
         console.log("Insertar DATA");
         console.log(self.dataSend);
         console.log("Insertar DATA");
-        //financieraRequest.post("orden_pago/RegistrarOpNomina", self.dataSend)
         financieraMidRequest.post("orden_pago_nomina", self.dataSend)
           .then(function(data) {
             self.resultado = data;
