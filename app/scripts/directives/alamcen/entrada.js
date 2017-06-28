@@ -70,10 +70,10 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
           arkaRequest.get('entrada',
-            // $.param({
-            //   query: 'Proveedor:' + $scope.inputproveedor + ", Vigencia:" + $scope.inputvigencia,
-            //   limit: -1
-            // })
+            $.param({
+              //query: 'Proveedor:' + $scope.inputproveedor + ", Vigencia:" + $scope.inputvigencia,
+              limit: -1,
+            })
           ).then(function(response){
               self.gridOptions_entrada.data = response.data;
             });
