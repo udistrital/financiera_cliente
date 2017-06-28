@@ -67,14 +67,14 @@ angular.module('financieraClienteApp')
         {
           field: 'FechaInicio',
           displayName: $translate.instant('FECHA_INICIO'),
-          cellFilter: "date:'dd/MM/yyyy' : 'UTC'",
+          cellFilter: "date:'yyyy-MM-dd' : 'UTC'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '10%'
         },
         {
           field: 'FechaFin',
           displayName: $translate.instant('FECHA_FIN'),
-          cellFilter: "date:'dd/MM/yyyy' : 'UTC'",
+          cellFilter: "date:'yyyy-MM-dd' : 'UTC'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '9%'
         },
@@ -141,7 +141,14 @@ angular.module('financieraClienteApp')
     };
 
     self.modo_editar=function(calendario){
-      self.nuevo_calendario=calendario;
+
+      self.nuevo_calendario=angular.copy(calendario);
+      console.log("antes",self.nuevo_calendario.FechaInicio);
+    //  console.log("despues",calendario.FechaInicio+'Z');
+      self.nuevo_calendario.FechaInicio=new Date(self.nuevo_calendario.FechaInicio.slice(0, 10));
+      self.nuevo_calendario.FechaFin=new Date(self.nuevo_calendario.FechaFin.slice(0, 10));
+      console.log("despues",self.nuevo_calendario.FechaInicio);
+
     };
 
     self.crear_calendario=function(){
@@ -166,8 +173,10 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch('gestionCalendario.nuevo_calendario.Vigencia',function(){
-      console.log(self.nuevo_calendario.FechaInicio.getFullYear());
-      if (self.nuevo_calendario.Vigencia!==self.nuevo_calendario.FechaInicio.getFullYear()) {
+      //console.log("vigencia",self.nuevo_calendario.Vigencia);
+      if (self.nuevo_calendario.FechaInicio!==undefined && self.nuevo_calendario.Vigencia!==self.nuevo_calendario.FechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
         self.nuevo_calendario.FechaInicio=undefined;
       }
       self.fechamin=new Date(
@@ -182,9 +191,17 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('gestionCalendario.nuevo_calendario.FechaInicio',function(){
       if (self.nuevo_calendario.FechaInicio>=self.nuevo_calendario.FechaFin) {
+        console.log("reset fecha fin");
         self.nuevo_calendario.FechaFin=undefined;
       }
     },true);
+
+    $scope.$watch('editar',function(){
+      console.log($scope.editar);
+      if ($scope.editar===false){
+        self.nuevo_calendario={};
+      }
+    });
 
     $scope.$watch('gestionCalendario.vigencia_calendarios',function(){
       if (self.vigencia_calendarios===null) {

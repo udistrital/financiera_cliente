@@ -60,6 +60,11 @@ angular
       cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
       cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
   }])
+  .config(function($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
+       return moment(date).format('YYYY-MM-DD');
+    };
+  })
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
