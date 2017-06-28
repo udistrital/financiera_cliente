@@ -317,20 +317,20 @@ var text_es = {
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
-  E_25P02: "Este registro ya ha sido creado.",
+  E_25P02: "Este registro ya ha sido creado. ",
 
   // Errores Orden Pago
   //Proveedores
   //OP Nomina api_mid_financiera
-  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina",
-  E_OPN_01_2: "No se obtubo Id de la liquidacion",
-  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan",
-  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan",
-  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos",
-  //Nomina api_financiera
+  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
+  E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
+  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos. ",
+  //OP Nomina api_financiera
   E_OPN_02: "Error al intentar registrar la Orden de pago. ",
-  E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación",
-  E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación",
+  E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación. ",
+  E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
   E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
   E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
   E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
