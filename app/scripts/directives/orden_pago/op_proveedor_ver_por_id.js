@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function(financieraRequest, financieraMidRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorVerPorId', function(financieraRequest, financieraMidRequest, agoraRequest, arkaRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -96,7 +96,10 @@ angular.module('financieraClienteApp')
               self.valor_total_rp = response.data;
             });
         }
-
+        // Funcion entrada almacen
+        self.entradaAlmace = function(entrada_id){
+          console.log("HOLA");
+        }
         // Function calcular iva
         self.calcularIva = function(valor_base, iva) {
           self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));

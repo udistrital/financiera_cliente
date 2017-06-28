@@ -139,6 +139,35 @@
 
   </div>
 </div>
+<!--Entrada Almacen-->
+<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
+  {{'ENTRADA_ALMACEN' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
+</legend class="text-primary">
+<div ng-show="panelDetalleConceptos" class="panel-body">
+  <table class="table">
+    <thead>
+      <th>{{'CODIGO' | translate}}</th>
+      <th>{{'NOMBRE' | translate}}</th>
+      <th>{{'DESCRIPCION' | translate}}</th>
+      <th>{{'TIPO' | translate}}</th>
+      <th>{{'RUBRO' | translate}}</th>
+      <th>{{'AFECTACION' | translate}}</th>
+      <thead>
+        <tbody ng-repeat="i in d_opProveedorVerPorId.conceptos">
+          <tr>
+            <td>{{i.Concepto.Codigo}}</td>
+            <td>{{i.Concepto.Nombre}}</td>
+            <td>{{i.Concepto.Descripcion}}</td>
+            <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
+            <td>{{i.Concepto.Rubro.Codigo}}</td>
+            <td class="input_right">{{i.Valor | currency}}</td>
+          </tr>
+        </tbody>
+  </table>
+</div>
+
 <!--Valor del Pago-->
 <legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
   {{'DETALLE_OP' | translate}}
