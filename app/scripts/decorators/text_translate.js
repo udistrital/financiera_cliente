@@ -100,6 +100,7 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
+  SEGUDIDAD_SOCIAL: "Seguridad Social",
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -168,6 +169,7 @@ var text_es = {
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
+    NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
   },
 
   // ORDEN DE PAGO

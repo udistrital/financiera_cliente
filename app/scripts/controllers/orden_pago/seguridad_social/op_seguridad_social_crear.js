@@ -8,10 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoSeguridadSocialOpSeguridadSocialCrearCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('OpSeguridadSocialCrearCtrl', function () {
+    self.PestanaAbierta = true;
+    self.OrdenPago = {};
   });
