@@ -50,6 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  DEPENDENCIA: "Dependencia",
   IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
   NUEVO: "Nuevo",
   CUENTA_CONTABLE: "Cuenta Contable",
@@ -210,13 +211,66 @@ var text_es = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
+  RUBROS: "Rubros",
 
+  //FUENTES DE FINANCIACIÓN
 
-  //FUENTES DE FINANCIAMIENTO
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
-  FUENTES_AFECTADAS: "Fuentes de Financiación Afectadas",
+  INGRESAR_MONTO: "Ingresar Monto",
+  FUENTE_FINANCIAMIENTO: "Fuentes de Financiamiento",
+  FORMULARIO_FUENTE: "Formulario Creación Fuente de Financiamiento",
+  SIGLA: "Sigla",
+  RUBRO_SELECCIONADO: "Rubro Seleccionado",
+  RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
+  INGRESAR_FECHA_CREACION: "Ingresar Fecha de Creación",
+  INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
+  SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
+
+  //FUENTES DE FINANCIAMIENTO
+  TITULO_FUENTES_CREAR: "Crear Fuente de Financiamiento",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
+  INGRESE_DESCRIPCION: "Ingrese la Descripcion",
+  FUENTE_FINANCIAMIENTO: "Fuente de Financiamiento",
+  SELECCIONE_FUENTE_FINANCIAMIENTO: "Seleccione la Fuente de Financiamiento",
+  SELECCIONE_TIPO: "Seleccione el tipo de Modificacion Presupuestal",
+  FORMULARIO_FUENTE: "Formulario Creación Fuente de Financiamiento",
+  SIGLA: "Sigla",
+  INGRESE_SIGLA: "Ingrese la Sigla",
+  INGRESE_CODIGO: "Ingrese el Codigo",
+  INGRESE_DESCRIPCION: "Ingrese la Descripcion",
+  INGRESE_VALOR_TOTAL: "Ingrese el Valor Total",
+  RUBRO_SELECCIONADO: "Rubro Seleccionado",
+  RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
+  INGRESAR_FECHA_CREACION: "Ingresar Fecha de Registro",
+  INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
+  SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
+  SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
+  ANULACION_FUENTE_FINANCIAMIENTO: "Anular Fuente de Financiamiento",
+
+  CREAR_FUENTE: "Asignar Fuente Financiamiento",
+  QUITAR: "Quitar",
+  QUITAR_RUBRO: "Quitar Rubro",
+  AGREGAR_DEPENDENCIA: "Agregar Dependencia",
+
+
+
+  TITULO_FUENTES_CREAR: "Crear Fuentes de Financiación",
+  TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiación",
+  TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiación",
+  SELECCIONAR_FUENTE: "Seleccione la Fuente de Financiamiento",
+  SELECCIONAR_TIPO: "Seleccione tipo de tramite",
+  MODIFICACIONES_PRESUPUESTALES: "Modificaciones Presupuestales",
+  MODIFICACION_PRESUPUESTAL: "Modificación Presupuestal",
+  INGRESE_VALOR_DEPENDENCIA: "Ingrese el Valor de la Dependencia",
+  INGRESE_DEPENDENCIA: "Ingrese la Dependencia",
+  REGISTRO_CORRECTO: "Se Registro Correctamente",
+  PROCESO_COMPLETADO: "Proceso Completado",
+  MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingrasado Supera el Valor de la Fuente de Financiamiento",
+  DEPENDENCIAS: "Dependecias",
+  DEPENDENCIA: "Dependecia",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -453,10 +507,9 @@ var text_en = {
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar",
-
+},
     NUEVO_OP_PROVEEDOR: 'New PO Supplier',
-    NUEVO_OP_PLANTA: 'New PO Floor'
-  },
+    NUEVO_OP_PLANTA: 'New PO Floor',
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",

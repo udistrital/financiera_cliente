@@ -300,7 +300,10 @@ angular
         controller: 'RequisitosCtrl',
         controllerAs: 'requisitos'
       })
-
+      .when('/fuente_financiacion/modificacion_fuente', {
+        templateUrl: 'views/fuente_financiacion/modificacion_fuente.html',
+        controller: 'modificacionFuenteCtrl',
+        controllerAs: 'modificacionFuente'
       .when('/plan_cuentas/gestion_plan_alterno/:Id', {
         templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
         controller: 'GestionPlanAlternoCtrl',
