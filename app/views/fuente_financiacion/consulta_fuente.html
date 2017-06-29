@@ -1,7 +1,7 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'TITULO_FUENTES_CONSULTAR' | translate }}</h2>
   <div class="panel-body">
-    <div ui-grid="consultaFuente.gridOptions" ui-grid-selection class="myGrid"></div>
+    <div ui-grid="consultaFuente.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
   </div>
 </div>
 
@@ -37,7 +37,7 @@
 
 
       <div class="modal-body">
-        <div ui-grid="consultaFuente.gridOptionsapropiacion" class="myGrid"></div>
+        <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-auto-resize class="grid"></div>
       </div>
 
 

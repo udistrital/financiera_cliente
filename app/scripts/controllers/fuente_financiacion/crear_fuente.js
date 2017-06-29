@@ -46,6 +46,8 @@ angular.module('financieraClienteApp')
       enableFiltering: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
@@ -259,7 +261,6 @@ angular.module('financieraClienteApp')
           self.id = response.data.Id;
           self.asignar_rubros(self.id);
           swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-          $window.location.href = '#/fuente_financiamiento/consulta_fuente';
 
         });
       }
@@ -305,7 +306,7 @@ angular.module('financieraClienteApp')
         self.fuente_financiamiento_apropiacion=response.data;
         console.log(response.data);
         self.id = response.data.Id;
-        self.crear_Movimiento_apropiacion(self.id, valor, 4);
+        self.crear_Movimiento_apropiacion(self.id, valor, 1);
         console.log('resul: ' + self.id);
       });
 

@@ -36,6 +36,7 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_movimiento", 'limit=-1').then(function(response) {
       self.tipo = response.data;
+      self.tipo.splice(0, 1)
     });
 
 
@@ -58,16 +59,16 @@ angular.module('financieraClienteApp')
 
         console.log(self.tipo_fuente)
         if (self.tipo[i].Id == self.tipo_fuente) {
-          if (self.tipo[i].Nombre == "anulacion") {
+          if (self.tipo[i].Nombre == "Cancelación") {
             self.anulacion = true;
             self.mostrar_rubros();
-          } else if (self.tipo[i].Nombre == "traslado") {
+          } else if (self.tipo[i].Nombre == "Traslado") {
             self.traslado = true;
             self.mostrar_rubros();
-          } else if (self.tipo[i].Nombre == "adicion") {
+          } else if (self.tipo[i].Nombre == "Adición") {
             self.adicion = true;
             self.mostrar_rubros();
-          } else if (self.tipo[i].Nombre == "creacion fuente") {
+          } else if (self.tipo[i].Nombre == "Registro") {
             self.rubros_seleccionados=[];
             self.registro = true;
           }
@@ -75,13 +76,13 @@ angular.module('financieraClienteApp')
       }
     };
 
-
     self.gridOptionsapropiacion = {
       enableSorting: true,
       enableFiltering: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
-
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
@@ -92,7 +93,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('RUBRO'),
           field: 'Rubro.Descripcion',
           width: '50%'
-        }
+        },
       ]
     };
 
@@ -387,7 +388,6 @@ angular.module('financieraClienteApp')
           self.asignar_rubros(self.fuente_financiamiento[i].Id);
           self.fente_encontrada = true;
           swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-          $window.location.href = '#/fuente_financiacion/consulta_fuente';
         }
       }
     };

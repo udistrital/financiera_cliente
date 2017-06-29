@@ -7,12 +7,7 @@
  * # FuenteFinanciacionConsultaFuenteCtrl
  * Controller of the financieraClienteApp
  */
-angular.module('financieraClienteApp')
-  .factory("fuente", function() {
-    return {};
-  })
-
-  .controller('consultaFuenteCtrl', function($window, fuente, $scope, $translate, financieraRequest) {
+angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest) {
 
     var self = this;
     self.gridOptions = {
@@ -20,6 +15,9 @@ angular.module('financieraClienteApp')
       enableSorting: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 15,
+
       columnDefs: [{
           field: 'Id',
           visible: false
@@ -55,6 +53,8 @@ angular.module('financieraClienteApp')
       treeRowHeaderAlwaysVisible: false,
       showTreeExpandNoChildren: false,
       rowEditWaitInterval: -1,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 15,
 
       columnDefs: [{
           field: 'Id',
@@ -107,8 +107,6 @@ angular.module('financieraClienteApp')
 
         self.mostrar_registro(row.entity.Id);
         self.fuente_seleccionada = row.entity;
-
-
         console.log(row.entity.Id);
         $("#myModal").modal();
       });
@@ -123,8 +121,6 @@ angular.module('financieraClienteApp')
         for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
-        console.log("-")
-
       });
     };
 

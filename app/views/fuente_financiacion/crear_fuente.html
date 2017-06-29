@@ -51,15 +51,17 @@
           <div class="col-md-12">
             <p></p>
             <label for="rubro">{{'RUBROS' | translate }}:</label>
-            <div id="grid1" ui-grid="crearFuente.gridOptionsapropiacion" ui-grid-selection class="grid"></div>
+            <div id="grid1" ui-grid="crearFuente.gridOptionsapropiacion" ui-grid-pagination ui-grid-selection class="grid"></div>
 
           </div>
           <p></p>
-          <div class="col-md-7">
+
+
+          <div class="col-md-6">
 
           </div>
 
-          <div class="col-md-5">
+          <div class="col-md-12">
             <p></p>
 
             <button ng-click='crearFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
