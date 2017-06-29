@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorUpdatePorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, $translate, $window) {
+  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, arkaRequest, $translate, $window) {
     return {
       restrict: 'E',
       scope: {
@@ -48,6 +48,10 @@ angular.module('financieraClienteApp')
               self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario);
               // detalle rp
               self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id);
+              // entrada almacen
+              if (self.orden_pago[0].EntradaAlmacen != 0){
+                self.entradaAlmacen(self.orden_pago[0].EntradaAlmacen)
+              }
               //Iva
               self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor);
               //definir valores
@@ -101,6 +105,16 @@ angular.module('financieraClienteApp')
           financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
             .then(function(response) {
               self.valor_total_rp = response.data;
+            });
+        }
+        // Funcion entrada almacen
+        self.entradaAlmacen = function(entrada_id){
+          arkaRequest.get('entrada',
+            $.param({
+              query: 'Id:' + entrada_id,
+            })
+          ).then(function(response){
+              self.entrada = response.data;
             });
         }
         // Function calcular iva
@@ -160,8 +174,8 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
-          console.log("Estructura para enviar")
-          console.log(self.dataOrdenPagoInsert)
+          //console.log("Estructura para enviar")
+          //console.log(self.dataOrdenPagoInsert)
           // validar campos obligatorios en el formulario orden Pago y se inserta registro
           self.validar_campos()
         }
