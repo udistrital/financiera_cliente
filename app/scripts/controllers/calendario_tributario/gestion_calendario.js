@@ -178,6 +178,7 @@ angular.module('financieraClienteApp')
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");
         self.nuevo_calendario.FechaInicio=undefined;
+        self.nuevo_calendario.FechaFin=undefined;
       }
       self.fechamin=new Date(
         self.nuevo_calendario.Vigencia,
@@ -190,8 +191,8 @@ angular.module('financieraClienteApp')
     },true);
 
     $scope.$watch('gestionCalendario.nuevo_calendario.FechaInicio',function(){
-      if (self.nuevo_calendario.FechaInicio>=self.nuevo_calendario.FechaFin) {
-        console.log("reset fecha fin");
+      console.log("entro dfedaf", self.nuevo_calendario.FechaInicio);
+      if (self.nuevo_calendario.FechaInicio>=self.nuevo_calendario.FechaFin || self.nuevo_calendario.FechaInicio===undefined || self.nuevo_calendario.Vigencia!==self.nuevo_calendario.FechaFin.getFullYear()) {
         self.nuevo_calendario.FechaFin=undefined;
       }
     },true);
