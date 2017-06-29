@@ -18,7 +18,19 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.gridOrdenesDePago = {
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+
+          paginationPageSizes: [10, 50, 100],
+          paginationPageSize: null,
+
           enableFiltering: true,
+          enableSelectAll: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
           onRegisterApi: function(gridApi) {
             self.gridApi = gridApi;
           }

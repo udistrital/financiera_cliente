@@ -128,6 +128,37 @@
     </div>
   </div>
 </div>
+<!--Entrada Almacen-->
+<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
+  {{'ENTRADA_ALMACEN' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
+  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
+</legend class="text-primary">
+<div ng-show="panelDetalleConceptos" class="panel-body">
+  <table class="table">
+    <thead>
+      <th>{{'VIGENCIA' | translate}}</th>
+      <th>{{'PROVEEDOR' | translate}}</th>
+      <th>{{'DESCRIPCION' | translate}}</th>
+      <th>{{'NO' | translate}} {{'FACTURA' | translate}}</th>
+      <th>{{'SEDE' | translate}}</th>
+      <th>{{'DEPENDENCIA' | translate}}</th>
+      <th>{{'OBSERVACIONES' | translate}}</th>
+      <thead>
+        <tbody ng-repeat="i in d_opProveedorUpdatePorId.entrada">
+          <tr>
+            <td>{{i.Vigencia}}</td>
+            <td>{{i.Proveedor}}</td>
+            <td>{{i.Dependencia}}</td>
+            <td>{{i.NumeroFactura}}</td>
+            <td>{{i.Sede}}</td>
+            <td>{{i.Dependencia}}</td>
+            <td>{{i.Observaciones}}</td>
+          </tr>
+        </tbody>
+  </table>
+</div>
+
 <!--detalle pago -->
 <op-proveedor-detalle-pago
   tipoordenpago="d_opProveedorUpdatePorId.OrdenPago.TipoOrdenPago"
