@@ -313,6 +313,11 @@ angular
         controller: 'ListaSolicitudCtrl',
         controllerAs: 'listaSolicitud'
       })
+      .when('/orden_pago/seguridad_social/op_seguridad_social_crear', {
+        templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
+        controller: 'OrdenPagoSeguridadSocialOpSeguridadSocialCrearCtrl',
+        controllerAs: 'ordenPago/seguridadSocial/opSeguridadSocialCrear'
+      })
       .otherwise({
         redirectTo: '/'
       });
