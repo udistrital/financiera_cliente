@@ -10,6 +10,7 @@
  */
 angular
   .module('financieraClienteApp', [
+    // Librerias
     'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
@@ -32,14 +33,17 @@ angular
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
     'ngStorage',
-    'financieraService',
-    'ngStorage',
     'ngWebSocket',
     'angularMoment',
-    'administrativaService',
     'ui.utils.masks',
     'pascalprecht.translate',
+    'ui.grid.expandable',
+    'ui.grid.pinning',
+    // Servicios
+    'avancesService',
+    'financieraService',
     'financieraMidService',
+    'administrativaService',
     'agoraService',
     'uiGridService',
     'adminMidService',
@@ -48,9 +52,8 @@ angular
     'oikosService',
     'titanService',
     'pagosService',
+    'financieraNotificacion',
     'avancesService',
-    'ui.grid.expandable',
-    'ui.grid.pinning',
     'arkaService'
   ])
 
