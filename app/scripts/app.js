@@ -251,6 +251,11 @@ angular
          controller: 'OpPlantaVerPorIdCtrl',
          controllerAs: 'opPlantaVerPorId'
        })
+       .when('/orden_pago/seguridad_social/crear', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
+         controller: 'OpSeguridadSocialCrearCtrl',
+         controllerAs: 'opSeguridadSocialCrear'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
