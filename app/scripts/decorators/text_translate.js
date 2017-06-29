@@ -100,6 +100,7 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
+  SEGUDIDAD_SOCIAL: "Seguridad Social",
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -109,11 +110,17 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
+  ENTRADA_ALMACEN: "Entrada Alamacen",
+  SEDE: "Sede",
+  FACTURA: "Factura",
+  SELECCIONAR: "Seleccionar",
+  DURACION: "Duración",
 
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsable",
   VALOR_CRP: "Valor CRP",
+  CDP: "CDP",
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
@@ -164,6 +171,7 @@ var text_es = {
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
+    NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
   },
 
   // ORDEN DE PAGO
@@ -225,6 +233,7 @@ var text_es = {
   VALOR_AFECTACION_FUNCIONAMIENTO: "Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
+  NECESIDAD: "Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
@@ -277,7 +286,7 @@ var text_es = {
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
-  NO: "No.",
+  NO: "No. ",
   ELIMINARA: "Se eliminará",
   ELIMINADO: "Eliminado",
   ACTUALIZADO: "Actualizado",
@@ -312,15 +321,23 @@ var text_es = {
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
-  E_25P02: "Este registro ya ha sido creado.",
+  E_25P02: "Este registro ya ha sido creado. ",
 
-  // Errores Orden PAgo
-  E_OPP_01: "No se puede registrar la Orden de Pago",
-  E_OPP_01_1: "No se obtubo  ValorCalculado de titan",
-  E_OPP_01_2: "No se obtubo  Id Concepto de Titan",
-  E_OPP_02: "No se Encontro Concepto Homologado",
-  E_OPP_03: "No se puede registrar concepto_orden_pago",
-  E_OPP_04: "No se puede registrar los Movimeitos Contables"
+  // Errores Orden Pago
+  //Proveedores
+  //OP Nomina api_mid_financiera
+  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
+  E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
+  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos. ",
+  //OP Nomina api_financiera
+  E_OPN_02: "Error al intentar registrar la Orden de pago. ",
+  E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación. ",
+  E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
+  E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
+  E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
+  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
 
 };
 
@@ -391,8 +408,6 @@ var text_en = {
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
   COMPANIA : 'Company',
-
-
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -401,7 +416,10 @@ var text_en = {
   CUENTA_BANCARIA: "Bank Account",
   SUCURSAL: "Branch Office",
   TIPO_CUENTA: "Account Type",
-
+  ENTRADA_ALMACEN: "Warehouse Entryss",
+  SEDE: "Headquarters",
+  FACTURA: "Bill",
+  SELECCIONAR: "Select",
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsible",

@@ -33,14 +33,12 @@ angular
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
     'ngStorage',
-    'ngStorage',
     'ngWebSocket',
     'angularMoment',
     'ui.utils.masks',
     'pascalprecht.translate',
     'ui.grid.expandable',
     'ui.grid.pinning',
-
     // Servicios
     'avancesService',
     'financieraService',
@@ -54,7 +52,9 @@ angular
     'oikosService',
     'titanService',
     'pagosService',
-    'financieraNotificacion'
+    'financieraNotificacion',
+    'avancesService',
+    'arkaService'
   ])
 
   .run(function(amMoment) {
@@ -253,6 +253,11 @@ angular
          templateUrl: 'views/orden_pago/planta/op_planta_ver_por_id.html',
          controller: 'OpPlantaVerPorIdCtrl',
          controllerAs: 'opPlantaVerPorId'
+       })
+       .when('/orden_pago/seguridad_social/crear', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
+         controller: 'OpSeguridadSocialCrearCtrl',
+         controllerAs: 'opSeguridadSocialCrear'
        })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
