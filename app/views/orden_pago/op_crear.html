@@ -21,6 +21,14 @@
       inputpestanaabierta="opCrear.PestanaAbierta">
     </rp-por-proveedor-listar>
 
+    <!--Entrada Almacen -->
+    <entrada-almacen
+      inputproveedor="opCrear.OrdenPagoConsulta.Proveedor.Id"
+      inputvigencia="opCrear.Vigencia"
+      inputpestanaabierta="opCrear.PestanaAbierta"
+      outputentradaalmacenid="opCrear.OrdenPago.EntradaAlmacen">
+    </entrada-almacen>
+
     <!--detalle pago -->
     <op-proveedor-detalle-pago
       tipoordenpago="opCrear.OrdenPago.TipoOrdenPago"
@@ -60,7 +68,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in opCrear.Concepto" ng-show="opCrear.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc>
               </movimientos-contables>
             </div>
           </div>

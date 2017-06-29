@@ -7,7 +7,7 @@
  * # rp/rpPorProveedorListar
  */
 angular.module('financieraClienteApp')
-  .directive('rpPorProveedorListar', function(financieraRequest, $timeout, $translate) {
+  .directive('rpPorProveedorListar', function(financieraRequest, financieraMidRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -76,18 +76,6 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.gridOptions_rp.data = response.data;
             });
-            // control de paginacion
-            $scope.$watch('[d_rpPorProveedorListar.gridOptions_rp.paginationPageSize, d_rpPorProveedorListar.gridOptions_rp.data]', function() {
-              if ((self.gridOptions_rp.data.length <= self.gridOptions_rp.paginationPageSize || self.gridOptions_rp.paginationPageSize == null) && self.gridOptions_rp.data.length > 0) {
-                $scope.gridHeight = self.gridOptions_rp.rowHeight * 2 + (self.gridOptions_rp.data.length * self.gridOptions_rp.rowHeight);
-                if (self.gridOptions_rp.data.length <= 5) {
-                  self.gridOptions_rp.enablePaginationControls = false;
-                }
-              } else {
-                $scope.gridHeight = self.gridOptions_rp.rowHeight * 3 + (self.gridOptions_rp.paginationPageSize * self.gridOptions_rp.rowHeight);
-                self.gridOptions_rp.enablePaginationControls = true;
-              }
-            }, true);
           }
         })
 
@@ -98,18 +86,24 @@ angular.module('financieraClienteApp')
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.rpselect = row.entity;
             //consulta datos del rp
-            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', //en el futuro será una servició con calculo de suma total
+            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
                 query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
                 limit: 0,
               })).then(function(response) {
               self.rp_select_de_consulta = response.data;
+              // detalle necesidad
+              financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+                .then(function(response) {
+                  self.solicitud = response.data[0];
+                });
             });
             //Valor total del Rp
             financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
               .then(function(response) {
                 self.valor_total_rp = response.data;
               });
+
           });
         };
         self.gridOptions_rp.multiSelect = false;

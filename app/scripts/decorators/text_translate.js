@@ -90,12 +90,18 @@ var text_es = {
   ELABORADO_POR: 'Elaborado Por',
   VINCULACION: 'Vinculacion',
   LIQUIDACION: 'Liquidacion',
-
+  BANCO: 'Banco',
+  BANCOS: "Bancos",
+  COMPANIA : 'Compañia',
   FECHA_REGISTRO: "Fecha de Registro",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
-
+  DENOMINACION: 'Denominación',
+  CODIGO_SUPER: 'Codigo Superintendencia',
+  ACH: 'ACH',
+  FACULTAD: "Facultad",
+  SEGUDIDAD_SOCIAL: "Seguridad Social",
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -103,12 +109,19 @@ var text_es = {
   TELEFONO: "Teléfono",
   CUENTA_BANCARIA: "Cuenta Bancaria",
   SUCURSAL: "Sucursal",
+  SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
+  ENTRADA_ALMACEN: "Entrada Alamacen",
+  SEDE: "Sede",
+  FACTURA: "Factura",
+  SELECCIONAR: "Seleccionar",
+  DURACION: "Duración",
 
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsable",
   VALOR_CRP: "Valor CRP",
+  CDP: "CDP",
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
@@ -123,6 +136,9 @@ var text_es = {
   EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
   CUENTAS_SELECCIONADAS:"Cuentas Seleccionadas",
   SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
+  ALERTA_SELECCIONAR_CUENTA: "Es necesario seleccionar la cuenta contable",
+  ALERTA_SELECCIONAR_PROVEEDOR: "Es necesario selecccionar un proveedor",
+  ALERTA_SELECCIONAR_CUENTA_SIN_HIJOS: "Unicamente se pueden seleccionar cuentas que no tengan hijos",
 
   //MOVIMIENTOS CUENTAS_CONTABLES
   PRINCIPIO_PARTIDA_DOBLE_CUMPLE: "¡El principio de la partida Doble o dualidad se cumple!",
@@ -144,23 +160,19 @@ var text_es = {
     REGISTRAR: "Registrar",
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
+    QUITAR: "Quitar",
     APROBAR: "Aprobar",
     EDITAR: "Editar",
     LIMPIAR: "Limpiar",
     GUARDAR: "Guardar",
     NUEVO: "Nuevo",
-
-    EDITAR: "Editar",
     BORRAR: "Borrar",
     RECHAZAR: "Rechazar",
-
-    BORRAR: "Borrar",
     CONFIGURAR: "Configurar",
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
-    CONFIGURAR:"Configurar",
-    ANADIR:"Añadir"
+    NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
   },
 
   // ORDEN DE PAGO
@@ -175,19 +187,19 @@ var text_es = {
   POR_IVA: "% IVA",
   VAL_IVA: "Valor IVA",
   VALOR_BRUTO: "Valor Bruto",
-  MSN_DEBE_UNIDAD: "Debe seleccionar la Unidad Ejecutora",
-  MSN_DEBE_PROVEEDOR: "Debe seleccionar el Proveedor para la orden de pago",
-  MSN_DEBE_REGISTRO: "Debe seleccionar el Registro Presupuestal",
-  MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_UNIDAD: "Debe Seleccionar la Unidad Ejecutora",
+  MSN_DEBE_PROVEEDOR: "Debe Seleccionar el Proveedor para la Orden de Pago",
+  MSN_DEBE_REGISTRO: "Debe Seleccionar el Registro Presupuestal",
+  MSN_DEBE_TIPO_OP: "Debe Seleccionar el Tipo de Documento en la Sección Valor del Pago",
   MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
   MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
-  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo minimo un Comcepto",
-  MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
-  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo menos un concepto",
-  MSN_TOTAL_AECTACION: "El Total de la afectación a los Conceptos del Rubro",
-  MSN_SUPERA_SALDO: 'supera el valor del saldo',
+  MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo Minimo un Comcepto",
+  MSN_DEBE_TOTAL_AFECTACION: "El Valor Total de la Afectacion es Distinto al Valor de la Orden de Pago",
+  MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo Menos un concepto",
+  MSN_TOTAL_AECTACION: "El Total de la Afectación a los Conceptos del Rubro",
+  MSN_SUPERA_SALDO: 'Supera el Valor del Saldo',
   MSN_Y: 'y',
-
+  MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",
@@ -275,6 +287,7 @@ var text_es = {
   VALOR_AFECTACION_FUNCIONAMIENTO: "Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
+  NECESIDAD: "Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
@@ -286,7 +299,6 @@ var text_es = {
   AVANCES: 'AVANCES',
   LISTA_AVANCES: 'Listado de Tipos de Avances',
   REFERENCIA: 'Referencia',
-  FECHA_REGISTRO: 'Fecha registro',
   NUEVO_TIPO_AVANCE: 'Nuevo Tipo de Avance',
   EDITAR_TIPO_AVANCE: 'Editar Tipo de Avance',
   NUEVO_REQUISITO_AVANCE: 'Nuevo Requisito de Avance',
@@ -296,18 +308,39 @@ var text_es = {
   MOTIVO_ANULACION_CDP: "Motivo de la Anulación",
   TIPO_ANULACION: "Tipo de Anulación",
   SELECCIONE: "Seleccione",
-
+  REQUISITOS: "Requisitos",
+  ACTIVO: "Activo",
+  INACTIVO: "Inactivo",
+  SOLICITUD: "Solicitud",
+  LEGALIZACION :"Legalización",
+  SOLICITUD_AVANCE: "Solicitud de Avance",
+  APELLIDOS:"Apellidos",
+  CORREO_ELECTRONICO:"Correo Electrónico",
+  DOCUMENTO:"Documento",
+  LUGAR_DOCUMENTO:"Lugar de Expedición",
+  NUMERO_TELEFONICO:"Número telefónico",
+  NUMERO_CELULAR:"Numero Celular",
+  INFORMACION_TERCERO:"Información de Terceros",
+  DESCRIPCION_AVANCES:"Descripción de Avances",
+  DETALLE_AVANCES:"Detalle de Avances",
+  OBJETIVO:"Objetivo",
+  VALOR_AVANCE:"Valor de Avance",
+  DEPENDENCIA:"Dependencia",
+  PROYECTO_CURRICULAR:"Proyecto Curricular",
+  CONVENIO:"Convenio",
+  CODIGO_CONVENIO: "Código de Convenio",
+  NOMBRE_CONVENIO:"Nombre del Convenio",
+  PROYECTO_INVESTIGACION:"Proyecto de Investigación",
+  CODIGO_PROYECTO:"Código del Proyecto",
+  NOMBRE_PROYECTO:"Nombre del Proyecto",
+  TIPO_AVANCE:"Tipo de Avance",
 
   //ANULACIONES
-  LISTA_CDP_ANULACION:"Lista De Certificados De Disponibilidad Presupuestal a Anular",
-  ANULACION_CDP_TITULO_FORM:"Anulación de CDP",
-  MOTIVO_ANULACION_CDP:"Motivo de la Anulación",
-  TIPO_ANULACION:"Tipo de Anulación",
   ANULACION_PARCIAL: "Parcial",
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
-  NO: "No.",
+  NO: "No. ",
   ELIMINARA: "Se eliminará",
   ELIMINADO: "Eliminado",
   ACTUALIZADO: "Actualizado",
@@ -328,10 +361,38 @@ var text_es = {
   DATOS_REG_INGRESO: "Datos para este ingreso",
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
+  MOTIVO_RECHAZO: "Motivo del rechazo",
 
   //CODIGOS
-  S_543: "Se registro el Ingreso con el consecutivo ",
-  E_23503: "No se encontraron algunos campos" //FK
+
+  S_543: "Se registro exitosamente",
+  S_554: "Se eliminio exitosamente",
+  S_544: "Se Aprobo el Ingreso con el consecutivo ",
+  S_545: "Se Rechazo el Ingreso con el consecutivo ",
+  S_588: "El registro se actualizó exitosamente",
+  E_23503: "No se encontraron algunos campos", //FK
+  E_0458: "Los datos enviados son erroneos",
+  E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
+
+  S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
+  E_25P02: "Este registro ya ha sido creado. ",
+
+  // Errores Orden Pago
+  //Proveedores
+  //OP Nomina api_mid_financiera
+  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
+  E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
+  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos. ",
+  //OP Nomina api_financiera
+  E_OPN_02: "Error al intentar registrar la Orden de pago. ",
+  E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación. ",
+  E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
+  E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
+  E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
+  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
+
 };
 
 var text_en = {
@@ -400,8 +461,7 @@ var text_en = {
   ELABORADO_POR: 'Elaborated By',
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
-
-
+  COMPANIA : 'Company',
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -410,7 +470,10 @@ var text_en = {
   CUENTA_BANCARIA: "Bank Account",
   SUCURSAL: "Branch Office",
   TIPO_CUENTA: "Account Type",
-
+  ENTRADA_ALMACEN: "Warehouse Entryss",
+  SEDE: "Headquarters",
+  FACTURA: "Bill",
+  SELECCIONAR: "Select",
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsible",
@@ -472,7 +535,7 @@ var text_en = {
   MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
   MSN_SUPERA_SALDO: 'exceeds the value of the balance',
   MSN_Y: 'and',
-
+  MSN_DEBE_LIQUIDACION: "You must select a liquidation",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Enter Affection for Concept",
   OPERAR_CONCEPTO: "Operate Concept",
@@ -484,7 +547,6 @@ var text_en = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Select Item"
-
 };
 
 angular.module('financieraClienteApp')

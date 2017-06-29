@@ -1,0 +1,66 @@
+{
+    "menu": {
+        "opciones": [
+            {
+                "id": "4",
+                "text": "Admin Tesorería",
+                "url": "#",
+                "subopciones": [
+                  {
+                    "text": "Tipos de Avance",
+                    "url": "#/listarTiposAvance"
+                  },
+                  {
+                    "text": "Tipos Requisitos",
+                    "url": "#/listarRequisitos"
+                  }
+                ]
+            },
+            {
+                "id": "3",
+                "text": "Gestiónar Avance",
+                "url": "#",
+                "subopciones": [
+                  {
+                    "text": "Solicitud Avance",
+                    "url": "#/listarSolicitudAvance"
+                  },
+                  {
+                    "text": "Verificar Avances",
+                    "url": "#/listarVerificarAvance"
+                  },
+                  {
+                    "text": "Certificar Avances",
+                    "url": "#/listarCertificarAvance"
+                  }
+                ]
+            },
+            {
+                "id": "2",
+                "text": "Legalizar Avance",
+                "url": "#",
+                "subopciones": [
+                  {
+                    "text": "Avances a Legalizar",
+                    "url": "#/listarLegalizarAvance"
+                  }
+                ]
+            },            
+            {
+              "id": "1",
+              "text": "Opciones",
+                "url": "#",
+                "subopciones": [
+                  {
+                    "text": "inicio",
+                    "url": "#/home"
+                  },
+                  {
+                    "text": "Acerca de",
+                    "url": "#/about"
+                  }
+                ]
+            }
+        ]
+    }
+}

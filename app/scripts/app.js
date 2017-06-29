@@ -10,6 +10,8 @@
  */
 angular
   .module('financieraClienteApp', [
+    // Librerias
+    'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
     'ngMessages',
@@ -31,14 +33,17 @@ angular
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
     'ngStorage',
-    'financieraService',
-    'ngStorage',
     'ngWebSocket',
     'angularMoment',
-    'administrativaService',
     'ui.utils.masks',
     'pascalprecht.translate',
+    'ui.grid.expandable',
+    'ui.grid.pinning',
+    // Servicios
+    'avancesService',
+    'financieraService',
     'financieraMidService',
+    'administrativaService',
     'agoraService',
     'uiGridService',
     'adminMidService',
@@ -46,17 +51,19 @@ angular
     'coreService',
     'oikosService',
     'titanService',
-
     'pagosService',
-
-    'avancesService'
-
+    'financieraNotificacion',
+    'avancesService',
+    'arkaService'
   ])
 
   .run(function(amMoment) {
     amMoment.changeLocale('es');
   })
-
+  .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+      cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+      cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
+  }])
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
@@ -247,6 +254,11 @@ angular
          controller: 'OpPlantaVerPorIdCtrl',
          controllerAs: 'opPlantaVerPorId'
        })
+       .when('/orden_pago/seguridad_social/crear', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
+         controller: 'OpSeguridadSocialCrearCtrl',
+         controllerAs: 'opSeguridadSocialCrear'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -292,6 +304,25 @@ angular
         templateUrl: 'views/fuente_financiacion/modificacion_fuente.html',
         controller: 'modificacionFuenteCtrl',
         controllerAs: 'modificacionFuente'
+      .when('/plan_cuentas/gestion_plan_alterno/:Id', {
+        templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
+        controller: 'GestionPlanAlternoCtrl',
+        controllerAs: 'gestionPlanAlterno'
+      })
+      .when('/bancos/gestion_bancos', {
+        templateUrl: 'views/bancos/gestion_bancos.html',
+        controller: 'GestionBancosCtrl',
+        controllerAs: 'gestionBancos'
+      })
+      .when('/tesoreria/avances/solicitud_avance', {
+        templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',
+        controller: 'SolicitudAvanceCtrl',
+        controllerAs: 'solicitudAvance'
+      })
+      .when('/tesoreria/avances/lista_solicitud', {
+        templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
+        controller: 'ListaSolicitudCtrl',
+        controllerAs: 'listaSolicitud'
       })
       .otherwise({
         redirectTo: '/'

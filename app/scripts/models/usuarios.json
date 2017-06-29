@@ -1,0 +1,12 @@
+{
+  "usuarios":{
+    "registros":[
+      {"id":11,"firstname":"Lilia","lastname":"Espinosa"},
+      {"id":15,"firstname":"Martha Patricia","lastname":"Espinosa"},
+      {"id":26,"firstname":"Marta Patricia","lastname":"Espinosa"},
+      {"id":34,"firstname":"Juan Antonio","lastname":"Perez"},
+      {"id":35,"firstname":"José Miguel","lastname":"Mora"},
+      {"id":36,"firstname":"Juan","lastname":"Gonzales"}
+    ]
+  }
+}

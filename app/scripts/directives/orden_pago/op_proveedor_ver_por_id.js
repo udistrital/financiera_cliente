@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorVerPorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorVerPorId', function(financieraRequest, agoraRequest, coreRequest) {
+  .directive('opProveedorVerPorId', function(financieraRequest, financieraMidRequest, agoraRequest, arkaRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -38,6 +38,10 @@ angular.module('financieraClienteApp')
               self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
               // detalle rp
               self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
+              // entrada almacen
+              if (self.orden_pago[0].EntradaAlmacen != 0){
+                self.entradaAlmacen(self.orden_pago[0].EntradaAlmacen)
+              }
               //Iva
               self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
               //detalle concepto
@@ -84,6 +88,11 @@ angular.module('financieraClienteApp')
               query: "RegistroPresupuestal.Id:" + rp_id,
             })).then(function(response) {
             self.rp_detalle = response.data;
+            //data necesidad
+            financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+              .then(function(response) {
+                self.solicitud = response.data[0];
+              });
           });
           //Valor total del Rp
           financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
@@ -91,7 +100,16 @@ angular.module('financieraClienteApp')
               self.valor_total_rp = response.data;
             });
         }
-
+        // Funcion entrada almacen
+        self.entradaAlmacen = function(entrada_id){
+          arkaRequest.get('entrada',
+            $.param({
+              query: 'Id:' + entrada_id,
+            })
+          ).then(function(response){
+              self.entrada = response.data;
+            });
+        }
         // Function calcular iva
         self.calcularIva = function(valor_base, iva) {
           self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));

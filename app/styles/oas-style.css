@@ -1,9 +1,65 @@
-md-sidenav {
-  width: 100px;
+#loading-bar .bar {
+  background-color:#eea236;
+  position: relative;
 }
 
-md-sidenav>md-content>md-button>md-card>img:hover {
-  opacity: 10%;
+
+.menu-app{
+  background: url('https://s3.amazonaws.com/assets-oas/logos-75.png');
+  display: inline-block;
+  height: 75px;
+  width: 75px;
+  margin-top: 3px;
+  border-color: #34495e
+
+}
+
+.menu-app:hover{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color:  #95a5a6
+}
+
+#polux{
+  background-position: 0px 0px;
+}
+#jano {
+  background-position: -75px 0px;
+}
+#kyron {
+  background-position: -150px 0px;
+}
+#sga {
+  background-position: -225px 0px;
+}
+#kronos {
+  background-position: -301px 0px;
+}
+
+#agora{
+  background-position: 0px -75px;
+}
+#argo{
+  background-position: -75px -75px;
+}
+#arka{
+  background-position: -150px -75px;
+}
+#temis{
+  background-position: -225px -75px;
+}
+
+div.sticky {
+  position: sticky;
+  bottom: 0;
+  right: 1;
+}
+
+md-sidenav {
+  padding-left: 5px;
+  padding-bottom: 80px;
+  padding-top: 80px;
+  width: 100px;
 }
 
 .my-icon-button {
@@ -12,6 +68,8 @@ md-sidenav>md-content>md-button>md-card>img:hover {
   min-height: 0;
   line-height: normal;
 }
+
+ /* UI-GRID*/
 
 .logo {
   height: 55px;
@@ -25,6 +83,7 @@ md-sidenav>md-content>md-button>md-card>img:hover {
 
 /* UI-GRID*/
 
+/*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/
 [ui-grid-row] {
   display: table-row;
 }
@@ -38,16 +97,17 @@ md-sidenav>md-content>md-button>md-card>img:hover {
   display: table-cell;
 }
 
+/*clases para acomodar el grid al numero de filas contemplando sus tamaños.*/
 .ui-grid-header-cell, .ui-grid-cell-contents {
   white-space: normal;
   padding: auto !important;
   word-break: break-word;
 }
-
 .ui-grid, .ui-grid-viewport, .ui-grid-render-container-body, .ui-grid-canvas {
   height: auto !important;
 }
 
+/*clases para posicionar el paginador debajo del grid */
 .ui-grid-pager-panel {
   position: sticky !important;
   left: 0 !important;
@@ -55,11 +115,9 @@ md-sidenav>md-content>md-button>md-card>img:hover {
   padding-top: 0 !important;
   padding-bottom: 0;
 }
-
 .ui-grid-pager-container {
   float: none !important;
 }
-
 
 /*BUTTONS OPTIONS*/
 
@@ -86,20 +144,25 @@ md-sidenav>md-content>md-button>md-card>img:hover {
   color: #31708F
 }
 
+/*da color azulado al margen inferior de donde se utilice la etiqueta*/
 legend {
   border-bottom: 1px solid #528ec2 !important;
+    padding: 5px;
 }
 
+/* hace un resaltado azulado al pasar el mause sobre lo que contenga*/
 legend:hover {
   background-color: #337ab7;
   color: #fff;
   padding: 5px;
 }
 
+/*quita la negrilla al texto*/
 .unbold {
   font-weight: normal;
 }
 
+/*se define un badge general para listado de items, mensages, errores, etc*/
 .badge {
   padding: 1px 9px 2px;
   font-size: 12.025px;
@@ -118,6 +181,7 @@ legend:hover {
   cursor: pointer;
 }
 
+/*tipos de badge orientados a bootstrap */
 .badge-error {
   background-color: #b94a48;
 }
@@ -176,6 +240,7 @@ legend:hover {
   text-align: center
 }
 
+/*Clases generales para pintar imputs que utilizan ng-model e indicar el error*/
 .ng-invalid.ng-dirty {
   border-color: red;
 }
@@ -183,7 +248,6 @@ legend:hover {
 .ng-valid.ng-dirty {
   border-color: green;
 }
-
 
 /*style footer */
 

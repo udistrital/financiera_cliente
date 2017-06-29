@@ -1,0 +1,382 @@
+[
+  {
+    "Id": 21,
+    "ValorCalculado": 54121,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 56,
+    "Concepto": {
+      "Id": 1213,
+      "NombreConcepto": "nombreRegla1213",
+      "Naturaleza": "devengo",
+      "AliasConcepto": "Asig.Adic.Dec./"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 22,
+    "ValorCalculado": 1100,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 56,
+    "Concepto": {
+      "Id": 231,
+      "NombreConcepto": "nombreRegla231",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Feud Aportes"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 24,
+    "ValorCalculado": 234425,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 56,
+    "Concepto": {
+      "Id": 239,
+      "NombreConcepto": "salud",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Regimen salud"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 23,
+    "ValorCalculado": 5860626,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 56,
+    "Concepto": {
+      "Id": 11,
+      "NombreConcepto": "salarioBase",
+      "Naturaleza": "devengo",
+      "AliasConcepto": "Sueldo básico"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 25,
+    "ValorCalculado": 234425,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 56,
+    "Concepto": {
+      "Id": 291,
+      "NombreConcepto": "pension",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Sistema general de pensión"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 37,
+    "ValorCalculado": 117000,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 53,
+    "Concepto": {
+      "Id": 291,
+      "NombreConcepto": "pension",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Sistema general de pensión"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 32,
+    "ValorCalculado": 1069,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 53,
+    "Concepto": {
+      "Id": 269,
+      "NombreConcepto": "nombreRegla269",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Feud Ahorro Perman"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 31,
+    "ValorCalculado": 3207,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 53,
+    "Concepto": {
+      "Id": 269,
+      "NombreConcepto": "nombreRegla269",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Feud Ahorro Perman"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 33,
+    "ValorCalculado": 1069,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 53,
+    "Concepto": {
+      "Id": 212,
+      "NombreConcepto": "nombreRegla212",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Feud Prestamo"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  },
+  {
+    "Id": 34,
+    "ValorCalculado": 3207,
+    "EstadoConcepto": "P",
+    "Liquidacion": {
+      "Id": 1,
+      "NombreLiquidacion": "Liquidacion DP ejemplo 1",
+      "Nomina": {
+        "Id": 6,
+        "Vinculacion": {
+          "Id": 1,
+          "Nombre": ""
+        },
+        "Nombre": "DP",
+        "Descripcion": "nomina prueba docentes planta",
+        "Estado": "Activo",
+        "Periodo": "2017",
+        "TipoNomina": {
+          "Id": 4,
+          "Nombre": ""
+        }
+      },
+      "IdUsuario": 0,
+      "EstadoLiquidacion": "L",
+      "FechaLiquidacion": "2017-05-24T19:00:00-05:00",
+      "FechaInicio": "0001-01-01T00:00:00Z",
+      "FechaFin": "0001-01-01T00:00:00Z"
+    },
+    "Persona": 53,
+    "Concepto": {
+      "Id": 231,
+      "NombreConcepto": "nombreRegla231",
+      "Naturaleza": "descuento",
+      "AliasConcepto": "Feud Aportes"
+    },
+    "NumeroContrato": null,
+    "DiasLiquidados": "30"
+  }
+]

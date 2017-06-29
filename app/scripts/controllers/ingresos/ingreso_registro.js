@@ -10,6 +10,17 @@
 angular.module('financieraClienteApp')
   .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest,$translate) {
     var self = this;
+    //prueba de codigos de facultad
+    self.codigo_facultad = [
+      {
+        COD_FAC: 24,
+        FACULTAD: 'FACULTAD DE CIENCIAS Y EDUCACION'
+      },
+      {
+        COD_FAC: 20,
+        FACULTAD: 'FACULTAD DE INGENIERIA'
+      }
+    ];
     self.cargandoDatosPagos = false;
     self.concepto = [];
     self.gridOptions = {
@@ -27,8 +38,11 @@ angular.module('financieraClienteApp')
       { name: 'NOMBRE', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
       //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
       { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
-      { name: 'TIPO_INGRESO', displayName: 'Ingreso' , headerCellClass: 'text-info' },
-      { name: 'VALOR', displayName: 'Valor' , headerCellClass: 'text-info' }
+      { name: 'TIPO_RECIBO', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
+      { name: 'PAGO_REPORTADO', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
+      { name: 'MATRICULA', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
+      { name: 'SEGURO', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
+      { name: 'CARNET', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
     ];
 
 
@@ -67,7 +81,12 @@ angular.module('financieraClienteApp')
         self.ingreso.Ingreso.UnidadEjecutora = self.unidadejecutora;
         self.ingreso.IngresoBanco = self.totalIngresos;//sumatoria no individual ******
         self.ingreso.Concepto = self.concepto[0];
+
+        angular.forEach(self.movs, function(data){
+          delete data.Id;
+        });
         self.ingreso.Movimientos = self.movs;
+        console.log(self.ingreso.Movimientos);
         financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
             console.log(response.data);
             if (response.data.Type !== undefined){
@@ -94,7 +113,8 @@ angular.module('financieraClienteApp')
       self.totalIngresos = 0;
       if (self.gridOptions.data != null){
         angular.forEach(self.gridOptions.data ,function(data){
-          self.totalIngresos = self.totalIngresos + data.VALOR;
+          var valor = parseFloat(data.PAGO_REPORTADO)
+          self.totalIngresos = self.totalIngresos + valor;
         });
       }else{
 
@@ -107,13 +127,17 @@ angular.module('financieraClienteApp')
         swal("", "Debe seleccionar la forma de ingreso", "error");
       }else if (self.fechaConsignacion == null){
         swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
-      }else {
+      }else if (self.facultadSelec == null){
+        swal("", "Debe seleccionar la facultad", "error");
+      }else{
         var parametros = {
           'dia': self.fechaConsignacion.getDate(),
           'mes': self.fechaConsignacion.getMonth()+1,
           'anio': self.fechaConsignacion.getFullYear(),
           'rango_ini': self.rango_inicial,
-          'rango_fin': self.rango_fin
+          'rango_fin': self.rango_fin,
+          'facultad' : self.facultadSelec.COD_FAC,
+          'concepto' : self.tipoIngresoSelec.Nombre
 
         };
         self.rta=null;
@@ -128,9 +152,9 @@ angular.module('financieraClienteApp')
             }else{
 
               self.pagos=response;
-              angular.forEach(self.pagos,function(data){
+              /*angular.forEach(self.pagos,function(data){
                 data.VALOR = 100;
-              });
+              });*/
               self.gridOptions.data = self.pagos;
 
             }

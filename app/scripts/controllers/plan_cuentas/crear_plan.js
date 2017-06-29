@@ -25,6 +25,7 @@ angular.module('financieraClienteApp')
       columnDefs: [
         {
           field: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
           cellClass: 'text-success',
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
@@ -34,6 +35,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'Descripcion',
+          displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
             return row.entity.Descripcion;
@@ -42,7 +44,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'UnidadEjecutora.Nombre',
-          displayName: 'Unidad Ejecutora',
+          displayName: $translate.instant('UNIDAD_EJECUTORA'),
           headerCellClass: 'text-info',
           cellTooltip: function(row, col) {
             if (row.entity.UnidadEjecutora != null) {
@@ -58,7 +60,7 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '20%',
           cellTemplate: '<center>' +
-            '<a href="" class="ver" data-toggle="modal" data-target="#modalverplan">' +
+            '<a href="#/plan_cuentas/gestion_plan_alterno/{{row.entity.Id}}" class="ver" data-toggle="modal" data-target="#modalverplan">' +
             '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +

@@ -2,14 +2,24 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:cuentasContables/verDescuentos
+ * @name financieraClienteApp.directive:verDescuentos
+ * @restrict E
+ * @scope
+ * @requires financieraService.service:financieraRequest
+ * @requires $scope
+ * @param {object} seldesc descuento seleccionado
+ * @param {boolean} noheader bandera para poner o quitar el panel head
+ * @param {object} cuentasel cuenta seleccionada asociada al decuento
  * @description
- * # cuentasContables/verDescuentos
+ * # verDescuentos
+ * Directiva en la cual se muestra la estructura de cuentas de cualquier plan de cuentas que sea pasado por el scope de la misma
  */
+
 angular.module('financieraClienteApp')
   .directive('verDescuentos', function(financieraRequest, $translate) {
     return {
       restrict: 'E',
+      //variables del scope de la directiva
       scope: {
         seldesc: '=?',
         cuentasel: '=?',
@@ -19,6 +29,8 @@ angular.module('financieraClienteApp')
       controller: function($scope, $attrs) {
         $scope.vhead = 'noheader' in $attrs;
         var self = this;
+
+        //grid que muestra los descuentos e impuestos
         self.gridOptions = {
           paginationPageSizes: [5, 10, 15],
           paginationPageSize: 5,
@@ -26,7 +38,7 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableFiltering: true,
           enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 1,
+          enableVerticalScrollbar: 0,
           useExternalPagination: false,
           enableSelectAll: false,
           columnDefs: [{
@@ -64,7 +76,7 @@ angular.module('financieraClienteApp')
               field: 'InformacionPersonaJuridica',
               displayName: $translate.instant('PROVEEDOR'),
               headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '24%'
+              width: '25%'
             },
             {
               field: 'TipoCuentaEspecial.Nombre',
@@ -75,9 +87,10 @@ angular.module('financieraClienteApp')
           ]
         };
 
+        //opciones para el control del grid
         self.gridOptions.multiSelect = false;
         self.gridOptions.modifierKeysToMultiSelect = false;
-
+        self.gridOptions.enablePaginationControls = true;
         self.gridOptions.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function() {
@@ -92,6 +105,12 @@ angular.module('financieraClienteApp')
           });
         };
 
+        /**
+         * @ngdoc function
+         * @name financieraClienteApp.directive:verDescuentos#cargar
+         * @methodOf financieraClienteApp.directive:verDescuentos
+         * @description carga en el grid el listado de impuestos y descuentos
+         */
         self.cargar = function() {
           financieraRequest.get("cuenta_especial", $.param({
             limit: -1
@@ -101,9 +120,6 @@ angular.module('financieraClienteApp')
         };
 
         self.cargar();
-
-        self.gridOptions.enablePaginationControls = true;
-
 
       },
       controllerAs: 'd_verDescuentos'

@@ -1,4 +1,4 @@
-<div ui-grid="d_opListarTodas.gridOrdenesDePago" ui-grid-auto-resize></div>
+<div ui-grid="d_opListarTodas.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
 <div class="panel-footer">
   <div align="center">
     <a ng-href="#/orden_pago/proveedor/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
@@ -7,5 +7,9 @@
     <a ng-href="#/orden_pago/planta/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
       {{ 'BTN.NUEVO_OP_PLANTA' | translate }}
     </a>
+    <a ng-href="#/orden_pago/seguridad_social/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+      {{ 'BTN.NUEVO_OP_SEGURIDAD_SOCIAL' | translate }}
+    </a>
+
   </div>
 </div>

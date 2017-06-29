@@ -6,7 +6,7 @@
         {{ 'LISTA_AVANCES' | translate }}
       </div>
       <div class="panel-body">
-        <div ui-grid="TiposAvance.gridOptions" ui-grid-selection class="myGrid"></div>
+        <div ui-grid="TiposAvance.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
       </div>
       <div class="panel-footer">
         <div align="center"> <button ng-click="TiposAvance.load_row('', 'add')" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
@@ -16,7 +16,7 @@
 </div>
 
 <div id="myModal" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
-  <div class="modal-content col-md-offset-2 col-md-8" >
+  <div class="modal-content col-md-offset-2 col-md-8">
     <div class="modal-header">
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
     </div>
@@ -56,9 +56,9 @@
           <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
           <div class="col-sm-9">
             <select name="estado" ng-model="TiposAvance.tipo_avance.Estado" class="form-control">
-              <option selected value="" disabled>Seleccione ...</option>
-               <option value="A">Activo</option>
-               <option value="I">Inactivo</option>
+              <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
+               <option value="A">{{"ACTIVO" | translate }}</option>
+               <option value="I">{{"INACTIVO" | translate }}</option>
             </select>
           </div>
         </div>
@@ -75,7 +75,7 @@
 
 
 <div id="modalConf" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
-  <div class="modal-content col-md-offset-3 col-md-6" >
+  <div class="modal-content col-md-offset-2 col-md-8">
     <div class="modal-header">
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
     </div>
@@ -84,21 +84,101 @@
         {{'AGREGAR_REQUISITO' | translate }}
       </div>
 
-      <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.add_requisito()">
+      <form class="form-horizontal" name="avances_requisitos" ng-submit="avances_requisitos.$valid && TiposAvance.anadir_requisito()">
         <br>
         <div class="row">
-          <label for="descripcion" class="col-sm-2 control-label">Requisitos:</label>
-          <div class="col-sm-9">
-            <select name="requisito" ng-model="TiposAvance.anadir_requisito" class="form-control"  ng-required="true" >
+          <label for="descripcion" class="col-sm-2 control-label">{{'REQUISITOS' | translate }}:</label>
+          <div class="col-sm-7">
+            <select name="requisito" ng-model="TiposAvance.requisito" class="form-control" ng-required="true">
                <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
-               <option ng-repeat="r in TiposAvance.requisito_avance" value="r.Id">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
+               <option ng-repeat="r in TiposAvance.requisito_select" value="{{r.Id}}">{{"(" + r.Referencia + ")\t" + r.Nombre}}</option>
             </select>
+          </div>
+          <div class="col-sm-2">
+            <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.ANADIR' | translate }}" />
+          </div>
+          <div class="col-md-offset-2 col-md-8">
+            <md-chips ng-model="TiposAvance.requisito_tipo_avance" readonly="true" md-removable="false">
+              <md-chip-template>
+                <span>
+                  <em>({{$chip.RequisitoAvance.Referencia}})</em>
+                  <strong>{{$chip.RequisitoAvance.Nombre}}</strong>
+                </span>
+                <a md-chip-remove class="borrar" ng-click="TiposAvance.eliminar_requisito($chip.Id)">
+                  <i data-toggle="tooltip" title="{{'BTN.BORRAR' | translate }}" class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true">
+                  </i>
+                </a>
+                </center>
+
+              </md-chip-template>
+            </md-chips>
+          </div>
+
+        </div>
+        <br>
+      </form>
+      <br>
+    </div>
+  </div>
+</div>
+
+<div id="modalVer" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{"(" + TiposAvance.row_entity.Referencia+")" + " " + TiposAvance.row_entity.Nombre}}
+      </div>
+      <form class="form-horizontal" name="avances_add_edit">
+        <br>
+        <div class="row">
+          <label for="referencia" class="col-sm-2 control-label">{{'REFERENCIA' | translate }}:</label>
+          <div class="col-sm-9">
+            <span name="referencia" type="text" class="form-control" ng-required="true">
+              {{TiposAvance.row_entity.Referencia}}
+            </span>
           </div>
         </div>
         <br>
-        <center>
-          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.ANADIR' | translate }}" />
-        </center>
+        <div class="row">
+          <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
+          <div class="col-sm-9">
+            <span name="referencia" type="text" class="form-control" ng-required="true">
+            {{TiposAvance.row_entity.Nombre}}
+          </span>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
+          <div class="col-sm-9">
+            <textarea name="descripcion" ng-model="TiposAvance.row_entity.Descripcion" rows=7 class="form-control" required="true" readonly></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
+          <div class="col-sm-9">
+            <span name="referencia" type="text" class="form-control" ng-required="true">
+            {{TiposAvance.row_entity.Estado}}
+          </span>
+          </div>
+        </div>
+        <br>
+
+
+        <div class="panel-body">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              {{ 'LISTA_REQUISITOS_AVANCE' | translate }}
+            </div>
+            <div class="panel-body">
+              <div ui-grid="TiposAvance.grid_option_requisito" ui-grid-selection class="myGrid"></div>
+            </div>
+          </div>
+        </div>
       </form>
       <br>
     </div>

@@ -27,12 +27,12 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'ConceptoCuentaContable.CuentaContable.Codigo',
+              field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CODIGO'),
               cellClass: 'input_center'
             },
             {
-              field: 'ConceptoCuentaContable.CuentaContable.Nombre',
+              field: 'CuentaContable.Nombre',
               displayName: $translate.instant('CUENTA')
             },
             {
@@ -54,7 +54,7 @@ angular.module('financieraClienteApp')
               footerCellClass: 'input_right'
             },
             {
-              field: 'ConceptoCuentaContable.CuentaContable.Naturaleza',
+              field: 'CuentaContable.Naturaleza',
               displayName: $translate.instant('NATURALEZA')
             }
           ]
@@ -72,15 +72,15 @@ angular.module('financieraClienteApp')
           // quitar repetidos
           var hash = {};
           self.retornar_movimientos = self.retornar_movimientos.filter(function(current) {
-            var exists = !hash[current.ConceptoCuentaContable.CuentaContable.Codigo] || false;
-            hash[current.ConceptoCuentaContable.CuentaContable.Codigo] = true;
+            var exists = !hash[current.CuentaContable.Codigo] || false;
+            hash[current.CuentaContable.Codigo] = true;
             return exists;
           });
           //
           $scope.counter = {};
           // contar los repetidos
           movimientos.forEach(function(obj) {
-            var key = obj.ConceptoCuentaContable.CuentaContable.Codigo;
+            var key = obj.CuentaContable.Codigo;
             $scope.counter[key] = ($scope.counter[key] || 0) + 1;
           });
           // sumar
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
               var credito = 0;
               angular.forEach(movimientos, function(movimiento) {
 
-                if (movimiento.ConceptoCuentaContable.CuentaContable.Codigo === key) {
+                if (movimiento.CuentaContable.Codigo === key) {
                   credito = credito + movimiento.Credito;
                   debito = debito + movimiento.Debito;
                 }
@@ -98,7 +98,7 @@ angular.module('financieraClienteApp')
               //asigno totales
               angular.forEach(self.retornar_movimientos, function(mov_sin_repe) {
 
-                if (mov_sin_repe.ConceptoCuentaContable.CuentaContable.Codigo === key) {
+                if (mov_sin_repe.CuentaContable.Codigo === key) {
                   mov_sin_repe.Credito = credito;
                   mov_sin_repe.Debito = debito;
                 }

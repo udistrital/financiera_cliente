@@ -1,17 +1,30 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name financieraClienteApp.controller:PlanCuentasCrearDescuentoCtrl
+ * @ngdoc controller
+ * @name financieraClienteApp.controller:CrearDescuentoCtrl
+ * @alias crearDescuento
+ * @requires $scope
+ * @requires $translate
+ * @requires financieraService.service:financieraRequest
+ * @requires financieraService.service:agoraRequest
+ * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
+ * @param {service} agoraRequest Servicio para el API de financiera {@link agoraService.service:agoraRequest agoraRequest}
+ * @param {injector} $scope scope del controlador
+ * @param {injector} $translate translate de internacionalizacion
  * @description
- * # PlanCuentasCrearDescuentoCtrl
- * Controller of the financieraClienteApp
+ * # GestionDescuentosCtrl
+ * Controlador para la creacion de impuestos o descuentos del modulo de contabilidad.
+ *
+ * **Nota:** las cuentas contables deben existir en el plan de cuentas maestro.
  */
+
 angular.module('financieraClienteApp')
   .controller('CrearDescuentoCtrl', function($scope, financieraRequest, agoraRequest, $translate) {
     var self = this;
     self.descuento_nuevo = {};
 
+    //grid para mostrar y seleccionar los proveedores relacionados al descuento o al impuesto.
     self.gridOptions = {
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
@@ -37,16 +50,26 @@ angular.module('financieraClienteApp')
       ]
     };
 
+    //opciones extras para el control del grid
     self.gridOptions.multiSelect = false;
     self.gridOptions.modifierKeysToMultiSelect = false;
-
+    self.gridOptions.enablePaginationControls = true;
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+      gridApi.selection.on.rowSelectionChanged($scope, function() {
         self.proveedor = self.gridApi.selection.getSelectedRows()[0];
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:CrearDescuentoCtrl#cargar
+     * @methodOf financieraClienteApp.controller:CrearDescuentoCtrl
+     * @description
+     * Se realiza la carga de proveedores, plan de cuentas y los tipos de cuentas especiales (inmpuestos y descuentos) a traves de los servicios
+     * {@link financieraService.service:financieraRequest financieraRequest} y {@link agoraService.service:agoraRequest agoraRequest}
+     * que retorna la informacion de la cuenta contable y la del descuento o impuesto.
+     */
     self.cargar = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
         self.tipos_cuentas = response.data;
@@ -63,14 +86,22 @@ angular.module('financieraClienteApp')
       });
     };
 
+  /**
+   * @ngdoc function
+   * @name financieraClienteApp.controller:CrearDescuentoCtrl#crear_nuevo
+   * @methodOf financieraClienteApp.controller:CrearDescuentoCtrl
+   * @description
+   * Se validan parametros obligatorios en la base de datos y se realiza el registro del nuevo item en la base de datos utilizando el servicio
+   * {@link financieraService.service:financieraRequest financieraRequest}
+   */
     self.crear_nuevo = function() {
       var alerta = "";
       if (self.cuenta_contable == undefined || self.proveedor == undefined) {
         if (self.cuenta_contable == undefined) {
-          alerta += "<li>Es necesario seleccionar la cuenta contable asociada al descuento</li>";
+          alerta += "<li><small>{{'ALERTA_SELECCIONAR_CUENTA' | translate}}</small></li>";
         }
         if (self.proveedor == undefined) {
-          alerta += "<li>Es necesario seleccionar el proveedor asociado al descuento</li>";
+          alerta += "<li><small>{{'ALERTA_SELECCIONAR_PROVEEDOR' | translate}}</small></li>";
         }
         swal("", alerta, "error");
       } else {
@@ -89,27 +120,26 @@ angular.module('financieraClienteApp')
         self.descuento_nuevo = nuevo;
         financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
           console.log(response);
-          swal("", "La cuenta se creo exitosamente", "success");
+          swal("", "La cuenta se creo exitosamente", "success"); //pendiente a modificar servicio para el manejo de codigos
         });
       }
     };
 
     self.cargar();
 
+    /**
+     * @ngdoc event
+     * @name financieraClienteApp.controller:CrearDescuentoCtrl#watch_on_cuenta_contable
+     * @eventOf financieraClienteApp.controller:CrearDescuentoCtrl
+     * @param {object} cuenta_contable cuenta contable seleccionada
+     * @description valida que la cuenta seleccionada no tenga hijos, es decir, sea de ultimo nivel
+     */
     $scope.$watch('crearDescuento.cuenta_contable', function() {
       if (self.cuenta_contable !== undefined) {
         if (self.cuenta_contable.Hijos != null) {
           self.cuenta_contable = undefined;
-          swal("Espera!", "Unicamente puedes seleccionar cuentas que no tengan hijos", "warning");
+          swal("Espera!", $translate.instant('ALERTA_SELECCIONAR_CUENTA_SIN_HIJOS'), "warning"); //pendiente a modificar servicio para el manejo de codigos
         }
-      }
-    }, true);
-
-    $scope.$watch('crearDescuento.gridOptions.data', function() {
-        if (self.gridOptions.data.length <= 5) {
-          self.gridOptions.enablePaginationControls = false;
-      } else {
-        self.gridOptions.enablePaginationControls = true;
       }
     }, true);
 
