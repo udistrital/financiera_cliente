@@ -9,6 +9,7 @@
  */
 angular.module('financieraClienteApp')
   .controller('OpSeguridadSocialCrearCtrl', function () {
+    var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
   });

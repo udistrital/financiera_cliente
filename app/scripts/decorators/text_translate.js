@@ -114,6 +114,7 @@ var text_es = {
   SEDE: "Sede",
   FACTURA: "Factura",
   SELECCIONAR: "Seleccionar",
+  DURACION: "Duración",
 
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",

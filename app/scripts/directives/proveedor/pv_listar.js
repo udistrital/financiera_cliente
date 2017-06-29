@@ -80,18 +80,6 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         })
-        // control ocultar paginación
-        $scope.$watch('[d_pvListar.gridOptions_proveedor.paginationPageSize, d_pvListar.gridOptions_proveedor.data]', function() {
-          if ((self.gridOptions_proveedor.data.length <= self.gridOptions_proveedor.paginationPageSize || self.gridOptions_proveedor.paginationPageSize == null) && self.gridOptions_proveedor.data.length > 0) {
-            $scope.gridHeight = self.gridOptions_proveedor.rowHeight * 2 + (self.gridOptions_proveedor.data.length * self.gridOptions_proveedor.rowHeight);
-            if (self.gridOptions_proveedor.data.length <= 5) {
-              self.gridOptions_proveedor.enablePaginationControls = false;
-            }
-          } else {
-            $scope.gridHeight = self.gridOptions_proveedor.rowHeight * 3 + (self.gridOptions_proveedor.paginationPageSize * self.gridOptions_proveedor.rowHeight);
-            self.gridOptions_proveedor.enablePaginationControls = true;
-          }
-        }, true);
         //
         self.get_info_banco = function(id_banco) {
           coreRequest.get('banco',
