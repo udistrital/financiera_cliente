@@ -119,6 +119,7 @@ var text_es = {
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsable",
   VALOR_CRP: "Valor CRP",
+  CDP: "CDP",
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
