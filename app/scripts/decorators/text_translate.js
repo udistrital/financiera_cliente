@@ -267,7 +267,6 @@ var text_es = {
   DETALLE_AVANCES:"Detalle de Avances",
   OBJETIVO:"Objetivo",
   VALOR_AVANCE:"Valor de Avance",
-  FACULTAD:"Facultad",
   DEPENDENCIA:"Dependencia",
   PROYECTO_CURRICULAR:"Proyecto Curricular",
   CONVENIO:"Convenio",
