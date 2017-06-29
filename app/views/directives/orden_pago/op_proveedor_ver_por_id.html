@@ -148,21 +148,23 @@
 <div ng-show="panelDetalleConceptos" class="panel-body">
   <table class="table">
     <thead>
-      <th>{{'CODIGO' | translate}}</th>
-      <th>{{'NOMBRE' | translate}}</th>
+      <th>{{'VIGENCIA' | translate}}</th>
+      <th>{{'PROVEEDOR' | translate}}</th>
       <th>{{'DESCRIPCION' | translate}}</th>
-      <th>{{'TIPO' | translate}}</th>
-      <th>{{'RUBRO' | translate}}</th>
-      <th>{{'AFECTACION' | translate}}</th>
+      <th>{{'NO' | translate}} {{'FACTURA' | translate}}</th>
+      <th>{{'SEDE' | translate}}</th>
+      <th>{{'DEPENDENCIA' | translate}}</th>
+      <th>{{'OBSERVACIONES' | translate}}</th>
       <thead>
-        <tbody ng-repeat="i in d_opProveedorVerPorId.conceptos">
+        <tbody ng-repeat="i in d_opProveedorVerPorId.entrada">
           <tr>
-            <td>{{i.Concepto.Codigo}}</td>
-            <td>{{i.Concepto.Nombre}}</td>
-            <td>{{i.Concepto.Descripcion}}</td>
-            <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
-            <td>{{i.Concepto.Rubro.Codigo}}</td>
-            <td class="input_right">{{i.Valor | currency}}</td>
+            <td>{{i.Vigencia}}</td>
+            <td>{{i.Proveedor}}</td>
+            <td>{{i.Dependencia}}</td>
+            <td>{{i.NumeroFactura}}</td>
+            <td>{{i.Sede}}</td>
+            <td>{{i.Dependencia}}</td>
+            <td>{{i.Observaciones}}</td>
           </tr>
         </tbody>
   </table>
