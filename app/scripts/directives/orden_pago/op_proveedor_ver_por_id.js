@@ -38,6 +38,10 @@ angular.module('financieraClienteApp')
               self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
               // detalle rp
               self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
+              // entrada almacen
+              if (self.orden_pago[0].EntradaAlmacen != 0){
+                self.entradaAlmacen(self.orden_pago[0].EntradaAlmacen)
+              }
               //Iva
               self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
               //detalle concepto
@@ -97,8 +101,14 @@ angular.module('financieraClienteApp')
             });
         }
         // Funcion entrada almacen
-        self.entradaAlmace = function(entrada_id){
-          console.log("HOLA");
+        self.entradaAlmacen = function(entrada_id){
+          arkaRequest.get('entrada',
+            $.param({
+              query: 'Id:' + entrada_id,
+            })
+          ).then(function(response){
+              self.entrada = response.data;
+            });
         }
         // Function calcular iva
         self.calcularIva = function(valor_base, iva) {
