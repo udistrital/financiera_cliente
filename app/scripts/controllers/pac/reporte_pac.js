@@ -10,6 +10,18 @@
 angular.module('financieraClienteApp')
   .controller('PacReportePacCtrl', function(financieraRequest, $scope) {
     var self = this;
+    self.cargar_vigencia = function() {
+      financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+        self.vigencia_calendarios = parseInt(response.data);
+        var year = parseInt(response.data);
+        self.vigencias = [];
+        for (var i = 0; i < 5; i++) {
+          self.vigencias.push(year - i);
+        }
+      });
+    };
+
+    self.cargar_vigencia();
     self.resumen = {}
     $scope.gridOptions = {
       enableHorizontalScrollbar: 1,
@@ -17,12 +29,50 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableFiltering: true,
-      rowHeight: 300,
-      onRegisterApi: function(gridApi){
-      $scope.gridApi = gridApi;
-    }
+      onRegisterApi: function(gridApi) {
+        $scope.gridApi = gridApi;
+      }
     };
     $scope.gridOptions.columnDefs = [{
+        name: 'fdescrip',
+        displayName: 'Fuente',
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+      {
+        name: 'descripcion',
+        displayName: 'RUBRO',
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+      {
+        name: 'codigo',
+        displayName: 'Codigo',
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+
+      /*{
+        name: 'Opciones',
+        cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.reportePac.verResumen(row)" ></a>',
+        headerCellClass: 'text-info',
+        width: "5%"
+      },*/
+    ];
+    $scope.gridOptions_egresos = {
+      enableHorizontalScrollbar: 1,
+      enableVerticalScrollbar: 1,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
+      enableFiltering: true,
+      onRegisterApi: function(gridApi) {
+        $scope.gridApi = gridApi;
+      }
+    };
+    $scope.gridOptions_egresos.columnDefs = [{
         name: 'fdescrip',
         displayName: 'Fuente',
         headerCellClass: 'text-info',
@@ -59,40 +109,72 @@ angular.module('financieraClienteApp')
       };
       financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
         console.log(response.data);
-        for (var i = 0; i < response.data.egresos[0].reporte.length; i++) {
+        for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
           $scope.gridOptions.columnDefs.push({
-            name: '' + response.data.egresos[0].reporte[i].mes + ' EJC',
+            name: '' + response.data.ingresos[0].reporte[i].mes + ' EJC',
             field: '',
-            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor}}</div>',
+            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
             headerCellClass: 'text-info',
             width: "8%",
-            enablePinning:false
+            enablePinning: false,
+            cellFilter: 'currency'
           });
           $scope.gridOptions.columnDefs.push({
+            name: '' + response.data.ingresos[0].reporte[i].mes + ' PROY',
+            field: '',
+            headerCellClass: 'text-info',
+            width: "8%",
+            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
+            enablePinning: false,
+            cellFilter: 'currency'
+          });
+          $scope.gridOptions.columnDefs.push({
+            name: '' + response.data.ingresos[0].reporte[i].mes + ' VAR',
+            field: '' + response.data.ingresos[0].reporte[i].mes,
+            headerCellClass: 'text-info',
+            width: "8%",
+            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
+            enablePinning: false,
+            cellFilter: 'currency'
+          });
+        }
+        for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
+          $scope.gridOptions_egresos.columnDefs.push({
+            name: '' + response.data.egresos[0].reporte[i].mes + ' EJC',
+            field: '',
+            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
+            headerCellClass: 'text-info',
+            width: "8%",
+            enablePinning: false,
+            cellFilter: 'currency'
+          });
+          $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.egresos[0].reporte[i].mes + ' PROY',
             field: '',
             headerCellClass: 'text-info',
             width: "8%",
             cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
-            enablePinning:false
+            enablePinning: false,
+            cellFilter: 'currency'
           });
-          $scope.gridOptions.columnDefs.push({
+          $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.egresos[0].reporte[i].mes + ' VAR',
             field: '' + response.data.egresos[0].reporte[i].mes,
             headerCellClass: 'text-info',
             width: "8%",
             cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
-            enablePinning:false
+            enablePinning: false
           });
         }
-        $scope.gridOptions.data = response.data.egresos;
-        $scope.gridApi.core.handleWindowResize()
+        $scope.gridOptions.data = response.data.ingresos;
+        $scope.gridOptions_egresos.data = response.data.egresos;
+
       });
     }
-    self.changeCellClass = function (val) {
-      if(val >= 0 && val <= 0,2){
+    self.changeCellClass = function(val) {
+      if (val >= 0 && val <= 0, 2) {
         return 'bg-success'
-      }else{
+      } else {
         return ''
       }
     }
@@ -100,4 +182,22 @@ angular.module('financieraClienteApp')
       self.resumen = row.entity;
 
     }
+
+    $scope.$watch('reportePac.vigencia', function() {
+      //console.log("vigencia",self.nuevo_calendario.Vigencia);
+      if (self.fechaInicio !== undefined && self.vigencia !== self.fechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
+        self.self.fechaInicio = undefined;
+      }
+      self.fechamin = new Date(
+        self.vigencia,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.vigencia,
+        12, 0
+      );
+    }, true);
+
   });
