@@ -34,7 +34,7 @@ angular.module('financieraClienteApp')
                   })).then(function(response) {
                     rubros_data.Apropiacion = response.data[0];
                   });
-                  financieraRequest.get('fuente_financiacion',$.param({
+                  financieraRequest.get('fuente_financiamiento',$.param({
                     query: "Id:"+rubros_data.FuenteFinanciacion,
                     limit: 1
                   })).then(function(response) {
