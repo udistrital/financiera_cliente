@@ -104,6 +104,7 @@ var text_es = {
   SEGUDIDAD_SOCIAL: "Seguridad Social",
   DETALLE: "Detalle",
   FINANCIERO: "Financiero",
+  CONTRATO: "Contrato",
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
