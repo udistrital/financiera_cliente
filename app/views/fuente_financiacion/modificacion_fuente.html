@@ -15,7 +15,7 @@
 
           <div class="col-md-12">
             <p></p>
-            <label for="fuente">{{'TIPO' | translate }}:</label>
+            <label for="fuente">{{'TIPO_MODIFICACION' | translate }}:</label>
             <select class="form-control " ng-model="modificacionFuente.tipo_fuente" ng-change="modificacionFuente.cambiar_estado()">
               <option value="">{{'SELECCIONE_TIPO' | translate }}</option>
               <option ng-repeat="n in modificacionFuente.tipo" value={{n.Id}}>{{n.Nombre}}</option>
@@ -58,8 +58,8 @@
 
           <div class="col-md-12">
             <p></p>
-            <label for="fechainicio">{{'INGRESAR_FECHA_CREACION' | translate }}:</label>
-            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'INGRESAR_FECHA_CREACION' | translate }}"></md-datepicker>
+            <label for="fechainicio">{{'INGRESE_FECHA_REGISTRO' | translate }}:</label>
+            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'FECHA_REGISTRO' | translate }}"></md-datepicker>
 
           </div>
 

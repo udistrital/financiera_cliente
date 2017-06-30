@@ -198,7 +198,7 @@ angular.module('financieraClienteApp')
       } else if (self.nueva_fuente_apropiacion.Monto == null) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_TOTAL'), "error");
       } else if (self.nueva_fuente_apropiacion.Fechainicio == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESAR_FECHA_CREACION'), "error");
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_REGISTRO'), "error");
       } else if (self.rubros_seleccionados.length == 0) {
         swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
       } else {
@@ -241,7 +241,10 @@ angular.module('financieraClienteApp')
           swal("Proceso Completado", "La Fuente de Financiación se ha registrado con éxito", "success");
           self.fuente_encontrada = true;
           swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-          $window.location.href = '#/fuente_financiamiento/consulta_fuente';
+          self.cerrar_ventana();
+          self.nueva_fuente={};
+          self.nueva_fuente_apropiacion = {};
+          self.rubros_seleccionados = [];
         }
       }
     }
@@ -261,7 +264,10 @@ angular.module('financieraClienteApp')
           self.id = response.data.Id;
           self.asignar_rubros(self.id);
           swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-
+          self.cerrar_ventana();
+          self.nueva_fuente={};
+          self.nueva_fuente_apropiacion = {};
+          self.rubros_seleccionados = [];
         });
       }
 
