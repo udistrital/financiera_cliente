@@ -13,12 +13,12 @@
     </necesida-listar>
 
     <!-- Detalle Financiero -->
-    <legend class="text-primary" ng-click="panelRp=!panelRp">
-      {{'REGISTRO_PRESUPUESTAL' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!panelRp"></span>
-      <span class="fa fa-minus pull-right" ng-show="panelRp"></span>
+    <legend class="text-primary" ng-click="opSeguridadSocialCrear.PestanaAbierta=!opSeguridadSocialCrear.PestanaAbierta">
+      {{'DETALLE' | translate}} {{'FINANCIERO' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!opSeguridadSocialCrear.PestanaAbierta"></span>
+      <span class="fa fa-minus pull-right" ng-show="opSeguridadSocialCrear.PestanaAbierta"></span>
     </legend class="text-primary">
-    <div ng-show="panelRp" class="panel-body">
+    <div ng-show="opSeguridadSocialCrear.PestanaAbierta" class="panel-body">
       <div class="form-horizontal">
         <div class="form-group">
           <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
