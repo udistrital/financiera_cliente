@@ -79,7 +79,7 @@ angular.module('financieraClienteApp')
           }
           arkaRequest.get('entrada',
             $.param({
-              //query: 'Proveedor:' + $scope.inputproveedor + ", Vigencia:" + $scope.inputvigencia,
+              query: 'Proveedor:' + $scope.inputproveedor,
               limit: -1,
             })
           ).then(function(response){
