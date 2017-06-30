@@ -50,7 +50,8 @@ angular.module('financieraClienteApp')
           {
             field: 'FechaCreacion',
             displayName: $translate.instant('FECHA_CREACION'),
-            cellClass: 'input_center'
+            cellClass: 'input_center',
+            cellFilter: "date:'yyyy-MM-dd'",
           },
           {
             field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
