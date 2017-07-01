@@ -36,7 +36,13 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_movimiento", 'limit=-1').then(function(response) {
       self.tipo = response.data;
-      self.tipo.splice(0, 1)
+
+      for (var i = 0; i < self.tipo.length; i++) {
+        if (self.tipo[i].Nombre == "Registro") {
+          self.tipo.splice(i,1)
+        }
+      }
+
     });
 
 
@@ -47,7 +53,6 @@ angular.module('financieraClienteApp')
 
 
     self.cambiar_estado = function() {
-
 
       self.anulacion = false;
       self.traslado = false;
@@ -82,7 +87,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 5,
+      paginationPageSize: 15,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
@@ -108,6 +113,7 @@ angular.module('financieraClienteApp')
           self.select_id = row.entity;
           self.comprobarRubro(row.entity);
           console.log(self.select_id);
+          self.actualizar();
         }
       });
     };
@@ -219,6 +225,7 @@ angular.module('financieraClienteApp')
           }
         }
       }
+      self.actualizar();
       console.log(self.rubros_seleccionados)
     };
 
@@ -241,9 +248,9 @@ angular.module('financieraClienteApp')
           }
           self.rubros_seleccionados[i].seleccionado.push(data);
         }
+        self.actualizar();
       }
-      console.log(self.rubros_seleccionados)
-    };
+      console.log(self.rubros_seleccionados)    };
 
     self.quitarRubro = function(id) {
 
@@ -259,7 +266,7 @@ angular.module('financieraClienteApp')
       console.log(rubro, dep);
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
 
-        if (self.rubros_seleccionados[i].Id == rubro) {
+        if (self.rubros_seleccionados[i].Id == rubro && self.rubros_seleccionados[i].seleccionado.length>1) {
 
           for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
 
@@ -268,6 +275,8 @@ angular.module('financieraClienteApp')
               self.rubros_seleccionados[i].seleccionado.splice(j, 1)
             }
           }
+        }else{
+          self.quitarRubro(rubro);
         }
       }
     }
@@ -381,18 +390,19 @@ angular.module('financieraClienteApp')
 
     self.cerrar_ventana = function() {
       $("#myModal").modal('hide');
+      $("#myModal1").modal('hide');
     };
 
     self.crear_fuente = function() {
 
+      self.cerrar_ventana();
       for (var i = 0; i < self.fuente_financiamiento.length; i++) {
         if (self.fuente_financiamiento[i].Id == self.modificar_fuente) {
           self.asignar_rubros(self.fuente_financiamiento[i].Id);
           self.fente_encontrada = true;
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-          self.cerrar_ventana();
-          self.nueva_fuente_apropiacion = {};
-          self.rubros_seleccionados = [];
+          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+            $window.location.href = '#/fuente_financiacion/consulta_fuente';
+          });
         }
       }
     };
@@ -458,13 +468,14 @@ angular.module('financieraClienteApp')
       });
     };
 
-    $timeout(function() {
-      $('.selectpicker').selectpicker('refresh');
-    });
     self.actualizar = function() {
-      $('.selectpicker').selectpicker('refresh');
+      $timeout(function() {
+        $('.selectpicker').selectpicker('refresh');
+      });
+      console.log("si")
     };
 
+    self.actualizar();
 
 
   });

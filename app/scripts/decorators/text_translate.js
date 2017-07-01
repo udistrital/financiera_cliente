@@ -235,11 +235,9 @@ var text_es = {
   INGRESE_FECHA_REGISTRO: "Ingrese Fecha de Registro",
   INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
   SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
-
   SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
   ANULACION_FUENTE_FINANCIAMIENTO: "Anular Fuente de Financiamiento",
-
   CREAR_FUENTE: "Asignar Fuente Financiamiento",
   QUITAR: "Quitar",
   QUITAR_RUBRO: "Quitar Rubro",
@@ -253,8 +251,9 @@ var text_es = {
   INGRESE_DEPENDENCIA: "Ingrese la Dependencia",
   REGISTRO_CORRECTO: "Se Registro Correctamente",
   PROCESO_COMPLETADO: "Proceso Completado",
-  MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingrasado No Corresponde al Valor de la Fuente de Financiamiento",
+  MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingresado No Corresponde al Valor de la Fuente de Financiamiento",
   DEPENDENCIAS: "Dependecias",
+  ANULAR_PRESUPUESTO: "Anular Presupuesto",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
