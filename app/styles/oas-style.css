@@ -1,6 +1,5 @@
 #loading-bar .bar {
   background-color:#eea236;
-  position: relative;
 }
 
 
@@ -96,41 +95,57 @@ md-sidenav {
   border-bottom-width: 0;
 }
 /* UI-GRID*/
-
-/*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/
-[ui-grid-row] {
-  display: table-row;
+#mi-grid{
+  min-height: 300px !important;
+  width: auto !important;
 }
 
-.ui-grid-row, .ui-grid-cell {
+/*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/
+.mi-grid .ui-grid-row, .mi-grid .ui-grid-cell {
   height: auto!important;
 }
 
-.ui-grid-cell {
+.mi-grid .ui-grid-cell {
   float: none;
   display: table-cell;
 }
-
 /*clases para acomodar el grid al numero de filas contemplando sus tamaños.*/
-.ui-grid-header-cell, .ui-grid-cell-contents {
-  white-space: normal;
-  padding: auto !important;
-  word-break: break-word;
+
+.mi-grid .ui-grid-viewport .ui-grid-cell-contents {
+  word-wrap: break-word;
+  white-space: normal !important;
+   overflow:visible;
 }
-.ui-grid, .ui-grid-viewport, .ui-grid-render-container-body, .ui-grid-canvas {
+
+.mi-grid .ui-grid-cell {
+    display : table-cell;
+    height: auto !important;
+    overflow:visible;
+    position: static;
+}
+
+.mi-grid .ui-grid-row {
+  height: auto;
+  display : table-row;
+  position: static;
+}
+
+.mi-grid .ui-grid-row div[role=row] {
+  display: flex ;
+  align-content: stretch;
+}
+.mi-grid .ui-grid, .mi-grid .ui-grid-viewport, .mi-grid .ui-grid-render-container-body, .mi-grid .ui-grid-canvas {
   height: auto !important;
 }
-
 /*clases para posicionar el paginador debajo del grid */
-.ui-grid-pager-panel {
-  position: sticky !important;
-  left: 0 !important;
-  bottom: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0;
+
+.mi-grid .ui-grid-pager-panel {
+  margin-bottom: -20px !important;
 }
-.ui-grid-pager-container {
+
+.mi-grid .ui-grid-pager-container {
   float: none !important;
+  height: auto !important:
 }
 
 /*BUTTONS OPTIONS*/
