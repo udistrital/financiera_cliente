@@ -15,7 +15,7 @@
 
           <div class="col-md-12">
             <p></p>
-            <label for="fuente">{{'TIPO' | translate }}:</label>
+            <label for="fuente">{{'TIPO_MODIFICACION' | translate }}:</label>
             <select class="form-control " ng-model="modificacionFuente.tipo_fuente" ng-change="modificacionFuente.cambiar_estado()">
               <option value="">{{'SELECCIONE_TIPO' | translate }}</option>
               <option ng-repeat="n in modificacionFuente.tipo" value={{n.Id}}>{{n.Nombre}}</option>
@@ -58,8 +58,8 @@
 
           <div class="col-md-12">
             <p></p>
-            <label for="fechainicio">{{'INGRESAR_FECHA_CREACION' | translate }}:</label>
-            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'INGRESAR_FECHA_CREACION' | translate }}"></md-datepicker>
+            <label for="fechainicio">{{'INGRESE_FECHA_REGISTRO' | translate }}:</label>
+            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'FECHA_REGISTRO' | translate }}"></md-datepicker>
 
           </div>
 
@@ -113,12 +113,6 @@
 
             <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
 
-              <div class="" visible="false">
-                <td>
-                  {{modificacionFuente.actualizar()}}
-                </td>
-              </div>
-
               <div class="col-md-7">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
                 <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
@@ -135,7 +129,6 @@
                 <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
                 <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="modificacionFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
               </div>
-
 
             </div>
 
@@ -180,12 +173,6 @@
             </div>
 
             <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
-
-              <div class="" visible="false">
-                <td>
-                  {{modificacionFuente.actualizar()}}
-                </td>
-              </div>
 
               <div class="col-md-8">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
@@ -334,7 +321,7 @@
         </ul>
         <hr>
         <center>
-          <button ng-click='modificacionFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
+          <button ng-click='modificacionFuente.crear_fuente()' class="btn btn-danger btn-outline">{{'ANULAR_PRESUPUESTO' | translate }}</button>
         </center>
       </div>
     </div>

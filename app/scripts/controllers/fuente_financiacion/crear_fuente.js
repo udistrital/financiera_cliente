@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('crearFuenteCtrl', function($window, $scope, financieraRequest, $translate, oikosRequest, $timeout) {
+  .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, $timeout,$window) {
 
     var self = this;
 
@@ -70,6 +70,7 @@ angular.module('financieraClienteApp')
         self.select_id = row.entity;
         self.comprobarRubro(row.entity.Id);
         console.log(self.select_id);
+        self.actualizar();
       });
     };
 
@@ -128,6 +129,7 @@ angular.module('financieraClienteApp')
         }
       }
       console.log(self.rubros_seleccionados)
+      self.actualizar();
     };
 
 
@@ -198,7 +200,7 @@ angular.module('financieraClienteApp')
       } else if (self.nueva_fuente_apropiacion.Monto == null) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_TOTAL'), "error");
       } else if (self.nueva_fuente_apropiacion.Fechainicio == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESAR_FECHA_CREACION'), "error");
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_REGISTRO'), "error");
       } else if (self.rubros_seleccionados.length == 0) {
         swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
       } else {
@@ -232,16 +234,17 @@ angular.module('financieraClienteApp')
     self.crear_fuente = function() {
 
       self.fuente_encontrada = false;
-
+      self.cerrar_ventana();
       if(self.fuente_financiamiento){
       for (var i = 0; i < self.fuente_financiamiento.length; i++) {
         if (self.fuente_financiamiento[i].Codigo == self.nueva_fuente.Codigo) {
           self.asignar_rubros(self.fuente_financiamiento[i].Id);
-          self.fente_encontrada = true;
-          swal("Proceso Completado", "La Fuente de Financiación se ha registrado con éxito", "success");
           self.fuente_encontrada = true;
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
-          $window.location.href = '#/fuente_financiamiento/consulta_fuente';
+          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+            $window.location.href = '#/fuente_financiacion/consulta_fuente';
+          });
+
+
         }
       }
     }
@@ -260,7 +263,9 @@ angular.module('financieraClienteApp')
           console.log(response.data.Id);
           self.id = response.data.Id;
           self.asignar_rubros(self.id);
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success");
+          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+            $window.location.href = '#/fuente_financiacion/consulta_fuente';
+          });
 
         });
       }
@@ -329,18 +334,13 @@ angular.module('financieraClienteApp')
         self.movimiento_fuente_financiamiento_apropiacion=response.data;
         console.log(response.data);
       });
-
-
-
     };
 
-    $timeout(function() {
-      $('.selectpicker').selectpicker('refresh');
-      $('.selectpicker').selectpicker('render');
-    });
+
     self.actualizar = function() {
-      $('.selectpicker').selectpicker('refresh');
-      console.log("si")
+      $timeout(function() {
+        $('.selectpicker').selectpicker('refresh');
+      },10);
     };
 
 
