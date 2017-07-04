@@ -32,6 +32,7 @@ angular
     'ui.grid.autoResize',
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
+    'ui.grid.exporter',
     'ngStorage',
     'ngWebSocket',
     'angularMoment',

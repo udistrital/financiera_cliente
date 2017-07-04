@@ -29,6 +29,9 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableFiltering: true,
+      enableGridMenu: true,
+      exporterCsvFilename: 'reportepac.csv',
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
       onRegisterApi: function(gridApi) {
         $scope.gridApi = gridApi;
       }
@@ -38,21 +41,21 @@ angular.module('financieraClienteApp')
         displayName: 'Fuente',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
       {
         name: 'descripcion',
         displayName: 'RUBRO',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
       {
         name: 'codigo',
         displayName: 'Codigo',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
 
       /*{
@@ -77,21 +80,21 @@ angular.module('financieraClienteApp')
         displayName: 'Fuente',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
       {
         name: 'descripcion',
         displayName: 'RUBRO',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
       {
         name: 'codigo',
         displayName: 'Codigo',
         headerCellClass: 'text-info',
         width: "20%",
-        pinnedLeft: true
+        //pinnedLeft: true
       },
 
       /*{
@@ -112,8 +115,8 @@ angular.module('financieraClienteApp')
         for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
           $scope.gridOptions.columnDefs.push({
             name: '' + response.data.ingresos[0].reporte[i].mes + ' EJC',
-            field: '',
-            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
+            field: 'reporte[' + i + '].valores.valor',
+            //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
             headerCellClass: 'text-info',
             width: "8%",
             enablePinning: false,
@@ -121,16 +124,16 @@ angular.module('financieraClienteApp')
           });
           $scope.gridOptions.columnDefs.push({
             name: '' + response.data.ingresos[0].reporte[i].mes + ' PROY',
-            field: '',
+            field: 'reporte[' + i + '].valores.proyeccion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
+            //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
             enablePinning: false,
             cellFilter: 'currency'
           });
           $scope.gridOptions.columnDefs.push({
             name: '' + response.data.ingresos[0].reporte[i].mes + ' VAR',
-            field: '' + response.data.ingresos[0].reporte[i].mes,
+            field: 'reporte[' + i + '].valores.variacion',
             headerCellClass: 'text-info',
             width: "8%",
             cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
@@ -138,11 +141,11 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
         }
-        for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
+        for (var i = 0; i < response.data.egresos[0].reporte.length; i++) {
           $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.egresos[0].reporte[i].mes + ' EJC',
-            field: '',
-            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
+            field: 'reporte[' + i + '].valores.valor',
+            //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
             headerCellClass: 'text-info',
             width: "8%",
             enablePinning: false,
@@ -150,16 +153,16 @@ angular.module('financieraClienteApp')
           });
           $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.egresos[0].reporte[i].mes + ' PROY',
-            field: '',
+            field: 'reporte[' + i + '].valores.proyeccion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
+            //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
             enablePinning: false,
             cellFilter: 'currency'
           });
           $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.egresos[0].reporte[i].mes + ' VAR',
-            field: '' + response.data.egresos[0].reporte[i].mes,
+            field: 'reporte[' + i + '].valores.variacion',
             headerCellClass: 'text-info',
             width: "8%",
             cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
