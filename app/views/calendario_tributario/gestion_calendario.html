@@ -46,7 +46,7 @@
                 </style>
                 <fieldset class="form-group col-md-4">
                   <label>{{ 'VIGENCIA' | translate }}*:</label>
-                  <select class="form-control" ng-model="gestionCalendario.nuevo_calendario.Vigencia" ng-options="v as v for v in gestionCalendario.vigencias">
+                  <select class="form-control" ng-model="gestionCalendario.nuevo_calendario.Vigencia" ng-options="v as v for v in gestionCalendario.vigencias" required>
                     <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
                   </select>
                 </fieldset>
@@ -54,14 +54,14 @@
                 <fieldset class="form-group col-md-4">
                   <label>{{ 'FECHA_INICIO' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
-                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaInicio"  md-min-date="gestionCalendario.fechamin" md-max-date="gestionCalendario.fechamax"></md-datepicker>
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaInicio"  md-min-date="gestionCalendario.fechamin" md-max-date="gestionCalendario.fechamax" required></md-datepicker>
                   </div>
                 </fieldset>
 
                 <fieldset class="form-group col-md-4">
                   <label>{{ 'FECHA_FIN' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
-                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaFin" md-min-date="gestionCalendario.nuevo_calendario.FechaInicio" md-max-date="gestionCalendario.fechamax"></md-datepicker>
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="gestionCalendario.nuevo_calendario.FechaFin" md-min-date="gestionCalendario.nuevo_calendario.FechaInicio" md-max-date="gestionCalendario.fechamax" required></md-datepicker>
                   </div>
                 </fieldset>
               </div>

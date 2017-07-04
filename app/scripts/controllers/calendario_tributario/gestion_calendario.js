@@ -67,14 +67,14 @@ angular.module('financieraClienteApp')
         {
           field: 'FechaInicio',
           displayName: $translate.instant('FECHA_INICIO'),
-          cellFilter: "date:'yyyy-MM-dd' : 'UTC'",
+          cellFilter: "date:'yyyy-MM-dd'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '10%'
         },
         {
           field: 'FechaFin',
           displayName: $translate.instant('FECHA_FIN'),
-          cellFilter: "date:'yyyy-MM-dd' : 'UTC'",
+          cellFilter: "date:'yyyy-MM-dd'",
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '9%'
         },
@@ -95,7 +95,7 @@ angular.module('financieraClienteApp')
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
           width: '7%',
-          cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalbanco" ng-click="grid.appScope.id_banco=row.entity.Id">' +
+          cellTemplate: '<center>' + '<a href="#/calendario_tributario/admin_calendario/{{row.entity.Id}}" class="ver">' +
             '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a href="" class="editar" ng-click="grid.appScope.gestionCalendario.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
@@ -141,35 +141,43 @@ angular.module('financieraClienteApp')
     };
 
     self.modo_editar=function(calendario){
-
       self.nuevo_calendario=angular.copy(calendario);
-      console.log("antes",self.nuevo_calendario.FechaInicio);
-    //  console.log("despues",calendario.FechaInicio+'Z');
-      self.nuevo_calendario.FechaInicio=new Date(self.nuevo_calendario.FechaInicio.slice(0, 10));
-      self.nuevo_calendario.FechaFin=new Date(self.nuevo_calendario.FechaFin.slice(0, 10));
-      console.log("despues",self.nuevo_calendario.FechaInicio);
-
+      self.nuevo_calendario.FechaInicio=new Date(self.nuevo_calendario.FechaInicio);
+      self.nuevo_calendario.FechaFin=new Date(self.nuevo_calendario.FechaFin);
     };
 
     self.crear_calendario=function(){
-      var nuevo={
-        Vigencia: self.nuevo_calendario.Vigencia,
-        Entidad: {Id:1},
-        Descripcion: self.nuevo_calendario.Descripcion,
-        FechaInicio: self.nuevo_calendario.FechaInicio,
-        FechaFin: self.nuevo_calendario.FechaFin,
-        EstadoCalendario: {Id:1},
-        Responsable: 546546556
-      };
+      if ($scope.editar===true) {
+        console.log("edito");
+        financieraRequest.put('calendario_tributario', self.nuevo_calendario.Id, self.nuevo_calendario).then(function(response){
+          console.log(response);
+          if (self.vigencia_calendarios===null) {
+            self.cargar_calendarios_full();
+          } else {
+            self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+          }
+        });
+      } else {
+        console.log("creo");
+        var nuevo={
+          Vigencia: self.nuevo_calendario.Vigencia,
+          Entidad: {Id:1},
+          Descripcion: self.nuevo_calendario.Descripcion,
+          FechaInicio: self.nuevo_calendario.FechaInicio,
+          FechaFin: self.nuevo_calendario.FechaFin,
+          EstadoCalendario: {Id:1},
+          Responsable: 546546556
+        };
 
-      financieraRequest.post('calendario_tributario', nuevo).then(function(response){
-        console.log(response);
-        if (self.vigencia_calendarios===null) {
-          self.cargar_calendarios_full();
-        } else {
-          self.cargar_calendarios_vigencia(self.vigencia_calendarios);
-        }
-      });
+        financieraRequest.post('calendario_tributario', nuevo).then(function(response){
+          console.log(response);
+          if (self.vigencia_calendarios===null) {
+            self.cargar_calendarios_full();
+          } else {
+            self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+          }
+        });
+      }
     };
 
     $scope.$watch('gestionCalendario.nuevo_calendario.Vigencia',function(){
