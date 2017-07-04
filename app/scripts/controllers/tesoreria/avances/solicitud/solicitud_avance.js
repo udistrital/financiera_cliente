@@ -55,7 +55,21 @@ angular.module('financieraClienteApp')
             TipoAvance.Valor = parseFloat(ctrl.valor_avance);
             var tipo = ctrl.tipos_avance.splice(i, 1);
             TipoAvance.TipoAvance = tipo[0];
+            TipoAvance.requisitos_seleccionados = [];
+            //recopilando requisitos
+            financieraRequest.get("requisito_tipo_avance", $.param({
+                query: "TipoAvance:" + ctrl.tipo_avance_select + ",Estado:" + "A" ,
+                limit: -1,
+                fields: "RequisitoAvance,TipoAvance",
+                sortby: "TipoAvance",
+                order: "asc"
+              }))
+              .then(function(response) {
+                TipoAvance.requisitos_seleccionados.push(response.data);
+              });
+              console.log(ctrl.requisitos_seleccionados);
             ctrl.lista_tipos.push(TipoAvance);
+
             ctrl.descripcion = '';
             ctrl.valor_avance = '';
             ctrl.tipo_avance_select = '';
@@ -84,13 +98,11 @@ angular.module('financieraClienteApp')
       Solicitud.Convenio = ctrl.nombre_convenio;
       Solicitud.CodigoProyectoInv = ctrl.codigo_proyecto_inv;
       Solicitud.ProyectoInv = ctrl.nombre_proyecto_inv;
-
-
-
       SolicitudAvance.Solicitud = Solicitud;
       SolicitudAvance.TipoAvance = ctrl.lista_tipos;
       console.log(SolicitudAvance);
-      financieraRequest.post("solicitud_avance/TrSolicitudAvance", SolicitudAvance)
+
+      /* financieraRequest.post("solicitud_avance/TrSolicitudAvance", SolicitudAvance)
         .then(function(response) {
           console.log(response.data);
           if (response.data.Type !== undefined){
@@ -100,7 +112,7 @@ angular.module('financieraClienteApp')
               swal('',$translate.instant(response.data.Code)+response.data.Body.Consecutivo,response.data.Type);
             }
           }
-        });
+        });*/
     };
 
 
