@@ -85,7 +85,7 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.proveedor = row.entity
+            $scope.outputnecesidad = row.entity
           });
         };
         self.gridOptions_necesidad.multiSelect = false;
