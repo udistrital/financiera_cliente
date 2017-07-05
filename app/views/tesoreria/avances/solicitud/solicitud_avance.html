@@ -138,33 +138,28 @@
             <button class="btn btn-success btn-outline" ng-click="solicitudAvance.anadir_tipo()">+ {{'TIPO' | translate }}</button>
           </div>
           <br>
-
-            <ul>
-              <li class="list-group-item" ng-repeat="tipo in solicitudAvance.lista_tipos" >
-                <div class="col-md-6" >
-                <div class="row">
-                  <div class="col-md-9">
-                    <h4>{{tipo.TipoAvance.Nombre}}</h4>
-                    {{tipo.Descripcion}}
-                    <br>
-                    Requisitos:
-                    <ol>
-                      <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]">
-                        {{requisito.RequisitoAvance.Nombre}}<br>
-                        {{requisito.RequisitoAvance.Etapa}}
-                      </li>
-                    </ol>
-                  </div>
-                  <div class="col-md-3" align="right">
-                    <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
-                  </div>
+          <div class="panel panel-default" ng-repeat="tipo in solicitudAvance.lista_tipos" >
+            <div class="panel-heading">
+              {{tipo.TipoAvance.Nombre}}
+            </div>
+              <div class="panel-body">
+                <div class="col-md-8">
+                  {{tipo.Descripcion}}
+                  <br>
+                  Requisitos:
+                  <ol>
+                    <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
+                      {{requisito.RequisitoAvance.Nombre}}
+                    </li>
+                  </ol>
                 </div>
+                <div class="col-md-4">
+                  <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
                 </div>
-              </li>
-            </ol>
+            </div>
+          </div>
           <div class="row" align="center">
-              <h3>TOTAL: </h3>
-              <span class="badge"><h5>{{rrency}}</h5></span>
+              <h3>TOTAL: </h3> <span class="badge"><h5>{{solicitudAvance.total | currency}}</h5></span>
           </div>
         </div>
     </fieldset>

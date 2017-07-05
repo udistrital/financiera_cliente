@@ -43,6 +43,15 @@ angular.module('financieraClienteApp')
         });
     };
 
+    ctrl.calcular_total = function(){
+      ctrl.total = 0;
+      angular.forEach(ctrl.lista_tipos,function(data){
+        console.log(data);
+        ctrl.total += data.Valor;
+      });
+      console.log(ctrl.total);
+    };
+
     ctrl.anadir_tipo = function(){
       if  (ctrl.tipo_avance_select !== '' && ctrl.tipo_avance_select !== 'undefined' &&
           ctrl.valor_avance !== '' && ctrl.valor_avance !== 'undefined' &&
@@ -76,6 +85,7 @@ angular.module('financieraClienteApp')
           }
         }
         console.log(ctrl.lista_tipos);
+        ctrl.calcular_total();
       }
     };
 
