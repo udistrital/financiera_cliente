@@ -27,34 +27,22 @@
       </tr>
     </table>
     <br>
-    <!--table class="table table-bordered table-fixed">
-          <thead>
-            <tr>
-              <th>Fuente</th>
-              <th>Rubro</th>
-              <th>Codigo</th>
-              <th ng-repeat="data in gridOptions.data[0].reporte">{{data.mes}}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="data in gridOptions.data">
-              <td>{{data.fdescrip}}</td><td>{{data.descripcion}}</td><td>{{data.codigo}}</td><td ng-repeat="reporte in data.reporte">{{reporte.valores.valor|currency}}</td>
-            </tr>
-          </tbody>
-
-        </table  ui-grid-pinning -->
+  </div>
+</div>
+<div class="panel panel-primary panel-body" ng-show="ingresos  || egresos">
+  <div class="panel-body">
+    <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
+      {{'INGRESOS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="b"></span>
+      <span class="fa fa-minus pull-right" ng-show="!b"></span>
+    </legend>
+    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+    <legend class="text-primary" ng-click="a=!a" ng-show="egresos">
+      {{'EGRESOS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="a"></span>
+      <span class="fa fa-minus pull-right" ng-show="!a"></span>
+    </legend>
+    <div class="mi-grid-pac" id="pac" ng-show="!a" ui-grid="gridOptions_egresos" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
 
   </div>
 </div>
-<legend class="text-primary" ng-click="b=!b">
-  {{'INGRESOS' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="b"></span>
-  <span class="fa fa-minus pull-right" ng-show="!b"></span>
-</legend>
-<div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize></div>
-<legend class="text-primary" ng-click="a=!a">
-  {{'EGRESOS' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="a"></span>
-  <span class="fa fa-minus pull-right" ng-show="!a"></span>
-</legend>
-<div class="mi-grid-pac" id="pac" ng-show="!a" ui-grid="gridOptions_egresos" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize></div>

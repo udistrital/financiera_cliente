@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
       paginationPageSize: 5,
       enableFiltering: true,
       enableGridMenu: true,
-      exporterCsvFilename: 'reportepac.csv',
+      exporterCsvFilename: 'ingresospac.csv',
       exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
       onRegisterApi: function(gridApi) {
         $scope.gridApi = gridApi;
@@ -41,21 +41,21 @@ angular.module('financieraClienteApp')
         displayName: 'Fuente',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
       {
         name: 'descripcion',
         displayName: 'RUBRO',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
       {
         name: 'codigo',
         displayName: 'Codigo',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
 
       /*{
@@ -71,6 +71,9 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableFiltering: true,
+      enableGridMenu: true,
+      exporterCsvFilename: 'egresospac.csv',
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
       onRegisterApi: function(gridApi) {
         $scope.gridApi = gridApi;
       }
@@ -80,21 +83,21 @@ angular.module('financieraClienteApp')
         displayName: 'Fuente',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
       {
         name: 'descripcion',
         displayName: 'RUBRO',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
       {
         name: 'codigo',
         displayName: 'Codigo',
         headerCellClass: 'text-info',
         width: "20%",
-        //pinnedLeft: true
+        pinnedLeft: true
       },
 
       /*{
@@ -104,7 +107,8 @@ angular.module('financieraClienteApp')
         width: "5%"
       },*/
     ];
-
+    $scope.gridOptions_egresos.data = null;
+    $scope.gridOptions.data=null;
     self.generarReporte = function() {
       var consulta = {
         inicio: self.fechaInicio,
@@ -169,8 +173,10 @@ angular.module('financieraClienteApp')
             enablePinning: false
           });
         }
-        $scope.gridOptions.data = response.data.ingresos;
-        $scope.gridOptions_egresos.data = response.data.egresos;
+        $scope.ingresos = response.data.ingresos;
+        $scope.egresos =  response.data.egresos;
+        $scope.gridOptions.data = $scope.ingresos;
+        $scope.gridOptions_egresos.data = $scope.egresos;
 
       });
     }
