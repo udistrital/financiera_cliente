@@ -24,7 +24,7 @@
   <div ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
   <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
   <div ng-show="show_descs">
-    <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">Impuestos y Descuentos</button></center>
+    <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
 
 
@@ -38,7 +38,7 @@
         <legend>{{"SELECCIONAR_DESCUENTOS" | translate}}</legend>
         <ver-descuentos seldesc="cuen" /><br>
         <div class="form-group">
-          <centeR><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">Agregar</button></center>
+          <centeR><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">{{"AGREGAR" | translate}}</button></center>
         </div>
 
         <div>
@@ -52,7 +52,7 @@
         </div>
 
         <div class="form-group">
-          <center><button type="button" class="btn btn-success btn-outline" name="button" data-dismiss="modal">Finalizar</button></center>
+          <center><button type="button" class="btn btn-success btn-outline" name="button" data-dismiss="modal">{{"FINALIZAR" | translate}}</button></center>
         </div>
       </div>
     </div>

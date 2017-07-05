@@ -8,6 +8,7 @@
  * # financieraNotificacion
  * Service in the financieraClienteApp.
  */
+
 angular.module('financieraNotificacion', [])
 
   /**
