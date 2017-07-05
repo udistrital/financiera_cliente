@@ -10,6 +10,7 @@
  */
 angular
   .module('financieraClienteApp', [
+    // Librerias
     'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
@@ -32,14 +33,17 @@ angular
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
     'ngStorage',
-    'financieraService',
-    'ngStorage',
     'ngWebSocket',
     'angularMoment',
-    'administrativaService',
     'ui.utils.masks',
     'pascalprecht.translate',
+    'ui.grid.expandable',
+    'ui.grid.pinning',
+    // Servicios
+    'avancesService',
+    'financieraService',
     'financieraMidService',
+    'administrativaService',
     'agoraService',
     'uiGridService',
     'adminMidService',
@@ -48,9 +52,9 @@ angular
     'oikosService',
     'titanService',
     'pagosService',
+    'financieraNotificacion',
     'avancesService',
-    'ui.grid.expandable',
-    'ui.grid.pinning'
+    'arkaService'
   ])
 
   .run(function(amMoment) {
@@ -255,6 +259,11 @@ angular
          controller: 'OpPlantaVerPorIdCtrl',
          controllerAs: 'opPlantaVerPorId'
        })
+       .when('/orden_pago/seguridad_social/crear', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
+         controller: 'OpSeguridadSocialCrearCtrl',
+         controllerAs: 'opSeguridadSocialCrear'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -296,7 +305,11 @@ angular
         controller: 'RequisitosCtrl',
         controllerAs: 'requisitos'
       })
-
+      .when('/fuente_financiacion/modificacion_fuente', {
+        templateUrl: 'views/fuente_financiacion/modificacion_fuente.html',
+        controller: 'modificacionFuenteCtrl',
+        controllerAs: 'modificacionFuente'
+      })
       .when('/plan_cuentas/gestion_plan_alterno/:Id', {
         templateUrl: 'views/plan_cuentas/gestion_plan_alterno.html',
         controller: 'GestionPlanAlternoCtrl',
@@ -321,6 +334,11 @@ angular
         templateUrl: 'views/calendario_tributario/admin_calendario.html',
         controller: 'AdminCalendarioCtrl',
         controllerAs: 'adminCalendario'
+      })
+      .when('/tesoreria/avances/lista_solicitud', {
+        templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
+        controller: 'ListaSolicitudCtrl',
+        controllerAs: 'listaSolicitud'
       })
       .otherwise({
         redirectTo: '/'

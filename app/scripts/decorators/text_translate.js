@@ -50,6 +50,7 @@ var text_es = {
   DEBITO: "Débito",
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
+  DEPENDENCIA: "Dependencia",
   IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
   IMPUESTOS: "Impuestos",
   NUEVO: "Nuevo",
@@ -111,6 +112,10 @@ var text_es = {
   DIFERENCIA: "Diferencia",
   VALOR_APLICADO: "Valor Aplicado",
   TOTAL: "Total",
+  SEGUDIDAD_SOCIAL: "Seguridad Social",
+  DETALLE: "Detalle",
+  FINANCIERO: "Financiero",
+  CONTRATO: "Contrato",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
@@ -121,11 +126,17 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
+  ENTRADA_ALMACEN: "Entrada Alamacen",
+  SEDE: "Sede",
+  FACTURA: "Factura",
+  SELECCIONAR: "Seleccionar",
+  DURACION: "Duración",
 
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsable",
   VALOR_CRP: "Valor CRP",
+  CDP: "CDP",
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
@@ -176,6 +187,7 @@ var text_es = {
     ANADIR: "Añadir",
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
+    NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
   },
 
   // ORDEN DE PAGO
@@ -214,13 +226,46 @@ var text_es = {
   CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   SELECCIONAR_RUBRO: "Seleccionar Rubro",
-
+  RUBROS: "Rubros",
 
   //FUENTES DE FINANCIAMIENTO
+
   TITULO_FUENTES_CREAR: "Crear Fuentes de Financiamiento",
   TITULO_FUENTES_CONSULTAR: "Consultar Fuentes de Financiamiento",
   TITULO_FUENTES_DETALLE: "Detalle Fuentes de Financiamiento",
-  FUENTES_AFECTADAS: "Fuentes de Financiación Afectadas",
+  INGRESAR_MONTO: "Ingresar Monto",
+  FUENTE_FINANCIAMIENTO: "Fuente de Financiamiento",
+  FUENTES_FINANCIAMIENTO: "Fuentes de Financiamiento",
+  FORMULARIO_FUENTE: "Formulario Creación Fuente de Financiamiento",
+  SIGLA: "Sigla",
+  INGRESE_SIGLA: "Ingrese la Sigla",
+  INGRESE_CODIGO: "Ingrese el Codigo",
+  INGRESE_DESCRIPCION: "Ingrese la Descripcion",
+  INGRESE_VALOR_TOTAL: "Ingrese el Valor Total",
+  RUBRO_SELECCIONADO: "Rubro Seleccionado",
+  RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
+  INGRESE_FECHA_REGISTRO: "Ingrese Fecha de Registro",
+  INGRESAR_VALOR_FUENTE: "Ingresar Valor Total Fuente de Financiamiento",
+  SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
+  SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
+  SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
+  ANULACION_FUENTE_FINANCIAMIENTO: "Anular Fuente de Financiamiento",
+  CREAR_FUENTE: "Asignar Fuente Financiamiento",
+  QUITAR: "Quitar",
+  QUITAR_RUBRO: "Quitar Rubro",
+  AGREGAR_DEPENDENCIA: "Agregar Dependencia",
+  SELECCIONE_FUENTE_FINANCIAMIENTO: "Seleccione la Fuente de Financiamiento",
+  SELECCIONE_TIPO: "Seleccione el tipo de Modificación Presupuestal",
+  MODIFICACIONES_PRESUPUESTALES: "Modificaciones Presupuestales",
+  MODIFICACION_PRESUPUESTAL: "Modificación Presupuestal",
+  TIPO_MODIFICACION: "Tipo de Modificación Presupuestal",
+  INGRESE_VALOR_DEPENDENCIA: "Ingrese el Valor de la Dependencia",
+  INGRESE_DEPENDENCIA: "Ingrese la Dependencia",
+  REGISTRO_CORRECTO: "Se Registro Correctamente",
+  PROCESO_COMPLETADO: "Proceso Completado",
+  MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingresado No Corresponde al Valor de la Fuente de Financiamiento",
+  DEPENDENCIAS: "Dependecias",
+  ANULAR_PRESUPUESTO: "Anular Presupuesto",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
@@ -237,6 +282,7 @@ var text_es = {
   VALOR_AFECTACION_FUNCIONAMIENTO: "Valor de la Afectación (Funcionamiento)",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   DATOS_NECESIDAD: "Datos de la Necesidad",
+  NECESIDAD: "Necesidad",
   NECESIDAD_NO: "Necesidad No. ",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
   OBJETO: "Objeto",
@@ -274,7 +320,6 @@ var text_es = {
   DETALLE_AVANCES:"Detalle de Avances",
   OBJETIVO:"Objetivo",
   VALOR_AVANCE:"Valor de Avance",
-  DEPENDENCIA:"Dependencia",
   PROYECTO_CURRICULAR:"Proyecto Curricular",
   CONVENIO:"Convenio",
   CODIGO_CONVENIO: "Código de Convenio",
@@ -289,7 +334,7 @@ var text_es = {
   ANULACION_TOTAL: "Total",
   SELECCION_RUBRO: "Seleccione el Rubro",
   ANULAR: "Anular",
-  NO: "No.",
+  NO: "No. ",
   ELIMINARA: "Se eliminará",
   ELIMINADO: "Eliminado",
   ACTUALIZADO: "Actualizado",
@@ -324,15 +369,23 @@ var text_es = {
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
-  E_25P02: "Este registro ya ha sido creado.",
+  E_25P02: "Este registro ya ha sido creado. ",
 
-  // Errores Orden PAgo
-  E_OPP_01: "No se puede registrar la Orden de Pago",
-  E_OPP_01_1: "No se obtubo  ValorCalculado de titan",
-  E_OPP_01_2: "No se obtubo  Id Concepto de Titan",
-  E_OPP_02: "No se Encontro Concepto Homologado",
-  E_OPP_03: "No se puede registrar concepto_orden_pago",
-  E_OPP_04: "No se puede registrar los Movimeitos Contables"
+  // Errores Orden Pago
+  //Proveedores
+  //OP Nomina api_mid_financiera
+  E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
+  E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
+  E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan. ",
+  E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos. ",
+  //OP Nomina api_financiera
+  E_OPN_02: "Error al intentar registrar la Orden de pago. ",
+  E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación. ",
+  E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
+  E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
+  E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
+  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
 
 };
 
@@ -403,8 +456,6 @@ var text_en = {
   VINCULACION: 'Bonding',
   LIQUIDACION: 'Liquidation',
   COMPANIA : 'Company',
-
-
   // PROVEEDOR
   TIPO_PERSONA: "Type Person",
   NO_DOCUMENTO: "No. Document",
@@ -413,7 +464,10 @@ var text_en = {
   CUENTA_BANCARIA: "Bank Account",
   SUCURSAL: "Branch Office",
   TIPO_CUENTA: "Account Type",
-
+  ENTRADA_ALMACEN: "Warehouse Entryss",
+  SEDE: "Headquarters",
+  FACTURA: "Bill",
+  SELECCIONAR: "Select",
   //REGISTRO PRESUPUESTAL
   NO_CRP: "No. CRP",
   RESPONSABLE: "Responsible",
@@ -447,10 +501,9 @@ var text_en = {
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar",
-
+},
     NUEVO_OP_PROVEEDOR: 'New PO Supplier',
-    NUEVO_OP_PLANTA: 'New PO Floor'
-  },
+    NUEVO_OP_PLANTA: 'New PO Floor',
 
   // ORDEN DE PAGO
   ORDEN_PAGO: "Payment Orders",
