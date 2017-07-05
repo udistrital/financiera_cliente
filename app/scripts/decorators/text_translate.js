@@ -51,6 +51,7 @@ var text_es = {
   CREDITO: "Crédito",
   CUENTA: "Cuenta",
   IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
+  IMPUESTOS: "Impuestos",
   NUEVO: "Nuevo",
   CUENTA_CONTABLE: "Cuenta Contable",
   PORCENTAJE: "Porcentaje",
@@ -107,6 +108,9 @@ var text_es = {
   SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
   VALOR_BASE: "Valor Base",
   TODOS: "Todos",
+  DIFERENCIA: "Diferencia",
+  VALOR_APLICADO: "Valor Aplicado",
+  TOTAL: "Total",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
