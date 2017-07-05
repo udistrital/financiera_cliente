@@ -13,23 +13,57 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.NecesidadId = null;
+    self.DataSeguridadSocial = {};
 
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
       .then(function(data) { //error con el success
         self.OrdenPago.Vigencia = parseInt(data.data);
-        self.dataLiquidacionConsulta.Vigencia = self.OrdenPago.Vigencia;
+        self.DataSeguridadSocial.Vigencia = self.OrdenPago.Vigencia;
       })
     // Obtener info financiera
-    financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/41")
-    .then(function(data) {
-      console.log("AAAAAAAAAAA");
-      console.log(data.data[0]);
-      console.log("AAAAAAAAAAA");
-      self.dataNecesidad = data.data[0];
-    })
+    // financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/41")
+    // .then(function(data) {
+    //   console.log("AAAAAAAAAAA");
+    //   console.log(data.data[0]);
+    //   console.log("AAAAAAAAAAA");
+    //   self.dataNecesidad = data.data[0];
+    // })
     // ***************
     // Funciones
     // ***************
+    self.validar_campos = function() {
+
+      // Operar
+
+      // insertc
+      console.log("Insertar DATA");
+      console.log(self.dataSend);
+      console.log("Insertar DATA");
+      financieraMidRequest.post("orden_pago_nomina/CrearOPSeguridadSocial", self.dataSend)
+        .then(function(data) {
+          self.resultado = data;
+          //mensaje
+          swal({
+            title: 'Orden de Pago',
+            text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+            type: self.resultado.data.Type,
+          }).then(function() {
+            $window.location.href = '#/orden_pago/ver_todos';
+          })
+          //
+        })
+
+    }
+    //
+    self.addOpPlantaSsCrear = function() {
+      console.log("funcion");
+      self.OrdenPago.ValorBase = 0;       // se obtendra del rp
+      self.OrdenPago.PersonaElaboro = 1;
+      self.dataSend = {};
+      self.dataSend.OrdenPago = self.OrdenPago;
+      self.dataSend.SeguridadSocial = self.DataSeguridadSocial ;
+      self.validar_campos();
+    }
 
   });

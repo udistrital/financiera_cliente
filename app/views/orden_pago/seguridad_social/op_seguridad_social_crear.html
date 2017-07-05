@@ -80,9 +80,6 @@
       </div>
     </div>
 
-
-
-
     <!-- Seguridad Social Data -->
     <legend class="text-primary" ng-click="opSeguridadSocialCrear.PestanaAbierta=!opSeguridadSocialCrear.PestanaAbierta">
       {{'SEGUDIDAD_SOCIAL' | translate}}
@@ -99,7 +96,7 @@
             <div class="form-group">
               <label class="col-sm-2 control-label">{{'MES' | translate}}</label>
               <div class="col-sm-4">
-                <select ng-model="opSeguridadSocialCrear.dataLiquidacionConsulta.Mes" class="form-control" required>
+                <select ng-model="opSeguridadSocialCrear.DataSeguridadSocial.Mes" class="form-control" required>
                     <option value="">{{'BTN.SELECCIONAR' | translate }} {{'MES' | translate }}</option>
                     <option value="01">{{'MES_ENERO' | translate }}</option>
                     <option value="02">{{'MES_FEBRERO' | translate }}</option>
@@ -124,9 +121,7 @@
         </div>
       </div>
     </div>
-
-
-
-
+    <!-- Boton add -->
+    <center><button class="btn btn-primary" ng-click="opSeguridadSocialCrear.addOpPlantaSsCrear()">Registrar</button></center>
   </div>
 </div>
