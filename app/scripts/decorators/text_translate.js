@@ -104,6 +104,9 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
+  FECHA_INICIO: "Fecha de inicio",
+  FECHA_FINAL: "Fecha Final",
+  ORIGEN: "Origen",
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
   FINALIZAR: "Finalizar",
   SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
@@ -356,6 +359,13 @@ var text_es = {
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
   MOTIVO_RECHAZO: "Motivo del rechazo",
+  PAGO_REPORTADO: "Pago reportado",
+  MATRICULA: "Matricula",
+  SEGURO: "Seguro",
+  CARNET: "Carnet",
+
+  //PAC
+  GENERACION_PAC: "Generar Reporte Pac",
 
   //CODIGOS
 

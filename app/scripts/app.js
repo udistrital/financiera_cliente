@@ -32,6 +32,7 @@ angular
     'ui.grid.autoResize',
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
+    'ui.grid.exporter',
     'ngStorage',
     'ngWebSocket',
     'angularMoment',
@@ -324,6 +325,11 @@ angular
         templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
+      })
+      .when('/pac/reporte_pac', {
+        templateUrl: 'views/pac/reporte_pac.html',
+        controller: 'PacReportePacCtrl',
+        controllerAs: 'reportePac'
       })
       .when('/calendario_tributario/gestion_calendario', {
         templateUrl: 'views/calendario_tributario/gestion_calendario.html',

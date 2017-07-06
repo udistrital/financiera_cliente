@@ -14,6 +14,8 @@ angular.module('financieraClienteApp')
     ctrl.row_entity = {};
     ctrl.tipo_avance = {};
     ctrl.gridOptions = {
+      paginationPageSizes: [5, 15, 20],
+      paginationPageSize: 5,
       enableFiltering: true,
       enableSorting: true,
       enableRowSelection: true,

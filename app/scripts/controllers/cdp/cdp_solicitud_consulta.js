@@ -129,8 +129,8 @@ angular.module('financieraClienteApp')
        }).then(function(text) {
          console.log(text);
          console.log(solicitud);
-         self.solicitud.MotivoRechazo = text;
-           argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
+         self.solicitud.JustificacionRechazo = text;
+           argoRequest.put('solicitud_disponibilidad', solicitud).then(function(response) {
              console.log(response.data);
              if (response.data.Type !== undefined) {
                if (response.data.Type === "error") {
