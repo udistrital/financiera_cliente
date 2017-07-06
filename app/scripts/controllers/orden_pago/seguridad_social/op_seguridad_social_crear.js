@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
         self.DataSeguridadSocial.Vigencia = self.OrdenPago.Vigencia;
       })
     // Obtener info financiera
-    // financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/41")
+    // financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/122")
     // .then(function(data) {
     //   console.log("AAAAAAAAAAA");
     //   console.log(data.data[0]);
