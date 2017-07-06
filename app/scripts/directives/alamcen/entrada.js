@@ -38,25 +38,33 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'Vigencia',
-              displayName: $translate.instant('VIGENCIA'),
-              cellClass: 'input_center'
+              field: 'Consecutivo',
+              displayName: $translate.instant('NO'),
+              cellClass: 'input_center',
+              width: '8%',
             },
             {
-              field: 'Proveedor',
-              displayName: $translate.instant('PROVEEDOR')
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              cellClass: 'input_center',
+              width: '10%',
+            },
+            {
+              field: 'FechaRegistro',
+              displayName: $translate.instant('FECHA'),
+              cellFilter: "date:'yyyy-MM-dd'",
+              cellClass: 'input_center',
+              width: '12%',
             },
             {
               field: 'NumeroFactura',
               displayName: $translate.instant('NO') + $translate.instant('FACTURA'),
+              cellClass: 'input_center',
+              width: '11%',
             },
             {
-              field: 'Sede',
-              displayName: $translate.instant('SEDE'),
-            },
-            {
-              field: 'Dependencia',
-              displayName: $translate.instant('DEPENDENCIA'),
+              field: 'TipoContrato',
+              displayName: $translate.instant('TIPO') + ' ' + $translate.instant('CONTRATO'),
             },
             {
               field: 'Observaciones',
@@ -71,7 +79,7 @@ angular.module('financieraClienteApp')
           }
           arkaRequest.get('entrada',
             $.param({
-              //query: 'Proveedor:' + $scope.inputproveedor + ", Vigencia:" + $scope.inputvigencia,
+              query: 'Proveedor:' + $scope.inputproveedor,
               limit: -1,
             })
           ).then(function(response){
