@@ -128,18 +128,20 @@ angular.module('financieraClienteApp')
          }
        }).then(function(text) {
          console.log(text);
-         console.log(solicitud);
-         self.solicitud.JustificacionRechazo = text;
-           argoRequest.put('solicitud_disponibilidad', solicitud).then(function(response) {
+         solicitud[0].SolicitudDisponibilidad.JustificacionRechazo = text;
+         console.log(solicitud[0].SolicitudDisponibilidad);
+         var sl = solicitud[0].SolicitudDisponibilidad;
+           argoRequest.put('solicitud_disponibilidad/', sl.Id , sl).then(function(response) {
              console.log(response.data);
+             self.actualiza_solicitudes();
              if (response.data.Type !== undefined) {
                if (response.data.Type === "error") {
                  swal('', $translate.instant(response.data.Code), response.data.Type);
-                 self.cargarIngresos();
+                   self.actualiza_solicitudes();
                } else {
                  swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
-                   self.cargarIngresos();
+                     self.actualiza_solicitudes();
                  });
                }
 
