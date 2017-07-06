@@ -100,11 +100,11 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
 
     self.fuente_seleccionada = {};
     self.fuente_financiamiento_apropiacion = [];
-    self.valor_total = 0;
+
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-
+        self.valor_total = 0;
         self.mostrar_registro(row.entity.Id);
         self.fuente_seleccionada = row.entity;
         console.log(row.entity.Id);
