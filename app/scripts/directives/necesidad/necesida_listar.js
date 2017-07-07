@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
 
         self.gridOptions_necesidad = {
           enableRowSelection: true,
+          multiSelect: false,
           enableRowHeaderSelection: false,
 
           paginationPageSizes: [10, 50, 100],
@@ -44,36 +45,63 @@ angular.module('financieraClienteApp')
                    { field: 'registro_presupuestal.Id', visible: false},
                    {
                      field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
-                     displayName: $translate.instant('NO_CRP'),
+                     displayName: $translate.instant('NO_CDP'),
                      width: '10%',
                      cellClass: 'input_center'
                    },
                    {
-                     field: 'Beneficiario',
-                     displayName: $translate.instant('NO_CRP'),
+                     field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre',
+                     displayName: $translate.instant('CDP') + " " + $translate.instant('ESTADO'),
                      width: '10%',
                      cellClass: 'input_center'
-                   }
+                   },
+                   {
+                     field: 'NumeroRegistroPresupuestal',
+                     displayName: $translate.instant('NO_CRP'),
+                     width: '11%',
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'Vigencia',
+                     displayName: $translate.instant('CRP') + " " +  $translate.instant('VIGENCIA'),
+                     width: '11%',
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'Estado.Nombre',
+                     displayName: $translate.instant('CRP') + " " +  $translate.instant('ESTADO'),
+                     width: '11%',
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'Responsable',
+                     displayName: $translate.instant('CRP') + " " +  $translate.instant('RESPONSABLE'),
+                     cellClass: 'input_center'
+                   },
+                   {
+                     field: 'ValorTotal',
+                     displayName: $translate.instant('CRP') + " " +  $translate.instant('VALOR'),
+                     cellFilter: 'currency',
+                     cellClass: 'input_right'
+                   },
                  ]};
                  //
-                //  financieraRequest.get('rubro',
-                //  $.param({
-                //    query: "Id:35480",
-                //  })).then(function(response) {
-                //     if (response == null){
-                //       console.log("no data");
-                //     }else{
-                //      console.log(response.data);
-                //      row.entity.subGridOptions.data = response.data;
-                //    }
-                //  });
-                 //
-                 financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/122")
+                 console.log(row.entity.Necesidad.Id);
+                 financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/" + row.entity.Necesidad.Id)
                  .then(function(data) {
                    console.log("AAAAAAAAAAA");
                    console.log(data.data[0]);
                    console.log("AAAAAAAAAAA");
                    row.entity.subGridOptions.data = data.data[0].registro_presupuestal;
+                   // get valor rp
+                   angular.forEach(row.entity.subGridOptions.data, function(dataCrp) {
+                     financieraRequest.get('registro_presupuestal/ValorTotalRp/' + dataCrp.Id)
+                       .then(function(response) {
+                         dataCrp.ValorTotal = response.data;
+                       });
+                   })
+                   // fin get valor rp
+                   $scope.outputnecesidad = row.entity.subGridOptions.data;
                  })
 
                }
@@ -94,17 +122,21 @@ angular.module('financieraClienteApp')
             {
               field: 'Necesidad.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
+              cellClass: 'input_center',
               width:'9%',
             },
             {
               field: 'Necesidad.Valor',
               displayName: $translate.instant('VALOR'),
+              cellFilter: 'currency',
               width:'11%',
+              cellClass: 'input_right',
             },
             {
               field: 'Necesidad.DiasDuracion',
               displayName: $translate.instant('DURACION'),
               width:'9%',
+              cellClass: 'input_center',
             },
             {
               field: 'Necesidad.Estado.Nombre',
