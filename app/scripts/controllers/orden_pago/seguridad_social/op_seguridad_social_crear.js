@@ -22,14 +22,6 @@ angular.module('financieraClienteApp')
         self.OrdenPago.Vigencia = parseInt(data.data);
         self.DataSeguridadSocial.Vigencia = self.OrdenPago.Vigencia;
       })
-    // Obtener info financiera
-    // financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/122")
-    // .then(function(data) {
-    //   console.log("AAAAAAAAAAA");
-    //   console.log(data.data[0]);
-    //   console.log("AAAAAAAAAAA");
-    //   self.dataNecesidad = data.data[0];
-    // })
     // ***************
     // Funciones
     // ***************
