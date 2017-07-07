@@ -13,9 +13,10 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
+    //self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
+
 
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
@@ -67,12 +68,13 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      self.OrdenPago.ValorBase = 0;       // se obtendra del rp
+      self.validar_campos();
+      self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
       self.OrdenPago.PersonaElaboro = 1;
       self.dataSend = self.OrdenPago; // para api_mid
       //para tes directo desde cliente hacia kronos
       //self.dataSend.OrdenPago = self.OrdenPago;
 
-      self.validar_campos();
+
     }
   });

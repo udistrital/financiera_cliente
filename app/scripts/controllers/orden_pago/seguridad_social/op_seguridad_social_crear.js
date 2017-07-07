@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.OrdenPago.RegistroPresupuestal = {Id: 84}
-    self.NecesidadId = null;
+    self.Necesidad = null;
     self.DataSeguridadSocial = {};
 
     // obtener vigencia

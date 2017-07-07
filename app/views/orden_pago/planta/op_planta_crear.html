@@ -6,12 +6,14 @@
       unidaejecutora="opPlantaCrear.OrdenPago.UnidadEjecutora"
       inputpestanaabierta="opPlantaCrear.PestanaAbierta">
     </ue-listar>
-    <!--RP-->
-    <rp-por-proveedor-listar
-      beneficiaroid="opPlantaCrear.OrdenPagoConsulta.Proveedor.Id"
-      rpselect="opPlantaCrear.OrdenPago.RegistroPresupuestal"
-      inputpestanaabierta="opPlantaCrear.PestanaAbierta">
-    </rp-por-proveedor-listar>
+
+    <!-- Necesidad -->
+    <necesida-listar
+      inputpestanaabierta="opPlantaCrear.PestanaAbierta"
+      outputrp="opPlantaCrear.OrdenPago.RegistroPresupuestal">
+    </necesida-listar>
+    {{opPlantaCrear.OrdenPago.RegistroPresupuestal}}
+
     <!--detalle -->
     <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbierta=!opPlantaCrear.PestanaAbierta">
       {{'DETALLE_OP' | translate}}

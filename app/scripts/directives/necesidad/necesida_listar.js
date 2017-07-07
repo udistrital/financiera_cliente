@@ -12,7 +12,7 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           inputpestanaabierta: '=?',
-          outputnecesidad: '=?',
+          outputrp: '=?',
         },
 
       templateUrl: 'views/directives/necesidad/necesida_listar.html',
@@ -86,12 +86,8 @@ angular.module('financieraClienteApp')
                    },
                  ]};
                  //
-                 console.log(row.entity.Necesidad.Id);
                  financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/" + row.entity.Necesidad.Id)
                  .then(function(data) {
-                   console.log("AAAAAAAAAAA");
-                   console.log(data.data[0]);
-                   console.log("AAAAAAAAAAA");
                    row.entity.subGridOptions.data = data.data[0].registro_presupuestal;
                    // get valor rp
                    angular.forEach(row.entity.subGridOptions.data, function(dataCrp) {
@@ -101,7 +97,10 @@ angular.module('financieraClienteApp')
                        });
                    })
                    // fin get valor rp
-                   $scope.outputnecesidad = row.entity.subGridOptions.data;
+                   $scope.outputrp = row.entity.subGridOptions.data[0]; // primer rp
+                  //  console.log("AAAAAAAAAAA");
+                  //  console.log($scope.outputrp );
+                  //  console.log("AAAAAAAAAAA");
                  })
 
                }
