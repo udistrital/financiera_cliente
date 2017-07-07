@@ -68,10 +68,10 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      self.validar_campos();
       self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
       self.OrdenPago.PersonaElaboro = 1;
       self.dataSend = self.OrdenPago; // para api_mid
+      self.validar_campos();
       //para tes directo desde cliente hacia kronos
       //self.dataSend.OrdenPago = self.OrdenPago;
 
