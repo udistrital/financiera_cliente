@@ -37,6 +37,7 @@ var text_es = {
   SELECCIONE_PROVEEDOR: "Seleccionar Proveedor",
   DETALLE_PROVEEDOR: "Detalle Proveedor",
   REGISTRO_PRESUPUESTAL: "Certificado Registro Presupuestal",
+  CRP: "CRP",
   SELECCIONE_CRP: "Seleccione CRP",
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",
@@ -52,6 +53,7 @@ var text_es = {
   CUENTA: "Cuenta",
   DEPENDENCIA: "Dependencia",
   IMPUESTOS_DESCUENTOS: "Impuestos y Descuentos",
+  IMPUESTOS: "Impuestos",
   NUEVO: "Nuevo",
   CUENTA_CONTABLE: "Cuenta Contable",
   PORCENTAJE: "Porcentaje",
@@ -94,6 +96,8 @@ var text_es = {
   BANCOS: "Bancos",
   COMPANIA : 'Compañia',
   FECHA_REGISTRO: "Fecha de Registro",
+  FECHA_INICIO: "Fecha Inicio",
+  FECHA_FIN: "Fecha final",
   TOTAL_COMPROMETIDO: "Total Comprometido",
   TOTAL_ANULADO: "Total Anulado",
   AFECTACION_CONTABLE: "Afectación Contable",
@@ -101,10 +105,22 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
+  FECHA_INICIO: "Fecha de inicio",
+  FECHA_FINAL: "Fecha Final",
+  ORIGEN: "Origen",
+  CALENDARIO_TRIBUTARIO: "Calendario Tributario",
+  FINALIZAR: "Finalizar",
+  SELECCIONAR_VIGENCIA: "Seleccione una Vigencia",
+  VALOR_BASE: "Valor Base",
+  TODOS: "Todos",
+  DIFERENCIA: "Diferencia",
+  VALOR_APLICADO: "Valor Aplicado",
+  TOTAL: "Total",
   SEGUDIDAD_SOCIAL: "Seguridad Social",
   DETALLE: "Detalle",
   FINANCIERO: "Financiero",
   CONTRATO: "Contrato",
+
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -345,6 +361,13 @@ var text_es = {
   INGRESO_NO: "Ingreso No.",
   CONSULTA_INGRESOS: "Consulta Ingresos",
   MOTIVO_RECHAZO: "Motivo del rechazo",
+  PAGO_REPORTADO: "Pago reportado",
+  MATRICULA: "Matricula",
+  SEGURO: "Seguro",
+  CARNET: "Carnet",
+
+  //PAC
+  GENERACION_PAC: "Generar Reporte Pac",
 
   //CODIGOS
 

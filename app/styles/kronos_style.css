@@ -1,0 +1,7 @@
+
+/* Clase para ajustar form-control al tamaño auto y se pueda poner en la misma linea*/
+.form-control-inline {
+  display: inline-block;
+  width: auto;
+  vertical-align: middle;
+}

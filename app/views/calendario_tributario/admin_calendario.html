@@ -1,0 +1,87 @@
+<div class="panel panel-primary panel-body">
+  <center>
+    <h3 class="page-header">
+        {{"CALENDARIO_TRIBUTARIO" | translate}} {{adminCalendario.calendario.EstadoCalendario.Nombre}}
+    </h3></center>
+  <div class="panel-body">
+
+    <table class="table table-condensed table-bordered table-striped">
+
+      <caption class="text-center">{{"ENTIDAD" | translate}}: <span class="text-center"> {{adminCalendario.calendario.Entidad.CodigoEntidad}}  {{adminCalendario.calendario.Entidad.Nombre}}</span></caption>
+
+      <tbody class="table-hover">
+        <tr>
+          <th class="text-center" colspan="3">
+            <h4><span>{{adminCalendario.calendario.Descripcion}} </span></h4></th>
+
+          <th class="text-center" colspan="2">
+            <h4><span> De {{adminCalendario.calendario.FechaInicio | date: "yyyy-MM-dd"}} Hasta {{adminCalendario.calendario.FechaFin | date: "yyyy-MM-dd"}}</span> </h4></th>
+        </tr>
+        <tr class="text-justify">
+          <td class="text-center" colspan="3">
+            <label>{{"VIGENCIA" | translate}}: </label>
+            <span>{{adminCalendario.calendario.Vigencia}}</span>
+          </td>
+          <td class="text-center" colspan="3"><label>{{"RESPONSABLE" | translate}}: </label>
+            <span>JACQUELINE ORTIZ ARENAS (Jefe de Tesoreria)</span></td><!--Nombre Quemado del jefe de dependencia-->
+        </tr>
+      </tbody>
+
+      <tbody>
+        <tr>
+          <th style="vertical-align:middle; text-align:center" rowspan="{{adminCalendario.calendario_movimientos.length+1}}" colspan="2">
+            <label>{{"IMPUESTOS" | translate}}</label>
+          </th>
+          <th colspan="2" class="text-center">
+            <label>{{"NOMBRE" | translate}}</label>
+          </th>
+          <th colspan="2" class="text-center">
+            <label>{{"VALOR" | translate}}</label>
+          </th>
+        </tr>
+        <tr ng-repeat="imp in adminCalendario.calendario_movimientos">
+          <td colspan="2">
+            <label>{{imp.Impuesto.CuentaContable.Nombre}}</label>
+          </td>
+          <td colspan="2" class="text-center">
+            {{imp.MontoCuenta}}
+          </td>
+        </tr>
+      </tbody>
+
+      <tbody>
+        <tr>
+          <td colspan="2" class="text-center">
+            <label> {{"TOTAL" | translate}}:</label>
+          </td>
+          <td colspan="1" class="text-center">
+            <label>{{"DIFERENCIA" | translate}}:</label> {{adminCalendario.calendario.DiferenciaMonto}}
+          </td>
+          <td colspan="1" class="text-center">
+            <label>{{"VALOR_APLICADO" | translate}}:</label> {{adminCalendario.calendario.MontoRedondeado}}
+          </td>
+          <td colspan="2" class="text-center">
+            <label>{{"VALOR_BASE" | translate}}:</label> {{adminCalendario.calendario.MontoCalendario}}
+          </td>
+        </tr>
+      </tbody>
+
+    </table>
+
+
+    <legend ng-click="showdetalle=!showdetalle">Detalle <span class="fa fa-plus pull-right" ng-show="!showdetalle"></span> <span class="fa fa-minus pull-right" ng-show="showdetalle"></span></legend>
+
+    <div ng-show="!showdetalle">
+      <div ui-grid="adminCalendario.gridOptions" ui-grid-pinning ui-grid-expandable ui-grid-auto-resize></div>
+      <br>
+    </div>
+
+    <div>
+      <center>
+        <button type="button" name="button" class="btn btn-success btn-outline">{{"BTN.APROBAR" | translate}}</button>
+        <button type="button" name="button" class="btn btn-danger btn-outline">{{"BTN.RECHAZAR" | translate}}</button>
+        <center>
+    </div>
+  </div>
+
+</div>

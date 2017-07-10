@@ -21,11 +21,14 @@
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
-  <link rel="stylesheet" href="styles/timeline.css">
+ <link rel="stylesheet" href="styles/oas-style.css">
+  <link rel="stylesheet" href="styles/kronos.css">
+  <link rel="stylesheet" href="styles/kronos_style.css">
   <!-- endbuild -->
-  <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/oas-style.css">
+  <!--link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/oas-style.css"-->
   <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/sb-admin-2.css">
   <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/table-demo.css">
+
 </head>
 <body ng-app="financieraClienteApp">
   <div ng-include="'views/menu.html'" ng-controller="menuCtrl"></div>
@@ -203,13 +206,19 @@
   <script src="scripts/controllers/tesoreria/avances/solicitud/solicitud_avance.js"></script>
   <script src="scripts/services/models_service.js"></script>
 
+
+  <script src="scripts/controllers/pac/reporte_pac.js"></script>
+
   <script src="scripts/controllers/bancos/gestion_bancos.js"></script>
   <script src="scripts/directives/bancos/ver_banco.js"></script>
+  <script src="scripts/controllers/calendario_tributario/gestion_calendario.js"></script>
+  <script src="scripts/controllers/calendario_tributario/admin_calendario.js"></script>
   <script src="scripts/services/arka_service.js"></script>
   <script src="scripts/directives/alamcen/entrada.js"></script>
   <script src="scripts/controllers/tesoreria/avances/solicitud/lista_solicitud.js"></script>
   <script src="scripts/controllers/orden_pago/seguridad_social/op_seguridad_social_crear.js"></script>
   <script src="scripts/directives/necesidad/necesida_listar.js"></script>
+  <script src="scripts/directives/avance/ver_solicitud.js"></script>
   <!-- endbuild -->
 
   <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>

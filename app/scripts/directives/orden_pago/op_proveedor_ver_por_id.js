@@ -87,9 +87,9 @@ angular.module('financieraClienteApp')
             $.param({
               query: "RegistroPresupuestal.Id:" + rp_id,
             })).then(function(response) {
-            self.rp_detalle = response.data;
+            self.rp_detalle = response.data[0];
             //data necesidad
-            financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+            financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
               .then(function(response) {
                 self.solicitud = response.data[0];
               });

@@ -32,6 +32,7 @@ angular
     'ui.grid.autoResize',
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
+    'ui.grid.exporter',
     'ngStorage',
     'ngWebSocket',
     'angularMoment',
@@ -64,6 +65,11 @@ angular
       cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
       cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
   }])
+  .config(function($mdDateLocaleProvider) {
+    $mdDateLocaleProvider.formatDate = function(date) {
+       return date ? moment(date).format('YYYY-MM-DD') : '';
+    };
+  })
   .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
     $locationProvider.hashPrefix("");
     $routeProvider
@@ -319,6 +325,21 @@ angular
         templateUrl: 'views/tesoreria/avances/solicitud/solicitud_avance.html',
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
+      })
+      .when('/pac/reporte_pac', {
+        templateUrl: 'views/pac/reporte_pac.html',
+        controller: 'PacReportePacCtrl',
+        controllerAs: 'reportePac'
+      })
+      .when('/calendario_tributario/gestion_calendario', {
+        templateUrl: 'views/calendario_tributario/gestion_calendario.html',
+        controller: 'GestionCalendarioCtrl',
+        controllerAs: 'gestionCalendario'
+      })
+      .when('/calendario_tributario/admin_calendario/:Id', {
+        templateUrl: 'views/calendario_tributario/admin_calendario.html',
+        controller: 'AdminCalendarioCtrl',
+        controllerAs: 'adminCalendario'
       })
       .when('/tesoreria/avances/lista_solicitud', {
         templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
