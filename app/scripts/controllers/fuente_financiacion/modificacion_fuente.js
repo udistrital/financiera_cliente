@@ -112,7 +112,6 @@ angular.module('financieraClienteApp')
         if (!self.anulacion) {
           self.select_id = row.entity;
           self.comprobarRubro(row.entity);
-          console.log(self.select_id);
           self.actualizar();
         }
       });
@@ -143,10 +142,10 @@ angular.module('financieraClienteApp')
       }
       if (repetido == true) {
 
-        self.rubros_seleccionados.push(self.select_id.Rubro);
+        self.rubros_seleccionados.push(self.select_id);
+
         var data = {
           Apropiacion: apropiacion.Id,
-          Rubro: apropiacion.Rubro.Id,
           ValorTotal: 0,
           Valor: "",
           Dependencia: "",
@@ -155,24 +154,24 @@ angular.module('financieraClienteApp')
 
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado = [];
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado.push(data);
+        console.log(self.rubros_seleccionados)
       }
     };
 
     self.mostrar_rubros = function() {
-      console.log(self.modificar_fuente)
       console.log("prueba " + self.modificar_fuente)
 
       self.rubros_seleccionados = [];
 
       for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
-        self.codigo_rubro = self.fuente_financiamiento_apropiacion[i].Apropiacion.Rubro;
+        self.codigo_rubro = self.fuente_financiamiento_apropiacion[i].Apropiacion;
 
         if (self.fuente_financiamiento_apropiacion[i].FuenteFinanciamiento.Id == self.modificar_fuente) {
 
           var repetido = false;
 
           for (var j = 0; j < self.rubros_seleccionados.length; j++) {
-            if (self.rubros_seleccionados[j].Codigo == self.codigo_rubro.Codigo) {
+            if (self.rubros_seleccionados[j].Id == self.codigo_rubro.Id) {
               repetido = true;
             }
           }
@@ -186,7 +185,7 @@ angular.module('financieraClienteApp')
       self.valor_total = 0;
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
         for (var j = 0; j < self.fuente_financiamiento_apropiacion.length; j++) {
-          if (self.fuente_financiamiento_apropiacion[j].FuenteFinanciamiento.Id == self.modificar_fuente && self.rubros_seleccionados[i].Id == self.fuente_financiamiento_apropiacion[j].Apropiacion.Rubro.Id) {
+          if (self.fuente_financiamiento_apropiacion[j].FuenteFinanciamiento.Id == self.modificar_fuente && self.rubros_seleccionados[i].Id == self.fuente_financiamiento_apropiacion[j].Apropiacion.Id) {
             for (var k = 0; k < self.movimiento_fuente_financiamiento_apropiacion.length; k++) {
               console.log("-", self.movimiento_fuente_financiamiento_apropiacion[k].FuenteFinanciamientoApropiacion.Id)
               if (self.movimiento_fuente_financiamiento_apropiacion[k].FuenteFinanciamientoApropiacion.Id == self.fuente_financiamiento_apropiacion[j].Id) {
@@ -208,7 +207,6 @@ angular.module('financieraClienteApp')
 
           var data = {
             Apropiacion: apropiacion,
-            Rubro: id,
             ValorTotal: valor,
             Valor: "",
             Dependencia: dependencia,
@@ -235,12 +233,8 @@ angular.module('financieraClienteApp')
 
         if (self.rubros_seleccionados[i].Id == id) {
 
-          self.apropiacio_id = self.rubros_seleccionados[i].seleccionado[0].Apropiacion;
-
-
-          var data = {
-            Apropiacion: self.apropiacio_id,
-            Rubro: id,
+            var data = {
+            Apropiacion: id,
             ValorTotal: 0,
             Valor: "",
             Dependencia: "",
@@ -250,7 +244,8 @@ angular.module('financieraClienteApp')
         }
         self.actualizar();
       }
-      console.log(self.rubros_seleccionados)    };
+      console.log(self.rubros_seleccionados)
+    };
 
     self.quitarRubro = function(id) {
 
@@ -266,8 +261,6 @@ angular.module('financieraClienteApp')
       console.log(rubro, dep);
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
 
-        if (self.rubros_seleccionados[i].Id == rubro && self.rubros_seleccionados[i].seleccionado.length>1) {
-
           for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
 
             if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == dep) {
@@ -275,9 +268,7 @@ angular.module('financieraClienteApp')
               self.rubros_seleccionados[i].seleccionado.splice(j, 1)
             }
           }
-        }else{
-          self.quitarRubro(rubro);
-        }
+
       }
     }
 

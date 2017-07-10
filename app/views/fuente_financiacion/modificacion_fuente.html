@@ -52,7 +52,7 @@
 
           <div class="col-md-12" ng-show="!modificacionFuente.anulacion">
             <p></p>
-            <label for="monto">{{'INGRESAR_VALOR_FUENTE' | translate }}:</label>
+            <label for="monto">{{'INGRESE_VALOR_ADICION' | translate }}:</label>
             <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
           </div>
 
@@ -106,7 +106,7 @@
 
             <div class="form-group col-md-12">
               <legend class="text-default" disable>
-                {{'RUBRO' | translate}} : {{rubro.Codigo + ' / ' + rubro.Descripcion}}
+                {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}
               </legend class="text-success">
 
             </div>
