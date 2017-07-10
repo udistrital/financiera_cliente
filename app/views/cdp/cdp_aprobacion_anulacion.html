@@ -1,0 +1,155 @@
+<div class="col-centered">
+  <div class="panel panel-default" >
+    <h2 class="page-header" align="center">{{'LISTA_SOLICITUD_ANULACION_CDP' | translate}}</h2>
+    <div class="panel-body">
+      <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-selection class="myGrid"></div>
+    </div>
+  </div>
+</div>
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpAprobacionAnulacion.cargarListaAnulaciones()">&times</button><br>
+    </div>
+    <div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
+            <div align="right">Fecha de Registro: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+        </div>
+        <div class="panel-body">
+          <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
+          <div >
+            <table class="table text-justify">
+              <tr>
+                <th>{{'NECESIDAD_NO' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
+              </tr>
+              <tr>
+                <th>{{'ESTADO' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Estado.Nombre}}</td>
+              </tr>
+              <tr>
+                <th>{{'DEPENDENCIA_SOLICITANTE' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
+              </tr>
+              <tr>
+                <th>{{'JEFE_DEPENDENCIA' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
+                      cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
+                     cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
+                    cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
+              </tr>
+              <tr>
+                <th>{{'DEPENDENCIA_DESTINO' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
+              </tr>
+              <tr>
+                <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
+                    <td>{{cdpAprobacionAnulacion.cdp.Responsable.PrimerApellido + ' ' +
+                          cdpAprobacionAnulacion.cdp.Responsable.SegundoApellido + ' ' +
+                         cdpAprobacionAnulacion.cdp.Responsable.PrimerNombre + ' '+
+                        cdpAprobacionAnulacion.cdp.Responsable.SegundoNombre + ' '}}</td>
+              </tr>
+              <tr>
+                <th>{{'OBJETO' | translate}}: </th>
+                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
+              </tr>
+            </table>
+            <hr>
+            <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+            <fuente-financiacion-cdp cdp="cdpAprobacionAnulacion.cdp.Id" apropiacion="apropiaciones" resumen="cdpAprobacionAnulacion.rubros_afectados"></fuente-financiacion-cdp>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <form class="form-ctrl">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="panel-title">
+              {{'ANULACION_CDP_TITULO_FORM' | translate}}
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Motivo" disabled="true"></textarea>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3 ">
+                <label>{{'TIPO_ANULACION' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="cdpAprobacionAnulacion.anulacion.TipoAnulacion" disabled="true">
+                    <option value="P">{{'ANULACION_PARCIAL' | translate}}</option>
+                  <option value="T">{{'ANULACION_TOTAL' | translate}}</option>
+               </select>
+              </div>
+            </div>
+            <br>
+            <div ng-hide="cdpAprobacionAnulacion.tipoAnulacion == 'T'" class="row">
+              <div class="col-md-3 ">
+                <label>{{'AFECTACION_DE_LA_ANULACION' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <ul class="list-unstyled"  ng-repeat="item in cdpAprobacionAnulacion.anulacion.AnulacionDisponibilidadApropiacion">
+                  <hr class="hr-primary">
+                    <li><b>{{'RUBRO' | translate}}:</b> {{item.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo+" / "+item.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion}}
+                    <ul>
+                      <li ng-show="item.DisponibilidadApropiacion.FuenteFinanciamiento" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
+
+                        <ul>
+
+                          <li>{{item.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo + " / "+item.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion + " "}}
+                            <ul>
+                              <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.Valor|currency}}</li>
+                            </ul>
+                          </li>
+
+                        </ul>
+
+                      </li>
+                      <li ng-show="!item.DisponibilidadApropiacion.FuenteFinanciamiento" ><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
+
+                        <ul ng-repeat="fuente in item">
+
+                          <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
+
+                    </li>
+                    </ul>
+
+
+
+                </ul>
+              </div>
+            </div>
+            <br>
+
+            <!-- Button (Double) -->
+            <br>
+
+                <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre = 'Expedida'">
+
+                  <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+
+
+                </center>
+
+
+
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
