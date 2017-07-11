@@ -9,7 +9,11 @@
       {{ 'SELECCIONE' | translate }} {{ 'NECESIDAD' | translate }}
     </div>
     <div class="panel-body">
-      <div ui-grid="d_necesidaListar.gridOptions_necesidad" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      <div ui-grid="d_necesidaListar.gridOptions_necesidad" ui-grid-selection ui-grid-auto-resize ui-grid-pagination ui-grid-expandable></div>
     </div>
   </div>
 </div>
+
+<script type="text/ng-template"  id="expandableRowUpc.html">
+       <div ui-grid="row.entity.subGridOptions" class="grid" style="height:80px;"></div>
+</script>

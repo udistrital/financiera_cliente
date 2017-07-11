@@ -149,7 +149,8 @@ angular.module('financieraClienteApp')
         var disponibilidad_apropiacion =[];
         var anulacion = {
           Motivo : self.motivo,
-          TipoAnulacion : self.tipoAnulacion
+          TipoAnulacion : self.tipoAnulacion,
+          EstadoAnulacion : {Id:1}
         };
         if (self.tipoAnulacion === "T"){
           disponibilidad_apropiacion = self.rubros_afectados;
