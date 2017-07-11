@@ -346,6 +346,11 @@ angular
         controller: 'ListaSolicitudCtrl',
         controllerAs: 'listaSolicitud'
       })
+      .when('/cdp/cdp_aprobacion_anulacion', {
+        templateUrl: 'views/cdp/cdp_aprobacion_anulacion.html',
+        controller: 'CdpCdpAprobacionAnulacionCtrl',
+        controllerAs: 'cdpAprobacionAnulacion'
+      })
       .otherwise({
         redirectTo: '/'
       });

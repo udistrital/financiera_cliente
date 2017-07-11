@@ -273,6 +273,7 @@ var text_es = {
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",
+  LISTA_SOLICITUD_ANULACION_CDP: "Lista de Solicitudes de Anulación de Disponibilidad",
   SOLICITUD_CDP: "Solicitud de CDP No.",
   DEPENDENCIA_SOLICITANTE: "Dependencia Solicitante",
   JEFE_DEPENDENCIA: 'Jefe de la Dependencia',
@@ -375,13 +376,14 @@ var text_es = {
   S_544: "Se Aprobo el Ingreso con el consecutivo ",
   S_545: "Se Rechazo el Ingreso con el consecutivo ",
   S_588: "El registro se actualizó exitosamente",
+  S_A12: "Operación para Anulación Correctamente Realizada para la solicitud",
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",
-
+  E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
   // Errores Orden Pago
   //Proveedores
   //OP Nomina api_mid_financiera
