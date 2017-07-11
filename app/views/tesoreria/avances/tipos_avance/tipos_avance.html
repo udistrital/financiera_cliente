@@ -6,7 +6,7 @@
         {{ 'LISTA_AVANCES' | translate }}
       </div>
       <div class="panel-body">
-        <div ui-grid="TiposAvance.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+        <div class="mi-grid" id="mi-grid" ui-grid="TiposAvance.gridOptions" ui-grid-selection ui-grid-pagination ></div>
       </div>
       <div class="panel-footer">
         <div align="center"> <button ng-click="TiposAvance.load_row('', 'add')" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
@@ -29,7 +29,7 @@
       </div>
 
 
-      <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && TiposAvance.add_edit()">
+      <form class="form-horizontal" name="avances_add_edit" ng-submit="TiposAvance.add_edit()">
         <br>
         <div class="row">
           <label for="referencia" class="col-sm-2 control-label">{{'REFERENCIA' | translate }}:</label>
@@ -65,7 +65,7 @@
         <br>
         <center>
           <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" />
-          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
+          <input type="submit" ng-click="TiposAvance.add_edit()" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
         </center>
       </form>
       <br>
@@ -167,8 +167,6 @@
           </div>
         </div>
         <br>
-
-
         <div class="panel-body">
           <div class="panel panel-default">
             <div class="panel-heading">

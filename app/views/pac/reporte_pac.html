@@ -1,0 +1,48 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'GENERACION_PAC' | translate}}</h2>
+  <div class="panel-body">
+    <table>
+      <tr>
+        <td>
+          <label>{{ 'VIGENCIA' | translate }}*:</label>
+            <select class="form-control" ng-model="reportePac.vigencia" ng-options="v as v for v in reportePac.vigencias">
+                    <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
+            </select>
+        </td>
+        <br>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="reportePac.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year"  md-min-date="reportePac.fechamin" md-max-date="reportePac.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="reportePac.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year"  md-min-date="reportePac.fechamin" md-max-date="reportePac.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="reportePac.generarReporte()" class="fa fa-paper-plane btn btn-info btn-outline" aria-hidden="true"></a>
+        </td>
+      </tr>
+    </table>
+    <br>
+  </div>
+</div>
+<div class="panel panel-primary panel-body" ng-show="ingresos  || egresos">
+  <div class="panel-body">
+    <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
+      {{'INGRESOS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="b"></span>
+      <span class="fa fa-minus pull-right" ng-show="!b"></span>
+    </legend>
+    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+    <legend class="text-primary" ng-click="a=!a" ng-show="egresos">
+      {{'EGRESOS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="a"></span>
+      <span class="fa fa-minus pull-right" ng-show="!a"></span>
+    </legend>
+    <div class="mi-grid-pac" id="pac" ng-show="!a" ui-grid="gridOptions_egresos" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+
+  </div>
+</div>
