@@ -1,6 +1,3 @@
-<pre>
-{{d_verSolicitud.solicitud | json}}
-</pre>
 <fieldset class="form-group">
   <legend class="text-primary" ng-click="info_terceros=!info_terceros">{{"INFORMACION_TERCERO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_terceros"></span> <span class="fa fa-minus pull-right" ng-show="info_terceros"></span></legend>
 
@@ -109,7 +106,7 @@
   <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"TIPO_AVANCE" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_detalle_avances"></span></legend>
 
   <div class="panel-body" ng-show="info_detalle_avances">
-      <div class="panel panel-default" ng-repeat="tipo in d_verSolicitud.lista_tipos" >
+      <div class="panel panel-default" ng-repeat="tipo in d_verSolicitud.solicitud.Tipos" >
         <div class="panel-heading">
           {{tipo.TipoAvance.Nombre}}
         </div>
@@ -119,7 +116,7 @@
               <br>
               Requisitos:
               <ol>
-                <li ng-repeat="requisito in tipo.requisitos" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
+                <li ng-repeat="requisito in tipo.Requisitos" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
                   {{requisito.RequisitoAvance.Nombre}}
                 </li>
               </ol>
@@ -130,7 +127,7 @@
         </div>
       </div>
       <div class="row" align="center">
-          <h3>TOTAL: </h3> <span class="badge"><h5>{{d_verSolicitud.total | currency}}</h5></span>
+          <h3>TOTAL: </h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.Total | currency}}</h5></span>
       </div>
     </div>
 </fieldset>

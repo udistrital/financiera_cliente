@@ -33,16 +33,20 @@ angular.module('financieraClienteApp')
               }))
               .then(function(response) {
                 solicitud.Tipos = response.data;
-                angular.forEach(solicitud.Tipos, function(tipo) {
+                solicitud.Total = 0;
+                angular.forEach(response.data, function(tipo) {
+                  solicitud.Total += tipo.Valor;
                   financieraRequest.get("requisito_tipo_avance", $.param({
-                      query: "TipoAvance:" + tipo.Id + ",Estado:" + "A",
+                      query: "TipoAvance:" + tipo.TipoAvance.Id + ",Estado:" + "A",
                       limit: -1,
                       fields: "RequisitoAvance,TipoAvance",
                       sortby: "TipoAvance",
                       order: "asc"
                     }))
                     .then(function(response) {
+                      console.log(response.data);
                       tipo.Requisitos = response.data;
+
                     });
                 });
               });
@@ -50,6 +54,15 @@ angular.module('financieraClienteApp')
           });
           ctrl.gridOptions.data = response.data;
         });
+    };
+
+    ctrl.calcular_total = function(){
+      ctrl.total = 0;
+      angular.forEach(ctrl.lista_tipos,function(data){
+        console.log(data);
+        ctrl.total += data.Valor;
+      });
+      console.log(ctrl.total);
     };
 
     ctrl.get_solicitudes();
@@ -63,12 +76,12 @@ angular.module('financieraClienteApp')
       columnDefs: [{
           field: 'SolicitudAvance.Vigencia',
           displayName: $translate.instant('VIGENCIA'),
-          width: '10%',
+          width: '8%',
         },
         {
           field: 'SolicitudAvance.Consecutivo',
           displayName: $translate.instant('CONSECUTIVO'),
-          width: '15%',
+          width: '10%',
         },
         {
           field: 'SolicitudAvance.Objetivo',
@@ -77,27 +90,36 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'Tercero.documento',
-          displayName: $translate.instant('DOCUMENTO')
+          displayName: $translate.instant('DOCUMENTO'),
+          width: '10%'
         },
         {
           field: 'Tercero.nombres',
-          displayName: $translate.instant('NOMBRES')
+          displayName: $translate.instant('NOMBRES'),
+          width: '12%'
         },
         {
           field: 'Tercero.apellidos',
-          displayName: $translate.instant('APELLIDOS')
+          displayName: $translate.instant('APELLIDOS'),
+          width: '13%'
         },
         {
           field: 'Estado',
           displayName: $translate.instant('ESTADO'),
           cellTemplate: '<div align="center">{{row.entity.Estados.Nombre}}</div>',
-          width: '10%',
+          width: '8%',
         },
         {
           field: 'FechaRegistro',
           displayName: $translate.instant('FECHA'),
           cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
-          width: '12%',
+          width: '8%',
+        },
+        {
+          field: 'Total',
+          displayName: $translate.instant('VALOR'),
+          cellTemplate: '<div align="center"><span>{{row.entity.Total | currency}}</span></div>',
+          width: '8%',
         },
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
