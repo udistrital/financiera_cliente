@@ -37,6 +37,7 @@ var text_es = {
   SELECCIONE_PROVEEDOR: "Seleccionar Proveedor",
   DETALLE_PROVEEDOR: "Detalle Proveedor",
   REGISTRO_PRESUPUESTAL: "Certificado Registro Presupuestal",
+  CRP: "CRP",
   SELECCIONE_CRP: "Seleccione CRP",
   DETALLE_CRP: "Detalle CRP",
   VALOR: "Valor",

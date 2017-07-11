@@ -142,20 +142,19 @@
             <div class="panel-heading">
               {{tipo.TipoAvance.Nombre}}
             </div>
-              <div class="panel-body">
-                <div class="col-md-8">
-                  {{tipo.Descripcion}}
-                  <br>
-                  Requisitos:
-                  <ol>
-                    <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
-                      {{requisito.RequisitoAvance.Nombre}}
-                    </li>
-                  </ol>
-                </div>
-                <div class="col-md-4">
-                  <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
-                </div>
+            <div class="panel-body">
+                {{tipo.Descripcion}}
+                <br>
+                Requisitos:
+                <ol>
+                  <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]">
+                    {{requisito.RequisitoAvance.Nombre}}<br>
+                    {{requisito.RequisitoAvance.Etapa}}
+                  </li>
+                </ol>
+            </div>
+            <div class="panel-footer">
+              <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
             </div>
           </div>
           <div class="row" align="center">

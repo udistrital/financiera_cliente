@@ -96,7 +96,7 @@ md-sidenav {
 }
 /* UI-GRID*/
 #mi-grid{
-  min-height: 300px !important;
+  min-height: 50px !important;
   width: auto !important;
 }
 
@@ -140,7 +140,7 @@ md-sidenav {
 /*clases para posicionar el paginador debajo del grid */
 
 .mi-grid .ui-grid-pager-panel {
-  margin-bottom: -20px !important;
+  margin-bottom: -30px !important;
 }
 
 .mi-grid .ui-grid-pager-container {
