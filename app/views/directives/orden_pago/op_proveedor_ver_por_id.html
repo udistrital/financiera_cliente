@@ -209,6 +209,16 @@
       <div class="col-sm-5">
         <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency }}</span>
       </div>
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Vigencia}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'ELABORADO_POR' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].PersonaElaboro }}</span>
+      </div>
     </div>
   </div>
 </div>
