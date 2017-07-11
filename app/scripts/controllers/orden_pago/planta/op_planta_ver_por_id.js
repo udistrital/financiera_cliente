@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaVerPorIdCtrl', function (financieraRequest, agoraRequest, coreRequest, $scope, $routeParams) {
+  .controller('OpPlantaVerPorIdCtrl', function (financieraRequest, agoraRequest, coreRequest, $scope, $routeParams, financieraMidRequest) {
     var self = this;
     self.ordenPagoPlantaId = $routeParams.Id;
     // paneles
@@ -72,6 +72,11 @@ angular.module('financieraClienteApp')
           query: "RegistroPresupuestal.Id:" + rp_id,
         })).then(function(response) {
         self.rp_detalle = response.data[0];
+        //data necesidad
+        financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+          .then(function(response) {
+            self.solicitud = response.data[0];
+          });
       });
       //Valor total del Rp
       financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)

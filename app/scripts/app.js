@@ -32,6 +32,7 @@ angular
     'ui.grid.autoResize',
     'ui.grid.pagination',
     'ui.grid.resizeColumns',
+    'ui.grid.exporter',
     'ngStorage',
     'ngWebSocket',
     'angularMoment',
@@ -324,6 +325,11 @@ angular
         controller: 'SolicitudAvanceCtrl',
         controllerAs: 'solicitudAvance'
       })
+      .when('/pac/reporte_pac', {
+        templateUrl: 'views/pac/reporte_pac.html',
+        controller: 'PacReportePacCtrl',
+        controllerAs: 'reportePac'
+      })
       .when('/calendario_tributario/gestion_calendario', {
         templateUrl: 'views/calendario_tributario/gestion_calendario.html',
         controller: 'GestionCalendarioCtrl',
@@ -338,6 +344,11 @@ angular
         templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
         controller: 'ListaSolicitudCtrl',
         controllerAs: 'listaSolicitud'
+      })
+      .when('/cdp/cdp_aprobacion_anulacion', {
+        templateUrl: 'views/cdp/cdp_aprobacion_anulacion.html',
+        controller: 'CdpCdpAprobacionAnulacionCtrl',
+        controllerAs: 'cdpAprobacionAnulacion'
       })
       .otherwise({
         redirectTo: '/'

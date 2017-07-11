@@ -9,7 +9,7 @@
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpAnulacion.limpiar();self.actualizarLista()">&times</button><br>
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpAnulacion.limpiar();cdpAnulacion.actualizarLista()">&times</button><br>
     </div>
     <div class="col-md-12">
       <div class="panel panel-default">
@@ -88,7 +88,7 @@
                 <label>{{'TIPO_ANULACION' | translate}}</label>
               </div>
               <div class="col-md-9">
-                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control selectpicker" ng-model="cdpAnulacion.tipoAnulacion">
+                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="cdpAnulacion.tipoAnulacion">
                     <option value="P">{{'ANULACION_PARCIAL' | translate}}</option>
                   <option value="T">{{'ANULACION_TOTAL' | translate}}</option>
                </select>
@@ -100,7 +100,7 @@
                 <label>{{'SELECCION_RUBRO' | translate}}</label>
               </div>
               <div class="col-md-9">
-                 <select class="selectpicker" ng-model="cdpAnulacion.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpAnulacion.rubros_afectados" >
+                 <select class="form-control" ng-model="cdpAnulacion.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpAnulacion.rubros_afectados" >
                  </select>
               </div>
             </div>
@@ -116,13 +116,17 @@
             </div>
             <!-- Button (Double) -->
             <br>
-            <div class="row">
-              <div class="col-md-6 col-md-offset-6">
-                <div class="col-md-6">
-                  <button id="btnAnular" name="btnAnular" class="btn btn-outline btn-warning btn-md btn-block" ng-click="cdpAnulacion.anular()">{{'ANULAR' | translate}}</button>
-                </div>
-              </div>
-            </div>
+
+                <center>
+
+                  <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAnulacion.anular()">{{'SOLICITAR' | translate}}</button>
+
+
+                </center>
+
+
+
+
           </div>
         </div>
       </form>
