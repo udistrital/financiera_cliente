@@ -15,22 +15,22 @@
         <div class="panel-body">
 
 
-          <div class="col-md-6">
+          <div class="col-md-12">
             <p></p>
             <label for="codigocuenta">{{'CODIGO' | translate }}:</label>
             <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}">
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-12">
             <p></p>
-            <label for="sigla">{{'SIGLA' | translate }}:</label>
-            <input class="form-control" type="text" id="sigla" ng-model="crearFuente.nueva_fuente.Sigla" placeholder="{{'INGRESE_SIGLA' | translate }}">
+            <label for="Nombre">{{'NOMBRE' | translate }}:</label>
+            <input class="form-control" type="text" id="Nombre" ng-model="crearFuente.nueva_fuente.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate }}">
           </div>
 
           <div class="col-md-12">
             <p></p>
             <label for="nombrefuente">{{'DESCRIPCION' | translate }}:</label>
-            <input class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}">
+            <textarea class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}"></textarea>
           </div>
 
           <div class="col-md-12">
@@ -99,7 +99,7 @@
             </div>
 
             <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
-              
+
               <div class="col-md-7">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
                 <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in crearFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
@@ -171,8 +171,8 @@
             <td>{{crearFuente.nueva_fuente.Codigo }}</td>
           </tr>
           <tr>
-            <th>{{ 'SIGLA' | translate }}: </th>
-            <td>{{crearFuente.nueva_fuente.Sigla}}</td>
+            <th>{{ 'NOMBRE' | translate }}: </th>
+            <td>{{crearFuente.nueva_fuente.Nombre}}</td>
           </tr>
           <tr>
             <th>{{ 'DESCRIPCION' | translate }}: </th>

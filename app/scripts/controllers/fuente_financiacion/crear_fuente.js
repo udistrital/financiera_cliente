@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 5,
+      paginationPageSize: 15,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
@@ -193,8 +193,8 @@ angular.module('financieraClienteApp')
 
       if (self.nueva_fuente.Codigo == null) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_CODIGO'), "error");
-      } else if (self.nueva_fuente.Sigla == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESE_SIGLA'), "error");
+      } else if (self.nueva_fuente.Nombre == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_NOMBRE'), "error");
       } else if (self.nueva_fuente.Descripcion == null) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_DESCRIPCION'), "error");
       } else if (self.nueva_fuente_apropiacion.Monto == null) {
@@ -250,7 +250,7 @@ angular.module('financieraClienteApp')
     }
       var data = {
         Codigo: self.nueva_fuente.Codigo,
-        Sigla: self.nueva_fuente.Sigla,
+        Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion
       }
 

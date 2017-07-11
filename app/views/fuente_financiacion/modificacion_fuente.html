@@ -3,7 +3,7 @@
   <form name="fuentes_form" ng-submit="">
 
 
-    <div class="col-md-5">
+    <div class="col-md-4">
 
       <div class="panel panel-default">
 
@@ -22,7 +22,9 @@
             </select>
           </div>
 
-          <div class="col-md-12" ng-show="!modificacionFuente.registro">
+          <div class="" ng-show="modificacionFuente.adicion">
+
+          <div class="col-md-12">
             <p></p>
             <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.modificar_fuente " ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
@@ -30,27 +32,7 @@
             </select>
           </div>
 
-        <div class="" ng-show="modificacionFuente.registro">
-          <div class="col-md-6">
-            <p></p>
-            <label for="codigo">{{'CODIGO' | translate }}:</label>
-            <input class="form-control" type="text" id="codigocuenta" ng-model="modificacionFuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}">
-          </div>
-
-          <div class="col-md-6">
-            <p></p>
-            <label for="sigla">{{'SIGLA' | translate }}:</label>
-            <input class="form-control" type="text" id="sigla" ng-model="modificacionFuente.Sigla" placeholder="{{'INGRESE_SIGLA' | translate }}">
-          </div>
-
           <div class="col-md-12">
-            <p></p>
-            <label for="nombrefuente">{{'DESCRIPCION' | translate }}:</label>
-            <input class="form-control" type="text" id="nombrefuente" ng-model="modificacionFuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}">
-          </div>
-        </div>
-
-          <div class="col-md-12" ng-show="!modificacionFuente.anulacion">
             <p></p>
             <label for="monto">{{'INGRESE_VALOR_ADICION' | translate }}:</label>
             <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
@@ -58,28 +40,66 @@
 
           <div class="col-md-12">
             <p></p>
-            <label for="fechainicio">{{'INGRESE_FECHA_REGISTRO' | translate }}:</label>
-            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'FECHA_REGISTRO' | translate }}"></md-datepicker>
-
+            <label for="descripcion">{{'DESCRIPCION' | translate }}:</label>
+            <textarea class="form-control" type="text" id="descripcion" ng-model="modificacionFuente.nueva_fuente_apropiacion.Descripcion"></textarea>
           </div>
 
-          <div class="col-md-12" ng-show="!modificacionFuente.anulacion">
+        </div>
+
+        <div class="" ng-show="modificacionFuente.traslado">
+
+        <div class="col-md-12">
+          <p></p>
+          <label for="fuente">{{'FUENTE_FINANCIAMIENTO_ORIGEN' | translate }}:</label>
+          <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO_ORIGEN' | translate }}" ng-model="modificacionFuente.fuente_salida" ng-change="modificacionFuente.mostrar_rubros_origen()" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Descripcion}}</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <p></p>
+          <label for="fuente">{{'FUENTE_FINANCIAMIENTO_DESTINO' | translate }}:</label>
+          <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO_DESTINO' | translate }}" ng-model="modificacionFuente.modificar_fuente" ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Descripcion}}</option>
+          </select>
+        </div>
+
+        <div class="col-md-12">
+          <p></p>
+          <label for="monto">{{'INGRESE_VALOR_TRASLADO' | translate }}:</label>
+          <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
+        </div>
+
+        <div class="col-md-12">
+          <p></p>
+          <label for="descripcion">{{'DESCRIPCION' | translate }}:</label>
+          <textarea class="form-control" type="text" id="descripcion" ng-model="modificacionFuente.nueva_fuente_apropiacion.Descripcion"></textarea>
+        </div>
+
+      </div>
+
+          <div class="col-md-12">
             <p></p>
+            <label for="fechainicio">{{'INGRESE_FECHA_REGISTRO' | translate }}:</label>
+            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'FECHA_REGISTRO' | translate }}"></md-datepicker>
+          </div>
 
+          <div class="col-md-12">
+            <p></p>
+            <p></p>
+            <label for="rubro">{{'RUBROS' | translate }}:</label>
             <div id="grid1" ui-grid="modificacionFuente.gridOptionsapropiacion" ui-grid-selection ui-grid-pagination class="grid"></div>
-
           </div>
 
           <p></p>
 
-          <div class="col-md-12" ng-show="modificacionFuente.adicion || modificacionFuente.registro ">
+          <div class="col-md-12" ng-show="modificacionFuente.adicion">
             <p></p>
             <button ng-click='modificacionFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
           </div>
 
-          <div class="col-md-12" ng-show="modificacionFuente.anulacion ">
+          <div class="col-md-12" ng-show="modificacionFuente.traslado ">
             <p></p>
-            <button ng-click='modificacionFuente.comprobar_anulacion()' class="btn btn-outline btn-danger btn-md btn-block">{{'ANULAR' | translate }}</button>
+            <button ng-click='modificacionFuente.comprobar_traslado()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
           </div>
 
 
@@ -90,9 +110,9 @@
 
 
 
-    <div class="col-md-7">
+    <div class="col-md-8">
 
-      <div class="panel panel-success" ng-show="modificacionFuente.adicion || modificacionFuente.registro ">
+      <div class="panel panel-success" ng-show="modificacionFuente.adicion">
 
 
         <div class="panel-heading">
@@ -107,23 +127,25 @@
             <div class="form-group col-md-12">
               <legend class="text-default" disable>
                 {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}
-              </legend class="text-success">
+              </legend class="text-default">
 
             </div>
 
             <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
 
-              <div class="col-md-7">
+              <div class="col-md-6">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
                 <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label for="valor">{{'VALOR' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
+              </div>
+              <div class="col-md-2">
+                <label for="valor">{{'VALOR_ADICION' | translate }}:</label>
                 <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$">
               </div>
-              <p></p>
-
 
               <div class="form-group col-md-1">
                 <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
@@ -152,11 +174,69 @@
 
       </div>
 
+      <div class="" ng-show="modificacionFuente.traslado ">
 
-      <div class="panel panel-success" ng-show="modificacionFuente.anulacion">
+      <div class="panel panel-success" >
+
 
         <div class="panel-heading">
-          <h3 class="panel-title">{{'RUBRO_SELECCIONADO' | translate }} </h3>
+          <h3 class="panel-title">{{'FUENTE_FINANCIAMIENTO_ORIGEN' | translate }} </h3>
+        </div>
+
+        <div class="panel-body">
+          <div class="info panel-success" ng-repeat="rubro in modificacionFuente.rubros_seleccionados_origen">
+
+            <div class="form-group col-md-12">
+              <legend class="text-default" disable>
+                {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}
+              </legend class="text-success">
+
+            </div>
+
+            <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
+
+              <div class="col-md-6">
+                <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
+                <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
+              </div>
+
+              <div class="col-md-2">
+                <label for="valor">{{'VALOR' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
+              </div>
+              <div class="col-md-2">
+                <label for="valor">{{'VALOR_TRASLADO' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$">
+              </div>
+
+              <div class="form-group col-md-1">
+                <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
+                <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="modificacionFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
+              </div>
+
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3">
+
+              </div>
+              <div class="col-md-6">
+                <p></p>
+                <button ng-click='modificacionFuente.quitarRubroOrigen(rubro.Id)' class="btn btn-outline btn-danger btn-md btn-block">{{'QUITAR_RUBRO' | translate }}</button>
+                <label for="espacio"></label>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="panel panel-success" >
+        <div class="panel-heading">
+          <h3 class="panel-title">{{'FUENTE_FINANCIAMIENTO_DESTINO' | translate }} </h3>
         </div>
 
         <div class="panel-body">
@@ -164,30 +244,43 @@
 
           <div class="info panel-success" ng-repeat="rubro in modificacionFuente.rubros_seleccionados">
 
-            <div class="form-group col-md-12">
-              <legend class="text-default" disable>
-                <p></p>
-                {{'RUBRO' | translate}} : {{rubro.Codigo + ' / ' + rubro.Descripcion}}
-              </legend class="text-success">
+            <div class=" col-md-12">
+
+              <legend class="text-default">
+                {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}
+              </legend class="text-default">
 
             </div>
 
             <div class="form-group" ng-repeat="asignado in rubro.seleccionado">
 
-              <div class="col-md-8">
+              <div class="col-md-6">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
-                <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true" disabled></select>
+                <select data-size="10" title="Seleccione la Dependencia" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
               </div>
 
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label for="valor">{{'VALOR' | translate }}:</label>
-                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" placeholder="$" disabled>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
+              </div>
+              <div class="col-md-2">
+                <label for="valor">{{'VALOR_ADICION' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$">
               </div>
 
+              <div class="form-group col-md-1">
+                <label for="valor" style="color:rgba(255,0,0,0)"> ______ </label>
+                <button name="btn_quitar_rbr" class="btn btn-danger" ng-click="modificacionFuente.quitarDependencia(asignado.Rubro,asignado.Dependencia)">{{'QUITAR' | translate }} </button>
+              </div>
 
             </div>
 
             <div class="form-group">
+              <div class="col-md-6">
+                <p></p>
+                <button ng-click='modificacionFuente.agregar_dep(rubro.Id)' class="btn btn-outline btn-success btn-md btn-block">{{'AGREGAR_DEPENDENCIA' | translate }}</button>
+                <label for="espacio"></label>
+              </div>
               <div class="col-md-6">
                 <p></p>
                 <button ng-click='modificacionFuente.quitarRubro(rubro.Id)' class="btn btn-outline btn-danger btn-md btn-block">{{'QUITAR_RUBRO' | translate }}</button>
@@ -201,6 +294,8 @@
         </div>
 
       </div>
+
+    </div>
 
     </div>
 
@@ -228,8 +323,8 @@
             <td>{{modificacionFuente.Codigo }}</td>
           </tr>
           <tr>
-            <th>{{ 'SIGLA' | translate }}: </th>
-            <td>{{modificacionFuente.Sigla}}</td>
+            <th>{{ 'NOMBRE' | translate }}: </th>
+            <td>{{modificacionFuente.Nombre}}</td>
           </tr>
           <tr>
             <th>{{ 'DESCRIPCION' | translate }}: </th>
@@ -287,8 +382,8 @@
             <td>{{modificacionFuente.Codigo }}</td>
           </tr>
           <tr>
-            <th>{{ 'SIGLA' | translate }}: </th>
-            <td>{{modificacionFuente.Sigla}}</td>
+            <th>{{ 'NOMBRE' | translate }}: </th>
+            <td>{{modificacionFuente.Nombre}}</td>
           </tr>
           <tr>
             <th>{{ 'DESCRIPCION' | translate }}: </th>
