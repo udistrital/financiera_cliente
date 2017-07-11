@@ -68,7 +68,9 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
+      if (self.OrdenPago.RegistroPresupuestal){
+        self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
+      }
       self.OrdenPago.PersonaElaboro = 1;
       self.dataSend = self.OrdenPago; // para api_mid
       self.validar_campos();
