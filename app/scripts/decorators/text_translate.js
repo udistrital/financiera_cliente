@@ -116,6 +116,8 @@ var text_es = {
   DETALLE: "Detalle",
   FINANCIERO: "Financiero",
   CONTRATO: "Contrato",
+  CONSECUTIVO: "#",
+  NOMBRES: "Nombres",
 
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",

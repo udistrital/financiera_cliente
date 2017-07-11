@@ -73,14 +73,14 @@ angular.module('financieraClienteApp')
       enableSorting: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
-      columnDefs: [{
-          field: 'SolicitudAvance.Vigencia',
-          displayName: $translate.instant('VIGENCIA'),
-          width: '8%',
-        },
+      columnDefs: [
         {
           field: 'SolicitudAvance.Consecutivo',
           displayName: $translate.instant('CONSECUTIVO'),
+          width: '5%',
+        },{
+          field: 'SolicitudAvance.Vigencia',
+          displayName: $translate.instant('VIGENCIA'),
           width: '10%',
         },
         {
