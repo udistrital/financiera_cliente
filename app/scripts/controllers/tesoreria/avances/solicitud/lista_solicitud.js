@@ -8,20 +8,50 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ListaSolicitudCtrl', function (financieraRequest, $translate) {
+  .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, modelsRequest) {
     var ctrl = this;
 
-    ctrl.get_solicitudes = function(){
+    ctrl.get_solicitudes = function() {
       financieraRequest.get("estado_avance", $.param({
           limit: -1,
           sortby: "Id",
           order: "asc"
         }))
         .then(function(response) {
-          console.log(response);
+          console.log(response.data);
+          angular.forEach(response.data, function(solicitud) {
+            //aqui va la conexions con el beneficiario
+            modelsRequest.get("terceros_completo")
+              .then(function(response) {
+                solicitud.Tercero = response.data;
+              });
+            financieraRequest.get("solicitud_tipo_avance", $.param({
+                query: "SolicitudAvance.Id:" + solicitud.SolicitudAvance.Id,
+                sortby: "Id",
+                limit: -1,
+                order: "asc"
+              }))
+              .then(function(response) {
+                solicitud.Tipos = response.data;
+                angular.forEach(solicitud.Tipos, function(tipo) {
+                  financieraRequest.get("requisito_tipo_avance", $.param({
+                      query: "TipoAvance:" + tipo.Id + ",Estado:" + "A",
+                      limit: -1,
+                      fields: "RequisitoAvance,TipoAvance",
+                      sortby: "TipoAvance",
+                      order: "asc"
+                    }))
+                    .then(function(response) {
+                      tipo.Requisitos = response.data;
+                    });
+                });
+              });
+
+          });
           ctrl.gridOptions.data = response.data;
         });
     };
+
     ctrl.get_solicitudes();
     ctrl.gridOptions = {
       paginationPageSizes: [5, 15, 20],
@@ -30,8 +60,7 @@ angular.module('financieraClienteApp')
       enableSorting: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
-      columnDefs: [
-        {
+      columnDefs: [{
           field: 'SolicitudAvance.Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           width: '10%',
@@ -47,8 +76,16 @@ angular.module('financieraClienteApp')
           width: '15%',
         },
         {
-          field:'SolicitudAvance.IdBeneficiario',
-          displayName: $translate.instant('BENEFICIARIO')
+          field: 'Tercero.documento',
+          displayName: $translate.instant('DOCUMENTO')
+        },
+        {
+          field: 'Tercero.nombres',
+          displayName: $translate.instant('NOMBRES')
+        },
+        {
+          field: 'Tercero.apellidos',
+          displayName: $translate.instant('APELLIDOS')
         },
         {
           field: 'Estado',
@@ -69,16 +106,16 @@ angular.module('financieraClienteApp')
           width: '8%',
 
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.TiposAvance.load_row(row,\'ver\')" data-toggle="modal" data-target="#modalVer">' +
+            '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.TiposAvance.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
-            '<a class="configuracion" ng-click="grid.appScope.TiposAvance.load_row(row,\'config\');" data-toggle="modal" data-target="#modalConf">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.CONFIGURAR\' | translate }}" class="fa fa-cog fa-lg faa-spin animated-hover" aria-hidden="true"></i></a> ' +
-            '<a class="borrar" ng-click="grid.appScope.TiposAvance.load_row(row,\'delete\');">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a>' +
             '</center>'
         }
       ]
     };
+
+    ctrl.ver_fila = function(row) {
+      $scope.solicitud = row;
+      console.log($scope.solicitud);
+    };
+
   });
