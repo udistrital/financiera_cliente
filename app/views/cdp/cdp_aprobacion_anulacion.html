@@ -23,7 +23,7 @@
             <table class="table text-justify">
               <tr>
                 <th>{{'NECESIDAD_NO' | translate}}: </th>
-                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
+                <td>{{cdpAprobacionAnulacion.cdp.DataSolicitud.SolicitudDisponibilidad.Necesidad.Numero}}</td>
               </tr>
               <tr>
                 <th>{{'ESTADO' | translate}}: </th>
@@ -31,29 +31,29 @@
               </tr>
               <tr>
                 <th>{{'DEPENDENCIA_SOLICITANTE' | translate}}: </th>
-                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.Nombre}}</td>
+                <td>{{cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaSolicitante.Nombre}}</td>
               </tr>
               <tr>
                 <th>{{'JEFE_DEPENDENCIA' | translate}}: </th>
-                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
-                      cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
-                     cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
-                    cdpAprobacionAnulacion.cdp.Solicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
+                <td>{{cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerApellido + ' ' +
+                      cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoApellido + ' ' +
+                     cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaSolicitante.InfoJefeDependencia.PrimerNombre + ' '+
+                    cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaSolicitante.InfoJefeDependencia.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
                 <th>{{'DEPENDENCIA_DESTINO' | translate}}: </th>
-                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.DependenciaDestino.Nombre}}</td>
+                <td>{{cdpAprobacionAnulacion.cdp.DataSolicitud.DependenciaDestino.Nombre}}</td>
               </tr>
               <tr>
                 <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
-                    <td>{{cdpAprobacionAnulacion.cdp.Responsable.PrimerApellido + ' ' +
-                          cdpAprobacionAnulacion.cdp.Responsable.SegundoApellido + ' ' +
-                         cdpAprobacionAnulacion.cdp.Responsable.PrimerNombre + ' '+
-                        cdpAprobacionAnulacion.cdp.Responsable.SegundoNombre + ' '}}</td>
+                    <td>{{cdpAprobacionAnulacion.cdp.DataResponsable.PrimerApellido + ' ' +
+                          cdpAprobacionAnulacion.cdp.DataResponsable.SegundoApellido + ' ' +
+                         cdpAprobacionAnulacion.cdp.DataResponsable.PrimerNombre + ' '+
+                        cdpAprobacionAnulacion.cdp.DataResponsable.SegundoNombre + ' '}}</td>
               </tr>
               <tr>
                 <th>{{'OBJETO' | translate}}: </th>
-                <td>{{cdpAprobacionAnulacion.cdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
+                <td>{{cdpAprobacionAnulacion.cdp.DataSolicitud.SolicitudDisponibilidad.Necesidad.Objeto}}</td>
               </tr>
             </table>
             <hr>
@@ -136,14 +136,20 @@
             <!-- Button (Double) -->
             <br>
 
-                <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre = 'Expedida'">
+                <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Solicitada'">
 
                   <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
                   <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
 
 
                 </center>
+                <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
 
+                  <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+
+
+                </center>
 
 
 

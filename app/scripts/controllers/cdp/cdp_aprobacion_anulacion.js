@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
         {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',   displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center'},
         {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
         {field: 'EstadoAnulacion.Nombre', displayName : $translate.instant('ESTADO')},
-        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Solicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
+        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
       ]
 
     };
@@ -33,7 +33,7 @@ angular.module('financieraClienteApp')
         self.gridOptions.data = response.data;
         angular.forEach(self.gridOptions.data, function(data){
           financieraMidRequest.get('disponibilidad/SolicitudById/'+data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
-            data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Solicitud = response.data[0];
+            data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data[0];
           });
         });
       });
@@ -77,7 +77,7 @@ angular.module('financieraClienteApp')
                 limit: 1
               })).then(function(response){
                 if (response.data != null){
-                  self.cdp.Responsable = response.data[0];
+                  self.cdp.DataResponsable = response.data[0];
                 }
 
               });
@@ -87,9 +87,41 @@ angular.module('financieraClienteApp')
       });
     };
 
+
+    self.solicitarAnulacion = function(){
+      self.anulacion.EstadoAnulacion.Id = 2;
+      financieraRequest.post('disponibilidad/AprobarAnulacion',self.anulacion).then(function(response){
+        console.log(response.data);
+        if (response.data.Type !== undefined){
+          if (response.data.Type === "error"){
+            swal('',$translate.instant(response.data.Code),response.data.Type);
+          }else{
+            swal('',$translate.instant(response.data.Code)+' '+response.data.Body.Id,response.data.Type).then(function(){
+              $("#myModal").modal('hide');
+              self.cargarListaAnulaciones();
+            });
+          }
+
+        }
+      });
+    };
+
     self.aprobarAnulacion = function(){
-      console.log("anulacion. ");
-      console.log(self.anulacion);
+      self.anulacion.EstadoAnulacion.Id = 3;
+      financieraRequest.post('disponibilidad/AprobarAnulacion',self.anulacion).then(function(response){
+        console.log(response.data);
+        if (response.data.Type !== undefined){
+          if (response.data.Type === "error"){
+            swal('',$translate.instant(response.data.Code),response.data.Type);
+          }else{
+            swal('',$translate.instant(response.data.Code)+response.data.Body.Id,response.data.Type).then(function(){
+              $("#myModal").modal('hide');
+              self.cargarListaAnulaciones();
+            });
+          }
+
+        }
+      });
     };
 
   });
