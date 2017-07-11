@@ -7,17 +7,21 @@
  * # verSolicitud
  */
 angular.module('financieraClienteApp')
-  .directive('verSolicitud', function () {
+  .directive('verSolicitud', function() {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
-        },
-      */
-      templateUrl: 'views/directives/avance/ver_solicitud.html',
-      controller:function(){
-        var ctrl = this;
+      scope: {
+        sol: '=?'
       },
-      controllerAs:'d_verSolicitud'
+      templateUrl: 'views/directives/avance/ver_solicitud.html',
+
+      controller: function($scope,financieraRequest) {
+        var ctrl = this;
+
+        $scope.$watch('sol', function() {
+          ctrl.solicitud = $scope.sol;          
+        });
+      },
+      controllerAs: 'd_verSolicitud'
     };
   });

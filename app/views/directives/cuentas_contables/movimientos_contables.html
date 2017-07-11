@@ -21,8 +21,8 @@
     </div>
   </div>
 
-  <div ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
-  <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div class="mi-grid" id="mi-grid" ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
+  <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" class="mi-grid" id="mi-grid"  ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
   <div ng-show="show_descs">
     <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
@@ -47,7 +47,7 @@
             <div class="panel-heading">
               <h3 class="panel-title">{{"CUENTAS_SELECCIONADAS" | translate}}</h3>
             </div>
-            <div ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-cellnav ui-grid-auto-resize ui-grid-edit ></div><br>
+            <div class="mi-grid" id="mi-grid" ui-grid="d_movimientosContables.gridOptionsDescuentos" ui-grid-cellnav ui-grid-auto-resize ui-grid-edit ></div><br>
           </div>
         </div>
 

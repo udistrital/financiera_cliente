@@ -63,7 +63,6 @@ angular
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
-      cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
   }])
   .config(function($mdDateLocaleProvider) {
     $mdDateLocaleProvider.formatDate = function(date) {
@@ -345,6 +344,11 @@ angular
         templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
         controller: 'ListaSolicitudCtrl',
         controllerAs: 'listaSolicitud'
+      })
+      .when('/cdp/cdp_aprobacion_anulacion', {
+        templateUrl: 'views/cdp/cdp_aprobacion_anulacion.html',
+        controller: 'CdpCdpAprobacionAnulacionCtrl',
+        controllerAs: 'cdpAprobacionAnulacion'
       })
       .otherwise({
         redirectTo: '/'
