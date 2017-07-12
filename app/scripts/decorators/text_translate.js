@@ -258,7 +258,8 @@ var text_es = {
   SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONE_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONE_RUBROS_FUENTE: "Seleccione los Rubros de la Fuente de Financiamiento",
-  ANULACION_FUENTE_FINANCIAMIENTO: "Anular Fuente de Financiamiento",
+  ADICION_FUENTE_FINANCIAMIENTO: "Adicion Fuente de Financiamiento",
+  TRASLADO_FUENTE_FINANCIAMIENTO: "Traslado Fuente de Financiamiento",
   CREAR_FUENTE: "Asignar Fuente Financiamiento",
   QUITAR: "Quitar",
   QUITAR_RUBRO: "Quitar Rubro",
@@ -281,7 +282,8 @@ var text_es = {
   SELECCIONE_FUENTE_FINANCIAMIENTO_DESTINO: "Seleccione la Fuente de Financiamiento de Destino",
   VALOR_ADICION: "Valor Adición",
   VALOR_TRASLADO: "Valor Traslado",
-
+  VALOR_FUENTE: "Valor Fuente Financiamiento",
+  VALOR_TOTAL: "Valor Total Fuente Financiamiento",
 
   //CDP
   TITULO_SOLICITUD_CDP: "Solicitudes de Certificado de Disponibilidad Presupuestal",

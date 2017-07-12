@@ -25,18 +25,18 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         {
           displayName: $translate.instant('CODIGO'),
           field: 'Codigo',
-          width: '30%',
+          width: '20%',
         },
         {
-          displayName: $translate.instant('SIGLA'),
-          field: 'Sigla',
+          displayName: $translate.instant('NOMBRE'),
+          field: 'Nombre',
           width: '30%',
         },
         {
           displayName: $translate.instant('DESCRIPCION'),
           field: 'Descripcion',
           displayName: 'Descripción',
-          width: '40%',
+          width: '50%',
         },
       ]
 
@@ -62,12 +62,12 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Codigo',
-          width: '35%',
+          width: '30%',
           displayName: $translate.instant('CODIGO'),
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Descripcion',
-          width: '35%',
+          width: '30%',
           resizable: true,
           displayName: $translate.instant('DESCRIPCION'),
         },
@@ -83,11 +83,16 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           enableCellEdit: false
         },
         {
+          field: 'TipoMovimiento.Nombre',
+          width: '10%',
+          displayName: $translate.instant('MOVIMIENTO'),
+          enableCellEdit: false
+        },
+        {
           field: 'Valor',
           cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
           displayName: $translate.instant('VALOR'),
           width: '10%'
-
         },
 
       ]

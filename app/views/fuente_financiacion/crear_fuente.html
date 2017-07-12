@@ -42,11 +42,6 @@
 
           </div>
 
-          <div class="col-md-12">
-            <label for="fechainicio"> {{'INGRESE_FECHA_REGISTRO' | translate }}: </label>
-            <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.Fechainicio" md-placeholder="{{'FECHA_REGISTRO' | translate }}"></md-datepicker>
-          </div>
-
 
           <div class="col-md-12">
             <p></p>
@@ -161,7 +156,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="page-header">{{ 'TITULO_FUENTES_CREAR' | translate }}</h3>
-        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{crearFuente.nueva_fuente_apropiacion.Fechainicio | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{crearFuente.fecha | date:"yyyy-MM-dd":"+0900"}}</div>
       </div>
       <div class="panel-body">
         <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
@@ -180,7 +175,7 @@
           </tr>
           <tr>
             <th>{{ 'VALOR' | translate }}: </th>
-            <td>{{ crearFuente.nueva_fuente_apropiacion.Monto }}</td>
+            <td>{{ crearFuente.nueva_fuente_apropiacion.Monto | currency}}</td>
           </tr>
 
         </table>
