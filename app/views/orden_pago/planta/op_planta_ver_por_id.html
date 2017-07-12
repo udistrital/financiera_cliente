@@ -151,10 +151,55 @@
       </div>
     </div>
 
+    <!--Valor del Pago-->
+    <legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
+      {{'DETALLE_OP' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!panelDetallePagoProveedor"></span>
+      <span class="fa fa-minus pull-right" ng-show="panelDetallePagoProveedor"></span>
+    </legend class="text-primary">
+    <div ng-show="panelDetallePagoProveedor" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'TIPO_DOCUMENTO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.TipoOrdenPago.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.ValorBase  | currency }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'POR_IVA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.Iva.Valor}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.ValorIva  | currency }}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.ValorBruto  | currency }}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.Vigencia}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'ELABORADO_POR' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.PersonaElaboro }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!--Detalle Concepto-->
-    <detalle-concepto-op-planta
-      inputidordenpago="opPlantaVerPorId.OrdenPago.Id"
-      inputpestanaabierta="pestana_abierta">
+    <detalle-concepto-op-planta inputidordenpago="opPlantaVerPorId.OrdenPago.Id" inputpestanaabierta="pestana_abierta">
     </detalle-concepto-op-planta>
 
     <!--detalle Cuenta Contable-->

@@ -8,12 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpSeguridadSocialCrearCtrl', function ($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest, $http) {
+  .controller('OpSeguridadSocialCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest, $http) {
     var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
-    self.OrdenPago.RegistroPresupuestal = {Id: 84}
-    self.NecesidadId = null;
     self.DataSeguridadSocial = {};
 
     // obtener vigencia
@@ -26,36 +24,55 @@ angular.module('financieraClienteApp')
     // Funciones
     // ***************
     self.validar_campos = function() {
-
+      self.MensajesAlerta = '';
+      if (self.OrdenPago.UnidadEjecutora == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_UNIDAD') + "</li>"
+      }
+      if (self.OrdenPago.RegistroPresupuestal == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>"
+      }
+      if (self.DataSeguridadSocial.Mes == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_MES_SS') + "</li>"
+      }
       // Operar
-
-      // insertc
-      console.log("Insertar DATA");
-      console.log(self.dataSend);
-      console.log("Insertar DATA");
-      financieraMidRequest.post("orden_pago_nomina/CrearOPSeguridadSocial", self.dataSend)
-        .then(function(data) {
-          self.resultado = data;
-          //mensaje
-          swal({
-            title: 'Orden de Pago',
-            text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
-            type: self.resultado.data.Type,
-          }).then(function() {
-            $window.location.href = '#/orden_pago/ver_todos';
+      if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+        // insertc
+        console.log("Insertar DATA");
+        console.log(self.dataSend);
+        console.log("Insertar DATA");
+        financieraMidRequest.post("orden_pago_nomina/CrearOPSeguridadSocial", self.dataSend)
+          .then(function(data) {
+            self.resultado = data;
+            //mensaje
+            swal({
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              type: self.resultado.data.Type,
+            }).then(function() {
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+            //
           })
-          //
+      } else {
+        // mesnajes de error
+        swal({
+          title: 'Error!',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          type: 'error'
         })
-
+      }
     }
     //
     self.addOpPlantaSsCrear = function() {
       console.log("funcion");
-      self.OrdenPago.ValorBase = 0;       // se obtendra del rp
+      if (self.OrdenPago.RegistroPresupuestal){
+        self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
+      }
       self.OrdenPago.PersonaElaboro = 1;
+      // Data para enviar al servicio
       self.dataSend = {};
       self.dataSend.OrdenPago = self.OrdenPago;
-      self.dataSend.SeguridadSocial = self.DataSeguridadSocial ;
+      self.dataSend.SeguridadSocial = self.DataSeguridadSocial;
       self.validar_campos();
     }
 

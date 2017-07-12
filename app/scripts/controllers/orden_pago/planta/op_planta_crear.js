@@ -13,7 +13,6 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
 
@@ -67,12 +66,12 @@ angular.module('financieraClienteApp')
     }
     //
     self.addOpPlantaCrear = function() {
-      self.OrdenPago.ValorBase = 0;       // se obtendra del rp
+      if (self.OrdenPago.RegistroPresupuestal){
+        self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
+      }
+      // Data para enviar al servicio
       self.OrdenPago.PersonaElaboro = 1;
       self.dataSend = self.OrdenPago; // para api_mid
-      //para tes directo desde cliente hacia kronos
-      //self.dataSend.OrdenPago = self.OrdenPago;
-
       self.validar_campos();
     }
   });

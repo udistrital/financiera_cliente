@@ -221,6 +221,7 @@ var text_es = {
   MSN_SUPERA_SALDO: 'Supera el Valor del Saldo',
   MSN_Y: 'y',
   MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
+  MSN_DEBE_MES_SS: "Debe Seleccionar el mes de la Seguridad Social",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",

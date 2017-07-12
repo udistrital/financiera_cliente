@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
     $scope.panelRp = true;
     $scope.pestana_abierta = true;
     $scope.panelDetalleCuentas = true;
+    $scope.panelDetallePagoProveedor = true;
     // get data OP
     financieraRequest.get('orden_pago',
       $.param({
@@ -27,6 +28,8 @@ angular.module('financieraClienteApp')
         self.get_info_proveedor(self.OrdenPago.RegistroPresupuestal.Beneficiario)
         // detalle rp
         self.detalle_rp(self.OrdenPago.RegistroPresupuestal.Id)
+        //Iva
+        self.calcularIva(self.OrdenPago.ValorBase, self.OrdenPago.Iva.Valor)
     });
 
     // ***********
@@ -83,6 +86,11 @@ angular.module('financieraClienteApp')
         .then(function(response) {
           self.valor_total_rp = response.data;
         });
+    }
+    // Function calcular iva
+    self.calcularIva = function(valor_base, iva) {
+      self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
+      self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
     }
 
 
