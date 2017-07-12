@@ -20,18 +20,18 @@ angular.module('financieraClienteApp')
         var self = this;
 
         self.gridOptions_necesidad = {
-          enableRowSelection: true,
+          enableRowSelection: false,
           multiSelect: false,
           enableRowHeaderSelection: false,
 
-          paginationPageSizes: [10, 50, 100],
+          paginationPageSizes: [12, 50, 100],
           paginationPageSize: null,
 
           enableFiltering: true,
           enableSelectAll: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
-          minRowsToShow: 10,
+          minRowsToShow: 12,
           useExternalPagination: false,
 
           // inicio sub tabla
@@ -91,8 +91,17 @@ angular.module('financieraClienteApp')
                   ],
                   onRegisterApi: function(gridApi) {
                     gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
+                      if ($scope.rowgrid!== undefined) {
+                        $scope.rowgrid.isSelected=false;
+                      }
                       $scope.outputrp = null;
-                      $scope.outputrp = row2.entity;
+                      console.log(row2);
+                      if (row2.isSelected) {
+                        $scope.rowgrid=row2;
+                        $scope.outputrp = row2.entity;
+                      }
+
+
                     });
                   }
                 };
