@@ -15,8 +15,6 @@ angular.module('financieraClienteApp')
     self.OrdenPagoConsulta = {};
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
-    //self.OrdenPagoConsulta.Proveedor = {Id: 469};  // debe ser Registro de la UD
-
 
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
