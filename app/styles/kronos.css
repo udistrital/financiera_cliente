@@ -22,3 +22,11 @@
 .mi-grid-pac.ui-grid, .mi-grid-pac.ui-grid-viewport, .mi-grid-pac.ui-grid-render-container-body, .mi-grid-pac.ui-grid-canvas {
   height: auto !important;
 }
+
+md-checkbox.md-checked.blue .md-icon {
+ background-color: rgba(0, 62, 101, 1);
+}
+
+.left-cinco{
+  padding-left: 5%;
+}
