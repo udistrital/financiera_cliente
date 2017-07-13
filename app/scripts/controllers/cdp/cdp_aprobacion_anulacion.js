@@ -41,6 +41,44 @@ angular.module('financieraClienteApp')
 
     self.cargarListaAnulaciones();
 
+    Array.prototype.indexOfOld = Array.prototype.indexOf
+
+    Array.prototype.indexOf = function(e, fn) {
+      if (!fn) {
+        return this.indexOfOld(e)
+      } else {
+        if (typeof fn === 'string') {
+          var att = fn;
+          fn = function(e) {
+            return e[att];
+          }
+        }
+        return this.map(fn).indexOfOld(e);
+      }
+    };
+
+    self.formatoResumenAfectacion = function(afectacion){
+      var resumen = [];
+      angular.forEach(afectacion, function(data){
+        var dispapr = angular.copy(data.DisponibilidadApropiacion);
+        if (resumen.indexOf(dispapr.Apropiacion.Id,'Apropiacion.Id') !== -1){
+          dispapr.FuenteFinanciamiento.Valor = data.Valor;
+          resumen[resumen.indexOf(dispapr.Apropiacion.Id,'Apropiacion.Id')].FuenteFinanciamiento.push(dispapr.FuenteFinanciamiento)
+        }else{
+          if (dispapr.FuenteFinanciamiento != null || dispapr.FuenteFinanciamiento != undefined){
+            var fuente = dispapr.FuenteFinanciamiento;
+            fuente.Valor = data.Valor;
+            dispapr.FuenteFinanciamiento = [];
+            dispapr.FuenteFinanciamiento.push(fuente);
+          }
+          resumen.push(dispapr);
+        }
+
+      });
+      return resumen;
+    };
+
+
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
@@ -49,7 +87,9 @@ angular.module('financieraClienteApp')
         $scope.apropiaciones = [];
         self.cdp = row.entity.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
         self.anulacion = row.entity;
-        console.log(self.anulacion);
+        self.resumen = self.formatoResumenAfectacion(self.anulacion.AnulacionDisponibilidadApropiacion);
+        console.log("resumen");
+        console.log(self.resumen);
         financieraRequest.get('disponibilidad_apropiacion','limit=-1&query=Disponibilidad.Id:'+self.cdp.Id).then(function(response) {
           self.rubros = response.data;
           angular.forEach(self.rubros, function(data){
