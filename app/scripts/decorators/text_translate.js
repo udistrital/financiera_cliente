@@ -132,7 +132,7 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
-  ENTRADA_ALMACEN: "Entrada Alamacen",
+  ENTRADA_ALMACEN: "Entrada De Almacén",
   SEDE: "Sede",
   FACTURA: "Factura",
   SELECCIONAR: "Seleccionar",
@@ -197,9 +197,9 @@ var text_es = {
   },
 
   // ORDEN DE PAGO
-  ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO: "Órdenes de Pago",
   ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
-  ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
+  ORDEN_PAGO_ACTUALIZAR: "Actualizar Órdenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",

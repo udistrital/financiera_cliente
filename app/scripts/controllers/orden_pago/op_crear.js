@@ -113,8 +113,8 @@ angular.module('financieraClienteApp')
       if (self.Concepto == undefined || self.Concepto.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
       }
-      if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') + ": " + self.TotalAfectacion + "<br>" + $translate.instant('VALOR_PAGO') + ': ' + self.OrdenPago.ValorBase + "</b></li>"
+      if (self.TotalAfectacion != self.OrdenPagoConsulta.ValorBruto) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') + ": " + self.TotalAfectacion + "<br>" + $translate.instant('VALOR_PAGO') + ': ' + self.OrdenPagoConsulta.ValorBruto + "</b></li>"
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {

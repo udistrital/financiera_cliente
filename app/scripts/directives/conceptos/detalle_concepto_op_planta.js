@@ -42,18 +42,19 @@ angular.module('financieraClienteApp')
                    { field: 'Id', visible: false},
                    {
                      field: 'Codigo',
-                     displayName: 'Concepto ' + $translate.instant('CODIGO'),
+                     displayName: $translate.instant('RUBRO') + ' ' + $translate.instant('CODIGO'),
+                     width: '30%',
                      cellClass: 'input_center'
                    },
                    {
                      field: 'Vigencia',
-                     displayName: $translate.instant('VIGENCIA'),
-                     width: '5%',
+                     displayName:$translate.instant('RUBRO') + ' ' + $translate.instant('VIGENCIA'),
+                     width: '15%',
                      cellClass: 'input_center'
                    },
                    {
                      field: 'Descripcion',
-                     displayName: $translate.instant('DESCRIPCION')
+                     displayName: $translate.instant('RUBRO') + ' ' + $translate.instant('DESCRIPCION')
                    }
                  ]};
                  financieraRequest.get('rubro',
