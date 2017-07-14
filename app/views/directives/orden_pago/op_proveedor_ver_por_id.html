@@ -191,7 +191,7 @@
       </div>
       <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency }}</span>
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency:"$":0 }}</span>
       </div>
     </div>
     <div class="form-group">
@@ -201,17 +201,28 @@
       </div>
       <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency }}</span>
+        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency:"$":0 }}</span>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency }}</span>
+        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency:"$":0 }}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Vigencia}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'ELABORADO_POR' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].PersonaElaboro }}</span>
       </div>
     </div>
   </div>
 </div>
+
 <!--detalle rubro-->
 <legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">
   {{'RUBRO' | translate}}

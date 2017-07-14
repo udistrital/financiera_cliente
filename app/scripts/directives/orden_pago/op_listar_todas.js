@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.gridOrdenesDePago = {
+          multiSelect: false,
           enableRowSelection: true,
           enableRowHeaderSelection: false,
 
@@ -85,6 +86,10 @@ angular.module('financieraClienteApp')
         ];
         // OP Proveedores
         self.op_detalle = function(row) {
+          if(row.entity.Nomina  == 'SEGURIDAD SOCIAL'){
+            var path = "/orden_pago/seguridad_social/ver/";
+            $location.url(path + row.entity.Id);
+          }
           if(row.entity.Nomina  == 'PROVEEDOR'){
             var path = "/orden_pago/proveedor/ver/";
             $location.url(path + row.entity.Id);

@@ -130,7 +130,7 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
-  ENTRADA_ALMACEN: "Entrada Alamacen",
+  ENTRADA_ALMACEN: "Entrada De Almacén",
   SEDE: "Sede",
   FACTURA: "Factura",
   SELECCIONAR: "Seleccionar",
@@ -196,9 +196,9 @@ var text_es = {
   },
 
   // ORDEN DE PAGO
-  ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO: "Órdenes de Pago",
   ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
-  ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
+  ORDEN_PAGO_ACTUALIZAR: "Actualizar Órdenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",
@@ -220,6 +220,7 @@ var text_es = {
   MSN_SUPERA_SALDO: 'Supera el Valor del Saldo',
   MSN_Y: 'y',
   MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
+  MSN_DEBE_MES_SS: "Debe Seleccionar el mes de la Seguridad Social",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",
@@ -381,6 +382,7 @@ var text_es = {
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
+  S_A01: "Se Rechazo la Solicitud ",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",

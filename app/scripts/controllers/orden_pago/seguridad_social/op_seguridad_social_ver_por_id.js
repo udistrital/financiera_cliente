@@ -2,15 +2,15 @@
 
 /**
  * @ngdoc function
- * @name financieraClienteApp.controller:OrdenPagoPlantaOpPlantaVerPorIdCtrl
+ * @name financieraClienteApp.controller:OrdenPagoSeguridadSocialOpSeguridadSocialVerPorIdCtrl
  * @description
- * # OrdenPagoPlantaOpPlantaVerPorIdCtrl
+ * # OrdenPagoSeguridadSocialOpSeguridadSocialVerPorIdCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpPlantaVerPorIdCtrl', function (financieraRequest, agoraRequest, coreRequest, $scope, $routeParams, financieraMidRequest) {
+  .controller('OpSeguridadSocialVerPorIdCtrl', function(financieraRequest, agoraRequest, coreRequest, $scope, $routeParams, financieraMidRequest) {
     var self = this;
-    self.ordenPagoPlantaId = $routeParams.Id;
+    self.ordenPagoSeguridadSocuialId = $routeParams.Id;
     // paneles
     $scope.panelUnidadEjecutora = true;
     $scope.panelProveedor = true;
@@ -21,15 +21,15 @@ angular.module('financieraClienteApp')
     // get data OP
     financieraRequest.get('orden_pago',
       $.param({
-        query: "Id:" + self.ordenPagoPlantaId,
+        query: "Id:" + self.ordenPagoSeguridadSocuialId,
       })).then(function(response) {
-        self.OrdenPago = response.data[0];
-        // proveedor
-        self.get_info_proveedor(self.OrdenPago.RegistroPresupuestal.Beneficiario)
-        // detalle rp
-        self.detalle_rp(self.OrdenPago.RegistroPresupuestal.Id)
-        //Iva
-        self.calcularIva(self.OrdenPago.ValorBase, self.OrdenPago.Iva.Valor)
+      self.OrdenPago = response.data[0];
+      // proveedor
+      self.get_info_proveedor(self.OrdenPago.RegistroPresupuestal.Beneficiario)
+      // detalle rp
+      self.detalle_rp(self.OrdenPago.RegistroPresupuestal.Id)
+      //Iva
+      self.calcularIva(self.OrdenPago.ValorBase, self.OrdenPago.Iva.Valor)
     });
 
     // ***********
@@ -76,7 +76,7 @@ angular.module('financieraClienteApp')
         })).then(function(response) {
         self.rp_detalle = response.data[0];
         //data necesidad
-        financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+        financieraMidRequest.get('disponibilidad/SolicitudById/' + self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud, '')
           .then(function(response) {
             self.solicitud = response.data[0];
           });
@@ -94,5 +94,5 @@ angular.module('financieraClienteApp')
     }
 
 
-  // fin
+    // fin
   });
