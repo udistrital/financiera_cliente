@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     $scope.info_validar = false;
     $scope.selected = [];
+    ctrl.n_requisitos = 0;
 
     $scope.toggle = function(item, list) {
       var idx = list.indexOf(item);
@@ -61,6 +62,7 @@ angular.module('financieraClienteApp')
                       order: "asc"
                     }))
                     .then(function(response) {
+                      ctrl.n_requisitos += response.data.length;
                       console.log(response.data);
                       tipo.Requisitos = response.data;
                     });
@@ -152,9 +154,27 @@ angular.module('financieraClienteApp')
       console.log($scope.solicitud);
     };
     ctrl.validar_solicitud = function(){
-      var data = {};
-      data.Valido ="S";
-      data.Estado = "A";
+      var error = "";
+      var i = 0;
+      var j = 0;
+      console.log(ctrl.n_requisitos);
+      angular.forEach($scope.selected, function(registro){
+        if(registro.Observaciones !== "undefined"){
+            i++;
+          }
+          j++;
+        });
+      if(j <= $scope.solicitud.Tipos.lenght){
+        error = "Debe llenar todas las Obervaciones<br>";
+      }
+      if(i<= $scope.solicitud.Tipos.lenght){
+        error = "Debe seleccionar todos los requisitos";
+      }
+      swal(
+        'Oops...',
+          error,
+        "error"
+      );
     };
 
     

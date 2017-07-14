@@ -192,7 +192,7 @@ var text_es = {
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
     NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
-    VALIDAR:"Validar"
+    VERIFICAR:"Verificar Requisitos"
   },
 
   // ORDEN DE PAGO
