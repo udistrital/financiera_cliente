@@ -4,3 +4,20 @@
   </h2>
     <div ui-grid="listaSolicitud.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
 </div>
+
+
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:5%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{'AGREGAR_REQUISITO' | translate }}
+      </div>
+      <div class="panel panel-body">
+        <ver-solicitud sol="solicitud" ></ver-solicitud>
+      </div>
+    </div>
+  </div>
+</div>

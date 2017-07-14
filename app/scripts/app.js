@@ -63,7 +63,6 @@ angular
   })
   .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
       cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
-      cfpLoadingBarProvider.spinnerTemplate = '<div><span class="fa fa-clock-o fa-2x faa-spin animated"></div>';
   }])
   .config(function($mdDateLocaleProvider) {
     $mdDateLocaleProvider.formatDate = function(date) {
@@ -264,6 +263,11 @@ angular
          templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_crear.html',
          controller: 'OpSeguridadSocialCrearCtrl',
          controllerAs: 'opSeguridadSocialCrear'
+       })
+       .when('/orden_pago/seguridad_social/ver/:Id', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_ver_por_id.html',
+         controller: 'OpSeguridadSocialVerPorIdCtrl',
+         controllerAs: 'opSeguridadSocialVerPorId'
        })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
