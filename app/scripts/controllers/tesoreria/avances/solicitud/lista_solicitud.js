@@ -160,7 +160,7 @@ angular.module('financieraClienteApp')
       $scope.solicitud = row;
     };
     ctrl.validar_solicitud = function(){
-      var error = "";
+      var error = "<ol>";
       var i = 0, j= 0, st = 0, lt = 0 ;
 
       angular.forEach($scope.solicitud.Tipos, function(reg){
@@ -169,23 +169,28 @@ angular.module('financieraClienteApp')
       });
 
       angular.forEach($scope.selected, function(registro){
-        if(registro.Observaciones !== "undefined"){
+        if(!angular.isUndefined(registro.Observaciones)){
             i++;
           }
           j++;
         });
-      
+      console.log("Indefinidos: " + i + ", seleccionados: " + j);
       if(i < st){
-        error = "Debe llenar todas las Obervaciones<br>";
+        error += "<li><label>Debe llenar todas las observaciones</label></li>";
       }
       if(j < st){
-        error = "Debe seleccionar todos los requisitos";
+        error += "<li><label>Debe seleccionar todos los requisitos</label></li>";
       }
-      swal(
-        'Oops...',
-         "observaciones" + i + ", select:  " + j,
-        "error"
-      );
+      if(error !== ""){
+        swal(
+          'Soocio...',
+          error,
+          "error"
+        );
+      }else{
+
+      }
+
     };
 
     
