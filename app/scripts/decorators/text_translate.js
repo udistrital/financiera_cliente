@@ -355,6 +355,7 @@ var text_es = {
   CDP_NUMERO: "CDP No.",
   BENEFECIARIO: "Beneficiario",
   MODALIDAD_DE_SELECCION: "Modalidad de Selección",
+  OFICIO: "Oficio No.",
   //INGRESOS
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",
