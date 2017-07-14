@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('PacReportePacCtrl', function(financieraRequest, $scope) {
+  .controller('PacReportePacCtrl', function(financieraRequest, $scope, $translate) {
     var self = this;
     self.cargar_vigencia = function() {
       financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
@@ -38,21 +38,21 @@ angular.module('financieraClienteApp')
     };
     $scope.gridOptions.columnDefs = [{
         name: 'fdescrip',
-        displayName: 'Fuente',
+        displayName: $translate.instant('FUENTE'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
         name: 'descripcion',
-        displayName: 'RUBRO',
+        displayName: $translate.instant('RUBRO'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
         name: 'codigo',
-        displayName: 'Codigo',
+        displayName:  $translate.instant('CODIGO'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
@@ -80,21 +80,21 @@ angular.module('financieraClienteApp')
     };
     $scope.gridOptions_egresos.columnDefs = [{
         name: 'fdescrip',
-        displayName: 'Fuente',
+        displayName: $translate.instant('FUENTE'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
         name: 'descripcion',
-        displayName: 'RUBRO',
+        displayName: $translate.instant('RUBRO'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
         name: 'codigo',
-        displayName: 'Codigo',
+        displayName: $translate.instant('CODIGO'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true

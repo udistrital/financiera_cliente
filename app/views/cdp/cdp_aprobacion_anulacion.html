@@ -104,6 +104,17 @@
               </div>
             </div>
             <br>
+            <div class="row">
+              <div ng-if="cdpAprobacionAnulacion.anulacion.JustificacionRechazo">
+              <div class="col-md-3">
+                <label >{{'MOTIVO_RECHAZO' | translate}}:</label>
+              </div>
+              <div class="col-md-9">
+                <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.JustificacionRechazo" disabled="true"></textarea>
+              </div>
+            </div>
+            </div>
+            <br>
             <div ng-hide="cdpAprobacionAnulacion.tipoAnulacion == 'T'" class="row">
               <div class="col-md-3 ">
                 <label>{{'AFECTACION_DE_LA_ANULACION' | translate}}</label>
@@ -147,14 +158,14 @@
                 <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Solicitada'">
 
                   <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
-                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 
                 </center>
                 <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
 
                   <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
-                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 
                 </center>
