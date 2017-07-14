@@ -12,7 +12,6 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     $scope.info_validar = false;
     $scope.selected = [];
-    ctrl.n_requisitos = 0;
 
     $scope.toggle = function(item, list) {
       var idx = list.indexOf(item);
@@ -36,7 +35,6 @@ angular.module('financieraClienteApp')
           order: "asc"
         }))
         .then(function(response) {
-          console.log(response.data);
           angular.forEach(response.data, function(solicitud) {
             //aqui va la conexions con el beneficiario
             modelsRequest.get("terceros_completo")
@@ -62,9 +60,18 @@ angular.module('financieraClienteApp')
                       order: "asc"
                     }))
                     .then(function(response) {
-                      ctrl.n_requisitos += response.data.length;
-                      console.log(response.data);
                       tipo.Requisitos = response.data;
+                      var sol = 0;
+                      var leg = 0 ;
+                      angular.forEach(tipo.Requisitos, function(data){
+                        if(data.RequisitoAvance.Etapa == "solicitar"){
+                          sol ++;
+                        }if(data.RequisitoAvance.Etapa == "legalizar"){
+                          leg ++;
+                        }
+                        tipo.n_solicitar = sol;
+                        tipo.n_legalizar = leg;
+                      });
                     });
                 });
               });
@@ -151,28 +158,32 @@ angular.module('financieraClienteApp')
 
     ctrl.ver_fila = function(row) {
       $scope.solicitud = row;
-      console.log($scope.solicitud);
     };
     ctrl.validar_solicitud = function(){
       var error = "";
-      var i = 0;
-      var j = 0;
-      console.log(ctrl.n_requisitos);
+      var i = 0, j= 0, st = 0, lt = 0 ;
+
+      angular.forEach($scope.solicitud.Tipos, function(reg){
+        lt += reg.n_legalizar ;
+        st += reg.n_solicitar;
+      });
+
       angular.forEach($scope.selected, function(registro){
         if(registro.Observaciones !== "undefined"){
             i++;
           }
           j++;
         });
-      if(j <= $scope.solicitud.Tipos.lenght){
+      
+      if(i < st){
         error = "Debe llenar todas las Obervaciones<br>";
       }
-      if(i<= $scope.solicitud.Tipos.lenght){
+      if(j < st){
         error = "Debe seleccionar todos los requisitos";
       }
       swal(
         'Oops...',
-          error,
+         "observaciones" + i + ", select:  " + j,
         "error"
       );
     };

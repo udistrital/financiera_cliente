@@ -21,8 +21,7 @@ angular.module('financieraClienteApp')
         
         $scope.$watch('sol', function() {
           ctrl.solicitud = $scope.sol;
-          ctrl.tipo_avance = $scope.tipos;        
-          console.log(ctrl.tipo_avance);
+          ctrl.tipo_avance = $scope.tipos;   
         });
       },
       controllerAs: 'd_verSolicitud'
