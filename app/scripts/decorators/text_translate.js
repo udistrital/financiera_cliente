@@ -16,6 +16,7 @@ var text_es = {
   FILTRO_NOTIFICACION: "Filtrar notificación",
 
   //GENERALES
+  AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
   CLASIFICACION: "Clasificación",
   CODIGO_PADRE: "Código Padre",
   CODIGO: "Código",
@@ -146,7 +147,7 @@ var text_es = {
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
-
+  ANULACION_RP:"Anulación de RP",
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
@@ -351,11 +352,13 @@ var text_es = {
   AGREGAR_REQUISITO: "Añadir Requisito",
 
   //RP
-  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  LISTA_RP_ANULACION: "Lista de Solicitudes de Anulacón de Registros Presupuestales ",
   CDP_NUMERO: "CDP No.",
   BENEFECIARIO: "Beneficiario",
   MODALIDAD_DE_SELECCION: "Modalidad de Selección",
+  LISTA_RP:"Lista de Registros Presupuestales",
   OFICIO: "Oficio No.",
+  DETALLE_RP:"Registro Presupuestal No ",
   //INGRESOS
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",

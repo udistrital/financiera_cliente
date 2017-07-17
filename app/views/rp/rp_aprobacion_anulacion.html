@@ -1,0 +1,216 @@
+<div class="col-centered">
+  <div class="panel panel-default">
+    <h2 class="page-header" align="center">{{'LISTA_RP_ANULACION' | translate}}</h2>
+    <div class="panel-body">
+      <!-- ui-grid-selection -->
+      <div ui-grid="rpAprobacionAnulacion.gridOptions" class="myGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+    </div>
+    <div class="panel panel-default" ng-repeat="item in rpAprobacionAnulacion.detalle">
+      <div class="panel-heading">
+        <h3 class="page-header">Registro Presupuestal No {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
+        <div align="right">Fecha de Registro: {{item.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</div>
+      </div>
+      <div class="panel-body">
+        <div>
+          <table class="table text-justify ">
+            <tr>
+              <th>{{'NO_CDP' | translate}}: </th>
+              <td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
+            </tr>
+            <tr>
+              <th>{{'NECESIDAD_NO' | translate}}: </th>
+              <td>{{rpAprobacionAnulacion.Necesidad.Numero}}</td>
+            </tr>
+            <tr>
+              <th>{{'ESTADO' | translate}}: </th>
+              <td>{{item.Estado.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'BENEFECIARIO' | translate}}: </th>
+              <td>{{item.Beneficiario.NomProveedor}}</td>
+            </tr>
+            <tr>
+              <th>{{'TIPO_PERSONA' | translate}}: </th>
+              <td>{{item.Beneficiario.Tipopersona}}</td>
+            </tr>
+            <tr>
+              <th>{{'NO_DOCUMENTO' | translate}}: </th>
+              <td>{{item.Beneficiario.NumDocumento}}</td>
+            </tr>
+            <tr>
+              <th>{{'COMPROMISO' | translate}}: </th>
+              <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+            </tr>
+            <tr>
+              <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
+              <td>{{rpAprobacionAnulacion.Necesidad.ModalidadSeleccion.Id+" / "+rpAprobacionAnulacion.Necesidad.ModalidadSeleccion.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th>
+              <td>{{rpAprobacionAnulacion.Necesidad.Objeto}}</td>
+            </tr>
+          </table>
+          <hr>
+          <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
+          <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpAprobacionAnulacion.rubros_afectados" />
+          <form class="form-ctrl">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  {{'ANULACION_RP' | translate}}
+                </div>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>{{'OFICIO' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.Consecutivo" disabled="true"></input>
+                  </div>
+                </div>
+                <br>
+                <div class="row" ng-show="rpAprobacionAnulacion.anulacion.Responsable">
+                  <div class="col-md-3">
+                    <label>{{'RESPONSABLE' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.Responsable" disabled="true"></input>
+                  </div>
+                </div>
+                <br>
+                <div class="row" ng-show="rpAprobacionAnulacion.anulacion.Solicitante">
+                  <div class="col-md-3">
+                    <label>{{'SOLICITANTE' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.Solicitante" disabled="true"></input>
+                  </div>
+                </div>
+                <br>
+                <div class="row" ng-show="rpAprobacionAnulacion.anulacion.Expidio">
+                  <div class="col-md-3">
+                    <label>{{'EXPIDIO' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.Expidio" disabled="true"></input>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.Motivo" disabled="true"></textarea>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>{{'TIPO_ANULACION' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpAprobacionAnulacion.anulacion.TipoAnulacion"
+                      disabled="true">
+                      <option value="P">Parcial</option>
+                      <option value="T">Total</option>
+                   </select>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-3">
+                    <label>{{'ESTADO' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre"
+                      disabled="true"></input>
+                  </div>
+                </div>
+                <br>
+                <div class="row" ng-show="rpAprobacionAnulacion.anulacion.JustificacionRechazo">
+                  <div class="col-md-3">
+                    <label>{{'MOTIVO_RECHAZO' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.JustificacionRechazo"
+                      disabled="true"></textarea>
+                  </div>
+                </div>
+                <br>
+                <!-- Text input-->
+                <div ng-hide="rpAprobacionAnulacion.tipoAnulacion == 'T'" class="row">
+                  <div class="col-md-3 ">
+                    <label>{{'AFECTACION_DE_LA_ANULACION' | translate}}</label>
+                  </div>
+                  <div class="col-md-9">
+                    <ul class="list-unstyled" ng-repeat="item in rpAprobacionAnulacion.resumen">
+                      <hr class="hr-primary">
+                      <li><b>{{'RUBRO' | translate}}:</b> {{item.Apropiacion.Rubro.Codigo+" / "+item.Apropiacion.Rubro.Descripcion}}
+                        <ul>
+                          <li ng-show="item.FuenteFinanciamiento"><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
+
+                            <ul ng-repeat="fuente in item.FuenteFinanciamiento">
+
+                              <li>{{fuente.Codigo + " / "+fuente.Descripcion + " "}}
+                                <ul>
+                                  <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
+                                </ul>
+                              </li>
+
+                            </ul>
+
+                          </li>
+                          <li ng-show="!item.FuenteFinanciamiento"><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
+
+                            <ul>
+
+                              <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.Valor|currency}}</li>
+                          </li>
+                          </ul>
+
+
+
+                        </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- Button (Double) -->
+              <br>
+              <center ng-show="rpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Solicitada'">
+
+                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
+                <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="rpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
+
+
+              </center>
+              <center ng-show="rpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
+
+                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
+                <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="rpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
+
+
+              </center>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--<div class="panel panel-default">
+        <div class="panel-heading">
+          Rubros para este RP
+        </div>
+          <div ui-grid="rpConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="rpConsulta.gridHeight" class="myGrid"></div>
+    </div>-->
+  </div>
+</div>

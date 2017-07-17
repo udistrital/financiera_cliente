@@ -355,6 +355,11 @@ angular
         controller: 'CdpCdpAprobacionAnulacionCtrl',
         controllerAs: 'cdpAprobacionAnulacion'
       })
+      .when('/rp/rp_aprobacion_anulacion', {
+        templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
+        controller: 'RpRpAprobacionAnulacionCtrl',
+        controllerAs: 'rpAprobacionAnulacion'
+      })
       .otherwise({
         redirectTo: '/'
       });
