@@ -10,6 +10,23 @@
 angular.module('financieraClienteApp')
   .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, modelsRequest) {
     var ctrl = this;
+    $scope.info_validar = false;
+    $scope.selected = [];
+
+    $scope.toggle = function(item, list) {
+      var idx = list.indexOf(item);
+      if (idx > -1) {
+        list.splice(idx, 1);
+      } else {
+        item.Valido ="S";
+        item.Estado = "A";
+        list.push(item);
+      }
+    };
+
+    $scope.exists = function(item, list) {
+      return list.indexOf(item) > -1;
+    };
 
     ctrl.get_solicitudes = function() {
       financieraRequest.get("estado_avance", $.param({
@@ -18,7 +35,6 @@ angular.module('financieraClienteApp')
           order: "asc"
         }))
         .then(function(response) {
-          console.log(response.data);
           angular.forEach(response.data, function(solicitud) {
             //aqui va la conexions con el beneficiario
             modelsRequest.get("terceros_completo")
@@ -39,14 +55,23 @@ angular.module('financieraClienteApp')
                   financieraRequest.get("requisito_tipo_avance", $.param({
                       query: "TipoAvance:" + tipo.TipoAvance.Id + ",Estado:" + "A",
                       limit: -1,
-                      fields: "RequisitoAvance,TipoAvance",
+                      fields: "RequisitoAvance,TipoAvance,Id",
                       sortby: "TipoAvance",
                       order: "asc"
                     }))
                     .then(function(response) {
-                      console.log(response.data);
                       tipo.Requisitos = response.data;
-
+                      var sol = 0;
+                      var leg = 0 ;
+                      angular.forEach(tipo.Requisitos, function(data){
+                        if(data.RequisitoAvance.Etapa == "solicitar"){
+                          sol ++;
+                        }if(data.RequisitoAvance.Etapa == "legalizar"){
+                          leg ++;
+                        }
+                        tipo.n_solicitar = sol;
+                        tipo.n_legalizar = leg;
+                      });
                     });
                 });
               });
@@ -54,15 +79,6 @@ angular.module('financieraClienteApp')
           });
           ctrl.gridOptions.data = response.data;
         });
-    };
-
-    ctrl.calcular_total = function(){
-      ctrl.total = 0;
-      angular.forEach(ctrl.lista_tipos,function(data){
-        console.log(data);
-        ctrl.total += data.Valor;
-      });
-      console.log(ctrl.total);
     };
 
     ctrl.get_solicitudes();
@@ -96,12 +112,12 @@ angular.module('financieraClienteApp')
         {
           field: 'Tercero.nombres',
           displayName: $translate.instant('NOMBRES'),
-          width: '12%'
+          width: '14%'
         },
         {
           field: 'Tercero.apellidos',
           displayName: $translate.instant('APELLIDOS'),
-          width: '13%'
+          width: '14%'
         },
         {
           field: 'Estado',
@@ -122,14 +138,19 @@ angular.module('financieraClienteApp')
           width: '8%',
         },
         {
-          //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
           width: '8%',
 
           cellTemplate: '<center>' +
+            //BOTON VER
             '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+
+            //BOTON VALIDAR
+            '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
+            '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
+
             '</center>'
         }
       ]
@@ -137,7 +158,40 @@ angular.module('financieraClienteApp')
 
     ctrl.ver_fila = function(row) {
       $scope.solicitud = row;
-      console.log($scope.solicitud);
+    };
+    ctrl.validar_solicitud = function(){
+      var error = "<ol>";
+      var i = 0, j= 0, st = 0, lt = 0 ;
+
+      angular.forEach($scope.solicitud.Tipos, function(reg){
+        lt += reg.n_legalizar ;
+        st += reg.n_solicitar;
+      });
+
+      angular.forEach($scope.selected, function(registro){
+        if(!angular.isUndefined(registro.Observaciones)){
+            i++;
+          }
+          j++;
+        });
+      console.log("Indefinidos: " + i + ", seleccionados: " + j);
+      if(i < st){
+        error += "<li><label>Debe llenar todas las observaciones</label></li>";
+      }
+      if(j < st){
+        error += "<li><label>Debe seleccionar todos los requisitos</label></li>";
+      }
+      if(error !== ""){
+        swal(
+          'Soocio...',
+          error,
+          "error"
+        );
+      }else{
+
+      }
+
     };
 
+    
   });

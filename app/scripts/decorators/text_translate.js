@@ -106,7 +106,6 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
-  FECHA_INICIO: "Fecha de inicio",
   FECHA_FINAL: "Fecha Final",
   ORIGEN: "Origen",
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
@@ -123,7 +122,6 @@ var text_es = {
   CONTRATO: "Contrato",
   CONSECUTIVO: "#",
   NOMBRES: "Nombres",
-
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -195,6 +193,7 @@ var text_es = {
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
     NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
+    VERIFICAR:"Verificar Requisitos"
   },
 
   // ORDEN DE PAGO
