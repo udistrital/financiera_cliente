@@ -519,6 +519,7 @@ var text_en = {
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar",
+    ANULAR: "Anular",
 },
     NUEVO_OP_PROVEEDOR: 'New PO Supplier',
     NUEVO_OP_PLANTA: 'New PO Floor',

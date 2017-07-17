@@ -17,13 +17,20 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       columnDefs : [
-        {field: 'Consecutivo',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('NO') },        
-        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('CDP_NUMERO') },
-        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',   displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center'},
-        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'TipoAnulacion',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('TIPO') },        
-        {field: 'EstadoAnulacion.Nombre', displayName : $translate.instant('ESTADO')},
-        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
+        {field: 'Consecutivo',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('NO'),headerCellClass: 'text-info' },
+        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('CDP_NUMERO'),headerCellClass: 'text-info' },
+        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',   displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>',headerCellClass: 'text-info'},
+        {field: 'TipoAnulacion',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('TIPO'),headerCellClass: 'text-info' },
+        {field: 'EstadoAnulacion.Nombre', displayName : $translate.instant('ESTADO'),headerCellClass: 'text-info'},
+        {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE'),headerCellClass: 'text-info'},
+        {
+          field: 'Opciones',
+          cellTemplate: '<center>' +
+          ' <a type="button" class="editar" ng-click="grid.appScope.cdpAprobacionAnulacion.verDisponibilidad(row)" >'+
+          '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>',
+          headerCellClass: 'text-info'
+        }
       ],
       onRegisterApi : function( gridApi ) {
         self.gridApi = gridApi;
@@ -84,6 +91,50 @@ angular.module('financieraClienteApp')
       return resumen;
     };
 
+    self.verDisponibilidad = function(row){
+      $("#myModal").modal();
+        $scope.apropiacion= undefined;
+        $scope.apropiaciones = [];
+        self.cdp = row.entity.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
+        self.anulacion = row.entity;
+        self.resumen = self.formatoResumenAfectacion(self.anulacion.AnulacionDisponibilidadApropiacion);
+        console.log("resumen");
+        console.log(self.resumen);
+        financieraRequest.get('disponibilidad_apropiacion','limit=-1&query=Disponibilidad.Id:'+self.cdp.Id).then(function(response) {
+          self.rubros = response.data;
+          angular.forEach(self.rubros, function(data){
+            if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
+
+            }else{
+              $scope.apropiaciones.push(data.Apropiacion.Id);
+            }
+
+              console.log($scope.apropiaciones);
+              console.log(self.cdp.Id);
+              var saldo;
+              var rp = {
+                Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
+                Apropiacion : data.Apropiacion
+              };
+              financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                data.Saldo  = response.data;
+              });
+
+            });
+
+              agoraRequest.get('informacion_persona_natural',$.param({
+                query: "Id:"+self.cdp.Responsable,
+                limit: 1
+              })).then(function(response){
+                if (response.data != null){
+                  self.cdp.DataResponsable = response.data[0];
+                }
+
+              });
+
+
+        });
+    };
 
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
@@ -136,6 +187,7 @@ angular.module('financieraClienteApp')
 
     self.solicitarAnulacion = function(){
       self.anulacion.EstadoAnulacion.Id = 2;
+      self.anulacion.Solicitante = 1234567890;//tomar del prefil
       financieraRequest.post('disponibilidad/AprobarAnulacion',self.anulacion).then(function(response){
         console.log(response.data);
         if (response.data.Type !== undefined){
@@ -154,6 +206,7 @@ angular.module('financieraClienteApp')
 
     self.aprobarAnulacion = function(){
       self.anulacion.EstadoAnulacion.Id = 3;
+      self.anulacion.Responsable = 876543216;//tomar del prefil
       financieraRequest.post('disponibilidad/AprobarAnulacion',self.anulacion).then(function(response){
         console.log(response.data);
         if (response.data.Type !== undefined){
