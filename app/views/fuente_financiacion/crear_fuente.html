@@ -7,13 +7,11 @@
 
       <div class="panel panel-default">
 
-
         <div class="panel-heading">
           <h3 class="panel-title">{{'FORMULARIO_FUENTE' | translate }} </h3>
         </div>
 
         <div class="panel-body">
-
 
           <div class="col-md-12">
             <p></p>
@@ -177,27 +175,30 @@
             <th>{{ 'VALOR' | translate }}: </th>
             <td>{{ crearFuente.nueva_fuente_apropiacion.Monto | currency}}</td>
           </tr>
-
         </table>
-        <hr>
+
+
         <h4 class="text-info">{{'RUBROS' | translate}}</h4>
 
-        <ul class="list-unstyled" ng-repeat="rubro in crearFuente.rubros_seleccionados">
-          <hr class="hr-primary">
-          <li><b>{{'RUBRO' | translate}}:</b> {{rubro.Rubro.Codigo+" / "+rubro.Rubro.Descripcion}}
-            <ul>
-              <li><b>{{'DEPENDENCIAS' | translate}}:</b>
-                <ul ng-repeat="asignado in rubro.seleccionado">
-                  <li>{{asignado.NomDependencia}}
-                    <ul>
-                      <li><b>{{'VALOR' | translate}}:</b> {{" "+asignado.Valor |currency}}</li>
-                    </ul>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        </ul>
+
+        <table id="list" class="table  table-bordered">
+          <tr>
+            <th>{{'RUBRO' | translate}}</th>
+            <th>{{'DEPENDENCIA' | translate}}</th>
+            <th>{{'VALOR' | translate}}</th>
+          </tr>
+
+          <tr ng-repeat="rubro in crearFuente.tabla_rubros">
+
+            <td>{{rubro.Rubro}}</td>
+            <td>{{rubro.Dependencia}}</td>
+            <td>
+              <div align="right">{{rubro.Valor |currency}}</div>
+            </td>
+
+          </tr>
+        </table>
+
         <hr>
         <center>
           <button ng-click='crearFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>

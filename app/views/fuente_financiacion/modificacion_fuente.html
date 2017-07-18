@@ -329,26 +329,30 @@
           </table>
         </div>
 
-        <hr>
+
         <div class="panel-body col-md-12">
           <h4 class="text-info">{{'FUENTES_FINANCIAMIENTO' | translate}}</h4>
 
-          <ul class="list-unstyled" ng-repeat="fuente in modificacionFuente.fuentes_seleccionadas">
-            <hr class="hr-primary">
-            <li><b>{{'FUENTE_FINANCIAMIENTO' | translate}}:</b> {{fuente.Codigo+" / "+fuente.Nombre}}
-              <ul>
-                <li><b>{{'DEPENDENCIAS' | translate}}:</b>
-                  <ul ng-repeat="asignado in fuente.seleccionado">
-                    <li>{{asignado.NomDependencia}}
-                      <ul>
-                        <li><b>{{'VALOR' | translate}}:</b> {{" "+asignado.Valor |currency}}</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          </ul>
+
+          <table id="list" class="table  table-bordered">
+            <tr>
+              <th>{{'FUENTE_FINANCIAMIENTO' | translate}}</th>
+              <th>{{'DEPENDENCIA' | translate}}</th>
+              <th>{{'VALOR' | translate}}</th>
+            </tr>
+
+            <tr ng-repeat="fuente in modificacionFuente.tabla_fuentes">
+
+              <td>{{fuente.Fuente}}</td>
+              <td>{{fuente.Dependencia}}</td>
+              <td>
+                <div align="right">{{fuente.Valor |currency}}</div>
+              </td>
+
+            </tr>
+          </table>
+
+
           <hr>
           <center>
             <button ng-click='modificacionFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
@@ -454,20 +458,23 @@
 
           <ul class="list-unstyled" ng-repeat="rubro in modificacionFuente.rubros_seleccionados">
             <hr class="hr-primary">
-            <li><b>{{'RUBRO' | translate}}:</b> {{rubro.Rubro.Codigo+" / "+rubro.Rubro.Descripcion}}
-              <ul>
-                <li><b>{{'DEPENDENCIAS' | translate}}:</b>
-                  <ul ng-repeat="asignado in rubro.seleccionado">
-                    <li>{{asignado.NomDependencia}}
-                      <ul>
-                        <li><b>{{'VALOR_ADICION' | translate}}:</b> {{" "+asignado.Valor |currency}}</li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
+            <table>
+              <li><b>{{'RUBRO' | translate}}:</b> {{rubro.Rubro.Codigo+" / "+rubro.Rubro.Descripcion}}
+                <ul>
+                  <li><b>{{'DEPENDENCIAS' | translate}}:</b>
+                    <ul ng-repeat="asignado in rubro.seleccionado">
+                      <li>{{asignado.NomDependencia}}
+                        <ul>
+                          <li><b>{{'VALOR_ADICION' | translate}}:</b> {{" "+asignado.Valor |currency}}</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </table>
           </ul>
+
         </div>
       </div>
       <hr>
