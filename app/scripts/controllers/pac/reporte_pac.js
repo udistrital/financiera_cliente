@@ -178,7 +178,16 @@ angular.module('financieraClienteApp')
             field: 'reporte[' + i + '].valores.variacion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
+            //cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
+            enablePinning: false,
+            cellFilter: 'currency'
+          });
+          $scope.gridOptions_egresos.columnDefs.push({
+            name: '' + response.data.egresos[0].reporte[i].mes + ' %',
+            field: 'reporte[' + i + '].valores.pvariacion',
+            headerCellClass: 'text-info',
+            width: "8%",
+            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.pvariacion)}}">{{row.entity.reporte[' + i + '].valores.pvariacion * 100}} %</div>',
             enablePinning: false
           });
         }
