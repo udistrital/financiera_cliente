@@ -4,7 +4,6 @@
     <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize class="myGrid"></div>
   </div>
 </div>
-</div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
@@ -16,7 +15,7 @@
         <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</div>
       </div>
       <div class="panel-body">
-        <div >
+        <div>
           <table class="table text-justify ">
             <tr>
               <th>{{'NO_CDP' | translate}}: </th>
@@ -57,8 +56,8 @@
           </table>
           <hr>
           <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
-          <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados" />
-          <form class="form-ctrl" ng-show="rpConsulta.anular">
+          <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados"></fuente-financiacion-rp>
+
             <div class="panel panel-default">
               <div class="panel-heading">
                 <div class="panel-title">
@@ -66,6 +65,7 @@
                 </div>
               </div>
               <div class="panel-body">
+                 <form class="form-ctrl" ng-show="rpConsulta.anular">
                 <div class="row">
                   <div class="col-md-4">
                     <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
@@ -107,6 +107,7 @@
                       ui-money-mask="0">
                   </div>
                 </div>
+                </form>
               </div>
               <!-- Button (Double) -->
               <br>
@@ -118,22 +119,10 @@
               </center>
 
             </div>
-          </form>
+
         </div>
       </div>
     </div>
-    <!--<div class="panel panel-default">
-        <div class="panel-heading">
-          Rubros para este RP
-        </div>
-          <div ui-grid="rpConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="rpConsulta.gridHeight" class="myGrid"></div>
-    </div>-->
   </div>
 </div>
-<loading load="rpConsulta.cargandoDatosPagos" tam="5" />
-<!--<div class="row loading" ng-show="rpConsulta.cargandoDatosPagos">
-  <br>
-  <br>
-  <i class="fa fa-clock-o fa-spin fa-5x faa-burst animated  text-info" aria-hidden="true"></i>
-
-</div> -->
+<loading load="rpConsulta.cargandoDatosPagos" tam="5"></loading>
