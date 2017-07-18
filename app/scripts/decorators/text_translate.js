@@ -387,7 +387,12 @@ var text_es = {
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
   S_A01: "Se Rechazo la Solicitud ",
-
+  E_A02: "Debe Digitar el motivo de la anulación",
+  E_A03: "Debe seleccionar el tipo de anulación a realizar",
+  E_A04: "Debe digitar el valor de la anulación",
+  E_A05: "Debe seleccionar el rubro afectado por el cdp a anular.",
+  E_A06: "Debe seleccionar el rubro afectado por el cdp a anular.",
+  E_A07: "El valor debe ser mayor a 0",
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",
   E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
