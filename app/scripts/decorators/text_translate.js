@@ -16,6 +16,7 @@ var text_es = {
   FILTRO_NOTIFICACION: "Filtrar notificación",
 
   //GENERALES
+  AFECTACION_PRESUPUESTAL: "Afectación Presupuestal",
   CLASIFICACION: "Clasificación",
   CODIGO_PADRE: "Código Padre",
   CODIGO: "Código",
@@ -105,7 +106,6 @@ var text_es = {
   CODIGO_SUPER: 'Codigo Superintendencia',
   ACH: 'ACH',
   FACULTAD: "Facultad",
-  FECHA_INICIO: "Fecha de inicio",
   FECHA_FINAL: "Fecha Final",
   ORIGEN: "Origen",
   CALENDARIO_TRIBUTARIO: "Calendario Tributario",
@@ -122,7 +122,6 @@ var text_es = {
   CONTRATO: "Contrato",
   CONSECUTIVO: "#",
   NOMBRES: "Nombres",
-
   // PROVEEDOR
   TIPO_PERSONA: "Tipo Persona",
   NO_DOCUMENTO: "No. Documento",
@@ -132,7 +131,7 @@ var text_es = {
   SUCURSAL: "Sucursal",
   SUCURSALES: "Sucursales",
   TIPO_CUENTA: "Tipo Cuenta",
-  ENTRADA_ALMACEN: "Entrada Alamacen",
+  ENTRADA_ALMACEN: "Entrada De Almacén",
   SEDE: "Sede",
   FACTURA: "Factura",
   SELECCIONAR: "Seleccionar",
@@ -146,7 +145,7 @@ var text_es = {
   NO_CDP: "No. CDP",
   COMPROMISO: "Compromiso",
   DESCRIPCION_COMPROMISO: "Descripción Compromiso",
-
+  ANULACION_RP:"Anulación de RP",
   //PLAN DE CUENTAS
   PLANES_CUENTAS: "Planes de Cuentas",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
@@ -194,12 +193,13 @@ var text_es = {
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
     NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
+    VERIFICAR:"Verificar Requisitos"
   },
 
   // ORDEN DE PAGO
-  ORDEN_PAGO: "Ordenes de Pago",
+  ORDEN_PAGO: "Órdenes de Pago",
   ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
-  ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
+  ORDEN_PAGO_ACTUALIZAR: "Actualizar Órdenes de Pago",
   DETALLE_ORDEN_PAGO: 'Detalle Orden de Pago',
   VALOR_PAGO: "Valor Pago",
   DETALLE_VALOR_PAGO: "Detalle Valor Pago",
@@ -221,6 +221,7 @@ var text_es = {
   MSN_SUPERA_SALDO: 'Supera el Valor del Saldo',
   MSN_Y: 'y',
   MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
+  MSN_DEBE_MES_SS: "Debe Seleccionar el mes de la Seguridad Social",
   //CONCEPTOS
   AFECTACION_CONCEPTO: "Ingresar Afectación por Conceptos",
   OPERAR_CONCEPTO: "Operar Concepto",
@@ -370,10 +371,13 @@ var text_es = {
   AGREGAR_REQUISITO: "Añadir Requisito",
 
   //RP
-  LISTA_RP_ANULACION: "Lista de Registros Presupuestales a Anular",
+  LISTA_RP_ANULACION: "Lista de Solicitudes de Anulacón de Registros Presupuestales ",
   CDP_NUMERO: "CDP No.",
   BENEFECIARIO: "Beneficiario",
   MODALIDAD_DE_SELECCION: "Modalidad de Selección",
+  LISTA_RP:"Lista de Registros Presupuestales",
+  OFICIO: "Oficio No.",
+  DETALLE_RP:"Registro Presupuestal No ",
   //INGRESOS
   REGISTRO_INGRESOS: "Registro de Ingresos",
   FECHA_CONSIG: "Fecha de Consignanción",
@@ -402,6 +406,7 @@ var text_es = {
   E_23503: "No se encontraron algunos campos", //FK
   E_0458: "Los datos enviados son erroneos",
   E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
+  S_A01: "Se Rechazo la Solicitud ",
 
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",
@@ -536,6 +541,7 @@ var text_en = {
     SOLICITAR_RP: "Solicitar RP",
     QUITAR_RUBRO: "Quitar",
     APROBAR: "Aprobar",
+    ANULAR: "Anular",
 },
     NUEVO_OP_PROVEEDOR: 'New PO Supplier',
     NUEVO_OP_PLANTA: 'New PO Floor',

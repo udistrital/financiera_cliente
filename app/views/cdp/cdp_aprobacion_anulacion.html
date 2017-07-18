@@ -2,7 +2,8 @@
   <div class="panel panel-default" >
     <h2 class="page-header" align="center">{{'LISTA_SOLICITUD_ANULACION_CDP' | translate}}</h2>
     <div class="panel-body">
-      <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-selection class="myGrid"></div>
+      <!-- ui-grid-selection -->
+      <div ui-grid="cdpAprobacionAnulacion.gridOptions"  class="myGrid"></div>
     </div>
   </div>
 </div>
@@ -76,6 +77,42 @@
           <div class="panel-body">
             <div class="row">
               <div class="col-md-3">
+                <label>{{'OFICIO' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Consecutivo" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Responsable">
+              <div class="col-md-3">
+                <label>{{'RESPONSABLE' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Responsable" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Solicitante">
+              <div class="col-md-3">
+                <label>{{'SOLICITANTE' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Solicitante" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Expidio">
+              <div class="col-md-3">
+                <label>{{'EXPIDIO' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Expidio" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-3">
                 <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
               </div>
               <div class="col-md-9">
@@ -95,34 +132,53 @@
               </div>
             </div>
             <br>
+            <div class="row">
+              <div class="col-md-3">
+                <label>{{'ESTADO' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div ng-if="cdpAprobacionAnulacion.anulacion.JustificacionRechazo">
+              <div class="col-md-3">
+                <label >{{'MOTIVO_RECHAZO' | translate}}:</label>
+              </div>
+              <div class="col-md-9">
+                <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.JustificacionRechazo" disabled="true"></textarea>
+              </div>
+            </div>
+            </div>
+            <br>
             <div ng-hide="cdpAprobacionAnulacion.tipoAnulacion == 'T'" class="row">
               <div class="col-md-3 ">
                 <label>{{'AFECTACION_DE_LA_ANULACION' | translate}}</label>
               </div>
               <div class="col-md-9">
-                <ul class="list-unstyled"  ng-repeat="item in cdpAprobacionAnulacion.anulacion.AnulacionDisponibilidadApropiacion">
+                <ul class="list-unstyled"  ng-repeat="item in cdpAprobacionAnulacion.resumen">
                   <hr class="hr-primary">
-                    <li><b>{{'RUBRO' | translate}}:</b> {{item.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo+" / "+item.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion}}
+                    <li><b>{{'RUBRO' | translate}}:</b> {{item.Apropiacion.Rubro.Codigo+" / "+item.Apropiacion.Rubro.Descripcion}}
                     <ul>
-                      <li ng-show="item.DisponibilidadApropiacion.FuenteFinanciamiento" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
+                      <li ng-show="item.FuenteFinanciamiento" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
 
-                        <ul>
+                        <ul ng-repeat="fuente in item.FuenteFinanciamiento">
 
-                          <li>{{item.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo + " / "+item.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion + " "}}
+                          <li>{{fuente.Codigo + " / "+fuente.Descripcion + " "}}
                             <ul>
-                              <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.Valor|currency}}</li>
+                              <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
                             </ul>
                           </li>
 
                         </ul>
 
                       </li>
-                      <li ng-show="!item.DisponibilidadApropiacion.FuenteFinanciamiento" ><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
+                      <li ng-show="!item.FuenteFinanciamiento" ><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
 
-                        <ul ng-repeat="fuente in item">
+                        <ul>
 
-                          <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
-
+                          <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.Valor|currency}}</li>
                     </li>
                     </ul>
 
@@ -139,14 +195,14 @@
                 <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Solicitada'">
 
                   <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
-                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 
                 </center>
                 <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
 
                   <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
-                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.anular()">{{'RECHAZAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 
                 </center>

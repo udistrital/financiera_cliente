@@ -264,6 +264,11 @@ angular
          controller: 'OpSeguridadSocialCrearCtrl',
          controllerAs: 'opSeguridadSocialCrear'
        })
+       .when('/orden_pago/seguridad_social/ver/:Id', {
+         templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_ver_por_id.html',
+         controller: 'OpSeguridadSocialVerPorIdCtrl',
+         controllerAs: 'opSeguridadSocialVerPorId'
+       })
       .when('/rp/rp_anulacion', {
         templateUrl: 'views/rp/rp_anulacion.html',
         controller: 'RpRpAnulacionCtrl',
@@ -349,6 +354,11 @@ angular
         templateUrl: 'views/cdp/cdp_aprobacion_anulacion.html',
         controller: 'CdpCdpAprobacionAnulacionCtrl',
         controllerAs: 'cdpAprobacionAnulacion'
+      })
+      .when('/rp/rp_aprobacion_anulacion', {
+        templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
+        controller: 'RpRpAprobacionAnulacionCtrl',
+        controllerAs: 'rpAprobacionAnulacion'
       })
       .otherwise({
         redirectTo: '/'

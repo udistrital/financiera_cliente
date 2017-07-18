@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
         iva: '=?',
         valorbase: '=?',
         vigencia: '=?',
+        valorbruto: '=?',
         inputpestanaabierta: '=?'
       },
 
@@ -47,14 +48,14 @@ angular.module('financieraClienteApp')
         self.get_valor_bruto = function(valor_base, iva) {
           if (valor_base == null || valor_base == 0) {
             self.ValorIva = 0;
-            self.ValorBruto = 0;
+            $scope.valorbruto = 0;
           } else if (iva == null || iva == 0) {
             self.ValorIva = 0;
-            self.ValorBruto = 0;
+            $scope.valorbruto = 0;
           } else {
             self.Iva = parseInt(iva.Valor);
             self.ValorIva = (parseInt(valor_base) * (parseInt(self.Iva) / 100));
-            self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
+            $scope.valorbruto = parseInt(valor_base) + parseInt(self.ValorIva);
           }
         }
         //cuando entran valores
