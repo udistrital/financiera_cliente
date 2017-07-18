@@ -184,15 +184,15 @@ angular.module('financieraClienteApp')
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
-        swal("", "Debe Digitar el motivo de la anulación", "error")
+        swal("", $translate.instant("E_A02") , "error")
       }else if (self.tipoAnulacion == undefined || self.tipoAnulacion ===""|| self.tipoAnulacion == null){
-        swal("", "Debe seleccionar el tipo de anulación a realizar", "error")
+        swal("", $translate.instant("E_A03"), "error")
       }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion === "P")){
-        swal("", "Debe digitar el valor de la anulación", "error")
+        swal("", $translate.instant("E_A04"), "error")
       }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion === "P")){
-        swal("", "Debe seleccionar el rubro afectado por el rp a anular.", "error")
+       swal("", $translate.instant("E_A06"), "error")
       }else if(parseFloat(self.Valor) <= 0){
-        swal("", "El valor debe ser mayor a 0", "error")
+        swal("", $translate.instant("E_A07"), "error")
       }else{
         var valor = 0;
         var rp_apropiacion =[];

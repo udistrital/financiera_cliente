@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
+  .controller('CdpCdpConsultaCtrl', function ($window,$translate,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -44,11 +44,11 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
        columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
-        {field: 'Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
-        {field: 'Apropiacion.Rubro.Estado',    displayName: 'Estado' },
-        {field: 'Valor', cellFilter: 'currency' },
-        {field: 'Saldo', cellFilter: 'currency'}
+        {field: 'Apropiacion.Rubro.Codigo', displayName: $translate.instant("CODIGO")},
+        {field: 'Apropiacion.Rubro.Descripcion', displayName: $translate.instant("DESCRIPCION")},
+        {field: 'Apropiacion.Rubro.Estado',    displayName: $translate.instant("ESTADO") },
+        {field: 'Valor', cellFilter: 'currency', displayName: $translate.instant("VALOR")  },
+        {field: 'Saldo', cellFilter: 'currency', displayName: $translate.instant("SALDO") }
       ]
     };
 
@@ -116,13 +116,15 @@ angular.module('financieraClienteApp')
 
     self.anularDisponibilidad = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
-        swal("", "Debe Digitar el motivo de la anulación", "error")
+        swal("", $translate.instant("E_A02") , "error")
       }else if (self.tipoAnulacion == undefined || self.tipoAnulacion ===""|| self.tipoAnulacion == null){
-        swal("", "Debe seleccionar el tipo de anulación a realizar", "error")
+        swal("", $translate.instant("E_A03"), "error")
       }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion === "P")){
-        swal("", "Debe digitar el valor de la anulación", "error")
+        swal("", $translate.instant("E_A04"), "error")
       }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion === "P")){
-        swal("", "Debe seleccionar el rubro afectado por el cdp a anular.", "error")
+        swal("", $translate.instant("E_A05"), "error")
+      }else if(parseFloat(self.Valor) <= 0){
+        swal("", $translate.instant("E_A07"), "error")
       }else {
         var valor = 0;
         self.alerta = "<ol>"
