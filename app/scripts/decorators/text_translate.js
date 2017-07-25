@@ -277,6 +277,7 @@ var text_es = {
   PROCESO_COMPLETADO: "Proceso Completado",
   MONTO_MAYOR_FUENTE_FINANCIAMIENTO: "El Monto Ingresado No Corresponde al Valor de la Fuente de Financiamiento",
   MONTO_MAYOR_ADICION: "El Monto Ingresado No Corresponde al Valor de la Adición",
+  MONTO_MAYOR_TRASLADO: "El Monto Ingresado Supera el Valor de la Dependencia",
   DEPENDENCIAS: "Dependecias",
   ANULAR_PRESUPUESTO: "Anular Presupuesto",
   FUENTE_FINANCIAMIENTO_ORIGEN: "Fuente de Financiamiento de Origen",
