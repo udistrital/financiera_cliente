@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
       self.apropiacion = response.data;
     });
 
@@ -484,7 +484,9 @@ angular.module('financieraClienteApp')
         Valor: parseInt(valor),
         Fecha: self.fecha,
         Descripcion: self.nueva_fuente_apropiacion.Descripcion,
-        TipoDocumento: self.nueva_fuente_apropiacion.tipo_documento,
+        TipoDocumento: {
+          Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
+        },
         NoDocumento: self.nueva_fuente_apropiacion.no_documento,
         FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
         TipoMovimiento: {

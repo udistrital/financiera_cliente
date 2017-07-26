@@ -34,10 +34,25 @@
           <div class="col-md-12">
             <p></p>
             <label for="monto">{{'INGRESAR_VALOR_FUENTE' | translate }}:</label>
-
             <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="crearFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
+          </div>
 
+          <div class="col-md-6">
+              <p></p>
+              <label for="tipo_documento">{{'TIPO_DOCUMENTO' | translate }}:</label>
+              <select data-size="10" title="{{'INGRESE_TIPO_DOCUMENTO' | translate}}" ng-model="crearFuente.nueva_fuente_apropiacion.tipo_documento" ng-options="n.Id as n.Nombre for n in crearFuente.tipo_documento" value={{n.Id}} class="selectpicker form-control"></select>
+         </div>
 
+          <div class="col-md-6">
+            <p></p>
+            <label for="no_documento">{{'NO_DOCUMENTO' | translate }}:</label>
+            <input class="form-control" type="text" id="no_documento" ng-model="crearFuente.nueva_fuente_apropiacion.no_documento" placeholder="{{'INGRESE_NO_DOCUMENTO' | translate}}">
+          </div>
+
+          <div class="col-md-12">
+            <p></p>
+            <label for="fecha_documento">{{'FECHA_DOCUMENTO' | translate }}:</label>
+            <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.fecha_documento" md-placeholder="{{'INGRESE_FECHA_DOCUMENTO' | translate}}"></md-datepicker>
           </div>
 
 
@@ -156,54 +171,74 @@
         <h3 class="page-header">{{ 'TITULO_FUENTES_CREAR' | translate }}</h3>
         <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{crearFuente.fecha | date:"yyyy-MM-dd":"+0900"}}</div>
       </div>
-      <div class="panel-body">
-        <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
-        <table class="table">
-          <tr>
-            <th>{{'CODIGO' | translate}}: </th>
-            <td>{{crearFuente.nueva_fuente.Codigo }}</td>
-          </tr>
-          <tr>
-            <th>{{ 'NOMBRE' | translate }}: </th>
-            <td>{{crearFuente.nueva_fuente.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>{{ 'DESCRIPCION' | translate }}: </th>
-            <td>{{crearFuente.nueva_fuente.Descripcion}}</td>
-          </tr>
-          <tr>
-            <th>{{ 'VALOR' | translate }}: </th>
-            <td>{{ crearFuente.nueva_fuente_apropiacion.Monto | currency}}</td>
-          </tr>
-        </table>
+      <div class="panel-body col-md-12">
+        <div class="panel-body col-md-7">
+          <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
+          <table class="table">
+            <tr>
+              <th>{{'CODIGO' | translate}}: </th>
+              <td>{{crearFuente.nueva_fuente.Codigo }}</td>
+            </tr>
+            <tr>
+              <th>{{ 'NOMBRE' | translate }}: </th>
+              <td>{{crearFuente.nueva_fuente.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{ 'DESCRIPCION' | translate }}: </th>
+              <td>{{crearFuente.nueva_fuente.Descripcion}}</td>
+            </tr>
+            <tr>
+              <th>{{ 'VALOR' | translate }}: </th>
+              <td>{{ crearFuente.nueva_fuente_apropiacion.Monto | currency}}</td>
+            </tr>
+          </table>
+        </div>
 
+        <div class="panel-body col-md-5">
+          <h4 class="text-info">{{'DOCUMENTO' | translate}}</h4>
+          <table class="table">
+            <tr>
+              <th>{{'TIPO_DOCUMENTO' | translate}}: </th>
+              <td>{{crearFuente.nueva_fuente_apropiacion.tipo_documento }}</td>
+            </tr>
+            <tr>
+              <th>{{'NO_DOCUMENTO' | translate }}: </th>
+              <td>{{crearFuente.nueva_fuente_apropiacion.no_documento}}</td>
+            </tr>
+            <tr>
+              <th>{{'FECHA_DOCUMENTO' | translate }}: </th>
+              <td>{{crearFuente.nueva_fuente_apropiacion.fecha_documento | date:"yyyy-MM-dd":"+0900"}}</td>
+            </tr>
+          </table>
+        </div>
 
-        <h4 class="text-info">{{'RUBROS' | translate}}</h4>
+        <div class="panel-body col-md-12">
+          <h4 class="text-info">{{'RUBROS' | translate}}</h4>
 
+          <table id="list" class="table  table-bordered">
+            <tr>
+              <th>{{'RUBRO' | translate}}</th>
+              <th>{{'DEPENDENCIA' | translate}}</th>
+              <th>{{'VALOR' | translate}}</th>
+            </tr>
 
-        <table id="list" class="table  table-bordered">
-          <tr>
-            <th>{{'RUBRO' | translate}}</th>
-            <th>{{'DEPENDENCIA' | translate}}</th>
-            <th>{{'VALOR' | translate}}</th>
-          </tr>
+            <tr ng-repeat="rubro in crearFuente.tabla_rubros">
 
-          <tr ng-repeat="rubro in crearFuente.tabla_rubros">
+              <td>{{rubro.Rubro}}</td>
+              <td>{{rubro.Dependencia}}</td>
+              <td>
+                <div align="right">{{rubro.Valor |currency}}</div>
+              </td>
 
-            <td>{{rubro.Rubro}}</td>
-            <td>{{rubro.Dependencia}}</td>
-            <td>
-              <div align="right">{{rubro.Valor |currency}}</div>
-            </td>
-
-          </tr>
-        </table>
-
-        <hr>
-        <center>
-          <button ng-click='crearFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
-        </center>
+            </tr>
+          </table>
+        </div>
       </div>
+      <hr>
+      <center>
+        <button ng-click='crearFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
+      </center>
+      <hr>
     </div>
   </div>
 </div>
