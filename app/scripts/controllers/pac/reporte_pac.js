@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('PacReportePacCtrl', function(financieraRequest, $scope, $translate) {
+  .controller('PacReportePacCtrl', function(financieraRequest,financieraMidRequest, $scope, $translate) {
     var self = this;
     self.cargar_vigencia = function() {
       financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
@@ -114,7 +114,7 @@ angular.module('financieraClienteApp')
         inicio: self.fechaInicio,
         fin: self.fechaFin
       };
-      financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
+      financieraMidRequest.post('rubro/GenerarPac', consulta).then(function(response) {
         console.log(response.data);
         for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
           $scope.gridOptions.columnDefs.push({
