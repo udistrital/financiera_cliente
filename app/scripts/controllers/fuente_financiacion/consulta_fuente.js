@@ -62,31 +62,29 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Codigo',
-          width: '30%',
+          width: '20%',
           displayName: $translate.instant('CODIGO'),
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Descripcion',
           width: '30%',
-          resizable: true,
-          displayName: $translate.instant('DESCRIPCION'),
+          displayName: $translate.instant('DESCRIPCION')
         },
         {
+          displayName: $translate.instant('FECHA'),
           field: 'Fecha',
-          width: '10%',
+          width: '15%',
           cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"+0900"}}</div>'
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Dependencia',
           width: '10%',
-          displayName: $translate.instant('DEPENDENCIA'),
-          enableCellEdit: false
+          displayName: $translate.instant('DEPENDENCIA')
         },
         {
           field: 'TipoMovimiento.Nombre',
           width: '10%',
-          displayName: $translate.instant('MOVIMIENTO'),
-          enableCellEdit: false
+          displayName: $translate.instant('MOVIMIENTO')
         },
         {
           field: 'Valor',
@@ -94,6 +92,22 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('VALOR'),
           width: '10%'
         },
+        {
+          field: 'TipoDocumento.Nombre',
+          width: '15%',
+          displayName: $translate.instant('TIPO_DOCUMENTO')
+        },
+        {
+          field: 'NoDocumento',
+          width: '15%',
+          displayName: $translate.instant('NO_DOCUMENTO')
+        },
+        {
+          displayName: $translate.instant('FECHA_DOCUMENTO'),
+          field: 'FechaDocumento',
+          width: '15%',
+          cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"+0900"}}</div>'
+        }
 
       ]
     };

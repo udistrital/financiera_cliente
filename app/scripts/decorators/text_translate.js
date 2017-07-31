@@ -293,6 +293,7 @@ var text_es = {
   INGRESE_TIPO_DOCUMENTO: "Ingrese el Tipo de Documento",
   INGRESE_NO_DOCUMENTO: "Ingrese el No. de Documento",
   INGRESE_FECHA_DOCUMENTO: "Ingrese Fecha del Documento",
+  MOVIMIENTO: "Movimiento",
 
 
   //CDP
