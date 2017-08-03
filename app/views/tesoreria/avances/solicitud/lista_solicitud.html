@@ -1,82 +1,83 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">
-    {{ 'SOLICITUD_AVANCE' | translate }}
-  </h2>
-  <div ui-grid="listaSolicitud.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+    <h2 class="page-header text-center">
+        {{ 'SOLICITUD_AVANCE' | translate }}
+    </h2>
+    <div ui-grid="listaSolicitud.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
 </div>
 
 
 <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
-  <div class="modal-content col-md-offset-2 col-md-8">
-    <div class="modal-header">
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'AGREGAR_REQUISITO' | translate }}
+            </div>
+            <div class="panel panel-body">
+                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+            </div>
+        </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        {{'AGREGAR_REQUISITO' | translate }}
-      </div>
-      <div class="panel panel-body">
-        <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div id="modal_validar" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
-  <div class="modal-content col-md-offset-2 col-md-8">
-    <div class="modal-header">
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        {{'BTN.VERIFICAR' | translate }}
-      </div>
-
-      <div class="panel panel-body">
-        <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
-        <fieldset class="form-group">
-          <legend class="text-primary" ng-click="info_validar=!info_validar">{{'BTN.VERIFICAR'| translate}} <span class="fa fa-plus pull-right" ng-show="!info_validar"></span> <span class="fa fa-minus pull-right" ng-show="info_validar"></span></legend>
-          <div class="panel panel-default" ng-repeat="tipo in solicitud.Tipos" ng-show="!info_validar">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
             <div class="panel-heading">
-              {{tipo.TipoAvance.Nombre}}
+                {{'BTN.VERIFICAR' | translate }}
             </div>
 
-            <div class="panel-body">
-              <div class="col-md-10">
-                {{tipo.Descripcion}}
-                <br> Requisitos:
-                <br>
-                
-               
-                <div flex="50" class="left-cinco" ng-repeat="item in tipo.Requisitos" ng-if="item.RequisitoAvance.Etapa === 'solicitar' ">
-                  <div class="row">
-                  <div class="col-md-6">
-                    <md-checkbox class="blue" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
-                    {{ item.RequisitoAvance.Nombre }}
-                    <br>
-                    </md-checkbox>
-                  </div>
-                   <div class="col-md-6">
-                     <input class="form-control" ng-model= "item.Observaciones" value="" placeholder="Observaciones del requisito presentado">
-                  </div>
+            <div class="panel panel-body">
+                <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
+                <fieldset class="form-group">
+                    <legend class="text-primary" ng-click="info_validar=!info_validar">{{'BTN.VERIFICAR'| translate}} <span class="fa fa-plus pull-right" ng-show="!info_validar"></span> <span class="fa fa-minus pull-right" ng-show="info_validar"></span></legend>
+                    <div class="panel panel-default" ng-repeat="tipo in solicitud.Tipos" ng-show="!info_validar">
+                        <div class="panel-heading">
+                            {{tipo.TipoAvance.Nombre}}
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="col-md-10">
+                                {{tipo.Descripcion}}
+                                <br> Requisitos:
+                                <br>
+
+
+                                <div flex="50" class="left-cinco" ng-repeat="item in tipo.Requisitos" ng-if="item.RequisitoAvance.Etapa === 'solicitar' ">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <md-checkbox class="blue" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+                                                {{ item.RequisitoAvance.Nombre }}
+                                                <br>
+                                            </md-checkbox>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="form-control" ng-model="item.Observaciones" value="" placeholder="Observaciones del requisito presentado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-              </div>
-              <div class="col-md-2">
-                <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
-              </div>
-            </div>
-          </div>
-        </fieldset>
-        <pre>
+                </fieldset>
+                <pre>
         {{selected | json}}
         </pre>
-          <div class="row" align="center">
-             <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
+                <div class="row" align="center">
+                    <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
               <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
             </button>
-          </div>
-      </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+<proceso></proceso>
