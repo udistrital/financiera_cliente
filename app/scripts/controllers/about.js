@@ -12,56 +12,77 @@ angular.module('financieraClienteApp')
     var self = this;
     self.algo = "prueba";
 
-    self.cosa= angular.element("cosa_prueba");
+    self.cosa = angular.element("cosa_prueba");
     console.log(self.cosa);
 
 
 
-    self.get_cosa=function(item){
-      console.log(item);
-      for (var i = 0; i < self.prueba_menu.length; i++) {
-        if (self.prueba_menu[i].Nombre===item) {
+    self.get_elemento = function(item, a = self.prueba_rolcli) {
+      console.log(item, a);
+      for (var i = 0; i < a.length; i++) {
+        if (a[i].Nombre === item) {
           return true;
+        } else if (a[i].Opciones.length > 0) {
+          if (self.get_elemento(item,a[i].Opciones)) {
+            return true;
+          }
         }
       }
       return false;
     };
 
 
-    self.prueba_menu = [{
-      "Id": 1,
-      "Nombre": "cosa_pruebae",
-      "Url": "",
-      "TipoOpcion": "Actividad",
-      "Opciones": [{
-        "Id": 4,
-        "Nombre": "Gestion cuentas",
-        "Url": "",
-        "TipoOpcion": "Actividad",
-        "Opciones": [{
-          "Id": 6,
-          "Nombre": "Definición de Rubros Presupuestales",
-          "Url": "rubro/rubro_registro",
-          "TipoOpcion": "r_ver",
-          "Opciones": null
-        },
-        {
-          "Id": 6,
-          "Nombre": "Definición de Rubros Presupuestales",
-          "Url": "rubro/rubro_registro",
-          "TipoOpcion": "r_editar",
-          "Opciones": null
-        },
-        {
-          "Id": 6,
-          "Nombre": "Definición de Rubros Presupuestales",
-          "Url": "rubro/rubro_registro",
-          "TipoOpcion": "b_crear",
-          "Opciones": null
-        }]
-      }]
-    }];
-
-
-
+    self.prueba_rolcli = [{
+        Nombre: "gestion_item",
+        Url: "",
+        TipoOpcion: "actividad",
+        Opciones: [{
+            Id: 4,
+            Nombre: "aprobar",
+            Url: "",
+            TipoOpcion: "btn",
+            Opciones: []
+          },
+          {
+            Id: 4,
+            Nombre: "rechazar",
+            Url: "",
+            TipoOpcion: "btn",
+            Opciones: []
+          }
+        ]
+      },
+      {
+        Nombre: "gestion_tipos",
+        Url: "",
+        TipoOpcion: "actividad",
+        Opciones: [{
+            Id: 4,
+            Nombre: "lista_tipos",
+            Url: "",
+            TipoOpcion: "grid",
+            Opciones: [{
+              Id: 4,
+              Nombre: "editar",
+              Url: "",
+              TipoOpcion: "btn",
+              Opciones: []
+            }, {
+              Id: 4,
+              Nombre: "eliminar",
+              Url: "",
+              TipoOpcion: "btn",
+              Opciones: []
+            }]
+          },
+          {
+            Id: 4,
+            Nombre: "agregar",
+            Url: "",
+            TipoOpcion: "btn",
+            Opciones: []
+          }
+        ]
+      }
+    ];
   });
