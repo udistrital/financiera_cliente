@@ -28,9 +28,10 @@ angular.module('financieraNotificacion', [])
     // ...
     var id = 2;
     var path = "http://10.20.0.254/configuracion_api/v1/";
-    var dataStream = $websocket("ws://127.0.0.1:8080/ws/join?id="+ id + "&profiles=Admin");
+    var dataStream = $websocket("ws://127.0.0.1:8080/ws/join?id="+ id + "&profiles=2");
     var log = [];
     dataStream.onMessage(function(message) {
+      console.log(message.data);
       log.unshift(JSON.parse(message.data));
     });
     // Public API here
