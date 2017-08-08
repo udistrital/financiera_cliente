@@ -165,33 +165,42 @@ angular.module('financieraClienteApp')
                 j = 0,
                 st = 0,
                 lt = 0;
-
             angular.forEach($scope.solicitud.Tipos, function(reg) {
-                lt += reg.n_legalizar;
-                st += reg.n_solicitar;
+                if (!angular.isUndefined(reg.n_legalizar)) {
+                    lt += reg.n_legalizar;
+                    st += reg.n_solicitar;
+                }
             });
 
             angular.forEach($scope.selected, function(registro) {
                 if (!angular.isUndefined(registro.Observaciones)) {
-                    i++;
+                    if (registro.Observaciones !== "") {
+                        i++;
+                    }
                 }
                 j++;
             });
             console.log("Indefinidos: " + i + ", seleccionados: " + j);
+            console.log(st);
             if (i < st) {
-                error += "<li><label>Debe llenar todas las observaciones</label></li>";
+                error += "<li><label>" + $translate.instant('ERROR_OBSERVACIONES') + "</label></li>";
             }
             if (j < st) {
-                error += "<li><label>Debe seleccionar todos los requisitos</label></li>";
+                error += "<li><label>" + $translate.instant('ERROR_REQUISITOS') + "</label></li>";
             }
-            if (error !== "") {
+            error += "</ol>";
+            if (i + j < 2 * st) {
                 swal(
                     'Faltan Campos...',
                     error,
                     "error"
                 );
             } else {
-
+                swal(
+                    'todo está bien',
+                    error,
+                    "success"
+                );
             }
 
         };
