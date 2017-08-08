@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('PacReportePacCtrl', function(financieraRequest, $scope, $translate) {
+  .controller('PacReportePacCtrl', function(financieraRequest,financieraMidRequest, $scope, $translate) {
     var self = this;
     self.cargar_vigencia = function() {
       financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
@@ -36,35 +36,7 @@ angular.module('financieraClienteApp')
         $scope.gridApi = gridApi;
       }
     };
-    $scope.gridOptions.columnDefs = [{
-        name: 'fdescrip',
-        displayName: $translate.instant('FUENTE'),
-        headerCellClass: 'text-info',
-        width: "20%",
-        pinnedLeft: true
-      },
-      {
-        name: 'descripcion',
-        displayName: $translate.instant('RUBRO'),
-        headerCellClass: 'text-info',
-        width: "20%",
-        pinnedLeft: true
-      },
-      {
-        name: 'codigo',
-        displayName:  $translate.instant('CODIGO'),
-        headerCellClass: 'text-info',
-        width: "20%",
-        pinnedLeft: true
-      },
-
-      /*{
-        name: 'Opciones',
-        cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.reportePac.verResumen(row)" ></a>',
-        headerCellClass: 'text-info',
-        width: "5%"
-      },*/
-    ];
+    
     $scope.gridOptions_egresos = {
       enableHorizontalScrollbar: 1,
       enableVerticalScrollbar: 1,
@@ -78,22 +50,57 @@ angular.module('financieraClienteApp')
         $scope.gridApi = gridApi;
       }
     };
-    $scope.gridOptions_egresos.columnDefs = [{
-        name: 'fdescrip',
+    
+    $scope.gridOptions_egresos.data = null;
+    $scope.gridOptions.data=null;
+    self.generarReporte = function() {
+      $scope.gridOptions_egresos.columnDefs =[];
+      $scope.gridOptions.columnDefs = [];
+      $scope.gridOptions.columnDefs = [{
+        name: 'Fdescrip',
         displayName: $translate.instant('FUENTE'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
-        name: 'descripcion',
+        name: 'Descripcion',
         displayName: $translate.instant('RUBRO'),
         headerCellClass: 'text-info',
         width: "20%",
         pinnedLeft: true
       },
       {
-        name: 'codigo',
+        name: 'Codigo',
+        displayName:  $translate.instant('CODIGO'),
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+
+      /*{
+        name: 'Opciones',
+        cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.reportePac.verResumen(row)" ></a>',
+        headerCellClass: 'text-info',
+        width: "5%"
+      },*/
+    ];
+    $scope.gridOptions_egresos.columnDefs = [{
+        name: 'Fdescrip',
+        displayName: $translate.instant('FUENTE'),
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+      {
+        name: 'Descripcion',
+        displayName: $translate.instant('RUBRO'),
+        headerCellClass: 'text-info',
+        width: "20%",
+        pinnedLeft: true
+      },
+      {
+        name: 'Codigo',
         displayName: $translate.instant('CODIGO'),
         headerCellClass: 'text-info',
         width: "20%",
@@ -107,19 +114,20 @@ angular.module('financieraClienteApp')
         width: "5%"
       },*/
     ];
-    $scope.gridOptions_egresos.data = null;
-    $scope.gridOptions.data=null;
-    self.generarReporte = function() {
       var consulta = {
         inicio: self.fechaInicio,
-        fin: self.fechaFin
+        fin: self.fechaFin,
+        periodosproy: 3
       };
-      financieraRequest.post('rubro/RubroReporte', consulta).then(function(response) {
-        console.log(response.data);
-        for (var i = 0; i < response.data.ingresos[0].reporte.length; i++) {
+      financieraMidRequest.post('rubro/GenerarPac', consulta).then(function(response) {
+       
+        if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
+           console.log(response.data);
+          for (var i = 0; i < response.data.Ingresos[0].Reporte.length; i++) {
+            console.log(response.data.Ingresos[i])
           $scope.gridOptions.columnDefs.push({
-            name: '' + response.data.ingresos[0].reporte[i].mes + ' EJC',
-            field: 'reporte[' + i + '].valores.valor',
+            name: '' + response.data.Ingresos[0].Reporte[i].Mes + ' EJC',
+            field: 'Reporte[' + i + '].Valores.Valor',
             //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
             headerCellClass: 'text-info',
             width: "8%",
@@ -127,8 +135,8 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
           $scope.gridOptions.columnDefs.push({
-            name: '' + response.data.ingresos[0].reporte[i].mes + ' PROY',
-            field: 'reporte[' + i + '].valores.proyeccion',
+            name: '' + response.data.Ingresos[0].Reporte[i].Mes + ' PROY',
+            field: 'Reporte[' + i + '].Valores.Proyeccion',
             headerCellClass: 'text-info',
             width: "8%",
             //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
@@ -136,28 +144,30 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
           $scope.gridOptions.columnDefs.push({
-            name: '' + response.data.ingresos[0].reporte[i].mes + ' VAR',
-            field: 'reporte[' + i + '].valores.variacion',
+            name: '' + response.data.Ingresos[0].Reporte[i].Mes + ' VAR',
+            field: 'Reporte[' + i + '].Valores.Variacion',
             headerCellClass: 'text-info',
             width: "8%",
             enablePinning: false,
             cellFilter: 'currency'
           });
           $scope.gridOptions.columnDefs.push({
-            name: '' + response.data.ingresos[0].reporte[i].mes + ' %',
-            field: 'reporte[' + i + '].valores.pvariacion',
+            name: '' + response.data.Ingresos[0].Reporte[i].Mes + ' %',
+            field: 'Reporte[' + i + '].Valores.Pvariacion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div  class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}" >{{row.entity.reporte[' + i + '].valores.pvariacion * 100}} %</div>',
+            cellTemplate: ' <div  class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion*100)}}" >{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
             enablePinning: false
             //cellFilter: 'currencyFilter:%'
           });
 
         }
-        for (var i = 0; i < response.data.egresos[0].reporte.length; i++) {
+        }
+        if (response.data.Egresos != null && response.data.Egresos != undefined){
+          for (var i = 0; i < response.data.Egresos[0].Reporte.length; i++) {
           $scope.gridOptions_egresos.columnDefs.push({
-            name: '' + response.data.egresos[0].reporte[i].mes + ' EJC',
-            field: 'reporte[' + i + '].valores.valor',
+            name: '' + response.data.Egresos[0].Reporte[i].Mes + ' EJC',
+            field: 'Reporte[' + i + '].Valores.Valor',
             //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.valor | currency}}</div>',
             headerCellClass: 'text-info',
             width: "8%",
@@ -165,8 +175,8 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
           $scope.gridOptions_egresos.columnDefs.push({
-            name: '' + response.data.egresos[0].reporte[i].mes + ' PROY',
-            field: 'reporte[' + i + '].valores.proyeccion',
+            name: '' + response.data.Egresos[0].Reporte[i].Mes + ' PROY',
+            field: 'Reporte[' + i + '].Valores.Proyeccion',
             headerCellClass: 'text-info',
             width: "8%",
             //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
@@ -174,8 +184,8 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
           $scope.gridOptions_egresos.columnDefs.push({
-            name: '' + response.data.egresos[0].reporte[i].mes + ' VAR',
-            field: 'reporte[' + i + '].valores.variacion',
+            name: '' + response.data.Egresos[0].Reporte[i].Mes + ' VAR',
+            field: 'Reporte[' + i + '].Valores.Variacion',
             headerCellClass: 'text-info',
             width: "8%",
             //cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
@@ -183,26 +193,31 @@ angular.module('financieraClienteApp')
             cellFilter: 'currency'
           });
           $scope.gridOptions_egresos.columnDefs.push({
-            name: '' + response.data.egresos[0].reporte[i].mes + ' %',
-            field: 'reporte[' + i + '].valores.pvariacion',
+            name: '' + response.data.Egresos[0].Reporte[i].Mes + ' %',
+            field: 'Reporte[' + i + '].Valores.Pvariacion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.pvariacion)}}">{{row.entity.reporte[' + i + '].valores.pvariacion * 100}} %</div>',
+            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion*100)}}">{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
             enablePinning: false
           });
         }
-        $scope.ingresos = response.data.ingresos;
-        $scope.egresos =  response.data.egresos;
+        }
+        
+        $scope.ingresos = response.data.Ingresos;
+        $scope.egresos =  response.data.Egresos;
         $scope.gridOptions.data = $scope.ingresos;
         $scope.gridOptions_egresos.data = $scope.egresos;
 
       });
     }
-    self.changeCellClass = function(val) {
-      if (val >= 0 && val <= 0, 2) {
-        return 'bg-success'
-      } else {
-        return ''
+    self.changeCellClass = function(value) {
+     var val = parseFloat(value)
+      if (val >= 0 && val <= 20) {
+        return 'bg-success';
+      } else if (val > 20 && val <= 70) {
+        return 'bg-warning';
+      }else {
+        return 'bg-danger';
       }
     }
     self.verResumen = function(row) {
