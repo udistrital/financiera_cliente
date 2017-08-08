@@ -36,7 +36,27 @@ angular.module('financieraClienteApp')
         $scope.gridApi = gridApi;
       }
     };
-    $scope.gridOptions.columnDefs = [{
+    
+    $scope.gridOptions_egresos = {
+      enableHorizontalScrollbar: 1,
+      enableVerticalScrollbar: 1,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
+      enableFiltering: true,
+      enableGridMenu: true,
+      exporterCsvFilename: 'egresospac.csv',
+      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      onRegisterApi: function(gridApi) {
+        $scope.gridApi = gridApi;
+      }
+    };
+    
+    $scope.gridOptions_egresos.data = null;
+    $scope.gridOptions.data=null;
+    self.generarReporte = function() {
+      $scope.gridOptions_egresos.columnDefs =[];
+      $scope.gridOptions.columnDefs = [];
+      $scope.gridOptions.columnDefs = [{
         name: 'Fdescrip',
         displayName: $translate.instant('FUENTE'),
         headerCellClass: 'text-info',
@@ -65,19 +85,6 @@ angular.module('financieraClienteApp')
         width: "5%"
       },*/
     ];
-    $scope.gridOptions_egresos = {
-      enableHorizontalScrollbar: 1,
-      enableVerticalScrollbar: 1,
-      paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 5,
-      enableFiltering: true,
-      enableGridMenu: true,
-      exporterCsvFilename: 'egresospac.csv',
-      exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-      onRegisterApi: function(gridApi) {
-        $scope.gridApi = gridApi;
-      }
-    };
     $scope.gridOptions_egresos.columnDefs = [{
         name: 'Fdescrip',
         displayName: $translate.instant('FUENTE'),
@@ -107,9 +114,6 @@ angular.module('financieraClienteApp')
         width: "5%"
       },*/
     ];
-    $scope.gridOptions_egresos.data = null;
-    $scope.gridOptions.data=null;
-    self.generarReporte = function() {
       var consulta = {
         inicio: self.fechaInicio,
         fin: self.fechaFin,
@@ -152,7 +156,7 @@ angular.module('financieraClienteApp')
             field: 'Reporte[' + i + '].Valores.Pvariacion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div  class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Variacion)}}" >{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
+            cellTemplate: ' <div  class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion*100)}}" >{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
             enablePinning: false
             //cellFilter: 'currencyFilter:%'
           });
@@ -193,7 +197,7 @@ angular.module('financieraClienteApp')
             field: 'Reporte[' + i + '].Valores.Pvariacion',
             headerCellClass: 'text-info',
             width: "8%",
-            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion)}}">{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
+            cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion*100)}}">{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
             enablePinning: false
           });
         }
@@ -206,11 +210,14 @@ angular.module('financieraClienteApp')
 
       });
     }
-    self.changeCellClass = function(val) {
-      if (val >= 0 && val <= 0, 2) {
-        return 'bg-success'
-      } else {
-        return ''
+    self.changeCellClass = function(value) {
+     var val = parseFloat(value)
+      if (val >= 0 && val <= 20) {
+        return 'bg-success';
+      } else if (val > 20 && val <= 70) {
+        return 'bg-warning';
+      }else {
+        return 'bg-danger';
       }
     }
     self.verResumen = function(row) {
