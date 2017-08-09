@@ -103,7 +103,7 @@ angular.module('financieraClienteApp')
                     enableFiltering: false,
                     width: '8%',
 
-                    cellTemplate: '<btn-registro load-row="grid.appScope.TiposAvance.load_row()" row="row"></btn-registro>'
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" fila="row"></btn-registro>'
                 }
             ]
         };
@@ -197,11 +197,13 @@ angular.module('financieraClienteApp')
                 });
         };
 
-        ctrl.load_row = function(row, operacion) {
+        $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
+            console.log(row);
             switch (operacion) {
                 case "ver":
                     ctrl.row_entity = row.entity;
+                    console.log(ctrl.row_entity);
                     ctrl.get_requisito_tipo_avance(ctrl.row_entity.Id);
                     break;
                 case "add":

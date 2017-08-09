@@ -11,11 +11,11 @@ angular.module('financieraClienteApp')
         return {
             restrict: 'E',
             scope: {
-                row: '=',
-                loadRow: '&',
+                fila: '=',
+                funcion: '&',
                 perfil: '='
             },
-            templateUrl: 'directives/btn_registro.html',
+            templateUrl: 'views/directives/btn_registro.html',
             link: function(scope, elm, attrs) {}
         };
     });
