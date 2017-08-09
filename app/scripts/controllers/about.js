@@ -8,16 +8,26 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('AboutCtrl', function($scope) {
+  .controller('AboutCtrl', function($scope, configuracionRequest,$q) {
     var self = this;
     self.algo = "prueba";
 
     self.cosa = angular.element("cosa_prueba");
     console.log(self.cosa);
 
+    $scope.$watch("")
+    //var defer=$q.defer()
+    //defer.resolve(configuracionRequest.get_menu());
+    self.listasa=configuracionRequest.get_menu();
+
+    $scope.$watch("about.listasa",function(){
+      console.log("lista",self.listasa);
+    },true);
+    //console.log("menu---->",defer.promise);
+    //self.hijosad=configuracionRequest.get_acciones("tesoreria/avances/requisitos/requisitos",configuracionRequest.get_menu());
 
 
-    self.get_elemento = function(item, a = self.prueba_rolcli) {
+    self.get_elemento = function(item, a) {
       console.log(item, a);
       for (var i = 0; i < a.length; i++) {
         if (a[i].Nombre === item) {
