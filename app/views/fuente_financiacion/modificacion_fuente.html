@@ -22,13 +22,22 @@
             </select>
           </div>
 
+
           <div class="" ng-show="modificacionFuente.adicion || modificacionFuente.traslado">
 
-            <div class="col-md-12">
+            <div class="col-md-12" ng-show="modificacionFuente.adicion">
               <p></p>
               <label for="fuente">{{'RUBRO' | translate }}:</label>
               <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.adicion_rubro " ng-change="modificacionFuente.mostrar_fuentes()" data-live-search="true">
               <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+            </select>
+            </div>
+
+            <div class="col-md-12" ng-show="modificacionFuente.traslado">
+              <p></p>
+              <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
+              <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.adicion_fuente " ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
+              <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
             </select>
             </div>
 
@@ -51,10 +60,10 @@
             </div>
 
             <div class="col-md-6">
-              <p></p>
-              <label for="tipo_documento">{{'TIPO_DOCUMENTO' | translate }}:</label>
-              <input class="form-control" type="text" id="tipo_documento" ng-model="modificacionFuente.nueva_fuente_apropiacion.tipo_documento" placeholder="{{'INGRESE_TIPO_DOCUMENTO' | translate}}">
-            </div>
+                <p></p>
+                <label for="tipo_documento">{{'TIPO_DOCUMENTO' | translate }}:</label>
+                <select data-size="10" title="{{'INGRESE_TIPO_DOCUMENTO' | translate}}" ng-model="modificacionFuente.nueva_fuente_apropiacion.tipo_documento" ng-options="n.Id as n.Nombre for n in modificacionFuente.tipo_documento" value={{n.Id}} class="selectpicker form-control"></select>
+           </div>
 
             <div class="col-md-6">
               <p></p>
@@ -167,16 +176,16 @@
 
           <div class="form-group col-md-12">
             <legend class="text-default" disable>
-              {{'FUENTE_FINANCIAMIENTO_ORIGEN' | translate }}
+              {{'RUBRO_ORIGEN' | translate }}
             </legend class="text-default">
           </div>
 
 
-          <div class="col-md-12" ng-show="modificacionFuente.adicion_rubro">
+          <div class="col-md-12" ng-show="modificacionFuente.adicion_fuente">
             <p></p>
-            <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
-            <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.fuente_origen " ng-change="modificacionFuente.buscar_dependencia()" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
+            <label for="fuente">{{'RUBRO_ORIGEN' | translate }}:</label>
+            <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_origen " ng-change="modificacionFuente.buscar_dependencia()" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
           </select>
           </div>
 
@@ -197,15 +206,15 @@
           <div class="form-group col-md-12">
             <p></p>
             <legend class="text-default" disable>
-              {{'FUENTE_FINANCIAMIENTO_DESTINO' | translate }}
+              {{'RUBRO_DESTINO' | translate }}
             </legend class="text-default">
           </div>
 
           <div class="col-md-12">
             <p></p>
-            <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
-            <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.fuente_destino" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
+            <label for="fuente">{{'RUBRO_DESTINO' | translate }}:</label>
+            <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_destino" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
           </select>
           </div>
 
@@ -333,15 +342,15 @@
       <div class="panel-body col-md-12">
 
         <div class="panel-body col-md-7">
-          <h4 class="text-info">{{'RUBRO' | translate}}</h4>
+          <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
           <table class="table">
             <tr>
               <th>{{'CODIGO' | translate}}: </th>
-              <td>{{modificacionFuente.Codigo_rubro }}</td>
+              <td>{{modificacionFuente.Codigo_fuente }}</td>
             </tr>
             <tr>
               <th>{{ 'NOMBRE' | translate }}: </th>
-              <td>{{modificacionFuente.Nombre_rubro}}</td>
+              <td>{{modificacionFuente.Nombre_fuente}}</td>
             </tr>
             <tr>
               <th>{{ 'DESCRIPCION' | translate }}: </th>
@@ -375,7 +384,7 @@
       </div>
       <div class="panel-body col-md-12">
         <div class="panel-body col-md-6">
-          <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO_ORIGEN' | translate}}</h4>
+          <h4 class="text-info">{{'RUBRO_ORIGEN' | translate}}</h4>
           <table class="table">
             <tr>
               <th>{{'CODIGO' | translate}}: </th>
@@ -386,7 +395,11 @@
               <td>{{modificacionFuente.Nombre}}</td>
             </tr>
             <tr>
-              <th>{{ 'VALOR_FUENTE' | translate }}: </th>
+              <th>{{ 'Depencencia' | translate }}: </th>
+              <td>{{modificacionFuente.nombre_dependencia_origen}}</td>
+            </tr>
+            <tr>
+              <th>{{ 'VALOR_RUBRO' | translate }}: </th>
               <td>{{ modificacionFuente.total_fuente_origen | currency}}</td>
             </tr>
             <tr>
@@ -403,7 +416,7 @@
         </div>
 
         <div class="panel-body col-md-6">
-          <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO_DESTINO' | translate}}</h4>
+          <h4 class="text-info">{{'RUBRO_DESTINO' | translate}}</h4>
           <table class="table">
             <tr>
               <th>{{'CODIGO' | translate}}: </th>
@@ -411,10 +424,14 @@
             </tr>
             <tr>
               <th>{{ 'NOMBRE' | translate }}: </th>
-              <td>{{modificacionFuente.Nombre1 }}</td>
+              <td>{{modificacionFuente.Nombre1}}</td>
             </tr>
             <tr>
-              <th>{{ 'VALOR_FUENTE' | translate }}: </th>
+              <th>{{ 'Depencencia' | translate }}: </th>
+              <td>{{modificacionFuente.nombre_dependencia_destino}}</td>
+            </tr>
+            <tr>
+              <th>{{ 'VALOR_RUBRO' | translate }}: </th>
               <td>{{ modificacionFuente.total_fuente_destino | currency}}</td>
             </tr>
             <tr>

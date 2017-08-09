@@ -48,7 +48,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     });
 
     self.gridOptionsapropiacion = {
-      enableFiltering: false,
+      enableFiltering: true,
       enableSorting: false,
       treeRowHeaderAlwaysVisible: false,
       showTreeExpandNoChildren: false,
