@@ -1,25 +1,23 @@
 # financiera-cliente
 
-This project is generated with [yo oas-generator](https://github.com/fabianLeon/oas)
+This project is generated with [yo oas-generator][generator-oas]
 version 0.0.16.
 
 ## Instalation
 ```
 npm install
 ```
-```
-bower install
-```
 
-please select last angular version
+Please select last angular version
 
-## Build & development
+## Build
 ```
-grunt build
+npm run build
 ```
 
 ## Testing
 ```
- grunt test
+npm test
 ```
-# financiera_cliente
+
+[generator-oas]: https://github.com/udistrital/generator-oas

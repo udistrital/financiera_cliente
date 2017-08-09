@@ -40,7 +40,9 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "karma start test/karma.conf.js"
+    "install": "bower install",
+    "test": "grunt test",
+    "build": "grunt build"
   },
   "dependencies": {
     "angular-websocket": "^2.0.1",
