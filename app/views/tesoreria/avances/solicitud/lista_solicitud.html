@@ -31,7 +31,6 @@
             <div class="panel-heading">
                 {{'BTN.VERIFICAR' | translate }}
             </div>
-
             <div class="panel panel-body">
                 <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
                 <fieldset class="form-group">
@@ -42,7 +41,7 @@
                         </div>
 
                         <div class="panel-body">
-                            <div class="col-md-11">
+                            <div class="col-md-8">
                                 {{tipo.Descripcion}}
                                 <br> Requisitos:
                                 <br>
@@ -60,12 +59,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-4">
                                 <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
                             </div>
                         </div>
                     </div>
                 </fieldset>
+                <pre>
+                  {{data | json}}
+                  </pre>
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
               <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}

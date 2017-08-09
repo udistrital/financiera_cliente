@@ -386,6 +386,7 @@ var text_es = {
     E_0458: "Los datos enviados son erroneos",
     E_22001: "La longitud de uno de los valores ingresados excede al maximo permitido",
     S_A01: "Se Rechazo la Solicitud ",
+    S_900: "Ha verificado el avance correctamente.",
 
     S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
     E_25P02: "Este registro ya ha sido creado. ",

@@ -64,6 +64,8 @@ angular.module('financieraClienteApp')
                                             var sol = 0;
                                             var leg = 0;
                                             angular.forEach(tipo.Requisitos, function(data) {
+                                                data.SolicitudTipoAvance = { Id: tipo.Id };
+                                                data.RequisitoTipoAvance = { Id: data.Id };
                                                 if (data.RequisitoAvance.Etapa == "solicitar") {
                                                     sol++;
                                                 }
@@ -148,7 +150,8 @@ angular.module('financieraClienteApp')
                         '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
 
                         //BOTON VALIDAR
-                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
+
+                        '<a ng-if="row.entity.Estados.Nombre !== \'Verificado\'" class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
                         '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
 
                         '</center>'
@@ -158,6 +161,7 @@ angular.module('financieraClienteApp')
 
         ctrl.ver_fila = function(row) {
             $scope.solicitud = row;
+            console.log($scope.solicitud);
         };
         ctrl.validar_solicitud = function() {
             var error = "<ol>";
@@ -196,11 +200,29 @@ angular.module('financieraClienteApp')
                     "error"
                 );
             } else {
-                swal(
-                    'todo está bien',
-                    error,
-                    "success"
-                );
+                $scope.data = {};
+                $scope.envio = [];
+                angular.forEach($scope.selected, function(data) {
+                    var envio = {};
+                    envio.RequisitoTipoAvance = data.RequisitoTipoAvance;
+                    envio.SolicitudTipoAvance = data.SolicitudTipoAvance;
+                    envio.Observaciones = data.Observaciones;
+                    $scope.envio.push(envio);
+                });
+                $scope.data.Requisitos = $scope.envio;
+                $scope.data.Solicitud = $scope.solicitud.SolicitudAvance;
+
+                financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
+                    .then(function(response) {
+                        console.log(response.data);
+                        if (response.data.Type !== undefined) {
+                            if (response.data.Type === "error") {
+                                swal('', $translate.instant(response.data.Code), response.data.Type);
+                            } else {
+                                swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                            }
+                        }
+                    });
             }
 
         };
