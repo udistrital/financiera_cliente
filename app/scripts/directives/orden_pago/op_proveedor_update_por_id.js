@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        opproveedorid: '='
+        opproveedorid: '=',
+        outputopp: '='
       },
 
       templateUrl: 'views/directives/orden_pago/op_proveedor_update_por_id.html',
@@ -44,6 +45,7 @@ angular.module('financieraClienteApp')
                 query: "Id:" + $scope.opproveedorid,
               })).then(function(response) {
               self.orden_pago = response.data;
+              $scope.outputopp = response.data[0];
               // proveedor
               self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario);
               // detalle rp
