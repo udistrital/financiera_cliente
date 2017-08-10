@@ -39,7 +39,8 @@ angular.module('configuracionService', [])
        * @param {string} a menu
        * @description Metodo get_acciones para obtener las acciones ejecutables en un modulo
        */
-      get_acciones: function(path, a = []) {
+      get_acciones: function(path, a) {
+        a = a || [];
         for (var i = 0; i < a.length; i++) {
           if (a[i].Url === path) {
             return a[i];
