@@ -33,8 +33,8 @@ angular.module('configuracionService', [])
 
       /**
        * @ngdoc function
-       * @name financieraService.service:configuracionRequest#get_acciones
-       * @methodOf financieraService.service:configuracionRequest
+       * @name configuracionService.service:configuracionRequest#get_acciones
+       * @methodOf configuracionService.service:configuracionRequest
        * @param {string} path url del menu a consultar opciones
        * @param {string} a menu
        * @description Metodo get_acciones para obtener las acciones ejecutables en un modulo
@@ -56,8 +56,8 @@ angular.module('configuracionService', [])
 
       /**
        * @ngdoc function
-       * @name financieraService.service:configuracionRequest#get
-       * @methodOf financieraService.service:configuracionRequest
+       * @name configuracionService.service:configuracionRequest#get
+       * @methodOf configuracionService.service:configuracionRequest
        * @param {string} tabla Nombre de la tabla en el API
        * @param {string} params parametros para filtrar la busqueda
        * @return {array|object} objeto u objetos del get
@@ -68,10 +68,10 @@ angular.module('configuracionService', [])
       },
       /**
        * @ngdoc function
-       * @name financieraService.service:configuracionRequest#post
+       * @name configuracionService.service:configuracionRequest#post
        * @param {string} tabla Nombre de la tabla en el API
        * @param {object} elemento objeto a ser creado por el API
-       * @methodOf financieraService.service:configuracionRequest
+       * @methodOf configuracionService.service:configuracionRequest
        * @return {array|string} mensajes del evento en el servicio
        * @description Metodo POST del servicio
        */
@@ -81,11 +81,11 @@ angular.module('configuracionService', [])
 
       /**
        * @ngdoc function
-       * @name financieraService.service:configuracionRequest#put
+       * @name configuracionService.service:configuracionRequest#put
        * @param {string} tabla Nombre de la tabla en el API
        * @param {string|int} id del elemento en el API
        * @param {object} elemento objeto a ser actualizado por el API
-       * @methodOf financieraService.service:configuracionRequest
+       * @methodOf configuracionService.service:configuracionRequest
        * @return {array|string} mensajes del evento en el servicio
        * @description Metodo PUT del servicio
        */
@@ -95,8 +95,8 @@ angular.module('configuracionService', [])
 
       /**
        * @ngdoc function
-       * @name financieraService.service:configuracionRequest#delete
-       * @methodOf financieraService.service:configuracionRequest
+       * @name configuracionService.service:configuracionRequest#delete
+       * @methodOf configuracionService.service:configuracionRequest
        * @param {string} tabla Nombre de la tabla en el API
        * @param {object} elemento objeto a ser eliminado por el API
        * @return {array|string} mensajes del evento en el servicio
