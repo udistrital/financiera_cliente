@@ -9,7 +9,7 @@
                 <div class="mi-grid" id="mi-grid" ui-grid="TiposAvance.gridOptions" ui-grid-selection ui-grid-pagination></div>
             </div>
             <div class="panel-footer">
-                <div align="center"> <button ng-click="TiposAvance.load_row('', 'add')" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+                <div align="center"> <button ng-click="loadrow('', 'add')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
             </div>
         </div>
     </div>
@@ -21,10 +21,10 @@
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
         </div>
         <div class="panel panel-default">
-            <div class="panel-heading" ng-if="TiposAvance.operacion === 'add' ">
+            <div class="panel-heading" ng-if="TiposAvance.operacion == 'add' ">
                 {{'NUEVO_TIPO_AVANCE' | translate }}
             </div>
-            <div class="panel-heading" ng-if="TiposAvance.operacion === 'edit' ">
+            <div class="panel-heading" ng-if="TiposAvance.operacion == 'edit' ">
                 {{'EDITAR_TIPO_AVANCE' | translate }}
             </div>
 
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <br>
-                <div class="row" ng-if="TiposAvance.operacion ==='edit'">
+                <div class="row" ng-if="TiposAvance.operacion =='edit'">
                     <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
                     <div class="col-sm-9">
                         <select name="estado" ng-model="TiposAvance.tipo_avance.Estado" class="form-control">

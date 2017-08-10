@@ -63,14 +63,7 @@ angular.module('financieraClienteApp')
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '8%',
-
-                    cellTemplate: '<center>' +
-                        '<a class="editar" ng-click="grid.appScope.requisitos.load_row(row,\'edit\');" data-toggle="modal" data-target="#myModal">' +
-                        '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' + '</a> ' +
-                        //boton borrar
-                        '<a class="borrar" ng-click="grid.appScope.requisitos.load_row(row,\'delete\');">' +
-                        '<i data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}" class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a>' +
-                        '</center>'
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" fila="row"></btn-registro>'
                 }
             ]
         };
@@ -95,13 +88,14 @@ angular.module('financieraClienteApp')
 
         ctrl.get_all_avances();
 
-        $scope.load_row = function(row, operacion) {
+        $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
                     ctrl.tipo_avance.Referencia = "";
                     ctrl.tipo_avance.Nombre = "";
                     ctrl.tipo_avance.Descripcion = "";
+                    $('#myModal').modal('show');
                     break;
                 case "edit":
                     ctrl.row_entity = row.entity;
@@ -111,6 +105,7 @@ angular.module('financieraClienteApp')
                     ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
                     ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
                     ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
+                    $('#myModal').modal('show');
                     break;
                 case "delete":
                     ctrl.row_entity = row.entity;

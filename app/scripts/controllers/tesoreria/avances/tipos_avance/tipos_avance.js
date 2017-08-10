@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
         ctrl.requisito_select = [];
 
         ctrl.grid_option_requisito = {
+
             enableFiltering: true,
             enableSorting: true,
             enableRowSelection: true,
@@ -205,11 +206,13 @@ angular.module('financieraClienteApp')
                     ctrl.row_entity = row.entity;
                     console.log(ctrl.row_entity);
                     ctrl.get_requisito_tipo_avance(ctrl.row_entity.Id);
+                    $('#modalVer').modal('show');
                     break;
                 case "add":
                     ctrl.tipo_avance.Referencia = "";
                     ctrl.tipo_avance.Nombre = "";
                     ctrl.tipo_avance.Descripcion = "";
+                    $('#myModal').modal('show');
                     break;
                 case "edit":
                     ctrl.row_entity = row.entity;
@@ -218,6 +221,7 @@ angular.module('financieraClienteApp')
                     ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
                     ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
                     ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
+                    $('#myModal').modal('show');
                     break;
                 case "delete":
                     ctrl.row_entity = row.entity;
@@ -226,6 +230,7 @@ angular.module('financieraClienteApp')
                 case "config":
                     ctrl.row_entity = row.entity;
                     ctrl.update_config();
+                    $('#modalConf').modal('show');
                     break;
                 default:
             }
