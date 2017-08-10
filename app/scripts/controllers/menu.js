@@ -1,8 +1,11 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-.controller('menuCtrl', function($location, $http, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest) {
+.controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope) {
    var paths = [];
+
+   self.perfil="Admin";
+   //$scope.menuserv=configuracionRequest;
    $scope.language = {
        es:"btn btn-primary btn-circle btn-outline active",
        en:"btn btn-primary btn-circle btn-outline"
@@ -62,62 +65,15 @@ angular.module('financieraClienteApp')
     console.log($scope.notificacion.log);
   });
 
+configuracionRequest.get('menu_opcion_padre/ArbolMenus/'+self.perfil).then(function(response){
+  $rootScope.my_menu=response.data;
+  /*configuracionRequest.update_menu(response.data);
+  console.log("get menu");
+  $scope.menu_service = configuracionRequest.get_menu();*/
+});
 
-$scope.menuserv=configuracionRequest;
-$scope.menuserv.actualizar_menu("Admin");
-$scope.menu_service =$scope.menuserv.get_menu();
-configuracionRequest.actualizar_menu("Admin");
-configuracionRequest.get_menu();
-
-   var recorrerArbol = function(item, padre) {
-     var padres = "";
-     for (var i = 0; i < item.length; i++) {
-       if (item[i].Opciones === null) {
-         padres = padre + " , " + item[i].Nombre;
-         paths.push({
-           'path': item[i].Url,
-           'padre': padres.split(",")
-         });
-       } else {
-         recorrerArbol(item[i].Opciones, padre + "," + item[i].Nombre);
-       }
-     }
-     return padres;
-   };
-
-   var update_url = function() {
-     $scope.breadcrumb = [''];
-     for (var i = 0; i < paths.length; i++) {
-       if ($scope.actual === "/" + paths[i].path) {
-         $scope.breadcrumb = paths[i].padre;
-       } else if ('/' === $scope.actual) {
-         $scope.breadcrumb = [''];
-       }
-     }
-   };
-
-   paths.push({padre:["","Notificaciones","Ver Notificaciones"],path:"notificaciones"});
-
-   $scope.$on('$routeChangeStart', function() {
-     $scope.actual = $location.path();
-     update_url();
-   });
-
-   $scope.changeLanguage = function (key) {
-       $translate.use(key);
-        switch (key) {
-            case 'es':
-                $scope.language.es = "btn btn-primary btn-circle btn-outline active";
-                $scope.language.en = "btn btn-primary btn-circle btn-outline";
-                break;
-            case 'en':
-                $scope.language.en = "btn btn-primary btn-circle btn-outline active";
-                $scope.language.es = "btn btn-primary btn-circle btn-outline";
-                break;
-            default:
-        }
-        $route.reload();
-   };
+//$scope.menuserv.actualizar_menu("Admin");
+//$scope.menu_service =$scope.menuserv.get_menu();
 
 function buildToggler(componentId) {
       return function() {
