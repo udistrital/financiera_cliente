@@ -55,7 +55,8 @@ angular
     'pagosService',
     'financieraNotificacion',
     'avancesService',
-    'arkaService'
+    'arkaService',
+    'configuracionService'
   ])
 
   .run(function(amMoment) {
