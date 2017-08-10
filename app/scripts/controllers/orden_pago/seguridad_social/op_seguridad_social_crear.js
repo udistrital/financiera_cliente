@@ -46,7 +46,7 @@ angular.module('financieraClienteApp')
             //mensaje
             swal({
               title: 'Orden de Pago',
-              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              text: self.resultado.data.Type == 'success' ? $translate.instant(self.resultado.data.Code) + self.resultado.data.Body : $translate.instant(self.resultado.data.Code),
               type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';

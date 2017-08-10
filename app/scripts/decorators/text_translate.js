@@ -416,6 +416,7 @@ var text_es = {
   E_A06: "Debe seleccionar el rubro afectado por el cdp a anular.",
   E_A07: "El valor debe ser mayor a 0",
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
+  S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",
   E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
 

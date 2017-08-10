@@ -209,9 +209,9 @@ angular.module('financieraClienteApp')
                 self.resultado = data;
                 //mensaje
                 swal({
-                  title: 'Registro Exitoso',
-                  text: 'Orden de Pago Proveedo Actualizado. ',
-                  type: 'success',
+                  title: 'Orden de Pago',
+                  text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+                  type: self.resultado.data.Type,
                 }).then(function() {
                   $window.location.href = '#/orden_pago/ver_todos';
                 })
