@@ -1,6 +1,9 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'DETALLE_ORDEN_PAGO' | translate }} {{ 'PROVEEDOR' | translate }} No. {{opProveedorVerPorId.ordenPagoProveedorId}}</h2>
+  <h2 class="page-header text-center">{{ 'DETALLE_ORDEN_PAGO' | translate }} {{ 'PROVEEDOR' | translate }} No. {{opProveedorVerPorId.objectOrdenPagoProveedor.Consecutivo}}</h2>
   <div class="panel-body">
-    <op-proveedor-ver-por-id opproveedorid="opProveedorVerPorId.ordenPagoProveedorId" />
+    <op-proveedor-ver-por-id
+      opproveedorid="opProveedorVerPorId.ordenPagoProveedorId"
+      outputopp="opProveedorVerPorId.objectOrdenPagoProveedor"
+    />
   </div>
 </div>
