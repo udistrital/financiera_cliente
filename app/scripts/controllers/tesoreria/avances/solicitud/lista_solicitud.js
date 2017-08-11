@@ -164,9 +164,9 @@ angular.module('financieraClienteApp')
                 }
             ]
         };
-
         ctrl.ver_fila = function(row) {
             $scope.solicitud = row;
+            console.log($scope.solicitud);
         };
         ctrl.validar_solicitud = function() {
             var error = "<ol>";
@@ -174,36 +174,61 @@ angular.module('financieraClienteApp')
                 j = 0,
                 st = 0,
                 lt = 0;
-
             angular.forEach($scope.solicitud.Tipos, function(reg) {
-                lt += reg.n_legalizar;
-                st += reg.n_solicitar;
+                if (!angular.isUndefined(reg.n_legalizar)) {
+                    lt += reg.n_legalizar;
+                    st += reg.n_solicitar;
+                }
             });
 
             angular.forEach($scope.selected, function(registro) {
                 if (!angular.isUndefined(registro.Observaciones)) {
-                    i++;
+                    if (registro.Observaciones !== "") {
+                        i++;
+                    }
                 }
                 j++;
             });
             console.log("Indefinidos: " + i + ", seleccionados: " + j);
+            console.log(st);
             if (i < st) {
-                error += "<li><label>Debe llenar todas las observaciones</label></li>";
+                error += "<li><label>" + $translate.instant('ERROR_OBSERVACIONES') + "</label></li>";
             }
             if (j < st) {
-                error += "<li><label>Debe seleccionar todos los requisitos</label></li>";
+                error += "<li><label>" + $translate.instant('ERROR_REQUISITOS') + "</label></li>";
             }
-            if (error !== "") {
+            error += "</ol>";
+            if (i + j < 2 * st) {
                 swal(
-                    'Soocio...',
+                    'Faltan Campos...',
                     error,
                     "error"
                 );
             } else {
+                $scope.data = {};
+                $scope.envio = [];
+                angular.forEach($scope.selected, function(data) {
+                    var envio = {};
+                    envio.RequisitoTipoAvance = data.RequisitoTipoAvance;
+                    envio.SolicitudTipoAvance = data.SolicitudTipoAvance;
+                    envio.Observaciones = data.Observaciones;
+                    $scope.envio.push(envio);
+                });
+                $scope.data.Requisitos = $scope.envio;
+                $scope.data.Solicitud = $scope.solicitud.SolicitudAvance;
+
+                financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
+                    .then(function(response) {
+                        console.log(response.data);
+                        if (response.data.Type !== undefined) {
+                            if (response.data.Type === "error") {
+                                swal('', $translate.instant(response.data.Code), response.data.Type);
+                            } else {
+                                swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                            }
+                        }
+                    });
 
             }
-
         };
-
-
     });

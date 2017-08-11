@@ -22,10 +22,6 @@
     </div>
 </div>
 
-<pre>
-  {{listaSolicitud.gridOptions.data | json}}
-</pre>
-
 <div id="modal_validar" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
@@ -72,9 +68,6 @@
                         </div>
                     </div>
                 </fieldset>
-                <pre>
-        {{selected | json}}
-        </pre>
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
               <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
