@@ -2,7 +2,8 @@
   <div class="panel panel-default" >
     <h2 class="page-header" align="center">{{'LISTA_SOLICITUD_ANULACION_CDP' | translate}}</h2>
     <div class="panel-body">
-      <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-selection class="myGrid"></div>
+      <!-- ui-grid-selection -->
+      <div ui-grid="cdpAprobacionAnulacion.gridOptions"  class="myGrid"></div>
     </div>
   </div>
 </div>
@@ -74,6 +75,42 @@
             </div>
           </div>
           <div class="panel-body">
+            <div class="row">
+              <div class="col-md-3">
+                <label>{{'OFICIO' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Consecutivo" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Responsable">
+              <div class="col-md-3">
+                <label>{{'RESPONSABLE' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Responsable" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Solicitante">
+              <div class="col-md-3">
+                <label>{{'SOLICITANTE' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Solicitante" disabled="true"></input>
+              </div>
+            </div>
+            <br>
+            <div class="row" ng-show="cdpAprobacionAnulacion.anulacion.Expidio">
+              <div class="col-md-3">
+                <label>{{'EXPIDIO' | translate}}</label>
+              </div>
+              <div class="col-md-9">
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.Expidio" disabled="true"></input>
+              </div>
+            </div>
+            <br>
             <div class="row">
               <div class="col-md-3">
                 <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>

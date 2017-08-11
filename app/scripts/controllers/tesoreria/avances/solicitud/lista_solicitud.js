@@ -29,20 +29,29 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.get_solicitudes = function() {
-            financieraRequest.get("estado_avance", $.param({
+            financieraRequest.get("solicitud_avance", $.param({
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
                     angular.forEach(response.data, function(solicitud) {
+                        financieraRequest.get("estado_avance", $.param({
+                                query: "SolicitudAvance.Id:" + solicitud.Id,
+                                sortby: "FechaRegistro",
+                                limit: -1,
+                                order: "desc"
+                            }))
+                            .then(function(estados) {
+                                solicitud.Estado = estados.data;
+                            });
                         //aqui va la conexions con el beneficiario
                         modelsRequest.get("terceros_completo")
                             .then(function(response) {
                                 solicitud.Tercero = response.data;
                             });
                         financieraRequest.get("solicitud_tipo_avance", $.param({
-                                query: "SolicitudAvance.Id:" + solicitud.SolicitudAvance.Id,
+                                query: "SolicitudAvance.Id:" + solicitud.Id,
                                 sortby: "Id",
                                 limit: -1,
                                 order: "asc"
@@ -64,8 +73,6 @@ angular.module('financieraClienteApp')
                                             var sol = 0;
                                             var leg = 0;
                                             angular.forEach(tipo.Requisitos, function(data) {
-                                                data.SolicitudTipoAvance = { Id: tipo.Id };
-                                                data.RequisitoTipoAvance = { Id: data.Id };
                                                 if (data.RequisitoAvance.Etapa == "solicitar") {
                                                     sol++;
                                                 }
@@ -93,16 +100,16 @@ angular.module('financieraClienteApp')
             enableRowSelection: true,
             enableRowHeaderSelection: false,
             columnDefs: [{
-                    field: 'SolicitudAvance.Consecutivo',
+                    field: 'Consecutivo',
                     displayName: $translate.instant('CONSECUTIVO'),
                     width: '5%',
                 }, {
-                    field: 'SolicitudAvance.Vigencia',
+                    field: 'Vigencia',
                     displayName: $translate.instant('VIGENCIA'),
                     width: '10%',
                 },
                 {
-                    field: 'SolicitudAvance.Objetivo',
+                    field: 'Objetivo',
                     displayName: $translate.instant('OBJETIVO'),
                     width: '15%',
                 },
@@ -122,15 +129,15 @@ angular.module('financieraClienteApp')
                     width: '14%'
                 },
                 {
-                    field: 'Estado',
+                    field: 'Estado[0].Estados.Nombre',
                     displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.Estados.Nombre}}</div>',
+                    cellTemplate: '<div align="center">{{row.entity.Estado[0].Estados.Nombre}}</div>',
                     width: '8%',
                 },
                 {
-                    field: 'FechaRegistro',
+                    field: 'Estado[0].FechaRegistro',
                     displayName: $translate.instant('FECHA'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
+                    cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
                     width: '8%',
                 },
                 {
@@ -150,15 +157,13 @@ angular.module('financieraClienteApp')
                         '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
 
                         //BOTON VALIDAR
-
-                        '<a ng-if="row.entity.Estados.Nombre !== \'Verificado\'" class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
+                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
                         '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
 
                         '</center>'
                 }
             ]
         };
-
         ctrl.ver_fila = function(row) {
             $scope.solicitud = row;
             console.log($scope.solicitud);
@@ -223,9 +228,7 @@ angular.module('financieraClienteApp')
                             }
                         }
                     });
+
             }
-
         };
-
-
     });

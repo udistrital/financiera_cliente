@@ -31,6 +31,7 @@
             <div class="panel-heading">
                 {{'BTN.VERIFICAR' | translate }}
             </div>
+
             <div class="panel panel-body">
                 <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
                 <fieldset class="form-group">
@@ -41,10 +42,12 @@
                         </div>
 
                         <div class="panel-body">
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 {{tipo.Descripcion}}
                                 <br> Requisitos:
                                 <br>
+
+
                                 <div flex="50" class="left-cinco" ng-repeat="item in tipo.Requisitos" ng-if="item.RequisitoAvance.Etapa === 'solicitar' ">
                                     <div class="row">
                                         <div class="col-md-6">
@@ -54,20 +57,17 @@
                                             </md-checkbox>
                                         </div>
                                         <div class="col-md-6">
-                                            <input class="form-control" ng-model="item.Observaciones" placeholder="{{'OBSERVACIONES_REQUISITO' | translate}}">
+                                            <input class="form-control" ng-model="item.Observaciones" value="" placeholder="Observaciones del requisito presentado">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
                             </div>
                         </div>
                     </div>
                 </fieldset>
-                <pre>
-                  {{data | json}}
-                  </pre>
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
               <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}

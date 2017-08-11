@@ -1,69 +1,128 @@
-<div class="panel panel-primary panel-body"  ng-show="!rpConsulta.cargandoDatosPagos">
-  <h2 class="page-header" align="center">Lista de Registros Presupuestales</h2>
-    <div class="panel-body">
-      <div ui-grid="rpConsulta.gridOptions" ui-grid-selection ui-grid-auto-resize class="myGrid"></div>
-    </div>
+<div class="panel panel-primary panel-body" ng-show="!rpConsulta.cargandoDatosPagos">
+  <h2 class="page-header" align="center">{{'LISTA_RP' | translate}}</h2>
+  <div class="panel-body">
+    <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize class="myGrid"></div>
   </div>
 </div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
     </div>
     <div class="panel panel-default" ng-repeat="item in rpConsulta.detalle">
       <div class="panel-heading">
-          <h3 class="page-header">Registro Presupuestal No {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
-          <div align="right">Fecha de Registro: {{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</div>
+        <h3 class="page-header">{{'DETALLE_RP' | translate}} {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
+        <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</div>
       </div>
-    <div class="panel-body">
-      <div class="col-md-10 col-md-offset-1 " >
-        <table class="table text-justify " >
-          <tr>
-            <th>CDP No: </th><td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
-          </tr>
-          <tr>
-            <th>Necesidad No: </th><td>{{rpConsulta.Necesidad.Numero}}</td>
-          </tr>
-          <tr>
-            <th>Estado: </th><td>{{item.Estado.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>Beneficiario: </th> <td>{{item.Beneficiario.NomProveedor}}</td>
-          </tr>
-          <tr>
-            <th>Tipo de Persona: </th> <td>{{item.Beneficiario.Tipopersona}}</td>
-          </tr>
-          <tr>
-            <th>No. Documento: </th> <td>{{item.Beneficiario.NumDocumento}}</td>
-          </tr>
-          <tr>
-            <th>Compromiso: </th> <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
-          </tr>
-          <tr>
-            <th>Modalidad de Selección: </th> <td>{{rpConsulta.Necesidad.ModalidadSeleccion.Id+" / "+rpConsulta.Necesidad.ModalidadSeleccion.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>Objeto del Contrato: </th> <td>{{rpConsulta.Necesidad.Objeto}}</td>
-          </tr>
-        </table>
-        <hr>
-        <h4><b>Afectación Presupuestal</b></h4>
-        <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" />
-      </div>
-    </div>
-    </div>
-    <!--<div class="panel panel-default">
-        <div class="panel-heading">
-          Rubros para este RP
+      <div class="panel-body">
+        <div>
+          <table class="table text-justify ">
+            <tr>
+              <th>{{'NO_CDP' | translate}}: </th>
+              <td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
+            </tr>
+            <tr>
+              <th>{{'NECESIDAD_NO' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.Numero}}</td>
+            </tr>
+            <tr>
+              <th>{{'ESTADO' | translate}}: </th>
+              <td>{{item.Estado.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'BENEFECIARIO' | translate}}: </th>
+              <td>{{item.Beneficiario.NomProveedor}}</td>
+            </tr>
+            <tr>
+              <th>{{'TIPO_PERSONA' | translate}}: </th>
+              <td>{{item.Beneficiario.Tipopersona}}</td>
+            </tr>
+            <tr>
+              <th>{{'NO_DOCUMENTO' | translate}}: </th>
+              <td>{{item.Beneficiario.NumDocumento}}</td>
+            </tr>
+            <tr>
+              <th>{{'COMPROMISO' | translate}}: </th>
+              <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+            </tr>
+            <tr>
+              <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.ModalidadSeleccion.Id+" / "+rpConsulta.Necesidad.ModalidadSeleccion.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.Objeto}}</td>
+            </tr>
+          </table>
+          <hr>
+          <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
+          <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados"></fuente-financiacion-rp>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <div class="panel-title">
+                  {{'ANULACION_RP' | translate}}
+                </div>
+              </div>
+              <div class="panel-body">
+                 <form class="form-ctrl" ng-show="rpConsulta.anular">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpConsulta.motivo"></textarea>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>{{'TIPO_ANULACION' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpConsulta.tipoAnulacion">
+                      <option value="P">Parcial</option>
+                      <option value="T">Total</option>
+                   </select>
+                  </div>
+                </div>
+                <br>
+                <!-- Text input-->
+                <div ng-hide="rpConsulta.tipoAnulacion == 'T'" class="row">
+                  <div class="col-md-4 ">
+                    <label>{{'SELECCION_RUBRO' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <select class="form-control" ng-model="rpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in rpConsulta.rubros_afectados">
+                   </select>
+                  </div>
+                </div>
+                <br>
+                <div ng-hide="rpConsulta.tipoAnulacion == 'T' " class="row">
+                  <div class="col-md-4">
+                    <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control" required="" ng-model="rpConsulta.Valor"
+                      ui-money-mask="0">
+                  </div>
+                </div>
+                </form>
+              </div>
+              <!-- Button (Double) -->
+              <br>
+              <center>
+
+                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpConsulta.anularRp()">{{'SOLICITAR' | translate}}</button>
+
+
+              </center>
+
+            </div>
+
         </div>
-          <div ui-grid="rpConsulta.gridOptions_rubros" ui-grid-selection ui-grid-auto-resize ng-style="rpConsulta.gridHeight" class="myGrid"></div>
-    </div>-->
+      </div>
+    </div>
   </div>
 </div>
-<loading load="rpConsulta.cargandoDatosPagos" tam ="5"/>
-<!--<div class="row loading" ng-show="rpConsulta.cargandoDatosPagos">
-  <br>
-  <br>
-  <i class="fa fa-clock-o fa-spin fa-5x faa-burst animated  text-info" aria-hidden="true"></i>
-
-</div> -->
+<loading load="rpConsulta.cargandoDatosPagos" tam="5"></loading>

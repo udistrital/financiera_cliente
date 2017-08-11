@@ -14,14 +14,15 @@
       <div class="panel-heading">
         <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
       </div>
+      <div class="panel-body">
       <table class="table">
         <tr>
           <th>{{'CODIGO' | translate}}: </th>
           <td>{{consultaFuente.fuente_seleccionada.Codigo }}</td>
         </tr>
         <tr>
-          <th>{{ 'SIGLA' | translate }}: </th>
-          <td>{{consultaFuente.fuente_seleccionada.Sigla}}</td>
+          <th>{{ 'NOMBRE' | translate }}: </th>
+          <td>{{consultaFuente.fuente_seleccionada.Nombre}}</td>
         </tr>
         <tr>
           <th>{{ 'DESCRIPCION' | translate }}: </th>
@@ -29,7 +30,7 @@
         </tr>
         <tr>
           <th>{{ 'VALOR' | translate }}: </th>
-          <td>{{ consultaFuente.valor_total}}</td>
+          <td>{{ consultaFuente.valor_total | currency}}</td>
         </tr>
       </table>
       <hr>
@@ -39,7 +40,7 @@
       <div class="modal-body">
         <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-auto-resize class="grid"></div>
       </div>
-
+    </div>
 
 
     </div>

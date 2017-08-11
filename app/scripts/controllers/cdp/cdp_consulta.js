@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
+  .controller('CdpCdpConsultaCtrl', function ($window,$translate,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -20,12 +20,21 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass: 'input_center'},
-        {field: 'NumeroDisponibilidad',   displayName: 'No.', cellClass: 'input_center'},
-        {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero' , displayName : 'Necesidad No.', cellClass: 'input_center'},
-        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' ,cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'Estado.Nombre', displayName : 'Estado'},
-        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante'}
+        {field: 'Vigencia',       cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'NumeroDisponibilidad',   displayName: 'No.', cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero' , displayName : 'Necesidad No.', cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' ,cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>',headerCellClass: 'text-info'},
+        {field: 'Estado.Nombre', displayName : 'Estado',headerCellClass: 'text-info'},
+        {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante',headerCellClass: 'text-info'},
+        {
+          field: 'Opciones',
+          cellTemplate:'<center>' +
+           ' <a type="button" class="editar" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,false)" > '+
+          '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>'+
+          ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,true)" >'+
+          '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
+          headerCellClass: 'text-info'
+        }
       ]
 
     };
@@ -35,17 +44,18 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
        columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
-        {field: 'Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
-        {field: 'Apropiacion.Rubro.Estado',    displayName: 'Estado' },
-        {field: 'Valor', cellFilter: 'currency' },
-        {field: 'Saldo', cellFilter: 'currency'}
+        {field: 'Apropiacion.Rubro.Codigo', displayName: $translate.instant("CODIGO")},
+        {field: 'Apropiacion.Rubro.Descripcion', displayName: $translate.instant("DESCRIPCION")},
+        {field: 'Apropiacion.Rubro.Estado',    displayName: $translate.instant("ESTADO") },
+        {field: 'Valor', cellFilter: 'currency', displayName: $translate.instant("VALOR")  },
+        {field: 'Saldo', cellFilter: 'currency', displayName: $translate.instant("SALDO") }
       ]
     };
 
 
     self.gridOptions.multiSelect = false;
-    financieraRequest.get('disponibilidad','limit=-1').then(function(response) {
+    self.actualizarLista = function(){
+      financieraRequest.get('disponibilidad','limit=-1').then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
         financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {
@@ -54,7 +64,113 @@ angular.module('financieraClienteApp')
       });
       console.log(self.gridOptions.data );
     });
-    self.gridOptions.onRegisterApi = function(gridApi){
+    };
+    self.actualizarLista();
+    self.verDisponibilidad = function(row,anular){
+      self.anular = anular;
+      $("#myModal").modal();
+        $scope.apropiacion= undefined;
+        $scope.apropiaciones = [];
+        self.cdp = row.entity;
+        financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
+          self.gridOptions_rubros.data = response.data;
+          angular.forEach(self.gridOptions_rubros.data, function(data){
+            if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
+
+            }else{
+              $scope.apropiaciones.push(data.Apropiacion.Id);
+            }
+
+              console.log($scope.apropiaciones);
+              console.log(self.cdp.Id);
+              var saldo;
+              var rp = {
+                Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
+                Apropiacion : data.Apropiacion
+              };
+              financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                data.Saldo  = response.data;
+              });
+              self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
+            });
+
+              agoraRequest.get('informacion_persona_natural',$.param({
+                query: "Id:"+self.cdp.Responsable,
+                limit: 1
+              })).then(function(response){
+                if (response.data != null){
+                  self.cdp.Responsable = response.data[0];
+                }
+
+              });
+
+        });
+    };
+
+    self.limpiar= function(){
+      self.motivo = undefined;
+      self.Valor = undefined;
+      self.Rubro_sel = undefined;
+      self.alerta = "";
+    };
+
+    self.anularDisponibilidad = function(){
+      if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
+        swal("", $translate.instant("E_A02") , "error")
+      }else if (self.tipoAnulacion == undefined || self.tipoAnulacion ===""|| self.tipoAnulacion == null){
+        swal("", $translate.instant("E_A03"), "error")
+      }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion === "P")){
+        swal("", $translate.instant("E_A04"), "error")
+      }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion === "P")){
+        swal("", $translate.instant("E_A05"), "error")
+      }else if(parseFloat(self.Valor) <= 0){
+        swal("", $translate.instant("E_A07"), "error")
+      }else {
+        var valor = 0;
+        self.alerta = "<ol>"
+        var disponibilidad_apropiacion =[];
+        var anulacion = {
+          Motivo : self.motivo,
+          TipoAnulacion : self.tipoAnulacion,
+          EstadoAnulacion : {Id:1},
+          Expidio: 1234567890
+        };
+        if (self.tipoAnulacion === "T"){
+          disponibilidad_apropiacion = self.rubros_afectados;
+        }else if (self.tipoAnulacion === "P"){
+          disponibilidad_apropiacion[0] = self.Rubro_sel;
+          valor = parseFloat(self.Valor);
+        }
+        var datos_anulacion = {
+          Anulacion : anulacion,
+          Disponibilidad_apropiacion : disponibilidad_apropiacion,
+          Valor : valor
+        };
+        financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
+          self.alerta_anulacion_cdp = response.data;
+          angular.forEach(self.alerta_anulacion_cdp, function(data){
+            if (data === "error" || data === "success"){
+
+            }else{
+              self.alerta = self.alerta +"<li>" +data +"</li>";
+            }
+
+
+          });
+          self.alerta = self.alerta + "</ol>";
+          swal("", self.alerta, self.alerta_anulacion_cdp[0]).then(function(){
+            self.limpiar();
+            self.actualizarLista();
+            //$("#myModal").modal('hide');
+          });
+          });
+      }
+
+
+    };
+
+
+    /*self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $("#myModal").modal();
@@ -95,7 +211,7 @@ angular.module('financieraClienteApp')
 
         });
       });
-    };
+    };*/
     self.gridOptions_rubros.onRegisterApi = function(gridApi){
       //set gridApi on scope
       self.gridApi_rubros = gridApi;

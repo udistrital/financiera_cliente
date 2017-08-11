@@ -55,7 +55,8 @@ angular
     'pagosService',
     'financieraNotificacion',
     'avancesService',
-    'arkaService'
+    'arkaService',
+    'configuracionService'
   ])
 
   .run(function(amMoment) {
@@ -354,6 +355,11 @@ angular
         templateUrl: 'views/cdp/cdp_aprobacion_anulacion.html',
         controller: 'CdpCdpAprobacionAnulacionCtrl',
         controllerAs: 'cdpAprobacionAnulacion'
+      })
+      .when('/rp/rp_aprobacion_anulacion', {
+        templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
+        controller: 'RpRpAprobacionAnulacionCtrl',
+        controllerAs: 'rpAprobacionAnulacion'
       })
       .otherwise({
         redirectTo: '/'
