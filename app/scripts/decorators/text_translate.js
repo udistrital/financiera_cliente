@@ -416,16 +416,30 @@ var text_es = {
   E_A06: "Debe seleccionar el rubro afectado por el cdp a anular.",
   E_A07: "El valor debe ser mayor a 0",
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
+  S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
   E_25P02: "Este registro ya ha sido creado. ",
   E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
+
   // Errores Orden Pago
   //Proveedores
+  E_OPP_01: "Error al intentar registrar la Orden de pago. ",
+  E_OPP_02: "Error al intentar registrar la afectación por conceptos. ",
+  E_OPP_03: "Error al intentar registrar los Movimientos Contables. ",
+
+  //Actualizar Proveedores
+  E_OPP_UPD_01: "Error al intentar Actualizar los campos de la Orden de pago. ",
+  E_OPP_UPD_02: "Error al intentar Actualizar los campos antiguos de conceptos relacionados a la Orden de pago. ",
+  E_OPP_UPD_03: "Error al intentar Actualizar los campos antiguos de movimientos contables relacionados a la Orden de pago. ",
+  E_OPP_UPD_04: "Error al intentar Actualizar los campos de conceptos relacionados a la Orden de pago. ",
+  E_OPP_UPD_05: "Error al intentar Actualizar los campos de movimientos contables relacionados a la Orden de pago. ",
+
   //OP Nomina api_mid_financiera
   E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
   E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
   E_OPN_01_3: "No se obtubo información del detalle de la liquidacion del modulo Titan. ",
   E_OPN_01_4: "No se se cuenta con un detalle de la liquidacion del modulo Titan. ",
   E_OPN_01_5: "Error en la comunicacion con los servicios de Kronos. ",
+
   //OP Nomina api_financiera
   E_OPN_02: "Error al intentar registrar la Orden de pago. ",
   E_OPN_02_1: "Error al obtener Valor Calculado del detalle de la liquidación. ",
