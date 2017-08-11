@@ -410,8 +410,13 @@ var text_es = {
   E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
   E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
   E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
-  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
-
+  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. ",
+  //RP
+  E_RP001 : "Error al expedir RP",
+  E_RP002 : "No se pudo cargar los datos del beneficiario",
+  E_RP003 : "No se pudo cargar los datos del CDP objetivo del RP",
+  E_RP004 : "No se pudo cargar los rubros objetivo del RP",
+  E_RP005 : "No se pudo cargar el Compromiso del RP",
 };
 
 var text_en = {

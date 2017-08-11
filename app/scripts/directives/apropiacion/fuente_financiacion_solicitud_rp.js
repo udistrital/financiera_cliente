@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           apropiacion:'=',
-          solrp:'='
+          solrp:'=',
+          afectacion: '='
         },
       templateUrl: 'views/directives/apropiacion/fuente_financiacion_solicitud_rp.html',
       controller:function($scope){
@@ -57,6 +58,7 @@ angular.module('financieraClienteApp')
 
 
               });
+              $scope.afectacion = self.resumen_afectacion_presupuestal;
 console.log(self.resumen_afectacion_presupuestal);
           
           }

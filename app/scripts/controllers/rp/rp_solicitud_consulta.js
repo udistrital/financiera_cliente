@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function ($scope,$window,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function ($scope,$translate,$window,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
     var self = this;
     self.alerta = "";
     self.gridOptions = {
@@ -16,12 +16,12 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: true,
       enableFiltering : true,
       columnDefs : [
-        {field: 'Id',              displayName: 'No.', cellClass: 'input_center'},
-        {field: 'Vigencia',  displayName: 'Vigencia', cellClass: 'input_center'},
-        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Disponibilidad No. ', cellClass: 'input_center'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Necesidad No. ', cellClass: 'input_center'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
+        {field: 'Id',            displayName: $translate.instant('NO'), cellClass: 'input_center', headerCellClass: 'text-info'},
+        {field: 'Vigencia',  displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'FechaSolicitud',  displayName: $translate.instant('FECHA_REGISTRO') ,headerCellClass: 'text-info',  cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: $translate.instant('NO_CDP'), cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: $translate.instant('NECESIDAD_NO'), cellClass: 'input_center',headerCellClass: 'text-info'},
+        {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),headerCellClass: 'text-info'},
         {
           field: 'Opciones',
           cellTemplate:'<center>' +
@@ -33,19 +33,7 @@ angular.module('financieraClienteApp')
     ]
 
     };
-    self.gridOptions_rubros =  {
-      enableRowSelection: true,
-      enableRowHeaderSelection: false,
-       columnDefs : [
-        {field: 'Id',             visible : false},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',  displayName: 'Vigencia',  cellClass:'alignleft'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Estado',    displayName: 'Estado' },
-        {field: 'Monto',    displayName: 'Monto' , cellFilter: 'currency' }
-      ]
-
-    };
+   
     self.actualizar_solicitudes = function(){
       financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp','').then(function(response) {
         self.gridOptions.data.length = 0;
@@ -71,16 +59,7 @@ angular.module('financieraClienteApp')
     if(row.entity.Id === 161) return false;
     else return true;
 }
-    self.gridOptions_rubros.multiSelect = false;
-    self.gridOptions_rubros.onRegisterApi = function(gridApi){
-      //set gridApi on scope
-      self.gridApi_rubros = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.apropiacion = row.entity.DisponibilidadApropiacion.Apropiacion;
-        console.log(row.entity);
-        $scope.apropiacion_id = $scope.apropiacion.Id;
-      });
-    };
+   
 
     self.verSolicitud = function(row){
         $("#myModal").modal();
@@ -90,6 +69,21 @@ angular.module('financieraClienteApp')
           financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
             self.data.InfoCompromiso = response.data;
           });
+
+          argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
+              self.afectacion_pres = response.data;
+              angular.forEach(self.afectacion_pres, function(rubro){
+            financieraRequest.get('disponibilidad_apropiacion','limit=1&query=Id:'+rubro.DisponibilidadApropiacion).then(function(response) {
+              angular.forEach(response.data, function(data){
+                rubro.DisponibilidadApropiacion = data;
+                
+                });
+
+              });
+          });
+                console.log("afec");
+        console.log(self.afectacion_pres );
+            });
           
         
 
@@ -98,13 +92,13 @@ angular.module('financieraClienteApp')
     self.Registrar = function(){
         self.alerta_registro_rp = ["No se pudo registrar el rp"];
       if(self.data.DatosProveedor == null){
-        swal("Alertas", "No se pudo cargar los datos del beneficiario", "error");
+        swal("", $translate.instant('E_RP001'), "error");
       }else if(self.data.DatosDisponibilidad.NumeroDisponibilidad == null){
-        swal("Alertas", "No se pudo cargar los datos del CDP objetivo del RP", "error");
-      }else if (self.gridOptions_rubros.data.length == 0){
-        swal("Alertas", "No se pudo cargar los rubros objetivo del RP", "error");
+        swal("", $translate.instant('E_RP002'), "error");
+      }else if ($scope.afectacion.length == 0){
+        swal("", $translate.instant('E_RP003'), "error");
       }else if(self.data.DatosCompromiso.Objeto == null){
-        swal("Alertas", "No se pudo cargar el Compromiso del RP", "error");
+        swal("", $translate.instant('E_RP004'), "error");
       }else{
 
         var estado = {Id : 1};
@@ -119,11 +113,13 @@ angular.module('financieraClienteApp')
           DatosSolicitud: self.data
         };
         console.log(rp);
-	var rubros = [];
-	for (var i = 0 ; i < self.gridOptions_rubros.data.length ; i++){
-	   self.gridOptions_rubros.data[i].DisponibilidadApropiacion.ValorAsignado = self.gridOptions_rubros.data[i].Monto;
-           self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciacion = self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciamiento;
-           rubros.push(self.gridOptions_rubros.data[i].DisponibilidadApropiacion);
+  var rubros = [];
+ 
+   
+	for (var i = 0 ; i < self.afectacion_pres.length ; i++){
+	   self.afectacion_pres[i].DisponibilidadApropiacion.ValorAsignado = self.afectacion_pres[i].Monto;
+           self.afectacion_pres[i].DisponibilidadApropiacion.FuenteFinanciacion = self.afectacion_pres[i].DisponibilidadApropiacion.FuenteFinanciamiento;
+           rubros.push(self.afectacion_pres[i].DisponibilidadApropiacion);
         }
           var dataRegistros = [];
         var registro = {
