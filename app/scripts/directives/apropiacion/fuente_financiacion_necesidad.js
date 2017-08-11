@@ -39,6 +39,8 @@ angular.module('financieraClienteApp')
                     limit: 1
                   })).then(function(response) {
                     rubros_data.FuenteFinanciacion = response.data[0];
+                    console.log("fuente dev ")
+                    console.log(response.data);
                   });
                 });
                 self.resumen_afectacion_presupuestal.push(self.rubros_afectados);

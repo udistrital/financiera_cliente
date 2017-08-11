@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     self.alerta = "";
     self.gridOptions = {
       enableRowSelection: true,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       enableFiltering : true,
       columnDefs : [
         {field: 'Id',              displayName: 'No.', cellClass: 'input_center'},
@@ -22,6 +22,14 @@ angular.module('financieraClienteApp')
         {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Disponibilidad No. ', cellClass: 'input_center'},
         {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Necesidad No. ', cellClass: 'input_center'},
         {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
+        {
+          field: 'Opciones',
+          cellTemplate:'<center>' +
+           ' <a type="button" class="editar" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" > '+
+          '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>'+
+          ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" >',
+          headerCellClass: 'text-info'
+        }
     ]
 
     };
@@ -50,46 +58,19 @@ angular.module('financieraClienteApp')
     self.limpiar_alertas= function(){
       self.alerta_registro_cdp = "";
     };
-    self.gridOptions.multiSelect = false;
+    //self.gridOptions.multiSelect = false;
     self.actualizar_solicitudes();
 
     self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $("#myModal").modal();
-        $scope.apropiacion= undefined;
-        $scope.apropiaciones = [];
-          self.data = row.entity;
-          financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
-            self.data.InfoCompromiso = response.data;
-          });
-          argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
-
-          self.gridOptions_rubros.data = response.data;
-
-          angular.forEach(self.gridOptions_rubros.data, function(rubro){
-            financieraRequest.get('disponibilidad_apropiacion','limit=1&query=Id:'+rubro.DisponibilidadApropiacion).then(function(response) {
-              angular.forEach(response.data, function(data){
-                rubro.DisponibilidadApropiacion = data
-                if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
-
-                }else{
-                  $scope.apropiaciones.push(data.Apropiacion.Id);
-                  console.log($scope.apropiaciones);
-                }
-                });
-
-            });
-
-            });
-        });
-        self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
-
-      });
+      
 
     };
 
-
+    self.gridOptions.isRowSelectable = function(row) {//comprobar si la solicitud es de cargue masivo o no 
+    if(row.entity.Id === 161) return false;
+    else return true;
+}
     self.gridOptions_rubros.multiSelect = false;
     self.gridOptions_rubros.onRegisterApi = function(gridApi){
       //set gridApi on scope
@@ -101,10 +82,22 @@ angular.module('financieraClienteApp')
       });
     };
 
+    self.verSolicitud = function(row){
+        $("#myModal").modal();
+        $scope.apropiacion= undefined;
+        $scope.apropiaciones = [];
+          self.data = row.entity;
+          financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
+            self.data.InfoCompromiso = response.data;
+          });
+          
+        
+
+      };
 
     self.Registrar = function(){
         self.alerta_registro_rp = ["No se pudo registrar el rp"];
-      if(self.data.DatosProveedor.NomProveedor == null){
+      if(self.data.DatosProveedor == null){
         swal("Alertas", "No se pudo cargar los datos del beneficiario", "error");
       }else if(self.data.DatosDisponibilidad.NumeroDisponibilidad == null){
         swal("Alertas", "No se pudo cargar los datos del CDP objetivo del RP", "error");
@@ -132,14 +125,17 @@ angular.module('financieraClienteApp')
            self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciacion = self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciamiento;
            rubros.push(self.gridOptions_rubros.data[i].DisponibilidadApropiacion);
         }
+          var dataRegistros = [];
         var registro = {
           rp : rp,
           rubros : rubros
         };
+        dataRegistros[0] = registro;
         console.log(registro);
-        financieraMidRequest.post('registro_presupuestal', registro).then(function(response){
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response){
         self.alerta_registro_rp = response.data;
-        angular.forEach(self.alerta_registro_rp, function(data){
+        console.log(self.alerta_registro_rp);
+        /*angular.forEach(self.alerta_registro_rp, function(data){
 
           if (data === "error" || data === "success" || data === undefined){
 
@@ -153,7 +149,7 @@ angular.module('financieraClienteApp')
               self.alerta = "";
               $("#myModal").modal('hide');
               $window.location.reload();
-            });
+            });*/
         //alert(data);
         //self.limpiar();
         //console.log(registro);
@@ -165,7 +161,7 @@ angular.module('financieraClienteApp')
     };
 
     self.Rechazar = function (){
-      var solicitud = self.gridApi.selection.getSelectedRows();
+      var solicitud = self.data;
       $("#myModal").modal('hide');
       swal({
         title: 'Indique una justificación por el rechazo',
