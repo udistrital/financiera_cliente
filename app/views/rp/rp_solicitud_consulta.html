@@ -7,6 +7,10 @@
         </td>
       </tr>
     </table>
+    <center ng-if="rpSolicitudConsulta.aprovarMasivo">
+            <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.RegistrarMasivo()">{{ 'BTN.APROBAR' | translate }}</button>
+            <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
+    </center>
   </div>
 </div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
