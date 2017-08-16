@@ -12,6 +12,13 @@ angular.module('financieraClienteApp')
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
+        $scope.botones = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+            { clase_color: "configuracion", clase_css: "fa fa-cog fa-lg faa-spin animated-hover", titulo: $translate.instant('BTN.CONFIGURAR'), operacion: 'config', estado: true },
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
+            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true }
+        ];
 
         $scope.toggle = function(item, list) {
             var idx = list.indexOf(item);
@@ -151,22 +158,31 @@ angular.module('financieraClienteApp')
                     enableFiltering: false,
                     width: '8%',
 
-                    cellTemplate: '<center>' +
-                        //BOTON VER
-                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
-                        '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
+                        // cellTemplate: '<center>' +
+                        //     //BOTON VER
+                        //     '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
+                        //     '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
 
-                        //BOTON VALIDAR
-                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
-                        '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
+                    //     //BOTON VALIDAR
+                    //     '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
+                    //     '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
 
-                        '</center>'
+                    //     '</center>'
                 }
             ]
         };
-        ctrl.ver_fila = function(row) {
-            $scope.solicitud = row;
-            console.log($scope.solicitud);
+        $scope.loadrow = function(row, operacion) {
+            $scope.solicitud = row.entity;
+            switch (operacion) {
+                case "ver":
+                    $('#modal_ver').modal('show');
+                    break;
+                case "validar":
+                    $('#modal_validar').modal('show');
+                    break;
+                default:
+            }
         };
         ctrl.validar_solicitud = function() {
             var error = "<ol>";

@@ -13,9 +13,11 @@ angular.module('financieraClienteApp')
             scope: {
                 fila: '=',
                 funcion: '&',
-                perfil: '='
+                grupobotones: '='
             },
             templateUrl: 'views/directives/btn_registro.html',
-            link: function(scope, elm, attrs) {}
+            link: function(scope, elm, attrs) {
+                console.log(scope);
+            }
         };
     });
