@@ -15,6 +15,12 @@ angular.module('financieraClienteApp')
         ctrl.row_entity = {};
         ctrl.tipo_avance = {};
         ctrl.requisito_select = [];
+        $scope.botones = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+            { clase_color: "configuracion", clase_css: "fa fa-cog fa-lg faa-spin animated-hover", titulo: $translate.instant('BTN.CONFIGURAR'), operacion: 'config', estado: true },
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
+        ];
 
         ctrl.grid_option_requisito = {
 
@@ -104,7 +110,7 @@ angular.module('financieraClienteApp')
                     enableFiltering: false,
                     width: '8%',
 
-                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" fila="row"></btn-registro>'
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ]
         };

@@ -14,9 +14,6 @@ angular.module('financieraClienteApp')
         $scope.selected = [];
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-            { clase_color: "configuracion", clase_css: "fa fa-cog fa-lg faa-spin animated-hover", titulo: $translate.instant('BTN.CONFIGURAR'), operacion: 'config', estado: true },
-            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
             { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true }
         ];
 
@@ -51,6 +48,7 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(estados) {
                                 solicitud.Estado = estados.data;
+
                             });
                         //aqui va la conexions con el beneficiario
                         modelsRequest.get("terceros_completo")
@@ -159,16 +157,7 @@ angular.module('financieraClienteApp')
                     width: '8%',
 
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
-                        // cellTemplate: '<center>' +
-                        //     //BOTON VER
-                        //     '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
-                        //     '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
 
-                    //     //BOTON VALIDAR
-                    //     '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
-                    //     '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
-
-                    //     '</center>'
                 }
             ]
         };
@@ -179,7 +168,16 @@ angular.module('financieraClienteApp')
                     $('#modal_ver').modal('show');
                     break;
                 case "validar":
-                    $('#modal_validar').modal('show');
+                    if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {
+                        swal(
+                            '',
+                            $translate.instant('SOLICITUD_AVANCE_VALIDADA'),
+                            "warning"
+                        );
+                    } else {
+                        $('#modal_validar').modal('show');
+                    }
+
                     break;
                 default:
             }

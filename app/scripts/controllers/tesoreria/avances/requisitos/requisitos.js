@@ -13,6 +13,10 @@ angular.module('financieraClienteApp')
         ctrl.operacion = "";
         ctrl.row_entity = {};
         ctrl.tipo_avance = {};
+        $scope.botones = [
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
+        ];
         ctrl.gridOptions = {
             paginationPageSizes: [5, 15, 20],
             paginationPageSize: 5,
@@ -63,7 +67,7 @@ angular.module('financieraClienteApp')
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '8%',
-                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" fila="row"></btn-registro>'
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ]
         };
