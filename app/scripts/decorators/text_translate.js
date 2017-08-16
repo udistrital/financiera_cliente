@@ -375,6 +375,7 @@ var text_es = {
     CODIGO_PROYECTO: "Código del Proyecto",
     NOMBRE_PROYECTO: "Nombre del Proyecto",
     TIPO_AVANCE: "Tipo de Avance",
+    SOLICITUD_AVANCE_VALIDADA: "Esta solicitud ya fue validada",
 
     //ANULACIONES
     ANULACION_PARCIAL: "Parcial",

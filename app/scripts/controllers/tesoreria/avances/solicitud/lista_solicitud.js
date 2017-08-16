@@ -12,6 +12,10 @@ angular.module('financieraClienteApp')
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
+        $scope.botones = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true }
+        ];
 
         $scope.toggle = function(item, list) {
             var idx = list.indexOf(item);
@@ -44,6 +48,7 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(estados) {
                                 solicitud.Estado = estados.data;
+
                             });
                         //aqui va la conexions con el beneficiario
                         modelsRequest.get("terceros_completo")
@@ -151,22 +156,31 @@ angular.module('financieraClienteApp')
                     enableFiltering: false,
                     width: '8%',
 
-                    cellTemplate: '<center>' +
-                        //BOTON VER
-                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_ver">' +
-                        '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
 
-                        //BOTON VALIDAR
-                        '<a class="ver" ng-click="grid.appScope.listaSolicitud.ver_fila(row.entity)" data-toggle="modal" data-target="#modal_validar">' +
-                        '<i class="fa  fa-check fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VALIDAR\' | translate }}"></i></a> ' +
-
-                        '</center>'
                 }
             ]
         };
-        ctrl.ver_fila = function(row) {
-            $scope.solicitud = row;
-            console.log($scope.solicitud);
+        $scope.loadrow = function(row, operacion) {
+            $scope.solicitud = row.entity;
+            switch (operacion) {
+                case "ver":
+                    $('#modal_ver').modal('show');
+                    break;
+                case "validar":
+                    if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {
+                        swal(
+                            '',
+                            $translate.instant('SOLICITUD_AVANCE_VALIDADA'),
+                            "warning"
+                        );
+                    } else {
+                        $('#modal_validar').modal('show');
+                    }
+
+                    break;
+                default:
+            }
         };
         ctrl.validar_solicitud = function() {
             var error = "<ol>";
