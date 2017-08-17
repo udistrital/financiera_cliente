@@ -1,32 +1,47 @@
 /*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/
-#pac{
-  min-height: 300px !important;
-  width: auto !important;
+
+#pac {
+    min-height: 300px !important;
+    width: auto !important;
 }
 
-#pac .mi-grid-pac.ui-grid-row, #pac .mi-grid-pac.ui-grid-cell {
-  height: auto!important;
+#pac .mi-grid-pac.ui-grid-row,
+#pac .mi-grid-pac.ui-grid-cell {
+    height: auto!important;
 }
 
 #pac .mi-grid-pac.ui-grid-cell {
-  float: none;
-  display: table-cell;
+    float: none;
+    display: table-cell;
 }
 
+
 /*clases para acomodar el grid al numero de filas contemplando sus tamaños.*/
-#pac .mi-grid-pac.ui-grid-header-cell, #pac .mi-grid-pac.ui-grid-cell-contents {
-  white-space: normal;
-  padding: auto !important;
-  word-break: break-word;
+
+#pac .mi-grid-pac.ui-grid-header-cell,
+#pac .mi-grid-pac.ui-grid-cell-contents {
+    white-space: normal;
+    padding: auto !important;
+    word-break: break-word;
 }
-.mi-grid-pac.ui-grid, .mi-grid-pac.ui-grid-viewport, .mi-grid-pac.ui-grid-render-container-body, .mi-grid-pac.ui-grid-canvas {
-  height: auto !important;
+
+.mi-grid-pac.ui-grid,
+.mi-grid-pac.ui-grid-viewport,
+.mi-grid-pac.ui-grid-render-container-body,
+.mi-grid-pac.ui-grid-canvas {
+    height: auto !important;
 }
 
 md-checkbox.md-checked.blue .md-icon {
- background-color: rgba(0, 62, 101, 1);
+    background-color: rgba(0, 62, 101, 1);
 }
 
-.left-cinco{
-  padding-left: 5%;
+.left-cinco {
+    padding-left: 5%;
+}
+
+#mynetwork {
+    width: 600px;
+    height: 400px;
+    border: 1px solid lightgray;
 }

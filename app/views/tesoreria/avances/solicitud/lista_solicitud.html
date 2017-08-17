@@ -68,6 +68,9 @@
                         </div>
                     </div>
                 </fieldset>
+                <pre>
+        {{selected | json}}
+        </pre>
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
               <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
@@ -77,3 +80,5 @@
         </div>
     </div>
 </div>
+
+<proceso></proceso>
