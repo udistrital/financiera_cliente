@@ -1,56 +1,60 @@
 <!doctype html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <title>financieraClienteApp</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
-  <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
-  <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
-  <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.css" />
-  <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.min.css" />
-  <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
-  <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
-  <link rel="stylesheet" href="bower_components/vis/dist/vis.css" />
-  <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/main.css -->
- <link rel="stylesheet" href="styles/oas-style.css">
-  <link rel="stylesheet" href="styles/kronos.css">
-  <link rel="stylesheet" href="styles/kronos_style.css">
-  <!-- endbuild -->
-  <!--link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/oas-style.css"-->
-  <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/sb-admin-2.css">
-  <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/table-demo.css">
+    <meta charset="utf-8">
+    <title>financieraClienteApp</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+    <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
+    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
+    <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/vis/dist/vis.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/oas-style.css">
+    <link rel="stylesheet" href="styles/kronos.css">
+    <link rel="stylesheet" href="styles/kronos_style.css">
+    <!-- endbuild -->
+    <!--link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/oas-style.css"-->
+    <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/sb-admin-2.css">
+    <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/table-demo.css">
 
 </head>
+
 <body ng-app="financieraClienteApp">
-  <div ng-include="'views/menu.html'" ng-controller="menuCtrl"></div>
+    <div ng-include="'views/menu.html'" ng-controller="menuCtrl"></div>
     <!--[if lte IE 8]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <div class="container-fluid">
-      <div ng-view=""></div>
+        <div ng-view=""></div>
     </div>
-  <div ng-include="'views/footer.html'" ng-controller="footerCtrl"></div>
+    <div ng-include="'views/footer.html'" ng-controller="footerCtrl"></div>
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
-    !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
-      (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
-      r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
-    }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ! function(A, n, g, u, l, a, r) {
+            A.GoogleAnalyticsObject = l, A[l] = A[l] || function() {
+                    (A[l].q = A[l].q || []).push(arguments)
+                }, A[l].l = +new Date, a = n.createElement(g),
+                r = n.getElementsByTagName(g)[0], a.src = u, r.parentNode.insertBefore(a, r)
+        }(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-XXXXX-X');
-    ga('send', 'pageview');
+        ga('create', 'UA-XXXXX-X');
+        ga('send', 'pageview');
     </script>
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -89,150 +93,148 @@
     <!-- endbuild -->
 
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
 </body>
-  <!-- build:js({.tmp,app}) scripts/extras.js -->
-  <script src="scripts/services/token.js"></script>
-  <script src="scripts/controllers/menu.js"></script>
-  <script src="scripts/controllers/footer.js"></script>
-  <script src="scripts/controllers/about.js"></script>
-  <script src="scripts/directives/conceptos/arbol_conceptos.js"></script>
-  <script src="scripts/controllers/conceptos/crear_concepto.js"></script>
-  <script src="scripts/services/financiera_service.js"></script>
-  <script src="scripts/services/notificacion.js"></script>
-  <script src="scripts/controllers/notificaciones.js"></script>
-  <script src="scripts/controllers/iva/iva.js"></script>
-  <script src="scripts/directives/iva/iva.js"></script>
-  <script src="scripts/controllers/orden_pago/op_crear.js"></script>
-  <script src="scripts/directives/unidad_ejecutora/ue_listar.js"></script>
-  <script src="scripts/directives/proveedor/pv_listar.js"></script>
-  <script src="scripts/services/administrativa_service.js"></script>
-  <script src="scripts/directives/orden_pago/op_proveedor_detalle_pago.js"></script>
-  <script src="scripts/directives/rubros/rubros_por_rp.js"></script>
-  <script src="scripts/directives/rp/rp_por_proveedor_listar.js"></script>
-  <script src="scripts/directives/concepto/concepto_por_rubro_listar.js"></script>
-  <script src="scripts/directives/rubros/rubros_por_rp_seleccion_multiple.js"></script>
-  <script src="scripts/directives/conceptos/conceptos_por_rubros_op.js"></script>
-  <script src="scripts/controllers/conceptos/concepto.js"></script>
-  <script src="scripts/controllers/compromisos/crear_compromiso.js"></script>
-  <script src="scripts/controllers/plan_cuentas/crear_cuentas.js"></script>
-  <script src="scripts/directives/cuentas_contables/plan_cuentas.js"></script>
-  <script src="scripts/controllers/plan_cuentas/crear_plan.js"></script>
-  <script src="scripts/directives/cuentas_contables/lista_planes_cuentas.js"></script>
-  <script src="scripts/directives/cuentas_contables/movimientos_contables.js"></script>
-  <script src="scripts/decorators/text_translate.js"></script>
-  <script src="bower_components/moment/locale/es.js"></script>
-  <script src="scripts/controllers/plan_cuentas/cuenta.js"></script>
-  <script src="scripts/controllers/orden_pago/op_view_all.js"></script>
-  <script src="scripts/directives/orden_pago/op_listar_todas.js"></script>
-  <script src="scripts/controllers/rubro/rubroregistro.js"></script>
-  <script src="scripts/controllers/rubro/rubro_consulta.js"></script>
-  <script src="scripts/controllers/rubro/rubro_apropiacion_planeacion.js"></script>
-  <script src="scripts/controllers/rubro/rubro_apropiacion_consulta.js"></script>
-  <script src="scripts/controllers/rubro/rubro_apropiacion_aprobacion.js"></script>
-  <script src="scripts/services/financiera_mid_service.js"></script>
-  <script src="scripts/controllers/rp/rp_registro.js"></script>
-  <script src="scripts/directives/cdp/lista_cdp.js"></script>
-  <script src="scripts/services/agora_service.js"></script>
-  <script src="scripts/directives/proveedores/lista_proveedores.js"></script>
-  <script src="scripts/controllers/rp/rp_detalle.js"></script>
-  <script src="scripts/services/uigridservice.js"></script>
-  <script src="scripts/controllers/rp/rp_consulta.js"></script>
-  <script src="scripts/controllers/cdp/cdp_consulta.js"></script>
-  <script src="scripts/controllers/cdp/cdp_detalle.js"></script>
-  <script src="scripts/controllers/cdp/cdp_solicitud_consulta.js"></script>
-  <script src="scripts/controllers/cdp/cdp_solicitud_detalle.js"></script>
-  <script src="scripts/decorators/orden_pago/op_text_translatedecorator.js"></script>
-  <script src="scripts/directives/orden_pago/op_proveedor_ver_por_id.js"></script>
-  <script src="scripts/controllers/orden_pago/op_proveedor_ver_por_id.js"></script>
-  <script src="scripts/controllers/rp/rp_solicitud.js"></script>
-  <script src="scripts/controllers/rp/rp_solicitud_personas.js"></script>
-  <script src="scripts/services/administrativa_mid_service.js"></script>
-  <script src="scripts/services/argo_service.js"></script>
-  <script src="scripts/directives/apropiacion/lista_apropiaciones.js"></script>
-  <script src="scripts/directives/apropiacion/fuentes_apropiacion.js"></script>
-  <script src="scripts/controllers/cdp/cdp_anulacion.js"></script>
-  <script src="scripts/services/core_service.js"></script>
-  <script src="scripts/directives/apropiacion/fuentes_por_apropiaciones_listar.js"></script>
-  <script src="scripts/controllers/rp/rp_solicitud_consulta.js"></script>
+<!-- build:js({.tmp,app}) scripts/extras.js -->
+<script src="scripts/services/token.js"></script>
+<script src="scripts/controllers/menu.js"></script>
+<script src="scripts/controllers/footer.js"></script>
+<script src="scripts/controllers/about.js"></script>
+<script src="scripts/directives/conceptos/arbol_conceptos.js"></script>
+<script src="scripts/controllers/conceptos/crear_concepto.js"></script>
+<script src="scripts/services/financiera_service.js"></script>
+<script src="scripts/services/notificacion.js"></script>
+<script src="scripts/controllers/notificaciones.js"></script>
+<script src="scripts/controllers/iva/iva.js"></script>
+<script src="scripts/directives/iva/iva.js"></script>
+<script src="scripts/controllers/orden_pago/op_crear.js"></script>
+<script src="scripts/directives/unidad_ejecutora/ue_listar.js"></script>
+<script src="scripts/directives/proveedor/pv_listar.js"></script>
+<script src="scripts/services/administrativa_service.js"></script>
+<script src="scripts/directives/orden_pago/op_proveedor_detalle_pago.js"></script>
+<script src="scripts/directives/rubros/rubros_por_rp.js"></script>
+<script src="scripts/directives/rp/rp_por_proveedor_listar.js"></script>
+<script src="scripts/directives/concepto/concepto_por_rubro_listar.js"></script>
+<script src="scripts/directives/rubros/rubros_por_rp_seleccion_multiple.js"></script>
+<script src="scripts/directives/conceptos/conceptos_por_rubros_op.js"></script>
+<script src="scripts/controllers/conceptos/concepto.js"></script>
+<script src="scripts/controllers/compromisos/crear_compromiso.js"></script>
+<script src="scripts/controllers/plan_cuentas/crear_cuentas.js"></script>
+<script src="scripts/directives/cuentas_contables/plan_cuentas.js"></script>
+<script src="scripts/controllers/plan_cuentas/crear_plan.js"></script>
+<script src="scripts/directives/cuentas_contables/lista_planes_cuentas.js"></script>
+<script src="scripts/directives/cuentas_contables/movimientos_contables.js"></script>
+<script src="scripts/decorators/text_translate.js"></script>
+<script src="bower_components/moment/locale/es.js"></script>
+<script src="scripts/controllers/plan_cuentas/cuenta.js"></script>
+<script src="scripts/controllers/orden_pago/op_view_all.js"></script>
+<script src="scripts/directives/orden_pago/op_listar_todas.js"></script>
+<script src="scripts/controllers/rubro/rubroregistro.js"></script>
+<script src="scripts/controllers/rubro/rubro_consulta.js"></script>
+<script src="scripts/controllers/rubro/rubro_apropiacion_planeacion.js"></script>
+<script src="scripts/controllers/rubro/rubro_apropiacion_consulta.js"></script>
+<script src="scripts/controllers/rubro/rubro_apropiacion_aprobacion.js"></script>
+<script src="scripts/services/financiera_mid_service.js"></script>
+<script src="scripts/controllers/rp/rp_registro.js"></script>
+<script src="scripts/directives/cdp/lista_cdp.js"></script>
+<script src="scripts/services/agora_service.js"></script>
+<script src="scripts/directives/proveedores/lista_proveedores.js"></script>
+<script src="scripts/controllers/rp/rp_detalle.js"></script>
+<script src="scripts/services/uigridservice.js"></script>
+<script src="scripts/controllers/rp/rp_consulta.js"></script>
+<script src="scripts/controllers/cdp/cdp_consulta.js"></script>
+<script src="scripts/controllers/cdp/cdp_detalle.js"></script>
+<script src="scripts/controllers/cdp/cdp_solicitud_consulta.js"></script>
+<script src="scripts/controllers/cdp/cdp_solicitud_detalle.js"></script>
+<script src="scripts/decorators/orden_pago/op_text_translatedecorator.js"></script>
+<script src="scripts/directives/orden_pago/op_proveedor_ver_por_id.js"></script>
+<script src="scripts/controllers/orden_pago/op_proveedor_ver_por_id.js"></script>
+<script src="scripts/controllers/rp/rp_solicitud.js"></script>
+<script src="scripts/controllers/rp/rp_solicitud_personas.js"></script>
+<script src="scripts/services/administrativa_mid_service.js"></script>
+<script src="scripts/services/argo_service.js"></script>
+<script src="scripts/directives/apropiacion/lista_apropiaciones.js"></script>
+<script src="scripts/directives/apropiacion/fuentes_apropiacion.js"></script>
+<script src="scripts/controllers/cdp/cdp_anulacion.js"></script>
+<script src="scripts/services/core_service.js"></script>
+<script src="scripts/directives/apropiacion/fuentes_por_apropiaciones_listar.js"></script>
+<script src="scripts/controllers/rp/rp_solicitud_consulta.js"></script>
 
-  <script src="scripts/directives/cuentas_contables/movimientos_contables_op_detalle.js"></script>
-  <script src="scripts/directives/apropiacion/fuente_financiacion_necesidad.js"></script>
-    <script src="scripts/directives/apropiacion/fuente_financiacion_cdp.js"></script>
-  <script src="scripts/directives/apropiacion/fuente_financiacion_rp.js"></script>
-  <script src="scripts/directives/apropiacion/fuente_financiacion_solicitud_rp.js"></script>
+<script src="scripts/directives/cuentas_contables/movimientos_contables_op_detalle.js"></script>
+<script src="scripts/directives/apropiacion/fuente_financiacion_necesidad.js"></script>
+<script src="scripts/directives/apropiacion/fuente_financiacion_cdp.js"></script>
+<script src="scripts/directives/apropiacion/fuente_financiacion_rp.js"></script>
+<script src="scripts/directives/apropiacion/fuente_financiacion_solicitud_rp.js"></script>
 
-  <script src="scripts/services/oikos_service.js"></script>
-  <script src="scripts/controllers/fuente_financiacion/consulta_fuente.js"></script>
-  <script src="scripts/controllers/fuente_financiacion/crear_fuente.js"></script>
-  <script src="scripts/controllers/fuente_financiacion/detalle_fuente.js"></script>
-
-
-  <script src="scripts/directives/orden_pago/op_listar_todas_update.js"></script>
-  <script src="scripts/controllers/orden_pago/op_listar_todas_update.js"></script>
-  <script src="scripts/controllers/orden_pago/op_proveedor_update_por_id.js"></script>
-  <script src="scripts/directives/orden_pago/op_proveedor_update_por_id.js"></script>
-  <script src="scripts/controllers/rp/rp_anulacion.js"></script>
-  <script src="scripts/controllers/plan_cuentas/crear_descuento.js"></script>
-  <script src="scripts/controllers/plan_cuentas/gestion_descuentos.js"></script>
-  <script src="scripts/controllers/rp/rp_anulacion.js"></script>
-
-  <script src="scripts/controllers/ingresos/ingreso_registro.js"></script>
-  <script src="scripts/services/pagos_service.js"></script>
-  <script src="scripts/directives/loading.js"></script>
-  <script src="scripts/services/config.js"></script>
-  <script src="scripts/services/avances_service.js"></script>
-  <script src="scripts/controllers/tesoreria/avances/tipos_avance/tipos_avance.js"></script>
-  <script src="scripts/directives/cuentas_contables/ver_cuenta_contable.js"></script>
-  <script src="scripts/directives/conceptos/ver_concepto.js"></script>
-  <script src="scripts/controllers/plan_cuentas/gestion_plan_cuentas.js"></script>
+<script src="scripts/services/oikos_service.js"></script>
+<script src="scripts/controllers/fuente_financiacion/consulta_fuente.js"></script>
+<script src="scripts/controllers/fuente_financiacion/crear_fuente.js"></script>
+<script src="scripts/controllers/fuente_financiacion/detalle_fuente.js"></script>
 
 
-  <script src="scripts/controllers/ingresos/ingreso_consulta.js"></script>
+<script src="scripts/directives/orden_pago/op_listar_todas_update.js"></script>
+<script src="scripts/controllers/orden_pago/op_listar_todas_update.js"></script>
+<script src="scripts/controllers/orden_pago/op_proveedor_update_por_id.js"></script>
+<script src="scripts/directives/orden_pago/op_proveedor_update_por_id.js"></script>
+<script src="scripts/controllers/rp/rp_anulacion.js"></script>
+<script src="scripts/controllers/plan_cuentas/crear_descuento.js"></script>
+<script src="scripts/controllers/plan_cuentas/gestion_descuentos.js"></script>
+<script src="scripts/controllers/rp/rp_anulacion.js"></script>
 
-  <script src="scripts/controllers/tesoreria/avances/requisitos/requisitos.js"></script>
-
-  <script src="scripts/controllers/orden_pago/planta/op_planta_crear.js"></script>
-  <script src="scripts/directives/nomina/liquidacion/ver_todas.js"></script>
-  <script src="scripts/services/titan_service.js"></script>
-  <script src="scripts/controllers/orden_pago/planta/op_planta_ver_por_id.js"></script>
-  <script src="scripts/directives/cuentas_contables/ver_descuentos.js"></script>
-
-  <script src="scripts/directives/ingresos/afectacion_contable_ingreso.js"></script>
-  <script src="scripts/controllers/fuente_financiacion/modificacion_fuente.js"></script>
-  <script src="scripts/directives/conceptos/detalle_concepto_op_planta.js"></script>
-  <script src="scripts/controllers/plan_cuentas/gestion_plan_alterno.js"></script>
-  <script src="scripts/controllers/tesoreria/avances/solicitud/solicitud_avance.js"></script>
-  <script src="scripts/services/models_service.js"></script>
+<script src="scripts/controllers/ingresos/ingreso_registro.js"></script>
+<script src="scripts/services/pagos_service.js"></script>
+<script src="scripts/directives/loading.js"></script>
+<script src="scripts/services/config.js"></script>
+<script src="scripts/services/avances_service.js"></script>
+<script src="scripts/controllers/tesoreria/avances/tipos_avance/tipos_avance.js"></script>
+<script src="scripts/directives/cuentas_contables/ver_cuenta_contable.js"></script>
+<script src="scripts/directives/conceptos/ver_concepto.js"></script>
+<script src="scripts/controllers/plan_cuentas/gestion_plan_cuentas.js"></script>
 
 
-  <script src="scripts/controllers/pac/reporte_pac.js"></script>
+<script src="scripts/controllers/ingresos/ingreso_consulta.js"></script>
 
-  <script src="scripts/controllers/bancos/gestion_bancos.js"></script>
-  <script src="scripts/directives/bancos/ver_banco.js"></script>
-  <script src="scripts/controllers/calendario_tributario/gestion_calendario.js"></script>
-  <script src="scripts/controllers/calendario_tributario/admin_calendario.js"></script>
-  <script src="scripts/services/arka_service.js"></script>
-  <script src="scripts/directives/alamcen/entrada.js"></script>
-  <script src="scripts/controllers/tesoreria/avances/solicitud/lista_solicitud.js"></script>
-  <script src="scripts/controllers/orden_pago/seguridad_social/op_seguridad_social_crear.js"></script>
-  <script src="scripts/directives/necesidad/necesida_listar.js"></script>
-  <script src="scripts/controllers/cdp/cdp_aprobacion_anulacion.js"></script>
-  <script src="scripts/directives/avances/ver_solicitud.js"></script>
-  <script src="scripts/controllers/orden_pago/seguridad_social/op_seguridad_social_ver_por_id.js"></script>
-<<<<<<< HEAD
-  <script src="scripts/controllers/rp/rp_aprobacion_anulacion.js"></script>
-  <script src="scripts/directives/btn_registro.js"></script>
-  <script src="scripts/directives/usuario/acciones_registro.js"></script>
-  <script src="scripts/services/configuracion_service.js"></script>
-=======
-  <script src="scripts/directives/proceso.js"></script>
->>>>>>> 11323c4c13c6b7944d93cbf0a54bb10b58e48884
-  <!-- endbuild -->
+<script src="scripts/controllers/tesoreria/avances/requisitos/requisitos.js"></script>
 
-  <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-  </html>
+<script src="scripts/controllers/orden_pago/planta/op_planta_crear.js"></script>
+<script src="scripts/directives/nomina/liquidacion/ver_todas.js"></script>
+<script src="scripts/services/titan_service.js"></script>
+<script src="scripts/controllers/orden_pago/planta/op_planta_ver_por_id.js"></script>
+<script src="scripts/directives/cuentas_contables/ver_descuentos.js"></script>
+
+<script src="scripts/directives/ingresos/afectacion_contable_ingreso.js"></script>
+<script src="scripts/controllers/fuente_financiacion/modificacion_fuente.js"></script>
+<script src="scripts/directives/conceptos/detalle_concepto_op_planta.js"></script>
+<script src="scripts/controllers/plan_cuentas/gestion_plan_alterno.js"></script>
+<script src="scripts/controllers/tesoreria/avances/solicitud/solicitud_avance.js"></script>
+<script src="scripts/services/models_service.js"></script>
+
+
+<script src="scripts/controllers/pac/reporte_pac.js"></script>
+
+<script src="scripts/controllers/bancos/gestion_bancos.js"></script>
+<script src="scripts/directives/bancos/ver_banco.js"></script>
+<script src="scripts/controllers/calendario_tributario/gestion_calendario.js"></script>
+<script src="scripts/controllers/calendario_tributario/admin_calendario.js"></script>
+<script src="scripts/services/arka_service.js"></script>
+<script src="scripts/directives/alamcen/entrada.js"></script>
+<script src="scripts/controllers/tesoreria/avances/solicitud/lista_solicitud.js"></script>
+<script src="scripts/controllers/orden_pago/seguridad_social/op_seguridad_social_crear.js"></script>
+<script src="scripts/directives/necesidad/necesida_listar.js"></script>
+<script src="scripts/controllers/cdp/cdp_aprobacion_anulacion.js"></script>
+<script src="scripts/directives/avances/ver_solicitud.js"></script>
+<script src="scripts/controllers/orden_pago/seguridad_social/op_seguridad_social_ver_por_id.js"></script>
+<script src="scripts/controllers/rp/rp_aprobacion_anulacion.js"></script>
+<script src="scripts/directives/btn_registro.js"></script>
+<script src="scripts/directives/usuario/acciones_registro.js"></script>
+<script src="scripts/services/configuracion_service.js"></script>
+<script src="scripts/directives/proceso.js"></script>
+<!-- endbuild -->
+
+<script src="https://use.fontawesome.com/64b53ddd5b.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+</html>

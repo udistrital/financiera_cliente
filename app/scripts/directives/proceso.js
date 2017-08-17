@@ -40,7 +40,11 @@ angular.module('financieraClienteApp')
                     nodes: nodes,
                     edges: edges
                 };
-                var options = {};
+                var options = {
+                    clusterNodeProperties: {
+                        allowSingleNodeCluster: true
+                    }
+                };
 
                 // initialize your network!
                 var network = new vis.Network(container, data, options);
