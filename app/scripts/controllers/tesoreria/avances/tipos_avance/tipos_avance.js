@@ -34,7 +34,7 @@ angular.module('financieraClienteApp')
                 },
                 {
                     field: 'CodigoAbreviacion',
-                    displayName: $translate.instant('CodigoAbreviacion'),
+                    displayName: $translate.instant('CODIGO_ABREVIACION'),
                     cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
@@ -78,7 +78,7 @@ angular.module('financieraClienteApp')
                 },
                 {
                     field: 'CodigoAbreviacion',
-                    displayName: $translate.instant('CodigoAbreviacion'),
+                    displayName: $translate.instant('CODIGO_ABREVIACION'),
                     cellTemplate: '<div align="center">{{row.entity.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
