@@ -33,9 +33,9 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Referencia',
-                    displayName: $translate.instant('REFERENCIA'),
-                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Referencia}}</div>',
+                    field: 'CodigoAbreviacion',
+                    displayName: $translate.instant('CodigoAbreviacion'),
+                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
                 {
@@ -77,9 +77,9 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Referencia',
-                    displayName: $translate.instant('REFERENCIA'),
-                    cellTemplate: '<div align="center">{{row.entity.Referencia}}</div>',
+                    field: 'CodigoAbreviacion',
+                    displayName: $translate.instant('CodigoAbreviacion'),
+                    cellTemplate: '<div align="center">{{row.entity.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
                 {
@@ -215,14 +215,14 @@ angular.module('financieraClienteApp')
                     $('#modalVer').modal('show');
                     break;
                 case "add":
-                    ctrl.tipo_avance.Referencia = "";
+                    ctrl.tipo_avance.CodigoAbreviacion = "";
                     ctrl.tipo_avance.Nombre = "";
                     ctrl.tipo_avance.Descripcion = "";
                     $('#myModal').modal('show');
                     break;
                 case "edit":
                     ctrl.row_entity = row.entity;
-                    ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
+                    ctrl.tipo_avance.CodigoAbreviacion = ctrl.row_entity.CodigoAbreviacion;
                     ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
                     ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
                     ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
@@ -244,7 +244,7 @@ angular.module('financieraClienteApp')
         ctrl.delete_tipo = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Referencia,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -256,7 +256,7 @@ angular.module('financieraClienteApp')
                         if (response.status === 200) {
                             swal(
                                 $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
                             ctrl.get_all_avances();
@@ -271,7 +271,7 @@ angular.module('financieraClienteApp')
                 case 'edit':
                     data = {
                         Id: ctrl.row_entity.Id,
-                        Referencia: ctrl.tipo_avance.Referencia,
+                        CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
                         Descripcion: ctrl.tipo_avance.Descripcion,
                         Estado: ctrl.tipo_avance.Estado,
@@ -283,7 +283,7 @@ angular.module('financieraClienteApp')
                             if (response.status === 200) {
                                 swal(
                                     $translate.instant('ACTUALIZADO'),
-                                    ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ACTUALIZADO'),
+                                    ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ACTUALIZADO'),
                                     'success'
                                 );
                                 ctrl.get_all_avances();
@@ -292,7 +292,7 @@ angular.module('financieraClienteApp')
                     break;
                 case 'add':
                     data = {
-                        Referencia: ctrl.tipo_avance.Referencia,
+                        CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
                         Descripcion: ctrl.tipo_avance.Descripcion
                     };
