@@ -14,7 +14,8 @@ angular.module('financieraClienteApp')
         $scope.selected = [];
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true }
+            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true },
+            { clase_color: "editar", clase_css: "fa fa fa-sitemap faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'estado', estado: true }
         ];
 
         $scope.toggle = function(item, list) {
@@ -167,6 +168,9 @@ angular.module('financieraClienteApp')
                 case "ver":
                     $('#modal_ver').modal('show');
                     break;
+                case "estado":
+                    $('#modal_estado').modal('show');
+                    break;
                 case "validar":
                     if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {
                         swal(
@@ -177,7 +181,6 @@ angular.module('financieraClienteApp')
                     } else {
                         $('#modal_validar').modal('show');
                     }
-
                     break;
                 default:
             }
