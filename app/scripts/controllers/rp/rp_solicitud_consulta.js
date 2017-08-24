@@ -102,8 +102,8 @@ angular.module('financieraClienteApp')
 
     };
 
-    self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no 
-      if (row.entity.Id === 160) return false;
+    self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
+      if (!row.entity.Masivo) return false;
       else return true;
     }
 
