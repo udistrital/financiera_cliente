@@ -2,10 +2,12 @@
   <h2 class="page-header text-center">
     {{ 'ACTUALIZAR' | translate }}
     {{ 'ORDEN_PAGO' | translate }}
-    No.  {{opProveedorUpdatePorId.ordenPagoProveedorId}}
+    No.  {{opProveedorUpdatePorId.objectOrdenPagoProveedor.Consecutivo}}
   </h2>
   <div class="panel-body">
-    <op-proveedor-update-por-id opproveedorid="opProveedorUpdatePorId.ordenPagoProveedorId" >
+    <op-proveedor-update-por-id
+      opproveedorid="opProveedorUpdatePorId.ordenPagoProveedorId"
+      outputopp="opProveedorUpdatePorId.objectOrdenPagoProveedor">
     </op-proveedor-update-por-id>
   </div>
 </div>

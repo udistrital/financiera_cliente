@@ -12,8 +12,12 @@ angular.module('financieraClienteApp')
 
     var self = this;
 
+    self.fecha = new Date();
+    self.year = self.fecha.getFullYear();
+
     financieraRequest.get("fuente_financiamiento", 'limit=-1&sortby=descripcion&order=asc').then(function(response) {
       self.fuente_financiamiento = response.data;
+      self.gridOptionsfuente.data = response.data;
     });
 
     financieraRequest.get("fuente_financiamiento_apropiacion", 'limit=-1').then(function(response) {
@@ -24,14 +28,12 @@ angular.module('financieraClienteApp')
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
       self.apropiacion = response.data;
-      self.gridOptionsapropiacion.data = response.data;
     });
 
     oikosRequest.get("dependencia", 'limit=-1').then(function(response) {
       self.dependencia = response.data;
-
     });
 
     financieraRequest.get("tipo_movimiento", 'limit=-1').then(function(response) {
@@ -39,49 +41,31 @@ angular.module('financieraClienteApp')
 
       for (var i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Nombre == "Registro") {
-          self.tipo.splice(i,1)
+          self.tipo.splice(i, 1)
         }
       }
 
     });
 
-
-    self.anulacion = false;
     self.traslado = false;
     self.adicion = false;
-    self.registro = false;
-
 
     self.cambiar_estado = function() {
 
-      self.anulacion = false;
       self.traslado = false;
       self.adicion = false;
-      self.registro = false;
-
-
       for (var i = 0; i < self.tipo.length; i++) {
-
-        console.log(self.tipo_fuente)
         if (self.tipo[i].Id == self.tipo_fuente) {
-          if (self.tipo[i].Nombre == "Cancelación") {
-            self.anulacion = true;
-            self.mostrar_rubros();
-          } else if (self.tipo[i].Nombre == "Traslado") {
+          if (self.tipo[i].Nombre == "Traslado") {
             self.traslado = true;
-            self.mostrar_rubros();
           } else if (self.tipo[i].Nombre == "Adición") {
             self.adicion = true;
-            self.mostrar_rubros();
-          } else if (self.tipo[i].Nombre == "Registro") {
-            self.rubros_seleccionados=[];
-            self.registro = true;
           }
         }
       }
     };
 
-    self.gridOptionsapropiacion = {
+    self.gridOptionsfuente = {
       enableSorting: true,
       enableFiltering: true,
       enableRowSelection: true,
@@ -91,277 +75,230 @@ angular.module('financieraClienteApp')
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
-          field: 'Rubro.Codigo',
-          width: '50%'
+          field: 'Codigo',
+          width: '20%'
         },
         {
-          displayName: $translate.instant('RUBRO'),
-          field: 'Rubro.Descripcion',
-          width: '50%'
+          displayName: $translate.instant('NOMBRE'),
+          field: 'Nombre',
+          width: '80%'
         },
       ]
     };
 
-    self.gridOptionsapropiacion.multiSelect = false;
+    self.gridOptionsfuente.multiSelect = false;
 
-    self.select_id = {};
-
-    self.gridOptionsapropiacion.onRegisterApi = function(gridApi) {
+    self.gridOptionsfuente.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-        if (!self.anulacion) {
-          self.select_id = row.entity;
-          self.comprobarRubro(row.entity);
-          console.log(self.select_id);
-          self.actualizar();
-        }
+        self.comprobar_fuente(row.entity);
+        self.actualizar();
       });
     };
 
+    self.fuentes_seleccionadas = [];
+    self.fuentes_traslado = [];
 
-
-    self.rubros_seleccionados = [];
-
-    self.totalmont = function() {
-      self.totalMonto = 0;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        if (self.rubros_seleccionados[i].ValorAsignado) {
-          self.totalMonto = self.totalMonto + self.rubros_seleccionados[i].ValorAsignado;
-        }
-      }
-      console.log(self.totalMonto);
-      return self.totalMonto;
-    };
-
-    self.comprobarRubro = function(apropiacion) {
+    self.comprobar_fuente = function(fuente) {
       var repetido = true;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        console.log(self.rubros_seleccionados[i].Id);
-        if ((self.rubros_seleccionados[i].Id) == apropiacion.Rubro.Id) {
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        if ((self.fuentes_seleccionadas[i].Id) == fuente.Id) {
           repetido = false;
         }
       }
       if (repetido == true) {
-
-        self.rubros_seleccionados.push(self.select_id.Rubro);
+        self.fuentes_seleccionadas.push(fuente);
         var data = {
-          Apropiacion: apropiacion.Id,
-          Rubro: apropiacion.Rubro.Id,
+          Apropiacion: self.adicion_rubro,
+          Fuente: fuente.Id,
           ValorTotal: 0,
-          Valor: "",
+          Valor: 0,
           Dependencia: "",
           NomDependencia: ""
         }
-
-        self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado = [];
-        self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado.push(data);
+        self.fuentes_seleccionadas[self.fuentes_seleccionadas.length - 1].seleccionado = [];
+        self.fuentes_seleccionadas[self.fuentes_seleccionadas.length - 1].seleccionado.push(data);
       }
     };
 
-    self.mostrar_rubros = function() {
-      console.log(self.modificar_fuente)
-      console.log("prueba " + self.modificar_fuente)
-
-      self.rubros_seleccionados = [];
-
+    self.mostrar_fuentes = function() {
+      self.fuentes_seleccionadas = [];
       for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
-        self.codigo_rubro = self.fuente_financiamiento_apropiacion[i].Apropiacion.Rubro;
-
-        if (self.fuente_financiamiento_apropiacion[i].FuenteFinanciamiento.Id == self.modificar_fuente) {
-
+        self.codigo_fuente = self.fuente_financiamiento_apropiacion[i].FuenteFinanciamiento;
+        if (self.fuente_financiamiento_apropiacion[i].Apropiacion.Id == self.adicion_rubro) {
           var repetido = false;
-
-          for (var j = 0; j < self.rubros_seleccionados.length; j++) {
-            if (self.rubros_seleccionados[j].Codigo == self.codigo_rubro.Codigo) {
+          for (var j = 0; j < self.fuentes_seleccionadas.length; j++) {
+            if (self.fuentes_seleccionadas[j].Id == self.codigo_fuente.Id) {
               repetido = true;
             }
           }
           if (!repetido) {
-            self.rubros_seleccionados.push(self.codigo_rubro);
-            self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado = [];
+            self.fuentes_seleccionadas.push(self.codigo_fuente);
+            self.fuentes_seleccionadas[self.fuentes_seleccionadas.length - 1].seleccionado = [];
+          }
+        }
+      }
+      self.valor_rubro = 0;
+      self.valor_dependencia = 0;
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (var j = 0; j < self.movimiento_fuente_financiamiento_apropiacion.length; j++) {
+          if (self.movimiento_fuente_financiamiento_apropiacion[j].FuenteFinanciamientoApropiacion.Apropiacion.Id == self.adicion_rubro && self.fuentes_seleccionadas[i].Id == self.movimiento_fuente_financiamiento_apropiacion[j].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id) {
+            self.valor_rubro = self.valor_rubro + self.movimiento_fuente_financiamiento_apropiacion[j].Valor;
+            self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion[j].Valor;
+            self.agregar_dependencia_general(self.fuentes_seleccionadas[i].Id, self.movimiento_fuente_financiamiento_apropiacion[j].FuenteFinanciamientoApropiacion.Dependencia, self.valor_dependencia, self.movimiento_fuente_financiamiento_apropiacion[j].FuenteFinanciamientoApropiacion.Apropiacion.Id);
           }
         }
       }
 
-      self.valor_total = 0;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        for (var j = 0; j < self.fuente_financiamiento_apropiacion.length; j++) {
-          if (self.fuente_financiamiento_apropiacion[j].FuenteFinanciamiento.Id == self.modificar_fuente && self.rubros_seleccionados[i].Id == self.fuente_financiamiento_apropiacion[j].Apropiacion.Rubro.Id) {
-            for (var k = 0; k < self.movimiento_fuente_financiamiento_apropiacion.length; k++) {
-              console.log("-", self.movimiento_fuente_financiamiento_apropiacion[k].FuenteFinanciamientoApropiacion.Id)
-              if (self.movimiento_fuente_financiamiento_apropiacion[k].FuenteFinanciamientoApropiacion.Id == self.fuente_financiamiento_apropiacion[j].Id) {
-                self.valor_total = self.movimiento_fuente_financiamiento_apropiacion[k].Valor;
-              }
-            }
-            self.agregar_dependencia(self.rubros_seleccionados[i].Id, self.fuente_financiamiento_apropiacion[j].Dependencia, self.valor_total, self.fuente_financiamiento_apropiacion[j].Apropiacion.Id);
-          }
-        }
+      if (self.traslado) {
+        self.fuentes_traslado = self.fuentes_seleccionadas;
+        self.fuentes_seleccionadas = [];
       }
+
     };
 
-    self.agregar_dependencia = function(id, dependencia, valor, apropiacion) {
-
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-
-        if (self.rubros_seleccionados[i].Id == id) {
+    self.agregar_dependencia_general = function(id, dependencia, valor, apropiacion) {
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        if (self.fuentes_seleccionadas[i].Id == id) {
           self.rep = true;
-
           var data = {
-            Apropiacion: apropiacion,
-            Rubro: id,
+            Fuente: id,
+            Apropiacion: self.adicion_rubro,
             ValorTotal: valor,
-            Valor: "",
+            Valor: 0,
             Dependencia: dependencia,
             NomDependencia: ""
           }
-          for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-            if (dependencia == self.rubros_seleccionados[i].seleccionado[j].Dependencia) {
+          for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+            if (dependencia == self.fuentes_seleccionadas[i].seleccionado[j].Dependencia) {
               self.rep = false;
-              self.rubros_seleccionados[i].seleccionado[j].ValorTotal = valor + self.rubros_seleccionados[i].seleccionado[j].ValorTotal;
+              self.fuentes_seleccionadas[i].seleccionado[j].ValorTotal = valor + self.fuentes_seleccionadas[i].seleccionado[j].ValorTotal;
             }
           }
           if (self.rep) {
-            self.rubros_seleccionados[i].seleccionado.push(data);
+            self.fuentes_seleccionadas[i].seleccionado.push(data);
           }
         }
       }
       self.actualizar();
-      console.log(self.rubros_seleccionados)
     };
 
     self.agregar_dep = function(id) {
 
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-
-        if (self.rubros_seleccionados[i].Id == id) {
-
-          self.apropiacio_id = self.rubros_seleccionados[i].seleccionado[0].Apropiacion;
-
-
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        if (self.fuentes_seleccionadas[i].Id == id) {
           var data = {
-            Apropiacion: self.apropiacio_id,
-            Rubro: id,
+            Apropiacion: self.adicion_rubro,
+            Fuente: id,
             ValorTotal: 0,
-            Valor: "",
+            Valor: 0,
             Dependencia: "",
             NomDependencia: ""
           }
-          self.rubros_seleccionados[i].seleccionado.push(data);
+          self.fuentes_seleccionadas[i].seleccionado.push(data);
         }
         self.actualizar();
       }
-      console.log(self.rubros_seleccionados)    };
+    };
 
-    self.quitarRubro = function(id) {
-
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        if (self.rubros_seleccionados[i].Id == id) {
-          self.rubros_seleccionados.splice(i, 1)
+    self.quitarFuente = function(id) {
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        if (self.fuentes_seleccionadas[i].Id == id) {
+          self.fuentes_seleccionadas.splice(i, 1)
         }
       }
-    }
+    };
 
-    self.quitarDependencia = function(rubro, dep) {
-
-      console.log(rubro, dep);
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-
-        if (self.rubros_seleccionados[i].Id == rubro && self.rubros_seleccionados[i].seleccionado.length>1) {
-
-          for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-
-            if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == dep) {
-
-              self.rubros_seleccionados[i].seleccionado.splice(j, 1)
+    self.quitarDependencia = function(fuente, dep) {
+      console.log(fuente, dep);
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        if (self.fuentes_seleccionadas[i].Id == fuente) {
+          for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+            if (self.fuentes_seleccionadas[i].seleccionado[j].Dependencia == dep) {
+              self.fuentes_seleccionadas[i].seleccionado.splice(j, 1)
             }
           }
-        }else{
-          self.quitarRubro(rubro);
         }
       }
-    }
-
-    self.fente_encontrada = false;
-    self.registrar = true;
+    };
 
     self.montoAsignado = function() {
 
       self.totalMonto = 0;
-      self.totalAnulacion = 0;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+      self.valorTotal = 0;
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
           for (var k = 0; k < self.dependencia.length; k++) {
-            if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
-              self.rubros_seleccionados[i].seleccionado[j].NomDependencia = self.dependencia[k].Nombre;
+            if (self.fuentes_seleccionadas[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
+              self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia = self.dependencia[k].Nombre;
             }
           }
-          self.totalMonto = self.totalMonto + parseInt(self.rubros_seleccionados[i].seleccionado[j].Valor);
-          self.totalAnulacion = self.totalAnulacion+ parseInt(self.rubros_seleccionados[i].seleccionado[j].ValorTotal);
-          console.log(self.totalMonto);
+          self.totalMonto = self.totalMonto + parseInt(self.fuentes_seleccionadas[i].seleccionado[j].Valor);
         }
       }
-      console.log(self.totalMonto);
+      self.valorTotal = self.valor_rubro + self.totalMonto;
+
       if (self.totalMonto == self.nueva_fuente_apropiacion.Monto) {
-        console.log("si");
         return true;
       } else {
-        console.log("no");
         return false;
       }
     };
 
-    self.comprobar_anulacion = function() {
+    self.tabla_fuentes = [];
 
-      self.registrar = true;
+    self.generar_tabla_fuentes = function() {
 
-      if (self.modificar_fuente == null) {
-        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO'), "error");
-      }  else if (self.nueva_fuente_apropiacion.Fechainicio == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESAR_FECHA_CREACION'), "error");
-      } else if (self.rubros_seleccionados.length == 0) {
-        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
-      } else {
-        self.montoAsignado();
-        if (self.registrar) {
-            $("#myModal1").modal();
+      self.tabla_fuentes = [];
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+          if (j == 0) {
+            var data = {
+              Fuente: self.fuentes_seleccionadas[i].Codigo + " : " + self.fuentes_seleccionadas[i].Nombre,
+              Dependencia: self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia,
+              Valor: self.fuentes_seleccionadas[i].seleccionado[j].Valor
+            }
+          } else {
+            var data = {
+              Fuente: "",
+              Dependencia: self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia,
+              Valor: self.fuentes_seleccionadas[i].seleccionado[j].Valor
+            }
+          }
+          self.tabla_fuentes.push(data);
         }
       }
-      for (var i = 0; i < self.fuente_financiamiento.length; i++) {
-        console.log(self.fuente_financiamiento[i].Id + " " + self.modificar_fuente)
-        if (self.fuente_financiamiento[i].Id == self.modificar_fuente) {
-          self.Codigo = self.fuente_financiamiento[i].Codigo;
-          self.Sigla = self.fuente_financiamiento[i].Sigla;
-          self.Descripcion = self.fuente_financiamiento[i].Descripcion;
-          console.log(self.nueva_fuente)
-
-        }
-      }
-
     };
 
     self.nueva_fuente_apropiacion = {};
+    self.registrar = true;
 
-    self.comprobar_fuente = function(){
+    self.comprobar_adicion = function() {
 
       self.registrar = true;
 
-      if (self.modificar_fuente == null) {
-        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO'), "error");
+      if (self.adicion_rubro == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCION_RUBRO'), "error");
       } else if (self.nueva_fuente_apropiacion.Monto == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_TOTAL'), "error");
-      } else if (self.nueva_fuente_apropiacion.Fechainicio == null) {
-        swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_REGISTRO'), "error");
-      } else if (self.rubros_seleccionados.length == 0) {
-        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_ADICION'), "error");
+      } else if (self.nueva_fuente_apropiacion.Descripcion == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_DESCRIPCION'), "error");
+      } else if (self.nueva_fuente_apropiacion.tipo_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_TIPO_DOCUMENTO'), "error");
+      } else if (self.nueva_fuente_apropiacion.no_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_NO_DOCUMENTO'), "error");
+      } else if (self.nueva_fuente_apropiacion.fecha_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_DOCUMENTO'), "error");
+      } else if (self.fuentes_seleccionadas.length == 0) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO'), "error");
       } else {
 
-
-        for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-          for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-            if (self.rubros_seleccionados[i].seleccionado[j].Valor == 0) {
+        for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+          for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+            if (self.fuentes_seleccionadas[i].seleccionado[j].Valor == 0) {
               swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_DEPENDENCIA'), "error");
               self.registrar = false;
-            } else if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == 0) {
+            } else if (self.fuentes_seleccionadas[i].seleccionado[j].Dependencia == 0) {
               swal($translate.instant('ERROR'), $translate.instant('INGRESE_DEPENDENCIA'), "error");
               self.registrar = false;
             }
@@ -369,20 +306,126 @@ angular.module('financieraClienteApp')
         }
         if (self.registrar) {
           if (self.montoAsignado()) {
+            self.generar_tabla_fuentes();
             $("#myModal").modal();
           } else {
-            swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_FUENTE_FINANCIAMIENTO'), "error");
+            swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_ADICION'), "error");
           }
         }
       }
-      for (var i = 0; i < self.fuente_financiamiento.length; i++) {
-        console.log(self.fuente_financiamiento[i].Id + " " + self.modificar_fuente)
-        if (self.fuente_financiamiento[i].Id == self.modificar_fuente) {
-          self.Codigo = self.fuente_financiamiento[i].Codigo;
-          self.Sigla = self.fuente_financiamiento[i].Sigla;
-          self.Descripcion = self.fuente_financiamiento[i].Descripcion;
-          console.log(self.nueva_fuente)
+      for (var i = 0; i < self.apropiacion.length; i++) {
+        if (self.apropiacion[i].Id == self.adicion_rubro) {
+          self.Codigo = self.apropiacion[i].Rubro.Codigo;
+          self.Nombre = self.apropiacion[i].Rubro.Descripcion;
+        }
+      }
+    };
 
+    //traslado
+    self.dependencias_origen = [];
+
+    self.buscar_dependencia = function() {
+      self.dependencias_origen = [];
+
+      for (var i = 0; i < self.fuentes_traslado.length; i++) {
+        if (self.fuentes_traslado[i].Id == self.fuente_origen) {
+          for (var j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
+            for (var k = 0; k < self.dependencia.length; k++) {
+              if (self.fuentes_traslado[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
+                var data = {
+                  Id: self.fuentes_traslado[i].seleccionado[j].Dependencia,
+                  ValorTotal: self.fuentes_traslado[i].seleccionado[j].ValorTotal,
+                  Valor: self.fuentes_traslado[i].seleccionado[j].Valor,
+                  Dependencia: self.fuentes_traslado[i].seleccionado[j].Dependencia,
+                  Nombre: self.dependencia[k].Nombre
+                }
+              }
+            }
+            self.dependencias_origen.push(data);
+          }
+        }
+      }
+      self.actualizar();
+    };
+
+    self.buscar_valor_origen = function() {
+      self.valor_origen = 0;
+      for (var i = 0; i < self.dependencias_origen.length; i++) {
+        if (self.dependencias_origen[i].Id == self.dependencia_origen) {
+          self.valor_origen = self.dependencias_origen[i].ValorTotal;
+        }
+      }
+    };
+
+    self.monto_traslado = function() {
+
+      self.total_fuente_origen = 0;
+      self.total_origen = 0;
+      self.total_fuente_destino = 0;
+      self.total_destino = 0;
+
+      console.log(self.fuentes_traslado)
+      for (var i = 0; i < self.fuentes_traslado.length; i++) {
+        for (var j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
+
+          if (self.fuentes_traslado[i].Id == self.fuente_origen) {
+            self.total_fuente_origen = self.total_fuente_origen + parseInt(self.fuentes_traslado[i].seleccionado[j].ValorTotal);
+          }
+          if (self.fuentes_traslado[i].Id == self.fuente_destino) {
+            self.total_fuente_destino = self.total_fuente_destino + parseInt(self.fuentes_traslado[i].seleccionado[j].ValorTotal);
+          }
+          self.total_origen = self.total_fuente_origen - parseInt(self.nueva_fuente_apropiacion.Monto);
+          self.total_destino = self.total_fuente_destino + parseInt(self.nueva_fuente_apropiacion.Monto);
+        }
+      }
+    };
+
+    self.comprobar_traslado = function() {
+
+      if (self.adicion_rubro == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCION_RUBRO'), "error");
+      } else if (self.nueva_fuente_apropiacion.Monto == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_TRASLADO'), "error");
+      } else if (self.nueva_fuente_apropiacion.Descripcion == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_DESCRIPCION'), "error");
+      } else if (self.nueva_fuente_apropiacion.tipo_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_TIPO_DOCUMENTO'), "error");
+      } else if (self.nueva_fuente_apropiacion.no_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_NO_DOCUMENTO'), "error");
+      } else if (self.nueva_fuente_apropiacion.fecha_documento == null) {
+        swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_DOCUMENTO'), "error");
+      } else if (self.fuente_origen == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO_ORIGEN'), "error");
+      } else if (self.fuente_destino == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO_DESTINO'), "error");
+      } else if (self.dependencia_origen == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_DEPENDENCIA_ORIGEN'), "error");
+      } else if (self.dependencia_destino == null) {
+        swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_DEPENDENCIA_DESTINO'), "error");
+      } else {
+        self.monto_traslado();
+        if (self.valor_origen > self.nueva_fuente_apropiacion.Monto) {
+          $("#myModal1").modal();
+        } else {
+          swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_TRASLADO'), "error");
+        }
+      }
+      for (var i = 0; i < self.fuente_financiamiento.length; i++) {
+        if (self.fuente_financiamiento[i].Id == self.fuente_origen) {
+          self.Codigo = self.fuente_financiamiento[i].Codigo;
+          self.Nombre = self.fuente_financiamiento[i].Nombre;
+          self.Descripcion = self.fuente_financiamiento[i].Descripcion;
+        }
+        if (self.fuente_financiamiento[i].Id == self.fuente_destino) {
+          self.Codigo1 = self.fuente_financiamiento[i].Codigo;
+          self.Nombre1 = self.fuente_financiamiento[i].Nombre;
+          self.Descripcion1 = self.fuente_financiamiento[i].Descripcion;
+        }
+      }
+      for (var i = 0; i < self.apropiacion.length; i++) {
+        if (self.apropiacion[i].Id == self.adicion_rubro) {
+          self.Codigo_rubro = self.apropiacion[i].Rubro.Codigo;
+          self.Nombre_rubro = self.apropiacion[i].Rubro.Descripcion;
         }
       }
     };
@@ -393,51 +436,37 @@ angular.module('financieraClienteApp')
       $("#myModal1").modal('hide');
     };
 
-    self.crear_fuente = function() {
 
+    // Registro
+    self.adicionar_fuente = function() {
       self.cerrar_ventana();
-      for (var i = 0; i < self.fuente_financiamiento.length; i++) {
-        if (self.fuente_financiamiento[i].Id == self.modificar_fuente) {
-          self.asignar_rubros(self.fuente_financiamiento[i].Id);
-          self.fente_encontrada = true;
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-            $window.location.href = '#/fuente_financiacion/consulta_fuente';
-          });
-        }
-      }
+      self.asignar_rubros(self.adicion_rubro);
+      swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+        $window.location.href = '#/fuente_financiacion/consulta_fuente';
+      });
     };
+
 
     self.asignar_rubros = function(id) {
 
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        console.log("rubro");
-        console.log(id);
-        console.log(self.rubros_seleccionados[i].seleccionado);
-
-        for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-          if(self.anulacion){
-          self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Apropiacion, self.rubros_seleccionados[i].seleccionado[j].Dependencia, -1*(self.rubros_seleccionados[i].seleccionado[j].ValorTotal));
-
-          }else{
-          self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Apropiacion, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor);
-        }
+      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+          self.crear_fuente_apropiacion(id, self.fuentes_seleccionadas[i].seleccionado[j].Fuente, self.fuentes_seleccionadas[i].seleccionado[j].Dependencia, self.fuentes_seleccionadas[i].seleccionado[j].Valor);
         }
       }
     };
 
-    self.crear_fuente_apropiacion = function(fuente, rubro, dependencia, valor) {
+    self.crear_fuente_apropiacion = function(apropiacion, fuente, dependencia, valor) {
 
       var data = {
         Dependencia: parseInt(dependencia),
         Apropiacion: {
-          Id: parseInt(rubro)
+          Id: parseInt(apropiacion)
         },
         FuenteFinanciamiento: {
           Id: parseInt(fuente)
         }
       }
-
-      console.log(data);
 
       financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
         self.fuente_financiamiento_apropiacion = response.data;
@@ -453,7 +482,13 @@ angular.module('financieraClienteApp')
 
       var data = {
         Valor: parseInt(valor),
-        Fecha: self.nueva_fuente_apropiacion.Fechainicio,
+        Fecha: self.fecha,
+        Descripcion: self.nueva_fuente_apropiacion.Descripcion,
+        TipoDocumento: {
+          Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
+        },
+        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
+        FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
         TipoMovimiento: {
           Id: parseInt(tipo)
         },
@@ -465,7 +500,34 @@ angular.module('financieraClienteApp')
       financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
         console.log(response.data);
+        self.id_movimiento.push(response.data);
+        if (self.traslado && self.id_movimiento.length==2) {
+           self.id_movimiento[0].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[1].Id);
+           self.id_movimiento[1].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[0].Id);
+           self.traslado_movimiento(self.id_movimiento[0]);
+           self.traslado_movimiento(self.id_movimiento[1]);
+        }
       });
+    };
+
+    // Registro
+    self.id_movimiento = [];
+    self.traslado_fuente = function() {
+      self.cerrar_ventana();
+      self.crear_fuente_apropiacion(self.adicion_rubro, self.fuente_origen, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)));
+      self.crear_fuente_apropiacion(self.adicion_rubro, self.fuente_destino, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto));
+      swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+        $window.location.href = '#/fuente_financiacion/consulta_fuente';
+      });
+    };
+
+    self.traslado_movimiento = function(movimiento) {
+
+      financieraRequest.put("movimiento_fuente_financiamiento_apropiacion", movimiento.Id, movimiento).then(function(response) {
+        self.movimiento_fuente_financiamiento_apropiacion = response.data;
+        console.log(response.data);
+      });
+
     };
 
     self.actualizar = function() {
@@ -474,8 +536,6 @@ angular.module('financieraClienteApp')
       });
       console.log("si")
     };
-
     self.actualizar();
-
 
   });

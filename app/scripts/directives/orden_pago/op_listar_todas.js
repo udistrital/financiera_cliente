@@ -38,6 +38,10 @@ angular.module('financieraClienteApp')
         };
         self.gridOrdenesDePago.columnDefs = [{
             field: 'Id',
+            visible: false
+          },
+          {
+            field: 'Consecutivo',
             displayName: $translate.instant('CODIGO'),
             width: '8%',
             cellClass: 'input_center'
