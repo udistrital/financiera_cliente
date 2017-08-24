@@ -170,6 +170,14 @@ angular.module('financieraClienteApp')
                     break;
                 case "estado":
                     $('#modal_estado').modal('show');
+                    $scope.estados = [];
+                    $scope.aristas = [];
+                    angular.forEach($scope.solicitud.Estado, function(estado) {
+                        $scope.estados.push({ id: estado.Estados.Id, label: estado.Estados.Nombre });
+                    });
+                    $scope.aristas = [
+                        { from: 4, to: 6 }
+                    ];
                     break;
                 case "validar":
                     if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {
