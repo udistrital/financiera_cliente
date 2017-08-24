@@ -169,20 +169,15 @@ angular.module('financieraClienteApp')
                     $('#modal_ver').modal('show');
                     break;
                 case "estado":
-                    $scope.estados = [
-                        { id: 1, label: 'Node 1' },
-                        { id: 2, label: 'Node 2' },
-                        { id: 3, label: 'Node 3' },
-                        { id: 4, label: 'Node 4' },
-                        { id: 5, label: 'Node 5' }
-                    ];
-                    $scope.aristas = [
-                        { from: 1, to: 3 },
-                        { from: 1, to: 2 },
-                        { from: 2, to: 4 },
-                        { from: 2, to: 5 }
-                    ];
                     $('#modal_estado').modal('show');
+                    $scope.estados = [];
+                    $scope.aristas = [];
+                    angular.forEach($scope.solicitud.Estado, function(estado) {
+                        $scope.estados.push({ id: estado.Estados.Id, label: estado.Estados.Nombre });
+                    });
+                    $scope.aristas = [
+                        { from: 4, to: 6 }
+                    ];
                     break;
                 case "validar":
                     if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {

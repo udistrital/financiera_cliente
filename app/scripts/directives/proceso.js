@@ -30,8 +30,42 @@ angular.module('financieraClienteApp')
                         edges: edges
                     };
                     var options = {
-                        clusterNodeProperties: {
-                            allowSingleNodeCluster: true
+                        nodes: {
+                            borderWidth: 3,
+                            borderWidthSelected: 1,
+                            font: {
+                                size: 15
+                            },
+                            shape: "dot"
+                        },
+                        edges: {
+                            arrows: {
+                                to: {
+                                    enabled: true
+                                }
+                            },
+                            smooth: false
+                        },
+                        physics: false,
+                        interaction: {
+                            dragNodes: true, // do not allow dragging nodes
+                            zoomView: false, // do not allow zooming
+                            dragView: true // do not allow dragging
+                        },
+                        layout: {
+                            randomSeed: 1,
+                            improvedLayout: true,
+                            hierarchical: {
+                                enabled: true,
+                                levelSeparation: 300,
+                                nodeSpacing: 100,
+                                treeSpacing: 10,
+                                blockShifting: false,
+                                edgeMinimization: true,
+                                parentCentralization: true,
+                                direction: 'LR', // UD, DU, LR, RL
+                                sortMethod: 'directed' // hubsize, directed
+                            }
                         }
                     };
                     // initialize your network!
