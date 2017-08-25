@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
               width: '11%',
             },
             {
-              field: 'TipoContrato',
+              field: 'TipoContrato.Descripcion',
               displayName: $translate.instant('TIPO') + ' ' + $translate.instant('CONTRATO'),
             },
             {
