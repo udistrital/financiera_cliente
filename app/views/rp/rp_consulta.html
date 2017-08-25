@@ -58,14 +58,14 @@
           <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
           <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados"></fuente-financiacion-rp>
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" ng-show="rpConsulta.anular">
               <div class="panel-heading">
                 <div class="panel-title">
                   {{'ANULACION_RP' | translate}}
                 </div>
               </div>
               <div class="panel-body">
-                 <form class="form-ctrl" ng-show="rpConsulta.anular">
+                 <form class="form-ctrl" >
                 <div class="row">
                   <div class="col-md-4">
                     <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
