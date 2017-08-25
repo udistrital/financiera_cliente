@@ -142,6 +142,12 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           });
         });
 
+        angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.Tipo_Documento).then(function (response) {
+            data.Tipo_Documento = response.data[0];
+          });
+        });
+
         self.fuente_financiamiento_apropiacion = response.data;
         for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
