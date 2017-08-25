@@ -53,13 +53,10 @@
                 </div>
                 <br>
                 <div class="row" ng-if="TiposAvance.operacion =='edit'">
-                    <label for="descripcion" class="col-sm-2 control-label">Estado:</label>
+                    <label for="descripcion" class="col-sm-2 control-label">{{'ACTIVO' | translate }}:</label>
                     <div class="col-sm-9">
-                        <select name="estado" ng-model="TiposAvance.tipo_avance.Estado" class="form-control">
-              <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
-               <option value="A">{{"ACTIVO" | translate }}</option>
-               <option value="I">{{"INACTIVO" | translate }}</option>
-            </select>
+                        <md-checkbox ng-model="TiposAvance.tipo_avance.Activo" class="blue">
+                        </md-checkbox>
                     </div>
                 </div>
                 <br>

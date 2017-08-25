@@ -33,9 +33,9 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'CodigoAbreviacion',
-                    displayName: $translate.instant('CODIGO_ABREVIACION'),
-                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.CodigoAbreviacion}}</div>',
+                    field: 'Referencia',
+                    displayName: $translate.instant('REFERENCIA'),
+                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Referencia}}</div>',
                     width: '10%',
                 },
                 {
@@ -93,9 +93,9 @@ angular.module('financieraClienteApp')
                     width: '45%',
                 },
                 {
-                    field: 'Estado',
-                    displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.Estado}}</div>',
+                    field: 'Activo',
+                    displayName: $translate.instant('ACTIVO'),
+                    cellTemplate: '<div align="center" ng-if="row.entity.Activo">{{\'SI\' | translate }}</div><div align="center" ng-if="!row.entity.Activo">{{\'NO\' | translate }}</div>',
                     width: '10%',
                 },
                 {
@@ -206,7 +206,6 @@ angular.module('financieraClienteApp')
 
         $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
-            console.log(row);
             switch (operacion) {
                 case "ver":
                     ctrl.row_entity = row.entity;
@@ -225,8 +224,9 @@ angular.module('financieraClienteApp')
                     ctrl.tipo_avance.CodigoAbreviacion = ctrl.row_entity.CodigoAbreviacion;
                     ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
                     ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
-                    ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
+                    ctrl.tipo_avance.Activo = ctrl.row_entity.Activo;
                     ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
+                    console.log(ctrl.tipo_avance);
                     $('#myModal').modal('show');
                     break;
                 case "delete":
@@ -262,7 +262,7 @@ angular.module('financieraClienteApp')
                             ctrl.get_all_avances();
                         }
                     });
-            })
+            });
 
         };
         ctrl.add_edit = function() {
@@ -274,7 +274,7 @@ angular.module('financieraClienteApp')
                         CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
                         Descripcion: ctrl.tipo_avance.Descripcion,
-                        Estado: ctrl.tipo_avance.Estado,
+                        Activo: ctrl.tipo_avance.Activo,
                         FechaRegistro: ctrl.tipo_avance.FechaRegistro,
                     };
                     console.log(data);
@@ -294,7 +294,8 @@ angular.module('financieraClienteApp')
                     data = {
                         CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
-                        Descripcion: ctrl.tipo_avance.Descripcion
+                        Descripcion: ctrl.tipo_avance.Descripcion,
+                        Activo: true
                     };
                     financieraRequest.post("tipo_avance", data)
                         .then(function(info) {
