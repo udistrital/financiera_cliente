@@ -1,5 +1,27 @@
-<entrada-almacen
-  inputproveedor="1"
-  inputvigencia="1"
-  inputpestanaabierta="opCrear.PestanaAbierta">
-</entrada-almacen>
+<div ng-repeat="componente in ::about.prueba_rolcli">
+  {{componente.Nombre}}
+  <div ng-if="::componente.Nombre =='gestion_item'">
+    <div ng-repeat="opcion in ::componente.Opciones ">
+      <div ng-if="::opcion.Nombre=='aprobar'">
+        <button type="button" name="button">{{opcion.Nombre}}</button>
+      </div>
+      <div ng-if="::opcion.Nombre=='rechazar'">
+        <button type="button" name="button">{{opcion.Nombre}}</button>
+      </div>
+  </div>
+
+
+</div>
+</div>
+
+
+<!-- <p ng-if="::about.get_elemento('dsasad')">
+aascascads
+
+<h1 id="ti" ng-if="about.get_title('rechazar')">
+  asdaa
+</h1>
+
+
+</p>-->
+  <pre>{{about.hijosess | json}}</pre>

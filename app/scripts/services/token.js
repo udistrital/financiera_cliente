@@ -54,7 +54,10 @@ angular.module('financieraClienteApp')
         REDIRECT_URL:  "http://10.20.0.254/kronos",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid profile email",
-        BUTTON_CLASS: "btn btn-warning btn-sm"
+        BUTTON_CLASS: "btn btn-warning btn-sm",
+        SIGN_OUT_URL: "https://wso2.udistritaloas.edu.co:9443/oidc/logout",
+        SIGN_OUT_REDIRECT_URL:  "http://10.20.0.254/kronos",
+        SIGN_OUT_APPEND_TOKEN: "true"
       },
       //Configuracion de parametros oidc unica google
       /*
