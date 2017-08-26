@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function ($scope, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function ($scope,$q, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
@@ -245,12 +245,11 @@ angular.module('financieraClienteApp')
       });
       return rubros;
     } ;
-    self.RegistrarMasivo = function () {
-      var dataCargueMasivo = [];
 
-      var estado = {
-        Id: 1
-      };
+    self.cargarDatos = function(){
+      var defered=$q.defer();
+      var promise=defered.promise;
+      var dataCargueMasivo = [];
       for (var i = 0 ; i < self.cargueMasivo.length; i++){
         var rp = {
           UnidadEjecutora: self.cargueMasivo[i].DatosDisponibilidad.UnidadEjecutora,
@@ -272,36 +271,49 @@ angular.module('financieraClienteApp')
           };
           dataCargueMasivo.push(registro);
       }
+      defered.resolve(dataCargueMasivo);
+      return promise;
+    };
 
-      console.log("#############################");
-      console.log(dataCargueMasivo);
-      console.log("#############################");
-      financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function (response) {
-        self.alerta_registro_rp = response.data;
-        console.log(self.alerta_registro_rp);
-        var templateAlert = "<table class='table table-bordered'><th>"+$translate.instant('SOLICITUD')+"</th><th>"+$translate.instant('NO_CRP')+"</th><th>"+$translate.instant('DETALLE')+"</th>";
-        angular.forEach(self.alerta_registro_rp, function(data){
-          if (data.Type === "error"){
-            templateAlert = templateAlert + "<tr class='danger'><td>"+ data.Body.Rp.Solicitud + "</td>"+"<td> N/A </td>"+"<td>"+ $translate.instant(data.Code)+ "</td>";
-          }else if (data.Type === "success"){
-            templateAlert = templateAlert + "<tr class='success'><td>"+ data.Body.Rp.Solicitud + "</td>"+"<td>"+data.Body.Rp.NumeroRegistroPresupuestal+"</td>"+"<td>"+ $translate.instant(data.Code)+ "</td>";
-          }
+    self.RegistrarMasivo = function () {
+      var dataCargueMasivo = [];
+
+      var estado = {
+        Id: 1
+      };
+      var promise =  self.cargarDatos();
+      promise.then(function(dataCargueMasivo){
+        console.log("#############################");
+        console.log(dataCargueMasivo);
+        console.log("#############################");
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function (response) {
+          self.alerta_registro_rp = response.data;
+          console.log(self.alerta_registro_rp);
+          var templateAlert = "<table class='table table-bordered'><th>"+$translate.instant('SOLICITUD')+"</th><th>"+$translate.instant('NO_CRP')+"</th><th>"+$translate.instant('DETALLE')+"</th>";
+          angular.forEach(self.alerta_registro_rp, function(data){
+            if (data.Type === "error"){
+              templateAlert = templateAlert + "<tr class='danger'><td>"+ data.Body.Rp.Solicitud + "</td>"+"<td> N/A </td>"+"<td>"+ $translate.instant(data.Code)+ "</td>";
+            }else if (data.Type === "success"){
+              templateAlert = templateAlert + "<tr class='success'><td>"+ data.Body.Rp.Solicitud + "</td>"+"<td>"+data.Body.Rp.NumeroRegistroPresupuestal+"</td>"+"<td>"+ $translate.instant(data.Code)+ "</td>";
+            }
+
+          });
+          templateAlert = templateAlert + "</table>" ;
+          console.log(templateAlert);
+          swal({
+                title: '',
+                type: self.alerta_registro_rp[0].Type,
+                width: 800,
+                html: templateAlert,
+                showCloseButton: true,
+                confirmButtonText:
+                  'Cerrar'
+              });
+
 
         });
-        templateAlert = templateAlert + "</table>" ;
-        console.log(templateAlert);
-        swal({
-              title: '',
-              type: self.alerta_registro_rp[0].Type,
-              width: 800,
-              html: templateAlert,
-              showCloseButton: true,
-              confirmButtonText:
-                'Cerrar'
-            });
-
-
       });
+
     };
 
     self.Rechazar = function () {
