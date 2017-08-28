@@ -143,6 +143,7 @@ angular.module('financieraClienteApp')
                     ctrl.grid_option_requisito.data = response.data;
                 });
         };
+
         ctrl.update_config = function() {
             financieraRequest.get("requisito_avance", $.param({
                     limit: -1,
@@ -177,7 +178,6 @@ angular.module('financieraClienteApp')
                 });
         };
         ctrl.get_all_avances();
-
 
         ctrl.anadir_requisito = function() {
             var data = {
@@ -241,6 +241,7 @@ angular.module('financieraClienteApp')
                 default:
             }
         };
+
         ctrl.delete_tipo = function() {
             swal({
                 title: 'Está seguro ?',
@@ -263,8 +264,8 @@ angular.module('financieraClienteApp')
                         }
                     });
             });
-
         };
+
         ctrl.add_edit = function() {
             var data = {};
             switch (ctrl.operacion) {

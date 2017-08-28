@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     angular.forEach(response.data, function(solicitud) {
-                        financieraRequest.get("estado_avance", $.param({
+                        financieraRequest.get("avance_estado_avance", $.param({
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
                                 sortby: "FechaRegistro",
                                 limit: -1,
@@ -136,7 +136,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Estado[0].Estados.Nombre',
                     displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.Estado[0].Estados.Nombre}}</div>',
+                    cellTemplate: '<div align="center">{{row.entity.Estado[0].EstadoAvance.Nombre}}</div>',
                     width: '8%',
                 },
                 {
@@ -163,12 +163,13 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
+            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
                     break;
                 case "validar":
-                    if ($scope.solicitud.Estado[0].Estados.Nombre == "Verificado") {
+                    if ($scope.solicitud.Estado[0].EstadosAvance.Nombre == "Verificado") {
                         swal(
                             '',
                             $translate.instant('SOLICITUD_AVANCE_VALIDADA'),
