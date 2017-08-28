@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function ($scope, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
@@ -64,8 +64,8 @@ angular.module('financieraClienteApp')
 
     };
 
-    self.actualizar_solicitudes = function () {
-      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp', '').then(function (response) {
+    self.actualizar_solicitudes = function() {
+      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp', '').then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
         console.log(response.data);
@@ -73,15 +73,15 @@ angular.module('financieraClienteApp')
       });
     };
 
-    self.limpiar_alertas = function () {
+    self.limpiar_alertas = function() {
       self.alerta_registro_cdp = "";
     };
     //self.gridOptions.multiSelect = false;
     self.actualizar_solicitudes();
 
-    self.gridOptions.onRegisterApi = function (gridApi) {
+    self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
-      self.gridApi.selection.on.rowSelectionChangedBatch($scope, function () {
+      self.gridApi.selection.on.rowSelectionChangedBatch($scope, function() {
         self.cargueMasivo = self.gridApi.selection.getSelectedRows();
         if (self.cargueMasivo.length === 0 && self.aprovarMasivo) {
           self.aprovarMasivo = false;
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
         }
         console.log(self.cargueMasivo);
       });
-      self.gridApi.selection.on.rowSelectionChanged($scope, function () {
+      self.gridApi.selection.on.rowSelectionChanged($scope, function() {
         self.cargueMasivo = self.gridApi.selection.getSelectedRows();
         if (self.cargueMasivo.length === 0 && self.aprovarMasivo) {
           self.aprovarMasivo = false;
@@ -102,26 +102,26 @@ angular.module('financieraClienteApp')
 
     };
 
-    self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
+    /*self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
       if (!row.entity.Masivo) return false;
       else return true;
-    }
+    }*/
 
 
-    self.verSolicitud = function (row) {
+    self.verSolicitud = function(row) {
       $("#myModal").modal();
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
       self.data = row.entity;
-      financieraRequest.get('compromiso/' + self.data.Compromiso, '').then(function (response) {
+      financieraRequest.get('compromiso/' + self.data.Compromiso, '').then(function(response) {
         self.data.InfoCompromiso = response.data;
       });
 
-      argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function (response) {
+      argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function(response) {
         self.afectacion_pres = response.data;
-        angular.forEach(self.afectacion_pres, function (rubro) {
-          financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function (response) {
-            angular.forEach(response.data, function (data) {
+        angular.forEach(self.afectacion_pres, function(rubro) {
+          financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
+            angular.forEach(response.data, function(data) {
               rubro.DisponibilidadApropiacion = data;
 
             });
@@ -136,7 +136,7 @@ angular.module('financieraClienteApp')
 
     };
 
-    self.Registrar = function () {
+    self.Registrar = function() {
       self.alerta_registro_rp = ["No se pudo registrar el rp"];
       if (self.data.DatosProveedor == null) {
         swal("", $translate.instant('E_RP001'), "error");
@@ -177,9 +177,28 @@ angular.module('financieraClienteApp')
         };
         dataRegistros[0] = registro;
         console.log(registro);
-        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function (response) {
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
           console.log(self.alerta_registro_rp);
+          var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          angular.forEach(self.alerta_registro_rp, function(data) {
+            if (data.Type === "error") {
+              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            } else if (data.Type === "success") {
+              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td>" + data.Body.Rp.NumeroRegistroPresupuestal + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            }
+
+          });
+          templateAlert = templateAlert + "</table>";
+          console.log(templateAlert);
+          swal({
+            title: '',
+            type: self.alerta_registro_rp[0].Type,
+            width: 800,
+            html: templateAlert,
+            showCloseButton: true,
+            confirmButtonText: 'Cerrar'
+          });
           /*angular.forEach(self.alerta_registro_rp, function(data){
 
             if (data === "error" || data === "success" || data === undefined){
@@ -207,64 +226,82 @@ angular.module('financieraClienteApp')
 
 
 
-    self.RegistrarMasivo = function () {
+
+    self.cargarDatos = function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
       var dataCargueMasivo = [];
       var estado = {
         Id: 1
       };
-      angular.forEach(self.cargueMasivo, function (data) {
+      for (var i = 0; i < self.cargueMasivo.length; i++) {
         var rp = {
-          UnidadEjecutora: data.DatosDisponibilidad.UnidadEjecutora,
-          Vigencia: data.DatosDisponibilidad.Vigencia,
-          Responsable: data.DatosDisponibilidad.Responsable,
+          UnidadEjecutora: self.cargueMasivo[i].DatosDisponibilidad.UnidadEjecutora,
+          Vigencia: self.cargueMasivo[i].DatosDisponibilidad.Vigencia,
+          Responsable: self.cargueMasivo[i].DatosDisponibilidad.Responsable,
           Estado: estado,
-          Beneficiario: data.DatosProveedor.Id,
-          Compromiso: data.DatosCompromiso,
-          Solicitud: data.Id,
-          DatosSolicitud: data
+          Beneficiario: self.cargueMasivo[i].DatosProveedor.Id,
+          Compromiso: self.cargueMasivo[i].DatosCompromiso,
+          Solicitud: self.cargueMasivo[i].Id,
+          DatosSolicitud: self.cargueMasivo[i]
         };
-        var afectacion;
-        argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + data.Id).then(function (response) {
-          afectacion = response.data;
-          angular.forEach(afectacion, function (rubro) {
-            financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function (response) {
-              angular.forEach(response.data, function (data) {
-                rubro.DisponibilidadApropiacion = data;
 
-              });
-
-            });
-          });
-        });
-
-        var rubros = [];
-        if (afectacion !== undefined) {
-          for (var i = 0; i < afectacion.length; i++) {
-            afectacion[i].DisponibilidadApropiacion.ValorAsignado = afectacion[i].Monto;
-            afectacion[i].DisponibilidadApropiacion.FuenteFinanciacion = afectacion[i].DisponibilidadApropiacion.FuenteFinanciamiento;
-            rubros.push(afectacion[i].DisponibilidadApropiacion);
-          }
-          var registro = {
-            rp: rp,
-            rubros: rubros
-          };
-          dataCargueMasivo.push(registro);
-        }
-
-
-      });
-      console.log(dataCargueMasivo)
+        var registro = {
+          rp: rp,
+          rubros: self.cargueMasivo[i].Rubros
+        };
+        dataCargueMasivo.push(registro);
+      }
+      defered.resolve(dataCargueMasivo);
+      return promise;
     };
 
-    self.Rechazar = function () {
+    self.RegistrarMasivo = function() {
+      var dataCargueMasivo = [];
+
+      var estado = {
+        Id: 1
+      };
+      var promise = self.cargarDatos();
+      promise.then(function(dataCargueMasivo) {
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
+          self.alerta_registro_rp = response.data;
+          console.log(self.alerta_registro_rp);
+          var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          angular.forEach(self.alerta_registro_rp, function(data) {
+            if (data.Type === "error") {
+              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            } else if (data.Type === "success") {
+              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td>" + data.Body.Rp.NumeroRegistroPresupuestal + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            }
+
+          });
+          templateAlert = templateAlert + "</table>";
+          console.log(templateAlert);
+          swal({
+            title: '',
+            type: self.alerta_registro_rp[0].Type,
+            width: 800,
+            html: templateAlert,
+            showCloseButton: true,
+            confirmButtonText: 'Cerrar'
+          });
+
+
+        });
+      });
+
+    };
+
+    self.Rechazar = function() {
       var solicitud = self.data;
       $("#myModal").modal('hide');
       swal({
         title: 'Indique una justificación por el rechazo',
         input: 'textarea',
         showCancelButton: true,
-        inputValidator: function (value) {
-          return new Promise(function (resolve, reject) {
+        inputValidator: function(value) {
+          return new Promise(function(resolve, reject) {
             if (value) {
               resolve();
             } else {
@@ -272,18 +309,18 @@ angular.module('financieraClienteApp')
             }
           });
         }
-      }).then(function (text) {
+      }).then(function(text) {
         console.log(text);
         console.log(solicitud);
         self.solicitud.MotivoRechazo = text;
-        argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function (response) {
+        argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
           console.log(response.data);
           if (response.data.Type !== undefined) {
             if (response.data.Type === "error") {
               swal('', $translate.instant(response.data.Code), response.data.Type);
               self.cargarIngresos();
             } else {
-              swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function () {
+              swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
                 self.cargarIngresos();
               });
