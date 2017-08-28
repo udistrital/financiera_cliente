@@ -20,12 +20,12 @@ angular.module('financieraClienteApp')
         var self = this;
         self.resumen_afectacion_presupuestal = [];
         console.log("sol");
-        $scope.$watch('apropiacion', function(){
+        $scope.$watch('solrp', function(){
           self.resumen_afectacion_presupuestal = [];
 
           if ($scope.solrp != undefined && $scope.apropiacion != undefined){
 
-            
+
               argoRequest.get('disponibilidad_apropiacion_solicitud_rp',$.param({
                 query: "SolicitudRp:"+$scope.solrp,
                 limit: -1
@@ -60,7 +60,7 @@ angular.module('financieraClienteApp')
               });
               $scope.afectacion = self.resumen_afectacion_presupuestal;
 console.log(self.resumen_afectacion_presupuestal);
-          
+
           }
         },true);
       },

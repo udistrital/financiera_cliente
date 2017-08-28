@@ -116,8 +116,11 @@ angular.module('financieraClienteApp')
       financieraRequest.get('compromiso/' + self.data.Compromiso, '').then(function(response) {
         self.data.InfoCompromiso = response.data;
       });
-
-      argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function(response) {
+      self.afectacion_pres = self.data.Rubros;
+      console.log("------------------------");
+      console.log(self.afectacion_pres);
+      console.log("------------------------");
+      /*argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function(response) {
         self.afectacion_pres = response.data;
         angular.forEach(self.afectacion_pres, function(rubro) {
           financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
@@ -130,7 +133,7 @@ angular.module('financieraClienteApp')
         });
         console.log("afec");
         console.log(self.afectacion_pres);
-      });
+      });*/
 
 
 
@@ -165,15 +168,11 @@ angular.module('financieraClienteApp')
         var rubros = [];
 
 
-        for (var i = 0; i < self.afectacion_pres.length; i++) {
-          self.afectacion_pres[i].DisponibilidadApropiacion.ValorAsignado = self.afectacion_pres[i].Monto;
-          self.afectacion_pres[i].DisponibilidadApropiacion.FuenteFinanciacion = self.afectacion_pres[i].DisponibilidadApropiacion.FuenteFinanciamiento;
-          rubros.push(self.afectacion_pres[i].DisponibilidadApropiacion);
-        }
+
         var dataRegistros = [];
         var registro = {
           rp: rp,
-          rubros: rubros
+          rubros: self.data.Rubros
         };
         dataRegistros[0] = registro;
         console.log(registro);
