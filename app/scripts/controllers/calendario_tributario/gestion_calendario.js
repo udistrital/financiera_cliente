@@ -27,7 +27,7 @@ angular.module('financieraClienteApp')
          * @methodOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @description
          * Carga la vigencia en la que se situa la fecha y realiza un arreglo con 3 vigencias atras y una arriba
-         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest} 
+         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
          * que retorna la vigencia calculada con la fecha del api
          */
         self.cargar_vigencia = function() {
@@ -103,7 +103,7 @@ angular.module('financieraClienteApp')
                     width: '14%'
                 },
                 {
-                    field: 'EstadoCalendario.Nombre',
+                    field: 'EstadoCalendarioTributario.Nombre',
                     displayName: $translate.instant('ESTADO'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '7%'
@@ -138,7 +138,7 @@ angular.module('financieraClienteApp')
          * @methodOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @description
          * Carga todo el listado de calendarios creados hasta la fecha
-         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest} 
+         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
          * que retorna los calendarios tributarios
          */
         self.cargar_calendarios_full = function() {
@@ -160,7 +160,7 @@ angular.module('financieraClienteApp')
          * @param {var} vigencia Vigencia en la que se encuentran los calendarios a obtener
          * @description
          * Carga el listado de calendarios creados en una vigencia determinada
-         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest} 
+         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
          * que retorna los calendarios tributarios
          */
         self.cargar_calendarios_vigencia = function(vigencia) {
@@ -182,8 +182,8 @@ angular.module('financieraClienteApp')
          * @methodOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @param {object} calendario caendario que se cargara en el formulario para ser editado
          * @description
-         * Función para cargar el calendario a editar en el formulario, realizando una copia del mismo y 
-         * ajustando el formato de las fechas programadas del calendario 
+         * Función para cargar el calendario a editar en el formulario, realizando una copia del mismo y
+         * ajustando el formato de las fechas programadas del calendario
          */
         self.modo_editar = function(calendario) {
             self.nuevo_calendario = angular.copy(calendario);
@@ -196,7 +196,7 @@ angular.module('financieraClienteApp')
          * @name financieraClienteApp.controller:GestionCalendarioCtrl#crear_calendario
          * @methodOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @description
-         * Comprueba si es un calendario a editar o a crear, si la accion es para crear consume el servicio POST de  
+         * Comprueba si es un calendario a editar o a crear, si la accion es para crear consume el servicio POST de
          * {@link financieraService.service:financieraRequest financieraRequest}  y si es de actualizar el servicio PUT
          */
         self.crear_calendario = function() {
@@ -235,7 +235,7 @@ angular.module('financieraClienteApp')
          * @name financieraClienteApp.controller:GestionCalendarioCtrl#watch_on_vigencia
          * @eventOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @param {var} Vigencia vigencia del nuevo calendario
-         * @description 
+         * @description
          * Valida en base a la vigencia seleccionada el rango de la fecha inicio y la fecha fin
          */
         $scope.$watch('gestionCalendario.nuevo_calendario.Vigencia', function() {
@@ -259,7 +259,7 @@ angular.module('financieraClienteApp')
          * @name financieraClienteApp.controller:GestionCalendarioCtrl#watch_on_fecha_inicio
          * @eventOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @param {date} FechaInicio fecha inicial del calendario
-         * @description 
+         * @description
          * Valida en base a la fecha inicial registrada el rango minimo de la fecha fin
          */
         $scope.$watch('gestionCalendario.nuevo_calendario.FechaInicio', function() {
@@ -273,7 +273,7 @@ angular.module('financieraClienteApp')
          * @name financieraClienteApp.controller:GestionCalendarioCtrl#watch_on_editar
          * @eventOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @param {boolean} editar bandera para llenar el formulario con los datos de un calendario
-         * @description 
+         * @description
          * Observa si la variable editar es falsa limpia la variable utilizada en el formulario para crear un calendario
          */
         $scope.$watch('editar', function() {
@@ -287,7 +287,7 @@ angular.module('financieraClienteApp')
          * @name financieraClienteApp.controller:GestionCalendarioCtrl#watch_on_vigencia_calendarios
          * @eventOf financieraClienteApp.controller:GestionCalendarioCtrl
          * @param {var} vigencia_calendarios Vigencia seleccionada para la carga de calendarios
-         * @description 
+         * @description
          * Comprueba si la variable vigencia cambia para volver a cargar el grid con los datos correspondientes
          */
         $scope.$watch('gestionCalendario.vigencia_calendarios', function() {
