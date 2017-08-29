@@ -24,7 +24,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'Vigencia',
-          displayName: $translate.instant('VIDENCIA'),
+          displayName: $translate.instant('VIGENCIA'),
           cellClass: 'input_center',
            headerCellClass: 'text-info'
         },

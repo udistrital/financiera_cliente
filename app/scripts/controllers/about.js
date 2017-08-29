@@ -42,14 +42,14 @@ angular.module('financieraClienteApp')
             Nombre: "aprobar",
             Url: "",
             TipoOpcion: "btn",
-            Opciones: []
+            Opciones: null
           },
           {
             Id: 4,
             Nombre: "rechazar",
             Url: "",
             TipoOpcion: "btn",
-            Opciones: []
+            Opciones: null
           }
         ]
       },
@@ -67,13 +67,13 @@ angular.module('financieraClienteApp')
               Nombre: "editar",
               Url: "",
               TipoOpcion: "btn",
-              Opciones: []
+              Opciones: null
             }, {
               Id: 4,
               Nombre: "eliminar",
               Url: "",
               TipoOpcion: "btn",
-              Opciones: []
+              Opciones: null
             }]
           },
           {
@@ -81,7 +81,7 @@ angular.module('financieraClienteApp')
             Nombre: "agregar",
             Url: "",
             TipoOpcion: "btn",
-            Opciones: []
+            Opciones: null
           }
         ]
       }

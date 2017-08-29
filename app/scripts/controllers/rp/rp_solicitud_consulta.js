@@ -8,38 +8,64 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function ($scope,$window,financieraMidRequest,uiGridService,argoRequest,financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
     var self = this;
     self.alerta = "";
+    self.aprovarMasivo = false;
     self.gridOptions = {
       enableRowSelection: true,
-      enableRowHeaderSelection: false,
-      enableFiltering : true,
-      columnDefs : [
-        {field: 'Id',              displayName: 'No.', cellClass: 'input_center'},
-        {field: 'Vigencia',  displayName: 'Vigencia', cellClass: 'input_center'},
-        {field: 'FechaSolicitud',  displayName: 'Fecha de Solicitud' ,  cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'},
-        {field: 'DatosDisponibilidad.NumeroDisponibilidad',  displayName: 'Disponibilidad No. ', cellClass: 'input_center'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.Numero',  displayName: 'Necesidad No. ', cellClass: 'input_center'},
-        {field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',  displayName: 'Dependencia Solicitante'},
-    ]
-
-    };
-    self.gridOptions_rubros =  {
-      enableRowSelection: true,
-      enableRowHeaderSelection: false,
-       columnDefs : [
-        {field: 'Id',             visible : false},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo', displayName: 'Codigo'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',  displayName: 'Vigencia',  cellClass:'alignleft'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',  displayName: 'Descripcion'},
-        {field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Estado',    displayName: 'Estado' },
-        {field: 'Monto',    displayName: 'Monto' , cellFilter: 'currency' }
+      enableRowHeaderSelection: true,
+      enableFiltering: true,
+      columnDefs: [{
+          field: 'Id',
+          displayName: $translate.instant('NO'),
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
+        },
+        {
+          field: 'Vigencia',
+          displayName: $translate.instant('VIGENCIA'),
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
+        },
+        {
+          field: 'FechaSolicitud',
+          displayName: $translate.instant('FECHA_REGISTRO'),
+          headerCellClass: 'text-info',
+          cellClass: 'input_center',
+          cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'
+        },
+        {
+          field: 'DatosDisponibilidad.NumeroDisponibilidad',
+          displayName: $translate.instant('NO_CDP'),
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
+        },
+        {
+          field: 'DatosDisponibilidad.DatosNecesidad.Numero',
+          displayName: $translate.instant('NECESIDAD_NO'),
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
+        },
+        {
+          field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',
+          displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+          headerCellClass: 'text-info'
+        },
+        {
+          field: 'Opciones',
+          cellTemplate: '<center>' +
+            ' <a type="button" class="editar" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" > ' +
+            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
+            ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" >',
+          headerCellClass: 'text-info'
+        }
       ]
 
     };
-    self.actualizar_solicitudes = function(){
-      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp','').then(function(response) {
+
+    self.actualizar_solicitudes = function() {
+      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp', '').then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
         console.log(response.data);
@@ -47,116 +73,149 @@ angular.module('financieraClienteApp')
       });
     };
 
-    self.limpiar_alertas= function(){
+    self.limpiar_alertas = function() {
       self.alerta_registro_cdp = "";
     };
-    self.gridOptions.multiSelect = false;
+    //self.gridOptions.multiSelect = false;
     self.actualizar_solicitudes();
 
-    self.gridOptions.onRegisterApi = function(gridApi){
+    self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $("#myModal").modal();
-        $scope.apropiacion= undefined;
-        $scope.apropiaciones = [];
-          self.data = row.entity;
-          financieraRequest.get('compromiso/'+self.data.Compromiso,'').then(function(response){
-            self.data.InfoCompromiso = response.data;
+      self.gridApi.selection.on.rowSelectionChangedBatch($scope, function() {
+        self.cargueMasivo = self.gridApi.selection.getSelectedRows();
+        if (self.cargueMasivo.length === 0 && self.aprovarMasivo) {
+          self.aprovarMasivo = false;
+        } else {
+          self.aprovarMasivo = true;
+        }
+        console.log(self.cargueMasivo);
+      });
+      self.gridApi.selection.on.rowSelectionChanged($scope, function() {
+        self.cargueMasivo = self.gridApi.selection.getSelectedRows();
+        if (self.cargueMasivo.length === 0 && self.aprovarMasivo) {
+          self.aprovarMasivo = false;
+        } else {
+          self.aprovarMasivo = true;
+        }
+        console.log(self.cargueMasivo);
+      });
+
+    };
+
+    /*self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
+      if (!row.entity.Masivo) return false;
+      else return true;
+    }*/
+
+
+    self.verSolicitud = function(row) {
+      $("#myModal").modal();
+      $scope.apropiacion = undefined;
+      $scope.apropiaciones = [];
+      self.data = row.entity;
+      financieraRequest.get('compromiso/' + self.data.Compromiso, '').then(function(response) {
+        self.data.InfoCompromiso = response.data;
+      });
+      self.afectacion_pres = self.data.Rubros;
+      console.log("------------------------");
+      console.log(self.afectacion_pres);
+      console.log("------------------------");
+      /*argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function(response) {
+        self.afectacion_pres = response.data;
+        angular.forEach(self.afectacion_pres, function(rubro) {
+          financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
+            angular.forEach(response.data, function(data) {
+              rubro.DisponibilidadApropiacion = data;
+
+            });
+
           });
-          argoRequest.get('disponibilidad_apropiacion_solicitud_rp','limit=0&query=SolicitudRp:'+self.data.Id).then(function(response) {
-
-          self.gridOptions_rubros.data = response.data;
-
-          angular.forEach(self.gridOptions_rubros.data, function(rubro){
-            financieraRequest.get('disponibilidad_apropiacion','limit=1&query=Id:'+rubro.DisponibilidadApropiacion).then(function(response) {
-              angular.forEach(response.data, function(data){
-                rubro.DisponibilidadApropiacion = data
-                if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
-
-                }else{
-                  $scope.apropiaciones.push(data.Apropiacion.Id);
-                  console.log($scope.apropiaciones);
-                }
-                });
-
-            });
-
-            });
         });
-        self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
+        console.log("afec");
+        console.log(self.afectacion_pres);
+      });*/
 
-      });
+
 
     };
 
+    self.Registrar = function() {
+      self.alerta_registro_rp = ["No se pudo registrar el rp"];
+      if (self.data.DatosProveedor == null) {
+        swal("", $translate.instant('E_RP001'), "error");
+      } else if (self.data.DatosDisponibilidad.NumeroDisponibilidad == null) {
+        swal("", $translate.instant('E_RP002'), "error");
+      } else if ($scope.afectacion.length == 0) {
+        swal("", $translate.instant('E_RP003'), "error");
+      } else if (self.data.DatosCompromiso.Objeto == null) {
+        swal("", $translate.instant('E_RP004'), "error");
+      } else {
 
-    self.gridOptions_rubros.multiSelect = false;
-    self.gridOptions_rubros.onRegisterApi = function(gridApi){
-      //set gridApi on scope
-      self.gridApi_rubros = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope,function(row){
-        $scope.apropiacion = row.entity.DisponibilidadApropiacion.Apropiacion;
-        console.log(row.entity);
-        $scope.apropiacion_id = $scope.apropiacion.Id;
-      });
-    };
-
-
-    self.Registrar = function(){
-        self.alerta_registro_rp = ["No se pudo registrar el rp"];
-      if(self.data.DatosProveedor.NomProveedor == null){
-        swal("Alertas", "No se pudo cargar los datos del beneficiario", "error");
-      }else if(self.data.DatosDisponibilidad.NumeroDisponibilidad == null){
-        swal("Alertas", "No se pudo cargar los datos del CDP objetivo del RP", "error");
-      }else if (self.gridOptions_rubros.data.length == 0){
-        swal("Alertas", "No se pudo cargar los rubros objetivo del RP", "error");
-      }else if(self.data.DatosCompromiso.Objeto == null){
-        swal("Alertas", "No se pudo cargar el Compromiso del RP", "error");
-      }else{
-
-        var estado = {Id : 1};
+        var estado = {
+          Id: 1
+        };
         var rp = {
-          UnidadEjecutora : self.data.DatosDisponibilidad.UnidadEjecutora ,
-          Vigencia : self.data.DatosDisponibilidad.Vigencia,
-          Responsable : self.data.DatosDisponibilidad.Responsable,
-          Estado : estado,
-          Beneficiario : self.data.DatosProveedor.Id,
+          UnidadEjecutora: self.data.DatosDisponibilidad.UnidadEjecutora,
+          Vigencia: self.data.DatosDisponibilidad.Vigencia,
+          Responsable: self.data.DatosDisponibilidad.Responsable,
+          Estado: estado,
+          Beneficiario: self.data.DatosProveedor.Id,
           Compromiso: self.data.DatosCompromiso,
           Solicitud: self.data.Id,
           DatosSolicitud: self.data
         };
         console.log(rp);
-	var rubros = [];
-	for (var i = 0 ; i < self.gridOptions_rubros.data.length ; i++){
-	   self.gridOptions_rubros.data[i].DisponibilidadApropiacion.ValorAsignado = self.gridOptions_rubros.data[i].Monto;
-           self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciacion = self.gridOptions_rubros.data[i].DisponibilidadApropiacion.FuenteFinanciamiento;
-           rubros.push(self.gridOptions_rubros.data[i].DisponibilidadApropiacion);
-        }
+        var rubros = [];
+
+
+
+        var dataRegistros = [];
         var registro = {
-          rp : rp,
-          rubros : rubros
+          rp: rp,
+          rubros: self.data.Rubros
         };
+        dataRegistros[0] = registro;
         console.log(registro);
-        financieraMidRequest.post('registro_presupuestal', registro).then(function(response){
-        self.alerta_registro_rp = response.data;
-        angular.forEach(self.alerta_registro_rp, function(data){
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
+          self.alerta_registro_rp = response.data;
+          console.log(self.alerta_registro_rp);
+          var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          angular.forEach(self.alerta_registro_rp, function(data) {
+            if (data.Type === "error") {
+              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            } else if (data.Type === "success") {
+              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td>" + data.Body.Rp.NumeroRegistroPresupuestal + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            }
 
-          if (data === "error" || data === "success" || data === undefined){
+          });
+          templateAlert = templateAlert + "</table>";
+          console.log(templateAlert);
+          swal({
+            title: '',
+            type: self.alerta_registro_rp[0].Type,
+            width: 800,
+            html: templateAlert,
+            showCloseButton: true,
+            confirmButtonText: 'Cerrar'
+          });
+          /*angular.forEach(self.alerta_registro_rp, function(data){
 
-          }else{
-            self.alerta = self.alerta + data + "\n";
-          }
+            if (data === "error" || data === "success" || data === undefined){
 
-        });
-        swal("Alertas", self.alerta, self.alerta_registro_rp[0]).then(function(){
+            }else{
+              self.alerta = self.alerta + data + "\n";
+            }
 
-              self.alerta = "";
-              $("#myModal").modal('hide');
-              $window.location.reload();
-            });
-        //alert(data);
-        //self.limpiar();
-        //console.log(registro);
+          });
+          swal("Alertas", self.alerta, self.alerta_registro_rp[0]).then(function(){
+
+                self.alerta = "";
+                $("#myModal").modal('hide');
+                $window.location.reload();
+              });*/
+          //alert(data);
+          //self.limpiar();
+          //console.log(registro);
 
         });
 
@@ -164,15 +223,84 @@ angular.module('financieraClienteApp')
       }
     };
 
-    self.Rechazar = function (){
-      var solicitud = self.gridApi.selection.getSelectedRows();
+
+
+
+    self.cargarDatos = function() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+      var dataCargueMasivo = [];
+      var estado = {
+        Id: 1
+      };
+      for (var i = 0; i < self.cargueMasivo.length; i++) {
+        var rp = {
+          UnidadEjecutora: self.cargueMasivo[i].DatosDisponibilidad.UnidadEjecutora,
+          Vigencia: self.cargueMasivo[i].DatosDisponibilidad.Vigencia,
+          Responsable: self.cargueMasivo[i].DatosDisponibilidad.Responsable,
+          Estado: estado,
+          Beneficiario: self.cargueMasivo[i].DatosProveedor.Id,
+          Compromiso: self.cargueMasivo[i].DatosCompromiso,
+          Solicitud: self.cargueMasivo[i].Id,
+          DatosSolicitud: self.cargueMasivo[i]
+        };
+
+        var registro = {
+          rp: rp,
+          rubros: self.cargueMasivo[i].Rubros
+        };
+        dataCargueMasivo.push(registro);
+      }
+      defered.resolve(dataCargueMasivo);
+      return promise;
+    };
+
+    self.RegistrarMasivo = function() {
+      var dataCargueMasivo = [];
+
+      var estado = {
+        Id: 1
+      };
+      var promise = self.cargarDatos();
+      promise.then(function(dataCargueMasivo) {
+        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
+          self.alerta_registro_rp = response.data;
+          console.log(self.alerta_registro_rp);
+          var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          angular.forEach(self.alerta_registro_rp, function(data) {
+            if (data.Type === "error") {
+              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            } else if (data.Type === "success") {
+              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td>" + data.Body.Rp.NumeroRegistroPresupuestal + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+            }
+
+          });
+          templateAlert = templateAlert + "</table>";
+          console.log(templateAlert);
+          swal({
+            title: '',
+            type: self.alerta_registro_rp[0].Type,
+            width: 800,
+            html: templateAlert,
+            showCloseButton: true,
+            confirmButtonText: 'Cerrar'
+          });
+
+
+        });
+      });
+
+    };
+
+    self.Rechazar = function() {
+      var solicitud = self.data;
       $("#myModal").modal('hide');
       swal({
         title: 'Indique una justificación por el rechazo',
         input: 'textarea',
         showCancelButton: true,
-        inputValidator: function (value) {
-          return new Promise(function (resolve, reject) {
+        inputValidator: function(value) {
+          return new Promise(function(resolve, reject) {
             if (value) {
               resolve();
             } else {
@@ -184,22 +312,22 @@ angular.module('financieraClienteApp')
         console.log(text);
         console.log(solicitud);
         self.solicitud.MotivoRechazo = text;
-          argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
-            console.log(response.data);
-            if (response.data.Type !== undefined) {
-              if (response.data.Type === "error") {
-                swal('', $translate.instant(response.data.Code), response.data.Type);
+        argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
+          console.log(response.data);
+          if (response.data.Type !== undefined) {
+            if (response.data.Type === "error") {
+              swal('', $translate.instant(response.data.Code), response.data.Type);
+              self.cargarIngresos();
+            } else {
+              swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
+
                 self.cargarIngresos();
-              } else {
-                swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
-
-                  self.cargarIngresos();
-                });
-              }
-
+              });
             }
 
-          });
+          }
+
+        });
 
       });
     };
