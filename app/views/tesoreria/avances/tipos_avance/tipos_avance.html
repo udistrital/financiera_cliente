@@ -41,14 +41,14 @@
                 <div class="row">
                     <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="TiposAvance.tipo_avance.Nombre" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="TiposAvance.tipo_avance.Nombre" class="form-control" maxlength="50" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <textarea name="descripcion" ng-model="TiposAvance.tipo_avance.Descripcion" rows=7 class="form-control" required="true"></textarea>
+                        <textarea name="descripcion" ng-model="TiposAvance.tipo_avance.Descripcion" rows=7 class="form-control" maxlength="250" required="true"></textarea>
                     </div>
                 </div>
                 <br>

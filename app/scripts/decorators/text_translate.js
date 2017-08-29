@@ -135,7 +135,7 @@ var text_es = {
     FACTURA: "Factura",
     SELECCIONAR: "Seleccionar",
     DURACION: "Duración",
-    CODIGO_ABREVIACION:"Código de Abreviación",
+    CODIGO_ABREVIACION: "Código de Abreviación",
 
     //REGISTRO PRESUPUESTAL
     NO_CRP: "No. CRP",
@@ -377,6 +377,8 @@ var text_es = {
     NOMBRE_PROYECTO: "Nombre del Proyecto",
     TIPO_AVANCE: "Tipo de Avance",
     SOLICITUD_AVANCE_VALIDADA: "Esta solicitud ya fue validada",
+    ERROR_OBSERVACIONES: "Debe llenar todas las observaciones",
+    ERROR_REQUISITOS: "Debe seleccionar todos los requisitos",
 
     //ANULACIONES
     ANULACION_PARCIAL: "Parcial",
@@ -417,7 +419,8 @@ var text_es = {
     GENERACION_PAC: "Generar Reporte Pac",
 
     //CODIGOS
-
+    S_900: "Se verificaron los requisitos exitosamente",
+    E_901: "No se ha podido validar los requisitos",
     S_543: "Se registro exitosamente",
     S_554: "Se eliminio exitosamente",
     S_544: "Se Aprobo el Ingreso con el consecutivo ",
