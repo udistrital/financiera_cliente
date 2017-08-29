@@ -135,6 +135,7 @@ var text_es = {
     FACTURA: "Factura",
     SELECCIONAR: "Seleccionar",
     DURACION: "Duración",
+    CODIGO_ABREVIACION:"Código de Abreviación",
 
     //REGISTRO PRESUPUESTAL
     NO_CRP: "No. CRP",

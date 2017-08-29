@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
 
         ctrl.get_tipos_avance = function() {
             financieraRequest.get("tipo_avance", $.param({
-                    query: "Estado:" + 'A',
+                    query: "Activo:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
