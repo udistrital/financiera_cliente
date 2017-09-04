@@ -59,6 +59,21 @@ angular.module('financieraClienteApp')
         SIGN_OUT_REDIRECT_URL:  "http://10.20.0.254/kronos",
         SIGN_OUT_APPEND_TOKEN: "true"
       },
+
+      //Configuracion wso2 local
+      /*
+      config: {
+        AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
+        CLIENTE_ID: "1Q4sY6GS7BBzLXQJZoGxzmsROi8a",
+        REDIRECT_URL:  "http://localhost:9000/",
+        RESPONSE_TYPE: "id_token token",
+        SCOPE: "openid profile email role",
+        BUTTON_CLASS: "btn btn-warning btn-sm",
+        SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
+        SIGN_OUT_REDIRECT_URL:  "http://localhost:9000/",
+        SIGN_OUT_APPEND_TOKEN: "true"
+      },
+      */
       //Configuracion de parametros oidc unica google
       /*
       config: {
