@@ -331,7 +331,7 @@ angular.module('financieraClienteApp')
     };
     /**
      * @ngdoc function
-     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#RegistrarMasivo
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#Rechazar
      * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
      * @description Se encarga de consumir el servicio {@link argoService.service:argoRequest argoRequest}
      * y envia a este el motivo por el cual fue rechazada la solicitud de RP.
