@@ -239,6 +239,10 @@ var text_es = {
     APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
     SELECCIONAR_RUBRO: "Seleccionar Rubro",
     RUBROS: "Rubros",
+    // Giros
+    GIROS: 'Giros',
+
+
 
     //FUENTES DE FINANCIAMIENTO
 

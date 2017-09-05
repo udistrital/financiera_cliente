@@ -268,6 +268,11 @@ angular
                 controller: 'OpSeguridadSocialVerPorIdCtrl',
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
+            .when('/orden_pago/giros/ver_todos', {
+              templateUrl: 'views/orden_pago/giros/giros_view_all.html',
+              controller: 'OpGirosViewAllCtrl',
+              controllerAs: 'opGirosViewAll'
+            })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
                 controller: 'RpRpAnulacionCtrl',
