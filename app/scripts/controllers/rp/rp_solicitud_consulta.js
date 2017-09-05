@@ -1,11 +1,20 @@
 'use strict';
 
 /**
- * @ngdoc function
+ * @ngdoc controller
  * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+ * @alias Aprobacion y lista de solicitudes de RP
+ * @requires $scope
+ * @requires financieraService.service:financieraRequest
+ * @requires financieraMidService.service:financieraMidRequest
+ * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
+ * @param {service} financieraMidRequest Servicio para el API de financiera {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+ * @param {injector} $scope scope del controlador
  * @description
  * # RpRpSolicitudConsultaCtrl
- * Controller of the financieraClienteApp
+ * Controlador para ver el listado y realizar la aprobacion de solicitudes de RP.
+ *
+ *
  */
 angular.module('financieraClienteApp')
   .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
@@ -63,7 +72,13 @@ angular.module('financieraClienteApp')
       ]
 
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#actualizar_solicitudes
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
+     */
     self.actualizar_solicitudes = function() {
       financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp', '').then(function(response) {
         self.gridOptions.data.length = 0;
@@ -102,12 +117,18 @@ angular.module('financieraClienteApp')
 
     };
 
-    /*self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
+    self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
       if (!row.entity.Masivo) return false;
       else return true;
-    }*/
+    }
 
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#verSolicitud
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y consulta la informacion de la solicitud que se seleccione para mostrar su informacion de forma detallada.
+     */
     self.verSolicitud = function(row) {
       $("#myModal").modal();
       $scope.apropiacion = undefined;
@@ -138,7 +159,13 @@ angular.module('financieraClienteApp')
 
 
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#Registrar
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * y envia los datos de la solicitud de rp junto a si respectiva afectacion presupuestal para que sea pasada por las reglas de negocio correspondientes a este proceso y se determine si se expide o no el RP.
+     */
     self.Registrar = function() {
       self.alerta_registro_rp = ["No se pudo registrar el rp"];
       if (self.data.DatosProveedor == null) {
@@ -225,7 +252,12 @@ angular.module('financieraClienteApp')
 
 
 
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#cargarDatos
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description se envarga de dar formato a las solicitudes seleccionadas, empaquetando estas en un solo array.
+     */
     self.cargarDatos = function() {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -254,7 +286,13 @@ angular.module('financieraClienteApp')
       defered.resolve(dataCargueMasivo);
       return promise;
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#RegistrarMasivo
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * carga los datos de las solicitudes que van de forma masiva y los envia para su correspondiente verificacion y posible aprobacion y expedicion.
+     */
     self.RegistrarMasivo = function() {
       var dataCargueMasivo = [];
 
@@ -291,7 +329,13 @@ angular.module('financieraClienteApp')
       });
 
     };
-
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#RegistrarMasivo
+     * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
+     * @description Se encarga de consumir el servicio {@link argoService.service:argoRequest argoRequest}
+     * y envia a este el motivo por el cual fue rechazada la solicitud de RP.
+     */
     self.Rechazar = function() {
       var solicitud = self.data;
       $("#myModal").modal('hide');
