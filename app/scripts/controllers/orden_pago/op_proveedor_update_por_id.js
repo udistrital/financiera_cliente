@@ -11,4 +11,5 @@ angular.module('financieraClienteApp')
   .controller('OpProveedorUpdatePorIdCtrl', function ($scope, $routeParams) {
     var self = this;
     self.ordenPagoProveedorId = $routeParams.Id;
+    self.objectOrdenPagoProveedor = {};
   });

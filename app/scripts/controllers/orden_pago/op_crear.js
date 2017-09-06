@@ -120,13 +120,13 @@ angular.module('financieraClienteApp')
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         // insert
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
-          .then(function(data) { //error con el success
+          .then(function(data) {
             self.resultado = data;
             //mensaje
             swal({
-              title: 'Registro Exitoso',
-              text: 'Orden de Pago Proveedo Registrado Exitosamente con Consecutivo No. ' + self.resultado.data,
-              type: 'success',
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+              type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
             })
