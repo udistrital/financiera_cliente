@@ -279,10 +279,6 @@ var text_es = {
     NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
     NUEVO_OP_PLANTA: 'Nuevo OP Planta',
     NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
-<<<<<<< HEAD
-    VERIFICAR:"Verificar Requisitos"
-  },
-
   // ORDEN DE PAGO
   ORDEN_PAGO: "Órdenes de Pago",
   ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
@@ -519,10 +515,7 @@ var text_es = {
   E_OPN_02_2: "Error al obtener el Id del Concepto de Titan en detalle de la liquidación. ",
   E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
   E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
-  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
-=======
-    VERIFICAR: "Verificar Requisitos",
-
+  E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. ",
 
     QUITAR_RUBRO: "Quitar Rubro",
     QUITAR_FUENTE: "Quitar Fuente",
@@ -712,8 +705,6 @@ var text_es = {
     E_OPN_02_3: "Id Concepto Titan no cuenta con concepto Homologador en kornos. ",
     E_OPN_02_4: "Error al intentar registrar los concepto_orden_pago. ",
     E_OPN_02_5: "Error al intentar registrar Movimeitos Contables. "
->>>>>>> dev
-
 };
 
 var text_en = {
