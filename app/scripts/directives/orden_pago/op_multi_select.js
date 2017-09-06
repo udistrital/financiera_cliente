@@ -81,25 +81,18 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
+        //
         $scope.$watch('inputestado', function() {
-          console.log("AAAAAAAAA");
           if ($scope.inputestado != undefined) {
-            console.log($scope.inputestado);
             financieraRequest.get('orden_pago',
               $.param({
-                query: "OrdenPagoEstadoOrdenPago.EstadoOrdenPago.Id:7",
+                query: "OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado,
               })).then(function(response) {
-              //self.refresh();
+              self.refresh();
               self.gridOptions_op.data = response.data;
             });
           }
         },true)
-
-        //OP DATA
-        // financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
-        //   self.gridOptions_op.data = response.data;
-        //   console.log(self.gridOptions_op.data.OrdenPagoEstadoOrdenPago);
-        // });
         self.gridOptions_op.multiSelect = true;
         self.gridOptions_op.enablePaginationControls = true;
         // fin
