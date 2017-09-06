@@ -81,18 +81,29 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        //
-        $scope.$watch('inputestado', function() {
-          if ($scope.inputestado != undefined) {
+        // data
+        $scope.$watch('tiponomina', function() {
+          if ($scope.inputestado != undefined && $scope.tiponomina != undefined) {
+            console.log($scope.tiponomina);
+            console.log($scope.inputestado);
             financieraRequest.get('orden_pago',
               $.param({
-                query: "OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado,
+                query: "Nomina:" + $scope.tiponomina + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado,
               })).then(function(response) {
               self.refresh();
               self.gridOptions_op.data = response.data;
             });
           }
         },true)
+        //
+        self.gridOptions_op.onRegisterApi = function(gridApi) {
+          //set gridApi on scope
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.outputopselect = row.entity;
+          });
+        };
+        //
         self.gridOptions_op.multiSelect = true;
         self.gridOptions_op.enablePaginationControls = true;
         // fin
