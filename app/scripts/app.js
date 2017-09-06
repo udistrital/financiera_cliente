@@ -41,7 +41,6 @@ angular
         'ui.grid.expandable',
         'ui.grid.pinning',
         // Servicios
-        'avancesService',
         'financieraService',
         'financieraMidService',
         'administrativaService',
@@ -54,7 +53,6 @@ angular
         'titanService',
         'pagosService',
         'financieraNotificacion',
-        'avancesService',
         'arkaService',
         'configuracionService'
     ])

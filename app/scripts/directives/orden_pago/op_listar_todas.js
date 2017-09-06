@@ -73,7 +73,7 @@ angular.module('financieraClienteApp')
             displayName: $translate.instant('NOMINA')
           },
           {
-            field: 'EstadoOrdenPago.Nombre',
+            field: 'Estado',
             displayName: $translate.instant('ESTADO')
           },
           {
@@ -112,6 +112,18 @@ angular.module('financieraClienteApp')
         // data OP
         financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
+          //ultimo Estado
+          angular.forEach(self.gridOrdenesDePago.data, function(iterador){
+            var maxid = 0;
+            iterador.OrdenPagoEstadoOrdenPago.map(function(obj){
+                if (obj.Id > maxid) maxid = obj.Id;
+            });
+            var maxObj = $.grep(iterador.OrdenPagoEstadoOrdenPago, function(e){ return e.Id == maxid; });
+            if (maxObj[0] != undefined){
+              iterador.Estado = maxObj[0].EstadoOrdenPago.Nombre;
+            }
+          })
+          //ultimo Estado
         });
         //
       },

@@ -135,6 +135,7 @@ var text_es = {
     FACTURA: "Factura",
     SELECCIONAR: "Seleccionar",
     DURACION: "Duración",
+    CODIGO_ABREVIACION: "Código de Abreviación",
 
     //REGISTRO PRESUPUESTAL
     NO_CRP: "No. CRP",
@@ -618,6 +619,8 @@ var text_es = {
     NOMBRE_PROYECTO: "Nombre del Proyecto",
     TIPO_AVANCE: "Tipo de Avance",
     SOLICITUD_AVANCE_VALIDADA: "Esta solicitud ya fue validada",
+    ERROR_OBSERVACIONES: "Debe llenar todas las observaciones",
+    ERROR_REQUISITOS: "Debe seleccionar todos los requisitos",
 
     //ANULACIONES
     ANULACION_PARCIAL: "Parcial",
@@ -658,7 +661,8 @@ var text_es = {
     GENERACION_PAC: "Generar Reporte Pac",
 
     //CODIGOS
-
+    S_900: "Se verificaron los requisitos exitosamente",
+    E_901: "No se ha podido validar los requisitos",
     S_543: "Se registro exitosamente",
     S_554: "Se eliminio exitosamente",
     S_544: "Se Aprobo el Ingreso con el consecutivo ",
@@ -679,7 +683,8 @@ var text_es = {
     S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
     E_25P02: "Este registro ya ha sido creado. ",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
-
+    E_RP002: "No se pudo cambiar el estado de la solicitud",
+    E_RP001: "El valor solicitado supera el saldo del RP en el rubro solicitado",
     // Errores Orden Pago
     //Proveedores
     E_OPP_01: "Error al intentar registrar la Orden de pago. ",
