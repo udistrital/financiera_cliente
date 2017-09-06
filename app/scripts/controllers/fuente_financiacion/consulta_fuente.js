@@ -7,7 +7,7 @@
  * # FuenteFinanciacionConsultaFuenteCtrl
  * Controller of the financieraClienteApp
  */
-angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest, oikosRequest) {
+angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest, oikosRequest, coreRequest) {
 
     var self = this;
     self.gridOptions = {
@@ -143,8 +143,8 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         });
 
         angular.forEach(self.gridOptionsapropiacion.data, function (data) {
-          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.Tipo_Documento).then(function (response) {
-            data.Tipo_Documento = response.data[0];
+          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+            data.TipoDocumento = response.data[0];
           });
         });
 

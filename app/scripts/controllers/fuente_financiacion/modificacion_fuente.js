@@ -355,6 +355,11 @@ angular.module('financieraClienteApp')
           self.Nombre = self.apropiacion[i].Rubro.Descripcion;
         }
       }
+      for (var i = 0; i < self.tipo_documento.length; i++) {
+        if (self.tipo_documento[i].Id==self.nueva_fuente_apropiacion.tipo_documento) {
+          self.nombre_tipo_documento= self.tipo_documento[i].Nombre;
+        }
+      }
     };
 
     //traslado
@@ -471,6 +476,11 @@ angular.module('financieraClienteApp')
             self.nombre_dependencia_destino = self.dependencia[i].Nombre;
         }
       }
+      for (var i = 0; i < self.tipo_documento.length; i++) {
+        if (self.tipo_documento[i].Id==self.nueva_fuente_apropiacion.tipo_documento) {
+          self.nombre_tipo_documento= self.tipo_documento[i].Nombre;
+        }
+      }
     };
 
 
@@ -528,7 +538,7 @@ angular.module('financieraClienteApp')
         Fecha: self.fecha,
         Descripcion: self.nueva_fuente_apropiacion.Descripcion,
         TipoDocumento: parseInt(self.nueva_fuente_apropiacion.tipo_documento),
-        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
+        NoDocumento: parseInt(self.nueva_fuente_apropiacion.no_documento),
         FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
         TipoMovimiento: {
           Id: parseInt(tipo)

@@ -133,7 +133,7 @@
                 <label for="valor">{{'VALOR' | translate }}:</label>
                 <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label for="valor">{{'VALOR_ADICION' | translate }}:</label>
                 <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.Valor" placeholder="$">
               </div>
@@ -282,7 +282,7 @@
           <table class="table">
             <tr>
               <th>{{'TIPO_DOCUMENTO' | translate}}: </th>
-              <td>{{modificacionFuente.nueva_fuente_apropiacion.tipo_documento }}</td>
+              <td>{{modificacionFuente.nombre_tipo_documento }}</td>
             </tr>
             <tr>
               <th>{{'NO_DOCUMENTO' | translate }}: </th>
@@ -369,7 +369,7 @@
           <table class="table">
             <tr>
               <th>{{'TIPO_DOCUMENTO' | translate}}: </th>
-              <td>{{modificacionFuente.nueva_fuente_apropiacion.tipo_documento }}</td>
+              <td>{{modificacionFuente.nombre_tipo_documento }}</td>
             </tr>
             <tr>
               <th>{{'NO_DOCUMENTO' | translate }}: </th>
