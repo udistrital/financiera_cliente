@@ -7,7 +7,7 @@
  * # FuenteFinanciacionConsultaFuenteCtrl
  * Controller of the financieraClienteApp
  */
-angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest) {
+angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest, oikosRequest, coreRequest) {
 
     var self = this;
     self.gridOptions = {
@@ -48,7 +48,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     });
 
     self.gridOptionsapropiacion = {
-      enableFiltering: false,
+      enableFiltering: true,
       enableSorting: false,
       treeRowHeaderAlwaysVisible: false,
       showTreeExpandNoChildren: false,
@@ -62,35 +62,29 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Codigo',
-          width: '20%',
+          width: '18%',
           displayName: $translate.instant('CODIGO'),
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Descripcion',
-          width: '30%',
+          width: '25%',
           displayName: $translate.instant('DESCRIPCION')
+        },
+        {
+          field: 'FuenteFinanciamientoApropiacion.Dependencia.Nombre',
+          width: '25%',
+          displayName: $translate.instant('DEPENDENCIA')
         },
         {
           displayName: $translate.instant('FECHA'),
           field: 'Fecha',
-          width: '15%',
-          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"+0900"}}</div>'
-        },
-        {
-          field: 'FuenteFinanciamientoApropiacion.Dependencia',
           width: '10%',
-          displayName: $translate.instant('DEPENDENCIA')
+          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"+0900"}}</div>'
         },
         {
           field: 'TipoMovimiento.Nombre',
           width: '10%',
           displayName: $translate.instant('MOVIMIENTO')
-        },
-        {
-          field: 'Valor',
-          cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
-          displayName: $translate.instant('VALOR'),
-          width: '10%'
         },
         {
           field: 'TipoDocumento.Nombre',
@@ -107,7 +101,14 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           field: 'FechaDocumento',
           width: '15%',
           cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"+0900"}}</div>'
+        },
+        {
+          field: 'Valor',
+          cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
+          displayName: $translate.instant('VALOR'),
+          width: '15%'
         }
+
 
       ]
     };
@@ -134,8 +135,19 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     self.mostrar_registro =function(fuente) {
 
       financieraRequest.get('movimiento_fuente_financiamiento_apropiacion', 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + fuente ).then(function(response) {
-
         self.gridOptionsapropiacion.data = response.data;
+        angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+          oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
+            data.FuenteFinanciamientoApropiacion.Dependencia = response.data[0];
+          });
+        });
+
+        angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+            data.TipoDocumento = response.data[0];
+          });
+        });
+
         self.fuente_financiamiento_apropiacion = response.data;
         for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
