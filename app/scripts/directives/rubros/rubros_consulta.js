@@ -2,9 +2,19 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:rubros/rubrosConsulta
+ * @name financieraClienteApp.directive:rubrosConsulta
+ * @restrict E
+ * @scope
+ * @requires financieraService.service:financieraRequest
+ * @requires $scope
+ * @param {object} seleccion seleccion del rubro en el arbol
+ * @param {object|string|int} filtro dato para filtrar por cualquier atributo en la estructura
+ * @param {object} rubrosel rubro seleccionado en la estructura
+ * @param {undefined} recargar dato de cualquier tipo que al cambiar recarga la estructura
+ * @param {string|int} rubroid Id del rubro
  * @description
- * # rubros/rubrosConsulta
+ * # rubrosConsulta
+ * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
   .directive('rubrosConsulta', function(financieraRequest) {
@@ -39,6 +49,12 @@ angular.module('financieraClienteApp')
           }
         };
 
+        /**
+         * @ngdoc function
+         * @name financieraClienteApp.directive:rubrosConsulta#cargar_arbol
+         * @methodOf financieraClienteApp.directive:rubrosConsulta
+         * @description Recarga la estructura de los rubros haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
+         */
         self.cargar_arbol = function() {
           financieraRequest.get("rubro/ArbolRubros", "").then(function(response) {
             $scope.arbol = [];
@@ -51,7 +67,12 @@ angular.module('financieraClienteApp')
         };
 
         self.expandedNodes = [];
-
+        /**
+         * @ngdoc function
+         * @name financieraClienteApp.directive:rubrosConsulta#expandAllNodes
+         * @methodOf financieraClienteApp.directive:rubrosConsulta
+         * @description funcion para expandir recursivamente los nodos del arbol de rubros
+         */
         self.expandAllNodes = function (tree) {
           angular.forEach(tree, function(leaf){
             if (leaf.Hijos) {
@@ -63,6 +84,13 @@ angular.module('financieraClienteApp')
 
         };
 
+        /**
+         * @ngdoc event
+         * @name financieraClienteApp.directive:rubrosConsulta#watch_on_filtro
+         * @eventOf financieraClienteApp.directive:rubrosConsulta
+         * @param {undefined} filtro variable que activa el evento
+         * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
+         */
         $scope.$watch("filtro", function() {
           if ($scope.filtro !== "") {
             self.expandAllNodes($scope.arbol);
