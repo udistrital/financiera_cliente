@@ -1,0 +1,19 @@
+<div class="panel panel-success panel-body">
+  <div class="panel panel-heading">
+    <h4 class="text-center panel-title">{{"CONSULTA_RUBRO" | translate}}</h4>
+  </div>
+  <div class="row">
+
+    <div class="form-group">
+      <label for="filtroRubros"> Buscar: </label>
+      <input type="text" name="filtroRubros" placeholder="Filtrar" ng-model="filtro">
+    </div>
+
+    <treecontrol class="tree-classic" tree-model="arbol" options="d_rubrosConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_rubrosConsulta.expandedNodes">
+      <span class="text-success">{{node.Codigo}}:</span> {{node.Descripcion}}
+    </treecontrol>
+
+
+
+  </div>
+</div>
