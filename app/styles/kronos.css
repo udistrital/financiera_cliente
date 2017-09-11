@@ -1,3 +1,7 @@
+.vertica-right-line {
+  border-right: thick solid #ccc;
+}
+
 /*clases para definir el tamaño (alto) de la fila en el grid según la cantidad de texto y el ancho de la columna*/
 
 #pac {
