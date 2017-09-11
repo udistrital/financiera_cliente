@@ -1,7 +1,15 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'REGISTRO_RUBRO' | translate }}</h2>
   <div class="panel-body">
-<div class="col-md-5">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+
+            <rubros-consulta recargar="false" ramasel="true" rubrosel="rubroRegistro.padre"></rubros-consulta>
+            <!--div ui-grid="rubroRegistro.gridOptions" ui-grid-tree-view ui-grid-auto-resize ui-grid-resize-columns class="myGrid"></div-->
+
+      </div>
+    </div>
+<div class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">Registro de Rubro</div>
@@ -9,24 +17,12 @@
     <div class="panel-body">
       <form>
         <div class="row">
-          <div class="col-md-4">
-            <label for="select_vigencia" class="col-form-label">Vigencia </label>
-          </div>
-          <div class="col-md-7">
-            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rubroRegistro.selectVigencia" ng-change='rubroRegistro.actualiza_rubros()'>
-                <option selected disabled>Seleccione...</option>
-                <option ng-repeat="option in rubroRegistro.years" value="{{option}}">{{option}}</option>
-          </select>
-          </div>
-        </div>
-        <br>
-        <div class="row">
           <input class="form-control" name="ultimo_registro" type="hidden" ng-model="rubroRegistro.ultimo_registro" disabled="true">
           <div class="col-md-4">
             <label for="input_codigo_padre" class="col-form-label">Código del rubro padre</label>
           </div>
           <div class="col-md-7">
-            <input class="form-control" name="input_codigo_padre" type="text" ng-model="rubroRegistro.codigo_padre" disabled="true">
+            <input class="form-control" name="input_codigo_padre" type="text" ng-model="rubroRegistro.padre.Codigo" disabled="true">
           </div>
 
           <input name="input_id_padre" type="hidden" ng-model="rubroRegistro.id_padre" disabled="true">
@@ -56,7 +52,7 @@
             <label for="input_tipo_plan" class="col-form-label">Tipo de Plan</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.tipo_plan_hijo" placeholder="Plan"></textarea>
+            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.TipoPlan" placeholder="Plan"></textarea>
           </div>
         </div>
         <br>
@@ -83,15 +79,6 @@
     </div>
   </div>
 </div>
-<div ng-if="rubroRegistro.selectVigencia" class="text-center col-md-7">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">Plan de Cuentas</div>
-    </div>
 
-        <div ui-grid="rubroRegistro.gridOptions" ui-grid-tree-view ui-grid-auto-resize ui-grid-resize-columns class="myGrid"></div>
-
-  </div>
-</div>
 </div>
 </div>

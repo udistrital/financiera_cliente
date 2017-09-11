@@ -54,7 +54,7 @@ angular.module('financieraClienteApp')
 
 
     self.quitar_padre = function() {
-      self.codigo_padre = 'Sin Rubro Padre'
+      self.padre = {}
       self.tipo_plan_hijo = ''
     };
 
@@ -108,13 +108,13 @@ angular.module('financieraClienteApp')
         var rubro_padre;
 
 
-        if( self.codigo_padre == 'Sin Rubro Padre'){
+        if( self.padre.Codigo === undefined){
           codigo_rubro = codigo_rubro + self.codigo_hijo;
         }else{
-          codigo_rubro = codigo_rubro + self.codigo_padre + "-" + self.codigo_hijo;
+          codigo_rubro = codigo_rubro + self.padre.Codigo + "-" + self.codigo_hijo;
 
             rubro_padre= {
-                  Id : parseInt(self.id_padre)
+                  Id : parseInt(self.padre.Id)
               };
 
         }
@@ -122,20 +122,21 @@ angular.module('financieraClienteApp')
               Id: parseInt(self.selectEntidad)
           };
         var rubro_hijo = {
-              Vigencia: parseInt(self.selectVigencia),
+              Vigencia: 0,
               Entidad: entidad,
               Codigo: codigo_rubro,
               Descripcion: self.descripcion_hijo,
-              TipoPlan: parseInt(self.tipo_plan_hijo),
+              TipoPlan: parseInt(self.padre.TipoPlan),
               Estado: 1
           };
           console.log(rubro_hijo);
-         if(rubro_padre != null){
+         if(self.padre.Id != undefined){
             var rubro_rubro = {
                   RubroPadre : rubro_padre,
                   RubroHijo: rubro_hijo
                 }
-
+                console.log("Valor a Registrar###############");
+                console.log(rubro_rubro);
             financieraRequest.post('rubro_rubro', rubro_rubro).then(function(response) {
                    var id_rubro_rubro = response.data;
                    console.log(id_rubro_rubro);
@@ -158,6 +159,7 @@ angular.module('financieraClienteApp')
                  });;
 
          }else{
+           console.log(rubro_hijo);
             financieraRequest.post("rubro", rubro_hijo).then(function(response) {
             id_hijo = response.data;
             if(typeof(id_hijo)=="number"){
@@ -175,7 +177,7 @@ angular.module('financieraClienteApp')
               alert(data.Detail);
             }
             console.log(data);
-            });;
+          });;
          }
 
 
