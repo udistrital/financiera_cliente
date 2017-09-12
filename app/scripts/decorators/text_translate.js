@@ -8,6 +8,7 @@
  * Decorator of the financieraClienteApp
  */
 var text_es = {
+    GIRO: "Giro",
     TITULO: "GENERATOR-OAS",
     MENSAJE_INICIAL: "Ahora puede comenzar con el desarrollo ...",
     //NOTIFICACIONES
@@ -797,6 +798,7 @@ var text_en = {
     NO_CDP: "No. CDP",
     COMPROMISO: "Commitment",
     DESCRIPCION_COMPROMISO: "Description Commitment",
+
 
     //PLAN DE CUENTAS
     PLANES_CUENTAS: "Planes de Cuentas",
