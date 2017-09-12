@@ -76,7 +76,8 @@ angular.module('financieraClienteApp')
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
                     swal('',$translate.instant(response.data.Code)+": "+response.data.Body.RubroHijo.Codigo+":"+response.data.Body.RubroHijo.Descripcion,response.data.Type);
-                    self.filtro_rubro = ""+response.data.Body.RubroHijo.Codigo;
+                    self.filtro_rubro = ""+response.data.Body.RubroHijo.Descripcion;
+                    self.recarga_arbol = !self.recarga_arbol;
                   }
     
                 }
@@ -91,15 +92,16 @@ angular.module('financieraClienteApp')
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
                     swal('',$translate.instant(response.data.Code)+": "+response.data.Body.Codigo+":"+response.data.Body.Descripcion,response.data.Type);
-                    self.filtro_rubro = ""+response.data.Body.Codigo;
+                    self.filtro_rubro = ""+response.data.Body.Descripcion;
+                    self.recarga_arbol = !self.recarga_arbol;
                   }
-    
+                  
                 }
               console.log(response.data);
             });;
            }
         }
-        self.recarga_arbol = !self.recarga_arbol;
+        
 
         };
   });

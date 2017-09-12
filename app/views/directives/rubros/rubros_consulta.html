@@ -6,7 +6,7 @@
 
     <div class="form-group">
       <label for="filtroRubros"> Buscar: </label>
-      <input type="text" name="filtroRubros" placeholder="Filtrar" ng-model="filtro">
+      <input type="text" name="filtroRubros" placeholder="Filtrar" ng-model="filtro" ng-model-options='{ debounce: 1000 }'>
     </div>
 
     <treecontrol class="tree-classic" tree-model="arbol" options="d_rubrosConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_rubrosConsulta.expandedNodes">

@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest, $timeout) {
+  .directive('rubrosConsulta', function(financieraRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -92,12 +92,19 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-          if ($scope.filtro !== "" && $scope.filtro !== undefined) {
-            $timeout(function(){self.expandAllNodes($scope.arbol);}, 2000); 
-            //self.expandAllNodes($scope.arbol);
-          }else {
-            self.expandedNodes = [];
+          
+          if (self.expandedNodes.length === 0){
+            self.expandAllNodes($scope.arbol);
           }
+          
+              if ($scope.filtro !== '' && $scope.filtro !== undefined){
+                
+              }else{
+                self.expandedNodes.length = 0;
+              }
+              
+           
+           
         }, true);
 
         /**
