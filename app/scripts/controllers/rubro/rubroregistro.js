@@ -10,7 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService,$translate) {
     var self = this;
-
+    
     financieraRequest.get('entidad','limit=0').then(function (response) {
       self.entidadOptions = response.data;
       });
@@ -76,6 +76,7 @@ angular.module('financieraClienteApp')
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
                     swal('',$translate.instant(response.data.Code)+": "+response.data.Body.RubroHijo.Codigo+":"+response.data.Body.RubroHijo.Descripcion,response.data.Type);
+                    self.filtro_rubro = ""+response.data.Body.RubroHijo.Codigo;
                   }
     
                 }
@@ -89,7 +90,8 @@ angular.module('financieraClienteApp')
                   if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
-                    swal('',$translate.instant(response.data.Code)+": "+res.Body.Codigo+":"+res.Body.Descripcion,response.data.Type);
+                    swal('',$translate.instant(response.data.Code)+": "+response.data.Body.Codigo+":"+response.data.Body.Descripcion,response.data.Type);
+                    self.filtro_rubro = ""+response.data.Body.Codigo;
                   }
     
                 }
@@ -97,7 +99,7 @@ angular.module('financieraClienteApp')
             });;
            }
         }
-        
+        self.recarga_arbol = !self.recarga_arbol;
 
         };
   });

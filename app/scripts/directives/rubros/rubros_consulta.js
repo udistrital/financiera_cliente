@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest) {
+  .directive('rubrosConsulta', function(financieraRequest, $timeout) {
     return {
       restrict: 'E',
       scope: {
@@ -92,12 +92,25 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-          if ($scope.filtro !== "") {
-            self.expandAllNodes($scope.arbol);
+          if ($scope.filtro !== "" && $scope.filtro !== undefined) {
+            $timeout(function(){self.expandAllNodes($scope.arbol);}, 2000); 
+            //self.expandAllNodes($scope.arbol);
           }else {
             self.expandedNodes = [];
           }
         }, true);
+
+        /**
+         * @ngdoc event
+         * @name financieraClienteApp.directive:rubrosConsulta#watch_on_recargar
+         * @eventOf financieraClienteApp.directive:rubrosConsulta
+         * @param {undefined} recargar variable que activa el evento
+         * @description si esta variable cambia se actualiza el arbol
+         */
+        $scope.$watch("recargar", function() {
+          self.cargar_arbol();
+        }, true);
+
         $scope.showSelected = function(node, $path) {
           $scope.ramasel = $path();
         };
