@@ -17,20 +17,25 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
       controller:function($scope){
         var self = this;
+        self.visible = true;
+
+        self.confirmar = function(){
+          self.visible = false;
+        }
         //
         self.gridOptions_op = {
-          showColumnFooter: true,
+          showColumnFooter: false,
           enableRowSelection: true,
           enableRowHeaderSelection: true,
 
-          paginationPageSizes: [5, 10, 15],
+          paginationPageSizes: [15, 30, 45],
           paginationPageSize: null,
 
           enableFiltering: true,
           enableSelectAll: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
-          minRowsToShow: 10,
+          minRowsToShow: 15,
           useExternalPagination: false,
 
           columnDefs: [{
@@ -92,11 +97,7 @@ angular.module('financieraClienteApp')
               width: '10%',
               cellFilter: 'currency',
               cellClass: 'input_right',
-              displayName: $translate.instant('VALOR'),
-
-              aggregationType: uiGridConstants.aggregationTypes.sum,
-              footerCellFilter: 'currency',
-              footerCellClass: 'input_right'
+              displayName: $translate.instant('VALOR')
             },
             {
               field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
@@ -115,8 +116,6 @@ angular.module('financieraClienteApp')
         // data
         $scope.$watch('tiponomina', function() {
           if ($scope.inputestado != undefined && $scope.tiponomina != undefined) {
-            console.log($scope.tiponomina);
-            console.log($scope.inputestado);
             financieraRequest.get('orden_pago',
               $.param({
                 query: "Nomina:" + $scope.tiponomina + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado,
