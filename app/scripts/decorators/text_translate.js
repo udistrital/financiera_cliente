@@ -435,10 +435,15 @@ var text_es = {
     E_A07: "El valor debe ser mayor a 0",
     S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
     S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
-    E_25P02: "Este registro ya ha sido creado. ",
+    E_25P02: "Error al registrar la informacion en la base de datos",
+    E_23505: "Este registro ya ha sido creado",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
     E_RP002: "No se pudo cambiar el estado de la solicitud",
     E_RP001: "El valor solicitado supera el saldo del RP en el rubro solicitado",
+    E_RB001: "Debe dar un codigo al rubro",
+    E_RB002: "Debe dar una descripción al rubro",
+    E_RB003: "Debe seleccionar la unidad ejecutora",
+    E_RB004: "Debe seleccionar la entidad del rubro",
     // Errores Orden Pago
     //Proveedores
     E_OPP_01: "Error al intentar registrar la Orden de pago. ",

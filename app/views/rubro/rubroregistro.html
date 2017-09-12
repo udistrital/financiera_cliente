@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'REGISTRO_RUBRO' | translate }}</h2>
+  
   <div class="panel-body">
     <div class="col-md-6">
       <div class="panel panel-default">
@@ -12,14 +12,14 @@
 <div class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title">Registro de Rubro</div>
+      <div class="panel-title">{{ 'REGISTRO_RUBRO' | translate }}</div>
     </div>
     <div class="panel-body">
       <form>
         <div class="row">
           <input class="form-control" name="ultimo_registro" type="hidden" ng-model="rubroRegistro.ultimo_registro" disabled="true">
           <div class="col-md-4">
-            <label for="input_codigo_padre" class="col-form-label">Código del rubro padre</label>
+            <label for="input_codigo_padre" class="col-form-label">{{ 'CODIGO_PADRE' | translate }}</label>
           </div>
           <div class="col-md-7">
             <input class="form-control" name="input_codigo_padre" type="text" ng-model="rubroRegistro.padre.Codigo" disabled="true">
@@ -30,35 +30,35 @@
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_codigo" class="col-form-label">Código</label>
+            <label for="input_codigo" class="col-form-label">{{ 'CODIGO' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <input class="form-control" name="input_codigo" type="text" ng-model="rubroRegistro.codigo_hijo" placeholder="Código">
+            <input class="form-control" name="input_codigo" type="text" ng-model="rubroRegistro.codigo_hijo" >
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_descripcion" class="col-form-label">Descripción</label>
+            <label for="input_descripcion" class="col-form-label">{{ 'DESCRIPCION' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_descripcion" ng-model="rubroRegistro.descripcion_hijo" placeholder="Descripción"></textarea>
+            <textarea class="form-control" name="input_descripcion" ng-model="rubroRegistro.descripcion_hijo" ></textarea>
           </div>
           <br>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_tipo_plan" class="col-form-label">Tipo de Plan</label>
+            <label for="input_tipo_plan" class="col-form-label">{{ 'UNIDAD_EJECUTORA' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.TipoPlan" placeholder="Plan"></textarea>
+            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.UnidadEjecutora" ></textarea>
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="entidadSelect" class=" col-form-label">Entidad</label>
+            <label for="entidadSelect" class=" col-form-label">{{ 'ENTIDAD' | translate }}</label>
           </div>
           <div class="col-md-7">
             <select class="form-control" name="entidadSelect" ng-model="rubroRegistro.selectEntidad">
@@ -69,10 +69,10 @@
         <br>
         <div class="col-md-6 col-md-offset-6">
           <div class="col-md-6">
-            <button ng-click='rubroRegistro.quitar_padre()' class="btn btn-outline btn-warning btn-md btn-block">Quitar Padre</button>
+            <button ng-click='rubroRegistro.quitar_padre()' class="btn btn-outline btn-warning btn-md btn-block">{{ 'BTN.LIMPIAR' | translate }}</button>
           </div>
           <div class="col-md-6">
-              <button ng-click='rubroRegistro.registrar_rubro()' class="btn btn-outline btn-primary btn-md btn-block">Registrar</button>
+              <button ng-click='rubroRegistro.registrar_rubro()' class="btn btn-outline btn-primary btn-md btn-block">{{ 'BTN.REGISTRAR' | translate }}</button>
           </div>
         </div>
       </form>
