@@ -12,15 +12,16 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           inputestado:'=?',
-          outputopselect: '=?'
+          outputopselect: '=?',
+          outputvisible: '=?'
         },
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
       controller:function($scope){
         var self = this;
-        self.visible = true;
+        $scope.outputvisible = true;
 
         self.confirmar = function(){
-          self.visible = false;
+          $scope.outputvisible = false;
         }
         //
         self.gridOptions_op = {

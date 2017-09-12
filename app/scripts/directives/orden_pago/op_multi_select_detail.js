@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
               cellFilter: 'currency',
               cellClass: 'input_right',
               displayName: $translate.instant('VALOR'),
-              
+
               aggregationType: uiGridConstants.aggregationTypes.sum,
               footerCellFilter: 'currency',
               footerCellClass: 'input_right'
@@ -115,8 +115,6 @@ angular.module('financieraClienteApp')
         };
         // data
         $scope.$watch('inputopselect', function() {
-          console.log("PPPPPPPPPPPPPPP");
-          console.log($scope.inputopselect);
           if ($scope.inputopselect != undefined) {
             self.gridOptions_op_detail.data = [];
             self.gridOptions_op_detail.data.push($scope.inputopselect);
