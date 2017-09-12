@@ -1,30 +1,90 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Agregar Saldo Inicial</h3>
+    <h3 class="panel-title">1-25-45 Cuenta Contable xy</h3>
   </div>
   <div class="panel-body">
-    <div class="col-md-6 vertica-right-line">
-      <treecontrol class="tree-classic" tree-model="dataForTheTree" options="treeOptions" on-selection="showSelected(node)" selected-node="node1">
-        employee: {{node.name}} age {{node.age}}
-      </treecontrol>
-
-
-
+    <div class="col-md-6 ">
+      <div ng-if="d_agregarSaldoInicial.plan_maestro!=undefined">
+        <plan-cuentas filtro="filtro_padre" seleccion="d_agregarSaldoInicial.padre" recargar="d_agregarSaldoInicial.recargar_arbol" planid="d_agregarSaldoInicial.plan_maestro.Id" />
+      </div>
     </div>
 
 
-    <div class="col-md-6">
+    <div class="col-md-6 vertica-left-line">
       <div class="panel panel-body">
-        <form>
-          <div class="form-group">
-            <label for="">Saldo:</label>
-            <input type="number" class="form-control" id="" placeholder="">
-          </div>
+        <form  class='form-horizontal '>
+          <legend>Formulario Saldo Inicial</legend>
 
           <div class="form-group">
             <label for="">Descripcion:</label>
             <textarea class="form-control" placeholder=""></textarea>
           </div>
+
+          <div class="form-group">
+            <label for="">Saldo:</label><br />
+            <table class="table table-bordered table-condensed">
+              <tbody>
+                <tr>
+                  <td>Debito</td>
+                  <td>Credito</td>
+                </tr>
+                <tr>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Debito"/></td>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Credito"/></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="form-group">
+            <label for="">Cuentas Contables:</label>
+            <table class="table table-bordered table-condensed">
+              <tbody>
+                <tr>
+                  <td><label>Debito</label></td>
+                  <td><label>Credito</label></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="text-info"> 6-3-10: Servicios De Salud </td>
+                </tr>
+                <tr>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Debito"/></td>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Credito"/></td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="text-info">6-3-90: Otros Servicios</td>
+                </tr>
+                <tr>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Debito"/></td>
+                  <td><input type="number" class="form-control td-input" placeholder="Valor Credito"/></td>
+                </tr>
+                <tr>
+                  <td>Total: 500$</td>
+                  <td>Total: 500$</td>
+                </tr>
+
+              </tbody>
+            </table>
+            <p class="help-block">Help text here.</p>
+
+            <div class="panel-footer" align="center">
+              <div ng-show="!validatemov" class=" text-success">
+                <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
+                <br><small>{{"PRINCIPIO_PARTIDA_DOBLE_CUMPLE" | translate}}</small>
+              </div>
+
+              <div ng-show="validatemov" class="text-danger ">
+                <span class="glyphicon glyphicon-ban-circle fa-3x" aria-hidden="true"></span>
+                <br><small>{{"PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA" | translate}}</small>
+              </div>
+            </div>
+
+          </div>
+          <div align="center">
+            <input type="submit" class="btn btn-outline btn-success" value="Confirmar">
+            <input type="button" class="btn btn-outline btn-danger" value="Cancelar">
+          </div>
+
 
         </form>
       </div>
