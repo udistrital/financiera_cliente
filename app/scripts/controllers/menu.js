@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-    .controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope) {
+    .controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
 
         self.perfil = "Admin";
@@ -66,7 +66,8 @@ angular.module('financieraClienteApp')
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil).then(function(response) {
             $rootScope.my_menu = response.data;
-            /*configuracionRequest.update_menu(response.data);
+            console.log($rootScope.my_menu);
+            /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");
             $scope.menu_service = configuracionRequest.get_menu();*/
         });
