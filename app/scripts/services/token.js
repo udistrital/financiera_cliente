@@ -61,6 +61,7 @@ angular.module('financieraClienteApp')
             */
             //Configuracion wso2 local
 
+
             config: {
                 AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
                 CLIENTE_ID: "1Q4sY6GS7BBzLXQJZoGxzmsROi8a",
