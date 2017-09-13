@@ -83,7 +83,7 @@ angular.module('financieraClienteApp')
           });
 
         };
-
+        
         /**
          * @ngdoc event
          * @name financieraClienteApp.directive:rubrosConsulta#watch_on_filtro
@@ -102,11 +102,11 @@ angular.module('financieraClienteApp')
               }else{
                 self.expandedNodes.length = 0;
               }
-              
-           
+             
+             
            
         }, true);
-
+        
         /**
          * @ngdoc event
          * @name financieraClienteApp.directive:rubrosConsulta#watch_on_recargar
@@ -127,4 +127,30 @@ angular.module('financieraClienteApp')
       },
       controllerAs: 'd_rubrosConsulta'
     };
+  }).directive('debounceState', function() {
+    return {
+      require: 'ngModel',
+      link: function(s, e, a, c) {
+        
+        var origDebounce = c.$$debounceViewValueCommit;
+        var origCommit = c.$commitViewValue;
+        
+        c.$$debounceViewValueCommit = function() {
+          console.log(c.$debouncing);
+          if (!c.$debouncing) {
+            s.$apply(function() {
+              c.$debouncing = true;  
+            })          
+          }
+  
+          origDebounce.apply(this, arguments);
+        }
+        
+        c.$commitViewValue = function() {
+          c.$debouncing = false;
+          console.log(c.$debouncing);
+          origCommit.apply(this, arguments);
+        }
+      }
+    }
   });
