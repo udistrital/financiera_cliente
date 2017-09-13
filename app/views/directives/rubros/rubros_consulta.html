@@ -10,7 +10,7 @@
     </form>
 
     <treecontrol class="tree-classic" tree-model="arbol" options="d_rubrosConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_rubrosConsulta.expandedNodes">
-      <span class="text-success">{{node.Codigo}}:</span> {{node.Descripcion}}
+      <span class="text-success">{{node.Codigo }}:</span> {{node.Descripcion | limitTo:370}}
     </treecontrol>
 
 

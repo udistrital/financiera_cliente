@@ -1,11 +1,17 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name financieraClienteApp.controller:RubroRubroregistroCtrl
+ * @ngdoc controller
+ * @name financieraClienteApp.controller:RubroRubroRegistroCtrl
+ * @alias Registro de Rubros
+ * @requires $scope
+ * @requires financieraService.service:financieraRequest
+ * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
  * @description
- * # RubroRubroregistroCtrl
- * Controller of the financieraClienteApp
+ * # RubroRubroRegistroCtrl
+ * Controlador para el registro de rubros presupuestales.
+ *
+ *
  */
 angular.module('financieraClienteApp')
   .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService,$translate) {
@@ -25,7 +31,13 @@ angular.module('financieraClienteApp')
 
     };
 
-
+      /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:RubroRubroRegistroCtrl#registrar_rubro
+     * @methodOf financieraClienteApp.controller:RubroRubroRegistroCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y registrar los datos de un rubro, ya sea como cabeza de rama o como hoja de una rama existente.
+     */
       self.registrar_rubro = function() {
         if (self.padre === undefined || self.padre.UnidadEjecutora === ''){
           swal("", $translate.instant("E_RB003"),"error");
