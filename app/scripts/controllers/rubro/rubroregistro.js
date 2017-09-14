@@ -69,6 +69,7 @@ angular.module('financieraClienteApp')
           var rubro_hijo = {
                 Vigencia: 0,
                 Entidad: entidad,
+                Nombre: self.nombre_hijo,
                 Codigo: codigo_rubro,
                 Descripcion: self.descripcion_hijo,
                 UnidadEjecutora: parseInt(self.padre.UnidadEjecutora),
