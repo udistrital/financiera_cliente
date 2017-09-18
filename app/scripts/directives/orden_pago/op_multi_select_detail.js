@@ -19,6 +19,9 @@ angular.module('financieraClienteApp')
       controller:function($scope){
         var self = this;
         //
+        self.regresar = function(){
+          $scope.inputvisible = !$scope.inputvisible;
+        }
         self.gridOptions_op_detail = {
           showColumnFooter: true,
           enableRowSelection: false,
@@ -64,9 +67,9 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
-              field: 'TipoOrdenPago.Nombre',
-              width: '7%',
-              displayName: $translate.instant('TIPO_DOCUMENTO')
+              field: 'FormaPago.CodigoAbreviacion',
+              width: '5%',
+              displayName: $translate.instant('FORMA_PAGO')
             },
             {
               field: 'Nomina',
@@ -117,7 +120,26 @@ angular.module('financieraClienteApp')
         $scope.$watch('inputopselect', function() {
           if ($scope.inputopselect != undefined) {
             self.gridOptions_op_detail.data = [];
-            self.gridOptions_op_detail.data.push($scope.inputopselect);
+            self.gridOptions_op_detail.data = $scope.inputopselect;
+            self.total_abono_cuenta = 0;  //AC
+            self.total_cheque = 0;        //CH
+            self.total_efectivo = 0;      //EF
+            self.total_nota_debito = 0;   //ND
+            // calculo totales
+            angular.forEach(self.gridOptions_op_detail.data, function(iterador){
+              if(iterador.FormaPago.CodigoAbreviacion == 'AC'){
+                self.total_abono_cuenta = self.total_abono_cuenta + iterador.ValorTotal;
+              }
+              if(iterador.FormaPago.CodigoAbreviacion == 'CH'){
+                self.total_cheque = self.total_cheque + iterador.ValorTotal;
+              }
+              if(iterador.FormaPago.CodigoAbreviacion == 'EF'){
+                self.total_efectivo = self.total_efectivo + iterador.ValorTotal;
+              }
+              if(iterador.FormaPago.CodigoAbreviacion == 'ND'){
+                self.total_nota_debito = self.total_nota_debito + iterador.ValorTotal;
+              }
+            })
           }
         },true)
         //

@@ -146,7 +146,7 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputopselect = row.entity;
+            $scope.outputopselect = self.gridApi.selection.getSelectedRows();
           });
         };
         //

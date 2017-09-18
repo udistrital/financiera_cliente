@@ -200,7 +200,8 @@ var text_es = {
         NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
         NUEVO_OP_PLANTA: 'Nuevo OP Planta',
         NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
-        VERIFICAR: "Verificar Requisitos"
+        VERIFICAR: "Verificar Requisitos",
+        REGRESAR: "Regresar"
     },
 
     // ORDEN DE PAGO
@@ -244,6 +245,10 @@ var text_es = {
     RUBROS: "Rubros",
     // Giros
     GIROS: 'Giros',
+    ABONO_CUENTA: 'Abono en Cuenta',
+    CHEQUE: 'Cheque',
+    EFECTIVO: 'Efectivo',
+    NOTA_DEVITO: 'Nota Débito',
 
 
 
