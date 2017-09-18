@@ -69,9 +69,9 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
-              field: 'TipoOrdenPago.Nombre',
-              width: '7%',
-              displayName: $translate.instant('TIPO_DOCUMENTO')
+              field: 'FormaPago.CodigoAbreviacion',
+              width: '5%',
+              displayName: $translate.instant('FORMA_PAGO')
             },
             {
               field: 'Nomina',
