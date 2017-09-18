@@ -31,8 +31,12 @@ angular.module('financieraClienteApp')
         ramasel: '=?'
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
-      controller: function($scope) {
+      controller: function($scope, $translate) {
         var self = this;
+        $scope.botones = [
+          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+          { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+        ];
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
@@ -65,6 +69,25 @@ angular.module('financieraClienteApp')
           });
 
         };
+
+        self.arbol_operacion = function(nodo, operacion){
+          self.operacion = operacion;
+          
+          switch (operacion) {
+              case "ver":
+              console.log(nodo);
+                  break;
+              case "add":
+                  break;
+              case "edit":
+                  break;
+              case "delete":
+                  break;
+              case "config":
+                  break;
+              default:
+          }
+        }
 
         self.expandedNodes = [];
         /**
