@@ -10,11 +10,32 @@
     </form>
 
     <treecontrol class="tree-classic" tree-model="arbol" options="d_rubrosConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_rubrosConsulta.expandedNodes">
-      <span class="text-success">{{node.Codigo }}:</span> {{node.Descripcion | limitTo:370}} 
-      <btn-registro funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
+      <span class="text-success">{{node.Codigo }}:</span> {{node.Descripcion | limitTo:50}} 
+      - <btn-registro funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
     </treecontrol>
 
 
 
+  </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="cdpSolicitudConsulta.actualiza_solicitudes();">&times</button><br>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="page-header">{{'RUBRO' | translate}} {{rubrosel.Nombre}} / {{rubrosel.Codigo}}</h3>
+      </div>
+      <div class="panel-body">
+        <table class="table">
+          <tr>
+            <th>{{'DESCRIPCION' | translate}}: </th>
+            <td>{{rubrosel.Descripcion}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

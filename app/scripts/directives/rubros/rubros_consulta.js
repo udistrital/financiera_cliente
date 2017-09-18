@@ -75,7 +75,7 @@ angular.module('financieraClienteApp')
           
           switch (operacion) {
               case "ver":
-              console.log(nodo);
+                  $("#myModal").modal();
                   break;
               case "add":
                   break;

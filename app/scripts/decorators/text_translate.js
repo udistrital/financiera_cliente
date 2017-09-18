@@ -238,6 +238,7 @@ var text_es = {
     APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
     SELECCIONAR_RUBRO: "Seleccionar Rubro",
     RUBROS: "Rubros",
+    APROPIACION_INICIAL: "Apropiacion Inicial",
 
     //FUENTES DE FINANCIAMIENTO
 
