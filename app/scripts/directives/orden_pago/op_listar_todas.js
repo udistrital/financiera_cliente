@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function(financieraRequest, $location, $translate) {
+  .directive('opListarTodas', function(financieraRequest, agoraRequest, $location, $translate) {
     return {
       restrict: 'E',
       /*scope:{
@@ -43,13 +43,13 @@ angular.module('financieraClienteApp')
           {
             field: 'Consecutivo',
             displayName: $translate.instant('CODIGO'),
-            width: '8%',
+            width: '7%',
             cellClass: 'input_center'
           },
           {
             field: 'Vigencia',
             displayName: $translate.instant('VIGENCIA'),
-            width: '8%',
+            width: '7%',
             cellClass: 'input_center'
           },
           {
@@ -57,29 +57,56 @@ angular.module('financieraClienteApp')
             displayName: $translate.instant('FECHA_CREACION'),
             cellClass: 'input_center',
             cellFilter: "date:'yyyy-MM-dd'",
+            width: '8%',
           },
           {
             field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
             displayName: $translate.instant('NO_CRP'),
-            width: '8%',
+            width: '7%',
             cellClass: 'input_center'
           },
           {
-            field: 'TipoOrdenPago.Nombre',
-            displayName: $translate.instant('TIPO_DOCUMENTO')
+            field: 'FormaPago.CodigoAbreviacion',
+            width: '5%',
+            displayName: $translate.instant('FORMA_PAGO')
           },
           {
             field: 'Nomina',
+            width: '10%',
             displayName: $translate.instant('NOMINA')
           },
           {
-            field: 'Estado',
+            field: 'Proveedor.Tipopersona',
+            width: '10%',
+            displayName: $translate.instant('TIPO_PERSONA')
+          },
+          {
+            field: 'Proveedor.NomProveedor',
+            displayName: $translate.instant('NOMBRE')
+          },
+          {
+            field: 'Proveedor.NumDocumento',
+            width: '10%',
+            cellClass: 'input_center',
+            displayName: $translate.instant('NO_DOCUMENTO')
+          },
+          {
+            field: 'ValorTotal',
+            width: '10%',
+            cellFilter: 'currency',
+            cellClass: 'input_right',
+            displayName: $translate.instant('VALOR')
+          },
+          {
+            field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
+            width: '7%',
             displayName: $translate.instant('ESTADO')
           },
           {
             //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
             name: $translate.instant('OPERACION'),
             enableFiltering: false,
+            width: '5%',
             cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
@@ -112,18 +139,21 @@ angular.module('financieraClienteApp')
         // data OP
         financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
-          //ultimo Estado
+          // data proveedor
           angular.forEach(self.gridOrdenesDePago.data, function(iterador){
-            var maxid = 0;
-            iterador.OrdenPagoEstadoOrdenPago.map(function(obj){
-                if (obj.Id > maxid) maxid = obj.Id;
+            agoraRequest.get('informacion_proveedor',
+              $.param({
+                query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
+              })
+            ).then(function(response) {
+              iterador.Proveedor = response.data[0];
             });
-            var maxObj = $.grep(iterador.OrdenPagoEstadoOrdenPago, function(e){ return e.Id == maxid; });
-            if (maxObj[0] != undefined){
-              iterador.Estado = maxObj[0].EstadoOrdenPago.Nombre;
-            }
+            financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id ,
+            ).then(function(response) {
+              iterador.ValorTotal = response.data;
+            });
           })
-          //ultimo Estado
+          // data proveedor
         });
         //
       },

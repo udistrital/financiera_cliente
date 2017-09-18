@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
         valorbase: '=?',
         vigencia: '=?',
         valorbruto: '=?',
+        formapago: '=?',
         inputpestanaabierta: '=?'
       },
 
@@ -34,6 +35,14 @@ angular.module('financieraClienteApp')
           })
         ).then(function(response) {
           self.tipo_orden_pago_data = response.data;
+        });
+        //forma de pago
+        financieraRequest.get('forma_pago',
+          $.param({
+            limit: 0
+          })
+        ).then(function(response) {
+          self.forma_pago_data = response.data;
         });
         //iva
         financieraRequest.get('iva',

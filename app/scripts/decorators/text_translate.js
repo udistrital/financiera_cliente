@@ -8,6 +8,7 @@
  * Decorator of the financieraClienteApp
  */
 var text_es = {
+    GIRO: "Giro",
     TITULO: "GENERATOR-OAS",
     MENSAJE_INICIAL: "Ahora puede comenzar con el desarrollo ...",
     //NOTIFICACIONES
@@ -27,6 +28,7 @@ var text_es = {
     VIGENCIA: "Vigencia",
     FECHA_CREACION: "Fecha Creación",
     TIPO_DOCUMENTO: "Tipo Documento",
+    FORMA_PAGO: "Forma Pago",
     ESTADO: "Estado",
     OPERACION: "Operación",
     ENTIDAD: "Entidad",
@@ -198,7 +200,8 @@ var text_es = {
         NUEVO_OP_PROVEEDOR: 'Nuevo OP Proveedor',
         NUEVO_OP_PLANTA: 'Nuevo OP Planta',
         NUEVO_OP_SEGURIDAD_SOCIAL: 'Nuevo OP Seguridad Social',
-        VERIFICAR: "Verificar Requisitos"
+        VERIFICAR: "Verificar Requisitos",
+        REGRESAR: "Regresar"
     },
 
     // ORDEN DE PAGO
@@ -217,6 +220,7 @@ var text_es = {
     MSN_DEBE_PROVEEDOR: "Debe Seleccionar el Proveedor para la Orden de Pago",
     MSN_DEBE_REGISTRO: "Debe Seleccionar el Registro Presupuestal",
     MSN_DEBE_TIPO_OP: "Debe Seleccionar el Tipo de Documento en la Sección Valor del Pago",
+    MSN_DEBE_FORMA_PAGO_OP: "Debe Seleccionar la Forma de Pago en la Sección Detalle orden de Pago",
     MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
     MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
     MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo Minimo un Comcepto",
@@ -239,6 +243,14 @@ var text_es = {
     APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
     SELECCIONAR_RUBRO: "Seleccionar Rubro",
     RUBROS: "Rubros",
+    // Giros
+    GIROS: 'Giros',
+    ABONO_CUENTA: 'Abono en Cuenta',
+    CHEQUE: 'Cheque',
+    EFECTIVO: 'Efectivo',
+    NOTA_DEVITO: 'Nota Débito',
+
+
 
     //FUENTES DE FINANCIAMIENTO
 
@@ -793,6 +805,7 @@ var text_en = {
     NO_CDP: "No. CDP",
     COMPROMISO: "Commitment",
     DESCRIPCION_COMPROMISO: "Description Commitment",
+
 
     //PLAN DE CUENTAS
     PLANES_CUENTAS: "Planes de Cuentas",

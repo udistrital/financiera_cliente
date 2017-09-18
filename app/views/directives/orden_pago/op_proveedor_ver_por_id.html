@@ -184,44 +184,48 @@
 </legend class="text-primary">
 <div ng-show="panelDetallePagoProveedor" class="panel-body">
   <div class="form-horizontal">
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'TIPO_DOCUMENTO' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].TipoOrdenPago.Nombre}}</span>
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].TipoOrdenPago.Nombre}}</span>
+        </div>
+        <label class="control-label col-sm-2">{{'VAL_IVA' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency:"$":0 }}</span>
+        </div>
       </div>
-      <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency:"$":0 }}</span>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'FORMA_PAGO' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].FormaPago.Nombre}}</span>
+        </div>
+        <label class="control-label col-sm-2">{{'VALOR_BRUTO' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency:"$":0 }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'VALOR_BASE_RETENCION' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency:"$":0 }}</span>
+        </div>
+        <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].PersonaElaboro }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'POR_IVA' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Iva.Valor}}</span>
+        </div>
+        <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Vigencia}}</span>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'POR_IVA' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Iva.Valor}}</span>
-      </div>
-      <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency:"$":0 }}</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency:"$":0 }}</span>
-      </div>
-      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Vigencia}}</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label col-sm-1">{{'ELABORADO_POR' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].PersonaElaboro }}</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!--detalle rubro-->
 <legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">

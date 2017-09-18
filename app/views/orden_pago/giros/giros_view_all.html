@@ -1,0 +1,26 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center"> {{ 'GIROS' | translate }} {{ 'OP_TITULO' | translate }}</h2>
+  <div class="panel-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }} a Girar</h3>
+      </div>
+      <div class="panel-body">
+
+        <op-multi-select
+          inputestado="opGirosViewAll.estado"
+          outputopselect="opGirosViewAll.op_seleccionadas"
+          outputvisible="opGirosViewAll.visible">
+        </op-multi-select>
+
+        <op-multi-select-detail
+        inputopselect="opGirosViewAll.op_seleccionadas"
+        inputvisible="opGirosViewAll.visible">
+        </op-multi-select-detail>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
