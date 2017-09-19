@@ -63,16 +63,30 @@ angular.module('financieraClienteApp')
 
             config: {
                 AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-                CLIENTE_ID: "1Q4sY6GS7BBzLXQJZoGxzmsROi8a",
-                REDIRECT_URL: "http://localhost:9000/",
+                CLIENTE_ID: "On7yXeO6Q5A2t7i60YIzjyzpffsa",
+                REDIRECT_URL: "http://10.20.0.254/kronos/",
                 RESPONSE_TYPE: "id_token token",
-                SCOPE: "openid profile email role",
+                SCOPE: "openid email",
                 BUTTON_CLASS: "btn btn-warning btn-sm",
                 SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
-                SIGN_OUT_REDIRECT_URL: "http://localhost:9000/about",
+                SIGN_OUT_REDIRECT_URL: "http://10.20.0.254/kronos/",
                 SIGN_OUT_APPEND_TOKEN: "true"
             },
 
+            //Configuracion wso2 local
+            /*
+                  config: {
+                    AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
+                    CLIENTE_ID: "NCM5qVWim6MeTGB4Ag4lyLBOlv0a",
+                    REDIRECT_URL:  "http://localhost:9000/",
+                    RESPONSE_TYPE: "id_token token",
+                    SCOPE: "openid email",
+                    BUTTON_CLASS: "btn btn-warning btn-sm",
+                    SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
+                    SIGN_OUT_REDIRECT_URL:  "http://localhost:9000/",
+                    SIGN_OUT_APPEND_TOKEN: "true"
+                  },
+            */
             //Configuracion de parametros oidc unica google
             /*
             config: {

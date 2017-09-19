@@ -50,6 +50,8 @@ module.exports = function(config) {
       'bower_components/bootstrap-select/dist/js/bootstrap-select.js',
       'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/vis/dist/vis.js',
+      'bower_components/angular-ui-select/dist/select.js',
+      'bower_components/select2/dist/js/select2.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

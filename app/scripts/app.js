@@ -40,7 +40,9 @@ angular
         'pascalprecht.translate',
         'ui.grid.expandable',
         'ui.grid.pinning',
+        'ui.select',
         // Servicios
+        'academicaService',
         'financieraService',
         'financieraMidService',
         'administrativaService',
@@ -62,6 +64,11 @@ angular
     })
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+    }])
+    .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
+        uiSelectConfig.theme = 'select2';
+        uiSelectConfig.resetSearchInput = true;
+        uiSelectConfig.appendToBody = true;
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
