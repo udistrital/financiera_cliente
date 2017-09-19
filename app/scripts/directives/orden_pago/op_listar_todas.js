@@ -108,30 +108,30 @@ angular.module('financieraClienteApp')
             enableFiltering: false,
             width: '5%',
             cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
-            '</center>'
+              '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
+              '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
+              '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
+              '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
+              '</center>'
           }
         ];
         // OP Proveedores
         self.op_detalle = function(row) {
-          if(row.entity.Nomina  == 'SEGURIDAD SOCIAL'){
+          if (row.entity.Nomina == 'SEGURIDAD SOCIAL') {
             var path = "/orden_pago/seguridad_social/ver/";
             $location.url(path + row.entity.Id);
           }
-          if(row.entity.Nomina  == 'PROVEEDOR'){
+          if (row.entity.Nomina == 'PROVEEDOR') {
             var path = "/orden_pago/proveedor/ver/";
             $location.url(path + row.entity.Id);
           }
-          if(row.entity.Nomina  == 'PLANTA'){
+          if (row.entity.Nomina == 'PLANTA') {
             var path = "/orden_pago/planta/ver/";
             $location.url(path + row.entity.Id);
           }
         }
         self.op_editar = function(row) {
-          if(row.entity.Nomina  == 'PROVEEDOR'){
+          if (row.entity.Nomina == 'PROVEEDOR') {
             var path_update = "/orden_pago/proveedor/actualizar/";
             $location.url(path_update + row.entity.Id);
           }
@@ -140,7 +140,7 @@ angular.module('financieraClienteApp')
         financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
           self.gridOrdenesDePago.data = response.data;
           // data proveedor
-          angular.forEach(self.gridOrdenesDePago.data, function(iterador){
+          angular.forEach(self.gridOrdenesDePago.data, function(iterador) {
             agoraRequest.get('informacion_proveedor',
               $.param({
                 query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
@@ -148,8 +148,7 @@ angular.module('financieraClienteApp')
             ).then(function(response) {
               iterador.Proveedor = response.data[0];
             });
-            financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id ,
-            ).then(function(response) {
+            financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
               iterador.ValorTotal = response.data;
             });
           })

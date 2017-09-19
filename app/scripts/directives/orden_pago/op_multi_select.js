@@ -132,7 +132,7 @@ angular.module('financieraClienteApp')
                 ).then(function(response) {
                   iterador.Proveedor = response.data[0];
                 });
-                financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id ,
+                financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id
                 ).then(function(response) {
                   iterador.ValorTotal = response.data;
                 });
