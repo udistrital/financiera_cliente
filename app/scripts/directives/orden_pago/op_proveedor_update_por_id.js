@@ -60,6 +60,7 @@ angular.module('financieraClienteApp')
               self.OrdenPago.Iva = self.orden_pago[0].Iva;
               self.OrdenPago.ValorBase = self.orden_pago[0].ValorBase;
               self.OrdenPago.TipoOrdenPago = self.orden_pago[0].TipoOrdenPago;
+              self.OrdenPago.FormaPago = self.orden_pago[0].FormaPago;
             });
           }
         })
