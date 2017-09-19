@@ -28,6 +28,9 @@ angular.module('financieraClienteApp')
           { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
           { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
         ];
+        $scope.botonesPadre = [
+          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+        ];
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
@@ -46,8 +49,9 @@ angular.module('financieraClienteApp')
 
         
         self.cargar_arbol = function() {
-          financieraRequest.get("apropiacion/ArbolApropiaciones/2017", "").then(function(response) {
-            $scope.arbol = [];
+          $scope.arbol = [];
+          financieraRequest.get("apropiacion/ArbolApropiaciones/"+$scope.vigencia, "").then(function(response) {
+            
             if (response.data !== null) {
               $scope.arbol = response.data;
 
@@ -91,14 +95,9 @@ angular.module('financieraClienteApp')
         };
         
         
-        $scope.$watch("filtro", function() {
-          
-          if (self.expandedNodes.length === 0){
-            self.expandAllNodes($scope.arbol);
-          }
-          
+        $scope.$watch("filtro", function() {    
               if ($scope.filtro !== '' && $scope.filtro !== undefined){
-                
+                self.expandAllNodes($scope.arbol);
               }else{
                 self.expandedNodes.length = 0;
               }
@@ -108,8 +107,22 @@ angular.module('financieraClienteApp')
         }, true);
         
         
+        $scope.$watch("vigencia", function() {
+          self.cargar_arbol();
+          if ($scope.filtro !== '' && $scope.filtro !== undefined){
+            self.expandAllNodes($scope.arbol);
+          }else{
+            self.expandedNodes.length = 0;
+          }
+        }, true);
+
         $scope.$watch("recargar", function() {
           self.cargar_arbol();
+          if ($scope.filtro !== '' && $scope.filtro !== undefined){
+            self.expandAllNodes($scope.arbol);
+          }else{
+            self.expandedNodes.length = 0;
+          }
         }, true);
 
         $scope.showSelected = function(node, $path) {

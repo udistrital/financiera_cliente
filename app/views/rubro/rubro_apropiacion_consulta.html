@@ -1,5 +1,16 @@
 <div class="panel panel-primary panel-body">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+          <center>
+              <label for="select_vigencia" class="col-form-label">Vigencia </label>
+                <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rubroApropiacionConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                    <option ng-repeat="option in rubroApropiacionConsulta.years" value="{{option}}">{{option}}</option>
+              </select>     
+          </center>
+      </div>
+        
+    </div>
   <div class="panel-body">
-      <apropiacion-consulta recargar="rubroApropiacionConsulta.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionConsulta.rubro" filtro="rubroApropiacionConsulta.filtro_rubro"></apropiacion-consulta>
+      <apropiacion-consulta recargar="rubroApropiacionConsulta.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionConsulta.rubro" filtro="rubroApropiacionConsulta.filtro_rubro" vigencia="rubroApropiacionConsulta.Vigencia"></apropiacion-consulta>
   </div>
 </div>
