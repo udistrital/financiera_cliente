@@ -239,6 +239,7 @@ var text_es = {
     SELECCIONAR_RUBRO: "Seleccionar Rubro",
     RUBROS: "Rubros",
     APROPIACION_INICIAL: "Apropiacion Inicial",
+    INFORMACION_SALDO_APROPIACION: "Información Presupuestal de la apropiación",
 
     //FUENTES DE FINANCIAMIENTO
 

@@ -20,17 +20,13 @@ angular.module('financieraClienteApp')
         noresumen: '@?',
         ramasel: '=?',
         vigencia: '=?',
+        botones: '=?',
+        botonespadre: '=?',
       },
       templateUrl: 'views/directives/apropiacion/apropiacion_consulta.html',
       controller:function($scope, $translate){
         var self = this;
-        $scope.botones = [
-          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-          { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-        ];
-        $scope.botonesPadre = [
-          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
-        ];
+        console.log($scope.botonesPadre);
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
@@ -68,6 +64,12 @@ angular.module('financieraClienteApp')
                   $("#myModal").modal();
                   self.apropiacionsel = null;
                   self.apropiacionsel = nodo;
+                  financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                    
+                    if (response.data !== null) {
+                      self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                    }
+                  });
                   break;
               case "add":
                   break;

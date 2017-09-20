@@ -28,15 +28,12 @@ angular.module('financieraClienteApp')
         rubroid: '=?',
         arbol: '=?',
         noresumen: '@?',
-        ramasel: '=?'
+        ramasel: '=?',
+        botones: '=?',
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
         var self = this;
-        $scope.botones = [
-          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-          { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-        ];
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,

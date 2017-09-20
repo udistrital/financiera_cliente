@@ -8,33 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroConsultaCtrl', function (financieraRequest) {
+  .controller('RubroRubroConsultaCtrl', function ($translate) {
     var self = this;
-    self.message = 'Consulta de rubros Vigencia';
-    self.gridOptions = {
-      enableFiltering : true,
-      enableSorting : true,
-      treeRowHeaderAlwaysVisible : false,
-      showTreeExpandNoChildren: true,
-      rowEditWaitInterval :-1,
-      columnDefs : [
-        {field: 'Id',             visible : false},
-        {field: 'Entidad.Nombre',   displayName: 'Entidad'},
-        {field: 'Vigencia',       cellClass:'alignleft'},
-        {field: 'Codigo'},
-        {field: 'Descripcion'},
-        {field: 'TipoPlan'},
-        {field: 'Administracion'},
-        {field: 'Estado'}
-      ]
-
-    };
-    financieraRequest.get('rubro','limit=0').then(function(response) {
-      self.gridOptions.data = response.data;
-    });
-    self.actualiza_rubros = function () {
-      financieraRequest.get('rubro','limit=0&query=vigencia%3A' + self.selectVigencia).then(function (response) {
-        self.gridOptions.data = response.data;
-        });
-      };
+    self.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+    ];
   });

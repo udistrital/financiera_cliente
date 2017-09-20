@@ -16,7 +16,7 @@
         <span class="text-success">{{node.Codigo }}:</span> {{node.Nombre | limitTo:50}} 
         - {{'APROPIACION_INICIAL'| translate}} : <span class="text-info" ng-if="node.Apropiacion != null">{{node.Apropiacion.Valor|currency}} - </span> <span ng-if="node.Apropiacion == null" class="text-danger">{{0.000|currency}} - </span>
         <btn-registro ng-if="node.Hijos == null" funcion="d_apropiacionConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
-        <btn-registro ng-if="node.Hijos != null" funcion="d_apropiacionConsulta.arbol_operacion(node,operacion)" grupobotones="botonesPadre" fila="node"></btn-registro>
+        <btn-registro ng-if="node.Hijos != null" funcion="d_apropiacionConsulta.arbol_operacion(node,operacion)" grupobotones="botonespadre" fila="node"></btn-registro>
       </treecontrol>
   
   
@@ -41,6 +41,17 @@
               <td>{{d_apropiacionConsulta.apropiacionsel.Descripcion}}</td>
             </tr>
           </table>
+          <hr>
+          <ul>
+            <li><b>{{'INFORMACION_SALDO_APROPIACION'|translate}}</b>
+              <ul>
+                <li><b>{{'APROPIACION_INICIAL'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.Valor | currency}}</li>  
+                <li><b>{{'TOTAL_COMPROMETIDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido | currency}}</li>     
+                <li><b>{{'TOTAL_ANULADO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido_anulado | currency}}</li>                                                  
+                <li><b>{{'SALDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.saldo | currency}}</li>
+              </ul>
+            </li>
+            </ul>
         </div>
       </div>
     </div>
