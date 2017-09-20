@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-    .controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope) {
+    .controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
 
         self.perfil = "Admin";
@@ -55,7 +55,21 @@ angular.module('financieraClienteApp')
             }
         ];
         //$scope.menu_service = [];
-
+        $scope.changeLanguage = function (key){
+            $translate.use(key);
+            switch (key) {
+                case 'es':
+                    $scope.language.es = "btn btn-primary btn-circle btn-outline active";
+                    $scope.language.en = "btn btn-primary btn-circle btn-outline";
+                    break;
+                case 'en':
+                    $scope.language.en = "btn btn-primary btn-circle btn-outline active";
+                    $scope.language.es = "btn btn-primary btn-circle btn-outline";
+                    break;
+                default:
+            }
+        };
+        
         $scope.notificacion.get_crud('notificacion', $.param({
                 query: "UsuarioDestino:2"
             }))
@@ -66,7 +80,8 @@ angular.module('financieraClienteApp')
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil).then(function(response) {
             $rootScope.my_menu = response.data;
-            /*configuracionRequest.update_menu(response.data);
+            console.log($rootScope.my_menu);
+            /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");
             $scope.menu_service = configuracionRequest.get_menu();*/
         });
