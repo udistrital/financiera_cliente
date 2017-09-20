@@ -55,7 +55,21 @@ angular.module('financieraClienteApp')
             }
         ];
         //$scope.menu_service = [];
-
+        $scope.changeLanguage = function (key){
+            $translate.use(key);
+            switch (key) {
+                case 'es':
+                    $scope.language.es = "btn btn-primary btn-circle btn-outline active";
+                    $scope.language.en = "btn btn-primary btn-circle btn-outline";
+                    break;
+                case 'en':
+                    $scope.language.en = "btn btn-primary btn-circle btn-outline active";
+                    $scope.language.es = "btn btn-primary btn-circle btn-outline";
+                    break;
+                default:
+            }
+        };
+        
         $scope.notificacion.get_crud('notificacion', $.param({
                 query: "UsuarioDestino:2"
             }))
