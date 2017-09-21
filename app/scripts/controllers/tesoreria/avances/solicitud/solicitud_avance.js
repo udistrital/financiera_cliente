@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, financieraRequest, $translate) {
+    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, academicaRequest, financieraRequest, $translate) {
         var ctrl = this;
         $scope.info_terceros = true;
         $scope.info_desc_avances = true;
@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
 
         ctrl.get_tipos_avance = function() {
             financieraRequest.get("tipo_avance", $.param({
-                    query: "Estado:" + 'A',
+                    query: "Activo:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
@@ -29,19 +29,17 @@ angular.module('financieraClienteApp')
                 });
         };
 
-        ctrl.get_terceros = function() {
-            modelsRequest.get("terceros_completo")
-                .then(function(response) {
-                    if (ctrl.documento === response.data.documento) {
-                        ctrl.terceros = response.data;
-                        ctrl.get_tipos_avance();
-                    } else {
-                        ctrl.documento = "";
-                        ctrl.terceros = [];
-                    }
-                    console.log(ctrl.terceros);
-                });
-        };
+        ctrl.ver_seleccion = function($item, $model) {
+            ctrl.tercero = $item;
+            ctrl.tercero.dependencia = "NO APLICA";
+        }
+
+        var parametros = "";
+        academicaRequest.get(parametros)
+            .then(function(response) {
+                ctrl.terceros = response.data;
+                console.log(ctrl.terceros);
+            });
 
         ctrl.calcular_total = function() {
             ctrl.total = 0;

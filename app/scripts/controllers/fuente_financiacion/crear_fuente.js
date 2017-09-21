@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, $timeout, $window) {
+  .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
 
     var self = this;
 
@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
       self.dependencia = response.data;
     });
 
-    financieraRequest.get("tipo_documento_afectante", 'limit=-1').then(function(response) {
+    coreRequest.get("tipo_documento", 'limit=-1').then(function(response) {
       self.tipo_documento = response.data;
     });
 
@@ -242,6 +242,11 @@ angular.module('financieraClienteApp')
           }
         }
       }
+      for (var i = 0; i < self.tipo_documento.length; i++) {
+        if (self.tipo_documento[i].Id==self.nueva_fuente_apropiacion.tipo_documento) {
+          self.nombre_tipo_documento= self.tipo_documento[i].Nombre;
+        }
+      }
     };
 
     self.cerrar_ventana = function() {
@@ -312,10 +317,8 @@ angular.module('financieraClienteApp')
       var data = {
         Valor: parseInt(valor),
         Fecha: self.fecha,
-        TipoDocumento: {
-          Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
-        },
-        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
+        TipoDocumento: parseInt(self.nueva_fuente_apropiacion.tipo_documento),
+        NoDocumento: parseInt(self.nueva_fuente_apropiacion.no_documento),
         FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
         TipoMovimiento: {
           Id: parseInt(tipo)

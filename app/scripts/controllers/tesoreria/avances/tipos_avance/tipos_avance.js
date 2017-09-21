@@ -77,9 +77,9 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Referencia',
-                    displayName: $translate.instant('REFERENCIA'),
-                    cellTemplate: '<div align="center">{{row.entity.Referencia}}</div>',
+                    field: 'CodigoAbreviacion',
+                    displayName: $translate.instant('CODIGO_ABREVIACION'),
+                    cellTemplate: '<div align="center">{{row.entity.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
                 {
@@ -93,9 +93,9 @@ angular.module('financieraClienteApp')
                     width: '45%',
                 },
                 {
-                    field: 'Estado',
-                    displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.Estado}}</div>',
+                    field: 'Activo',
+                    displayName: $translate.instant('ACTIVO'),
+                    cellTemplate: '<div align="center" ng-if="row.entity.Activo">{{\'SI\' | translate }}</div><div align="center" ng-if="!row.entity.Activo">{{\'NO\' | translate }}</div>',
                     width: '10%',
                 },
                 {
@@ -143,6 +143,7 @@ angular.module('financieraClienteApp')
                     ctrl.grid_option_requisito.data = response.data;
                 });
         };
+
         ctrl.update_config = function() {
             financieraRequest.get("requisito_avance", $.param({
                     limit: -1,
@@ -178,7 +179,6 @@ angular.module('financieraClienteApp')
         };
         ctrl.get_all_avances();
 
-
         ctrl.anadir_requisito = function() {
             var data = {
                 TipoAvance: {
@@ -206,7 +206,6 @@ angular.module('financieraClienteApp')
 
         $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
-            console.log(row);
             switch (operacion) {
                 case "ver":
                     ctrl.row_entity = row.entity;
@@ -215,18 +214,19 @@ angular.module('financieraClienteApp')
                     $('#modalVer').modal('show');
                     break;
                 case "add":
-                    ctrl.tipo_avance.Referencia = "";
+                    ctrl.tipo_avance.CodigoAbreviacion = "";
                     ctrl.tipo_avance.Nombre = "";
                     ctrl.tipo_avance.Descripcion = "";
                     $('#myModal').modal('show');
                     break;
                 case "edit":
                     ctrl.row_entity = row.entity;
-                    ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
+                    ctrl.tipo_avance.CodigoAbreviacion = ctrl.row_entity.CodigoAbreviacion;
                     ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
                     ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
-                    ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
+                    ctrl.tipo_avance.Activo = ctrl.row_entity.Activo;
                     ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
+                    console.log(ctrl.tipo_avance);
                     $('#myModal').modal('show');
                     break;
                 case "delete":
@@ -241,10 +241,11 @@ angular.module('financieraClienteApp')
                 default:
             }
         };
+
         ctrl.delete_tipo = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Referencia,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -256,25 +257,25 @@ angular.module('financieraClienteApp')
                         if (response.status === 200) {
                             swal(
                                 $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
                             ctrl.get_all_avances();
                         }
                     });
-            })
-
+            });
         };
+
         ctrl.add_edit = function() {
             var data = {};
             switch (ctrl.operacion) {
                 case 'edit':
                     data = {
                         Id: ctrl.row_entity.Id,
-                        Referencia: ctrl.tipo_avance.Referencia,
+                        CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
                         Descripcion: ctrl.tipo_avance.Descripcion,
-                        Estado: ctrl.tipo_avance.Estado,
+                        Activo: ctrl.tipo_avance.Activo,
                         FechaRegistro: ctrl.tipo_avance.FechaRegistro,
                     };
                     console.log(data);
@@ -283,7 +284,7 @@ angular.module('financieraClienteApp')
                             if (response.status === 200) {
                                 swal(
                                     $translate.instant('ACTUALIZADO'),
-                                    ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ACTUALIZADO'),
+                                    ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ACTUALIZADO'),
                                     'success'
                                 );
                                 ctrl.get_all_avances();
@@ -292,9 +293,10 @@ angular.module('financieraClienteApp')
                     break;
                 case 'add':
                     data = {
-                        Referencia: ctrl.tipo_avance.Referencia,
+                        CodigoAbreviacion: ctrl.tipo_avance.CodigoAbreviacion,
                         Nombre: ctrl.tipo_avance.Nombre,
-                        Descripcion: ctrl.tipo_avance.Descripcion
+                        Descripcion: ctrl.tipo_avance.Descripcion,
+                        Activo: true
                     };
                     financieraRequest.post("tipo_avance", data)
                         .then(function(info) {

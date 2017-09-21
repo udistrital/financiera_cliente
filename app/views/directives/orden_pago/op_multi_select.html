@@ -1,0 +1,17 @@
+<div ng-show="outputvisible">
+  <select ng-model="tiponomina" class="form-control" required>
+    <option value="">Seleccionar Nomina</option>
+    <option value="PROVEEDOR">PROVEEDOR</option>
+    <option value="PLANTA">PLANTA</option>
+  </select>
+
+  <div class="panel-body">
+    <div ng-if="!refresh" ui-grid="d_opMultiSelect.gridOptions_op" ui-grid-selection ui-grid-auto-resize></div>
+  </div>
+
+  <div align="center">
+    <a class="btn btn-info btn-outline" ng-click="d_opMultiSelect.confirmar()">
+      {{ 'BTN.CONFIRMAR' | translate }}
+    </a>
+  </div>
+</div>

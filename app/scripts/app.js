@@ -18,7 +18,6 @@ angular
         'ngResource',
         'ngSanitize',
         'ngRoute',
-        'ngTouch',
         'afOAuth2',
         'treeControl',
         'ngMaterial',
@@ -40,8 +39,9 @@ angular
         'pascalprecht.translate',
         'ui.grid.expandable',
         'ui.grid.pinning',
+        'ui.select',
         // Servicios
-        'avancesService',
+        'academicaService',
         'financieraService',
         'financieraMidService',
         'administrativaService',
@@ -54,7 +54,6 @@ angular
         'titanService',
         'pagosService',
         'financieraNotificacion',
-        'avancesService',
         'arkaService',
         'configuracionService'
     ])
@@ -62,8 +61,11 @@ angular
 .run(function(amMoment) {
         amMoment.changeLocale('es');
     })
-    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+    .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
+        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';        
+        uiSelectConfig.theme = 'select2';
+        uiSelectConfig.resetSearchInput = true;
+        uiSelectConfig.appendToBody = true;
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
@@ -269,6 +271,11 @@ angular
                 templateUrl: 'views/orden_pago/seguridad_social/op_seguridad_social_ver_por_id.html',
                 controller: 'OpSeguridadSocialVerPorIdCtrl',
                 controllerAs: 'opSeguridadSocialVerPorId'
+            })
+            .when('/orden_pago/giros/ver_todos', {
+              templateUrl: 'views/orden_pago/giros/giros_view_all.html',
+              controller: 'OpGirosViewAllCtrl',
+              controllerAs: 'opGirosViewAll'
             })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
