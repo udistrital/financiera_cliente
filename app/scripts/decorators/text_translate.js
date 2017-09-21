@@ -580,20 +580,40 @@ var text_en = {
 };
 
 //
-var keys = [], k, i, len;
-for (k in text_en.BTN) {
-  if (text_en.BTN.hasOwnProperty(k)) {
-    keys.push(k);
+function ordenar(p_objeto){
+  var keys = [], k, i, len;
+  for (k in p_objeto) {
+    if (p_objeto.hasOwnProperty(k)) {
+      keys.push(k);
+    }
+  }
+  keys.sort();
+  len = keys.length;
+
+  for (i = 0; i < len; i++) {
+    k = keys[i];
+    console.log(k + ':' + ' "' + p_objeto[k] + '",');
   }
 }
-keys.sort();
-len = keys.length;
 
-for (i = 0; i < len; i++) {
-  k = keys[i];
-  console.log(k + ':' + ' "' + text_en.BTN[k] + '",');
+function comparar(p_objeto1, p_objeto2){
+  for (var key in p_objeto1){
+    var esta_key = false;
+    if (p_objeto1.hasOwnProperty(key)){
+      console.log(key);
+      //correr dos
+      for (var key_2 in p_objeto2){
+        if (p_objeto2.hasOwnProperty(key_2) && key_2 == key){
+          console.log("      Esta");
+        }
+      }
+    // --
+    }
+  }
 }
-//
+
+//ordenar(text_en)
+comparar(text_es.BTN, text_en.BTN)
 
 
 
