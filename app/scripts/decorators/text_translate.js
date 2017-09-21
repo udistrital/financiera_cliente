@@ -327,7 +327,7 @@ var text_es = {
   SEDE: "Sede",
   SEGUDIDAD_SOCIAL: "Seguridad Social",
   SEGUNADA: "Segunda",
-  SEGURO:  //Rubro"Seguro",
+  SEGURO:  "Seguro",
   SELECCIONAR: "Seleccionar",
   SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
