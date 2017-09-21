@@ -46,7 +46,7 @@ angular.module('financieraClienteApp')
         
         self.cargar_arbol = function() {
           $scope.arbol = [];
-          financieraRequest.get("apropiacion/ArbolApropiaciones/"+$scope.vigencia, "").then(function(response) {
+          financieraRequest.get("rubro/ArbolRubros/", "").then(function(response) {
             
             if (response.data !== null) {
               $scope.arbol = response.data;
@@ -64,12 +64,39 @@ angular.module('financieraClienteApp')
                   $("#myModal").modal();
                   self.apropiacionsel = null;
                   self.apropiacionsel = nodo;
-                  financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                  self.apropiacionsel.Apropiacion = null;
+                  if (nodo.Hijos == null){
+                    financieraRequest.get("apropiacion", $.param({
+                      query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                    })).then(function(response) {
+                      
+                      if (response.data !== null) {
+                        console.log(response.data);
+                        self.apropiacionsel.Apropiacion = response.data[0];
+                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                            self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                          }
+                        });
+                      }
+                    });
                     
-                    if (response.data !== null) {
-                      self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
-                    }
-                  });
+                  }else{
+                    financieraRequest.get("apropiacion/SaldoApropiacionPadre/"+self.apropiacionsel.Id, $.param({
+                      UnidadEjecutora: 1,
+                      Vigencia: $scope.vigencia
+                    })).then(function(response) {
+                      
+                      if (response.data !== null) {
+                        console.log(response.data);
+                        self.apropiacionsel.Apropiacion={Vigencia: $scope.vigencia};
+                        self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                      }
+                    });
+                  }
+                  
+                  
                   break;
               case "add":
                   break;
@@ -109,14 +136,14 @@ angular.module('financieraClienteApp')
         }, true);
         
         
-        $scope.$watch("vigencia", function() {
+        /*$scope.$watch("vigencia", function() {
           self.cargar_arbol();
           if ($scope.filtro !== '' && $scope.filtro !== undefined){
             self.expandAllNodes($scope.arbol);
           }else{
             self.expandedNodes.length = 0;
           }
-        }, true);
+        }, true);*/
 
         $scope.$watch("recargar", function() {
           self.cargar_arbol();

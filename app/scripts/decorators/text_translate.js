@@ -149,6 +149,7 @@ var text_es = {
   E_OPP_UPD_05: "Error al intentar Actualizar los campos de movimientos contables relacionados a la Orden de pago. ",
   E_RP001: "El valor solicitado supera el saldo del RP en el rubro solicitado",
   E_RP002: "No se pudo cambiar el estado de la solicitud",
+  E_AP001: "Este rubro no tiene apropiacion asignada para la vigencia seleccionada.",
   FACTURA: "Factura",
   FACULTAD: "Facultad",
   FECHA: "Fecha",
