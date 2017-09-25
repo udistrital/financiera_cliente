@@ -3,13 +3,36 @@
       <h2 class="page-header" align="center">{{"PLANEACION_APROBACION_INICIAL" | translate}}</h2>
 
   <div class="panel-body col-md-6">
-     <apropiacion-consulta botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
+     <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
   </div>
   <div class="panel-body  col-md-6">
     <div class="panel panel-info panel-body">
         <div class="panel panel-heading">
             <h4 class="text-center panel-title">{{"CONSULTA_APROBACION_INICIAL" | translate}}</h4>
         </div>
+        <center>
+            <table class="table">
+                <tr>
+                    <th>
+                        {{"RUBRO" | translate}} 
+                    </th>
+                    <th>
+                        {{'APROPIACION_INICIAL'|translate}}
+                    </th>
+                    
+                </tr>
+                <tr ng-repeat="infoap in rubroApropiacionPlaneacion.InfoAprobacion">
+                    <td>
+                        {{infoap.Codigo + "/" + infoap.Nombre}}
+                    </td>
+                    <td>
+                        {{infoap.SaldoInicial | currency}}
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.comprobarSuma(rubroApropiacionPlaneacion.InfoAprobacion)">{{'APROBAR'|translate}}</button>
+        </center>
+        
     </div>
    </div>
 </div>

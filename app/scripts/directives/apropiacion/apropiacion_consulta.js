@@ -22,10 +22,12 @@ angular.module('financieraClienteApp')
         vigencia: '=?',
         botones: '=?',
         botonespadre: '=?',
+        datachangeevent : '=?'
       },
       templateUrl: 'views/directives/apropiacion/apropiacion_consulta.html',
       controller:function($scope, $translate){
         var self = this;
+        $scope.datachangeevent = false;        
         console.log($scope.botonesPadre);
         self.treeOptions = {
           nodeChildren: "Hijos",
@@ -170,7 +172,7 @@ angular.module('financieraClienteApp')
 
             }
           });
-          
+          $scope.datachangeevent = !$scope.datachangeevent;
         };
 
         self.ActualizarApr = function() {
@@ -186,7 +188,7 @@ angular.module('financieraClienteApp')
 
             }
           });
-          
+          $scope.datachangeevent = !$scope.datachangeevent;
         };
         
         
