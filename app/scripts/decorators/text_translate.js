@@ -611,12 +611,7 @@ function comparar(p_objeto1, p_objeto2){
     }
   }
 }
-
-//ordenar(text_en)
-comparar(text_es.BTN, text_en.BTN)
-
-
-
+//
 angular.module('financieraClienteApp')
     .config(function($translateProvider) {
         $translateProvider
@@ -625,3 +620,6 @@ angular.module('financieraClienteApp')
         $translateProvider.preferredLanguage("es");
         $translateProvider.useSanitizeValueStrategy("sanitizeParameters");
     });
+
+    //ordenar(text_en)
+    //comparar(text_es.BTN, text_en.BTN)

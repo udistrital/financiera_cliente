@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        tipoordenpago: '=?',
+        subtipoordenpago: '=?',
         iva: '=?',
         valorbase: '=?',
         vigencia: '=?',
@@ -29,8 +29,9 @@ angular.module('financieraClienteApp')
             $scope.vigencia = parseInt(data.data);
         })
         //tipo_documentos
-        financieraRequest.get('tipo_orden_pago',
+        financieraRequest.get('sub_tipo_orden_pago',
           $.param({
+            query: "TipoOrdenPago.CodigoAbreviacion:OP-PROV",
             limit: 0
           })
         ).then(function(response) {

@@ -14,7 +14,7 @@
           <div class="form-group">
             <label for="tipo_documento" class="col-sm-4 control-label">{{'TIPO_DOCUMENTO' | translate }}</label>
             <div class="col-sm-8">
-              <select ng-model="tipoordenpago" ng-options="i.Nombre for i in d_opProveedorDetallePago.tipo_orden_pago_data" class="form-control" id="tipo_documento" required>
+              <select ng-model="subtipoordenpago" ng-options="i.Nombre for i in d_opProveedorDetallePago.tipo_orden_pago_data" class="form-control" id="tipo_documento" required>
                 <option value="">Seleccionar Documento</option>
               </select>
             </div>
@@ -79,7 +79,7 @@
           <div class="form-group">
             <label class="control-label col-sm-4">{{'TIPO_DOCUMENTO' | translate}}</label>
             <div class="col-sm-8">
-              <span class="form-control input_right">{{tipoordenpago.Nombre}}</span>
+              <span class="form-control input_right">{{subtipoordenpago.Nombre}}</span>
             </div>
           </div>
           <div class="form-group">

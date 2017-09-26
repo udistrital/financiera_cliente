@@ -98,7 +98,7 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>"
       }
-      if (self.OrdenPago.TipoOrdenPago == undefined) {
+      if (self.OrdenPago.SubTipoOrdenPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>"
       }
       if (self.OrdenPago.FormaPago == undefined) {
