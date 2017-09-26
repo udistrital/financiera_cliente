@@ -22,10 +22,12 @@ angular.module('financieraClienteApp')
         vigencia: '=?',
         botones: '=?',
         botonespadre: '=?',
+        datachangeevent : '=?'
       },
       templateUrl: 'views/directives/apropiacion/apropiacion_consulta.html',
       controller:function($scope, $translate){
         var self = this;
+        $scope.datachangeevent = false;        
         console.log($scope.botonesPadre);
         self.treeOptions = {
           nodeChildren: "Hijos",
@@ -46,7 +48,7 @@ angular.module('financieraClienteApp')
         
         self.cargar_arbol = function() {
           $scope.arbol = [];
-          financieraRequest.get("apropiacion/ArbolApropiaciones/"+$scope.vigencia, "").then(function(response) {
+          financieraRequest.get("rubro/ArbolRubros/", "").then(function(response) {
             
             if (response.data !== null) {
               $scope.arbol = response.data;
@@ -64,16 +66,65 @@ angular.module('financieraClienteApp')
                   $("#myModal").modal();
                   self.apropiacionsel = null;
                   self.apropiacionsel = nodo;
-                  financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                  self.apropiacionsel.Apropiacion = null;
+                  if (nodo.Hijos == null){
+                    financieraRequest.get("apropiacion", $.param({
+                      query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                    })).then(function(response) {
+                      
+                      if (response.data !== null) {
+                        console.log(response.data);
+                        self.apropiacionsel.Apropiacion = response.data[0];
+                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                            self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                          }
+                        });
+                      }
+                    });
                     
-                    if (response.data !== null) {
-                      self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
-                    }
-                  });
+                  }else{
+                    financieraRequest.get("apropiacion/SaldoApropiacionPadre/"+self.apropiacionsel.Id, $.param({
+                      UnidadEjecutora: 1,
+                      Vigencia: $scope.vigencia
+                    })).then(function(response) {
+                      
+                      if (response.data !== null) {
+                        console.log(response.data);
+                        self.apropiacionsel.Apropiacion={Vigencia: $scope.vigencia};
+                        self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                      }
+                    });
+                  }
+                  
+                  
                   break;
               case "add":
                   break;
               case "edit":
+                  $("#ModalEdicionApr").modal();
+                  self.apropiacionsel = nodo;
+                  self.apropiacionsel.Apropiacion = null;
+                  self.ValorAsignado = null;
+                  if (nodo.Hijos == null){
+                    financieraRequest.get("apropiacion", $.param({
+                      query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                    })).then(function(response) {
+                      
+                      if (response.data !== null) {
+                        console.log(response.data);
+                        self.apropiacionsel.Apropiacion = response.data[0];
+                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                            self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                          }
+                        });
+                      }
+                    });
+                    
+                  }
                   break;
               case "delete":
                   break;
@@ -95,6 +146,50 @@ angular.module('financieraClienteApp')
           });
 
         };
+
+        self.RegistrarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          var aprAregistrar = {};
+          var estadoapr = {};
+          var rubroapr = {};
+          estadoapr.Id = 1;
+          rubroapr.Id = parseInt(self.apropiacionsel.Id);
+          rubroapr.Nombre = self.apropiacionsel.Nombre;
+          rubroapr.Codigo = self.apropiacionsel.Codigo;
+          aprAregistrar.Vigencia = $scope.vigencia;
+          aprAregistrar.Estado = estadoapr;
+          aprAregistrar.Rubro = rubroapr;
+          aprAregistrar.Valor = self.ValorAsignado;
+          console.log(aprAregistrar);
+          financieraRequest.post('apropiacion', aprAregistrar).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+          });
+          $scope.datachangeevent = !$scope.datachangeevent;
+        };
+
+        self.ActualizarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          financieraRequest.put('apropiacion/',self.apropiacionsel.Apropiacion.Id, self.apropiacionsel.Apropiacion).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+          });
+          $scope.datachangeevent = !$scope.datachangeevent;
+        };
         
         
         $scope.$watch("filtro", function() {    
@@ -109,14 +204,14 @@ angular.module('financieraClienteApp')
         }, true);
         
         
-        $scope.$watch("vigencia", function() {
+        /*$scope.$watch("vigencia", function() {
           self.cargar_arbol();
           if ($scope.filtro !== '' && $scope.filtro !== undefined){
             self.expandAllNodes($scope.arbol);
           }else{
             self.expandedNodes.length = 0;
           }
-        }, true);
+        }, true);*/
 
         $scope.$watch("recargar", function() {
           self.cargar_arbol();
