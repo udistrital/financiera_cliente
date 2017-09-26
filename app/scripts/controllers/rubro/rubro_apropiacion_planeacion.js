@@ -20,41 +20,40 @@ angular.module('financieraClienteApp')
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.Vigencia =  parseInt(response.data)-1;
-      financieraMidRequest.get("rubro/InformacionAsignacionInicial",$.param({
+      financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
         UnidadEjecutora: 1,
         Vigencia: self.Vigencia
       })) 
       .then(function(response) { //error con el success
-        self.InfoAprobacion =  response.data;
+        self.InfoAprobacion =  response.data.Data;
+        self.Aprobado = response.data.Aprobado;
         console.log(self.InfoAprobacion);
-        console.log(self.comprobarSuma(self.InfoAprobacion));
       });
     });
 
-    self.comprobarSuma = function(infosaldos){
-      if (infosaldos !== undefined){
-        for(var i = 1; i < infosaldos.length; i++)
-        {
-            if(infosaldos[i].SaldoInicial !== infosaldos[0].SaldoInicial){
-              return false;
-            }
-                
+    self.AprobarPresupuesto = function(){
+      
+      financieraMidRequest.post("aprobacion_apropiacion/AprobacionAsignacionInicial?UnidadEjecutora=1&Vigencia="+self.Vigencia,self.InfoAprobacion)
+      .then(function(response) { //error con el success
+        console.log(response.data);
+        if (response.data.Type !== undefined){
+          
+            swal('',$translate.instant(response.data.Code),response.data.Type);
+          
+
         }
-    
-        return true;
-      }
-     return false;
+      });
     };
 
     $scope.$watch("datachangeevent", function() {  
       if (self.Vigencia !== undefined && self.Vigencia !== null){
-        financieraMidRequest.get("rubro/InformacionAsignacionInicial",$.param({
+        financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
           UnidadEjecutora: 1,
           Vigencia: self.Vigencia
         })) 
         .then(function(response) { //error con el success
-          self.InfoAprobacion =  response.data;
-          console.log(self.comprobarSuma(self.InfoAprobacion));
+          self.InfoAprobacion =  response.data.Data;
+          self.Aprobado = response.data.Aprobado;
         });
       }
       
