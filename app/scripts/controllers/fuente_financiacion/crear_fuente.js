@@ -318,7 +318,7 @@ angular.module('financieraClienteApp')
         Valor: parseInt(valor),
         Fecha: self.fecha,
         TipoDocumento: parseInt(self.nueva_fuente_apropiacion.tipo_documento),
-        NoDocumento: parseInt(self.nueva_fuente_apropiacion.no_documento),
+        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
         FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
         TipoMovimiento: {
           Id: parseInt(tipo)

@@ -18,7 +18,6 @@ angular
         'ngResource',
         'ngSanitize',
         'ngRoute',
-        'ngTouch',
         'afOAuth2',
         'treeControl',
         'ngMaterial',
@@ -40,7 +39,9 @@ angular
         'pascalprecht.translate',
         'ui.grid.expandable',
         'ui.grid.pinning',
+        'ui.select',
         // Servicios
+        'academicaService',
         'financieraService',
         'financieraMidService',
         'administrativaService',
@@ -60,8 +61,11 @@ angular
 .run(function(amMoment) {
         amMoment.changeLocale('es');
     })
-    .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
-        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
+    .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
+        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';        
+        uiSelectConfig.theme = 'select2';
+        uiSelectConfig.resetSearchInput = true;
+        uiSelectConfig.appendToBody = true;
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {

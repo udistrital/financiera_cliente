@@ -8,50 +8,27 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroApropiacionConsultaCtrl', function (financieraRequest){
+  .controller('RubroRubroApropiacionConsultaCtrl', function (financieraRequest,$translate){
     var self = this;
-    self.message = 'Apropiacion de la vigencia';
-    self.gridOptions = {
-      enableFiltering : false,
-      enableSorting : true,
-      treeRowHeaderAlwaysVisible : false,
-      showTreeExpandNoChildren: true,
-      rowEditWaitInterval :-1,
-      columnDefs : [
-        {field: 'Id',               visible : false},
-        {field: 'Rubro.Codigo',     width: '18%', enableSorting : false,     cellClass:'alignleft',  displayName: 'Código'},
-        {field: 'Vigencia',         width: '7%'},
-        {field: 'Rubro.Descripcion',width: '44%', resizable : true,           displayName: 'Descripción'},
-        {field: 'Estado.Nombre',    width: '16%',  displayName: 'Estado',  enableCellEdit: false},
-        {field: 'Valor',            width: '15%', cellFilter: 'currency'},
-        {field: 'Saldo',            width: '15%', cellFilter: 'currency'}
-      ],
-      onRegisterApi: function(gridApi){ self.gridApi = gridApi;}
-
-    };
-
-    self.cargarSaldos = function(){
-      angular.forEach(self.gridOptions.data, function(data){
-        financieraRequest.get('apropiacion/SaldoApropiacion/'+data.Id,'').then(function(response) {
-
-          //console.log(response.data);
-          data.Saldo = response.data;
-        });
-        });
+    self.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+    ];
+    self.botonespadre = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+    ];
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.vigenciaActual = parseInt(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
       }
-
-
-
-    financieraRequest.get('apropiacion','limit=0').then(function(response) {
-      self.gridOptions.data = response.data;
-      self.cargarSaldos();
-    })
-
-    //self.gridApi.core.refresh();
-    self.actualiza_rubros = function () {
-      financieraRequest.get('apropiacion','limit=0&query=vigencia%3A' + self.selectVigencia).then(function(response) {
-        self.gridOptions.data = response.data;
-      });
-      };
-
+      self.years = range;
+      self.Vigencia = self.years[0];
+    });
+    
+    
   });

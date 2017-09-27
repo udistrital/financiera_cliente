@@ -16,11 +16,7 @@
      return {
 
        get: function (parametros) {
-         return $http.get(path, {params: parametros}).then(function(response){
-           var json = response.data.split("<json>");
-           var jsonObj = JSON.parse(json[1]);
-           return jsonObj;
-         });
+         return $http.get(path, {params: parametros});
 
        },
        post: function (tabla,elemento) {
