@@ -13,7 +13,6 @@ angular.module('financieraClienteApp')
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
-    //self.OrdenPago.RegistroPresupuestal = {'Id': 56};
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.ConceptoOrdenPago = [];
@@ -24,7 +23,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
-      .then(function(data) { //error con el success
+      .then(function(data) {
         self.Vigencia = parseInt(data.data);
       })
     // functions
@@ -63,9 +62,6 @@ angular.module('financieraClienteApp')
     }
     // Insert Orden Pago
     self.addOpProveedor = function() {
-      self.OrdenPago.EstadoOrdenPago = {};
-      self.OrdenPago.Nomina = '';
-      //
       self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
       self.dataOrdenPagoInsert = {};
