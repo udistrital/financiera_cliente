@@ -15,11 +15,11 @@ angular.module('financieraClienteApp')
     self.OrdenPagoConsulta = {};
     self.RubrosObjIds = null;
     self.Concepto = [];
-    self.ConceptoOrdenPago = [];
     self.dataOrdenPagoInsert = {};
+    self.ConceptoOrdenPago = [];
     self.MovimientoContableConceptoOrdenPago = [];
-    self.MensajesAlerta = null;
     self.TotalAfectacion = null;
+    self.MensajesAlerta = null;
     self.PestanaAbierta = true;
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
@@ -62,7 +62,6 @@ angular.module('financieraClienteApp')
     }
     // Insert Orden Pago
     self.addOpProveedor = function() {
-      self.OrdenPago.PersonaElaboro = 1;
       // trabajar estructura de conceptos
       self.dataOrdenPagoInsert = {};
       self.ConceptoOrdenPago = [];
@@ -76,6 +75,7 @@ angular.module('financieraClienteApp')
       self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
       self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
       self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
+      self.dataOrdenPagoInsert.Usuario = {'Id': 1};
       //console.log("Estructura para enviar")
       //console.log(self.dataOrdenPagoInsert)
       // validar campos obligatorios en el formulario orden Pago y se inserta registro
@@ -106,9 +106,6 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.ValorBase == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
       }
-      /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
-        self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
-      }*/
       if (self.Concepto == undefined || self.Concepto.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
       }
