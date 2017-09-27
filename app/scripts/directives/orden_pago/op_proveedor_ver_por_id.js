@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
           if ($scope.opproveedorid != undefined) {
             financieraRequest.get('orden_pago',
               $.param({
-                query: "Id:" + $scope.opproveedorid,
+                query: "Id:" + $scope.opproveedorid + ',SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:OP-PROV',
               })).then(function(response) {
               self.orden_pago = response.data;
               $scope.outputopp = response.data[0];
