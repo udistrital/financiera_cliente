@@ -3,8 +3,9 @@ node_js:
   - 1.6
 
 before_script:
-  - npm install -g bower
-  - bower install
+  - npm install
+  - npm install grunt-cli -g
 
 script:
-  - npm run test-single-run
+  #- npm run test-single-run
+  - npm run build
