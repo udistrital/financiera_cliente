@@ -67,7 +67,7 @@ angular.module('financieraClienteApp')
                 });
 
                 self.resumen_afectacion_presupuestal.push(self.rubros_afectados);
-
+                console.log(self.resumen_afectacion_presupuestal);
               });
 
             });

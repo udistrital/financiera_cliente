@@ -52,11 +52,11 @@ angular.module('financieraClienteApp')
 
     self.cargarListaAnulaciones();
 
-    Array.prototype.indexOfOld = Array.prototype.indexOf
+    Array.prototype.indexOfOld = Array.prototype.indexOf;
 
     Array.prototype.indexOf = function(e, fn) {
       if (!fn) {
-        return this.indexOfOld(e)
+        return this.indexOfOld(e);
       } else {
         if (typeof fn === 'string') {
           var att = fn;
@@ -87,7 +87,7 @@ angular.module('financieraClienteApp')
           resumen.push(dispapr);
         }
 
-      });
+      });    
       return resumen;
     };
 
