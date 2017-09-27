@@ -32,43 +32,40 @@
             <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && requisitos.add_edit()">
                 <br>
                 <div class="row">
-                    <label for="referencia" class="col-sm-2 control-label">{{'REFERENCIA' | translate }}:</label>
+                    <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ABREVIACION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="referencia" type="text" ng-model="requisitos.tipo_avance.Referencia" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.CodigoAbreviacion" class="form-control" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="referencia" type="text" ng-model="requisitos.tipo_avance.Nombre" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.Nombre" class="form-control" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <textarea name="descripcion" ng-model="requisitos.tipo_avance.Descripcion" rows=7 class="form-control" required="true"></textarea>
+                        <textarea name="descripcion" ng-model="requisitos.row_entity.Descripcion" rows=7 class="form-control" required="true"></textarea>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'ETAPA' | translate }}:</label>
                     <div class="col-sm-9">
-                        <select name="estado" ng-model="requisitos.tipo_avance.Etapa" class="form-control">
-               <option value="solicitar">{{'SOLICITUD' | translate}}</option>
-               <option value="legalizar">{{'LEGALIZACION' | translate}}</option>
-            </select>
+                        <select name="estado" ng-model="requisitos.row_entity.Etapa.Id" class="form-control">
+                            <option ng-repeat="etapa in requisitos.etapas" ng-value="etapa.Id">{{etapa.Nombre}}</option>
+                        </select>
                     </div>
                 </div>
                 <br>
                 <div class="row" ng-if="requisitos.operacion ==='edit'">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'ESTADO' | translate }}:</label>
+                    <label for="descripcion" class="col-sm-2 control-label">{{'ACTIVO' | translate }}:</label>
                     <div class="col-sm-9">
-                        <select name="estado" ng-model="requisitos.tipo_avance.Estado" class="form-control">
-               <option value="A">{{"ACTIVO" | translate }}</option>
-               <option value="I">{{"INACTIVO" | translate }}</option>
-            </select>
+                        <md-checkbox ng-model="requisitos.row_entity.Activo" class="blue">
+                        </md-checkbox>
                     </div>
                 </div>
                 <br>
