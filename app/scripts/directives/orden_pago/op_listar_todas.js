@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function(financieraRequest, agoraRequest, $location, $translate) {
+  .directive('opListarTodas', function(financieraRequest, agoraRequest, $location, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       /*scope:{
@@ -49,7 +49,12 @@ angular.module('financieraClienteApp')
           {
             field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
             width: '8%',
-            displayName: $translate.instant('TIPO')
+            displayName: $translate.instant('TIPO'),
+            filter: {
+              term: 'OP-PROV',
+              type: uiGridConstants.filter.SELECT,
+              selectOptions: [{value: 'OP-PROV', label: 'OP-PROV'},{value: 'OP-PLAN', label: 'OP-PLAN'} ]
+            }
           },
           {
             field: 'Vigencia',
