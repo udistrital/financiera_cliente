@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("solicitud_disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $window, uiGridConstants,uiGridService) {
+  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
     self.message = 'Solicitudes de Disponibilidad Presupuestal';
@@ -40,6 +40,15 @@ angular.module('financieraClienteApp')
 
 
     });
+    
+    self.cragarDatos = function(){
+    	financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
+        self.gridOptions.data.length = 0;
+        self.gridOptions.data = response.data;
+  
+  
+      });
+    };
     //-------------------------------
     self.limpiar_alertas= function(){
       self.alerta_registro_cdp = "";
@@ -65,24 +74,16 @@ angular.module('financieraClienteApp')
           console.log(solicitud[i]);
         }
         financieraMidRequest.post('disponibilidad/', solicitud).then(function(response){
-          self.alerta_registro_cdp = response.data;
-          angular.forEach(self.alerta_registro_cdp, function(data){
-            if (data === "error" || data === "success" || data == undefined){
+            if (response.data[0].Type !== undefined){
+              if (response.data[0].Type === "error"){
+                swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
+              }else{
+                swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type);
+              }
 
-            }else{
-              self.alerta = self.alerta + data + "\n";
             }
-
-
-          });
-          swal("Alertas", self.alerta, self.alerta_registro_cdp[0]).then(function(){
-
-                self.alerta = "";
-                $("#myModal").modal('hide');
-                $window.location.reload();
-              });
           //alert(data);
-        });
+          });
     };
     self.gridOptions.multiSelect = false;
     //ver el detalle de la solicitud
@@ -94,7 +95,7 @@ angular.module('financieraClienteApp')
           $scope.apropiaciones = [];
       		self.data = row.entity;
           console.log(self.data);
-        argoRequest.get('fuente_financiacion_rubro_necesidad','query=SolicitudNecesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
+        argoRequest.get('fuente_financiacion_rubro_necesidad','query=Necesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
 
           angular.forEach(response.data, function(data){
             if($scope.apropiaciones.indexOf(data.Apropiacion) !== -1) {
