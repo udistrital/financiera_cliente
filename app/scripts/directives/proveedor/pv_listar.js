@@ -11,8 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        proveedor: '=',
-        inputpestanaabierta: '=?'
+        inputpestanaabierta: '=?',
+        outputproveedor: '='
       },
 
       templateUrl: 'views/directives/proveedor/pv_listar.html',
@@ -39,7 +39,7 @@ angular.module('financieraClienteApp')
             {
               field: 'NumDocumento',
               displayName: $translate.instant('NO_DOCUMENTO'),
-              width:'21%',
+              width: '21%',
               cellClass: 'input_center'
             },
             {
@@ -49,7 +49,7 @@ angular.module('financieraClienteApp')
             {
               field: 'Tipopersona',
               displayName: $translate.instant('TIPO_PERSONA'),
-              width:'20%'
+              width: '20%'
             }
           ]
         };
@@ -66,17 +66,17 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.proveedor = row.entity
+            $scope.outputproveedor = row.entity
             // datos banco
-            self.get_info_banco($scope.proveedor.IdEntidadBancaria)
+            self.get_info_banco($scope.outputproveedor.IdEntidadBancaria)
             // dato telefono
-            self.get_tel_provee($scope.proveedor.Id)
+            self.get_tel_provee($scope.outputproveedor.Id)
           });
         };
         self.gridOptions_proveedor.multiSelect = false;
         //
         $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta){
+          if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
         })

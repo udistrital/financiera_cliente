@@ -8,15 +8,15 @@
 
     <!--Proveedor -->
     <pv-listar
-      proveedor="opCrear.OrdenPagoConsulta.Proveedor"
-      inputpestanaabierta="opCrear.PestanaAbierta">
+      inputpestanaabierta="opCrear.PestanaAbierta"
+      outputproveedor="opCrear.OrdenPagoConsulta.Proveedor">
     </pv-listar>
 
     <!--RP-->
     <rp-por-proveedor-listar
-      beneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id"
-      rpselect="opCrear.OrdenPago.RegistroPresupuestal"
-      inputpestanaabierta="opCrear.PestanaAbierta">
+      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputbeneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id"
+      outputrpselect="opCrear.OrdenPago.RegistroPresupuestal">
     </rp-por-proveedor-listar>
 
     <!--Entrada Almacen -->
