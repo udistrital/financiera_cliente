@@ -30,12 +30,12 @@
     <!--detalle pago -->
     <op-proveedor-detalle-pago
       inputpestanaabierta="opCrear.PestanaAbierta"
-      subtipoordenpago="opCrear.OrdenPago.SubTipoOrdenPago"
-      formapago="opCrear.OrdenPago.FormaPago"
-      iva="opCrear.OrdenPago.Iva"
-      valorbase="opCrear.OrdenPago.ValorBase"
-      valorbruto="opCrear.OrdenPagoConsulta.ValorBruto"
-      vigencia="opCrear.OrdenPago.Vigencia">
+      inputproveedor="opCrear.OrdenPagoConsulta.Proveedor.NumDocumento"
+      outputsubtipoordenpago="opCrear.OrdenPago.SubTipoOrdenPago"
+      outputformapago="opCrear.OrdenPago.FormaPago"
+      outputentradaalmacen = "opCrear.OrdenPago.EntradaAlmacen"
+      outputvigencia="opCrear.OrdenPago.Vigencia"
+      outputvalorbase="opCrear.OrdenPago.ValorBase">
     </op-proveedor-detalle-pago>
     <!--Rubros-->
     <rubros-por-rp-seleccion-multiple
