@@ -19,10 +19,80 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller: function($scope) {
         var self = this;
+
         self.gridOptions_rubros = {
-          enableRowSelection: true,
-          enableRowHeaderSelection: true,
+          enableRowSelection: false,
+          multiSelect: false,
+          enableRowHeaderSelection: false,
+
+          paginationPageSizes: [10, 50, 100],
+          paginationPageSize: null,
+
+          enableFiltering: true,
           enableSelectAll: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
+          // inicio sub tabla
+          expandableRowTemplate: 'expandableRowUpc.html',
+          expandableRowHeight: 100,
+          onRegisterApi: function(gridApi) {
+            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
+              if (row.isExpanded) {
+                gridApi.selection.clearSelectedRows();
+                row.entity.subGridOptions = {
+                  multiSelect: true,
+                  columnDefs: [{
+                      field: 'Id',
+                      visible: false,
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'Codigo',
+                      displayName: $translate.instant('CODIGO'),
+                      enableCellEdit: false,
+                      width: '10%',
+                      cellClass: 'input_center'
+                    },
+                    {
+                      field: 'Nombre',
+                      displayName: $translate.instant('NOMBRE'),
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'Descripcion',
+                      displayName: $translate.instant('DESCRIPCION'),
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'TipoConcepto.Nombre',
+                      displayName: $translate.instant('TIPO'),
+                      enableCellEdit: false,
+                      width: '10%',
+                    },
+                  ],
+                  onRegisterApi: function(gridApi) {
+                    self.gridApi = gridApi;
+                    gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
+                      $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
+                    });
+                  }
+                };
+                //
+                financieraRequest.get('concepto',
+                  $.param({
+                    query: "Rubro.Id:" + row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
+                    limit: 0
+                  })
+                ).then(function(response) {
+                  row.entity.subGridOptions.data = response.data;
+                });
+              } // if
+            });
+          },
+          // fin sub tabla
           columnDefs: [{
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -68,31 +138,13 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-        self.gridOptions_rubros.multiSelect = true;
-        //
-        self.gridOptions_rubros.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
-          });
-        };
-        // refrescar
-        self.refresh = function() {
-          $scope.refresh = true;
-          $timeout(function() {
-            $scope.refresh = false;
-          }, 0);
-        };
-        //
         $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta){
+          if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
         })
         //
         $scope.$watch('rpid', function() {
-          //self.refresh();
           if ($scope.rpid != undefined) {
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
@@ -101,7 +153,6 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               self.gridOptions_rubros.data = response.data;
-              $scope.gridHeight = self.gridOptions_rubros.rowHeight * 2 + (self.gridOptions_rubros.data.length * self.gridOptions_rubros.rowHeight);
               // get saldos de lor rp
               angular.forEach(self.gridOptions_rubros.data, function(data) {
                 var rpData = {

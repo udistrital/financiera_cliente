@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     var self = this;
     self.OrdenPago = {};
     self.OrdenPagoConsulta = {};
+    self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.dataOrdenPagoInsert = {};
