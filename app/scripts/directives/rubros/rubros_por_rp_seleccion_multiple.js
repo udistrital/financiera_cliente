@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        inputpestanaabierta: '=?'
+        inputpestanaabierta: '=?',
         inputrpid: '=?',
         outputconceptos: '=?'
       },
