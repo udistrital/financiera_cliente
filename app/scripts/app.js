@@ -238,7 +238,7 @@ angular
                 controllerAs: 'opViewAll'
             })
             .when('/orden_pago/proveedor/ver/:Id', {
-                templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+                templateUrl: 'views/orden_pago/proveedor/op_proveedor_ver_por_id.html',
                 controller: 'OpProveedorVerPorIdCtrl',
                 controllerAs: 'opProveedorVerPorId'
             })
