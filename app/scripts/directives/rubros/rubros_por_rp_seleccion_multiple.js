@@ -11,9 +11,9 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        rpid: '=?',
-        rubrosobj: '=?',
         inputpestanaabierta: '=?'
+        inputrpid: '=?',
+        outputconceptos: '=?'
       },
 
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
@@ -76,7 +76,7 @@ angular.module('financieraClienteApp')
                   onRegisterApi: function(gridApi) {
                     self.gridApi = gridApi;
                     gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
-                      $scope.rubrosobj = self.gridApi.selection.getSelectedRows();
+                      $scope.outputconceptos = self.gridApi.selection.getSelectedRows();
                     });
                   }
                 };
@@ -144,11 +144,11 @@ angular.module('financieraClienteApp')
           }
         })
         //
-        $scope.$watch('rpid', function() {
-          if ($scope.rpid != undefined) {
+        $scope.$watch('inputrpid', function() {
+          if ($scope.inputrpid != undefined) {
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
-                query: "RegistroPresupuestal.Id:" + $scope.rpid,
+                query: "RegistroPresupuestal.Id:" + $scope.inputrpid,
                 limit: 0
               })
             ).then(function(response) {
