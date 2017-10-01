@@ -62,7 +62,7 @@ angular
         amMoment.changeLocale('es');
     })
     .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
-        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';        
+        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
         uiSelectConfig.theme = 'select2';
         uiSelectConfig.resetSearchInput = true;
         uiSelectConfig.appendToBody = true;
@@ -228,7 +228,7 @@ angular
         })
 
         .when('/orden_pago/proveedor/crear', {
-                templateUrl: 'views/orden_pago/op_crear.html',
+                templateUrl: 'views/orden_pago/proveedor/op_crear.html',
                 controller: 'OrdenPagoOpCrearCtrl',
                 controllerAs: 'opCrear'
             })
