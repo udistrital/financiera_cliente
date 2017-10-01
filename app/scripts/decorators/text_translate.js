@@ -289,6 +289,7 @@ var text_es = {
   OBJETO_CONTRACTUAL: "Objeto Contractual ",
   OBSERVACIONES: "Observaciones",
   OFICIO: "Oficio No.",
+  OP_TITULO: "Ordenes de Pago",
   OPERACION: "Operación",
   OPERAR_CONCEPTO: "Operar Concepto",
   ORDENADOR_GASTO: "Ordenador del Gasto",
