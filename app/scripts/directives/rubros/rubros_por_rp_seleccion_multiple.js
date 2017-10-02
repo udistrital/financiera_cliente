@@ -41,7 +41,6 @@ angular.module('financieraClienteApp')
           onRegisterApi: function(gridApi) {
             gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
               if (row.isExpanded) {
-                gridApi.selection.clearSelectedRows();
                 row.entity.subGridOptions = {
                   multiSelect: true,
                   columnDefs: [{
@@ -88,6 +87,10 @@ angular.module('financieraClienteApp')
                   })
                 ).then(function(response) {
                   row.entity.subGridOptions.data = response.data;
+                  //asociar RegistroPresupuestalDisponibilidadApropiacion
+                  angular.forEach(row.entity.subGridOptions.data, function(subGridData) {
+                    subGridData.RegistroPresupuestalDisponibilidadApropiacion = row.entity.Id
+                  });
                 });
               } // if
             });
