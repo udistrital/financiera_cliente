@@ -32,7 +32,6 @@ angular.module('financieraClienteApp')
                 {
                     field: 'CodigoAbreviacion',
                     displayName: $translate.instant('CODIGO_ABREVIACION'),
-                    cellTemplate: '<center>{{row.entity.CodigoAbreviacion}}</center>',
                     width: '10%',
                 },
                 {
@@ -48,13 +47,13 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Activo',
                     displayName: $translate.instant('ACTIVO'),
-                    cellTemplate: '<center ng-if="row.entity.Activo">{{\'SI\' | translate }}</center><center ng-if="!row.entity.Activo">{{\'NO\' | translate }}</center>',
+                    cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
                     width: '6%',
                 },
                 {
                     field: 'Etapa.Nombre',
                     displayName: $translate.instant('ETAPA'),
-                    cellTemplate: '<div align="center">{{row.entity.Etapa.Nombre}}</div>',
+                    cellTemplate: '<div align="center">{{row.entity.EtapaAvance.Nombre}}</div>',
                     width: '9%',
                 },
                 {
@@ -76,16 +75,16 @@ angular.module('financieraClienteApp')
         ctrl.gridOptions.multiSelect = false;
         ctrl.get_all_avances = function() {
 
-            financieraRequest.get("etapa", $.param({
-                limit: -1,
-                query: "Activo:1",
-                sortby: "NumeroOrden",
-                order: "asc"
-            }))
-            .then(function(response) {
-                ctrl.etapas = response.data;
-                console.log(ctrl.etapas);
-            });
+            financieraRequest.get("etapa_avance", $.param({
+                    limit: -1,
+                    query: "Activo:1",
+                    sortby: "NumeroOrden",
+                    order: "asc"
+                }))
+                .then(function(response) {
+                    ctrl.etapas = response.data;
+                    console.log(ctrl.etapas);
+                });
 
             financieraRequest.get("requisito_avance", $.param({
                     limit: -1,
@@ -94,7 +93,6 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     ctrl.gridOptions.data = response.data;
-                    console.log(ctrl.gridOptions.data);
                 });
         };
 
@@ -110,9 +108,6 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.row_entity.Codigo_Abreviacion = "";
-                    ctrl.row_entity.Nombre = "";
-                    ctrl.row_entity.Descripcion = "";
                     $('#myModal').modal('show');
                     break;
                 case "edit":
@@ -159,10 +154,9 @@ angular.module('financieraClienteApp')
                         Nombre: ctrl.row_entity.Nombre,
                         Descripcion: ctrl.row_entity.Descripcion,
                         Activo: ctrl.row_entity.Activo,
-                        Etapa: ctrl.row_entity.Etapa,
+                        EtapaAvance: ctrl.row_entity.EtapaAvance,
                         FechaRegistro: ctrl.row_entity.FechaRegistro
                     };
-                    console.log(data);
                     financieraRequest.put("requisito_avance", data.Id, data)
                         .then(function(info) {
                             console.log(info);
@@ -174,8 +168,9 @@ angular.module('financieraClienteApp')
                         CodigoAbreviacion: ctrl.row_entity.CodigoAbreviacion,
                         Nombre: ctrl.row_entity.Nombre,
                         Descripcion: ctrl.row_entity.Descripcion,
-                        Etapa: ctrl.row_entity.Etapa
+                        EtapaAvance: ctrl.row_entity.EtapaAvance
                     };
+                    console.log(data);
                     financieraRequest.post("requisito_avance", data)
                         .then(function(info) {
                             console.log(info);

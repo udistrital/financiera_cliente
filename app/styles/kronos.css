@@ -43,3 +43,8 @@ md-checkbox.md-checked.blue .md-icon {
 #mynetwork {
     border: 1px solid rgba(0, 62, 101, 1);
 }
+
+.middle {
+    vertical-align: center;
+    text-align: center;
+}
