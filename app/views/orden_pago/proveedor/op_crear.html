@@ -1,36 +1,23 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
-    <!--unidad ejecutora -->
-    <!-- <ue-listar
-      unidaejecutora="opCrear.OrdenPago.UnidadEjecutora"
-      inputpestanaabierta="opCrear.PestanaAbierta">
-    </ue-listar> -->
 
     <!--Proveedor -->
     <pv-listar
       inputpestanaabierta="opCrear.PestanaAbierta"
-      outputproveedor="opCrear.OrdenPagoConsulta.Proveedor">
+      outputproveedor="opCrear.Proveedor">
     </pv-listar>
 
     <!--RP-->
     <rp-por-proveedor-listar
       inputpestanaabierta="opCrear.PestanaAbierta"
-      inputbeneficiaroid="opCrear.OrdenPagoConsulta.Proveedor.Id"
+      inputbeneficiaroid="opCrear.Proveedor.Id"
       outputrpselect="opCrear.OrdenPago.RegistroPresupuestal">
     </rp-por-proveedor-listar>
-
-    <!--Entrada Almacen -->
-    <!-- <entrada-almacen
-      inputproveedor="opCrear.OrdenPagoConsulta.Proveedor.NumDocumento"
-      inputvigencia="opCrear.Vigencia"
-      inputpestanaabierta="opCrear.PestanaAbierta"
-      outputentradaalmacenid="opCrear.OrdenPago.EntradaAlmacen">
-    </entrada-almacen> -->
 
     <!--detalle pago -->
     <op-proveedor-detalle-pago
       inputpestanaabierta="opCrear.PestanaAbierta"
-      inputproveedor="opCrear.OrdenPagoConsulta.Proveedor.NumDocumento"
+      inputproveedor="opCrear.Proveedor.NumDocumento"
       outputsubtipoordenpago="opCrear.OrdenPago.SubTipoOrdenPago"
       outputformapago="opCrear.OrdenPago.FormaPago"
       outputentradaalmacen = "opCrear.OrdenPago.EntradaAlmacen"
@@ -76,5 +63,5 @@
       </div>
     </div>
     <!--Boton Crear Orden Pago Proveedor -->
-    <center><button class="btn btn-primary" ng-click="opCrear.addOpProveedor()">Registrar</button></center>
+    <center><button class="btn btn-primary" ng-click="opCrear.registrarOpProveedor()">Registrar</button></center>
 </div>

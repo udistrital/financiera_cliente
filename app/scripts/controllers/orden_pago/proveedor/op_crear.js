@@ -11,9 +11,11 @@ angular.module('financieraClienteApp')
   .controller('OrdenPagoOpCrearCtrl', function($scope, financieraRequest, $window, $translate) {
     //
     var self = this;
+    self.PestanaAbierta = false;
     self.OrdenPago = {};
-    self.OrdenPagoConsulta = {};
+    self.Proveedor = {};
     self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
+
     self.RubrosObjIds = null;
     self.Concepto = [];
     self.dataOrdenPagoInsert = {};
@@ -21,7 +23,7 @@ angular.module('financieraClienteApp')
     self.MovimientoContableConceptoOrdenPago = [];
     self.TotalAfectacion = null;
     self.MensajesAlerta = null;
-    self.PestanaAbierta = true;
+
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
       .then(function(data) {
@@ -62,7 +64,7 @@ angular.module('financieraClienteApp')
       })
     }
     // Insert Orden Pago
-    self.addOpProveedor = function() {
+    self.registrarOpProveedor = function() {
       // trabajar estructura de conceptos
       self.dataOrdenPagoInsert = {};
       self.ConceptoOrdenPago = [];
@@ -80,16 +82,13 @@ angular.module('financieraClienteApp')
       //console.log("Estructura para enviar")
       //console.log(self.dataOrdenPagoInsert)
       // validar campos obligatorios en el formulario orden Pago y se inserta registro
-      self.validar_campos()
+      self.camposObligatorios()
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
-    self.validar_campos = function() {
+    self.camposObligatorios = function() {
       self.MensajesAlerta = '';
-      if (self.OrdenPago.UnidadEjecutora == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_UNIDAD') + "</li>"
-      }
-      if (self.OrdenPagoConsulta.Proveedor == undefined) {
+      if (Object.keys(self.Proveedor).length == 0){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>"
       }
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
@@ -101,17 +100,11 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>"
       }
-      if (self.OrdenPago.Iva == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_IVA') + "</li>"
-      }
       if (self.OrdenPago.ValorBase == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
       }
       if (self.Concepto == undefined || self.Concepto.length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
-      }
-      if (self.TotalAfectacion != self.OrdenPagoConsulta.ValorBruto) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + ". <br><b>" + $translate.instant('AFECTACION') + ": " + self.TotalAfectacion + "<br>" + $translate.instant('VALOR_PAGO') + ': ' + self.OrdenPagoConsulta.ValorBruto + "</b></li>"
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {

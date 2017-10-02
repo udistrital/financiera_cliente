@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
           enableSelectAll: true,
           enableHorizontalScrollbar: 0,
           enableVerticalScrollbar: 0,
-          minRowsToShow: 10,
+          //minRowsToShow: 10,
           useExternalPagination: false,
 
           // inicio sub tabla
@@ -51,7 +51,7 @@ angular.module('financieraClienteApp')
                     },
                     {
                       field: 'Codigo',
-                      displayName: $translate.instant('CODIGO'),
+                      displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
                       enableCellEdit: false,
                       width: '10%',
                       cellClass: 'input_center'
@@ -99,7 +99,7 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
-              displayName: $translate.instant('CODIGO'),
+              displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('RUBRO'),
               cellClass: 'input_center'
             },
             {
