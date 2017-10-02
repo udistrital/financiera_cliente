@@ -15,20 +15,15 @@ angular.module('financieraClienteApp')
     self.OrdenPago = {};
     self.Proveedor = {};
     self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
+    self.Conceptos = {};
 
     self.RubrosObjIds = null;
-    self.Concepto = [];
     self.dataOrdenPagoInsert = {};
     self.ConceptoOrdenPago = [];
     self.MovimientoContableConceptoOrdenPago = [];
     self.TotalAfectacion = null;
     self.MensajesAlerta = null;
 
-    // obtener vigencia
-    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
-      .then(function(data) {
-        self.Vigencia = parseInt(data.data);
-      })
     // functions
     self.estructurarDataSend = function(conceptos) {
       // estrurctura total afectacion y movimientos contables
@@ -103,7 +98,7 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.ValorBase == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
       }
-      if (self.Concepto == undefined || self.Concepto.length == 0) {
+      if (Object.keys(self.Conceptos).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
       }
       // Operar
