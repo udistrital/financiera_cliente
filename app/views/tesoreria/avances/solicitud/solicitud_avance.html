@@ -7,23 +7,29 @@
 
         <div class="panel-body" ng-show="info_terceros">
             <div class="row" ng-if="true">
-                <div class="col-md-2 col-md-offset-2">
+                <div class="col-md-2">
                     <label>
                          <label>{{'TERCERO' | translate}}:</label>
                     </label>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-6">
                     <ui-select ng-model="solicitudAvance.tercero.selected" theme="select2" on-select="solicitudAvance.ver_seleccion($item, $model)" style="width:100%;">
                         <ui-select-match placeholder="{{'TERCERO' | translate}}...">{{$select.selected.nombres || $select.selected }}</ui-select-match>
                         <ui-select-choices repeat="tercero in solicitudAvance.terceros | filter: $select.search">
                             <span ng-bind-html="tercero.nombres | highlight: $select.search"></span>
                             <span ng-bind-html="tercero.apellidos | highlight: $select.search"></span><br>
                             <small>
-                                Correo electrónico: {{tercero.correo}}
+                                Correo electrónico {{tercero.correo}}
                                 Documento: <small ng-bind-html="tercero.documento | highlight: $select.search"></small>
                             </small>
                         </ui-select-choices>
                     </ui-select>
+                </div>
+                <div class="col-md-2">
+                    <label>{{'DOCUMENTO' | translate}}</label>
+                </div>
+                <div class="col-md-2">
+                    <span class="form-control">{{solicitudAvance.tercero.documento}}</span>
                 </div>
             </div>
             <br>
@@ -159,7 +165,7 @@
                         {{tipo.Descripcion}}
                         <br> Requisitos:
                         <ol>
-                            <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
+                            <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.EtapaAvance.Nombre === 'Solicitud' ">
                                 {{requisito.RequisitoAvance.Nombre}}
                             </li>
                         </ol>

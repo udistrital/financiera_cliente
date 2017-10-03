@@ -33,12 +33,10 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Referencia',
-                    displayName: $translate.instant('REFERENCIA'),
-                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Referencia}}</div>',
+                    field: 'RequisitoAvance.CodigoAbreviacion',
+                    displayName: $translate.instant('CODIGO_ABREVIACION'),
                     width: '10%',
-                },
-                {
+                }, {
                     field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     cellTemplate: '<div align="left">{{row.entity.RequisitoAvance.Nombre}}</div>',
@@ -53,7 +51,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Estado',
                     displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Estado}}</div>',
+                    cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.RequisitoAvance.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
                 },
                 {
@@ -79,7 +77,6 @@ angular.module('financieraClienteApp')
                 {
                     field: 'CodigoAbreviacion',
                     displayName: $translate.instant('CODIGO_ABREVIACION'),
-                    cellTemplate: '<div align="center">{{row.entity.CodigoAbreviacion}}</div>',
                     width: '10%',
                 },
                 {
@@ -95,7 +92,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Activo',
                     displayName: $translate.instant('ACTIVO'),
-                    cellTemplate: '<div align="center" ng-if="row.entity.Activo">{{\'SI\' | translate }}</div><div align="center" ng-if="!row.entity.Activo">{{\'NO\' | translate }}</div>',
+                    cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
                 },
                 {
