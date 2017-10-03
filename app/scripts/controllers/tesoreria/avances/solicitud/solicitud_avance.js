@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, academicaRequest, financieraRequest, $translate) {
+    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, academicaRequest, financieraRequest, $translate, $location) {
         var ctrl = this;
         $scope.info_terceros = true;
         $scope.info_desc_avances = true;
@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
                     console.log(ctrl.tipos_avance);
                 });
         };
-
+        ctrl.get_tipos_avance();
         ctrl.ver_seleccion = function($item, $model) {
             ctrl.tercero = $item;
             ctrl.tercero.dependencia = "NO APLICA";
@@ -57,7 +57,6 @@ angular.module('financieraClienteApp')
                 var TipoAvance = {};
                 for (var i = 0; i < ctrl.tipos_avance.length; i++) {
                     if (ctrl.tipos_avance[i].Id == ctrl.tipo_avance_select) {
-                        console.log(ctrl.tipos_avance[i]);
                         TipoAvance.Descripcion = ctrl.descripcion;
                         TipoAvance.Valor = parseFloat(ctrl.valor_avance);
                         var tipo = ctrl.tipos_avance.splice(i, 1);
@@ -65,7 +64,7 @@ angular.module('financieraClienteApp')
                         TipoAvance.requisitos_seleccionados = [];
                         //recopilando requisitos
                         financieraRequest.get("requisito_tipo_avance", $.param({
-                                query: "TipoAvance:" + ctrl.tipo_avance_select + ",Estado:" + "A",
+                                query: "TipoAvance.Id:" + ctrl.tipo_avance_select + ",TipoAvance.Activo:1,Activo:1",
                                 limit: -1,
                                 fields: "RequisitoAvance,TipoAvance",
                                 sortby: "TipoAvance",
@@ -73,8 +72,9 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(response) {
                                 TipoAvance.requisitos_seleccionados.push(response.data);
+                                console.log(TipoAvance.requisitos_seleccionados);
                             });
-                        console.log(ctrl.requisitos_seleccionados);
+
                         ctrl.lista_tipos.push(TipoAvance);
 
                         ctrl.descripcion = '';
@@ -82,26 +82,16 @@ angular.module('financieraClienteApp')
                         ctrl.tipo_avance_select = '';
                     }
                 }
-                console.log(ctrl.lista_tipos);
                 ctrl.calcular_total();
             }
         };
 
         ctrl.enviar = function() {
             var Solicitud = {};
-
             var SolicitudAvance = {};
-            Solicitud.IdBeneficiario = parseInt(ctrl.documento);
+            Solicitud.Beneficiario = parseInt(ctrl.tercero.documento);
             Solicitud.Objetivo = ctrl.objetivo;
             Solicitud.Justificacion = ctrl.justificacion;
-            Solicitud.CodigoDependencia = ctrl.terceros.dependencia.id;
-            Solicitud.Dependencia = ctrl.terceros.dependencia.dependencia;
-            Solicitud.CodigoFacultad = ctrl.terceros.proyecto_curricular.facultad.id;
-            Solicitud.Facultad = ctrl.terceros.proyecto_curricular.facultad.Facultad;
-            Solicitud.CodigoProyectoCur = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.id;
-            Solicitud.ProyectoCurricular = ctrl.terceros.proyecto_curricular.CodigoProyectoCurricular.ProyectoCurricular;
-            Solicitud.ValorTotal = 0;
-
             Solicitud.CodigoConvenio = ctrl.codigo_convenio;
             Solicitud.Convenio = ctrl.nombre_convenio;
             Solicitud.CodigoProyectoInv = ctrl.codigo_proyecto_inv;
@@ -118,6 +108,7 @@ angular.module('financieraClienteApp')
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
                             swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                            $location.path('/tesoreria/avances/lista_solicitud');
                         }
                     }
                 });

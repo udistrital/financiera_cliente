@@ -165,7 +165,7 @@
                         {{tipo.Descripcion}}
                         <br> Requisitos:
                         <ol>
-                            <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
+                            <li ng-repeat="requisito in tipo.requisitos_seleccionados[0]" ng-if="requisito.RequisitoAvance.EtapaAvance.Nombre === 'Solicitud' ">
                                 {{requisito.RequisitoAvance.Nombre}}
                             </li>
                         </ol>

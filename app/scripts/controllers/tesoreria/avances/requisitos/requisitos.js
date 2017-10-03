@@ -26,7 +26,7 @@ angular.module('financieraClienteApp')
             enableRowSelection: true,
             enableRowHeaderSelection: false,
             columnDefs: [{
-                    field: 'IdTipo',
+                    field: 'Id',
                     visible: false
                 },
                 {
