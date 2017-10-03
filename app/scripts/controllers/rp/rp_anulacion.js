@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
         {field: 'NumeroRegistroPresupuestal',   displayName: $translate.instant('NO') , cellClass:'input_center'},
         {field: 'Disponibilidad.NumeroDisponibilidad',   displayName: $translate.instant('CDP_NUMERO'), cellClass:'input_center'},
         {field: 'Necesidad.Numero',   displayName: $translate.instant('NECESIDAD_NO') ,cellClass:'input_center'},
-        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : $translate.instant('FECHA_CREACION') , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'FechaMovimiento' , cellClass:'input_center',displayName : $translate.instant('FECHA_CREACION') , cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"UTC"}}</span>'},
         {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
       ]
 

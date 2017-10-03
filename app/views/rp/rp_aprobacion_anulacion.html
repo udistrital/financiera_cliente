@@ -16,7 +16,7 @@
     <div class="panel panel-default" ng-repeat="item in rpAprobacionAnulacion.detalle">
       <div class="panel-heading">
         <h3 class="page-header">Registro Presupuestal No {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
-        <div align="right">Fecha de Registro: {{item.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">Fecha de Registro: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
         <div>
