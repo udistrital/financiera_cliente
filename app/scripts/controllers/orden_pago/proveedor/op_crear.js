@@ -14,35 +14,24 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = false;
     self.OrdenPago = {};
     self.Proveedor = {};
-    self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
+    self.OrdenPago.RegistroPresupuestal = {
+      'Id': 98
+    } // data tes
     self.Conceptos = {};
-
-    self.RubrosObjIds = null;
-    self.dataOrdenPagoInsert = {};
-    self.ConceptoOrdenPago = [];
-    self.MovimientoContableConceptoOrdenPago = [];
-    self.TotalAfectacion = null;
+    // self.ConceptoOrdenPago = [];
+    // self.TotalAfectacion = 0;
+    // self.MovimientoContable = [];
     self.MensajesAlerta = null;
 
     // functions
-    self.estructurarDataSend = function(conceptos) {
-      // estrurctura total afectacion y movimientos contables
-      angular.forEach(conceptos, function(concepto) {
-        if (concepto.validado == true) { // tiene cuentas y se hace afectacion
-          //total afectacion
-          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
-          // recorrer novimiento
-          angular.forEach(concepto.movs, function(movimiento) {
-            if (movimiento.Debito > 0 || movimiento.Credito > 0) {
-              // data movimientos contables
-              self.MovimientoContableConceptoOrdenPago.push(movimiento);
-            }
-          })
-        }
-      })
-      // estructurar concepto orden
-      angular.forEach(self.RubrosObjIds, function(rubro) {
-        angular.forEach(rubro.DisponibilidadApropiacion.Concepto, function(concepto) {
+    self.estructurarDatosParaRegistro = function(pConceptos) {
+      self.ConceptoOrdenPago = [];
+      self.TotalAfectacion = 0;
+      self.MovimientoContable = [];
+
+      angular.forEach(pConceptos, function(concepto) {
+        if (concepto.validado == true && concepto.Afectacion != 0) {
+          // estructurar los conceptos a ConceptoOrdenPago
           self.ConceptoOrdenPago.push({
             'OrdenDePago': {
               'Id': 0
@@ -52,38 +41,44 @@ angular.module('financieraClienteApp')
             },
             'Valor': concepto.Afectacion,
             'RegistroPresupuestalDisponibilidadApropiacion': {
-              'Id': rubro.Id
+              'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion
             }
           });
-        })
+          // total afectacion
+          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion ;
+          //
+          angular.forEach(concepto.movs, function(movimiento) {
+            if (movimiento.Debito > 0 || movimiento.Credito > 0) {
+              // data movimientos contables
+              self.MovimientoContable.push(movimiento);
+            }
+          })
+        } //if
       })
     }
+
     // Insert Orden Pago
     self.registrarOpProveedor = function() {
-      // trabajar estructura de conceptos
-      self.dataOrdenPagoInsert = {};
-      self.ConceptoOrdenPago = [];
-      self.MovimientoContableConceptoOrdenPago = [];
-      self.TotalAfectacion = 0;
-      //
-      if (self.Concepto != undefined) {
-        self.estructurarDataSend(self.Concepto);
-      }
-      //construir data send
-      self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
-      self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
-      self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
-      self.dataOrdenPagoInsert.Usuario = {'Id': 1};
-      //console.log("Estructura para enviar")
-      //console.log(self.dataOrdenPagoInsert)
-      // validar campos obligatorios en el formulario orden Pago y se inserta registro
       self.camposObligatorios()
+      // trabajar estructura de conceptos
+      if (Object.keys(self.Conceptos).length > 0) {
+        self.estructurarDatosParaRegistro(self.Conceptos);
+        //construir data send
+        self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+        self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+        self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
+        self.dataOrdenPagoInsert.Usuario = {'Id': 1};
+        //console.log("Estructura para enviar")
+        //console.log(self.dataOrdenPagoInsert)
+        // validar campos obligatorios en el formulario orden Pago y se inserta registro
+      }
+
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
       self.MensajesAlerta = '';
-      if (Object.keys(self.Proveedor).length == 0){
+      if (Object.keys(self.Proveedor).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>"
       }
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
@@ -110,7 +105,7 @@ angular.module('financieraClienteApp')
             //mensaje
             swal({
               title: 'Orden de Pago',
-              text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
               type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';

@@ -32,6 +32,8 @@
       outputconceptos="opCrear.Conceptos">
     </rubros-por-rp-seleccion-multiple>
 
+    <!-- <pre>{{opCrear.Conceptos | json }}</pre> -->
+
     <!--Cuentas contables -->
     <legend class="text-primary" ng-click="a=!a">
       {{'CUENTAS_CONTABLES' | translate}}
@@ -42,12 +44,12 @@
       <div class=" col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
-            <li ng-class="{active: selected == c.Id}" ng-repeat="c in opCrear.Concepto"><a href ng-click="opCrear.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in opCrear.Conceptos"><a href ng-click="opCrear.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
             </li>
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane fade in active" ng-repeat="c in opCrear.Concepto" ng-show="opCrear.selected==c.Id">
+            <div class="tab-pane fade in active" ng-repeat="c in opCrear.Conceptos" ng-show="opCrear.selected==c.Id">
               <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc>
               </movimientos-contables>
             </div>
