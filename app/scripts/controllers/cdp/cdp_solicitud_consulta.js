@@ -104,6 +104,7 @@ angular.module('financieraClienteApp')
     //generar la disponibilidad (peticion al mid api)
     self.generar_disponibilidad = function(){
       var arrSolicitudes = [];
+      self.data.Responsable = 876543216;
       arrSolicitudes[0] = self.data;
       console.log("########################");
       console.log(arrSolicitudes);
@@ -114,7 +115,10 @@ angular.module('financieraClienteApp')
               if (response.data[0].Type === "error"){
                 swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
               }else{
-                swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type);
+                swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
+                  self.cragarDatos();
+                  $("#myModal").modal('hide');
+                });
               }
 
             }

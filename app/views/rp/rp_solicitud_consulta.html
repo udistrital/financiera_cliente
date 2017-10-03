@@ -16,12 +16,12 @@
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="rpSolicitudConsulta.actualizar_solicitudes()">&times</button><br>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="page-header">Solicitud de Registro Presupuestal No {{rpSolicitudConsulta.data.Id}} de {{rpSolicitudConsulta.data.Vigencia}}</h3>
-        <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
         <table class="table ">

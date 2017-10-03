@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
         {field: 'Vigencia',       cellClass: 'input_center',headerCellClass: 'text-info'},
         {field: 'NumeroDisponibilidad',   displayName: 'No.', cellClass: 'input_center',headerCellClass: 'text-info'},
         {field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero' , displayName : 'Necesidad No.', cellClass: 'input_center',headerCellClass: 'text-info'},
-        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' ,cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>',headerCellClass: 'text-info'},
+        {field: 'FechaRegistro' , displayName : 'Fecha de Registro' ,cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',headerCellClass: 'text-info'},
         {field: 'Estado.Nombre', displayName : 'Estado',headerCellClass: 'text-info'},
         {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : 'Dependencia Solicitante',headerCellClass: 'text-info'},
         {

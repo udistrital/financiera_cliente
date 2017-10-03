@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
         {field: 'Id',             visible : false},
         {field: 'Vigencia',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('VIGENCIA') },
         {field: 'NumeroDisponibilidad',   displayName: $translate.instant('NO'), cellClass: 'input_center'},
-        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>'},
+        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'},
         {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
         {field: 'Solicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE')}
       ]

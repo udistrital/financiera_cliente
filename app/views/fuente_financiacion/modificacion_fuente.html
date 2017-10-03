@@ -244,7 +244,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="page-header">{{ 'ADICION_FUENTE_FINANCIAMIENTO' | translate }}</h3>
-        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{modificacionFuente.fecha | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{modificacionFuente.fecha | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
 
@@ -290,7 +290,7 @@
             </tr>
             <tr>
               <th>{{'FECHA_DOCUMENTO' | translate }}: </th>
-              <td>{{modificacionFuente.nueva_fuente_apropiacion.fecha_documento | date:"yyyy-MM-dd":"+0900"}}</td>
+              <td>{{modificacionFuente.nueva_fuente_apropiacion.fecha_documento | date:"yyyy-MM-dd":"UTC"}}</td>
             </tr>
           </table>
         </div>
@@ -337,7 +337,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="page-header">{{ 'TRASLADO_FUENTE_FINANCIAMIENTO' | translate }}</h3>
-        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{modificacionFuente.fecha | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">{{ 'FECHA_REGISTRO' | translate }} : {{modificacionFuente.fecha | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body col-md-12">
 
@@ -377,7 +377,7 @@
             </tr>
             <tr>
               <th>{{'FECHA_DOCUMENTO' | translate }}: </th>
-              <td>{{modificacionFuente.nueva_fuente_apropiacion.fecha_documento | date:"yyyy-MM-dd":"+0900"}}</td>
+              <td>{{modificacionFuente.nueva_fuente_apropiacion.fecha_documento | date:"yyyy-MM-dd":"UTC"}}</td>
             </tr>
           </table>
         </div>

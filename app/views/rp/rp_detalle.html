@@ -17,7 +17,7 @@
             <th>Consecutivo de la Necesidad: </th><td>{{rpDetalle.Necesidad.Numero}}</td>
           </tr>
           <tr>
-            <th>Fecha de Registro: </th><td>{{item.FechaMovimiento |  date:"yyyy-MM-dd":"+0900"}}</td>
+            <th>Fecha de Registro: </th><td>{{item.FechaMovimiento |  date:"yyyy-MM-dd":"UTC"}}</td>
           </tr>
           <tr>
             <th>Estado: </th><td>{{item.Estado.Nombre}}</td>
