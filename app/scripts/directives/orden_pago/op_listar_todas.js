@@ -7,7 +7,7 @@
  * # ordenPago/opListarTodas
  */
 angular.module('financieraClienteApp')
-  .directive('opListarTodas', function(financieraRequest, agoraRequest, $location, $translate) {
+  .directive('opListarTodas', function(financieraRequest, agoraRequest, $location, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       /*scope:{
@@ -47,13 +47,23 @@ angular.module('financieraClienteApp')
             cellClass: 'input_center'
           },
           {
+            field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+            width: '8%',
+            displayName: $translate.instant('TIPO'),
+            filter: {
+              term: 'OP-PROV',
+              type: uiGridConstants.filter.SELECT,
+              selectOptions: [{value: 'OP-PROV', label: 'OP-PROV'},{value: 'OP-PLAN', label: 'OP-PLAN'} ]
+            }
+          },
+          {
             field: 'Vigencia',
             displayName: $translate.instant('VIGENCIA'),
             width: '7%',
             cellClass: 'input_center'
           },
           {
-            field: 'FechaCreacion',
+            field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
             displayName: $translate.instant('FECHA_CREACION'),
             cellClass: 'input_center',
             cellFilter: "date:'yyyy-MM-dd'",
@@ -69,11 +79,6 @@ angular.module('financieraClienteApp')
             field: 'FormaPago.CodigoAbreviacion',
             width: '5%',
             displayName: $translate.instant('FORMA_PAGO')
-          },
-          {
-            field: 'Nomina',
-            width: '10%',
-            displayName: $translate.instant('NOMINA')
           },
           {
             field: 'Proveedor.Tipopersona',
@@ -117,21 +122,21 @@ angular.module('financieraClienteApp')
         ];
         // OP Proveedores
         self.op_detalle = function(row) {
-          if (row.entity.Nomina == 'SEGURIDAD SOCIAL') {
+          if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'SEGURIDAD SOCIAL') {
             var path = "/orden_pago/seguridad_social/ver/";
             $location.url(path + row.entity.Id);
           }
-          if (row.entity.Nomina == 'PROVEEDOR') {
+          if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
             var path = "/orden_pago/proveedor/ver/";
             $location.url(path + row.entity.Id);
           }
-          if (row.entity.Nomina == 'PLANTA') {
+          if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion  == 'OP-PLAN') {
             var path = "/orden_pago/planta/ver/";
             $location.url(path + row.entity.Id);
           }
         }
         self.op_editar = function(row) {
-          if (row.entity.Nomina == 'PROVEEDOR') {
+          if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
             var path_update = "/orden_pago/proveedor/actualizar/";
             $location.url(path_update + row.entity.Id);
           }

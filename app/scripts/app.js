@@ -62,7 +62,7 @@ angular
         amMoment.changeLocale('es');
     })
     .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
-        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';        
+        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
         uiSelectConfig.theme = 'select2';
         uiSelectConfig.resetSearchInput = true;
         uiSelectConfig.appendToBody = true;
@@ -228,7 +228,7 @@ angular
         })
 
         .when('/orden_pago/proveedor/crear', {
-                templateUrl: 'views/orden_pago/op_crear.html',
+                templateUrl: 'views/orden_pago/proveedor/op_crear.html',
                 controller: 'OrdenPagoOpCrearCtrl',
                 controllerAs: 'opCrear'
             })
@@ -238,7 +238,7 @@ angular
                 controllerAs: 'opViewAll'
             })
             .when('/orden_pago/proveedor/ver/:Id', {
-                templateUrl: 'views/orden_pago/op_proveedor_ver_por_id.html',
+                templateUrl: 'views/orden_pago/proveedor/op_proveedor_ver_por_id.html',
                 controller: 'OpProveedorVerPorIdCtrl',
                 controllerAs: 'opProveedorVerPorId'
             })
@@ -248,7 +248,7 @@ angular
                 controllerAs: 'opListarTodasUpdate'
             })
             .when('/orden_pago/proveedor/actualizar/:Id', {
-                templateUrl: 'views/orden_pago/op_proveedor_update_por_id.html',
+                templateUrl: 'views/orden_pago/proveedor/op_proveedor_update_por_id.html',
                 controller: 'OpProveedorUpdatePorIdCtrl',
                 controllerAs: 'opProveedorUpdatePorId'
             })

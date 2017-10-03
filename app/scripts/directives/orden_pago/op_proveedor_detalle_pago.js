@@ -7,34 +7,30 @@
  * # ordenPago/opProveedorDetallePago
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorDetallePago', function(financieraRequest) {
+  .directive('opProveedorDetallePago', function(financieraRequest, arkaRequest) {
     return {
       restrict: 'E',
       scope: {
-        tipoordenpago: '=?',
-        iva: '=?',
-        valorbase: '=?',
-        vigencia: '=?',
-        valorbruto: '=?',
-        formapago: '=?',
-        inputpestanaabierta: '=?'
+        inputpestanaabierta: '=?',
+        inputproveedor: '=',
+        outputsubtipoordenpago: '=?',
+        outputformapago: '=?',
+        outputentradaalmacen: '=?',
+        outputvigencia: '=?',
+        outputvalorbase: '=?'
       },
 
       templateUrl: 'views/directives/orden_pago/op_proveedor_detalle_pago.html',
       controller: function($scope) {
         var self = this;
-        //
-        financieraRequest.get("orden_pago/FechaActual/2006")  //formato de entrada  https://golang.org/src/time/format.go
-          .then(function(data) { //error con el success
-            $scope.vigencia = parseInt(data.data);
-        })
-        //tipo_documentos
-        financieraRequest.get('tipo_orden_pago',
+        //sub_tipo_documentos
+        financieraRequest.get('sub_tipo_orden_pago',
           $.param({
+            query: "TipoOrdenPago.CodigoAbreviacion:OP-PROV",
             limit: 0
           })
         ).then(function(response) {
-          self.tipo_orden_pago_data = response.data;
+          self.subTiposOrdenPago = response.data;
         });
         //forma de pago
         financieraRequest.get('forma_pago',
@@ -42,42 +38,35 @@ angular.module('financieraClienteApp')
             limit: 0
           })
         ).then(function(response) {
-          self.forma_pago_data = response.data;
+          self.formaPagos = response.data;
         });
-        //iva
-        financieraRequest.get('iva',
-          $.param({
-            query: "CategoriaIva.Nombre:Gravados",
-            limit: 0
-          })
-        ).then(function(response) {
-          self.iva_data = response.data;
-        });
-        // valor bruto
-        self.get_valor_bruto = function(valor_base, iva) {
-          if (valor_base == null || valor_base == 0) {
-            self.ValorIva = 0;
-            $scope.valorbruto = 0;
-          } else if (iva == null || iva == 0) {
-            self.ValorIva = 0;
-            $scope.valorbruto = 0;
-          } else {
-            self.Iva = parseInt(iva.Valor);
-            self.ValorIva = (parseInt(valor_base) * (parseInt(self.Iva) / 100));
-            $scope.valorbruto = parseInt(valor_base) + parseInt(self.ValorIva);
+        //entradas almacen
+        $scope.$watch('inputproveedor', function() {
+          if ($scope.inputproveedor != undefined) {
+            arkaRequest.get('entrada',
+              $.param({
+                query: 'Proveedor:' + $scope.inputproveedor,
+                limit: -1,
+              })
+            ).then(function(response) {
+              self.entradas = response.data;
+            });
           }
-        }
-        //cuando entran valores
-        $scope.$watch('valorbase', function() {
-          self.get_valor_bruto($scope.valorbase, $scope.iva);
-        })
+          self.ver_seleccion = function($item, $model) {
+            $scope.outputentradaalmacen = $item;
+          }
+        });
+        // vigencia
+        financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+          .then(function(data) {
+            $scope.outputvigencia = parseInt(data.data);
+          })
         //
         $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta){
+          if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
         })
-
       },
       controllerAs: 'd_opProveedorDetallePago'
     };

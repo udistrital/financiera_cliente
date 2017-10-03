@@ -247,17 +247,17 @@ var text_es = {
   MOVIMIENTO: "Movimiento",
   MOVIMIENTOS: "Movimientos",
   MSN_DEBE_CONCEPTO: "Debe Seleccionar por lo Minimo un Comcepto",
-  MSN_DEBE_FORMA_PAGO_OP: "Debe Seleccionar la Forma de Pago en la Sección Detalle orden de Pago",
-  MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Valor del Pago",
+  MSN_DEBE_FORMA_PAGO_OP: "Debe Seleccionar la Forma de Pago en la Sección Detalle Orden Pago",
+  MSN_DEBE_IVA: "Debe Indicar el Valor del Iva en la Sección Detalle Orden Pago",
   MSN_DEBE_LIQUIDACION: "Debe Seleccionar una Liquidación",
   MSN_DEBE_MES_SS: "Debe Seleccionar el mes de la Seguridad Social",
   MSN_DEBE_MIN_CONCEPTO: "Debe Afectar por lo Menos un concepto",
   MSN_DEBE_PROVEEDOR: "Debe Seleccionar el Proveedor para la Orden de Pago",
   MSN_DEBE_REGISTRO: "Debe Seleccionar el Registro Presupuestal",
-  MSN_DEBE_TIPO_OP: "Debe Seleccionar el Tipo de Documento en la Sección Valor del Pago",
+  MSN_DEBE_TIPO_OP: "Debe Seleccionar el Tipo de Documento en la Sección Detalle Orden Pago",
   MSN_DEBE_TOTAL_AFECTACION: "El Valor Total de la Afectacion es Distinto al Valor de la Orden de Pago",
   MSN_DEBE_UNIDAD: "Debe Seleccionar la Unidad Ejecutora",
-  MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Valor del Pago",
+  MSN_DEBE_VAL_BASE: "Debe Indicar el Valor Base en la Sección Detalle Orden Pago",
   MSN_SUPERA_SALDO: "Supera el Valor del Saldo",
   MSN_TOTAL_AECTACION: "El Total de la Afectación a los Conceptos del Rubro",
   MSN_Y: "y",
@@ -292,6 +292,7 @@ var text_es = {
   OBJETO_CONTRACTUAL: "Objeto Contractual ",
   OBSERVACIONES: "Observaciones",
   OFICIO: "Oficio No.",
+  OP_TITULO: "Ordenes de Pago",
   OPERACION: "Operación",
   OPERAR_CONCEPTO: "Operar Concepto",
   ORDENADOR_GASTO: "Ordenador del Gasto",
@@ -596,23 +597,38 @@ var text_en = {
 };
 
 //
-var keys = [], k, i, len;
-for (k in text_en.BTN) {
-  if (text_en.BTN.hasOwnProperty(k)) {
-    keys.push(k);
+function ordenar(p_objeto){
+  var keys = [], k, i, len;
+  for (k in p_objeto) {
+    if (p_objeto.hasOwnProperty(k)) {
+      keys.push(k);
+    }
+  }
+  keys.sort();
+  len = keys.length;
+
+  for (i = 0; i < len; i++) {
+    k = keys[i];
+    console.log(k + ':' + ' "' + p_objeto[k] + '",');
   }
 }
-keys.sort();
-len = keys.length;
 
-for (i = 0; i < len; i++) {
-  k = keys[i];
-  console.log(k + ':' + ' "' + text_en.BTN[k] + '",');
+function comparar(p_objeto1, p_objeto2){
+  for (var key in p_objeto1){
+    var esta_key = false;
+    if (p_objeto1.hasOwnProperty(key)){
+      console.log(key);
+      //correr dos
+      for (var key_2 in p_objeto2){
+        if (p_objeto2.hasOwnProperty(key_2) && key_2 == key){
+          console.log("      Esta");
+        }
+      }
+    // --
+    }
+  }
 }
 //
-
-
-
 angular.module('financieraClienteApp')
     .config(function($translateProvider) {
         $translateProvider
@@ -621,3 +637,6 @@ angular.module('financieraClienteApp')
         $translateProvider.preferredLanguage("es");
         $translateProvider.useSanitizeValueStrategy("sanitizeParameters");
     });
+
+    //ordenar(text_en)
+    //comparar(text_es.BTN, text_en.BTN)
