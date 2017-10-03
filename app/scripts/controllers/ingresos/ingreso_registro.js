@@ -145,13 +145,13 @@ angular.module('financieraClienteApp')
         self.cargandoDatosPagos = true;
         pagosRequest.get(parametros).then(function(response){
           if(response!=null){
-            if(typeof response==="string"){
+            if(typeof response.data ==="string"){
 
               console.log(response);
-              self.rta=response;
+              self.rta=response.data;
             }else{
 
-              self.pagos=response;
+              self.pagos=response.data;
               /*angular.forEach(self.pagos,function(data){
                 data.VALOR = 100;
               });*/

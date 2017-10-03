@@ -1,32 +1,28 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'REGISTRO_RUBRO' | translate }}</h2>
+  
   <div class="panel-body">
-<div class="col-md-5">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+
+            <rubros-consulta botones="rubroRegistro.botones" recargar="rubroRegistro.recarga_arbol" ramasel="true" rubrosel="rubroRegistro.padre" filtro="rubroRegistro.filtro_rubro"></rubros-consulta>
+            <!--div ui-grid="rubroRegistro.gridOptions" ui-grid-tree-view ui-grid-auto-resize ui-grid-resize-columns class="myGrid"></div-->
+
+      </div>
+    </div>
+<div class="col-md-6">
   <div class="panel panel-default">
     <div class="panel-heading">
-      <div class="panel-title">Registro de Rubro</div>
+      <div class="panel-title">{{ 'REGISTRO_RUBRO' | translate }}</div>
     </div>
     <div class="panel-body">
       <form>
         <div class="row">
-          <div class="col-md-4">
-            <label for="select_vigencia" class="col-form-label">Vigencia </label>
-          </div>
-          <div class="col-md-7">
-            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rubroRegistro.selectVigencia" ng-change='rubroRegistro.actualiza_rubros()'>
-                <option selected disabled>Seleccione...</option>
-                <option ng-repeat="option in rubroRegistro.years" value="{{option}}">{{option}}</option>
-          </select>
-          </div>
-        </div>
-        <br>
-        <div class="row">
           <input class="form-control" name="ultimo_registro" type="hidden" ng-model="rubroRegistro.ultimo_registro" disabled="true">
           <div class="col-md-4">
-            <label for="input_codigo_padre" class="col-form-label">Código del rubro padre</label>
+            <label for="input_codigo_padre" class="col-form-label">{{ 'CODIGO_PADRE' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <input class="form-control" name="input_codigo_padre" type="text" ng-model="rubroRegistro.codigo_padre" disabled="true">
+            <input class="form-control" name="input_codigo_padre" type="text" ng-model="rubroRegistro.padre.Codigo" disabled="true">
           </div>
 
           <input name="input_id_padre" type="hidden" ng-model="rubroRegistro.id_padre" disabled="true">
@@ -34,35 +30,44 @@
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_codigo" class="col-form-label">Código</label>
+            <label for="input_codigo" class="col-form-label">{{ 'CODIGO' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <input class="form-control" name="input_codigo" type="text" ng-model="rubroRegistro.codigo_hijo" placeholder="Código">
+            <input class="form-control" name="input_codigo" type="text" ng-model="rubroRegistro.codigo_hijo" >
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_descripcion" class="col-form-label">Descripción</label>
+            <label for="input_codigo" class="col-form-label">{{ 'NOMBRE' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_descripcion" ng-model="rubroRegistro.descripcion_hijo" placeholder="Descripción"></textarea>
+            <input class="form-control" name="input_codigo" type="text" ng-model="rubroRegistro.nombre_hijo" >
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-4">
+            <label for="input_descripcion" class="col-form-label">{{ 'DESCRIPCION' | translate }}</label>
+          </div>
+          <div class="col-md-7">
+            <textarea class="form-control" name="input_descripcion" ng-model="rubroRegistro.descripcion_hijo" ></textarea>
           </div>
           <br>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="input_tipo_plan" class="col-form-label">Tipo de Plan</label>
+            <label for="input_tipo_plan" class="col-form-label">{{ 'UNIDAD_EJECUTORA' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.tipo_plan_hijo" placeholder="Plan"></textarea>
+            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.UnidadEjecutora" ></textarea>
           </div>
         </div>
         <br>
         <div class="row">
           <div class="col-md-4">
-            <label for="entidadSelect" class=" col-form-label">Entidad</label>
+            <label for="entidadSelect" class=" col-form-label">{{ 'ENTIDAD' | translate }}</label>
           </div>
           <div class="col-md-7">
             <select class="form-control" name="entidadSelect" ng-model="rubroRegistro.selectEntidad">
@@ -73,25 +78,16 @@
         <br>
         <div class="col-md-6 col-md-offset-6">
           <div class="col-md-6">
-            <button ng-click='rubroRegistro.quitar_padre()' class="btn btn-outline btn-warning btn-md btn-block">Quitar Padre</button>
+            <button ng-click='rubroRegistro.quitar_padre()' class="btn btn-outline btn-warning btn-md btn-block">{{ 'BTN.LIMPIAR' | translate }}</button>
           </div>
           <div class="col-md-6">
-              <button ng-click='rubroRegistro.registrar_rubro()' class="btn btn-outline btn-primary btn-md btn-block">Registrar</button>
+              <button ng-click='rubroRegistro.registrar_rubro()' class="btn btn-outline btn-primary btn-md btn-block">{{ 'BTN.REGISTRAR' | translate }}</button>
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-<div ng-if="rubroRegistro.selectVigencia" class="text-center col-md-7">
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">Plan de Cuentas</div>
-    </div>
 
-        <div ui-grid="rubroRegistro.gridOptions" ui-grid-tree-view ui-grid-auto-resize ui-grid-resize-columns class="myGrid"></div>
-
-  </div>
-</div>
 </div>
 </div>

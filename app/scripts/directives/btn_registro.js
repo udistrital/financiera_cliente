@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
             },
             templateUrl: 'views/directives/btn_registro.html',
             link: function(scope, elm, attrs) {
-                console.log(scope);
+                //console.log(scope);
             }
         };
     });

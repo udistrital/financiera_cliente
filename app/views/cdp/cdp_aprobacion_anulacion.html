@@ -16,7 +16,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
-            <div align="right">Fecha de Registro: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+            <div align="right">Fecha de Registro: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
         <div class="panel-body">
           <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
@@ -161,7 +161,7 @@
                   <hr class="hr-primary">
                     <li><b>{{'RUBRO' | translate}}:</b> {{item.Apropiacion.Rubro.Codigo+" / "+item.Apropiacion.Rubro.Descripcion}}
                     <ul>
-                      <li ng-show="item.FuenteFinanciamiento" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
+                      <li ng-show="item.FuenteFinanciamiento[0].Id !== 0" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
 
                         <ul ng-repeat="fuente in item.FuenteFinanciamiento">
 
@@ -174,11 +174,11 @@
                         </ul>
 
                       </li>
-                      <li ng-show="!item.FuenteFinanciamiento" ><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
+                      <li ng-show="item.FuenteFinanciamiento[0].Id === 0" ><b>{{'VALOR_AFECTACION_FUNCIONAMIENTO' | translate}}:</b>
 
                         <ul>
 
-                          <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.Valor|currency}}</li>
+                          <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+item.FuenteFinanciamiento[0].Valor|currency}}</li>
                     </li>
                     </ul>
 

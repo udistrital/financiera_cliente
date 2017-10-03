@@ -65,13 +65,13 @@ angular.module('financieraClienteApp')
           field: 'FechaIngreso',
           displayName: 'Fecha de Ingreso',
           headerCellClass: 'text-info',
-          cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"+0900"}}</span>'
+          cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
         {
           field: 'FechaConsignacion',
           displayName: 'Fecha de consignación',
           headerCellClass: 'text-info',
-          cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"+0900"}}</span>'
+          cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
         {
           field: 'FormaIngreso.Nombre',

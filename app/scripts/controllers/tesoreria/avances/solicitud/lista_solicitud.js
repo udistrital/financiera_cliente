@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Estado[0].FechaRegistro',
                     displayName: $translate.instant('FECHA'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
+                    cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '8%',
                 },
                 {

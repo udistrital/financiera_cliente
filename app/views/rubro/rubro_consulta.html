@@ -1,32 +1,4 @@
 
-<div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'CONSULTA_RUBRO' | translate }}</h2>
-  <div class="panel-body">
-      <table style="width:95%;">
-        <tr>
-          <td width="5%">
-          </td>
-          <td width="20%">
-            <div>
-              <form>
-                <label for="select_vigencia">{{ 'VIGENCIA' | translate }} </label>
-                <select name="select_vigencia" id="select_vigencia" ng-model="rubroConsulta.selectVigencia" ng-change="rubroConsulta.actualiza_rubros()">
-                  <option selected disabled>Seleccione...</option>
-                  <option selected>2016</option>
-                  <option>2015</option>
-                  <option>2014</option>
-                  <option>2013</option>
-                  <option>2012</option>
-                  <option>2011</option>
-                  <option>2010</option>
-                </select>
-              </form>
-            </div>
-          </td>
-          <td>
-            <div ui-grid="rubroConsulta.gridOptions" class="myGrid" ></div>
-          </td>
-        </tr>
-      </table>
-    </div>
+  <div class="col-md-8 col-md-offset-2">
+      <rubros-consulta botones= "rubroConsulta.botones" recargar="false" ramasel="true"></rubros-consulta>
   </div>

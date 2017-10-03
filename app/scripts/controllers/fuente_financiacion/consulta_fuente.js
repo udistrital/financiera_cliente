@@ -79,7 +79,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('FECHA'),
           field: 'Fecha',
           width: '10%',
-          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"+0900"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'TipoMovimiento.Nombre',
@@ -100,7 +100,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('FECHA_DOCUMENTO'),
           field: 'FechaDocumento',
           width: '15%',
-          cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"+0900"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'Valor',

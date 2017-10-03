@@ -12,7 +12,7 @@
     <div class="panel panel-default" ng-repeat="item in rpConsulta.detalle">
       <div class="panel-heading">
         <h3 class="page-header">{{'DETALLE_RP' | translate}} {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
-        <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
         <div>
@@ -93,7 +93,7 @@
                     <label>{{'SELECCION_RUBRO' | translate}}</label>
                   </div>
                   <div class="col-md-8">
-                    <select class="form-control" ng-model="rpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in rpConsulta.rubros_afectados">
+                    <select class="form-control" ng-model="rpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in rpConsulta.rubros_afectados">
                    </select>
                   </div>
                 </div>

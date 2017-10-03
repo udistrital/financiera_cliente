@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
   		$scope.data = response.data;
   	});
 
-  	argoRequest.get('fuente_financiacion_rubro_necesidad','query=SolicitudNecesidad.Id:'+$scope.solicitud_disponibilidad.Necesidad).then(function(response) {
+  	argoRequest.get('fuente_financiacion_rubro_necesidad','query=Necesidad.Id:'+$scope.solicitud_disponibilidad.Necesidad).then(function(response) {
   		$scope.gridOptions.data = response.data;
       angular.forEach($scope.gridOptions.data, function(data){
         financieraRequest.get('apropiacion','limit=1&query=Id:'+data.Apropiacion).then(function(response) {
