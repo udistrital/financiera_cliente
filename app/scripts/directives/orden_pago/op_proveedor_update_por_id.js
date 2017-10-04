@@ -59,7 +59,7 @@ angular.module('financieraClienteApp')
               //definir valores
               self.OrdenPago.Iva = self.orden_pago[0].Iva;
               self.OrdenPago.ValorBase = self.orden_pago[0].ValorBase;
-              self.OrdenPago.TipoOrdenPago = self.orden_pago[0].TipoOrdenPago;
+              self.OrdenPago.SubTipoOrdenPago = self.orden_pago[0].SubTipoOrdenPago;
               self.OrdenPago.FormaPago = self.orden_pago[0].FormaPago;
             });
           }
@@ -186,7 +186,7 @@ angular.module('financieraClienteApp')
         // Funcion encargada de validar la obligatoriedad de los campos
         self.validar_campos = function() {
           self.MensajesAlerta = '';
-          if (self.OrdenPago.TipoOrdenPago == undefined) {
+          if (self.OrdenPago.SubTipoOrdenPago == undefined) {
             self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>"
           }
           if (self.OrdenPago.Iva == undefined) {

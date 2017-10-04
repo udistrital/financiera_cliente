@@ -1,27 +1,22 @@
-<div ng-repeat="componente in ::about.prueba_rolcli">
-  {{componente.Nombre}} 
-  <div ng-if="::componente.Nombre =='gestion_item'">
-    <div ng-repeat="opcion in ::componente.Opciones ">
-      <div ng-if="::opcion.Nombre=='aprobar'">
-        <button type="button" name="button">{{opcion.Nombre}}</button>
-      </div>
-      <div ng-if="::opcion.Nombre=='rechazar'">
-        <button type="button" name="button">{{opcion.Nombre}}</button>
-      </div>
-  </div>
-
-
-</div>
+<div class="col-md-2 col-md-offset-2">
+    <label>
+         <label>{{'TERCERO' | translate}}:</label>
+    </label>
 </div>
 
+<div class="col-md-7">
+  <ui-select ng-model="about.tercero.selected" theme="select2" on-select="about.ver_seleccion($item, $model)" style="width:100%;">
+      <ui-select-match placeholder="{{'TERCERO' | translate}}...">{{$select.selected.NomProveedor || $select.selected }}</ui-select-match>
+      <ui-select-choices repeat="tercero in about.terceros | filter: $select.search">
+          <span ng-bind-html="tercero.NomProveedor | highlight: $select.search"></span><br>
+          <small>
+              Correo electrónico: {{tercero.Correo}}
+              Documento: <small ng-bind-html="tercero.NumDocumento | highlight: $select.search"></small>
+          </small>
+      </ui-select-choices>
+  </ui-select>
 
-<!-- <p ng-if="::about.get_elemento('dsasad')">
-aascascads
+  <br>
+  <pre>{{about.terceros[0] | json}}</pre>
 
-<h1 id="ti" ng-if="about.get_title('rechazar')">
-  asdaa
-</h1>
-
-
-</p>-->
-  <pre>{{about.hijosess | json}}</pre>
+</div>

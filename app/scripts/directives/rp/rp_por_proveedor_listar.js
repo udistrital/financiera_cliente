@@ -11,9 +11,9 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        beneficiaroid: '=?',
-        rpselect: '=?',
         inputpestanaabierta: '=?',
+        inputbeneficiaroid: '=?',
+        outputrpselect: '=?',
       },
 
       templateUrl: 'views/directives/rp/rp_por_proveedor_listar.html',
@@ -62,17 +62,17 @@ angular.module('financieraClienteApp')
         };
         //
         $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta){
+          if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
         })
         //
-        $scope.$watch('beneficiaroid', function() {
+        $scope.$watch('inputbeneficiaroid', function() {
           self.refresh();
-          if ($scope.beneficiaroid != undefined) {
+          if ($scope.inputbeneficiaroid != undefined) {
             financieraRequest.get('registro_presupuestal',
               $.param({
-                query: "Beneficiario:" + $scope.beneficiaroid,
+                query: "Beneficiario:" + $scope.inputbeneficiaroid,
               })).then(function(response) {
               self.gridOptions_rp.data = response.data;
             });
@@ -84,22 +84,22 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.rpselect = row.entity;
+            $scope.outputrpselect = row.entity;
             //consulta datos del rp
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
-                query: "RegistroPresupuestal.Id:" + $scope.rpselect.Id,
+                query: "RegistroPresupuestal.Id:" + $scope.outputrpselect.Id,
                 limit: 0,
               })).then(function(response) {
               self.rp_select_de_consulta = response.data;
               // detalle necesidad
-              financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+              financieraMidRequest.get('disponibilidad/SolicitudById/' + self.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Solicitud, '')
                 .then(function(response) {
                   self.solicitud = response.data[0];
                 });
             });
             //Valor total del Rp
-            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.rpselect.Id)
+            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.outputrpselect.Id)
               .then(function(response) {
                 self.valor_total_rp = response.data;
               });
