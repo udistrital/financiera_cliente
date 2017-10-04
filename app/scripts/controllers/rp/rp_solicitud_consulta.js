@@ -42,7 +42,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('FECHA_REGISTRO'),
           headerCellClass: 'text-info',
           cellClass: 'input_center',
-          cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</span>'
+          cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
         {
           field: 'DatosDisponibilidad.NumeroDisponibilidad',
@@ -224,6 +224,9 @@ angular.module('financieraClienteApp')
             html: templateAlert,
             showCloseButton: true,
             confirmButtonText: 'Cerrar'
+          }).then(function(){
+            self.actualizar_solicitudes();
+            $("#myModal").modal('hide');
           });
           /*angular.forEach(self.alerta_registro_rp, function(data){
 

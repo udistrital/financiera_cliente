@@ -15,7 +15,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAnulacion.cdp.Vigencia}}</h3>
-            <div align="right">Fecha de Registro: {{cdpAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+            <div align="right">Fecha de Registro: {{cdpAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
         <div class="panel-body">
           <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>

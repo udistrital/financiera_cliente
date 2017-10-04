@@ -16,7 +16,7 @@
 						<th>Vigencia: </th> <td>{{item.SolicitudDisponibilidad.Vigencia}}</td>
 					</tr>
 					<tr>
-						<th>Fecha de la solicitud: </th> <td>{{item.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</td>
+						<th>Fecha de la solicitud: </th> <td>{{item.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</td>
 					</tr>
 				</table>
 			</div>

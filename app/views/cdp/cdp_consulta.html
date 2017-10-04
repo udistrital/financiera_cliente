@@ -17,7 +17,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpConsulta.cdp.NumeroDisponibilidad}} de {{cdpConsulta.cdp.Vigencia}}</h3>
-          <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</div>
+          <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
         <div class="panel-body">
           <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
@@ -92,7 +92,7 @@
                       <label>{{'SELECCION_RUBRO' | translate}}</label>
                     </div>
                     <div class="col-md-9">
-                      <select class="form-control" ng-model="cdpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Descripcion+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpConsulta.rubros_afectados">
+                      <select class="form-control" ng-model="cdpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpConsulta.rubros_afectados">
                  </select>
                     </div>
                   </div>

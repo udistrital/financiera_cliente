@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
               field: 'FechaLiquidacion',
               displayName: $translate.instant('FECHA'),
               cellClass: 'input_center',
-              cellTemplate: '<span>{{row.entity.FechaLiquidacion | date:"yyyy-MM-dd":"+0900"}}</span>'
+              cellTemplate: '<span>{{row.entity.FechaLiquidacion | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
               field: 'Nomina.Nombre',

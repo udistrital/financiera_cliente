@@ -47,10 +47,10 @@ angular.module('financieraClienteApp')
            headerCellClass: 'text-info'
         },
         {
-          field: 'FechaMovimiento',
+          field: 'FechaRegistro',
           cellClass: 'input_center',
           displayName: $translate.instant('FECHA_REGISTRO'),
-          cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"+0900"}}</span>',
+          cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
            headerCellClass: 'text-info'
         },
         {

@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
           if ($scope.necesidad != undefined && $scope.apropiacion != undefined){
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
               administrativaRequest.get('fuente_financiacion_rubro_necesidad',$.param({
-                query: "SolicitudNecesidad.Id:"+$scope.necesidad+",Apropiacion:"+apropiacion_data,
+                query: "Necesidad.Id:"+$scope.necesidad+",Apropiacion:"+apropiacion_data,
                 limit: -1
               })).then(function(response) {
                 self.rubros_afectados = response.data;
@@ -35,12 +35,19 @@ angular.module('financieraClienteApp')
                     rubros_data.Apropiacion = response.data[0];
                   });
                   financieraRequest.get('fuente_financiamiento',$.param({
-                    query: "Id:"+rubros_data.FuenteFinanciacion,
+                    query: "Id:"+rubros_data.FuenteFinanciamiento,
                     limit: 1
                   })).then(function(response) {
-                    rubros_data.FuenteFinanciacion = response.data[0];
-                    console.log("fuente dev ")
-                    console.log(response.data);
+                    if (response.data === null){
+                      rubros_data.FuenteFinanciamiento = {Id:0};
+                      console.log("fuente dev ")
+                      console.log(rubros_data.FuenteFinanciamiento);
+                    }else{
+                      rubros_data.FuenteFinanciamiento = response.data[0];
+                      console.log("fuente dev ")
+                      console.log(response.data);
+                    }
+                    
                   });
                 });
                 self.resumen_afectacion_presupuestal.push(self.rubros_afectados);

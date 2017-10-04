@@ -58,8 +58,8 @@ angular.module('financieraClienteApp')
                 },
                 {
                     field: 'FechaRegistro',
-                    displayName: $translate.instant('FECHA'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span></div>',
+                    displayName: $translate.instant('FECHA_REGISTRO'),
+                    cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '10%',
                 },
                 {
