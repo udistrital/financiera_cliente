@@ -46,7 +46,6 @@ angular
         'financieraMidService',
         'administrativaService',
         'agoraService',
-        'uiGridService',
         'adminMidService',
         'argoService',
         'coreService',
@@ -62,7 +61,7 @@ angular
         amMoment.changeLocale('es');
     })
     .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
-        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';        
+        cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
         uiSelectConfig.theme = 'select2';
         uiSelectConfig.resetSearchInput = true;
         uiSelectConfig.appendToBody = true;
@@ -273,9 +272,9 @@ angular
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
             .when('/orden_pago/giros/ver_todos', {
-              templateUrl: 'views/orden_pago/giros/giros_view_all.html',
-              controller: 'OpGirosViewAllCtrl',
-              controllerAs: 'opGirosViewAll'
+                templateUrl: 'views/orden_pago/giros/giros_view_all.html',
+                controller: 'OpGirosViewAllCtrl',
+                controllerAs: 'opGirosViewAll'
             })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',

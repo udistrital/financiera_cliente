@@ -594,7 +594,7 @@ len = keys.length;
 
 for (i = 0; i < len; i++) {
     k = keys[i];
-    console.log(k + ':' + ' "' + text_en.BTN[k] + '",');
+    //console.log(k + ':' + ' "' + text_en.BTN[k] + '",');
 }
 //
 
