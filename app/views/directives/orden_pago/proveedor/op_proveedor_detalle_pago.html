@@ -23,7 +23,7 @@
     <div class="form-group">
       <label for="iva" class="col-sm-2 control-label">{{'ENTRADA_ALMACEN' | translate}}</label>
       <div class="col-sm-4">
-        <ui-select ng-model="d_opProveedorDetallePago.entrada.selected" theme="select2" on-select="d_opProveedorDetallePago.ver_seleccion($item, $model)" style="width:100%;">
+        <ui-select ng-model="d_opProveedorDetallePago.entrada.selected" theme="bootstrap" on-select="d_opProveedorDetallePago.ver_seleccion($item, $model)" style="width:100%;">
           <ui-select-match placeholder="{{'ENTRADA_ALMACEN' | translate}}...">{{$select.selected.Consecutivo || $select.selected }}</ui-select-match>
           <ui-select-choices repeat="entrada in d_opProveedorDetallePago.entradas | filter: $select.search">
             <span ng-bind-html="entrada.Consecutivo | highlight: $select.search"></span> -
