@@ -14,7 +14,6 @@ angular.module('financieraClienteApp')
   .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
-    self.message = 'Solicitudes de Disponibilidad Presupuestal';
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -105,6 +104,7 @@ angular.module('financieraClienteApp')
     self.generar_disponibilidad = function(){
       var arrSolicitudes = [];
       self.data.Responsable = 876543216;
+      self.data.Afectacion = $scope.afectacion[0];
       arrSolicitudes[0] = self.data;
       console.log("########################");
       console.log(arrSolicitudes);
