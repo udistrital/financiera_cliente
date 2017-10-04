@@ -9,21 +9,21 @@
     <div class="form-group">
       <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago.UnidadEjecutora.Nombre}}</span>
       </div>
       <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
       <div class="col-sm-5">
-        <textarea readonly class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Descripcion}}</textarea>
+        <textarea readonly class="form-control">{{d_opProveedorVerPorId.orden_pago.UnidadEjecutora.Descripcion}}</textarea>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago.UnidadEjecutora.Entidad.Nombre}}</span>
       </div>
       <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorVerPorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</span>
+        <span class="form-control">{{d_opProveedorVerPorId.orden_pago.UnidadEjecutora.Entidad.CodigoEntidad}}</span>
       </div>
     </div>
   </div>
@@ -145,36 +145,6 @@
 
   </div>
 </div>
-<!--Entrada Almacen-->
-<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
-  {{'ENTRADA_ALMACEN' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
-</legend class="text-primary">
-<div ng-show="panelDetalleConceptos" class="panel-body">
-  <table class="table">
-    <thead>
-      <th>{{'VIGENCIA' | translate}}</th>
-      <th>{{'PROVEEDOR' | translate}}</th>
-      <th>{{'DESCRIPCION' | translate}}</th>
-      <th>{{'NO' | translate}} {{'FACTURA' | translate}}</th>
-      <th>{{'SEDE' | translate}}</th>
-      <th>{{'DEPENDENCIA' | translate}}</th>
-      <th>{{'OBSERVACIONES' | translate}}</th>
-      <thead>
-        <tbody ng-repeat="i in d_opProveedorVerPorId.entrada">
-          <tr>
-            <td>{{i.Vigencia}}</td>
-            <td>{{i.Proveedor}}</td>
-            <td>{{i.Dependencia}}</td>
-            <td>{{i.NumeroFactura}}</td>
-            <td>{{i.Sede}}</td>
-            <td>{{i.Dependencia}}</td>
-            <td>{{i.Observaciones}}</td>
-          </tr>
-        </tbody>
-  </table>
-</div>
 
 <!--Valor del Pago-->
 <legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
@@ -188,45 +158,36 @@
       <div class="form-group">
         <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].SubTipoOrdenPago.Nombre}}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.SubTipoOrdenPago.Nombre}}</span>
         </div>
-        <label class="control-label col-sm-2">{{'VAL_IVA' | translate}}</label>
-        <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.ValorIva  | currency:"$":0 }}</span>
-        </div>
-      </div>
-      <div class="form-group">
         <label class="control-label col-sm-2">{{'FORMA_PAGO' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].FormaPago.Nombre}}</span>
-        </div>
-        <label class="control-label col-sm-2">{{'VALOR_BRUTO' | translate}}</label>
-        <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.ValorBruto  | currency:"$":0 }}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.FormaPago.Nombre}}</span>
         </div>
       </div>
       <div class="form-group">
+        <label class="control-label col-sm-2">{{'ENTRADA_ALMACEN' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.entrada.Consecutivo}} - {{d_opProveedorVerPorId.entrada.TipoContrato.Descripcion}}</span>
+        </div>
         <label class="control-label col-sm-2">{{'VALOR_BASE_RETENCION' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].ValorBase  | currency:"$":0 }}</span>
-        </div>
-        <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
-        <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].OrdenPagoEstadoOrdenPago[0].Usuario }}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.ValorBase  | currency:"$":0 }}</span>
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2">{{'POR_IVA' | translate}}</label>
+        <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Iva.Valor}}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.OrdenPagoEstadoOrdenPago[0].Usuario }}</span>
         </div>
         <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago[0].Vigencia}}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.Vigencia}}</span>
         </div>
       </div>
     </div>
-
+  </div>
+</div>
 <!--detalle rubro-->
 <legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">
   {{'RUBRO' | translate}}
@@ -290,6 +251,6 @@
   <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
 </legend class="text-primary">
 <div ng-show="panelDetalleCuentas" class="panel-body">
-  <movimientos-contables-op-detalle codigodocumentoafectante="d_opProveedorVerPorId.orden_pago[0].Id">
+  <movimientos-contables-op-detalle codigodocumentoafectante="d_opProveedorVerPorId.orden_pago.Id">
   </movimientos-contables-op-detalle>
 </div>

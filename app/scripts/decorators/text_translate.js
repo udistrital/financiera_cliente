@@ -111,7 +111,7 @@ var text_es = {
   ELIMINADO: "Eliminado",
   ELIMINARA: "Se eliminará",
   ENTIDAD: "Entidad",
-  ENTRADA_ALMACEN: "Entrada De Almacén",
+  ENTRADA_ALMACEN: "Entrada de Almacén",
   ERROR_OBSERVACIONES: "Debe llenar todas las observaciones",
   ERROR_REQUISITOS: "Debe seleccionar todos los requisitos",
   ESTADO: "Estado",
