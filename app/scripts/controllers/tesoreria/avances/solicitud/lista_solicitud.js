@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, modelsRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, academicaRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -49,12 +49,12 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(estados) {
                                 solicitud.Estado = estados.data;
-
                             });
                         //aqui va la conexions con el beneficiario
-                        modelsRequest.get("terceros_completo")
+                        academicaRequest.get("documento=" + solicitud.Beneficiario)
                             .then(function(response) {
-                                solicitud.Tercero = response.data;
+                                console.log(response.data)
+                                solicitud.Tercero = response.data[0];
                             });
                         financieraRequest.get("solicitud_tipo_avance", $.param({
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
@@ -68,7 +68,7 @@ angular.module('financieraClienteApp')
                                 angular.forEach(response.data, function(tipo) {
                                     solicitud.Total += tipo.Valor;
                                     financieraRequest.get("requisito_tipo_avance", $.param({
-                                            query: "TipoAvance:" + tipo.TipoAvance.Id + ",Estado:" + "A",
+                                            query: "TipoAvance:" + tipo.TipoAvance.Id + ",Activo:1",
                                             limit: -1,
                                             fields: "RequisitoAvance,TipoAvance,Id",
                                             sortby: "TipoAvance",
@@ -81,10 +81,10 @@ angular.module('financieraClienteApp')
                                             angular.forEach(tipo.Requisitos, function(data) {
                                                 data.SolicitudTipoAvance = { Id: tipo.Id };
                                                 data.RequisitoTipoAvance = { Id: data.Id };
-                                                if (data.RequisitoAvance.Etapa == "solicitar") {
+                                                if (data.RequisitoAvance.EtapaAvance.Id == 1) { //Solicitud
                                                     sol++;
                                                 }
-                                                if (data.RequisitoAvance.Etapa == "legalizar") {
+                                                if (data.RequisitoAvance.EtapaAvance.Id == 2) { //Legalización
                                                     leg++;
                                                 }
                                                 tipo.n_solicitar = sol;
@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Estado[0].FechaRegistro',
                     displayName: $translate.instant('FECHA'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span></div>',
+                    cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '8%',
                 },
                 {
@@ -166,7 +166,6 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
-            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
@@ -217,8 +216,8 @@ angular.module('financieraClienteApp')
                 }
                 j++;
             });
-            console.log("Indefinidos: " + i + ", seleccionados: " + j);
-            console.log(st);
+            //console.log("Indefinidos: " + i + ", seleccionados: " + j);
+            //console.log(st);
             if (i < st) {
                 error += "<li><label>" + $translate.instant('ERROR_OBSERVACIONES') + "</label></li>";
             }
@@ -236,7 +235,7 @@ angular.module('financieraClienteApp')
                 $scope.data = {};
                 $scope.envio = [];
                 angular.forEach($scope.selected, function(data) {
-                    console.log(data);
+                    //console.log(data);
                     var envio = {};
                     envio.RequisitoTipoAvance = data.RequisitoTipoAvance;
                     envio.SolicitudTipoAvance = data.SolicitudTipoAvance;
@@ -248,7 +247,7 @@ angular.module('financieraClienteApp')
 
                 financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
                     .then(function(response) {
-                        console.log(response.data);
+                        //console.log(response.data);
                         if (response.data.Type !== undefined) {
                             if (response.data.Type === "error") {
                                 swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -259,7 +258,7 @@ angular.module('financieraClienteApp')
                             $('#modal_validar').modal('hide');
                         }
                     });
-                console.log($scope.data);
+                //console.log($scope.data);
 
             }
         };

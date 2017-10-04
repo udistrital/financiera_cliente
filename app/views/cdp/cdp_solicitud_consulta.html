@@ -19,7 +19,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="page-header">Solicitud de CDP No. {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
-        <div align="right">Fecha Solicitud: {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"+0900"}}</div>
+        <div align="right">Fecha Solicitud: {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
         <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>

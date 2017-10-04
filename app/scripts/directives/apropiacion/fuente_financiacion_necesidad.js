@@ -39,7 +39,7 @@ angular.module('financieraClienteApp')
                     limit: 1
                   })).then(function(response) {
                     if (response.data === null){
-                      rubros_data.FuenteFinanciamiento = response.data;
+                      rubros_data.FuenteFinanciamiento = {Id:0};
                       console.log("fuente dev ")
                       console.log(rubros_data.FuenteFinanciamiento);
                     }else{

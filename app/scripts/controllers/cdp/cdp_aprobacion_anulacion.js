@@ -20,7 +20,7 @@ angular.module('financieraClienteApp')
         {field: 'Consecutivo',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('NO'),headerCellClass: 'text-info' },
         {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('CDP_NUMERO'),headerCellClass: 'text-info' },
         {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',   displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center',headerCellClass: 'text-info'},
-        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span>',headerCellClass: 'text-info'},
+        {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',headerCellClass: 'text-info'},
         {field: 'TipoAnulacion',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('TIPO'),headerCellClass: 'text-info' },
         {field: 'EstadoAnulacion.Nombre', displayName : $translate.instant('ESTADO'),headerCellClass: 'text-info'},
         {field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE'),headerCellClass: 'text-info'},

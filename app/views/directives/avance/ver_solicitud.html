@@ -3,20 +3,14 @@
 
     <div class="panel-body" ng-show="info_terceros">
         <div class="row">
-            <div class="col-sm-3 col-sm-offset-4">
-                <span class="form-control">{{d_verSolicitud.solicitud.Tercero.documento}}</span>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-6">
                 <label for="jefe_solicitante" class="control-label">{{"TIPO_DOCUMENTO" | translate}}</label>
-                <span class="form-control">{{d_verSolicitud.solicitud.Tercero.tipo_documento.tipo_documento}}</span>
+                <span class="form-control">{{d_verSolicitud.solicitud.Tercero.tipo_documento}}</span>
             </div>
 
             <div class="col-md-6">
-                <label for="dep_destino" class="control-label">{{"LUGAR_DOCUMENTO" | translate}}</label>
-                <span class="form-control">{{d_verSolicitud.solicitud.Tercero.municipio_expedicion_documento.municipio}}-
-          {{d_verSolicitud.solicitud.Tercero.municipio_expedicion_documento.departamento}}</span>
+                <label for="dep_destino" class="control-label">{{"DOCUMENTO" | translate}}</label>
+                <span class="form-control">{{d_verSolicitud.solicitud.Tercero.documento}}</span>
             </div>
 
             <div class="col-md-6">
@@ -67,13 +61,14 @@
             </div>
             <div class="col-md-6">
                 <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
-                <span class="form-control">{{d_verSolicitud.solicitud.Dependencia}}</span>
+                <span class="form-control">NO APLICA</span>
 
                 <label for="rol_ordenador_gasto" class="control-label">{{"FACULTAD" | translate}}</label>
-                <span class="form-control">{{d_verSolicitud.solicitud.Facultad}}</span>
+                <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Tercero.facultad" rows="2" disabled></textarea>
 
                 <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_CURRICULAR" | translate}}</label>
-                <span class="form-control">{{d_verSolicitud.solicitud.ProyectoCurricular}}</span>
+                <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Tercero.carrera" rows="2" disabled></textarea>
+
                 <label for="rol_ordenador_gasto" class="control-label">{{"CONVENIO" | translate}}</label>
                 <div class="row">
                     <div class="col-md-4">
@@ -109,9 +104,9 @@
             <div class="panel-body">
                 <div class="col-md-8">
                     {{tipo.Descripcion}}
-                    <br> Requisitos:
+                    <br> {{'REQUISITOS' | translate}}:
                     <ol>
-                        <li ng-repeat="requisito in tipo.Requisitos" ng-if="requisito.RequisitoAvance.Etapa === 'solicitar' ">
+                        <li ng-repeat="requisito in tipo.Requisitos" ng-if="requisito.RequisitoAvance.EtapaAvance.Nombre === 'Solicitud' ">
                             {{requisito.RequisitoAvance.Nombre}}
                         </li>
                     </ol>

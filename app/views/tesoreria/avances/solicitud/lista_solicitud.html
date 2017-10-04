@@ -13,7 +13,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{'AGREGAR_REQUISITO' | translate }}
+                {{'VER_SOLICITUD' | translate }}
             </div>
             <div class="panel panel-body">
                 <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
@@ -46,9 +46,7 @@
                                 {{tipo.Descripcion}}
                                 <br> Requisitos:
                                 <br>
-
-
-                                <div flex="50" class="left-cinco" ng-repeat="item in tipo.Requisitos" ng-if="item.RequisitoAvance.Etapa === 'solicitar' ">
+                                <div flex="50" class="left-cinco" ng-repeat="item in tipo.Requisitos" ng-if="item.RequisitoAvance.EtapaAvance.Id === 1">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <md-checkbox class="blue" ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">

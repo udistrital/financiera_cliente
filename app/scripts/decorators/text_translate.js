@@ -8,7 +8,6 @@
  * Decorator of the financieraClienteApp
  */
 var text_es = {
-
   ABONO_CUENTA: "Abono en Cuenta",
   ACH: "ACH",
   ACTIVO: "Activo",
@@ -130,7 +129,7 @@ var text_es = {
   E_A06: "Debe seleccionar el rubro afectado por el cdp a anular.",
   E_A07: "El valor debe ser mayor a 0",
   E_CDP001: "Expedición de CDP no aprobada, algunos valores superan el saldo de las Apropiaciones.",
-  E_CDP002: "No se pudo cargar los rubros de la solicitud",  
+  E_CDP002: "No se pudo cargar los rubros de la solicitud",
   E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
   E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
   E_OPN_01_2: "No se obtubo Id de la liquidacion. ",
@@ -337,7 +336,7 @@ var text_es = {
   SEDE: "Sede",
   SEGUDIDAD_SOCIAL: "Seguridad Social",
   SEGUNADA: "Segunda",
-  SEGURO:  "Seguro",
+  SEGURO: "Seguro",
   SELECCIONAR: "Seleccionar",
   SELECCIONAR_DEPENDENCIA: "Seleccione la Dependencia",
   SELECCIONAR_DESCUENTOS: "Selecciona Impuestos y Descuentos",
@@ -377,6 +376,7 @@ var text_es = {
   S_A12: "Operación para Anulación Correctamente Realizada para la solicitud",
   S_OPP_01: "Orden de Pago Registrado Exitosamente con Consecutivo No. ",
   S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
+  SMA_001: "Se Realizó la Solicitud de Avance con Consecutivo No. ",
   TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
   TELEFONO: "Teléfono",
   TIPO: "Tipo",
@@ -423,34 +423,34 @@ var text_es = {
   INFORMACION_SALDO_APROPIACION: "Información Presupuestal de la apropiación",
   PLANEACION_APROBACION_INICIAL: "Planeación de la apropiación inicial",
   BTN: {
-      ACTUALIZAR: "Actualizar",
-      AGREGAR: "Agregar",
-      ANADIR: "Añadir",
-      APROBAR: "Aprobar",
-      BORRAR: "Borrar",
-      CANCELAR: "Cancelar",
-      CONFIGURAR: "Configurar",
-      CONFIRMAR: "Confirmar",
-      EDITAR: "Editar",
-      GUARDAR: "Guardar",
-      LIMPIAR: "Limpiar",
-      NUEVO: "Nuevo",
-      NUEVO_OP_PLANTA: "Nuevo OP Planta",
-      NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
-      NUEVO_OP_SEGURIDAD_SOCIAL: "Nuevo OP Seguridad Social",
-      QUITAR: "Quitar",
-      QUITAR_RUBRO: "Quitar",
-      RECHAZAR: "Rechazar",
-      REGISTRAR: "Registrar",
-      REGRESAR: "Regresar",
-      SELECCIONAR: "Seleccionar",
-      SOLICITAR_RP: "Solicitar RP",
-      VER: "Ver",
-      VERIFICAR: "Verificar Requisitos"
+    ACTUALIZAR: "Actualizar",
+    AGREGAR: "Agregar",
+    ANADIR: "Añadir",
+    APROBAR: "Aprobar",
+    BORRAR: "Borrar",
+    CANCELAR: "Cancelar",
+    CONFIGURAR: "Configurar",
+    CONFIRMAR: "Confirmar",
+    EDITAR: "Editar",
+    GUARDAR: "Guardar",
+    LIMPIAR: "Limpiar",
+    NUEVO: "Nuevo",
+    NUEVO_OP_PLANTA: "Nuevo OP Planta",
+    NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
+    NUEVO_OP_SEGURIDAD_SOCIAL: "Nuevo OP Seguridad Social",
+    QUITAR: "Quitar",
+    QUITAR_RUBRO: "Quitar",
+    RECHAZAR: "Rechazar",
+    REGISTRAR: "Registrar",
+    REGRESAR: "Regresar",
+    SELECCIONAR: "Seleccionar",
+    SOLICITAR_RP: "Solicitar RP",
+    VER: "Ver",
+    VERIFICAR: "Verificar Requisitos"
   },
   D_PLANES_CUENTA: {
-      LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
-      NO_FILAS: "Número de Filas"
+    LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
+    NO_FILAS: "Número de Filas"
   }
 };
 
@@ -597,8 +597,9 @@ var text_en = {
 };
 
 //
-function ordenar(p_objeto){
-  var keys = [], k, i, len;
+function ordenar(p_objeto) {
+  var keys = [],
+    k, i, len;
   for (k in p_objeto) {
     if (p_objeto.hasOwnProperty(k)) {
       keys.push(k);
@@ -613,30 +614,30 @@ function ordenar(p_objeto){
   }
 }
 
-function comparar(p_objeto1, p_objeto2){
-  for (var key in p_objeto1){
+function comparar(p_objeto1, p_objeto2) {
+  for (var key in p_objeto1) {
     var esta_key = false;
-    if (p_objeto1.hasOwnProperty(key)){
+    if (p_objeto1.hasOwnProperty(key)) {
       console.log(key);
       //correr dos
-      for (var key_2 in p_objeto2){
-        if (p_objeto2.hasOwnProperty(key_2) && key_2 == key){
+      for (var key_2 in p_objeto2) {
+        if (p_objeto2.hasOwnProperty(key_2) && key_2 == key) {
           console.log("      Esta");
         }
       }
-    // --
+      // --
     }
   }
 }
 //
 angular.module('financieraClienteApp')
-    .config(function($translateProvider) {
-        $translateProvider
-            .translations("es", text_es)
-            .translations("en", text_en);
-        $translateProvider.preferredLanguage("es");
-        $translateProvider.useSanitizeValueStrategy("sanitizeParameters");
-    });
+  .config(function($translateProvider) {
+    $translateProvider
+      .translations("es", text_es)
+      .translations("en", text_en);
+    $translateProvider.preferredLanguage("es");
+    $translateProvider.useSanitizeValueStrategy("sanitizeParameters");
+  });
 
-    //ordenar(text_en)
-    //comparar(text_es.BTN, text_en.BTN)
+//ordenar(text_en)
+//comparar(text_es.BTN, text_en.BTN)

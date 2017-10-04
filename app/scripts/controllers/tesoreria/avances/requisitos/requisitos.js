@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
-        ctrl.tipo_avance = {};
+        ctrl.row_entity = {};
+
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
@@ -25,13 +26,12 @@ angular.module('financieraClienteApp')
             enableRowSelection: true,
             enableRowHeaderSelection: false,
             columnDefs: [{
-                    field: 'IdTipo',
+                    field: 'Id',
                     visible: false
                 },
                 {
-                    field: 'Referencia',
-                    displayName: $translate.instant('REFERENCIA'),
-                    cellTemplate: '<div align="center">{{row.entity.Referencia}}</div>',
+                    field: 'CodigoAbreviacion',
+                    displayName: $translate.instant('CODIGO_ABREVIACION'),
                     width: '10%',
                 },
                 {
@@ -42,24 +42,24 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Descripcion',
                     displayName: $translate.instant('DESCRIPCION'),
-                    width: '42%',
+                    width: '37%',
                 },
                 {
-                    field: 'Estado',
-                    displayName: $translate.instant('ESTADO'),
-                    cellTemplate: '<div align="center">{{row.entity.Estado}}</div>',
-                    width: '5%',
+                    field: 'Activo',
+                    displayName: $translate.instant('ACTIVO'),
+                    cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
+                    width: '6%',
                 },
                 {
-                    field: 'Etapa',
+                    field: 'Etapa.Nombre',
                     displayName: $translate.instant('ETAPA'),
-                    cellTemplate: '<div align="center">{{row.entity.Etapa}}</div>',
-                    width: '5%',
+                    cellTemplate: '<div align="center">{{row.entity.EtapaAvance.Nombre}}</div>',
+                    width: '9%',
                 },
                 {
                     field: 'FechaRegistro',
                     displayName: $translate.instant('FECHA_REGISTRO'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}</span></div>',
+                    cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '10%',
                 },
                 {
@@ -74,6 +74,18 @@ angular.module('financieraClienteApp')
 
         ctrl.gridOptions.multiSelect = false;
         ctrl.get_all_avances = function() {
+
+            financieraRequest.get("etapa_avance", $.param({
+                    limit: -1,
+                    query: "Activo:1",
+                    sortby: "NumeroOrden",
+                    order: "asc"
+                }))
+                .then(function(response) {
+                    ctrl.etapas = response.data;
+                    console.log(ctrl.etapas);
+                });
+
             financieraRequest.get("requisito_avance", $.param({
                     limit: -1,
                     sortby: "Id",
@@ -81,7 +93,6 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     ctrl.gridOptions.data = response.data;
-                    console.log(ctrl.gridOptions.data);
                 });
         };
 
@@ -93,26 +104,16 @@ angular.module('financieraClienteApp')
         ctrl.get_all_avances();
 
         $scope.loadrow = function(row, operacion) {
+            ctrl.row_entity = row.entity;
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.tipo_avance.Referencia = "";
-                    ctrl.tipo_avance.Nombre = "";
-                    ctrl.tipo_avance.Descripcion = "";
                     $('#myModal').modal('show');
                     break;
                 case "edit":
-                    ctrl.row_entity = row.entity;
-                    ctrl.tipo_avance.Referencia = ctrl.row_entity.Referencia;
-                    ctrl.tipo_avance.Nombre = ctrl.row_entity.Nombre;
-                    ctrl.tipo_avance.Descripcion = ctrl.row_entity.Descripcion;
-                    ctrl.tipo_avance.Estado = ctrl.row_entity.Estado;
-                    ctrl.tipo_avance.Etapa = ctrl.row_entity.Etapa;
-                    ctrl.tipo_avance.FechaRegistro = ctrl.row_entity.FechaRegistro;
                     $('#myModal').modal('show');
                     break;
                 case "delete":
-                    ctrl.row_entity = row.entity;
                     ctrl.delete_requisito();
                     break;
             }
@@ -121,7 +122,7 @@ angular.module('financieraClienteApp')
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Referencia,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -133,7 +134,7 @@ angular.module('financieraClienteApp')
                         if (response.status === 200) {
                             swal(
                                 $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Referencia + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
                             ctrl.get_all_avances();
@@ -149,14 +150,13 @@ angular.module('financieraClienteApp')
                 case 'edit':
                     data = {
                         Id: ctrl.row_entity.Id,
-                        Referencia: ctrl.tipo_avance.Referencia,
-                        Nombre: ctrl.tipo_avance.Nombre,
-                        Descripcion: ctrl.tipo_avance.Descripcion,
-                        Estado: ctrl.tipo_avance.Estado,
-                        Etapa: ctrl.tipo_avance.Etapa,
-                        FechaRegistro: ctrl.tipo_avance.FechaRegistro
+                        CodigoAbreviacion: ctrl.row_entity.CodigoAbreviacion,
+                        Nombre: ctrl.row_entity.Nombre,
+                        Descripcion: ctrl.row_entity.Descripcion,
+                        Activo: ctrl.row_entity.Activo,
+                        EtapaAvance: ctrl.row_entity.EtapaAvance,
+                        FechaRegistro: ctrl.row_entity.FechaRegistro
                     };
-                    console.log(data);
                     financieraRequest.put("requisito_avance", data.Id, data)
                         .then(function(info) {
                             console.log(info);
@@ -165,11 +165,12 @@ angular.module('financieraClienteApp')
                     break;
                 case 'add':
                     data = {
-                        Referencia: ctrl.tipo_avance.Referencia,
-                        Nombre: ctrl.tipo_avance.Nombre,
-                        Descripcion: ctrl.tipo_avance.Descripcion,
-                        Etapa: ctrl.tipo_avance.Etapa
+                        CodigoAbreviacion: ctrl.row_entity.CodigoAbreviacion,
+                        Nombre: ctrl.row_entity.Nombre,
+                        Descripcion: ctrl.row_entity.Descripcion,
+                        EtapaAvance: ctrl.row_entity.EtapaAvance
                     };
+                    console.log(data);
                     financieraRequest.post("requisito_avance", data)
                         .then(function(info) {
                             console.log(info);
@@ -181,7 +182,7 @@ angular.module('financieraClienteApp')
                     break;
                 default:
             }
-            ctrl.tipo_avance = {};
+            ctrl.row_entity = {};
             $("#myModal").modal('hide');
         };
     });

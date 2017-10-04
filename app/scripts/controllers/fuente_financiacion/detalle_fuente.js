@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
           field: 'Apropiacion.FechaCreacion',
           width: '12%',
           displayName: $translate.instant('FECHA_CREACION'),
-          cellTemplate: '<div align="center">{{row.entity.FechaCreacion | date:"yyyy-MM-dd":"+0900"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'Apropiacion.Rubro.Descripcion',
