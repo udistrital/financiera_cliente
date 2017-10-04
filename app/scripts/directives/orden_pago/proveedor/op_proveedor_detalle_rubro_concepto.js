@@ -2,23 +2,23 @@
 
 /**
  * @ngdoc directive
- * @name financieraClienteApp.directive:rubros/rubrosPorRpSeleccionMultiple
+ * @name financieraClienteApp.directive:ordenPago/proveedor/opProveedorDetalleRubroConcepto
  * @description
- * # rubros/rubrosPorRpSeleccionMultiple
+ * # ordenPago/proveedor/opProveedorDetalleRubroConcepto
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosPorRpSeleccionMultiple', function(financieraRequest, $timeout, $translate) {
+  .directive('ordenPago/proveedor/opProveedorDetalleRubroConcepto', function(financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        inputrpid: '=?',
-        outputconceptos: '=?'
+        inputopid: '=?'
       },
 
-      templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
+      templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_detalle_rubro_concepto.html',
       controller: function($scope) {
-        var self = this;
+        var this = this;
+
 
         self.gridOptions_rubros = {
           enableRowSelection: false,
@@ -147,11 +147,11 @@ angular.module('financieraClienteApp')
           }
         })
         //
-        $scope.$watch('inputrpid', function() {
-          if ($scope.inputrpid != undefined) {
-            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
+        $scope.$watch('inputopid', function() {
+          if ($scope.inputopid != undefined) {
+            financieraRequest.get('concepto_orden_pago',
               $.param({
-                query: "RegistroPresupuestal.Id:" + $scope.inputrpid,
+                query: "orden_de_pago.Id:" + $scope.inputopid,
                 limit: 0
               })
             ).then(function(response) {
@@ -171,8 +171,17 @@ angular.module('financieraClienteApp')
             });
           }
         })
+
+
+
+
+
+
+
+
+
         // fin
       },
-      controllerAs: 'd_rubrosPorRpSeleccionMultiple'
+      controllerAs: 'd_opProveedorDetalleRubroConcepto'
     };
   });

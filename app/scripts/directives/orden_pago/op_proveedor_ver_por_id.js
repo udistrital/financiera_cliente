@@ -32,22 +32,20 @@ angular.module('financieraClienteApp')
           if ($scope.opproveedorid != undefined) {
             financieraRequest.get('orden_pago',
               $.param({
-                query: "Id:" + $scope.opproveedorid,
+                query: "Id:" + $scope.opproveedorid + ',SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:OP-PROV',
               })).then(function(response) {
-              self.orden_pago = response.data;
+              self.orden_pago = response.data[0];
               $scope.outputopp = response.data[0];
               // proveedor
-              self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario)
+              self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario)
               // detalle rp
-              self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id)
+              self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id)
               // entrada almacen
-              if (self.orden_pago[0].EntradaAlmacen != 0){
-                self.entradaAlmacen(self.orden_pago[0].EntradaAlmacen)
+              if (self.orden_pago.EntradaAlmacen != 0){
+                self.entradaAlmacen(self.orden_pago.EntradaAlmacen)
               }
-              //Iva
-              self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor)
               //detalle concepto
-              self.detalle_concepto(self.orden_pago[0].Id)
+              self.detalle_concepto(self.orden_pago.Id)
             });
           }
         })
@@ -109,13 +107,8 @@ angular.module('financieraClienteApp')
               query: 'Id:' + entrada_id,
             })
           ).then(function(response){
-              self.entrada = response.data;
+              self.entrada = response.data[0];
             });
-        }
-        // Function calcular iva
-        self.calcularIva = function(valor_base, iva) {
-          self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
-          self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
         }
         // Function detall concepto
         self.detalle_concepto = function(orden_pago_id) {

@@ -69,18 +69,16 @@ angular.module('financieraClienteApp')
                 default:
             }
         };
-        
+
         $scope.notificacion.get_crud('notificacion', $.param({
                 query: "UsuarioDestino:2"
             }))
             .then(function(response) {
                 $scope.notificacion.log = response.data;
-                console.log($scope.notificacion.log);
             });
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil).then(function(response) {
             $rootScope.my_menu = response.data;
-            console.log($rootScope.my_menu);
             /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");
             $scope.menu_service = configuracionRequest.get_menu();*/

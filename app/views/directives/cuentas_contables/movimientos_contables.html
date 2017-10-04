@@ -21,15 +21,15 @@
     </div>
   </div>
 
-  <div class="mi-grid" id="mi-grid" ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
-  <div ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" class="mi-grid" id="mi-grid"  ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="table"></div>
+  <div class="mi-grid" ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
+  <div  ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
   <div ng-show="show_descs">
-    <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
+    <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos{{conceptoid}}">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
 
 
 
-  <div id="modalDescuentos" class="modal fade">
+  <div id="modalDescuentos{{conceptoid}}" class="modal fade">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
 
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
