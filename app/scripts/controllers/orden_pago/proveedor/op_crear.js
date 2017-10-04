@@ -14,13 +14,8 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = false;
     self.OrdenPago = {};
     self.Proveedor = {};
-    self.OrdenPago.RegistroPresupuestal = {
-      'Id': 98
-    } // data tes
+    self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
     self.Conceptos = {};
-    // self.ConceptoOrdenPago = [];
-    // self.TotalAfectacion = 0;
-    // self.MovimientoContable = [];
     self.MensajesAlerta = null;
 
     // functions
@@ -45,34 +40,50 @@ angular.module('financieraClienteApp')
             }
           });
           // total afectacion
-          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion ;
-          //
+          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
+          //  data movimientos contables
           angular.forEach(concepto.movs, function(movimiento) {
             if (movimiento.Debito > 0 || movimiento.Credito > 0) {
-              // data movimientos contables
               self.MovimientoContable.push(movimiento);
             }
           })
-        } //if
+        }
       })
     }
 
     // Insert Orden Pago
     self.registrarOpProveedor = function() {
-      self.camposObligatorios()
-      // trabajar estructura de conceptos
-      if (Object.keys(self.Conceptos).length > 0) {
-        self.estructurarDatosParaRegistro(self.Conceptos);
-        //construir data send
-        self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
-        self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
-        self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
-        self.dataOrdenPagoInsert.Usuario = {'Id': 1};
-        //console.log("Estructura para enviar")
-        //console.log(self.dataOrdenPagoInsert)
-        // validar campos obligatorios en el formulario orden Pago y se inserta registro
+      if (self.camposObligatorios()) {
+        // trabajar estructura de conceptos
+        if (Object.keys(self.Conceptos).length > 0) {
+          self.estructurarDatosParaRegistro(self.Conceptos);
+          //construir data send
+          self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+          self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+          self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
+          self.dataOrdenPagoInsert.Usuario = {'Id': 1};   // Con autenticación llegara el objeto
+        }
+        // registrar OP Proveedor
+        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
+          .then(function(data) {
+            self.resultado = data;
+            //mensaje
+            swal({
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              type: self.resultado.data.Type,
+            }).then(function() {
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+          })
+      } else {
+        // mesnajes de error campos obligatorios
+        swal({
+          title: 'Error!',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          type: 'error'
+        })
       }
-
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
@@ -98,27 +109,9 @@ angular.module('financieraClienteApp')
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
-        // insert
-        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
-          .then(function(data) {
-            self.resultado = data;
-            //mensaje
-            swal({
-              title: 'Orden de Pago',
-              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
-              type: self.resultado.data.Type,
-            }).then(function() {
-              $window.location.href = '#/orden_pago/ver_todos';
-            })
-            //
-          })
+        return true;
       } else {
-        // mesnajes de error
-        swal({
-          title: 'Error!',
-          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
-          type: 'error'
-        })
+        return false;
       }
     }
     //
