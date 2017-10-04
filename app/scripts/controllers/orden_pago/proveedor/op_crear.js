@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = false;
     self.OrdenPago = {};
     self.Proveedor = {};
-    self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
+    //self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
 
