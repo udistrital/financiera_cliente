@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,$translate,disponibilidad,$scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest) {
+  .controller('CdpCdpConsultaCtrl', function ($window,$translate,disponibilidad,$scope,financieraRequest,financieraMidRequest,agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -91,7 +91,7 @@ angular.module('financieraClienteApp')
               financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
                 data.Saldo  = response.data;
               });
-              self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
+              
             });
 
               agoraRequest.get('informacion_persona_natural',$.param({
