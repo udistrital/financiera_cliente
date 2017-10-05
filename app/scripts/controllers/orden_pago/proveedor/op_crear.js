@@ -13,8 +13,9 @@ angular.module('financieraClienteApp')
     var self = this;
     self.PestanaAbierta = false;
     self.OrdenPago = {};
+    self.OrdenPago.UnidadEjecutora = {'Id': 1};
     self.Proveedor = {};
-    //self.OrdenPago.RegistroPresupuestal = {'Id': 98} // data tes
+    //self.OrdenPago.RegistroPresupuestal = {'Id': 99} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
 
@@ -58,6 +59,7 @@ angular.module('financieraClienteApp')
         if (Object.keys(self.Conceptos).length > 0) {
           self.estructurarDatosParaRegistro(self.Conceptos);
           //construir data send
+          self.dataOrdenPagoInsert = {};
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
