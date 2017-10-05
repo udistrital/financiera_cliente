@@ -53,38 +53,39 @@ angular.module('financieraClienteApp')
           visible: false
         }, {
           field: 'Vigencia',
-          displayName: 'Vigencia',
+          displayName: $translate.instant("VIGENCIA"),
           headerCellClass: 'text-info'
         },
         {
           field: 'Consecutivo',
-          displayName: 'Consecutivo',
+          displayName: $translate.instant("CONSECUTIVO"),
           headerCellClass: 'text-info'
         },
         {
           field: 'FechaIngreso',
-          displayName: 'Fecha de Ingreso',
+          displayName: $translate.instant("FECHA_INGRESO"),
           headerCellClass: 'text-info',
           cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
         {
           field: 'FechaConsignacion',
-          displayName: 'Fecha de consignación',
+          displayName: $translate.instant("FECHA_CONSIGNACION"),
           headerCellClass: 'text-info',
           cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
         {
           field: 'FormaIngreso.Nombre',
-          displayName: 'Forma de Ingreso',
+          displayName: $translate.instant("FORMA_INGRESO") ,
           headerCellClass: 'text-info'
         },
         {
           field: 'EstadoIngreso.Nombre',
-          displayName: 'Estado',
+          displayName: $translate.instant("ESTADO"),
           headerCellClass: 'text-info'
         },
         {
           field: 'Opciones',
+          displayName: $translate.instant("OPCIONES"),
           cellTemplate: ' <a type="button" class="fa fa-eye" ng-click="grid.appScope.ingresoConsulta.verIngreso(row)" ></a>',
           headerCellClass: 'text-info'
         }
