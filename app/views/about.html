@@ -1,22 +1,4 @@
-<div class="col-md-2 col-md-offset-2">
-    <label>
-         <label>{{'TERCERO' | translate}}:</label>
-    </label>
-</div>
+<div ui-grid="gridOptions" ui-grid-pinning ui-grid-expandable ui-grid-selection class="grid"></div>
 
-<div class="col-md-7">
-  <ui-select ng-model="about.tercero.selected" theme="select2" on-select="about.ver_seleccion($item, $model)" style="width:100%;">
-      <ui-select-match placeholder="{{'TERCERO' | translate}}...">{{$select.selected.NomProveedor || $select.selected }}</ui-select-match>
-      <ui-select-choices repeat="tercero in about.terceros | filter: $select.search">
-          <span ng-bind-html="tercero.NomProveedor | highlight: $select.search"></span><br>
-          <small>
-              Correo electrónico: {{tercero.Correo}}
-              Documento: <small ng-bind-html="tercero.NumDocumento | highlight: $select.search"></small>
-          </small>
-      </ui-select-choices>
-  </ui-select>
-
-  <br>
-  <pre>{{about.terceros[0] | json}}</pre>
-
-</div>
+<br><br>
+<pre>{{outputconceptos}}</pre>
