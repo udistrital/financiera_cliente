@@ -19,83 +19,10 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller: function($scope) {
         var self = this;
-
+        $scope.outputconceptos = [];
         self.gridOptions_rubros = {
-          enableRowSelection: false,
-          multiSelect: false,
-          enableRowHeaderSelection: false,
-
-          paginationPageSizes: [10, 50, 100],
-          paginationPageSize: null,
-
-          enableFiltering: true,
-          enableSelectAll: true,
-          enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 0,
-          //minRowsToShow: 10,
-          useExternalPagination: false,
-
-          // inicio sub tabla
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
-          onRegisterApi: function(gridApi) {
-            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-              if (row.isExpanded) {
-                row.entity.subGridOptions = {
-                  multiSelect: true,
-                  columnDefs: [{
-                      field: 'Id',
-                      visible: false,
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'Codigo',
-                      displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
-                      enableCellEdit: false,
-                      width: '10%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Nombre',
-                      displayName: $translate.instant('NOMBRE'),
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'Descripcion',
-                      displayName: $translate.instant('DESCRIPCION'),
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'TipoConcepto.Nombre',
-                      displayName: $translate.instant('TIPO'),
-                      enableCellEdit: false,
-                      width: '10%',
-                    },
-                  ],
-                  onRegisterApi: function(gridApi) {
-                    self.gridApi = gridApi;
-                    gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
-                      $scope.outputconceptos = self.gridApi.selection.getSelectedRows();
-                    });
-                  }
-                };
-                //
-                financieraRequest.get('concepto',
-                  $.param({
-                    query: "Rubro.Id:" + row.entity.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
-                    limit: 0
-                  })
-                ).then(function(response) {
-                  row.entity.subGridOptions.data = response.data;
-                  //asociar RegistroPresupuestalDisponibilidadApropiacion
-                  angular.forEach(row.entity.subGridOptions.data, function(subGridData) {
-                    subGridData.RegistroPresupuestalDisponibilidadApropiacion = row.entity.Id
-                  });
-                });
-              } // if
-            });
-          },
-          // fin sub tabla
           columnDefs: [{
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -156,22 +83,80 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               self.gridOptions_rubros.data = response.data;
-              // get saldos de lor rp
-              angular.forEach(self.gridOptions_rubros.data, function(data) {
+
+              angular.forEach(self.gridOptions_rubros.data, function(iterador) {
+                // get saldos de lor rp
                 var rpData = {
-                  Rp: data.RegistroPresupuestal,
-                  Apropiacion: data.DisponibilidadApropiacion.Apropiacion,
-                  FuenteFinanciacion: data.DisponibilidadApropiacion.FuenteFinanciamiento
+                  Rp: iterador.RegistroPresupuestal,
+                  Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
+                  FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData).then(function(response) {
-                  data.Saldo = response.data.saldo;
+                  iterador.Saldo = response.data.saldo;
                 });
-              });
-              //fin get saldos de lor rp
-            });
-          }
-        })
-        // fin
+                //fin get saldos de lor rp
+                iterador.subGridOptions = {
+                  multiSelect: true,
+                  columnDefs: [{
+                      field: 'Id',
+                      visible: false,
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'Codigo',
+                      displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
+                      enableCellEdit: false,
+                      width: '10%',
+                      cellClass: 'input_center'
+                    },
+                    {
+                      field: 'Nombre',
+                      displayName: $translate.instant('NOMBRE'),
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'Descripcion',
+                      displayName: $translate.instant('DESCRIPCION'),
+                      enableCellEdit: false
+                    },
+                    {
+                      field: 'TipoConcepto.Nombre',
+                      displayName: $translate.instant('TIPO'),
+                      enableCellEdit: false,
+                      width: '10%',
+                    },
+                  ],
+                  onRegisterApi: function(gridApi) {
+                    self.gridApi = gridApi;
+                    gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
+                      if (row2.isSelected) {
+                        $scope.outputconceptos.push(row2.entity);
+                      } else {
+                        var i = $scope.outputconceptos.indexOf(row2.entity)
+                        $scope.outputconceptos.splice(i, 1);
+                      }
+                    });
+                  }
+                };
+                //
+                financieraRequest.get('concepto',
+                  $.param({
+                    query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
+                    limit: 0
+                  })
+                ).then(function(response) {
+                  iterador.subGridOptions.data = response.data;
+                  //asociar RegistroPresupuestalDisponibilidadApropiacion
+                  angular.forEach(iterador.subGridOptions.data, function(subGridData) {
+                    subGridData.RegistroPresupuestalDisponibilidadApropiacion = iterador.Id
+                  });
+                });
+              }); // iterador
+            }); //tehen
+          } //if
+        }) // watch
+
+      // fin
       },
       controllerAs: 'd_rubrosPorRpSeleccionMultiple'
     };
