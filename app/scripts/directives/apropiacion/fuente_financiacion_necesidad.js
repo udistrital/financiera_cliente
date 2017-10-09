@@ -12,14 +12,15 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           apropiacion:'=',
-          necesidad: '='
+          necesidad: '=',
+          resumenafectacion: '='
         },
       templateUrl: 'views/directives/apropiacion/fuente_financiacion_necesidad.html',
       controller:function($scope){
         var self = this;
-        self.resumen_afectacion_presupuestal = [];
+        $scope.resumenafectacion = [];
         $scope.$watch('apropiacion', function(){
-          self.resumen_afectacion_presupuestal = [];
+          $scope.resumenafectacion = [];
           if ($scope.necesidad != undefined && $scope.apropiacion != undefined){
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
               administrativaRequest.get('fuente_financiacion_rubro_necesidad',$.param({
@@ -50,7 +51,7 @@ angular.module('financieraClienteApp')
                     
                   });
                 });
-                self.resumen_afectacion_presupuestal.push(self.rubros_afectados);
+                $scope.resumenafectacion.push(self.rubros_afectados);
               });
 
             });
