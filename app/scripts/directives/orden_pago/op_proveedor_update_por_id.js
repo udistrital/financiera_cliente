@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorUpdatePorId
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorUpdatePorId', function(financieraRequest, agoraRequest, coreRequest, arkaRequest, $translate, $window) {
+  .directive('opProveedorUpdatePorId', function(financieraMidRequest, financieraRequest, agoraRequest, coreRequest, arkaRequest, $translate, $window) {
     return {
       restrict: 'E',
       scope: {
@@ -55,13 +55,6 @@ angular.module('financieraClienteApp')
               if (self.orden_pago.EntradaAlmacen != 0){
                 self.entradaAlmacen(self.orden_pago.EntradaAlmacen)
               }
-              //Iva
-              self.calcularIva(self.orden_pago.ValorBase, self.orden_pago.Iva.Valor);
-              //definir valores
-              self.OrdenPago.Iva = self.orden_pago.Iva;
-              self.OrdenPago.ValorBase = self.orden_pago.ValorBase;
-              self.OrdenPago.SubTipoOrdenPago = self.orden_pago.SubTipoOrdenPago;
-              self.OrdenPago.FormaPago = self.orden_pago.FormaPago;
             });
           }
         })
@@ -126,13 +119,7 @@ angular.module('financieraClienteApp')
               self.entrada = response.data;
             });
         }
-        // Function calcular iva
-        self.calcularIva = function(valor_base, iva) {
-          self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
-          self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
-        }
         //Funciones de validacion y update data
-
         // functions
         self.estructurarDataSend = function(conceptos) {
           // estrurctura total afectacion y movimientos contables
@@ -183,9 +170,6 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;
-          //console.log("Estructura para enviar")
-          //console.log(self.dataOrdenPagoInsert)
-          // validar campos obligatorios en el formulario orden Pago y se inserta registro
           self.validar_campos()
         }
 
@@ -201,9 +185,6 @@ angular.module('financieraClienteApp')
           if (self.OrdenPago.ValorBase == undefined) {
             self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
           }
-          /*if (self.RubrosIds == undefined || self.RubrosIds.length == 0) {
-            self.MensajesAlerta = self.MensajesAlerta +  "<li>Debe Seleccionar por lo minimo un Rubro</li>"
-          }*/
           if (self.Concepto == undefined || self.Concepto.length == 0) {
             self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
           }

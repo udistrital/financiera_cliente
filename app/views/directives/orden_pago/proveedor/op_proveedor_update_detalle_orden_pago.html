@@ -1,0 +1,52 @@
+<legend class="text-primary" ng-click="a=!a">
+  {{'DETALLE_OP' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!a"></span>
+  <span class="fa fa-minus pull-right" ng-show="a"></span>
+</legend class="text-primary">
+
+<p>aaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+{{inputpreviusdata}}
+
+<div class="panel-body row" ng-show="a">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="tipo_documento" class="col-sm-2 control-label">{{'TIPO_DOCUMENTO' | translate }}</label>
+      <div class="col-sm-4">
+        <select ng-model="outputnewdataselect.SubTipoOrdenPago" ng-options="i.Nombre for i in d_opProveedorUpdateDetalleOrdenPago.subTiposOrdenPago track by i.Nombre" class="form-control" required>
+        </select>
+      </div>
+      <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+      <div class="col-sm-4">
+        <select ng-model="outputnewdataselect.FormaPago" ng-options="i.Nombre for i in d_opProveedorUpdateDetalleOrdenPago.formaPagos track by i.Nombre" class="form-control" required>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="iva" class="col-sm-2 control-label">{{'ENTRADA_ALMACEN' | translate}}</label>
+      <div class="col-sm-4">
+        <ui-select ng-model="d_opProveedorDetallePago.entrada.selected" theme="bootstrap" on-select="d_opProveedorDetallePago.ver_seleccion($item, $model)" style="width:100%;">
+          <ui-select-match placeholder="{{'ENTRADA_ALMACEN' | translate}}...">{{$select.selected.Consecutivo || $select.selected }}</ui-select-match>
+          <ui-select-choices repeat="entrada in d_opProveedorDetallePago.entradas | filter: $select.search">
+            <span ng-bind-html="entrada.Consecutivo | highlight: $select.search"></span> -
+            <span ng-bind-html="entrada.TipoContrato.Descripcion | highlight: $select.search"></span><br>
+            <small>
+              No. Factura: {{entrada.NumeroFactura}}
+              Vigencia: <small ng-bind-html="entrada.Vigencia | highlight: $select.search"></small>
+            </small>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+      <label for="val_base_retencion" class="col-sm-2 control-label">{{'VALOR_BASE_RETENCION' | translate}}</label>
+      <div class="col-sm-4">
+        <input
+          type="text" class="form-control input_right"
+          ng-model="outputnewdataselect.ValorBase"
+          placeholder="Valor Base Retenciones"
+          ui-number-mask="0" required/>
+      </div>
+    </div>
+
+    {{outputnewdataselect}}
+
+  </div>
+</div>
