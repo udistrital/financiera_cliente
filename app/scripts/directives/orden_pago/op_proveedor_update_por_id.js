@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
+        inputpestanaabierta: '=',
         opproveedorid: '=',
         outputopp: '='
       },
@@ -30,37 +31,37 @@ angular.module('financieraClienteApp')
         self.MensajesAlerta = null;
         self.TotalAfectacion = null;
         // paneles
-        $scope.panelUnidadEjecutora = true;
-        $scope.panelProveedor = true;
-        $scope.panelRp = true;
-        $scope.panelDetallePagoProveedor = true;
-        $scope.panelDetalleRubro = true;
-        $scope.panelDetalleConceptos = true;
-        $scope.panelDetalleCuentas = true;
+        $scope.panelUnidadEjecutora = $scope.inputpestanaabierta;
+        $scope.panelProveedor = $scope.inputpestanaabierta;
+        $scope.panelRp = $scope.inputpestanaabierta;
+        $scope.panelDetallePagoProveedor = $scope.inputpestanaabierta;
+        $scope.panelDetalleRubro = $scope.inputpestanaabierta;
+        $scope.panelDetalleConceptos = $scope.inputpestanaabierta;
+        $scope.panelDetalleCuentas = $scope.inputpestanaabierta;
         //orden de pago
         $scope.$watch('opproveedorid', function() {
           if ($scope.opproveedorid != undefined) {
             financieraRequest.get('orden_pago',
               $.param({
-                query: "Id:" + $scope.opproveedorid,
+                query: "Id:" + $scope.opproveedorid + ',SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:OP-PROV',
               })).then(function(response) {
-              self.orden_pago = response.data;
+              self.orden_pago = response.data[0];
               $scope.outputopp = response.data[0];
               // proveedor
-              self.asignar_proveedor(self.orden_pago[0].RegistroPresupuestal.Beneficiario);
+              self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
               // detalle rp
-              self.detalle_rp(self.orden_pago[0].RegistroPresupuestal.Id);
+              self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
               // entrada almacen
-              if (self.orden_pago[0].EntradaAlmacen != 0){
-                self.entradaAlmacen(self.orden_pago[0].EntradaAlmacen)
+              if (self.orden_pago.EntradaAlmacen != 0){
+                self.entradaAlmacen(self.orden_pago.EntradaAlmacen)
               }
               //Iva
-              self.calcularIva(self.orden_pago[0].ValorBase, self.orden_pago[0].Iva.Valor);
+              self.calcularIva(self.orden_pago.ValorBase, self.orden_pago.Iva.Valor);
               //definir valores
-              self.OrdenPago.Iva = self.orden_pago[0].Iva;
-              self.OrdenPago.ValorBase = self.orden_pago[0].ValorBase;
-              self.OrdenPago.SubTipoOrdenPago = self.orden_pago[0].SubTipoOrdenPago;
-              self.OrdenPago.FormaPago = self.orden_pago[0].FormaPago;
+              self.OrdenPago.Iva = self.orden_pago.Iva;
+              self.OrdenPago.ValorBase = self.orden_pago.ValorBase;
+              self.OrdenPago.SubTipoOrdenPago = self.orden_pago.SubTipoOrdenPago;
+              self.OrdenPago.FormaPago = self.orden_pago.FormaPago;
             });
           }
         })
@@ -71,11 +72,11 @@ angular.module('financieraClienteApp')
               query: "Id:" + beneficiario_id,
             })
           ).then(function(response) {
-            self.proveedor = response.data;
+            self.proveedor = response.data[0];
             // datos banco
-            self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
+            self.get_info_banco(self.proveedor.IdEntidadBancaria);
             //datos telefono
-            self.get_tel_provee(self.proveedor[0].Id)
+            self.get_tel_provee(self.proveedor.Id)
           });
         }
         //
@@ -102,7 +103,12 @@ angular.module('financieraClienteApp')
             $.param({
               query: "RegistroPresupuestal.Id:" + rp_id,
             })).then(function(response) {
-            self.rp_detalle = response.data;
+            self.rp_detalle = response.data[0];
+            //data necesidad
+            financieraMidRequest.get('disponibilidad/SolicitudById/' + self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud, '')
+              .then(function(response) {
+                self.solicitud = response.data[0];
+              });
           });
           //Valor total del Rp
           financieraRequest.get('registro_presupuestal/ValorTotalRp/' + rp_id)
@@ -173,7 +179,7 @@ angular.module('financieraClienteApp')
             self.estructurarDataSend(self.Concepto);
           }
           //construir data send
-          self.OrdenPago.Id = self.orden_pago[0].Id; //definimos id en OrdenPago
+          self.OrdenPago.Id = self.orden_pago.Id; //definimos id en OrdenPago
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContableConceptoOrdenPago;

@@ -9,21 +9,21 @@
     <div class="form-group">
       <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago[0].UnidadEjecutora.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago.UnidadEjecutora.Nombre}}</span>
       </div>
       <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
       <div class="col-sm-5">
-        <textarea readonly class="form-control">{{d_opProveedorUpdatePorId.orden_pago[0].UnidadEjecutora.Descripcion}}</textarea>
+        <textarea readonly class="form-control">{{d_opProveedorUpdatePorId.orden_pago.UnidadEjecutora.Descripcion}}</textarea>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago[0].UnidadEjecutora.Entidad.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago.UnidadEjecutora.Entidad.Nombre}}</span>
       </div>
       <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago[0].UnidadEjecutora.Entidad.CodigoEntidad}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.orden_pago.UnidadEjecutora.Entidad.CodigoEntidad}}</span>
       </div>
     </div>
   </div>
@@ -39,21 +39,21 @@
     <div class="form-group">
       <label class="control-label col-sm-1">{{'TIPO_PERSONA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].Tipopersona}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.Tipopersona}}</span>
       </div>
       <label class="control-label col-sm-1">{{'NO_DOCUMENTO' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].NumDocumento}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.NumDocumento}}</span>
       </div>
     </div>
     <div class="form-group">
       <label class="control-label col-sm-1">{{'NOMBRE' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].NomProveedor}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.NomProveedor}}</span>
       </div>
       <label class="control-label col-sm-1">{{'DIRECCION' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].Direccion}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.Direccion}}</span>
       </div>
     </div>
     <div class="form-group">
@@ -63,7 +63,7 @@
       </div>
       <label class="control-label col-sm-1">{{'CUENTA_BANCARIA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].NumCuentaBancaria}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.NumCuentaBancaria}}</span>
       </div>
     </div>
     <div class="form-group">
@@ -73,11 +73,12 @@
       </div>
       <label class="control-label col-sm-1">{{'TIPO_CUENTA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor[0].TipoCuentaBancaria}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.proveedor.TipoCuentaBancaria}}</span>
       </div>
     </div>
   </div>
 </div>
+
 <!--Detalle RP-->
 <legend class="text-primary" ng-click="panelRp=!panelRp">
   {{'REGISTRO_PRESUPUESTAL' | translate}}
@@ -87,23 +88,33 @@
 <div ng-show="panelRp" class="panel-body">
   <div class="form-horizontal">
     <div class="form-group">
+      <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
+      </div>
       <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.Vigencia}}</span>
-      </div>
-      <label class="control-label col-sm-1">{{'ESTADO' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.Estado.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.Vigencia}}</span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
-      <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
-      </div>
       <label class="control-label col-sm-1">{{'RESPONSABLE' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.Responsable}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.Responsable}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'ESTADO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.Estado.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.RegistroPresupuestal.Compromiso.Objeto}}</span>
       </div>
     </div>
     <div class="form-group">
@@ -111,53 +122,30 @@
       <div class="col-sm-5">
         <span class="form-control input_right">{{d_opProveedorUpdatePorId.valor_total_rp | currency}}</span>
       </div>
+    </div>
+    <div class="form-group">
       <label class="control-label col-sm-1">{{'NO_CDP' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'ESTADO' | translate}} {{'CDP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
       </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-1">{{'COMPROMISO' | translate}}</label>
+      <label class="control-label col-sm-1">{{'NECESIDAD_NO' | translate}}</label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+        <span class="form-control">{{d_opProveedorUpdatePorId.solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</span>
       </div>
-      <label class="control-label col-sm-1">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+      <label class="control-label col-sm-1">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
       <div class="col-sm-5">
-        <span class="form-control">{{d_opProveedorUpdatePorId.rp_detalle[0].RegistroPresupuestal.Compromiso.Objeto}}</span>
+        <textarea class="form-control" rows="2" readonly> {{d_opProveedorUpdatePorId.solicitud.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
       </div>
     </div>
   </div>
 </div>
-<!--Entrada Almacen-->
-<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
-  {{'ENTRADA_ALMACEN' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
-</legend class="text-primary">
-<div ng-show="panelDetalleConceptos" class="panel-body">
-  <table class="table">
-    <thead>
-      <th>{{'VIGENCIA' | translate}}</th>
-      <th>{{'PROVEEDOR' | translate}}</th>
-      <th>{{'DESCRIPCION' | translate}}</th>
-      <th>{{'NO' | translate}} {{'FACTURA' | translate}}</th>
-      <th>{{'SEDE' | translate}}</th>
-      <th>{{'DEPENDENCIA' | translate}}</th>
-      <th>{{'OBSERVACIONES' | translate}}</th>
-      <thead>
-        <tbody ng-repeat="i in d_opProveedorUpdatePorId.entrada">
-          <tr>
-            <td>{{i.Vigencia}}</td>
-            <td>{{i.Proveedor}}</td>
-            <td>{{i.Dependencia}}</td>
-            <td>{{i.NumeroFactura}}</td>
-            <td>{{i.Sede}}</td>
-            <td>{{i.Dependencia}}</td>
-            <td>{{i.Observaciones}}</td>
-          </tr>
-        </tbody>
-  </table>
-</div>
+
 <!--detalle pago -->
 <op-proveedor-detalle-pago
   subtipoordenpago="d_opProveedorUpdatePorId.OrdenPago.SubTipoOrdenPago"
@@ -168,7 +156,7 @@
 
 <!--Rubros-->
 <rubros-por-rp-seleccion-multiple
-  rpid="d_opProveedorUpdatePorId.orden_pago[0].RegistroPresupuestal.Id"
+  rpid="d_opProveedorUpdatePorId.orden_pago.RegistroPresupuestal.Id"
   rubrosobj="d_opProveedorUpdatePorId.RubrosObjIds">
 </rubros-por-rp-seleccion-multiple>
 
