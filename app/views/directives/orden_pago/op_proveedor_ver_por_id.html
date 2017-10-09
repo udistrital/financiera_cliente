@@ -188,68 +188,12 @@
     </div>
   </div>
 </div>
-<!--detalle rubro-->
-<legend class="text-primary" ng-click="panelDetalleRubro=!panelDetalleRubro">
-  {{'RUBRO' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!panelDetalleRubro"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetalleRubro"></span>
-</legend class="text-primary">
-<div ng-show="panelDetalleRubro" class="panel-body">
-  <table class="table">
-    <thead>
-      <th>{{'CODIGO' | translate}}</th>
-      <th>{{'VIGENCIA' | translate}}</th>
-      <th>{{'DESCRIPCION' | translate}}</th>
-      <th>{{'VALOR' | translate}}</th>
-      <th>{{'FUENTES_FINANCIACION' | translate}}</th>
-      <th>{{'FUENTE_FINANCIACION_CODIGO' | translate}}</th>
-      <tbody ng-repeat="i in d_opProveedorVerPorId.rubros">
-        <tr>
-          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo}}</td>
-          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia}}</td>
-          <td>{{i.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion}}</td>
-          <td>{{i.Valor}}</td>
-          <td>{{i.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion}}</td>
-          <td>{{i.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo}}</td>
-        </tr>
-      </tbody>
-  </table>
-</div>
 
-<!--detalle concepto-->
-<legend class="text-primary" ng-click="panelDetalleConceptos=!panelDetalleConceptos">
-  {{'CONCEPTO' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!panelDetalleConceptos"></span>
-  <span class="fa fa-minus pull-right" ng-show="panelDetalleConceptos"></span>
-</legend class="text-primary">
-<div ng-show="panelDetalleConceptos" class="panel-body">
-  <table class="table">
-    <thead>
-      <th>{{'CODIGO' | translate}}</th>
-      <th>{{'NOMBRE' | translate}}</th>
-      <th>{{'DESCRIPCION' | translate}}</th>
-      <th>{{'TIPO' | translate}}</th>
-      <th>{{'RUBRO' | translate}}</th>
-      <th>{{'AFECTACION' | translate}}</th>
-      <thead>
-        <tbody ng-repeat="i in d_opProveedorVerPorId.conceptos">
-          <tr>
-            <td>{{i.Concepto.Codigo}}</td>
-            <td>{{i.Concepto.Nombre}}</td>
-            <td>{{i.Concepto.Descripcion}}</td>
-            <td>{{i.Concepto.TipoConcepto.Nombre}}</td>
-            <td>{{i.Concepto.Rubro.Codigo}}</td>
-            <td class="input_right">{{i.Valor | currency}}</td>
-          </tr>
-        </tbody>
-  </table>
-</div>
-
+<!--detalle Rubros y conceptos-->
 <op-proveedor-detalle-rubro-concepto
-inputpestanaabierta="true"
-inputordenpagoid="d_opProveedorVerPorId.orden_pago.Id">
+  inputpestanaabierta="inputpestanaabierta"
+  inputordenpagoid="d_opProveedorVerPorId.orden_pago.Id">
 </op-proveedor-detalle-rubro-concepto>
-
 
 <!--detalle Cuenta Contable-->
 <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
