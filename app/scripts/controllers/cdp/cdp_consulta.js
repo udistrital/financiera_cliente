@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpConsultaCtrl', function ($window,$translate,disponibilidad,$scope,financieraRequest,financieraMidRequest,agoraRequest) {
+  .controller('CdpCdpConsultaCtrl', function ($window,$scope,$translate,disponibilidad,financieraRequest,financieraMidRequest,agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering : true,
@@ -52,20 +52,34 @@ angular.module('financieraClienteApp')
       ]
     };
 
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.vigenciaActual = parseInt(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
+      }
+      self.years = range;
+      self.Vigencia = self.years[0];
+      self.actualizarLista();
+    });
 
     self.gridOptions.multiSelect = false;
     self.actualizarLista = function(){
-      financieraRequest.get('disponibilidad','limit=-1').then(function(response) {
+      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.vigenciaActual,'').then(function(response) {
       self.gridOptions.data = response.data;
-      angular.forEach(self.gridOptions.data, function(data){
+      console.log(response.data);
+      /*angular.forEach(self.gridOptions.data, function(data){
         financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {
           data.Solicitud = response.data[0];
         });
-      });
+      });*/
       console.log(self.gridOptions.data );
     });
     };
-    self.actualizarLista();
+    
     self.verDisponibilidad = function(row,anular){
       self.anular = anular;
       $("#myModal").modal();
@@ -212,6 +226,16 @@ angular.module('financieraClienteApp')
         });
       });
     };*/
+    self.gridOptions.onRegisterApi = function(gridApi){
+      gridApi.core.on.filterChanged($scope, function() {
+        var grid = this.grid;
+        angular.forEach(grid.columns, function(value, key) {
+            if(value.filters[0].term) {
+                console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+            }
+        });
+    });
+    };
     self.gridOptions_rubros.onRegisterApi = function(gridApi){
       //set gridApi on scope
       self.gridApi_rubros = gridApi;

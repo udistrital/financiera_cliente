@@ -103,11 +103,24 @@ angular.module('financieraClienteApp')
         }
       ]
     };
-
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.vigenciaActual = parseInt(response.data);
+      console.log(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
+      }
+      self.years = range;
+      self.Vigencia = self.years[0];
+      self.cargarLista();
+    });
     self.gridOptions.multiSelect = false;
     self.cargandoDatosPagos = true;
     self.cargarLista = function () {
-      financieraRequest.get('registro_presupuestal', 'limit=0').then(function (response) {
+      financieraRequest.get('registro_presupuestal', 'limit=-1&query=Vigencia:'+self.vigenciaActual).then(function (response) {
         self.gridOptions.data = response.data;
         angular.forEach(self.gridOptions.data, function (data) {
           financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', 'limit=1&query=RegistroPresupuestal:' + data.Id).then(function (response) {
@@ -121,7 +134,7 @@ angular.module('financieraClienteApp')
         });
       });
     };
-    self.cargarLista();
+    
     // called no matter success or failure
 
     self.limpiar = function () {

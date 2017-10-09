@@ -2,6 +2,18 @@
   <h2 class="page-header" align="center">{{'LISTA_CDP' | translate}}</h2>
   <div class="panel-body">
     <!-- ui-grid-selection -->
+    <div class="row">
+      <div class="col-md-2 col-md-offset-5">
+          <center>
+              <label for="select_vigencia" class="col-form-label">Vigencia </label>
+                <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                    <option ng-repeat="option in cdpConsulta.years" value="{{option}}">{{option}}</option>
+              </select>     
+          </center>
+      </div>
+        
+    </div>
+    <hr>
     <div ui-grid="cdpConsulta.gridOptions" ui-grid-auto-fit-columns class="myGrid"></div>
   </div>
 </div>
