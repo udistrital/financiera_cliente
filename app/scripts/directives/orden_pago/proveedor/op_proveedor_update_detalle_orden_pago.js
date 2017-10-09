@@ -14,15 +14,7 @@ angular.module('financieraClienteApp')
         inputpestanaabierta: '=?',
         inputpreviusdata: '=?',
         inputproveedor: '=',
-        outputsubtipoordenpago: '=?',
-        outputformapago: '=?',
-        outputentradaalmacen: '=?',
-        outputvigencia: '=?',
-        outputvalorbase: '=?',
-
         outputnewdataselect: '=?'
-
-
       },
 
       templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_update_detalle_orden_pago.html',
@@ -35,6 +27,16 @@ angular.module('financieraClienteApp')
             $scope.outputnewdataselect.SubTipoOrdenPago = $scope.inputpreviusdata.SubTipoOrdenPago;
             $scope.outputnewdataselect.FormaPago = $scope.inputpreviusdata.FormaPago;
             $scope.outputnewdataselect.ValorBase = $scope.inputpreviusdata.ValorBase;
+            self.entrada = {};
+            //consultar entrada registrada
+            arkaRequest.get('entrada',
+              $.param({
+                query: "Id:" + $scope.inputpreviusdata.EntradaAlmacen,
+              })
+            ).then(function(response) {
+              self.entradaRegistrada = response.data[0];
+              self.entrada.selected = self.entradaRegistrada;
+            });
             //sub_tipo_documentos
             financieraRequest.get('sub_tipo_orden_pago',
               $.param({
@@ -52,13 +54,28 @@ angular.module('financieraClienteApp')
             ).then(function(response) {
               self.formaPagos = response.data;
             });
-
           }
           //
           if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
         })
+        //entradas almacen
+        $scope.$watch('inputproveedor', function() {
+          if ($scope.inputproveedor != undefined) {
+            arkaRequest.get('entrada',
+              $.param({
+                query: 'Proveedor:' + $scope.inputproveedor,
+                limit: -1,
+              })
+            ).then(function(response) {
+              self.entradas = response.data;
+            });
+          }
+          self.ver_seleccion = function($item, $model) {
+            self.entrada = $item;
+          }
+        });
 
         //fin
       },

@@ -4,9 +4,6 @@
   <span class="fa fa-minus pull-right" ng-show="a"></span>
 </legend class="text-primary">
 
-<p>aaaaaaaaaaaaaaaaaaaaaaaaaa</p>
-{{inputpreviusdata}}
-
 <div class="panel-body row" ng-show="a">
   <div class="form-horizontal">
     <div class="form-group">
@@ -24,9 +21,9 @@
     <div class="form-group">
       <label for="iva" class="col-sm-2 control-label">{{'ENTRADA_ALMACEN' | translate}}</label>
       <div class="col-sm-4">
-        <ui-select ng-model="d_opProveedorDetallePago.entrada.selected" theme="bootstrap" on-select="d_opProveedorDetallePago.ver_seleccion($item, $model)" style="width:100%;">
+        <ui-select ng-model="d_opProveedorUpdateDetalleOrdenPago.entrada.selected" theme="bootstrap" on-select="d_opProveedorUpdateDetalleOrdenPago.ver_seleccion($item, $model)" style="width:100%;">
           <ui-select-match placeholder="{{'ENTRADA_ALMACEN' | translate}}...">{{$select.selected.Consecutivo || $select.selected }}</ui-select-match>
-          <ui-select-choices repeat="entrada in d_opProveedorDetallePago.entradas | filter: $select.search">
+          <ui-select-choices repeat="entrada in d_opProveedorUpdateDetalleOrdenPago.entradas | filter: $select.search">
             <span ng-bind-html="entrada.Consecutivo | highlight: $select.search"></span> -
             <span ng-bind-html="entrada.TipoContrato.Descripcion | highlight: $select.search"></span><br>
             <small>
@@ -38,15 +35,22 @@
       </div>
       <label for="val_base_retencion" class="col-sm-2 control-label">{{'VALOR_BASE_RETENCION' | translate}}</label>
       <div class="col-sm-4">
-        <input
-          type="text" class="form-control input_right"
-          ng-model="outputnewdataselect.ValorBase"
-          placeholder="Valor Base Retenciones"
-          ui-number-mask="0" required/>
+        <input type="text" class="form-control input_right" ng-model="outputnewdataselect.ValorBase" placeholder="Valor Base Retenciones" ui-number-mask="0" required/>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label">{{'ELABORADO_POR' | translate }}</label>
+      <div class="col-sm-4">
+        <input ng-model="inputpreviusdata.OrdenPagoEstadoOrdenPago[0].Usuario" type="text" class="form-control input_right" disabled/>
+      </div>
+      <label class="col-sm-2 control-label">{{'VIGENCIA' | translate }}</label>
+      <div class="col-sm-4">
+        <input ng-model="inputpreviusdata.Vigencia" type="text" class="form-control input_right" disabled/>
       </div>
     </div>
 
-    {{outputnewdataselect}}
+
+    {{d_opProveedorUpdateDetalleOrdenPago.entrada}}
 
   </div>
 </div>
