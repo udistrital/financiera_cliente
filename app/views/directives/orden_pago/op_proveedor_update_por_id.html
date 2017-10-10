@@ -151,9 +151,11 @@
   inputpestanaabierta="inputpestanaabierta"
   inputpreviusdata="d_opProveedorUpdatePorId.orden_pago"
   inputproveedor="d_opProveedorUpdatePorId.proveedor.NumDocumento"
-  outputnewdataselect="d_opProveedorUpdatePorId.SelectData"
-  >
+  outputnewdataselect="d_opProveedorUpdatePorId.SelectData" >
 </op-proveedor-update-detalle-orden-pago>
+
+<h1>Salida total</h1>
+<pre>{{d_opProveedorUpdatePorId.SelectData | json }}</pre>
 
 <!--Rubros-->
 <rubros-por-rp-seleccion-multiple

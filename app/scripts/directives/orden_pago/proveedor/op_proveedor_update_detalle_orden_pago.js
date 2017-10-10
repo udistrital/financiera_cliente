@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_update_detalle_orden_pago.html',
       controller: function($scope) {
         var self = this;
+        self.entrada = {};
 
         $scope.$watch('inputpreviusdata', function() {
           if ($scope.inputpreviusdata != undefined) {
@@ -27,16 +28,22 @@ angular.module('financieraClienteApp')
             $scope.outputnewdataselect.SubTipoOrdenPago = $scope.inputpreviusdata.SubTipoOrdenPago;
             $scope.outputnewdataselect.FormaPago = $scope.inputpreviusdata.FormaPago;
             $scope.outputnewdataselect.ValorBase = $scope.inputpreviusdata.ValorBase;
-            self.entrada = {};
+            $scope.outputnewdataselect.EntradaAlmacen = $scope.inputpreviusdata.EntradaAlmacen;
             //consultar entrada registrada
             arkaRequest.get('entrada',
               $.param({
                 query: "Id:" + $scope.inputpreviusdata.EntradaAlmacen,
               })
             ).then(function(response) {
-              self.entradaRegistrada = response.data[0];
-              self.entrada.selected = self.entradaRegistrada;
+              self.entrada.selected = response.data[0];
             });
+            self.ver_seleccion = function($item, $model) {
+              if($item != undefined){
+                $scope.outputnewdataselect.EntradaAlmacen = $item.Id;
+              }else{
+                $scope.outputnewdataselect.EntradaAlmacen = 0;
+              }
+            }
             //sub_tipo_documentos
             financieraRequest.get('sub_tipo_orden_pago',
               $.param({
@@ -72,11 +79,7 @@ angular.module('financieraClienteApp')
               self.entradas = response.data;
             });
           }
-          self.ver_seleccion = function($item, $model) {
-            self.entrada = $item;
-          }
         });
-
         //fin
       },
       controllerAs: 'd_opProveedorUpdateDetalleOrdenPago'

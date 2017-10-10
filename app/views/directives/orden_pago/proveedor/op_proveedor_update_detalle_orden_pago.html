@@ -23,12 +23,12 @@
       <div class="col-sm-4">
         <ui-select ng-model="d_opProveedorUpdateDetalleOrdenPago.entrada.selected" theme="bootstrap" on-select="d_opProveedorUpdateDetalleOrdenPago.ver_seleccion($item, $model)" style="width:100%;">
           <ui-select-match placeholder="{{'ENTRADA_ALMACEN' | translate}}...">{{$select.selected.Consecutivo || $select.selected }}</ui-select-match>
-          <ui-select-choices repeat="entrada in d_opProveedorUpdateDetalleOrdenPago.entradas | filter: $select.search">
-            <span ng-bind-html="entrada.Consecutivo | highlight: $select.search"></span> -
-            <span ng-bind-html="entrada.TipoContrato.Descripcion | highlight: $select.search"></span><br>
+          <ui-select-choices repeat="entradaG in d_opProveedorUpdateDetalleOrdenPago.entradas | filter: $select.search">
+            <span ng-bind-html="entradaG.Consecutivo | highlight: $select.search"></span> -
+            <span ng-bind-html="entradaG.TipoContrato.Descripcion | highlight: $select.search"></span><br>
             <small>
-              No. Factura: {{entrada.NumeroFactura}}
-              Vigencia: <small ng-bind-html="entrada.Vigencia | highlight: $select.search"></small>
+              No. Factura: {{entradaG.NumeroFactura}}
+              Vigencia: <small ng-bind-html="entradaG.Vigencia | highlight: $select.search"></small>
             </small>
           </ui-select-choices>
         </ui-select>
@@ -48,9 +48,5 @@
         <input ng-model="inputpreviusdata.Vigencia" type="text" class="form-control input_right" disabled/>
       </div>
     </div>
-
-
-    {{d_opProveedorUpdateDetalleOrdenPago.entrada}}
-
   </div>
 </div>
