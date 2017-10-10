@@ -29,6 +29,7 @@ angular.module('financieraClienteApp')
             $scope.outputnewdataselect.FormaPago = $scope.inputpreviusdata.FormaPago;
             $scope.outputnewdataselect.ValorBase = $scope.inputpreviusdata.ValorBase;
             $scope.outputnewdataselect.EntradaAlmacen = $scope.inputpreviusdata.EntradaAlmacen;
+            $scope.outputnewdataselect.Id = $scope.inputpreviusdata.Id; //Id Orden Pago
             //consultar entrada registrada
             arkaRequest.get('entrada',
               $.param({
