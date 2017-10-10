@@ -6,7 +6,7 @@
         <table>
       <tr>
         <td>
-          <label for="select_vigencia" class="col-form-label">Vigencia </label>
+          <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
           <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
               <option ng-repeat="option in cdpConsulta.years" value="{{option}}">{{option}}</option>
         </select> 
