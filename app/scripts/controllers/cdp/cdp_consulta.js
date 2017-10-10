@@ -13,11 +13,15 @@ angular.module('financieraClienteApp')
   })
   .controller('CdpCdpConsultaCtrl', function ($window,$scope,$translate,disponibilidad,financieraRequest,financieraMidRequest,agoraRequest) {
     var self = this;
+    self.offset = 0;
     self.gridOptions = {
       enableFiltering : true,
       enableSorting : true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
+      paginationPageSizes: [25, 50, 75],
+      paginationPageSize: 10,
+      useExternalPagination: true,
       columnDefs : [
         {field: 'Id',             visible : false},
         {field: 'Vigencia',       cellClass: 'input_center',headerCellClass: 'text-info'},
@@ -38,7 +42,8 @@ angular.module('financieraClienteApp')
       ]
 
     };
-
+    
+    
     self.gridOptions_rubros = {
       enableRowSelection: true,
       enableRowHeaderSelection: false,
@@ -62,21 +67,19 @@ angular.module('financieraClienteApp')
         range.push(self.vigenciaActual - i);
       }
       self.years = range;
-      self.Vigencia = self.years[0];
-      self.actualizarLista();
+      self.Vigencia = self.vigenciaActual;
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(response) { //error con el success
+        self.gridOptions.totalItems = response.data;
+        self.actualizarLista(self.offset);
+      });
+      
     });
 
     self.gridOptions.multiSelect = false;
-    self.actualizarLista = function(){
-      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.vigenciaActual,'').then(function(response) {
+    self.actualizarLista = function(offset){
+      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.Vigencia,'limit='+self.gridOptions.paginationPageSize+'&offset='+offset).then(function(response) {
       self.gridOptions.data = response.data;
-      console.log(response.data);
-      /*angular.forEach(self.gridOptions.data, function(data){
-        financieraMidRequest.get('disponibilidad/SolicitudById/'+data.Solicitud,'').then(function(response) {
-          data.Solicitud = response.data[0];
-        });
-      });*/
-      console.log(self.gridOptions.data );
     });
     };
     
@@ -174,7 +177,7 @@ angular.module('financieraClienteApp')
           self.alerta = self.alerta + "</ol>";
           swal("", self.alerta, self.alerta_anulacion_cdp[0]).then(function(){
             self.limpiar();
-            self.actualizarLista();
+            //self.actualizarLista();
             //$("#myModal").modal('hide');
           });
           });
@@ -226,14 +229,30 @@ angular.module('financieraClienteApp')
         });
       });
     };*/
+
+    $scope.$watch("cdpConsulta.Vigencia", function() {
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(response) { //error con el success
+        self.gridOptions.totalItems = response.data;
+        self.actualizarLista(0);
+      });
+    }, true);
+
+
     self.gridOptions.onRegisterApi = function(gridApi){
       gridApi.core.on.filterChanged($scope, function() {
         var grid = this.grid;
         angular.forEach(grid.columns, function(value, key) {
             if(value.filters[0].term) {
-                console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+                //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
             }
         });
+    });
+    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+      console.log('newPage '+newPage+' pageSize '+pageSize);
+      self.gridOptions.data = {};
+      var offset = (newPage-1)*pageSize;
+      self.actualizarLista(offset);
     });
     };
     self.gridOptions_rubros.onRegisterApi = function(gridApi){
