@@ -22,9 +22,7 @@ angular.module('financieraClienteApp')
     // functions
     self.estructurarDatosParaRegistro = function(pConceptos) {
       self.ConceptoOrdenPago = [];
-      self.TotalAfectacion = 0;
       self.MovimientoContable = [];
-
       angular.forEach(pConceptos, function(concepto) {
         if (concepto.validado == true && concepto.Afectacion != 0) {
           // estructurar los conceptos a ConceptoOrdenPago
@@ -40,8 +38,6 @@ angular.module('financieraClienteApp')
               'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion
             }
           });
-          // total afectacion
-          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
           //  data movimientos contables
           angular.forEach(concepto.movs, function(movimiento) {
             if (movimiento.Debito > 0 || movimiento.Credito > 0) {
@@ -52,8 +48,20 @@ angular.module('financieraClienteApp')
       })
     }
 
+    //funcion calcularTotalAfectacion
+    self.calcularTotalAfectacion = function(pConceptos) {
+      self.TotalAfectacion = 0;
+      angular.forEach(pConceptos, function(concepto) {
+        if (concepto.validado == true && concepto.Afectacion != 0) {
+          // total afectacion
+          self.TotalAfectacion = self.TotalAfectacion + concepto.Afectacion;
+        }
+      });
+    };
+
     // Insert Orden Pago
     self.registrarOpProveedor = function() {
+      self.calcularTotalAfectacion(self.Conceptos);
       if (self.camposObligatorios()) {
         // trabajar estructura de conceptos
         if (Object.keys(self.Conceptos).length > 0) {
@@ -63,7 +71,7 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
-          self.dataOrdenPagoInsert.Usuario = {'Id': 1};   // Con autenticación llegara el objeto
+          self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         }
         // registrar OP Proveedor
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
@@ -92,22 +100,25 @@ angular.module('financieraClienteApp')
     self.camposObligatorios = function() {
       self.MensajesAlerta = '';
       if (Object.keys(self.Proveedor).length == 0) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>";
       }
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>";
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>";
       }
       if (self.OrdenPago.FormaPago == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
       }
       if (self.OrdenPago.ValorBase == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_VAL_BASE') + "</li>";
       }
       if (Object.keys(self.Conceptos).length == 0) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>"
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>";
+      }
+      if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + "</li>" + self.TotalAfectacion + " != " + self.OrdenPago.ValorBase;
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
