@@ -154,8 +154,29 @@ angular.module('financieraClienteApp')
           });
         };
 
+        // funcion agrupa la afectación de los conceptos por rubro y valida que no supere el saldo de rubro
+        self.afectaciónPorConceptoNoSuperaSaldoRubro = function(pConceptos){
+          self.afectacionEnRubros = {};
+          self.saldoDeRubros = {};
+          angular.forEach(pConceptos, function(concepto) {
+            if (concepto.validado == true && concepto.Afectacion != 0) {
+              // total afectacion
+              if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+                self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
+              }else{
+                self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
+              }
+              // saldos
+              if(self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+                self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.RegistroPresupuestalDisponibilidadApropiacion.Saldo;
+              }
+            }
+          });
+        }
+
         // Insert Orden Pago
         self.registrarOpProveedor = function() {
+          self.afectaciónPorConceptoNoSuperaSaldoRubro(self.Conceptos);
           self.calcularTotalAfectacion(self.Conceptos);
           if (self.camposObligatorios()) {
             // trabajar estructura de conceptos
@@ -208,6 +229,15 @@ angular.module('financieraClienteApp')
           }
           if (self.TotalAfectacion != self.NewOrdenPago.ValorBase) {
             self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + "</li>" + self.TotalAfectacion + " != " + self.NewOrdenPago.ValorBase;
+          }
+          if(Object.keys(self.afectacionEnRubros).length != 0 && Object.keys(self.saldoDeRubros).length != 0){
+            angular.forEach(self.afectacionEnRubros, function(afectacionValue, afectacionKey){
+              angular.forEach(self.saldoDeRubros, function(saldoValue, saldoKey){
+                if(saldoKey == afectacionKey && afectacionValue > saldoValue){
+                  self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_TOTAL_AECTACION') + " "+ afectacionKey + " " + $translate.instant('MSN_SUPERA_SALDO') + "</li>";
+                }
+              })
+            })
           }
           // Operar
           if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {

@@ -150,7 +150,6 @@ angular.module('financieraClienteApp')
           })
         })
       }
-
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         return true;
