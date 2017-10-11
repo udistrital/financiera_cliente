@@ -241,11 +241,6 @@ angular
                 controller: 'OpProveedorVerPorIdCtrl',
                 controllerAs: 'opProveedorVerPorId'
             })
-            .when('/orden_pago/actualizar_todos', {
-                templateUrl: 'views/orden_pago/op_listar_todas_update.html',
-                controller: 'OpListarTodasUpdateCtrl',
-                controllerAs: 'opListarTodasUpdate'
-            })
             .when('/orden_pago/proveedor/actualizar/:Id', {
                 templateUrl: 'views/orden_pago/proveedor/op_proveedor_update_por_id.html',
                 controller: 'OpProveedorUpdatePorIdCtrl',
