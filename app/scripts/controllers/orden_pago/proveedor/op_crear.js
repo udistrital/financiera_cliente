@@ -66,60 +66,55 @@ angular.module('financieraClienteApp')
       angular.forEach(pConceptos, function(concepto) {
         if (concepto.validado == true && concepto.Afectacion != 0) {
           // total afectacion
-          if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] == undefined){
-            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = concepto.Afectacion;
+          if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
           }else{
-            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] + concepto.Afectacion;
+            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
           }
           // saldos
-          if(self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] == undefined){
-            self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = concepto.RegistroPresupuestalDisponibilidadApropiacion.Saldo;
+          if(self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+            self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.RegistroPresupuestalDisponibilidadApropiacion.Saldo;
           }
         }
       });
-      console.log(slef.afectacionEnRubros);
-      console.log("AA");
-      console.log(self.saldoDeRubros);
     }
-
 
     // Insert Orden Pago
     self.registrarOpProveedor = function() {
       self.afectaciónPorConceptoNoSuperaSaldoRubro(self.Conceptos);
-
-      // self.calcularTotalAfectacion(self.Conceptos);
-      // if (self.camposObligatorios()) {
-      //   // trabajar estructura de conceptos
-      //   if (Object.keys(self.Conceptos).length > 0) {
-      //     self.estructurarDatosParaRegistro(self.Conceptos);
-      //     //construir data send
-      //     self.dataOrdenPagoInsert = {};
-      //     self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
-      //     self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
-      //     self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
-      //     self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
-      //   }
-      //   // registrar OP Proveedor
-      //   financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
-      //     .then(function(data) {
-      //       self.resultado = data;
-      //       //mensaje
-      //       swal({
-      //         title: 'Orden de Pago',
-      //         text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
-      //         type: self.resultado.data.Type,
-      //       }).then(function() {
-      //         $window.location.href = '#/orden_pago/ver_todos';
-      //       })
-      //     })
-      // } else {
-      //   // mesnajes de error campos obligatorios
-      //   swal({
-      //     title: 'Error!',
-      //     html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
-      //     type: 'error'
-      //   })
-      // }
+      self.calcularTotalAfectacion(self.Conceptos);
+      if (self.camposObligatorios()) {
+        // trabajar estructura de conceptos
+        if (Object.keys(self.Conceptos).length > 0) {
+          self.estructurarDatosParaRegistro(self.Conceptos);
+          //construir data send
+          self.dataOrdenPagoInsert = {};
+          self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+          self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+          self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
+          self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
+        }
+        // registrar OP Proveedor
+        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
+          .then(function(data) {
+            self.resultado = data;
+            //mensaje
+            swal({
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              type: self.resultado.data.Type,
+            }).then(function() {
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+          })
+      } else {
+        // mesnajes de error campos obligatorios
+        swal({
+          title: 'Error!',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          type: 'error'
+        })
+      }
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
@@ -146,6 +141,16 @@ angular.module('financieraClienteApp')
       if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + "</li>" + self.TotalAfectacion + " != " + self.OrdenPago.ValorBase;
       }
+      if(Object.keys(self.afectacionEnRubros).length != 0 && Object.keys(self.saldoDeRubros).length != 0){
+        angular.forEach(self.afectacionEnRubros, function(afectacionValue, afectacionKey){
+          angular.forEach(self.saldoDeRubros, function(saldoValue, saldoKey){
+            if(saldoKey == afectacionKey && afectacionValue > saldoValue){
+              self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_TOTAL_AECTACION') + " "+ afectacionKey + " " + $translate.instant('MSN_SUPERA_SALDO') + "</li>";
+            }
+          })
+        })
+      }
+
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         return true;
