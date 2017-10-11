@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
     self.OrdenPago = {};
     self.OrdenPago.UnidadEjecutora = {'Id': 1};
     self.Proveedor = {};
-    //self.OrdenPago.RegistroPresupuestal = {'Id': 99} // data tes
+    self.OrdenPago.RegistroPresupuestal = {'Id': 99} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
 
@@ -35,7 +35,7 @@ angular.module('financieraClienteApp')
             },
             'Valor': concepto.Afectacion,
             'RegistroPresupuestalDisponibilidadApropiacion': {
-              'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion
+              'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion.Id
             }
           });
           //  data movimientos contables
@@ -59,41 +59,68 @@ angular.module('financieraClienteApp')
       });
     };
 
+    // funcion agrupa la afectación de los conceptos por rubro y valida que no supere el saldo de rubro
+    self.afectaciónPorConceptoNoSuperaSaldoRubro = function(pConceptos){
+      self.afectacionEnRubros = {};
+      self.saldoDeRubros = {};
+      angular.forEach(pConceptos, function(concepto) {
+        console.log(concepto);
+        if (concepto.validado == true && concepto.Afectacion != 0) {
+          // total afectacion
+          if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] == undefined){
+            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = concepto.Afectacion;
+          }else{
+            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] + concepto.Afectacion;
+          }
+          // saldos
+          if(self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] == undefined){
+            self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] = concepto.RegistroPresupuestalDisponibilidadApropiacion.Saldo;
+          }
+        }
+      });
+      console.log("AA");
+      console.log(self.saldoDeRubros);
+
+    }
+
+
     // Insert Orden Pago
     self.registrarOpProveedor = function() {
-      self.calcularTotalAfectacion(self.Conceptos);
-      if (self.camposObligatorios()) {
-        // trabajar estructura de conceptos
-        if (Object.keys(self.Conceptos).length > 0) {
-          self.estructurarDatosParaRegistro(self.Conceptos);
-          //construir data send
-          self.dataOrdenPagoInsert = {};
-          self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
-          self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
-          self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
-          self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
-        }
-        // registrar OP Proveedor
-        financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
-          .then(function(data) {
-            self.resultado = data;
-            //mensaje
-            swal({
-              title: 'Orden de Pago',
-              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
-              type: self.resultado.data.Type,
-            }).then(function() {
-              $window.location.href = '#/orden_pago/ver_todos';
-            })
-          })
-      } else {
-        // mesnajes de error campos obligatorios
-        swal({
-          title: 'Error!',
-          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
-          type: 'error'
-        })
-      }
+      self.afectaciónPorConceptoNoSuperaSaldoRubro(self.Conceptos);
+
+      // self.calcularTotalAfectacion(self.Conceptos);
+      // if (self.camposObligatorios()) {
+      //   // trabajar estructura de conceptos
+      //   if (Object.keys(self.Conceptos).length > 0) {
+      //     self.estructurarDatosParaRegistro(self.Conceptos);
+      //     //construir data send
+      //     self.dataOrdenPagoInsert = {};
+      //     self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
+      //     self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
+      //     self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
+      //     self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
+      //   }
+      //   // registrar OP Proveedor
+      //   financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
+      //     .then(function(data) {
+      //       self.resultado = data;
+      //       //mensaje
+      //       swal({
+      //         title: 'Orden de Pago',
+      //         text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+      //         type: self.resultado.data.Type,
+      //       }).then(function() {
+      //         $window.location.href = '#/orden_pago/ver_todos';
+      //       })
+      //     })
+      // } else {
+      //   // mesnajes de error campos obligatorios
+      //   swal({
+      //     title: 'Error!',
+      //     html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+      //     type: 'error'
+      //   })
+      // }
     }
 
     // Funcion encargada de validar la obligatoriedad de los campos
