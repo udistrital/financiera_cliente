@@ -11,22 +11,23 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
+        inputpestanaabierta: '=',
         opproveedorid: '=',
         outputopp: '='
       },
 
-      templateUrl: 'views/directives/orden_pago/op_proveedor_ver_por_id.html',
+      templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_ver_por_id.html',
       controller: function($scope) {
         var self = this;
         self.rubros = [];
         // paneles
-        $scope.panelUnidadEjecutora = true;
-        $scope.panelProveedor = true;
-        $scope.panelRp = true;
-        $scope.panelDetallePagoProveedor = true;
-        $scope.panelDetalleRubro = true;
-        $scope.panelDetalleConceptos = true;
-        $scope.panelDetalleCuentas = true;
+        $scope.panelUnidadEjecutora = $scope.inputpestanaabierta;
+        $scope.panelProveedor = $scope.inputpestanaabierta;
+        $scope.panelRp = $scope.inputpestanaabierta;
+        $scope.panelDetallePagoProveedor = $scope.inputpestanaabierta;
+        $scope.panelDetalleRubro = $scope.inputpestanaabierta;
+        $scope.panelDetalleConceptos = $scope.inputpestanaabierta;
+        $scope.panelDetalleCuentas = $scope.inputpestanaabierta;
         //orden de pago
         $scope.$watch('opproveedorid', function() {
           if ($scope.opproveedorid != undefined) {
@@ -41,11 +42,9 @@ angular.module('financieraClienteApp')
               // detalle rp
               self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id)
               // entrada almacen
-              if (self.orden_pago.EntradaAlmacen != 0){
+              if (self.orden_pago.EntradaAlmacen != 0) {
                 self.entradaAlmacen(self.orden_pago.EntradaAlmacen)
               }
-              //detalle concepto
-              self.detalle_concepto(self.orden_pago.Id)
             });
           }
         })
@@ -89,7 +88,7 @@ angular.module('financieraClienteApp')
             })).then(function(response) {
             self.rp_detalle = response.data[0];
             //data necesidad
-            financieraMidRequest.get('disponibilidad/SolicitudById/'+self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud,'')
+            financieraMidRequest.get('disponibilidad/SolicitudById/' + self.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud, '')
               .then(function(response) {
                 self.solicitud = response.data[0];
               });
@@ -101,37 +100,13 @@ angular.module('financieraClienteApp')
             });
         }
         // Funcion entrada almacen
-        self.entradaAlmacen = function(entrada_id){
+        self.entradaAlmacen = function(entrada_id) {
           arkaRequest.get('entrada',
             $.param({
               query: 'Id:' + entrada_id,
             })
-          ).then(function(response){
-              self.entrada = response.data[0];
-            });
-        }
-        // Function detall concepto
-        self.detalle_concepto = function(orden_pago_id) {
-          financieraRequest.get('concepto_orden_pago',
-            $.param({
-              query: "OrdenDePago:" + orden_pago_id,
-            })
           ).then(function(response) {
-            self.conceptos = response.data;
-            self.detalle_rubros(self.conceptos)
-          });
-        }
-        //construir arreglo de rubros
-        self.detalle_rubros = function(concepto_orden_pago) {
-          angular.forEach(concepto_orden_pago, function(i) {
-            self.rubros.push(i.RegistroPresupuestalDisponibilidadApropiacion)
-          })
-          // quitar repetidos
-          var hash = {};
-          self.rubros = self.rubros.filter(function(current) {
-            var exists = !hash[current.Id] || false;
-            hash[current.Id] = true;
-            return exists;
+            self.entrada = response.data[0];
           });
         }
         //

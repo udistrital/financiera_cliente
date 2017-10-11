@@ -2,8 +2,9 @@
   <h2 class="page-header text-center">{{ 'DETALLE_ORDEN_PAGO' | translate }} {{ 'PROVEEDOR' | translate }} No. {{opProveedorVerPorId.objectOrdenPagoProveedor.Consecutivo}}</h2>
   <div class="panel-body">
     <op-proveedor-ver-por-id
+      inputpestanaabierta="true";
       opproveedorid="opProveedorVerPorId.ordenPagoProveedorId"
-      outputopp="opProveedorVerPorId.objectOrdenPagoProveedor"
-    />
+      outputopp="opProveedorVerPorId.objectOrdenPagoProveedor">
+    </op-proveedor-ver-por-id>
   </div>
 </div>
