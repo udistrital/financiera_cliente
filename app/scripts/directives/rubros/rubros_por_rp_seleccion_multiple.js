@@ -106,7 +106,7 @@ angular.module('financieraClienteApp')
                       field: 'Codigo',
                       displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
                       enableCellEdit: false,
-                      width: '10%',
+                      width: '15%',
                       cellClass: 'input_center'
                     },
                     {
