@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
         outputopp: '='
       },
 
-      templateUrl: 'views/directives/orden_pago/op_proveedor_update_por_id.html',
+      templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_update_por_id.html',
       controller: function($scope) {
         var self = this;
         self.NewOrdenPago = {};
