@@ -11,13 +11,16 @@ angular.module('financieraClienteApp')
   .factory("rp", function () {
     return {};
   })
-  .controller('RpRpConsultaCtrl', function ($window,$translate, rp, $scope, financieraRequest, financieraMidRequest, uiGridService, agoraRequest) {
+  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, agoraRequest) {
     var self = this;
     self.gridOptions = {
       enableFiltering: true,
       enableSorting: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
+      paginationPageSizes: [25, 50, 75],
+      paginationPageSize: 10,
+      useExternalPagination: true,
       columnDefs: [{
           field: 'Id',
           visible: false
@@ -35,13 +38,13 @@ angular.module('financieraClienteApp')
            headerCellClass: 'text-info'
         },
         {
-          field: 'Disponibilidad.NumeroDisponibilidad',
+          field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
           displayName: $translate.instant('NO_CDP'),
           cellClass: 'input_center',
            headerCellClass: 'text-info'
         },
         {
-          field: 'Necesidad.Numero',
+          field: 'InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad.Numero',
           displayName: $translate.instant('NECESIDAD_NO'),
           cellClass: 'input_center',
            headerCellClass: 'text-info'
@@ -59,7 +62,7 @@ angular.module('financieraClienteApp')
            headerCellClass: 'text-info'
         },
         {
-          field: 'DependenciaSolicitante.Nombre',
+          field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
           displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
            headerCellClass: 'text-info'
         },
@@ -115,23 +118,19 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.years[0];
-      self.cargarLista();
+      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(response) { //error con el success
+        self.gridOptions.totalItems = response.data;
+        self.cargarLista(0,'');
+      });
     });
     self.gridOptions.multiSelect = false;
     self.cargandoDatosPagos = true;
-    self.cargarLista = function () {
-      financieraRequest.get('registro_presupuestal', 'limit=-1&query=Vigencia:'+self.vigenciaActual).then(function (response) {
+    self.cargarLista = function (offset,query) {
+      financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
         self.gridOptions.data = response.data;
-        angular.forEach(self.gridOptions.data, function (data) {
-          financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', 'limit=1&query=RegistroPresupuestal:' + data.Id).then(function (response) {
-            data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
-            financieraMidRequest.get('disponibilidad/SolicitudById/' + data.Disponibilidad.Solicitud, '').then(function (response) {
-              self.cargandoDatosPagos = false;
-              data.Necesidad = response.data[0].SolicitudDisponibilidad.Necesidad;
-              data.DependenciaSolicitante = response.data[0].DependenciaSolicitante;
-            });
-          });
-        });
+        console.log(response.data);
+        self.cargandoDatosPagos = false;
       });
     };
     
@@ -161,9 +160,9 @@ angular.module('financieraClienteApp')
           });
         });
         angular.forEach(self.detalle, function (data) {
-          financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', 'query=RegistroPresupuestal.Id:' + data.Id).then(function (response) {
-            self.gridOptions_rubros.data = response.data;
-            data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
+          
+            self.gridOptions_rubros.data = data.RegistroPresupuestalDisponibilidadApropiacion;
+            data.Disponibilidad = data.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
             angular.forEach(self.gridOptions_rubros.data, function (rubros_data) {
               var rpdata = {
                 Rp: rubros_data.RegistroPresupuestal,
@@ -172,14 +171,14 @@ angular.module('financieraClienteApp')
               financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
-              financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
+               financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
                 var solicitud = response.data
-                angular.forEach(solicitud, function (data) {
-                  self.Necesidad = data.SolicitudDisponibilidad.Necesidad;
-                  console.log(self.Necesidad);
+                console.log(response.data);
+                
+                  self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
+                  
 
 
-                });
 
               });
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
@@ -189,8 +188,8 @@ angular.module('financieraClienteApp')
               }
 
             });
-            self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
-          });
+            
+          
 
         });
       });
@@ -242,7 +241,11 @@ angular.module('financieraClienteApp')
             self.alerta = self.alerta + "</ol>";
             swal("", self.alerta, self.alerta_anulacion_rp[0]).then(function(){
               self.limpiar();
-              self.actualizarLista();
+              financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+              .then(function(response) { //error con el success
+              self.gridOptions.totalItems = response.data;
+              self.cargarLista(0,'');
+            });
               //$("#myModal").modal('hide');
             });
           });
@@ -304,6 +307,68 @@ angular.module('financieraClienteApp')
       });
     };*/
 
+    self.filtrarListaRp = function(){
+      self.gridOptions.data = {};
+      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+      var query = '';
+      if (inicio !== undefined && fin !== undefined) {
+        query = 'rangoinicio='+inicio+"&rangofin="+fin;
+      }
+      console.log(fin);
+      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,query) //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(response) { //error con el success
+        self.gridOptions.totalItems = response.data;
+        self.cargarLista(0,"&"+query);
+      });
+    };
+
+    $scope.$watch("rpConsulta.Vigencia", function() {
+      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      .then(function(response) { //error con el success
+        self.gridOptions.totalItems = response.data;
+        self.cargarLista(0,'');
+      });
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
+        self.fechaInicio = undefined;
+        self.fechaFin = undefined;
+      }
+      self.fechamin = new Date(
+        self.Vigencia,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.Vigencia,
+        12, 0
+      );
+    }, true);
+
+
+    self.gridOptions.onRegisterApi = function(gridApi){
+      gridApi.core.on.filterChanged($scope, function() {
+        var grid = this.grid;
+        angular.forEach(grid.columns, function(value, key) {
+            if(value.filters[0].term) {
+                //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+            }
+        });
+    });
+    gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+      console.log('newPage '+newPage+' pageSize '+pageSize);
+      self.gridOptions.data = {};
+      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+      var query = '';
+      if (inicio !== undefined && fin !== undefined) {
+        query = '&rangoinicio='+inicio+"&rangofin="+fin;
+      }
+      
+      var offset = (newPage-1)*pageSize;
+      self.cargarLista(offset,query);
+    });
+    };
     self.gridOptions_rubros.onRegisterApi = function (gridApi) {
       //set gridApi on scope
       self.gridApi_rubros = gridApi;
