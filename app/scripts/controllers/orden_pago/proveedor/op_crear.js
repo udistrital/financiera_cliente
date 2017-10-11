@@ -64,7 +64,6 @@ angular.module('financieraClienteApp')
       self.afectacionEnRubros = {};
       self.saldoDeRubros = {};
       angular.forEach(pConceptos, function(concepto) {
-        console.log(concepto);
         if (concepto.validado == true && concepto.Afectacion != 0) {
           // total afectacion
           if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id] == undefined){
@@ -78,9 +77,9 @@ angular.module('financieraClienteApp')
           }
         }
       });
+      console.log(slef.afectacionEnRubros);
       console.log("AA");
       console.log(self.saldoDeRubros);
-
     }
 
 

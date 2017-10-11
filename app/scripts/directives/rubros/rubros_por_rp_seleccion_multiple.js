@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData
                 ).then(function(response) {
                   iterador.Saldo = response.data.saldo;
-                  //se inclulle consulta para obtener saldo en el objeto
+                  //se hace solicitud en este framento para obtener el saldo del rubro
                   financieraRequest.get('concepto',
                     $.param({
                       query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
@@ -109,7 +109,7 @@ angular.module('financieraClienteApp')
                         'RegistroPresupuestal': iterador.RegistroPresupuestal,
                         'DisponibilidadApropiacion': iterador.DisponibilidadApropiacion,
                         'Valor': iterador.Valor,
-                        'Saldo': iterador.Saldo
+                        'Saldo': iterador.Saldo,
                       };
                     });
                   });
@@ -164,7 +164,7 @@ angular.module('financieraClienteApp')
           } //if
         }) // watch
 
-      // fin
+        // fin
       },
       controllerAs: 'd_rubrosPorRpSeleccionMultiple'
     };
