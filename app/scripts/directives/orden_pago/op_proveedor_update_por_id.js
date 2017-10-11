@@ -130,7 +130,7 @@ angular.module('financieraClienteApp')
                 },
                 'Valor': concepto.Afectacion,
                 'RegistroPresupuestalDisponibilidadApropiacion': {
-                  'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion
+                  'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion.Id
                 }
               });
               //  data movimientos contables
