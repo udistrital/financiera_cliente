@@ -91,8 +91,29 @@ angular.module('financieraClienteApp')
                   Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
                   FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
-                financieraRequest.post('registro_presupuestal/SaldoRp', rpData).then(function(response) {
+                financieraRequest.post('registro_presupuestal/SaldoRp', rpData
+                ).then(function(response) {
                   iterador.Saldo = response.data.saldo;
+                  //se hace solicitud en este framento para obtener el saldo del rubro
+                  financieraRequest.get('concepto',
+                    $.param({
+                      query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
+                      limit: 0
+                    })
+                  ).then(function(response) {
+                    iterador.subGridOptions.data = response.data;
+                    //asociar RegistroPresupuestalDisponibilidadApropiacion
+                    angular.forEach(iterador.subGridOptions.data, function(subGridData) {
+                      subGridData.RegistroPresupuestalDisponibilidadApropiacion = {
+                        'Id': iterador.Id,
+                        'RegistroPresupuestal': iterador.RegistroPresupuestal,
+                        'DisponibilidadApropiacion': iterador.DisponibilidadApropiacion,
+                        'Valor': iterador.Valor,
+                        'Saldo': iterador.Saldo,
+                      };
+                    });
+                  });
+                  //se inclulle consulta para obtener saldo en el objeto
                 });
                 //fin get saldos de lor rp
                 iterador.subGridOptions = {
@@ -106,7 +127,7 @@ angular.module('financieraClienteApp')
                       field: 'Codigo',
                       displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
                       enableCellEdit: false,
-                      width: '10%',
+                      width: '15%',
                       cellClass: 'input_center'
                     },
                     {
@@ -137,26 +158,13 @@ angular.module('financieraClienteApp')
                       }
                     });
                   }
-                };
-                //
-                financieraRequest.get('concepto',
-                  $.param({
-                    query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
-                    limit: 0
-                  })
-                ).then(function(response) {
-                  iterador.subGridOptions.data = response.data;
-                  //asociar RegistroPresupuestalDisponibilidadApropiacion
-                  angular.forEach(iterador.subGridOptions.data, function(subGridData) {
-                    subGridData.RegistroPresupuestalDisponibilidadApropiacion = iterador.Id
-                  });
-                });
+                }; //subGridOptions
               }); // iterador
             }); //tehen
           } //if
         }) // watch
 
-      // fin
+        // fin
       },
       controllerAs: 'd_rubrosPorRpSeleccionMultiple'
     };
