@@ -53,7 +53,7 @@ angular.module('financieraClienteApp')
             });
           }
           self.ver_seleccion = function($item, $model) {
-            $scope.outputentradaalmacen = $item;
+            $scope.outputentradaalmacen = $item.Id;
           }
         });
         // vigencia
