@@ -12,7 +12,9 @@ angular.module('financieraClienteApp')
     var self = this;
     self.PestanaAbierta = false;
     self.PestanaAbiertaDetallePago = false;
+    self.PestanaAbiertaLiquidacion = false;
     self.OrdenPago = {};
+    self.Necesidad = {};
 
 
     self.OrdenPagoConsulta = {};
