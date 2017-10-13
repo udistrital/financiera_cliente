@@ -10,13 +10,22 @@
 angular.module('financieraClienteApp')
   .controller('OpPlantaCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest, $http) {
     var self = this;
-    self.PestanaAbierta = true;
+    self.PestanaAbierta = false;
+    self.PestanaAbiertaDetallePago = false;
     self.OrdenPago = {};
 
 
     self.OrdenPagoConsulta = {};
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
+    // unidad ejecutora
+    financieraRequest.get('unidad_ejecutora',
+      $.param({
+        query: 'Id:1', //llega por rol de usuario
+      })
+    ).then(function(response) {
+      self.OrdenPago.UnidadEjecutora = response.data[0];
+    });
 
     //forma de pago
     financieraRequest.get('forma_pago',

@@ -172,6 +172,8 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               $scope.outputsubtipoordenpago = response.data[0];
             })
+          }else{
+            $scope.outputsubtipoordenpago = {};
           }
         })
 

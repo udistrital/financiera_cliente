@@ -1,26 +1,23 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'PLANTA' | translate }}</h2>
   <div class="panel-body">
-    <!--unidad ejecutora -->
-    <ue-listar unidaejecutora="opPlantaCrear.OrdenPago.UnidadEjecutora" inputpestanaabierta="opPlantaCrear.PestanaAbierta">
-    </ue-listar>
 
     <!-- Necesidad -->
     <necesida-listar
       inputpestanaabierta="opPlantaCrear.PestanaAbierta"
       outputnecesidad="opPlantaCrear.Necesidad"
       outputvalortotalrp="opPlantaCrear.OrdenPago.ValorBase"
-      outputregistropresupuestal="opPlantaCrear.OrdenPago.RegistroPresupuestal" 
+      outputregistropresupuestal="opPlantaCrear.OrdenPago.RegistroPresupuestal"
       outputsubtipoordenpago="opPlantaCrear.OrdenPago.SubTipoOrdenPago">
     </necesida-listar>
 
     <!--Valor del Pago-->
-    <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbierta=!opPlantaCrear.PestanaAbierta">
+    <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbiertaDetallePago=!opPlantaCrear.PestanaAbiertaDetallePago">
       {{'DETALLE_OP' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!opPlantaCrear.PestanaAbierta"></span>
-      <span class="fa fa-minus pull-right" ng-show="opPlantaCrear.PestanaAbierta"></span>
+      <span class="fa fa-plus pull-right" ng-show="!opPlantaCrear.PestanaAbiertaDetallePago"></span>
+      <span class="fa fa-minus pull-right" ng-show="opPlantaCrear.PestanaAbiertaDetallePago"></span>
     </legend class="text-primary">
-    <div ng-show="opPlantaCrear.PestanaAbierta" class="panel-body">
+    <div ng-show="opPlantaCrear.PestanaAbiertaDetallePago" class="panel-body">
       <div class="form-horizontal">
         <div class="form-group">
           <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
@@ -28,6 +25,10 @@
             <select ng-model="opPlantaCrear.OrdenPago.FormaPago" ng-options="i.Nombre for i in opPlantaCrear.formaPagos" class="form-control" required>
               <option value="">Seleccionar Forma de Pago</option>
             </select>
+          </div>
+          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">{{opPlantaCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
           </div>
         </div>
         <div class="form-group">
@@ -52,7 +53,7 @@
         </div>
       </div>
     </div>
-    <pre>{{opPlantaCrear.OrdenPago|json}}</pre>
+    <!-- <pre>{{opPlantaCrear.OrdenPago|json}}</pre> -->
 
     <!-- Liquidaciones -->
     <!-- <liquidacion-ver-todas
