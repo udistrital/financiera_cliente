@@ -12,10 +12,20 @@ angular.module('financieraClienteApp')
     var self = this;
     self.PestanaAbierta = true;
     self.OrdenPago = {};
+
+
     self.OrdenPagoConsulta = {};
     self.dataLiquidacionConsulta = {};
     self.dataliquidacion = {};
 
+    //forma de pago
+    financieraRequest.get('forma_pago',
+      $.param({
+        limit: 0
+      })
+    ).then(function(response) {
+      self.formaPagos = response.data;
+    });
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
       .then(function(data) { //error con el success

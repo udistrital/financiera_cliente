@@ -14,13 +14,13 @@ angular.module('financieraClienteApp')
         inputpestanaabierta: '=?',
         outputnecesidad: '=?',
         outputvalortotalrp: '=?',
-        outputregistropresupuestal: '=?'
+        outputregistropresupuestal: '=?',
+        outputsubtipoordenpago: '=?'
       },
 
       templateUrl: 'views/directives/necesidad/necesida_listar.html',
       controller: function($scope) {
         var self = this;
-
         self.gridOptions_necesidad = {
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
@@ -79,7 +79,7 @@ angular.module('financieraClienteApp')
               } else {
                 $scope.outputnecesidad = row.entity.Necesidad;
                 $scope.outputvalortotalrp = row.entity.subGridOptions.data[0].ValorTotal;
-                $scope.outputregistropresupuestal = row.entity.subGridOptions.data[0].Id;
+                $scope.outputregistropresupuestal = row.entity.subGridOptions.data[0];
               };
             });
           }
@@ -158,9 +158,20 @@ angular.module('financieraClienteApp')
         });
 
         $scope.$watch('outputnecesidad', function() {
-          if ($scope.outputnecesidad != undefined && Object.keys($scope.outputnecesidad).length > 0 ) {
-            console.log("cambia necesidad");
-            //consultamos el tipo de nomina y definimos el sutipo en la op
+          if ($scope.outputnecesidad != undefined && Object.keys($scope.outputnecesidad).length > 0) {
+            self.subTipoOrdenPago = "";
+            if ($scope.outputnecesidad.TipoNecesidad.CodigoAbreviacion == 'N') { //Nomina planta Administrativa
+              self.subTipoOrdenPago = "OP-PLAN-ADMI";
+            } else if ($scope.outputnecesidad.TipoNecesidad.CodigoAbreviacion == 'NPD') {
+              self.subTipoOrdenPago = "OP-PLAN-DOCE";
+            }
+            financieraRequest.get('sub_tipo_orden_pago',
+              $.param({
+                query: "CodigoAbreviacion:" + self.subTipoOrdenPago,
+                limit: -1
+              })).then(function(response) {
+              $scope.outputsubtipoordenpago = response.data[0];
+            })
           }
         })
 

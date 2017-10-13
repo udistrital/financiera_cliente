@@ -8,14 +8,10 @@
     <div class="panel-heading">
       {{ 'SELECCIONE' | translate }} {{ 'NECESIDAD' | translate }}
     </div>
-    <div class="panel-body">
-      <div ui-grid="d_necesidaListar.gridOptions_necesidad" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
-    </div>
+    <div ui-grid="d_necesidaListar.gridOptions_necesidad" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
   </div>
 </div>
 
-<script type="text/ng-template"  id="expandableRowUpc.html">
-       <div ui-grid="row.entity.subGridOptions" class="grid"></div>
+<script type="text/ng-template" id="expandableRowUpc.html">
+  <div ui-grid="row.entity.subGridOptions" class="grid"></div>
 </script>
-
-<pre>{{outputdatanecesidad |json}}</pre>
