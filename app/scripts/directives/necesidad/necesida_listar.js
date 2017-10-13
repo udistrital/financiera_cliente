@@ -94,6 +94,8 @@ angular.module('financieraClienteApp')
           //subGrid
           angular.forEach(self.gridOptions_necesidad.data, function(iterador) {
             iterador.subGridOptions = {
+              enableRowHeaderSelection: false,
+              multiSelect: false,
               columnDefs: [{
                   field: 'registro_presupuestal.Id',
                   visible: false

@@ -18,8 +18,42 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
-
         self.gridOptions_preliquidacion = {
+          expandableRowTemplate: 'expandableRowUpc.html',
+          expandableRowHeight: 100,
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          //inicio sub grid
+          onRegisterApi: function(gridApi) {
+            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
+              if (row.isExpanded) {
+                row.entity.subGridOptions = {
+                  enableRowHeaderSelection: false,
+                  multiSelect: false,
+                  columnDefs: [{
+                      field: 'Id',
+                      visible: true
+                    },
+                    {
+                      field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
+                      displayName: $translate.instant('NO_CDP'),
+                      width: '10%',
+                      cellClass: 'input_center'
+                    }
+                  ]
+                };
+                //consulta
+                administrativaRequest.get('detalle_preliquidacion',
+                  $.param({
+                    query: 'Preliquidacion.Id:' + row.entity.Id,
+                  })).then(function(response) {
+                  row.entity.subGridOptions.data = response.data;
+                });
+              }; //if
+
+            });
+          },
+          //fin sub grid
           columnDefs: [{
               field: 'Id',
               visible: false
