@@ -18,6 +18,13 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
+        // refrescar
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
         self.gridOptions_preliquidacion = {
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
@@ -107,6 +114,7 @@ angular.module('financieraClienteApp')
           }
         });
         $scope.$watch('inputnecesidad', function() {
+          self.refresh();
           if (Object.keys($scope.inputnecesidad).length > 0) {
             administrativaRequest.get('necesidad_proceso_externo',
               $.param({
@@ -121,6 +129,8 @@ angular.module('financieraClienteApp')
                 self.gridOptions_preliquidacion.data = response.data;
               });
             });
+          } else {
+            self.gridOptions_preliquidacion.data = {};
           };
         })
         // fin
