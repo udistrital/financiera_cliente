@@ -48,7 +48,7 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.RegistroPresupuestal == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_OP_PLANTA_DEBE_NECESIDAD_CON_RP') + "</li>"
       }
-      if (self.OrdenPago.FormaPago == undefined){
+      if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>"
       }
       if (Object.keys(self.Preliquidacion).length == 0) {
@@ -65,7 +65,24 @@ angular.module('financieraClienteApp')
     self.addOpPlantaCrear = function() {
       if (self.camposObligatorios()) {
         self.dataOrdenPagoPlanta = {};
-
+        self.dataOrdenPagoPlanta.OrdenPago = self.OrdenPago;
+        self.dataOrdenPagoPlanta.Preliquidacion = self.Preliquidacion;
+        self.dataOrdenPagoPlanta.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
+        //insert
+        financieraMidRequest.post("orden_pago_nomina", self.dataOrdenPagoPlanta)
+          .then(function(data) {
+            self.resultado = data;
+            //mensaje
+            swal({
+              title: 'Orden de Pago',
+              //text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
+              text: self.resultado.data.Type == 'success' ? $translate.instant(self.resultado.data.Code) + self.resultado.data.Body : $translate.instant(self.resultado.data.Code),
+              type: self.resultado.data.Type,
+            }).then(function() {
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+            //
+          })
       } else {
         swal({
           title: 'Error!',
