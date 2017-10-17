@@ -64,6 +64,7 @@ angular.module('financieraClienteApp')
     //
     self.addOpPlantaCrear = function() {
       if (self.camposObligatorios()) {
+        self.dataOrdenPagoPlanta = {};
 
       } else {
         swal({
