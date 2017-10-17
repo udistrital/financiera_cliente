@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        inputnecesidad: '=?'
+        inputnecesidad: '=?',
+        ouputpreliquidacion: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
@@ -149,10 +150,12 @@ angular.module('financieraClienteApp')
                   query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
                 })).then(function(response) {
                 self.gridOptions_preliquidacion.data = response.data;
+                $scope.ouputpreliquidacion = response.data;
               });
             });
           } else {
             self.gridOptions_preliquidacion.data = {};
+            $scope.ouputpreliquidacion = {};
           };
         })
         // fin
