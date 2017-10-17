@@ -33,16 +33,16 @@
 			rowHeight: 45
 		};
 		self.gridOptions.columnDefs = [
-		{ name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info'  },
-		{ name: 'IDENTIFICACION', displayName: 'Identificación', headerCellClass: 'text-info'  },
-		{ name: 'NOMBRE', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
+		{ name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info'  },
+		{ name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info'  },
+		{ name: 'nombre', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
 			//{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-			{ name: 'NUMERO_CUENTA', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
-			{ name: 'TIPO_RECIBO', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
-			{ name: 'PAGO_REPORTADO', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'MATRICULA', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'SEGURO', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'CARNET', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
+			{ name: 'numero_cuenta', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
+			{ name: 'tipo_recibo', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
+			{ name: 'pago_reportado', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
+			{ name: 'matricula', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
+			{ name: 'seguro', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
+			{ name: 'carnet', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
 			];
 
 
@@ -131,8 +131,8 @@
 				swal("", "Debe seleccionar la facultad", "error");
 			}else{
 				
-				var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
-				var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+				var inicio = $filter('date')(self.fechaInicio, "dd-MM-yy");
+				var fin = $filter('date')(self.fechaFin, "dd-MM-yy");
 				var tipo_recibo = self.tipoIngresoSelec.Nombre;
 				var codigo_facultad = self.facultadSelec.COD_FAC;
 				var parametros = tipo_recibo+"/"+codigo_facultad+"/"+inicio+"/"+fin;
@@ -143,6 +143,9 @@
 				pagosRequest.get(parametros,{ headers: {'Accept': 'application/json'}}).then(function(response){
 						if(response!=null){
 							console.log(response.data);
+							self.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
+							self.pagos = true;
+							console.log(self.gridOptions.data);
 						}else{
 							console.log("no data");
 						}
@@ -177,7 +180,7 @@
 			},true);
 
 
-			$scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){
+			/*$scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){
 				console.log("af"+self.gridOptions.data.length);
 				if ((self.gridOptions.data.length<=self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize== null) && self.gridOptions.data.length>0) {
 					$scope.gridHeight = self.gridOptions.rowHeight * 3+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
@@ -190,7 +193,7 @@
 					$scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
 					self.gridOptions.enablePaginationControls= true;
 				}
-			},true);
+			},true);*/
 
 
 

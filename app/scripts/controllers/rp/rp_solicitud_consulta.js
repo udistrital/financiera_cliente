@@ -84,6 +84,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.years[0];
+      self.actualizar_solicitudes();
     });
     /**
      * @ngdoc function
