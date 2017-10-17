@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
                   ]
                 };
                 //consulta
-                administrativaRequest.get('detalle_preliquidacion',
+                titanRequest.get('detalle_preliquidacion',
                   $.param({
                     query: 'Preliquidacion.Id:' + row.entity.Id,
                   })).then(function(response) {
@@ -67,43 +67,43 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'Descripcion',
-              displayName: $translate.instant('DESCRIPCION'),
+              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('LIQUIDACION'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Mes',
+              displayName: $translate.instant('MES'),
+              width: '8%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Ano',
+              displayName: $translate.instant('ANO'),
+              width: '8%',
               cellClass: 'input_center'
             },
             {
               field: 'EstadoPreliquidacion.Nombre',
               displayName: $translate.instant('ESTADO'),
+              width: '8%',
               cellClass: 'input_center'
             },
             {
               field: 'FechaRegistro',
               displayName: $translate.instant('FECHA'),
+              width: '8%',
               cellClass: 'input_center',
               cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
-              field: 'Nomina.Nombre',
+              field: 'Nomina.TipoNomina.Nombre',
               displayName: $translate.instant('NOMINA'),
+              width: '8%',
               cellClass: 'input_center'
             },
             {
               field: 'Nomina.Descripcion',
-              displayName: $translate.instant('DESCRIPCION'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Periodo',
-              displayName: $translate.instant('VIGENCIA'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.TipoNomina.Nombre',
-              displayName: $translate.instant('TIPO'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Vinculacion.Nombre',
-              displayName: $translate.instant('VINCULACION'),
+              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('NOMINA'),
               cellClass: 'input_center'
             },
           ]
@@ -122,7 +122,7 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.NecesidadProcesoExterno = response.data[0];
               //consultamos liquidacion
-              administrativaRequest.get('preliquidacion',
+              titanRequest.get('preliquidacion',
                 $.param({
                   query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
                 })).then(function(response) {

@@ -29,6 +29,7 @@ var text_es = {
   ANULACION_TOTAL: "Total",
   ANULAR: "Anular",
   ANULAR_PRESUPUESTO: "Anular Presupuesto",
+  ANO: "Año",
   APELLIDOS: "Apellidos",
   APROBACION_PRESUPUESTO: "Aprobación de Presupuesto",
   APROBAR: "Aprobar",
