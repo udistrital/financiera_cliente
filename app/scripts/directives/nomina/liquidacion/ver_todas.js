@@ -39,13 +39,35 @@ angular.module('financieraClienteApp')
                   multiSelect: false,
                   columnDefs: [{
                       field: 'Id',
-                      visible: true
+                      visible: false
                     },
                     {
-                      field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
-                      displayName: $translate.instant('NO_CDP'),
+                      field: 'NumeroContrato',
+                      displayName: $translate.instant('CONTRATO'),
                       width: '10%',
                       cellClass: 'input_center'
+                    },
+                    {
+                      field: 'Concepto.AliasConcepto',
+                      displayName: $translate.instant('CONCEPTOS'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'Concepto.NaturalezaConcepto.Nombre',
+                      displayName: $translate.instant('NATURALEZA'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'TipoPreliquidacion.Nombre',
+                      displayName: $translate.instant('TIPO'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'ValorCalculado',
+                      displayName: $translate.instant('VALOR'),
+                      cellFilter: 'currency',
+                      width: '14%',
+                      cellClass: 'input_right'
                     }
                   ]
                 };
