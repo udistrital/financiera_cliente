@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
 
             config: {
                 AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-                CLIENTE_ID: "On7yXeO6Q5A2t7i60YIzjyzpffsa",
+                CLIENTE_ID: "MWxzi3GKKMVj0RDitf4z5xWYVe0a",
                 REDIRECT_URL: "http://10.20.0.254/kronos/",
                 RESPONSE_TYPE: "id_token token",
                 SCOPE: "openid email",
