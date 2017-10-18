@@ -21,16 +21,6 @@ angular.module('financieraClienteApp')
         self.gridOptions_concepto_orden_pago = {
           enableRowSelection: false,
           enableRowHeaderSelection: false,
-
-          paginationPageSizes: [5, 10, 15],
-          paginationPageSize: null,
-
-          enableFiltering: true,
-          enableSelectAll: true,
-          enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 0,
-          minRowsToShow: 12,
-          useExternalPagination: false,
           // inicio sub tabla
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,

@@ -51,7 +51,6 @@ angular.module('financieraClienteApp')
             width: '8%',
             displayName: $translate.instant('TIPO'),
             filter: {
-              term: 'OP-PROV',
               type: uiGridConstants.filter.SELECT,
               selectOptions: [{value: 'OP-PROV', label: 'OP-PROV'},{value: 'OP-PLAN', label: 'OP-PLAN'} ]
             }
@@ -96,7 +95,7 @@ angular.module('financieraClienteApp')
             displayName: $translate.instant('NO_DOCUMENTO')
           },
           {
-            field: 'ValorTotal',
+            field: 'ValorBase',
             width: '10%',
             cellFilter: 'currency',
             cellClass: 'input_right',
@@ -152,9 +151,6 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               iterador.Proveedor = response.data[0];
-            });
-            financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
-              iterador.ValorTotal = response.data;
             });
           })
           // data proveedor

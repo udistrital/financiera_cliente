@@ -1,7 +1,6 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'DETALLE_ORDEN_PAGO' | translate }} {{ 'NOMINA' | translate }}  {{ 'PLANTA' | translate }} No. {{opPlantaVerPorId.OrdenPago.Consecutivo}}</h2>
   <div class="panel-body">
-
     <!--detalle Unidad Ejecutora-->
     <legend class="text-primary" ng-click="panelUnidadEjecutora=!panelUnidadEjecutora">
       {{'UNIDAD_EJECUTORA' | translate}}
@@ -32,10 +31,9 @@
         </div>
       </div>
     </div>
-
     <!--detalle Proveedor-->
     <legend class="text-primary" ng-click="panelProveedor=!panelProveedor">
-      {{'COMPANIA' | translate}}
+      {{'PROVEEDOR' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!panelProveedor"></span>
       <span class="fa fa-minus pull-right" ng-show="panelProveedor"></span>
     </legend class="text-primary">
@@ -83,10 +81,9 @@
         </div>
       </div>
     </div>
-
-    <!--Detalle Financiero-->
+    <!--Detalle Registro Presupuestal (RP)-->
     <legend class="text-primary" ng-click="panelRp=!panelRp">
-      {{'DETALLE' | translate}} {{'FINANCIERO' | translate}}
+      {{'REGISTRO_PRESUPUESTAL' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!panelRp"></span>
       <span class="fa fa-minus pull-right" ng-show="panelRp"></span>
     </legend class="text-primary">
@@ -150,8 +147,7 @@
         </div>
       </div>
     </div>
-
-    <!--Detalle Orden de pago-->
+    <!--Detall Orden de Pago-->
     <legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
       {{'DETALLE_OP' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!panelDetallePagoProveedor"></span>
@@ -159,51 +155,45 @@
     </legend class="text-primary">
     <div ng-show="panelDetallePagoProveedor" class="panel-body">
       <div class="form-horizontal">
-        <!--
-        <div class="form-group">
-          <label class="control-label col-sm-1">{{'TIPO_DOCUMENTO' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.TipoOrdenPago.Nombre}}</span>
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.SubTipoOrdenPago.Nombre}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'FORMA_PAGO' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.FormaPago.Nombre}}</span>
+            </div>
           </div>
-          <label class="control-label col-sm-1">{{'VALOR_BASE_RETENCION' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.ValorBase  | currency }}</span>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'ENTRADA_ALMACEN' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{d_opProveedorVerPorId.entrada.Consecutivo}} - {{d_opProveedorVerPorId.entrada.TipoContrato.Descripcion}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'VALOR_BASE_RETENCION' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.ValorBase  | currency:"$":0 }}</span>
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-1">{{'POR_IVA' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.Iva.Valor}}</span>
-          </div>
-          <label class="control-label col-sm-1">{{'VAL_IVA' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.ValorIva  | currency }}</span>
-          </div>
-        </div>
-        -->
-        <div class="form-group">
-          <label class="control-label col-sm-1">{{'VALOR_BRUTO' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.ValorBruto  | currency }}</span>
-          </div>
-          <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.Vigencia}}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-1">{{'ELABORADO_POR' | translate}}</label>
-          <div class="col-sm-5">
-            <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.PersonaElaboro }}</span>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.OrdenPagoEstadoOrdenPago[0].Usuario }}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{opPlantaVerPorId.OrdenPago.Vigencia}}</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
     <!--Detalle Concepto-->
-    <detalle-concepto-op-planta inputidordenpago="opPlantaVerPorId.OrdenPago.Id" inputpestanaabierta="pestana_abierta">
+    <detalle-concepto-op-planta
+      inputidordenpago="opPlantaVerPorId.OrdenPago.Id"
+      inputpestanaabierta="pestana_abierta">
     </detalle-concepto-op-planta>
-
     <!--detalle Cuenta Contable-->
     <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
       {{'CUENTAS_CONTABLES' | translate}}
@@ -214,7 +204,5 @@
       <movimientos-contables-op-detalle codigodocumentoafectante="opPlantaVerPorId.OrdenPago.Id">
       </movimientos-contables-op-detalle>
     </div>
-
-
   </div>
 </div>
