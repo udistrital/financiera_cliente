@@ -57,7 +57,7 @@ angular.module('financieraClienteApp')
       ]
     };
 
-    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
       var dif = self.vigenciaActual - 1995 ;
@@ -68,7 +68,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.vigenciaActual;
-      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,'') //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.actualizarLista(self.offset,'');

@@ -26,8 +26,8 @@
 		self.gridOptions = {
 			enableHorizontalScrollbar:0,
 			enableVerticalScrollbar:1,
-			paginationPageSizes: [5, 10, 15],
-			paginationPageSize: 5,
+			paginationPageSizes: [10, 20, 30],
+			paginationPageSize: 10,
 			useExternalPagination: false,
 			enableFiltering: true,
 			rowHeight: 45
@@ -86,7 +86,9 @@
 					delete data.Id;
 				});
 				self.ingreso.Movimientos = self.movs;
-				console.log(self.ingreso.Movimientos);
+				console.log("########################")
+				console.log(self.ingreso);
+				console.log("########################")
 				financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
 					console.log(response.data);
 					if (response.data.Type !== undefined){
@@ -113,7 +115,7 @@
 			self.totalIngresos = 0;
 			if (self.gridOptions.data != null){
 				angular.forEach(self.gridOptions.data ,function(data){
-					var valor = parseFloat(data.PAGO_REPORTADO)
+					var valor = parseFloat(data.pago_reportado)
 					self.totalIngresos = self.totalIngresos + valor;
 				});
 			}else{
