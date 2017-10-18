@@ -1,7 +1,35 @@
-<div class="panel panel-primary panel-body" ng-show="!rpConsulta.cargandoDatosPagos">
+<div class="panel panel-primary panel-body" >
   <h2 class="page-header" align="center">{{'LISTA_RP' | translate}}</h2>
   <div class="panel-body">
-    <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize class="myGrid"></div>
+    <div class="row">
+        <table>
+      <tr>
+        <td>
+          <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+          <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpConsulta.years" value="{{option}}">{{option}}</option>
+        </select> 
+        </td>
+        <br>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year"  md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year"  md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="rpConsulta.filtrarListaRp()" class="fa fa-filter btn btn-info btn-outline" aria-hidden="true"></a>
+        </td>
+      </tr>
+    </table>
+    </div>
+    <hr>
+    <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
   </div>
 </div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
@@ -125,4 +153,4 @@
     </div>
   </div>
 </div>
-<loading load="rpConsulta.cargandoDatosPagos" tam="5"></loading>
+

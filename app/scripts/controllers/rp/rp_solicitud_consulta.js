@@ -17,7 +17,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, uiGridService, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, argoRequest, financieraRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
@@ -72,6 +72,20 @@ angular.module('financieraClienteApp')
       ]
 
     };
+
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.vigenciaActual = parseInt(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
+      }
+      self.years = range;
+      self.Vigencia = self.years[0];
+      self.actualizar_solicitudes();
+    });
     /**
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#actualizar_solicitudes
@@ -80,7 +94,7 @@ angular.module('financieraClienteApp')
      * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
      */
     self.actualizar_solicitudes = function() {
-      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp', '').then(function(response) {
+      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.vigenciaActual, '').then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
         console.log(response.data);

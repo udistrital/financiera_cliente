@@ -24,9 +24,14 @@
           <br>
         </td>
         <td class="col-md-2">
-          <label for="tipo_ingreso">{{'FECHA_CONSIG' | translate}}</label>
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
           <br>
-          <md-datepicker ng-model="ingresoRegistro.fechaConsignacion" md-placeholder="{{'FECHA_CONSIG' | translate}}" flex></md-datepicker>
+          <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="ingresoRegistro.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" ></md-datepicker>
         </td>
         <td class="col-md-2">
           <br>
@@ -45,7 +50,7 @@
           <span class="fa fa-plus pull-right" ng-show="b"></span>
           <span class="fa fa-minus pull-right" ng-show="!b"></span>
         </legend>
-        <div ng-show="!b" style="height:{{gridHeight}}px" ui-grid="ingresoRegistro.gridOptions"  ui-grid-pagination ui-grid-auto-resize></div>
+        <div ng-show="!b"  ui-grid="ingresoRegistro.gridOptions"  ui-grid-pagination ui-grid-auto-resize></div>
         <br>
         <br>
         <legend class="text-primary" ng-click="a=!a">
@@ -120,8 +125,8 @@
         </div>
       </div>
     </div>
-    <div ng-if="ingresoRegistro.rta!=null" class="alert alert-danger">
-      {{ingresoRegistro.rta}}
+    <div ng-if="ingresoRegistro.gridOptions.data!=null" class="alert alert-danger">
+      No data
     </div>
   </div>
 
