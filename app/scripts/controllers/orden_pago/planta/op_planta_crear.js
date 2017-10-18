@@ -71,14 +71,13 @@ angular.module('financieraClienteApp')
         console.log("AAAAAAAAAAA");
         console.log(self.dataOrdenPagoPlanta);
         console.log("AAAAAAAAAAA");
-        financieraMidRequest.post("orden_pago_nomina", self.dataOrdenPagoPlanta)
+        financieraMidRequest.post("orden_pago_nomina/MidCrearOPNomina", self.dataOrdenPagoPlanta)
           .then(function(data) {
             self.resultado = data;
             //mensaje
             swal({
               title: 'Orden de Pago',
-              //text: $translate.instant(self.resultado.data.Code)  + self.resultado.data.Body,
-              text: self.resultado.data.Type == 'success' ? $translate.instant(self.resultado.data.Code) + self.resultado.data.Body : $translate.instant(self.resultado.data.Code),
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
               type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
