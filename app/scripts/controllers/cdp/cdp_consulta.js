@@ -144,7 +144,7 @@ angular.module('financieraClienteApp')
         swal("", $translate.instant("E_A07"), "error")
       }else {
         var valor = 0;
-        self.alerta = "<ol>"
+        self.alerta = "<ol>";
         var disponibilidad_apropiacion =[];
         var anulacion = {
           Motivo : self.motivo,
