@@ -68,9 +68,6 @@ angular.module('financieraClienteApp')
         self.dataOrdenPagoPlanta.Preliquidacion = self.Preliquidacion;
         self.dataOrdenPagoPlanta.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         //insert
-        console.log("AAAAAAAAAAA");
-        console.log(self.dataOrdenPagoPlanta);
-        console.log("AAAAAAAAAAA");
         financieraMidRequest.post("orden_pago_nomina/MidCrearOPNomina", self.dataOrdenPagoPlanta)
           .then(function(data) {
             self.resultado = data;
