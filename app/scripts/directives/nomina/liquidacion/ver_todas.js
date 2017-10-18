@@ -150,12 +150,11 @@ angular.module('financieraClienteApp')
                   query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
                 })).then(function(response) {
                 self.gridOptions_preliquidacion.data = response.data;
-                $scope.ouputpreliquidacion = response.data;
+                $scope.ouputpreliquidacion = response.data[0].Id;
               });
             });
           } else {
             self.gridOptions_preliquidacion.data = {};
-            $scope.ouputpreliquidacion = {};
           };
         })
         // fin
