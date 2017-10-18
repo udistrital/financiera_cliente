@@ -118,7 +118,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.years[0];
-      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,'') //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.cargarLista(0,'');
@@ -172,7 +172,7 @@ angular.module('financieraClienteApp')
                 rubros_data.Saldo = response.data;
               });
                financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
-                var solicitud = response.data
+                var solicitud = response.data;
                 console.log(response.data);
                 
                   self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
@@ -208,7 +208,7 @@ angular.module('financieraClienteApp')
       }else{
         var valor = 0;
         var rp_apropiacion =[];
-        self.alerta = "<ol>"
+        self.alerta = "<ol>";
         var anulacion = {
           Motivo : self.motivo,
           TipoAnulacion : self.tipoAnulacion,
@@ -241,7 +241,7 @@ angular.module('financieraClienteApp')
             self.alerta = self.alerta + "</ol>";
             swal("", self.alerta, self.alerta_anulacion_rp[0]).then(function(){
               self.limpiar();
-              financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+              financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,'') //formato de entrada  https://golang.org/src/time/format.go
               .then(function(response) { //error con el success
               self.gridOptions.totalItems = response.data;
               self.cargarLista(0,'');
@@ -324,7 +324,7 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch("rpConsulta.Vigencia", function() {
-      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,'') //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.cargarLista(0,'');
