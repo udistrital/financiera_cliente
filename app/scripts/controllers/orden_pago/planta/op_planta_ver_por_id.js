@@ -21,15 +21,13 @@ angular.module('financieraClienteApp')
     // get data OP
     financieraRequest.get('orden_pago',
       $.param({
-        query: "Id:" + self.ordenPagoPlantaId,
+        query: "Id:" + self.ordenPagoPlantaId + ',SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:OP-PLAN',
       })).then(function(response) {
         self.OrdenPago = response.data[0];
         // proveedor
         self.get_info_proveedor(self.OrdenPago.RegistroPresupuestal.Beneficiario)
         // detalle rp
         self.detalle_rp(self.OrdenPago.RegistroPresupuestal.Id)
-        //Iva
-        self.calcularIva(self.OrdenPago.ValorBase, self.OrdenPago.Iva.Valor)
     });
 
     // ***********
@@ -87,12 +85,5 @@ angular.module('financieraClienteApp')
           self.valor_total_rp = response.data;
         });
     }
-    // Function calcular iva
-    self.calcularIva = function(valor_base, iva) {
-      self.ValorIva = (parseInt(valor_base) * (parseInt(iva) / 100));
-      self.ValorBruto = parseInt(valor_base) + parseInt(self.ValorIva);
-    }
-
-
   // fin
   });

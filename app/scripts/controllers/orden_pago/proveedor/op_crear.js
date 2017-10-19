@@ -12,13 +12,20 @@ angular.module('financieraClienteApp')
     //
     var self = this;
     self.PestanaAbierta = false;
+    self.panelUnidadEjecutora = false;
     self.OrdenPago = {};
-    self.OrdenPago.UnidadEjecutora = {'Id': 1};
     self.Proveedor = {};
     self.OrdenPago.RegistroPresupuestal = {'Id': 99} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
-
+    // unidad ejecutora
+    financieraRequest.get('unidad_ejecutora',
+      $.param({
+        query: 'Id:1', //llega por rol de usuario
+      })
+    ).then(function(response) {
+      self.OrdenPago.UnidadEjecutora = response.data[0];
+    });
     // functions
     self.estructurarDatosParaRegistro = function(pConceptos) {
       self.ConceptoOrdenPago = [];

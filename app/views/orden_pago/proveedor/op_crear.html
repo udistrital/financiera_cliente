@@ -1,6 +1,37 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
 
+    <!--detalle Unidad Ejecutora-->
+    <legend class="text-primary" ng-click="opCrear.panelUnidadEjecutora=!opCrear.panelUnidadEjecutora">
+      {{'UNIDAD_EJECUTORA' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!opCrear.panelUnidadEjecutora"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panelUnidadEjecutora"></span>
+    </legend class="text-primary">
+    <div ng-show="opCrear.panelUnidadEjecutora" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
+          <div class="col-sm-5">
+            <textarea readonly class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Descripcion}}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Entidad.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Entidad.CodigoEntidad}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!--Proveedor -->
     <pv-listar
       inputpestanaabierta="opCrear.PestanaAbierta"

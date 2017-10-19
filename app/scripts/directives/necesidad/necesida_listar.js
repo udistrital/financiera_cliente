@@ -12,119 +12,23 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        outputrp: '=?',
+        outputnecesidad: '=?',
+        outputvalortotalrp: '=?',
+        outputregistropresupuestal: '=?',
+        outputsubtipoordenpago: '=?'
       },
 
       templateUrl: 'views/directives/necesidad/necesida_listar.html',
       controller: function($scope) {
         var self = this;
-
         self.gridOptions_necesidad = {
-          enableRowSelection: false,
-          multiSelect: false,
-          enableRowHeaderSelection: false,
-
-          paginationPageSizes: [12, 50, 100],
-          paginationPageSize: null,
-
-          enableFiltering: true,
-          enableSelectAll: true,
-          enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 0,
-          minRowsToShow: 12,
-          useExternalPagination: false,
-
-          // inicio sub tabla
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
-          onRegisterApi: function(gridApi) {
-            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-              if (row.isExpanded) {
-                gridApi.selection.clearSelectedRows();
-                row.entity.subGridOptions = {
-                  multiSelect: false,
-                  columnDefs: [{
-                      field: 'registro_presupuestal.Id',
-                      visible: false
-                    },
-                    {
-                      field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
-                      displayName: $translate.instant('NO_CDP'),
-                      width: '10%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre',
-                      displayName: $translate.instant('CDP') + " " + $translate.instant('ESTADO'),
-                      width: '10%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'NumeroRegistroPresupuestal',
-                      displayName: $translate.instant('NO_CRP'),
-                      width: '11%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Vigencia',
-                      displayName: $translate.instant('CRP') + " " + $translate.instant('VIGENCIA'),
-                      width: '11%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Estado.Nombre',
-                      displayName: $translate.instant('CRP') + " " + $translate.instant('ESTADO'),
-                      width: '11%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Responsable',
-                      displayName: $translate.instant('CRP') + " " + $translate.instant('RESPONSABLE'),
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'ValorTotal',
-                      displayName: $translate.instant('CRP') + " " + $translate.instant('VALOR'),
-                      cellFilter: 'currency',
-                      cellClass: 'input_right'
-                    },
-                  ],
-                  onRegisterApi: function(gridApi) {
-                    gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
-                      if ($scope.rowgrid!== undefined) {
-                        $scope.rowgrid.isSelected=false;
-                      }
-                      $scope.outputrp = null;
-                      console.log(row2);
-                      if (row2.isSelected) {
-                        $scope.rowgrid=row2;
-                        $scope.outputrp = row2.entity;
-                      }
-
-
-                    });
-                  }
-                };
-                //
-                financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/" + row.entity.Necesidad.Id)
-                  .then(function(data) {
-                    row.entity.subGridOptions.data = data.data[0].registro_presupuestal;
-                    // get valor rp
-                    angular.forEach(row.entity.subGridOptions.data, function(dataCrp) {
-                      financieraRequest.get('registro_presupuestal/ValorTotalRp/' + dataCrp.Id)
-                        .then(function(response) {
-                          dataCrp.ValorTotal = response.data;
-                        });
-                    })
-                    // fin get valor rp
-                  })
-              } // if
-            });
-          },
-          // fin sub tabla
+          enableRowHeaderSelection: false,
+          multiSelect: false,
           columnDefs: [{
-              field: 'Id',
-              visible: false
+              field: 'Necesidad.Id',
+              visible: true
             },
             {
               field: 'Necesidad.Numero',
@@ -164,16 +68,116 @@ angular.module('financieraClienteApp')
               field: 'Necesidad.Justificacion',
               displayName: $translate.instant('JUSTIFICACION'),
             },
-          ]
+          ],
+          onRegisterApi: function(gridApi) {
+            self.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+              if (row.isSelected == false) {
+                $scope.outputnecesidad = {};
+                $scope.outputvalortotalrp = 0;
+                $scope.outputregistropresupuestal = {};
+              } else {
+                $scope.outputnecesidad = row.entity.Necesidad;
+                $scope.outputvalortotalrp = row.entity.subGridOptions.data[0].ValorTotal;
+                $scope.outputregistropresupuestal = row.entity.subGridOptions.data[0];
+              };
+            });
+          }
         };
         //
         administrativaRequest.get('solicitud_disponibilidad',
           $.param({
-            query: "Expedida:true",
+            query: "Expedida:true,Necesidad.TipoNecesidad.CodigoAbreviacion:N", //necesidades de Nomina (N) -se require un in
             limit: -1
           })).then(function(response) {
           self.gridOptions_necesidad.data = response.data;
+          //subGrid
+          angular.forEach(self.gridOptions_necesidad.data, function(iterador) {
+            iterador.subGridOptions = {
+              enableRowHeaderSelection: false,
+              multiSelect: false,
+              columnDefs: [{
+                  field: 'registro_presupuestal.Id',
+                  visible: false
+                },
+                {
+                  field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
+                  displayName: $translate.instant('NO_CDP'),
+                  width: '10%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre',
+                  displayName: $translate.instant('CDP') + " " + $translate.instant('ESTADO'),
+                  width: '10%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'NumeroRegistroPresupuestal',
+                  displayName: $translate.instant('NO_CRP'),
+                  width: '11%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'Vigencia',
+                  displayName: $translate.instant('CRP') + " " + $translate.instant('VIGENCIA'),
+                  width: '11%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'Estado.Nombre',
+                  displayName: $translate.instant('CRP') + " " + $translate.instant('ESTADO'),
+                  width: '11%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'Responsable',
+                  displayName: $translate.instant('CRP') + " " + $translate.instant('RESPONSABLE'),
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'ValorTotal',
+                  displayName: $translate.instant('CRP') + " " + $translate.instant('VALOR'),
+                  cellFilter: 'currency',
+                  cellClass: 'input_right'
+                },
+              ]
+            };
+            //
+            financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/" + iterador.Necesidad.Id)
+              .then(function(data) {
+                iterador.subGridOptions.data = [];
+                iterador.subGridOptions.data.push(data.data[0].registro_presupuestal[0]); //primer rp cuando se va por muchos rubros
+                // get valor rp
+                financieraRequest.get('registro_presupuestal/ValorTotalRp/' + iterador.subGridOptions.data[0].Id)
+                  .then(function(response) {
+                    iterador.subGridOptions.data[0].ValorTotal = response.data;
+                  });
+                // fin get valor rp
+              });
+          });
+          //subGrid
         });
+
+        $scope.$watch('outputnecesidad', function() {
+          if ($scope.outputnecesidad != undefined && Object.keys($scope.outputnecesidad).length > 0) {
+            self.subTipoOrdenPago = "";
+            if ($scope.outputnecesidad.TipoNecesidad.CodigoAbreviacion == 'N') { //Nomina planta Administrativa
+              self.subTipoOrdenPago = "OP-PLAN-ADMI";
+            } else if ($scope.outputnecesidad.TipoNecesidad.CodigoAbreviacion == 'NPD') {
+              self.subTipoOrdenPago = "OP-PLAN-DOCE";
+            }
+            financieraRequest.get('sub_tipo_orden_pago',
+              $.param({
+                query: "CodigoAbreviacion:" + self.subTipoOrdenPago,
+                limit: -1
+              })).then(function(response) {
+              $scope.outputsubtipoordenpago = response.data[0];
+            })
+          }else{
+            $scope.outputsubtipoordenpago = {};
+          }
+        })
 
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {

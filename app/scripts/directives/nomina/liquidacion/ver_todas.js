@@ -7,86 +7,18 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(titanRequest, $timeout, $translate) {
+  .directive('liquidacionVerTodas', function(administrativaRequest, titanRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
-        inputdataliquidacion: '=?',
         inputpestanaabierta: '=?',
-        outputliquidacion: '=?',
-        outputliquidacionid: '=?'
+        inputnecesidad: '=?',
+        ouputpreliquidacion: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
-
-        self.gridOptions_liquid = {
-          enableRowSelection: true,
-          enableRowHeaderSelection: true,
-
-          paginationPageSizes: [5, 10, 15],
-          paginationPageSize: null,
-
-          enableFiltering: true,
-          enableSelectAll: true,
-          enableHorizontalScrollbar: 0,
-          enableVerticalScrollbar: 0,
-          minRowsToShow: 10,
-          useExternalPagination: false,
-
-          columnDefs: [{
-              field: 'Id',
-              visible: false
-            },
-            {
-              field: 'NombreLiquidacion',
-              displayName: $translate.instant('NOMBRE'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'IdUsuario',
-              displayName: $translate.instant('ELABORADO_POR'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'EstadoLiquidacion',
-              displayName: $translate.instant('ESTADO'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'FechaLiquidacion',
-              displayName: $translate.instant('FECHA'),
-              cellClass: 'input_center',
-              cellTemplate: '<span>{{row.entity.FechaLiquidacion | date:"yyyy-MM-dd":"UTC"}}</span>'
-            },
-            {
-              field: 'Nomina.Nombre',
-              displayName: $translate.instant('NOMINA'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Descripcion',
-              displayName: $translate.instant('DESCRIPCION'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Periodo',
-              displayName: $translate.instant('VIGENCIA'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.TipoNomina.Nombre',
-              displayName: $translate.instant('TIPO'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Vinculacion.Nombre',
-              displayName: $translate.instant('VINCULACION'),
-              cellClass: 'input_center'
-            },
-          ]
-        };
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -94,61 +26,137 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        self.construirQuery = function(data) {
-          self.query = '';
-          if (data.Vigencia != undefined) {
-            if (self.query.length == 0) {
-              self.query = self.query + 'Nomina.Periodo:' + data.Vigencia
-            } else {
-              self.query = self.query + ',Nomina.Periodo:' + data.Vigencia
-            }
-          }
-          if (data.TipoNomina != undefined) {
-            if (self.query.length == 0) {
-              self.query = self.query + 'Nomina.TipoNomina.Nombre:' + data.TipoNomina
-            } else {
-              self.query = self.query + ',Nomina.TipoNomina.Nombre:' + data.TipoNomina
-            }
-          }
-          if (data.Vigencia != undefined && data.Mes != undefined) {
-            if (self.query.length == 0) {
-              self.query = self.query + 'FechaLiquidacion__startswith:' + data.Vigencia + '-' + data.Mes
-            } else {
-              self.query = self.query + ',FechaLiquidacion__startswith:' + data.Vigencia + '-' + data.Mes
-            }
-          }
-        }
+        self.gridOptions_preliquidacion = {
+          expandableRowTemplate: 'expandableRowUpc.html',
+          expandableRowHeight: 100,
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          //inicio sub grid
+          onRegisterApi: function(gridApi) {
+            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
+              if (row.isExpanded) {
+                row.entity.subGridOptions = {
+                  enableRowHeaderSelection: false,
+                  multiSelect: false,
+                  columnDefs: [{
+                      field: 'Id',
+                      visible: false
+                    },
+                    {
+                      field: 'NumeroContrato',
+                      displayName: $translate.instant('CONTRATO'),
+                      width: '10%',
+                      cellClass: 'input_center'
+                    },
+                    {
+                      field: 'Concepto.AliasConcepto',
+                      displayName: $translate.instant('CONCEPTOS'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'Concepto.NaturalezaConcepto.Nombre',
+                      displayName: $translate.instant('NATURALEZA'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'TipoPreliquidacion.Nombre',
+                      displayName: $translate.instant('TIPO'),
+                      width: '15%'
+                    },
+                    {
+                      field: 'ValorCalculado',
+                      displayName: $translate.instant('VALOR'),
+                      cellFilter: 'currency',
+                      width: '14%',
+                      cellClass: 'input_right'
+                    }
+                  ]
+                };
+                //consulta
+                titanRequest.get('detalle_preliquidacion',
+                  $.param({
+                    query: 'Preliquidacion.Id:' + row.entity.Id,
+                  })).then(function(response) {
+                  row.entity.subGridOptions.data = response.data;
+                });
+              }; //if
 
-        $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta){
-          $scope.a = true;
-          }
-        })
-        $scope.$watch('inputdataliquidacion', function() {
-          if ($scope.inputdataliquidacion != undefined) {
-            self.construirQuery($scope.inputdataliquidacion)
-            titanRequest.get('liquidacion',
-              $.param({
-                query: self.query, //"Nomina.Periodo:2017,Nomina.TipoNomina.Nombre:FP",
-              })).then(function(response) {
-              self.refresh();
-              self.gridOptions_liquid.data = response.data;
             });
-          }
-        },true)
-
-        //
-        self.gridOptions_liquid.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputliquidacion = row.entity;
-            $scope.outputliquidacionid = row.entity.Id;
-          });
+          },
+          //fin sub grid
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'Descripcion',
+              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('LIQUIDACION'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Mes',
+              displayName: $translate.instant('MES'),
+              width: '8%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Ano',
+              displayName: $translate.instant('ANO'),
+              width: '8%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'EstadoPreliquidacion.Nombre',
+              displayName: $translate.instant('ESTADO'),
+              width: '8%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'FechaRegistro',
+              displayName: $translate.instant('FECHA'),
+              width: '8%',
+              cellClass: 'input_center',
+              cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
+            },
+            {
+              field: 'Nomina.TipoNomina.Nombre',
+              displayName: $translate.instant('NOMINA'),
+              width: '8%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Nomina.Descripcion',
+              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('NOMINA'),
+              cellClass: 'input_center'
+            },
+          ]
         };
-        self.gridOptions_liquid.multiSelect = false;
-        self.gridOptions_liquid.enablePaginationControls = true;
-
+        $scope.$watch('inputpestanaabierta', function() {
+          if ($scope.inputpestanaabierta) {
+            $scope.a = true;
+          }
+        });
+        $scope.$watch('inputnecesidad', function() {
+          self.refresh();
+          if (Object.keys($scope.inputnecesidad).length > 0) {
+            administrativaRequest.get('necesidad_proceso_externo',
+              $.param({
+                query: 'Necesidad.Id:' + $scope.inputnecesidad.Id,
+              })).then(function(response) {
+              self.NecesidadProcesoExterno = response.data[0];
+              //consultamos liquidacion
+              titanRequest.get('preliquidacion',
+                $.param({
+                  query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
+                })).then(function(response) {
+                self.gridOptions_preliquidacion.data = response.data;
+                $scope.ouputpreliquidacion = response.data[0].Id;
+              });
+            });
+          } else {
+            self.gridOptions_preliquidacion.data = {};
+          };
+        })
         // fin
       },
       controllerAs: 'd_liquidacionVerTodas'

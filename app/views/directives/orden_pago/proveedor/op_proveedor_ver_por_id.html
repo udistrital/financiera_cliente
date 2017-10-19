@@ -78,7 +78,7 @@
     </div>
   </div>
 </div>
-<!--Detalle RP-->
+<!--Detalle Registro Presupuestal (RP)-->
 <legend class="text-primary" ng-click="panelRp=!panelRp">
   {{'REGISTRO_PRESUPUESTAL' | translate}}
   <span class="fa fa-plus pull-right" ng-show="!panelRp"></span>
@@ -144,8 +144,7 @@
     </div>
   </div>
 </div>
-
-<!--Valor del Pago-->
+<!--Detalle Orden de Pago-->
 <legend class="text-primary" ng-click="panelDetallePagoProveedor=!panelDetallePagoProveedor">
   {{'DETALLE_OP' | translate}}
   <span class="fa fa-plus pull-right" ng-show="!panelDetallePagoProveedor"></span>
@@ -187,13 +186,11 @@
     </div>
   </div>
 </div>
-
 <!--detalle Rubros y conceptos-->
 <op-proveedor-detalle-rubro-concepto
   inputpestanaabierta="inputpestanaabierta"
   inputordenpagoid="d_opProveedorVerPorId.orden_pago.Id">
 </op-proveedor-detalle-rubro-concepto>
-
 <!--detalle Cuenta Contable-->
 <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
   {{'CUENTAS_CONTABLES' | translate}}
