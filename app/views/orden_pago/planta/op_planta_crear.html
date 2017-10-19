@@ -1,7 +1,36 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'PLANTA' | translate }}</h2>
   <div class="panel-body">
-
+    <!--detalle Unidad Ejecutora-->
+    <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbierta=!opPlantaCrear.PestanaAbierta">
+      {{'UNIDAD_EJECUTORA' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!opPlantaCrear.PestanaAbierta"></span>
+      <span class="fa fa-minus pull-right" ng-show="opPlantaCrear.PestanaAbierta"></span>
+    </legend class="text-primary">
+    <div ng-show="opPlantaCrear.PestanaAbierta" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opPlantaCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
+          <div class="col-sm-5">
+            <textarea readonly class="form-control">{{opPlantaCrear.OrdenPago.UnidadEjecutora.Descripcion}}</textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opPlantaCrear.OrdenPago.UnidadEjecutora.Entidad.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opPlantaCrear.OrdenPago.UnidadEjecutora.Entidad.CodigoEntidad}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- Necesidad -->
     <necesida-listar
       inputpestanaabierta="opPlantaCrear.PestanaAbierta"
@@ -10,7 +39,6 @@
       outputregistropresupuestal="opPlantaCrear.OrdenPago.RegistroPresupuestal"
       outputsubtipoordenpago="opPlantaCrear.OrdenPago.SubTipoOrdenPago">
     </necesida-listar>
-
     <!--Valor del Pago-->
     <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbiertaDetallePago=!opPlantaCrear.PestanaAbiertaDetallePago">
       {{'DETALLE_OP' | translate}}
@@ -54,14 +82,12 @@
       </div>
     </div>
     <!-- <pre>{{opPlantaCrear.Necesidad|json}}</pre> -->
-
     <!-- Liquidaciones -->
     <liquidacion-ver-todas
       inputpestanaabierta="opPlantaCrear.PestanaAbiertaLiquidacion"
       inputnecesidad="opPlantaCrear.Necesidad"
       ouputpreliquidacion="opPlantaCrear.OrdenPago.Liquidacion">
     </liquidacion-ver-todas>
-
     <!-- Boton add -->
     <center><button class="btn btn-primary" ng-click="opPlantaCrear.addOpPlantaCrear()">Registrar</button></center>
   </div>
