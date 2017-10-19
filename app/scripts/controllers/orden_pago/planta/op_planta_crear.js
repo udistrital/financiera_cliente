@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>"
       }
-      if (self.Preliquidacion == undefined) {
+      if (self.OrdenPago.Liquidacion == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_OP_PLANTA_DEBE_LIQUIDACION_A_NECESIDAD') + "</li>"
       }
       // Operar
@@ -65,7 +65,6 @@ angular.module('financieraClienteApp')
       if (self.camposObligatorios()) {
         self.dataOrdenPagoPlanta = {};
         self.dataOrdenPagoPlanta.OrdenPago = self.OrdenPago;
-        self.dataOrdenPagoPlanta.Preliquidacion = self.Preliquidacion;
         self.dataOrdenPagoPlanta.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         //insert
         financieraMidRequest.post("orden_pago_nomina/MidCrearOPNomina", self.dataOrdenPagoPlanta)
