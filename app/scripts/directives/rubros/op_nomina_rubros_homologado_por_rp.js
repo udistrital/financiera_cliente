@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
             console.log("homologar");
             console.log($scope.inputprocesoexternoid);
 
-            financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid,'')
+            financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid + '/2017','')
             .then(function(response) {
               $scope.salida = response.data;
               console.log("AAAAAAA");
