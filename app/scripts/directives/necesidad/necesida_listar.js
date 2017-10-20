@@ -15,7 +15,8 @@ angular.module('financieraClienteApp')
         outputnecesidad: '=?',
         outputvalortotalrp: '=?',
         outputregistropresupuestal: '=?',
-        outputsubtipoordenpago: '=?'
+        outputsubtipoordenpago: '=?',
+        outputnecesidadprocesoexterno: '=?'
       },
 
       templateUrl: 'views/directives/necesidad/necesida_listar.html',
@@ -82,10 +83,17 @@ angular.module('financieraClienteApp')
                 $scope.outputnecesidad = {};
                 $scope.outputvalortotalrp = 0;
                 $scope.outputregistropresupuestal = {};
+                $scope.outputnecesidadprocesoexterno = {};
               } else {
                 $scope.outputnecesidad = row.entity.Necesidad;
                 $scope.outputvalortotalrp = row.entity.subGridOptions.data[0].ValorTotal;
                 $scope.outputregistropresupuestal = row.entity.subGridOptions.data[0];
+                administrativaRequest.get('necesidad_proceso_externo',
+                  $.param({
+                    query: 'Necesidad.Id:' + $scope.outputnecesidad.Id,
+                  })).then(function(response) {
+                  $scope.outputnecesidadprocesoexterno = response.data[0];
+                });
               };
             });
           }

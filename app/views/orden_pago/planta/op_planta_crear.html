@@ -31,14 +31,17 @@
         </div>
       </div>
     </div>
+
     <!-- Necesidad -->
     <necesida-listar
       inputpestanaabierta="opPlantaCrear.PestanaAbierta"
       outputnecesidad="opPlantaCrear.Necesidad"
       outputvalortotalrp="opPlantaCrear.OrdenPago.ValorBase"
       outputregistropresupuestal="opPlantaCrear.OrdenPago.RegistroPresupuestal"
-      outputsubtipoordenpago="opPlantaCrear.OrdenPago.SubTipoOrdenPago">
+      outputsubtipoordenpago="opPlantaCrear.OrdenPago.SubTipoOrdenPago"
+      outputnecesidadprocesoexterno="opPlantaCrear.NecesidadProcesoExterno">
     </necesida-listar>
+
     <!--Valor del Pago-->
     <legend class="text-primary" ng-click="opPlantaCrear.PestanaAbiertaDetallePago=!opPlantaCrear.PestanaAbiertaDetallePago">
       {{'DETALLE_OP' | translate}}
@@ -82,6 +85,13 @@
       </div>
     </div>
     <!-- <pre>{{opPlantaCrear.Necesidad|json}}</pre> -->
+
+    <!--Rubros y conceptos homologado-->
+    <op-nomina-rubros-homologado-por-rp
+      inputpestanaabierta="false"
+      inputprocesoexternoid="opPlantaCrear.NecesidadProcesoExterno.ProcesoExterno">
+    </op-nomina-rubros-homologado-por-rp>
+
     <!-- Liquidaciones -->
     <liquidacion-ver-todas
       inputpestanaabierta="opPlantaCrear.PestanaAbiertaLiquidacion"
