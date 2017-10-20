@@ -7,7 +7,7 @@
  * # rubros/opNominaRubrosHomologadoPorRp
  */
 angular.module('financieraClienteApp')
-  .directive('opNominaRubrosHomologadoPorRp', function (financieraRequest, $timeout, $translate) {
+  .directive('opNominaRubrosHomologadoPorRp', function (financieraMidRequest, financieraRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope:{
@@ -29,6 +29,14 @@ angular.module('financieraClienteApp')
           if ($scope.inputprocesoexternoid) {
             console.log("homologar");
             console.log($scope.inputprocesoexternoid);
+
+            financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid,'')
+            .then(function(response) {
+              $scope.salida = response.data;
+              console.log("AAAAAAA");
+              console.log($scope.salida);
+            })
+
           }
         })
       },
