@@ -29,7 +29,7 @@
               <p></p>
               <label for="fuente">{{'RUBRO' | translate }}:</label>
               <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.adicion_rubro " ng-change="modificacionFuente.mostrar_fuentes()" data-live-search="true">
-              <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+              <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
             </select>
             </div>
 
@@ -187,7 +187,7 @@
             <p></p>
             <label for="fuente">{{'RUBRO_ORIGEN' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_origen " ng-change="modificacionFuente.buscar_dependencia()" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
           </select>
           </div>
 
@@ -216,7 +216,7 @@
             <p></p>
             <label for="fuente">{{'RUBRO_DESTINO' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_destino" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
           </select>
           </div>
 

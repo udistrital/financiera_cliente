@@ -66,9 +66,9 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('CODIGO'),
         },
         {
-          field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Descripcion',
+          field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Nombre',
           width: '25%',
-          displayName: $translate.instant('DESCRIPCION')
+          displayName: $translate.instant('RUBRO')
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Dependencia.Nombre',
@@ -77,9 +77,9 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         },
         {
           displayName: $translate.instant('FECHA'),
-          field: 'Fecha',
+          field: 'FechaRegistro',
           width: '10%',
-          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"UTC"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'TipoMovimiento.Nombre',
@@ -87,20 +87,20 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('MOVIMIENTO')
         },
         {
-          field: 'TipoDocumento.Nombre',
+          field: 'TipoDocumento.TipoDocumento.Nombre',
           width: '15%',
           displayName: $translate.instant('TIPO_DOCUMENTO')
         },
         {
-          field: 'NoDocumento',
+          field: 'TipoDocumento.NoDocumento',
           width: '15%',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
           displayName: $translate.instant('FECHA_DOCUMENTO'),
-          field: 'FechaDocumento',
+          field: 'TipoDocumento.FechaDocumento',
           width: '15%',
-          cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.TipoDocumento.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'Valor',
@@ -143,7 +143,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         });
 
         angular.forEach(self.gridOptionsapropiacion.data, function (data) {
-          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+          coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
             data.TipoDocumento = response.data[0];
           });
         });
