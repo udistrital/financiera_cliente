@@ -88,14 +88,15 @@ angular.module('financieraClienteApp')
           if ($scope.inputprocesoexternoid) {
             console.log("homologar");
             // console.log($scope.inputprocesoexternoid);
-            console.log($scope.inputregistropresupuestal);
+            // console.log($scope.inputregistropresupuestal.Vigencia);
             // **
-            // financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid + '/' + $scope.inputregistropresupuestal ,'')
-            // .then(function(response) {
-            //   $scope.Homologacion = response.data;
-            //   console.log("AAAAAAA");
-            //   console.log($scope.Homologacion);
-            // })
+            financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid + '/' + $scope.inputregistropresupuestal.Vigencia ,'')
+            .then(function(response) {
+              $scope.Homologacion = response.data;
+              // console.log("AAAAAAA");
+              console.log($scope.Homologacion);
+              console.log("homologar");
+            })
             // **
             if ($scope.inputregistropresupuestal != undefined) {
               financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
@@ -133,9 +134,16 @@ angular.module('financieraClienteApp')
                           'Valor': iterador.Valor,
                           'Saldo': iterador.Saldo,
                         };
+                        subGridData.Afectacion = 0;
+                        //asociar afectacion
+                        angular.forEach($scope.Homologacion.Body, function(conceptoAfectacion){
+                          if(subGridData.Id == conceptoAfectacion.Concepto.Id){
+                            subGridData.Afectacion = conceptoAfectacion.Valor;
+                          }
+                        })
+                        //asociar afectacion
                       });
                     });
-                    //se inclulle consulta para obtener saldo en el objeto
                   });
                   //fin get saldos de lor rp
                   iterador.subGridOptions = {
@@ -169,6 +177,13 @@ angular.module('financieraClienteApp')
                         enableCellEdit: false,
                         width: '10%',
                       },
+                      {
+                        field: 'Afectacion',
+                        displayName: $translate.instant('AFECTACION'),
+                        cellFilter: 'currency',
+                        width: '14%',
+                        cellClass: 'input_right'
+                      },
                     ]
                   }; //subGridOptions
                 }); // iterador
@@ -178,6 +193,11 @@ angular.module('financieraClienteApp')
             self.gridOptions_rubros.data = {};
           }
         })
+      //
+      self.AsignarAfectacionHomologado = function(conceptoId, arrayConceptoValor){
+
+      }
+      //
       },
       controllerAs:'d_opNominaRubrosHomologadoPorRp'
     };
