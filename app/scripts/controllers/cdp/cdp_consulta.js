@@ -68,7 +68,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.vigenciaActual;
-      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,'') //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,'UnidadEjecutora='+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.actualizarLista(self.offset,'');
@@ -244,7 +244,7 @@ angular.module('financieraClienteApp')
         query = 'rangoinicio='+inicio+"&rangofin="+fin;
       }
       console.log(fin);
-      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,query) //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,query+"&UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.actualizarLista(0,"&"+query);
@@ -254,7 +254,7 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch("cdpConsulta.Vigencia", function() {
-      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia) //formato de entrada  https://golang.org/src/time/format.go
+      financieraRequest.get("disponibilidad/TotalDisponibilidades/"+self.Vigencia,'UnidadEjecutora='+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.actualizarLista(0,'');
