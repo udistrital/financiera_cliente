@@ -22,6 +22,7 @@
 #pac .mi-grid-pac.ui-grid-cell-contents {
     white-space: normal;
     padding: auto !important;
+    word-break: break-word;
 }
 
 .mi-grid-pac.ui-grid,
@@ -48,7 +49,6 @@
 .ui-grid-header-cell, .ui-grid-cell-contents {
   white-space: normal;
   padding: auto !important;
-  word-break: break-word;
 }
 
 .ui-grid, .ui-grid-viewport, .ui-grid-render-container-body, .ui-grid-canvas {
