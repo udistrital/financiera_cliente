@@ -174,6 +174,7 @@ angular.module('financieraClienteApp')
               }else{
                 swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
                   $("#myModal").modal('hide');
+                  self.cragarDatos(0,'');
                 });
               }
 
