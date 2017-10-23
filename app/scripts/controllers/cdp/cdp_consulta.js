@@ -43,7 +43,7 @@ angular.module('financieraClienteApp')
 
     };
     
-    
+    self.UnidadEjecutora=1;
     self.gridOptions_rubros = {
       enableRowSelection: true,
       enableRowHeaderSelection: false,
@@ -78,7 +78,7 @@ angular.module('financieraClienteApp')
 
     self.gridOptions.multiSelect = false;
     self.actualizarLista = function(offset,query){
-      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.Vigencia,'limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function(response) {
+      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.Vigencia,'limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query+"&UnidadEjecutora="+self.UnidadEjecutora).then(function(response) {
       if (response.data.Type !== undefined){
           self.gridOptions.data = [];
         }else{
