@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
       enableFiltering : true,
       paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
-      //useExternalPagination: true,
+      useExternalPagination: true,
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
         {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
@@ -70,6 +70,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.vigenciaActual;
+      self.gridOptions.totalItems = 5000;
       self.cragarDatos(0,'');   
     });
    
@@ -111,7 +112,11 @@ angular.module('financieraClienteApp')
           rangofin: fin,
           offset: offset
         })).then(function(response) {
-        self.gridOptions.data = response.data;
+        if (response.data === null){
+          self.gridOptions.data = [];
+        }else{
+          self.gridOptions.data = response.data;
+        }
   
   
         });
