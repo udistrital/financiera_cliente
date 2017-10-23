@@ -20,9 +20,17 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/op_nomina_rubros_homologado_por_rp.html',
       controller:function($scope){
         var self = this;
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
+          enableRowHeaderSelection: false,
+          multiSelect: false,
           columnDefs: [{
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -76,6 +84,7 @@ angular.module('financieraClienteApp')
         })
         //
         $scope.$watch('inputprocesoexternoid', function() {
+          self.refresh();
           if ($scope.inputprocesoexternoid) {
             console.log("homologar");
             // console.log($scope.inputprocesoexternoid);
@@ -130,7 +139,8 @@ angular.module('financieraClienteApp')
                   });
                   //fin get saldos de lor rp
                   iterador.subGridOptions = {
-                    multiSelect: true,
+                    enableRowHeaderSelection: false,
+                    multiSelect: false,
                     columnDefs: [{
                         field: 'Id',
                         visible: false,
@@ -159,25 +169,13 @@ angular.module('financieraClienteApp')
                         enableCellEdit: false,
                         width: '10%',
                       },
-                    ],
-                    onRegisterApi: function(gridApi) {
-                      self.gridApi = gridApi;
-                      gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
-                        if (row2.isSelected) {
-                          $scope.outputconceptos.push(row2.entity);
-                        } else {
-                          var i = $scope.outputconceptos.indexOf(row2.entity)
-                          $scope.outputconceptos.splice(i, 1);
-                        }
-                      });
-                    }
+                    ]
                   }; //subGridOptions
                 }); // iterador
               }); //tehen
             } //if inputregistropresupuestal
-
-
-
+          }else{
+            self.gridOptions_rubros.data = {};
           }
         })
       },
