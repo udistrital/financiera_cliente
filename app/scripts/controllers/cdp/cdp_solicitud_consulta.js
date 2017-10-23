@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("solicitud_disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
+  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
     $scope.botones = [
@@ -21,6 +21,9 @@ angular.module('financieraClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFiltering : true,
+      paginationPageSizes: [20, 50, 100],
+      paginationPageSize: 10,
+      useExternalPagination: true,
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
         {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
@@ -37,18 +40,40 @@ angular.module('financieraClienteApp')
           headerCellClass: 'text-info'
       }
       ],
-      onRegisterApi : function( gridApi ) {
-        self.gridApi = gridApi;
-      }
+      onRegisterApi : function( gridApi ){
+        gridApi.core.on.filterChanged($scope, function() {
+          var grid = this.grid;
+          angular.forEach(grid.columns, function(value, key) {
+              if(value.filters[0].term) {
+                  //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+              }
+          });
+        });
+        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+          console.log('newPage '+newPage+' pageSize '+pageSize);
+          self.gridOptions.data = {};
+          var offset = (newPage-1)*pageSize;
+          self.cragarDatos(offset,query);
+        });
+        }
 
     };
-    //cargar datos de las Solicitudes
-    financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
-      self.gridOptions.data.length = 0;
-      self.gridOptions.data = response.data;
-
-
+    self.UnidadEjecutora = 1;
+    financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.vigenciaActual = parseInt(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
+      }
+      self.years = range;
+      self.Vigencia = self.vigenciaActual;
+      self.gridOptions.totalItems = 5000;
+      self.cragarDatos(0,'');   
     });
+   
     
     $scope.loadrow = function(row, operacion) {
       self.operacion = operacion;
@@ -76,14 +101,44 @@ angular.module('financieraClienteApp')
   };
 
 
-    self.cragarDatos = function(){
-    	financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
-        self.gridOptions.data.length = 0;
-        self.gridOptions.data = response.data;
+    self.cragarDatos = function(offset,query){
+      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+      var query = '';
+      if (inicio !== undefined && fin !== undefined) {
+        financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+          UnidadEjecutora: self.UnidadEjecutora,
+          rangoinicio: inicio,
+          rangofin: fin,
+          offset: offset
+        })).then(function(response) {
+        if (response.data === null){
+          self.gridOptions.data = [];
+        }else{
+          self.gridOptions.data = response.data;
+        }
   
   
-      });
+        });
+      }else{
+        financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+          UnidadEjecutora: self.UnidadEjecutora,
+          offset: offset
+        })).then(function(response) {
+        if (response.data === null){
+          self.gridOptions.data = [];
+        }else{
+          self.gridOptions.data = response.data;
+        }
+        
+  
+  
+        });
+      }
+          
+    	
     };
+
     //-------------------------------
     self.limpiar_alertas= function(){
       self.alerta_registro_cdp = "";
@@ -91,11 +146,13 @@ angular.module('financieraClienteApp')
 
     //funcion para actualizar grid
     self.actualiza_solicitudes = function () {
-      financieraMidRequest.get('disponibilidad/Solicitudes','limit=0&query=Expedida:false&sortby=Id&order=desc').then(function(response) {
+      financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+          UnidadEjecutora: self.UnidadEjecutora
+        })).then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
-
-
+  
+  
       });
       };
     //----------------------------
@@ -116,8 +173,8 @@ angular.module('financieraClienteApp')
                 swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
               }else{
                 swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
-                  self.cragarDatos();
                   $("#myModal").modal('hide');
+                  self.cragarDatos(0,'');
                 });
               }
 
@@ -160,7 +217,7 @@ angular.module('financieraClienteApp')
                } else {
                  swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
-                     self.actualiza_solicitudes();
+                     
                  });
                }
 
@@ -170,6 +227,27 @@ angular.module('financieraClienteApp')
 
        });
      };
+
+     $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
+      
+       
+        self.cragarDatos(0,'');
+    
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
+        self.fechaInicio = undefined;
+        self.fechaFin = undefined;
+      }
+      self.fechamin = new Date(
+        self.Vigencia,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.Vigencia,
+        12, 0
+      );
+    }, true);
 
 
   });
