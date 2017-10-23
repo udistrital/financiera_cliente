@@ -79,7 +79,11 @@ angular.module('financieraClienteApp')
     self.gridOptions.multiSelect = false;
     self.actualizarLista = function(offset,query){
       financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+self.Vigencia,'limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function(response) {
-      self.gridOptions.data = response.data;
+      if (response.data === null){
+          self.gridOptions.data = [];
+        }else{
+          self.gridOptions.data = response.data;
+        }
     });
     };
     
