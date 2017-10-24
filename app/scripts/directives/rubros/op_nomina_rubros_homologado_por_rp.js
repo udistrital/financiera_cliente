@@ -32,44 +32,44 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           multiSelect: false,
           columnDefs: [{
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
             },
             {
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
               displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('RUBRO'),
               cellClass: 'input_center'
             },
             {
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '5%',
               cellClass: 'input_center'
             },
             {
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',
               displayName: $translate.instant('DESCRIPCION')
             },
             {
-              field: 'Valor',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.Valor',
               displayName: $translate.instant('VALOR'),
               cellFilter: 'currency',
               width: '14%',
               cellClass: 'input_right'
             },
             {
-              field: 'Saldo',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.Saldo',
               displayName: $translate.instant('SALDO'),
               cellFilter: 'currency',
               width: '14%',
               cellClass: 'input_right'
             }, //obtenido por servicio financieraRequest.post('registro_presupuestal/SaldoRp',rpData)
             {
-              field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion',
               displayName: $translate.instant('FUENTES_FINANCIACION')
             },
             {
-              field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Codigo',
+              field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo',
               displayName: $translate.instant('FUENTE_FINANCIACION_CODIGO'),
               width: '7%',
               cellClass: 'input_center'
@@ -87,98 +87,67 @@ angular.module('financieraClienteApp')
           self.refresh();
           if ($scope.inputprocesoexternoid) {
             console.log("homologar");
-            // console.log($scope.inputprocesoexternoid);
-            // console.log($scope.inputregistropresupuestal.Vigencia);
-            // **
-            financieraMidRequest.get('homologacion/MidHomologacionLiquidacion/' + $scope.inputprocesoexternoid + '/' + $scope.inputregistropresupuestal.Vigencia ,'')
+            self.dataHomologacion = {};
+            self.dataHomologacion.IdLiquidacion = $scope.inputprocesoexternoid;
+            self.dataHomologacion.RegistroPresupuestal = $scope.inputregistropresupuestal;
+
+            financieraMidRequest.post('homologacion/MidHomologacionLiquidacion', self.dataHomologacion)
             .then(function(response) {
               $scope.Homologacion = response.data;
-              // console.log("AAAAAAA");
-              console.log($scope.Homologacion);
+              console.log($scope.Homologacion.Body);
               console.log("homologar");
-            })
-            // **
-            if ($scope.inputregistropresupuestal != undefined) {
-              financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
-                $.param({
-                  query: "RegistroPresupuestal.Id:" + $scope.inputregistropresupuestal.Id,
-                  limit: 0
-                })
-              ).then(function(response) {
-                self.gridOptions_rubros.data = response.data;
+              //
+              if ($scope.Homologacion.Type == "success" ){
+                console.log("trabajar");
+                self.gridOptions_rubros.data = $scope.Homologacion.Body;
 
-                angular.forEach(self.gridOptions_rubros.data, function(iterador) {
-                  // get saldos de lor rp
+                angular.forEach(self.gridOptions_rubros.data, function(iterador){
                   var rpData = {
-                    Rp: iterador.RegistroPresupuestal,
-                    Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
-                    FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
+                    Rp: iterador.RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal,
+                    Apropiacion: iterador.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion,
+                    FuenteFinanciacion: iterador.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento
                   };
                   financieraRequest.post('registro_presupuestal/SaldoRp', rpData
                   ).then(function(response) {
-                    iterador.Saldo = response.data.saldo;
-                    //se hace solicitud en este framento para obtener el saldo del rubro
-                    financieraRequest.get('concepto',
-                      $.param({
-                        query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
-                        limit: 0
-                      })
-                    ).then(function(response) {
-                      iterador.subGridOptions.data = response.data;
-                      //asociar RegistroPresupuestalDisponibilidadApropiacion
-                      angular.forEach(iterador.subGridOptions.data, function(subGridData) {
-                        subGridData.RegistroPresupuestalDisponibilidadApropiacion = {
-                          'Id': iterador.Id,
-                          'RegistroPresupuestal': iterador.RegistroPresupuestal,
-                          'DisponibilidadApropiacion': iterador.DisponibilidadApropiacion,
-                          'Valor': iterador.Valor,
-                          'Saldo': iterador.Saldo,
-                        };
-                        subGridData.Afectacion = 0;
-                        //asociar afectacion
-                        angular.forEach($scope.Homologacion.Body, function(conceptoAfectacion){
-                          if(subGridData.Id == conceptoAfectacion.Concepto.Id){
-                            subGridData.Afectacion = conceptoAfectacion.Valor;
-                          }
-                        })
-                        //asociar afectacion
-                      });
-                    });
+                    iterador.RegistroPresupuestalDisponibilidadApropiacion.Saldo = response.data.saldo;
                   });
-                  //fin get saldos de lor rp
+                  //subgrid
+                  //iterador.subGridOptions.data = [];
+                  //iterador.subGridOptions.data.push(iterador.ConceptoValor);
+
                   iterador.subGridOptions = {
                     enableRowHeaderSelection: false,
                     multiSelect: false,
                     columnDefs: [{
-                        field: 'Id',
-                        visible: false,
+                        field: 'Concepto.Id',
+                        visible: true,
                         enableCellEdit: false
                       },
                       {
-                        field: 'Codigo',
+                        field: 'Concepto.Codigo',
                         displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
                         enableCellEdit: false,
                         width: '15%',
                         cellClass: 'input_center'
                       },
                       {
-                        field: 'Nombre',
+                        field: 'Concepto.Nombre',
                         displayName: $translate.instant('NOMBRE'),
                         enableCellEdit: false
                       },
                       {
-                        field: 'Descripcion',
+                        field: 'Concepto.Descripcion',
                         displayName: $translate.instant('DESCRIPCION'),
                         enableCellEdit: false
                       },
                       {
-                        field: 'TipoConcepto.Nombre',
+                        field: 'Concepto.TipoConcepto.Nombre',
                         displayName: $translate.instant('TIPO'),
                         enableCellEdit: false,
                         width: '10%',
                       },
                       {
-                        field: 'Afectacion',
+                        field: 'Valor',
                         displayName: $translate.instant('AFECTACION'),
                         cellFilter: 'currency',
                         width: '14%',
@@ -186,9 +155,15 @@ angular.module('financieraClienteApp')
                       },
                     ]
                   }; //subGridOptions
-                }); // iterador
-              }); //tehen
-            } //if inputregistropresupuestal
+
+
+
+                }) //iterador
+              }else{
+                console.log("reportar homologacion fallida");
+              }
+              //
+            })
           }else{
             self.gridOptions_rubros.data = {};
           }
