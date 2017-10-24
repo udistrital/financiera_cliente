@@ -7,33 +7,47 @@
 
   <div class="form-horizontal">
   <div class="form-group">
-    <label for="tipo_documento" class="col-sm-1 control-label">{{'TIPO_DOCUMENTO' | translate }}</label>
+    <label for="tipo_documento" class="col-sm-1 control-label">{{'TIPO' | translate }} {{'NOMINA' | translate }}</label>
     <div class="col-sm-3">
-      <select ng-model="outputsubtipoordenpago" ng-options="i.Nombre for i in d_opProveedorDetallePago.subTiposOrdenPago" class="form-control" id="tipo_documento" required>
-        <option value="">Seleccionar Documento</option>
+      <select ng-model="nominaSelect" ng-options="i.Descripcion for i in d_liquidacionVerTodas.nomina" ng-change="d_liquidacionVerTodas.consultar()" class="form-control" required>
+        <option value="">Seleccionar Nomina</option>
       </select>
     </div>
-    <label for="formapago" class="col-sm-1 control-label">{{'FORMA_PAGO' | translate }}</label>
+    <label for="formapago" class="col-sm-1 control-label">{{'MES' | translate }}</label>
     <div class="col-sm-3">
-      <select ng-model="outputformapago" ng-options="i.Nombre for i in d_opProveedorDetallePago.formaPagos" class="form-control" required>
+      <select ng-model="mesSelect" class="form-control" ng-change="d_liquidacionVerTodas.consultar()" required>
         <option value="">Seleccionar Forma de Pago</option>
+        <option value="1"> {{'MES_ENERO' | translate }} </option>
+        <option value="2"> {{'MES_FEBRERO' | translate }} </option>
+        <option value="3"> {{'MES_MARZO' | translate }} </option>
+        <option value="4"> {{'MES_ABRIL' | translate }} </option>
+        <option value="5"> {{'MES_MAYO' | translate }} </option>
+        <option value="6"> {{'MES_JUNION' | translate }} </option>
+        <option value="7"> {{'MES_JULIO' | translate }} </option>
+        <option value="8"> {{'MES_AGOSTO' | translate }} </option>
+        <option value="9"> {{'MES_SEPTIEMBRE' | translate }} </option>
+        <option value="10"> {{'MES_OCTUBRE' | translate }} </option>
+        <option value="11"> {{'MES_NOBIEMBRE' | translate }} </option>
+        <option value="12"> {{'MES_DICIEMBRE' | translate }} </option>
       </select>
     </div>
-    <label for="formapago" class="col-sm-1 control-label">{{'FORMA_PAGO' | translate }}</label>
+    <label class="col-sm-1 control-label">{{'ANO' | translate }}</label>
     <div class="col-sm-3">
-      <select ng-model="outputformapago" ng-options="i.Nombre for i in d_opProveedorDetallePago.formaPagos" class="form-control" required>
-        <option value="">Seleccionar Forma de Pago</option>
-      </select>
+      <input ng-model="anoSelect" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" ng-change="d_liquidacionVerTodas.consultar()" required/>
     </div>
   </div>
 </div>
 
+{{nominaSelect}}
+<br>
+{{mesSelect}}
+<br>
+{{anoSelect}}
 
-  <div class="panel panel-default">
-    <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptions_preliquidacion" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
+<div class="panel panel-default">
+  <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptions_preliquidacion" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
   </div>
 </div>
-
 <script type="text/ng-template"  id="expandableRowUpc.html">
        <div ui-grid="row.entity.subGridOptions" class="grid" ui-grid-selection></div>
 </script>

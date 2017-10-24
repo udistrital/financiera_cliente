@@ -19,9 +19,22 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
+        $scope.consultar = false;
         //
-        
-        //
+        titanRequest.get('nomina',
+          $.param({
+            limit: '-1',
+          })).then(function(response) {
+          self.nomina = response.data;
+        })
+
+        self.consultar = function(){
+          if($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4){
+            console.log($scope.nominaSelect);
+            console.log($scope.mesSelect);
+            console.log($scope.anoSelect);
+          }
+        }
 
         // refrescar
         self.refresh = function() {
@@ -95,7 +108,7 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
           self.gridOptions_preliquidacion.data = response.data;
           // subGrid
-          angular.forEach(self.gridOptions_preliquidacion.data, function(iterador){
+          angular.forEach(self.gridOptions_preliquidacion.data, function(iterador) {
             iterador.subGridOptions = {
               enableRowHeaderSelection: false,
               multiSelect: false,
@@ -138,14 +151,14 @@ angular.module('financieraClienteApp')
               $.param({
                 query: 'Preliquidacion.Id:' + iterador.Id,
               })).then(function(response) {
-                iterador.subGridOptions.data = response.data;
+              iterador.subGridOptions.data = response.data;
             });
-          })//forEach
+          }) //forEach
 
           // subGrid
         });
 
-      // fin
+        // fin
       },
       controllerAs: 'd_liquidacionVerTodas'
     };
