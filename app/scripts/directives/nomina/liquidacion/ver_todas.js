@@ -7,7 +7,7 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(administrativaRequest, titanRequest, $timeout, $translate) {
+  .directive('liquidacionVerTodas', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate) {
     return {
       restrict: 'E',
       scope: {
@@ -19,7 +19,36 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
-        $scope.consultar = false;
+        self.gridOptions_preliquidacion = {
+          expandableRowTemplate: 'expandableRowUpc.html',
+          expandableRowHeight: 100,
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          columnDefs: [{
+              field: 'NumeroContrato',
+              displayName: $translate.instant('CONTRATO'),
+              width: '15%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'VigenciaContrato',
+              displayName: $translate.instant('VIGENCIA') + ' ' + $translate.instant('CONTRATO'),
+              width: '15%',
+              cellClass: 'input_center'
+            },
+            {
+              field: 'infoPersona.informacion_contratista.nombre_completo',
+              displayName: $translate.instant('NOMBRE'),
+              width: '30%',
+            },
+            {
+              field: 'infoPersona.informacion_contratista.Documento.numero',
+              displayName: $translate.instant('NO_DOCUMENTO'),
+              width: '40%',
+              cellClass: 'input_center'
+            },
+          ]
+        };
         //
         titanRequest.get('nomina',
           $.param({
@@ -27,15 +56,35 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
           self.nomina = response.data;
         })
-
-        self.consultar = function(){
-          if($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4){
-            console.log($scope.nominaSelect);
-            console.log($scope.mesSelect);
-            console.log($scope.anoSelect);
+        // para desarrollo
+        financieraMidRequest.get('orden_pago_nomina/ListaLiquidacionNominaHomologada',
+          $.param({
+            idNomina: 4,
+            mesLiquidacion: 5,
+            anioLiquidacion: 2017,
+          })
+          ).then(function(response) {
+            self.gridOptions_preliquidacion.data = response.data;
+        })
+        // para desarrollo
+        self.consultar = function() {
+          if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
+            self.refresh();
+            financieraMidRequest.get('orden_pago_nomina/ListaLiquidacionNominaHomologada',
+              $.param({
+                idNomina: $scope.nominaSelect.Id,
+                mesLiquidacion: $scope.mesSelect,
+                anioLiquidacion: $scope.anoSelect,
+              })
+              ).then(function(response) {
+                if(response.data != null){
+                  self.gridOptions_preliquidacion.data = response.data;
+                }else{
+                  self.gridOptions_preliquidacion.data = {};
+                }
+            })
           }
         }
-
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -43,119 +92,10 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        self.gridOptions_preliquidacion = {
-          expandableRowTemplate: 'expandableRowUpc.html',
-          expandableRowHeight: 100,
-          enableRowHeaderSelection: false,
-          multiSelect: false,
-          columnDefs: [{
-              field: 'Id',
-              visible: false
-            },
-            {
-              field: 'Descripcion',
-              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('LIQUIDACION'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Mes',
-              displayName: $translate.instant('MES'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Ano',
-              displayName: $translate.instant('ANO'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'EstadoPreliquidacion.Nombre',
-              displayName: $translate.instant('ESTADO'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'FechaRegistro',
-              displayName: $translate.instant('FECHA'),
-              width: '8%',
-              cellClass: 'input_center',
-              cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
-            },
-            {
-              field: 'Nomina.TipoNomina.Nombre',
-              displayName: $translate.instant('NOMINA'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Descripcion',
-              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('NOMINA'),
-              cellClass: 'input_center'
-            },
-          ]
-        };
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = true;
           }
-        });
-        //
-        //
-        titanRequest.get('preliquidacion',
-          $.param({
-            query: 'EstadoPreliquidacion.CodigoAbreviacion:EPN_04', //+ ',Nomina.TipoNomina.in'self.NecesidadProcesoExterno.ProcesoExterno,
-          })).then(function(response) {
-          self.gridOptions_preliquidacion.data = response.data;
-          // subGrid
-          angular.forEach(self.gridOptions_preliquidacion.data, function(iterador) {
-            iterador.subGridOptions = {
-              enableRowHeaderSelection: false,
-              multiSelect: false,
-              columnDefs: [{
-                  field: 'Id',
-                  visible: false
-                },
-                {
-                  field: 'NumeroContrato',
-                  displayName: $translate.instant('CONTRATO'),
-                  width: '10%',
-                  cellClass: 'input_center'
-                },
-                {
-                  field: 'Concepto.AliasConcepto',
-                  displayName: $translate.instant('CONCEPTOS'),
-                  width: '15%'
-                },
-                {
-                  field: 'Concepto.NaturalezaConcepto.Nombre',
-                  displayName: $translate.instant('NATURALEZA'),
-                  width: '15%'
-                },
-                {
-                  field: 'TipoPreliquidacion.Nombre',
-                  displayName: $translate.instant('TIPO'),
-                  width: '15%'
-                },
-                {
-                  field: 'ValorCalculado',
-                  displayName: $translate.instant('VALOR'),
-                  cellFilter: 'currency',
-                  width: '14%',
-                  cellClass: 'input_right'
-                }
-              ]
-            };
-            //data subgrid
-            titanRequest.get('detalle_preliquidacion',
-              $.param({
-                query: 'Preliquidacion.Id:' + iterador.Id,
-              })).then(function(response) {
-              iterador.subGridOptions.data = response.data;
-            });
-          }) //forEach
-
-          // subGrid
         });
 
         // fin
