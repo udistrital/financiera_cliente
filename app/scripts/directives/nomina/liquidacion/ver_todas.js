@@ -19,6 +19,10 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
+        //
+        
+        //
+
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -31,59 +35,6 @@ angular.module('financieraClienteApp')
           expandableRowHeight: 100,
           enableRowHeaderSelection: false,
           multiSelect: false,
-          //inicio sub grid
-          onRegisterApi: function(gridApi) {
-            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-              if (row.isExpanded) {
-                row.entity.subGridOptions = {
-                  enableRowHeaderSelection: false,
-                  multiSelect: false,
-                  columnDefs: [{
-                      field: 'Id',
-                      visible: false
-                    },
-                    {
-                      field: 'NumeroContrato',
-                      displayName: $translate.instant('CONTRATO'),
-                      width: '10%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Concepto.AliasConcepto',
-                      displayName: $translate.instant('CONCEPTOS'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'Concepto.NaturalezaConcepto.Nombre',
-                      displayName: $translate.instant('NATURALEZA'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'TipoPreliquidacion.Nombre',
-                      displayName: $translate.instant('TIPO'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'ValorCalculado',
-                      displayName: $translate.instant('VALOR'),
-                      cellFilter: 'currency',
-                      width: '14%',
-                      cellClass: 'input_right'
-                    }
-                  ]
-                };
-                //consulta
-                titanRequest.get('detalle_preliquidacion',
-                  $.param({
-                    query: 'Preliquidacion.Id:' + row.entity.Id,
-                  })).then(function(response) {
-                  row.entity.subGridOptions.data = response.data;
-                });
-              }; //if
-
-            });
-          },
-          //fin sub grid
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -136,28 +87,65 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         });
-        $scope.$watch('inputnecesidad', function() {
-          self.refresh();
-          if (Object.keys($scope.inputnecesidad).length > 0) {
-            administrativaRequest.get('necesidad_proceso_externo',
+        //
+        //
+        titanRequest.get('preliquidacion',
+          $.param({
+            query: 'EstadoPreliquidacion.CodigoAbreviacion:EPN_04', //+ ',Nomina.TipoNomina.in'self.NecesidadProcesoExterno.ProcesoExterno,
+          })).then(function(response) {
+          self.gridOptions_preliquidacion.data = response.data;
+          // subGrid
+          angular.forEach(self.gridOptions_preliquidacion.data, function(iterador){
+            iterador.subGridOptions = {
+              enableRowHeaderSelection: false,
+              multiSelect: false,
+              columnDefs: [{
+                  field: 'Id',
+                  visible: false
+                },
+                {
+                  field: 'NumeroContrato',
+                  displayName: $translate.instant('CONTRATO'),
+                  width: '10%',
+                  cellClass: 'input_center'
+                },
+                {
+                  field: 'Concepto.AliasConcepto',
+                  displayName: $translate.instant('CONCEPTOS'),
+                  width: '15%'
+                },
+                {
+                  field: 'Concepto.NaturalezaConcepto.Nombre',
+                  displayName: $translate.instant('NATURALEZA'),
+                  width: '15%'
+                },
+                {
+                  field: 'TipoPreliquidacion.Nombre',
+                  displayName: $translate.instant('TIPO'),
+                  width: '15%'
+                },
+                {
+                  field: 'ValorCalculado',
+                  displayName: $translate.instant('VALOR'),
+                  cellFilter: 'currency',
+                  width: '14%',
+                  cellClass: 'input_right'
+                }
+              ]
+            };
+            //data subgrid
+            titanRequest.get('detalle_preliquidacion',
               $.param({
-                query: 'Necesidad.Id:' + $scope.inputnecesidad.Id,
+                query: 'Preliquidacion.Id:' + iterador.Id,
               })).then(function(response) {
-              self.NecesidadProcesoExterno = response.data[0];
-              //consultamos liquidacion
-              titanRequest.get('preliquidacion',
-                $.param({
-                  query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
-                })).then(function(response) {
-                self.gridOptions_preliquidacion.data = response.data;
-                $scope.ouputpreliquidacion = response.data[0].Id;
-              });
+                iterador.subGridOptions.data = response.data;
             });
-          } else {
-            self.gridOptions_preliquidacion.data = {};
-          };
-        })
-        // fin
+          })//forEach
+
+          // subGrid
+        });
+
+      // fin
       },
       controllerAs: 'd_liquidacionVerTodas'
     };

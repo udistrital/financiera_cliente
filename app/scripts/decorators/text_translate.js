@@ -290,7 +290,7 @@ var text_es = {
   NUEVO: "Nuevo",
   NUEVO_OP_PLANTA: "Nuevo OP Planta",
   NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
-  NUEVO_OP_HORA_CATEDRA: "Nuevo OP Hora Catedra",
+  HORA_CATEDRA: "Hora Catedra",
   NUEVO_OP_SEGURIDAD_SOCIAL: "Nuevo OP Seguridad Social",
   NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",
   NUEVO_REQUISITO_AVANCE: "Nuevo Requisito de Avance",

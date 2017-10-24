@@ -1,14 +1,13 @@
-<br>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        orden_pago/hora_categra/op_hc_crear.
-    </div>
-    <div class="panel-body">
-        <p>
-          Ahora puede empezar a construir la vista de orden_pago/hora_categra/op_hc_crear.
-        </p>
-    </div>
-    <div class="panel-footer">
-        Panel Footer
-    </div>
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'HORA_CATEDRA' | translate }} </h2>
+  <div class="panel-body">
+    <!-- Liquidaciones -->
+    <liquidacion-ver-todas
+      inputpestanaabierta="opPlantaCrear.PestanaAbiertaLiquidacion"
+      inputnecesidad="opPlantaCrear.Necesidad"
+      ouputpreliquidacion="opPlantaCrear.OrdenPago.Liquidacion">
+    </liquidacion-ver-todas>
+
+    <!-- -->
+  </div>
 </div>
