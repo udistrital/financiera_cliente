@@ -139,7 +139,7 @@ md-sidenav {
 }
 /*clases para posicionar el paginador debajo del grid */
 
-.mi-grid .ui-grid-pager-panel {
+/*.mi-grid .ui-grid-pager-panel {
   margin-bottom: -30px !important;
 }
 
@@ -147,7 +147,7 @@ md-sidenav {
   float: none !important;
   height: auto !important;
 }
-
+*/
 /*BUTTONS OPTIONS*/
 
 .borrar:hover {

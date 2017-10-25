@@ -1,148 +1,161 @@
-<br>
-<div class="panel panel-default panel-primary container-fluid">
-  <h2 class="page-header" align="center">Compromisos</h2>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Crear Categoria</h3>
-      </div>
-      <div class="panel-body">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="/compromisos/nuevo#form-compromiso" data-toggle="tab" aria-expanded="true">{{'COMPROMISOS' | translate}}</a>
+            </li>
+            <li class=""><a href="/compromisos/nuevo#form-cat-tipos" data-toggle="tab" aria-expanded="false">{{'CATEGORIAS_TIPOS' | translate}}</a>
+            </li>
+        </ul>
+        <br />
 
-        <form name="categoria_form" ng-submit="categoria_form.$valid && crearCompromiso.crear_categoria()" novalidate>
-          <fieldset class="form-group">
-            <label for="categorianombre">Nombre: </label>
-            <input type="text" class="form-control" id="categorianombre" ng-model="crearCompromiso.nueva_categoria.Nombre" placeholder="Ingrese el nombre" required>
-            <small class="text-muted">Seleccione un nombre para la categoria...</small>
-          </fieldset>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div class="tab-pane fade active in col-md-12" id="form-compromiso">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    {{"NUEVO_COMPROMISO" | translate}}
+                  </div>
+                  <div class="panel-body">
+                    <form name="compromiso_form" ng-submit="compromiso_form.$valid && crearCompromiso.crear_compromiso()" novalidate>
 
-          <fieldset class="form-group">
-            <label for="descripcioncategoria">Descripción: </label>
-            <textarea class="form-control" id="descripcioncategoria" ng-model="crearCompromiso.nueva_categoria.Descripcion" placeholder="Descripcion para Categoria" rows="4"></textarea>
-          </fieldset>
+                      <fieldset>
+                        <sel-categoria-tipo categoria="crearCompromiso.nuevo_compromiso.Categoria" tipo="crearCompromiso.nuevo_compromiso.TipoCompromisoTesoral" reload="crearCompromiso.cargar_categoriasc"></sel-categoria-tipo>
+                      </fieldset>
 
-          <button type="submit" class="btn btn-success btn-outline">Crear</button>
-          <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.cancelar(categoria_form)">Cancelar</button>
-        </form>
+                      <fieldset class="form-group col-md-12">
+                        <label>{{"OBJETO" | translate}}:</label>
+                        <textarea class="form-control" rows="7" ng-model="crearCompromiso.nuevo_compromiso.Objeto" placeholder="{{'INGRESE_OBJETO_COMPROMISO' | translate}}" required></textarea>
+                        <!--small class="text-muted">El objeto indica directamente lo que el compromiso debe cumplir</small-->
+                      </fieldset>
 
-        <!--{{crearCompromiso.nueva_categoria}}
-        {{crearCompromiso.categorias}}!-->
+                      <fieldset class="form-group col-md-6">
+                        <label>{{"VIGENCIA" | translate}}:</label>
+                        <input type="number" class="form-control" placeholder="AAAA" ng-model="crearCompromiso.nuevo_compromiso.Vigencia" ng-maxlength="{{4}}" required>
+                      </fieldset>
 
-      </div>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Crear Tipo</h3>
-      </div>
-      <div class="panel-body">
-
-        <form name="tipo_form" ng-submit="tipo_form.$valid && crearCompromiso.crear_tipo()" novalidate>
-          <fieldset class="form-group">
-            <label for="nombretipo">Nombre:</label>
-            <input type="text" class="form-control" id="nombretipo" placeholder="ingrese el nombre del tipo" ng-model="crearCompromiso.nuevo_tipo.Nombre" required>
-            <small class="text-muted">Un tipo es una subclase de categoria.</small>
-          </fieldset>
-          <fieldset class="form-group">
-            <label for="categoriatipo">Categoria:</label>
-            <select class="form-control" id="categoriatipo"  ng-model="crearCompromiso.nuevo_tipo.CategoriaCompromiso" ng-options="cat.Nombre for cat in crearCompromiso.categorias" required>
-              <option value="">-- Seleccion Una Categoria --</option>
-            </select>
-          </fieldset>
-
-          <fieldset class="form-group">
-            <label for="descripciontipo">Descripción: </label>
-            <textarea class="form-control" id="descripciontipo" ng-model="crearCompromiso.nuevo_tipo.Descripcion" placeholder="Descripcion para Tipo" rows="4"></textarea>
-          </fieldset>
-          <div class="checkbox form-group">
-            <label for="estadotipo">
-              <input type="checkbox" id="estadotipo" ng-model="crearCompromiso.nuevo_tipo.EstadoActivo"> Activar
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn-success btn-outline">Crear</button>
-          <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.cancelar(tipo_form)">Cancelar</button>
-        </form>
-
-        <!--{{crearCompromiso.nuevo_tipo}}
-        {{crearCompromiso.tipos}}!-->
-
-      </div>
-
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Crear Compromiso</h3>
-      </div>
-      <div class="panel-body">
-
-        <form name="compromiso_form" ng-submit="compromiso_form.$valid && crearCompromiso.crear_compromiso()" novalidate>
-
-          <fieldset class="form-group">
-            <label for="vigenciacompromiso">Vigencia:</label>
-            <input type="number" class="form-control" id="vigenciacompromiso" placeholder="AAAA" ng-model="crearCompromiso.nuevo_compromiso.Vigencia" required>
-          </fieldset>
-
-          <fieldset class="form-group">
-            <label for="categoriacompromiso">Categoria:</label>
-            <select class="form-control" id="categoriacompromiso"  ng-model="crearCompromiso.nuevo_compromiso.Categoria" ng-options="cat.Nombre for cat in crearCompromiso.categorias" required>
-              <option value="">-- Seleccion Una Categoria --</option>
-            </select>
-          </fieldset>
-
-          <fieldset class="form-group">
-            <label for="compromisotipo">Tipo:</label>
-            <select class="form-control" id="compromisotipo"  ng-model="crearCompromiso.nuevo_compromiso.TipoCompromisoTesoral" ng-options="tipo.Nombre for tipo in crearCompromiso.tipos | filter : crearCompromiso.nuevo_compromiso.Categoria.Nombre " required>
-              <option value="">-- Seleccion Un Tipo --</option>
-            </select>
-          </fieldset>
+                      <fieldset class="form-group col-md-6">
+                        <label>{{"UNIDAD_EJECUTORA" | translate}}:</label>
+                        <!--select class="form-control" id="compromisounidad"  ng-model="crearCompromiso.nuevo_compromiso.UnidadEjecutora" ng-options="unidad.Nombre for unidad in crearCompromiso.unidades_ejecutoras" required>
+                            <option value="">-- Seleccion Una Unidad Ejecutora --</option>
+                          </select-->
+                        <span class="form-control" readonly> {{"RECTOR"}} <!--MODIFICAR CON AUTENTICACION-->
+                          </span>
+                      </fieldset>
 
 
-          <fieldset class="form-group">
-            <label for="compromisounidad">Unidad Ejecutora:</label>
-            <select class="form-control" id="compromisounidad"  ng-model="crearCompromiso.nuevo_compromiso.UnidadEjecutora" ng-options="unidad.Nombre for unidad in crearCompromiso.unidades_ejecutoras" required>
-              <option value="">-- Seleccion Una Unidad Ejecutora --</option>
-            </select>
-          </fieldset>
+                      <fieldset class="form-group col-md-12">
+                        <label>{{"ESTADO" | translate}}:</label>
+                        <span class="form-control" readonly> {{crearCompromiso.nuevo_estado_compromiso.Nombre}}
+                          </span>
+                      </fieldset>
 
-          <fieldset class="form-group">
-            <label for="compromisoobjeto">Objeto:</label>
-            <textarea class="form-control" id="compromisoobjeto" rows="4" ng-model="crearCompromiso.nuevo_compromiso.Objeto" required></textarea>
-            <small class="text-muted">El objeto indica directamente lo que el compromiso debe cumplir</small>
-          </fieldset>
+                      <fieldset class="form-group col-md-6">
+                        <label>{{"FECHA_INICIO" | translate}}:</label>
+                        <div class="input-group date" data-provide="datepicker">
+                          <md-datepicker md-current-view="year" md-placeholder="{{'FECHA' | translate}}" ng-model="crearCompromiso.nuevo_compromiso.FechaInicio" required></md-datepicker>
+                        </div>
+                      </fieldset>
 
-          <fieldset class="form-group">
-            <label for="compromisounidad">Estado:</label>
-            <select class="form-control" id="compromisounidad"  ng-model="crearCompromiso.nuevo_compromiso.EstadoCompromiso" ng-options="estado.Nombre for estado in crearCompromiso.estados_compromiso" required>
-              <option value="">-- Selecciona un estado inicial para el estado --</option>
-            </select>
-          </fieldset>
+                      <fieldset class="form-group col-md-6">
+                        <label>{{"FECHA_FIN" | translate}}:</label>
+                        <div class="input-group date" data-provide="datepicker">
+                          <md-datepicker md-current-view="year" md-placeholder="{{'FECHA' | translate}}" ng-model="crearCompromiso.nuevo_compromiso.FechaFin" required></md-datepicker>
+                        </div>
+                      </fieldset>
 
+                      <fieldset class="form-group col-md-12">
+                        <center>
+                          <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
+                          <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.nuevo_compromiso={}">{{"BTN.CANCELAR" | translate}}</button>
+                        </center>                        
+                      </fieldset>
 
-          <fieldset class="form-group">
-            <label for="exampleInputPassword1">Fecha Inicio:</label>
-            <div class="input-group date" data-provide="datepicker">
-              <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearCompromiso.nuevo_compromiso.FechaInicio"  required></md-datepicker>
+                    </form>
+                    <!--{{crearCompromiso.nuevo_compromiso}}
+                      {{crearCompromiso.compromisos}}!-->
+                  </div>
+                </div>
+
             </div>
-          </fieldset>
 
-          <fieldset class="form-group">
-            <label for="exampleInputPassword1">Fecha Fin:</label>
-            <div class="input-group date" data-provide="datepicker">
-              <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="crearCompromiso.nuevo_compromiso.FechaFin"  required></md-datepicker>
+            <div class="tab-pane fade" id="form-cat-tipos">
+              <uib-tabset active="$tabSetStatus.activeTab">
+                <uib-tab heading="{{'CATEGORIAS_TIPOS' | translate}}">
+                  <div>
+                    <div class="col-md-6">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">{{"CATEGORIA" | translate}}</h3>
+                        </div>
+                        <div class="panel-body"><br />
+
+                          <form name="categoria_form" ng-submit="categoria_form.$valid && crearCompromiso.crear_categoria()" novalidate>
+                            <fieldset class="form-group col-md-12">
+                              <label>{{"NOMBRE" | translate}}: </label>
+                              <input type="text" class="form-control" ng-model="crearCompromiso.nueva_categoria.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate}}" ng-maxlength="{{80}}" required>
+                              <!--small class="text-muted">Seleccione un nombre para la categoria...</small-->
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <label>{{"DESCRIPCION" | translate}}: </label>
+                              <textarea class="form-control" ng-model="crearCompromiso.nueva_categoria.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5"></textarea>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
+                              <button class="btn btn-danger btn-outline" ng-click="crearCompromiso.nueva_categoria={}">{{"BTN.CANCELAR" | translate}}</button>
+                            </fieldset>
+                          </form>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-md-6">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">{{"TIPO_COMPROMISO" | translate}}</h3>
+                        </div>
+                        <div class="panel-body"><br />
+
+                          <form name="tipo_form" ng-submit="tipo_form.$valid && crearCompromiso.crear_tipo()" novalidate>
+
+                            <fieldset class="form-group col-md-12">
+                              <sel-categoria-tipo categoria="crearCompromiso.nuevo_tipo.CategoriaCompromiso" reload="crearCompromiso.cargar_categorias"></sel-categoria-tipo>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <label>{{"NOMBRE" | translate}}:</label>
+                              <input type="text" class="form-control" placeholder="{{'INGRESE_NOMBRE' | translate}}" ng-model="crearCompromiso.nuevo_tipo.Nombre" ng-maxlength="{{150}}" required>
+                              <!--small class="text-muted">Un tipo es una subclase de categoria.</small-->
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <label for="nombretipo">{{"CODIGO_ABREVIACION" | translate}}:</label>
+                              <input type="text" class="form-control" id="nombretipo" placeholder="{{'INGRESE_CODIGO' | translate}}" ng-model="crearCompromiso.nuevo_tipo.CodigoAbreviacion" ng-maxlength="{{20}}" required>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <label>{{"DESCRIPCION" | translate}}: </label>
+                              <textarea class="form-control" ng-model="crearCompromiso.nuevo_tipo.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5"></textarea>
+                            </fieldset>
+
+                            <fieldset class="form-group col-md-12">
+                              <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
+                              <button class="btn btn-danger btn-outline" ng-click="crearCompromiso.nuevo_tipo={}">{{"BTN.CANCELAR" | translate}}</button>
+                            </fieldset>
+
+                          </form>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+                </uib-tab>
+              </uib-tabset>
             </div>
-          </fieldset>
-
-          <button type="submit" class="btn btn-success btn-outline">Crear</button>
-          <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.cancelar(compromiso_form)">Cancelar</button>
-        </form>
-
-        <!--{{crearCompromiso.nuevo_compromiso}}
-        {{crearCompromiso.compromisos}}!-->
-
-      </div>
-    </div>
-  </div>
-</div>
+        </div>

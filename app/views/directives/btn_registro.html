@@ -17,7 +17,7 @@
 </sencillo>
 
 <sencillo ng-if="!angular.isUndefined(grupobotones)">
-    <a ng-repeat="btn in grupobotones" class="{{btn.clase_color}}" ng-click="funcion({fila:fila,operacion:btn.operacion})">
+    <a href="" ng-repeat="btn in grupobotones" class="{{btn.clase_color}}" ng-click="funcion({fila:fila,operacion:btn.operacion})">
         <i class="{{btn.clase_css}}" aria-hidden="true" data-toggle="tooltip" title="{{btn.titulo}}"></i>
     </a>
 </sencillo>
