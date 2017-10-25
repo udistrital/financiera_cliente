@@ -14,7 +14,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest,uiGridService,$translate) {
+  .controller('RubroRubroRegistroCtrl', function (financieraRequest,$translate) {
     var self = this;
     self.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },

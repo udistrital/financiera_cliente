@@ -19,6 +19,13 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller: function($scope) {
         var self = this;
+        // refrescar
+        self.refresh = function() {
+          $scope.refresh = true;
+          $timeout(function() {
+            $scope.refresh = false;
+          }, 0);
+        };
         $scope.outputconceptos = [];
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
@@ -75,6 +82,7 @@ angular.module('financieraClienteApp')
         })
         //
         $scope.$watch('inputrpid', function() {
+          self.refresh();
           if ($scope.inputrpid != undefined) {
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
               $.param({
@@ -161,7 +169,9 @@ angular.module('financieraClienteApp')
                 }; //subGridOptions
               }); // iterador
             }); //tehen
-          } //if
+          }else{
+            self.gridOptions_rubros.data = {};
+          }
         }) // watch
 
         // fin

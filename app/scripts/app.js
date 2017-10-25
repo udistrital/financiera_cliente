@@ -266,6 +266,11 @@ angular
                 controller: 'OpSeguridadSocialVerPorIdCtrl',
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
+            .when('/orden_pago/hora_categra/crear', {
+              templateUrl: 'views/orden_pago/hora_categra/op_hc_crear.html',
+              controller: 'OrdenPagoHoraCategraOpHcCrearCtrl',
+              controllerAs: 'opHcCrear'
+            })
             .when('/orden_pago/giros/ver_todos', {
                 templateUrl: 'views/orden_pago/giros/giros_view_all.html',
                 controller: 'OpGirosViewAllCtrl',

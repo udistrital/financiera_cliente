@@ -1,0 +1,19 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'HORA_CATEDRA' | translate }} </h2>
+  <div class="panel-body">
+    <!-- Liquidaciones -->
+    <liquidacion-ver-todas
+      inputpestanaabierta="opPlantaCrear.PestanaAbiertaLiquidacion"
+      inputnecesidad="opPlantaCrear.Necesidad"
+      ouputpreliquidacion="opPlantaCrear.OrdenPago.Liquidacion"
+      ouputnominaselect="opPlantaCrear.NominaTitan">
+    </liquidacion-ver-todas>
+
+    <!--atributos de la orden de pago -->
+    <hora-catedra-atributos-orden-pago
+      inputpestanaabierta="opPlantaCrear.PestanaAbiertaLiquidacion"
+      inputnomina="opPlantaCrear.NominaTitan">
+    </hora-catedra-atributos-orden-pago>
+
+  </div>
+</div>
