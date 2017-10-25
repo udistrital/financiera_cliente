@@ -106,7 +106,7 @@ angular
             })
             .when('/compromisos/nuevo', {
                 templateUrl: 'views/compromisos/crear_compromiso.html',
-                controller: 'CrearCompromisoCtrl',
+                controller: 'crearCompromisoCtrl',
                 controllerAs: 'crearCompromiso'
             })
             .when('/plan_cuentas/cuentas/nueva', {
@@ -361,6 +361,11 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
+            })
+            .when('/compromisos/listado_compromisos', {
+              templateUrl: 'views/compromisos/listado_compromisos.html',
+              controller: 'GestionCompromisosCtrl',
+              controllerAs: 'gestionCompromisos'
             })
             .otherwise({
                 redirectTo: '/'
