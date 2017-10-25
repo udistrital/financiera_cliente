@@ -217,7 +217,7 @@ var text_es = {
   JUSTIFICACION: "Justificación",
   LEGALIZACION: "Legalización",
   LIMPIAR: "Limpiar",
-  LIQUIDACION: "Liquidacion",
+  LIQUIDACION: "Liquidación",
   LISTA_AVANCES: "Listado de Tipos de Avances",
   LISTA_CDP: "Lista De Certificados De Disponibilidad Presupuestal",
   LISTA_CDP_ANULACION: "Lista De Certificados De Disponibilidad Presupuestal a Anular",
