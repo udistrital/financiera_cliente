@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
       scope: {
         inputpestanaabierta: '=?',
         inputnecesidad: '=?',
-        ouputpreliquidacion: '=?'
+        ouputpreliquidacion: '=?',
+        ouputnominaselect: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
@@ -64,11 +65,15 @@ angular.module('financieraClienteApp')
             anioLiquidacion: 2017,
           })
           ).then(function(response) {
-            self.gridOptions_preliquidacion.data = response.data;
+            self.gridOptions_preliquidacion.data = response.data.Contratos_por_preliq;
+            self.IdLiquidacion = response.data.Id_Preliq;
+            console.log(self.IdLiquidacion);
+
         })
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
+            $scope.ouputnominaselect = $scope.nominaSelect;
             self.refresh();
             financieraMidRequest.get('orden_pago_nomina/ListaLiquidacionNominaHomologada',
               $.param({
@@ -78,7 +83,7 @@ angular.module('financieraClienteApp')
               })
               ).then(function(response) {
                 if(response.data != null){
-                  self.gridOptions_preliquidacion.data = response.data;
+                  self.gridOptions_preliquidacion.data = response.data.Contratos_por_preliq;
                 }else{
                   self.gridOptions_preliquidacion.data = {};
                 }
