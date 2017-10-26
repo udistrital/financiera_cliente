@@ -2,6 +2,10 @@
   background-color:#eea236;
 }
 
+.panel{
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.10) !important;
+}
+
 
 .menu-app{
   background: url('https://s3.amazonaws.com/assets-oas/logos-75.png');
@@ -697,6 +701,21 @@ table.dataTable thead .sorting:after {
   float: right;
   font-family: fontawesome;
   color: rgba(50, 50, 50, .5);
+}
+
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  top: 0;
+  right: 1;
+}
+div.fixed{
+  position: -webkit-fixed;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 1;
 }
 
 .btn-circle {

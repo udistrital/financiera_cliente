@@ -120,9 +120,9 @@ angular.module('financieraClienteApp')
         },
         {
           headerCellClass: 'text-success',
-          field: 'Descripcion',
+          field: 'Nombre',
           cellTooltip: function(row) {
-            return row.entity.Descripcion;
+            return row.entity.Nombre;
           },
           width: '70%'
         }
@@ -158,7 +158,7 @@ angular.module('financieraClienteApp')
     };
 
     financieraRequest.get('rubro', $.param({
-      limit: 0
+      limit: -1
     })).then(function(response) {
       self.gridOptions.data = response.data;
     });

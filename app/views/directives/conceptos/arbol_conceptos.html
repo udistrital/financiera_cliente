@@ -5,18 +5,15 @@
   </div>
 
   <div class="row">
-    <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
-      <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
-    </treecontrol>
+    <div ng-class="{'col-md-6':rvdesc}">
+      <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
+        <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
+      </treecontrol>
+    </div>
+
     <br>
-    <style>
-      div.sticky {
-        position: sticky;
-        bottom: 0;
-        right: 1;
-      }
-    </style>
-    <div class="panel panel-info panel-body row sticky" ng-show="conceptosel!=undefined && showc">
+
+    <div ng-class="{'col-md-6':rvdesc}" class="panel panel-info panel-body row sticky" ng-show="conceptosel!=undefined && showc">
       <span class="pull-right text-danger" ng-click="conceptosel=undefined">X</span>
       <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
       <p class="text-muted">{{conceptosel.Descripcion}}</p>

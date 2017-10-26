@@ -14,10 +14,12 @@ angular.module('financieraClienteApp')
         seleccion: '=?',
         filtro: '=?',
         conceptosel: '=?',
-        recargar: '=?'
+        recargar: '=?',
+        rdesc: '=?'
       },
       templateUrl: "views/directives/conceptos/arbol_conceptos.html",
-      controller: function($scope) {
+      controller: function($scope,$attrs) {
+        $scope.rvdesc='rdesc' in $attrs;
         var self = this;
         self.padre = {};
         self.arbol_conceptos = [];
