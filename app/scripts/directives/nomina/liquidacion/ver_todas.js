@@ -12,14 +12,13 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        inputnecesidad: '=?',
-        ouputpreliquidacion: '=?',
-        ouputnominaselect: '=?'
+        ouputdatanominaselect: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
+        $scope.ouputdatanominaselect = {};
         self.gridOptions_preliquidacion = {
           expandableRowHeight: 250,
           expandableRowTemplate: 'expandableRowUpc.html',
@@ -60,7 +59,9 @@ angular.module('financieraClienteApp')
         })
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
-            $scope.ouputnominaselect = $scope.nominaSelect;
+            $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
+            $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
+            $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
             self.refresh();
             financieraMidRequest.get('orden_pago_nomina/ListaLiquidacionNominaHomologada',
               $.param({
