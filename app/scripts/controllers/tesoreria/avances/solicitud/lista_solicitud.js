@@ -8,14 +8,17 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, academicaRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, academicaRequest, administrativaRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true },
-            { clase_color: "editar", clase_css: "fa fa fa-sitemap faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'estado', estado: true }
+            { clase_color: "editar", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true },
+            { clase_color: "editar", clase_css: "fa fa fa-sitemap fa-lg  faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'estado', estado: true },
+            { clase_color: "ver", clase_css: " fa fa-hand-paper-o fa-lg  faa-shake animated-hover", titulo: $translate.instant('NECESIDAD'), operacion: 'necesidad', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-thumbs-o-up fa-lg  faa-shake animated-hover", titulo: $translate.instant('APROBAR'), operacion: 'aprobar', estado: true }
+
         ];
 
         $scope.toggle = function(item, list) {
@@ -53,7 +56,6 @@ angular.module('financieraClienteApp')
                         //aqui va la conexions con el beneficiario
                         academicaRequest.get("documento=" + solicitud.Beneficiario)
                             .then(function(response) {
-                                console.log(response.data)
                                 solicitud.Tercero = response.data[0];
                             });
                         financieraRequest.get("solicitud_tipo_avance", $.param({
@@ -166,6 +168,7 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
+            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
@@ -178,7 +181,7 @@ angular.module('financieraClienteApp')
                         $scope.estados.push({ id: estado.EstadoAvance.Id, label: estado.EstadoAvance.Nombre });
                     });
                     $scope.aristas = [
-                        { from: 4, to: 6 }
+                        { from: 2, to: 3 }
                     ];
                     break;
                 case "validar":
@@ -192,9 +195,61 @@ angular.module('financieraClienteApp')
                         $('#modal_validar').modal('show');
                     }
                     break;
+                case "necesidad":
+                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
+                        ctrl.solicitud_necesidad();
+                    } else {
+                        swal(
+                            '',
+                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
+                            "warning"
+                        );
+                    }
+                    break;
+                case "aprobar":
+                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
+
+                        $('#modal_aprobacion').modal('show');
+                    } else {
+                        swal(
+                            '',
+                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
+                            "warning"
+                        );
+                    }
+                    break;
                 default:
             }
         };
+
+
+
+        ctrl.solicitud_necesidad = function() {
+            swal({
+                title: 'Solicitud Necesidad',
+                text: "Avance No. " + $scope.solicitud.Consecutivo + " Para " + $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: $translate.instant('BTN.SOLICITAR')
+            }).then(function() {
+                var data = {
+                    ProcesoExterno: $scope.solicitud.Id,
+                    TipoNecesidad: { Id: 3 }
+                };
+                administrativaRequest.post("necesidad_proceso_externo", data)
+                    .then(function(response) {
+                        if (response.status === 200) {
+                            console.log(response.data);
+                        }
+                    });
+            });
+
+        };
+
+
+
         ctrl.validar_solicitud = function() {
             var error = "<ol>";
             var i = 0,
