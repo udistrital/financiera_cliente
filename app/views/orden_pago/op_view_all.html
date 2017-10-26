@@ -1,10 +1,15 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+    <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+        </div>
+
+        <op-listar-todas>
+            <op-listar-todas/>
+
     </div>
-      <op-listar-todas>
-      <op-listar-todas/>
-  </div>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    </div>
 </div>
