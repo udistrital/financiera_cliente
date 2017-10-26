@@ -129,8 +129,12 @@ angular.module('financieraClienteApp')
     self.cargandoDatosPagos = true;
     self.cargarLista = function (offset,query) {
       financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
-        self.gridOptions.data = response.data;
-        console.log(response.data);
+        if (response.data.Type !== undefined){
+          self.gridOptions.data = [];
+        }else{
+          console.log(response.data);
+          self.gridOptions.data = response.data;
+        }
         self.cargandoDatosPagos = false;
       });
     };
