@@ -282,6 +282,10 @@ legend:hover {
   border-color: green;
 }
 
+.error-field{
+    border-color: red !important;   
+}
+
 /*style footer */
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,300);

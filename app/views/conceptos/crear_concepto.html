@@ -21,26 +21,27 @@
   <div ng-class="{'col-md-12 ': !crearConcepto.dividir, 'col-md-12': crearConcepto.dividir}">
     <div class="panel panel-default">
 
-      <div class="panel-heading">
-        <h5 class="panel-title">{{"CONCEPTO" | translate}}</h3>
-      </div>
+      
       <div class="panel-body">
 
-        <form name="conceptoForm" ng-submit="conceptoForm.$valid && crearConcepto.crear_concepto_nuevo(conceptoForm)" novalidate>
+        <form name="conceptoForm" ng-submit="conceptoForm.$valid && crearConcepto.crear_concepto_nuevo(conceptoForm)" focus-on-field novalidate>
 
-          <div class="form-group col-md-12">
-              <label>Tipo Concepto:</label>
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && conceptoForm.selTipoConcepto.$invalid}">
+              <label>Tipo Concepto*:</label>
               <select name="selTipoConcepto" class="form-control" ng-model="crearConcepto.tipo_concepto"
                   ng-change="filtro_padre.TipoConcepto.Id=crearConcepto.tipo_concepto.Id;
                   nodo=undefined;
                   crearConcepto.verFormTipo=!conceptoForm.selTipoConcepto.$error.required;
                   crearConcepto.dividir=crearConcepto.verFormTipo;
                   crearConcepto.padre=undefined" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto" required>
-                <option value="" disabled selected>-- Seleccion Un tipo de Concepto --</option>
+                <option value="" disabled selected>-- Seleccione Un tipo de Concepto --</option>
                 </select>
+                <div ng-messages="conceptoForm.selTipoConcepto.$error" style="color:maroon" role="alert" ng-show="submitted">
+                  <div ng-message="required">Este campo es obligatorio</div>
+                </div>
           </div>
 
-            <div class="col-md-12 form-group ">
+            <div class="col-md-12 form-group " ng-class="{'text-danger': submitted && conceptoForm.codigo.$invalid}">
                 <label>{{"CODIGO" | translate}}*:</label>
 
                     <fieldset class="form-group">
@@ -50,24 +51,25 @@
                     </fieldset>
 
                     <fieldset class="col-md-12">
-                      <span>Codigo: </span>
+                      <span>Codigo*: </span>
                       <span class="form-control form-control-inline" size="{{crearConcepto.nuevo_concepto.Codigo.length}}" readonly> {{crearConcepto.padre.Codigo}}-
                       </span>
-                      <input class="form-control form-control-inline" ng-model="crearConcepto.nuevo_concepto.Codigo" placeholder="Ingresar codigo" ng-maxlength="{{24-crearConcepto.nuevo_concepto.Codigo.length}}" required>
+                      <input name="codigo"  class="form-control form-control-inline" ng-model="crearConcepto.nuevo_concepto.Codigo" placeholder="Ingresar codigo" ng-maxlength="5" required>
                       </input>
+                      <div ng-messages="conceptoForm.codigo.$error" style="color:maroon" role="alert" ng-show="submitted">
+                        <div ng-message="required">Este campo es obligatorio</div>
+                      </div>
+                      <!--span class="help-inline" ng-show="submitted && conceptoForm.codigo.$error.email">Invalid email</span-->
                     </fieldset>
-
-
-
             </div>
 
-            <div class="col-md-12 form-group ">
-
+            <div class="col-md-12 form-group " ng-class="{'text-danger': submitted && conceptoForm.nombre.$invalid}">
                 <label>Nombre:</label>
-
-                <input class="form-control" ng-model="crearConcepto.nuevo_concepto.Nombre" placeholder="Ingrese el nombre del concepto" required>
+                <input class="form-control" name="nombre" ng-model="crearConcepto.nuevo_concepto.Nombre" placeholder="Ingrese el nombre del concepto" required>
                 </input>
-
+                <div ng-messages="conceptoForm.nombre.$error" style="color:maroon" role="alert" ng-show="submitted">
+                  <div ng-message="required">Este campo es obligatorio</div>
+                </div>
             </div>
 
             <div class="col-md-12 form-group ">
@@ -155,13 +157,12 @@
             <div class="form-group" align="center">
 
               <div class="col-md-3 col-md-offset-3">
-                <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="Confirmar">
+                <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="Confirmar" ng-click="submitted=true">
               </div>
               <div class="col-md-3 ">
                 <button ng-click="crearConcepto.resetear(conceptoForm)" class="btn btn-outline btn-danger btn-lg btn-block">Cancelar</button>
               </div>
             </div>
-
 
         </form>
 
