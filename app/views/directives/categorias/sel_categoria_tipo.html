@@ -1,0 +1,14 @@
+<div>
+  <fieldset ng-class="{'form-group col-md-6':d_selCategoriaTipo.sel_tipo, 'form-group' :!d_selCategoriaTipo.sel_tipo}">
+    <label>{{"CATEGORIA" | translate}}:</label>
+    <select class="form-control" ng-model="categoria" ng-options="cat.Nombre for cat in d_selCategoriaTipo.categorias">
+      <option class="text-muted" value=""><small>-- {{"SELECCIONAR_CATEGORIA" | translate}} --</small></option>
+    </select>
+  </fieldset>
+  <fieldset ng-show="::d_selCategoriaTipo.sel_tipo" class="form-group col-md-6">
+    <label>{{"TIPO_COMPROMISO" | translate}}:</label>
+    <select class="form-control"  ng-model="tipo" ng-options="tipo.Nombre for tipo in categoria.TiposCompromisos " ng-required="d_selCategoriaTipo.sel_tipo">
+      <option value="">-- {{"SELECCIONAR_TIPO" | translate}} --</option>
+    </select>
+  </fieldset>
+</div>
