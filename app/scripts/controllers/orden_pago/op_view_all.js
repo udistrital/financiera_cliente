@@ -14,8 +14,10 @@ angular.module('financieraClienteApp')
         $scope.estados = [];
         $scope.estado_select = [];
         $scope.aristas = [];
-        $scope.estado = { Id: 1, Nombre: "Elaborado" };
+        //$scope.estado = { Id: 1, Nombre: "Elaborado" };
         $scope.estadoclick = {};
+        $scope.senDataEstado = {};
+        $scope.senDataEstado.Usuario = {'Id': 1}
 
 
 
@@ -52,6 +54,10 @@ angular.module('financieraClienteApp')
                 // to do ...
                 console.log(data);
                 console.log($localStorage.nodeclick);
+                console.log("AA");
+                $scope.senDataEstado.OrdenPago = data;
+                $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
+                console.log($scope.senDataEstado);
             } else {
                 swal(
                     '',
@@ -78,8 +84,8 @@ angular.module('financieraClienteApp')
                     width: '8%',
                     displayName: $translate.instant('TIPO'),
                     filter: {
+                        //term: 'OP-PROV',
                         type: uiGridConstants.filter.SELECT,
-                        default: 'OP-PROV',
                         selectOptions: [{ value: 'OP-PROV', label: 'OP-PROV' }, { value: 'OP-PLAN', label: 'OP-PLAN' }]
                     }
                 },
@@ -134,6 +140,7 @@ angular.module('financieraClienteApp')
                     width: '7%',
                     displayName: $translate.instant('ESTADO'),
                     filter: {
+                        term: 'Elaborado',
                         type: uiGridConstants.filter.SELECT,
                         selectOptions: $scope.estado_select
 
