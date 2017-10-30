@@ -19,7 +19,6 @@ angular.module('financieraClienteApp')
       },
       templateUrl: "views/directives/conceptos/arbol_conceptos.html",
       controller: function($scope,$attrs) {
-        $scope.rvdesc='rdesc' in $attrs;
         var self = this;
         self.padre = {};
         self.arbol_conceptos = [];
@@ -27,7 +26,7 @@ angular.module('financieraClienteApp')
         financieraRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
         });
-
+        $scope.rvdesc='rdesc' in $attrs;
         $scope.$watch("recargar",function(){
           financieraRequest.get("arbol_conceptos", "").then(function(response) {
             console.log("recargo!");

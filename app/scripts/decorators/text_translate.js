@@ -299,6 +299,7 @@ var text_es = {
   NUEVA_CUENTA: "Nueva Cuenta",
   NUEVA_CATEGORIA: "Nueva Categoria",
   NUEVO: "Nuevo",
+  NUEVO_CONCEPTO: "Nuevo Concepto",
   NUEVO_OP_PLANTA: "Nuevo OP Planta",
   NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
   NUEVO_OP_SEGURIDAD_SOCIAL: "Nuevo OP Seguridad Social",

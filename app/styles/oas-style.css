@@ -2,11 +2,6 @@
   background-color:#eea236;
 }
 
-.panel{
-  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.10) !important;
-}
-
-
 .menu-app{
   background: url('https://s3.amazonaws.com/assets-oas/logos-75.png');
   display: inline-block;
@@ -63,6 +58,10 @@ md-sidenav {
   padding-bottom: 80px;
   padding-top: 80px;
   width: 100px;
+}
+
+.shadow-box{
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.10) !important;
 }
 
 .my-icon-button {
@@ -283,7 +282,7 @@ legend:hover {
 }
 
 .error-field{
-    border-color: red !important;   
+    border-color: red !important;
 }
 
 /*style footer */
