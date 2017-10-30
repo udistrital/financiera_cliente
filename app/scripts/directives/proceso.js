@@ -21,9 +21,7 @@ angular.module('financieraClienteApp')
 
             templateUrl: 'views/directives/proceso.html',
             link: function(scope, elm, attrs) {
-                scope.$watch('nodeclick', function(newValue, oldValue) {
-                    console.log(oldValue);
-                }, true);
+
             },
             controller: function($scope, $localStorage) {
 
@@ -101,7 +99,7 @@ angular.module('financieraClienteApp')
                     angular.forEach($scope.childrens, function(node) {
                         var clickedNode = nodes.get(node);
                         clickedNode.color = {
-                            background: '#2ECC71',
+                            background: '#31708F',
                         };
                         clickedNode.clicked = true;
                         nodes.update(clickedNode);
