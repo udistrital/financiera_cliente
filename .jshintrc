@@ -16,6 +16,7 @@
         "KJUR": false,
         "b64utoutf8": false,
         "$": false,
-        "swal": false
+        "swal": false,
+        "vis": false
     }
 }
