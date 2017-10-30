@@ -37,6 +37,9 @@ angular.module('financieraClienteApp')
 
             onRegisterApi: function(gridApi) {
                 ctrl.gridApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                    $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+                });
             }
 
         };

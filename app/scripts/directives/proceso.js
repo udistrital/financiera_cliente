@@ -40,7 +40,7 @@ angular.module('financieraClienteApp')
                 var edges = {};
                 var network = {};
 
-                $scope.$watch('nodes', function() {
+                $scope.$watch('node', function() {
                     nodes = new vis.DataSet($scope.nodes);
                     edges = new vis.DataSet($scope.edges);
                     var container = document.getElementById('mynetwork');
@@ -95,7 +95,7 @@ angular.module('financieraClienteApp')
 
                     network.on('click', $scope.clicknode);
 
-                    $scope.childrens = network.getConnectedNodes($scope.node.Id, ['to']);
+                    $scope.childrens = network.getConnectedNodes($scope.node.Id, 'to');
                     angular.forEach($scope.childrens, function(node) {
                         var clickedNode = nodes.get(node);
                         clickedNode.color = {
