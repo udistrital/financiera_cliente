@@ -4,10 +4,7 @@
         <div class="panel-heading">
             <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
         </div>
-
-        <op-listar-todas>
-            <op-listar-todas/>
-
+        <div ui-grid="opViewAll.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
     </div>
     <div>
         <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
