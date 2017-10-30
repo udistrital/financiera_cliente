@@ -8,14 +8,15 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest) {
+    .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, $localStorage) {
         var ctrl = this;
         $scope.estados = [];
         $scope.aristas = [];
         $scope.estado = { Id: 1, Nombre: "Elaborado" };
-        $scope.estadoclick = null;
+        $scope.estadoclick = {};
         $scope.funcion = function() {
-            console.log("Hola Babio");
+            $scope.estadoclick = $localStorage.nodeclick;
+            console.log($localStorage.nodeclick);
         };
         financieraRequest.get("estado_orden_pago", $.param({
                 sortby: "NumeroOrden",

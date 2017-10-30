@@ -14,23 +14,29 @@ angular.module('financieraClienteApp')
                 nodes: '=?',
                 edges: '=?',
                 node: '=?',
-                nodeclick: '=?',
+                nodeclick: '=',
                 eventclick: '&'
+
             },
 
             templateUrl: 'views/directives/proceso.html',
             link: function(scope, elm, attrs) {
-
+                scope.$watch('nodeclick', function(newValue, oldValue) {
+                    console.log(oldValue);
+                }, true);
             },
-            controller: function($scope) {
+            controller: function($scope, $localStorage) {
 
-                var onClick = function(params) {
+                $scope.clicknode = function(params) {
                     var data = {
                         Estado: { Id: this.getNodeAt(params.pointer.DOM) }
                     };
                     if ($scope.childrens.indexOf(data.Estado.Id) !== -1) {
-                        $scope.nodeclick = data;
+                        $scope.nodeclick = data.Estado;
+                        $localStorage.nodeclick = data.Estado;
+                        $scope.eventclick();
                     }
+
                 };
                 var nodes = {};
                 var edges = {};
@@ -89,7 +95,7 @@ angular.module('financieraClienteApp')
                     // initialize your network!
                     network = new vis.Network(container, data, options);
 
-                    network.on('click', onClick);
+                    network.on('click', $scope.clicknode);
 
                     $scope.childrens = network.getConnectedNodes($scope.node.Id, ['to']);
                     angular.forEach($scope.childrens, function(node) {
@@ -112,9 +118,6 @@ angular.module('financieraClienteApp')
                     nodes.update(node_active);
 
 
-                });
-                $scope.$watch('nodeclick', function() {
-                    console.log("asdfasdf");
                 });
 
             },
