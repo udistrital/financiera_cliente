@@ -8,16 +8,15 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants) {
+    .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window) {
 
         var ctrl = this;
         $scope.estados = [];
         $scope.estado_select = [];
         $scope.aristas = [];
-        $scope.estado = { Id: 1, Nombre: "Elaborado" };
         $scope.estadoclick = {};
-
-
+        $scope.senDataEstado = {};
+        $scope.senDataEstado.Usuario = {'Id': 1}
 
         ctrl.gridOrdenesDePago = {
             enableRowSelection: true,
@@ -49,9 +48,20 @@ angular.module('financieraClienteApp')
             var data = ctrl.gridApi.selection.getSelectedRows();
             var numero = data.length;
             if (numero > 0) {
-                // to do ...
-                console.log(data);
-                console.log($localStorage.nodeclick);
+                $scope.senDataEstado.OrdenPago = data;
+                $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
+                financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
+                .then(function(data){
+                  $scope.resultado = data;
+                  swal({
+                    title: 'Orden de Pago',
+                    text: $translate.instant($scope.resultado.data.Code),
+                    type: $scope.resultado.data.Type,
+                  }).then(function() {
+                    $window.location.reload();
+                    //$window.location.href = '#/orden_pago/ver_todos';
+                  })
+                })
             } else {
                 swal(
                     '',
@@ -78,8 +88,8 @@ angular.module('financieraClienteApp')
                     width: '8%',
                     displayName: $translate.instant('TIPO'),
                     filter: {
+                        //term: 'OP-PROV',
                         type: uiGridConstants.filter.SELECT,
-                        default: 'OP-PROV',
                         selectOptions: [{ value: 'OP-PROV', label: 'OP-PROV' }, { value: 'OP-PLAN', label: 'OP-PLAN' }]
                     }
                 },
@@ -134,6 +144,7 @@ angular.module('financieraClienteApp')
                     width: '7%',
                     displayName: $translate.instant('ESTADO'),
                     filter: {
+                        term: 'Elaborado',
                         type: uiGridConstants.filter.SELECT,
                         selectOptions: $scope.estado_select
 
