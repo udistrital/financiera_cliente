@@ -15,7 +15,8 @@ angular.module('financieraClienteApp')
         filtro: '=?',
         conceptosel: '=?',
         recargar: '=?',
-        rdesc: '=?'
+        rdesc: '=?',
+        nohead: '=?'
       },
       templateUrl: "views/directives/conceptos/arbol_conceptos.html",
       controller: function($scope,$attrs) {
@@ -28,11 +29,13 @@ angular.module('financieraClienteApp')
         });
         $scope.rvdesc='rdesc' in $attrs;
         $scope.$watch("recargar",function(){
-          financieraRequest.get("arbol_conceptos", "").then(function(response) {
-            console.log("recargo!");
+          $scope.load=true;
+          financieraRequest.get("arbol_conceptos", "").then(function(response) {            
             self.arbol_conceptos = response.data;
+            $scope.load=false;
           });
         },true);
+        $scope.vtitle=!('nohead' in $attrs);
 
         self.treeOptions = {
           nodeChildren: "Hijos",
@@ -43,16 +46,17 @@ angular.module('financieraClienteApp')
             liSelected: "a7",
             iExpanded: "a3",
             iCollapsed: "a4",
-            iLeaf: "a5",
+            iLeaf: "a3",
             label: "a6",
             labelSelected: "a8"
+          },
+          isLeaf:function(node){
+            return !(node.Clasificador);
           }
         };
-
         self.seleccionar_concepto = function(concepto) {
           $scope.seleccion = concepto;
         };
-
 
       },
       controllerAs: "d_arbolConceptos"

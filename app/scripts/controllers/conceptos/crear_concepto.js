@@ -43,62 +43,68 @@ angular.module('financieraClienteApp')
     self.crear_concepto_nuevo = function() {
 
       if (self.padre != undefined) {
-         if ($scope.isconcepto && (self.rubro ==undefined || self.cuentas.length < 2)) {
-           swal("Espera!", (self.cuentas.length < 2?"Tienes que seleccionar por lo menos dos cuentas cuentas contables":"Es necesario seleccionar un rubro para el concepto"), "warning");
-         } else{
-           swal({
-             title: 'Nueva Concepto!',
-             text: "Deseas crear un nuevo registro?",
-             type: 'info',
-             showCancelButton: true,
-             confirmButtonColor: '#3085d6',
-             cancelButtonColor: '#d33',
-             confirmButtonText: 'Aceptar',
-             cancelButtonText: 'Cancelar',
-           }).then(function() {
-             self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
-             self.nuevo_concepto.FechaCreacion = new Date();
-             self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
-             self.afectacion_concepto = {};
-             self.afectaciones = [];
-             if ($scope.isconcepto) {
-               self.nuevo_concepto.Rubro = self.rubro;
-               for (var i = 0; i < self.tipos_afectacion.length; i++) {
-                 self.afectacion_concepto.Concepto = {Id: 0 };
-                 self.afectacion_concepto.TipoAfectacion = self.tipos_afectacion[i];
-                 self.afectacion_concepto.AfectacionIngreso = self.tipos_afectacion[i].Ingreso;
-                 self.afectacion_concepto.AfectacionEgreso = self.tipos_afectacion[i].Egreso;
-                 self.afectaciones.push(self.afectacion_concepto);
-                 self.afectacion_concepto = {};
-               }
-             } else {
-               self.afectaciones=null;
-               self.cuentas=null;
-             }
-             var tr_concepto = {
-               Concepto: self.nuevo_concepto,
-               ConceptoPadre: self.padre,
-               Afectaciones: self.afectaciones,
-               Cuentas: self.cuentas
-             };
-             financieraRequest.post('tr_concepto', tr_concepto).then(function(response) {
+        swal({
+          title: $translate.instant('NUEVO_CONCEPTO')+'!',
+          text: $translate.instant('DESEA_CREAR_CATEGORIA'),
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+          cancelButtonText: $translate.instant('BTN.CANCELAR'),
+          buttonsStyling: false
+        }).then(function() {
+          var nuevo_concepto = {
+            Codigo: self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo),
+            FechaCreacion: new Date(),
+            TipoConcepto: self.tipo_concepto,
+            Nombre: self.nuevo_concepto.Nombre,
+            Descripcion: self.nuevo_concepto.Descripcion,
+            Clasificador: !($scope.isconcepto)
+          }
+          //self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
+          //self.nuevo_concepto.FechaCreacion = new Date();
+          //self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
+          var afectacion_concepto = {};
+          var afectaciones = [];
+          var cuentas = null;
+          if ($scope.isconcepto) {
+            cuentas = angular.copy(self.cuentas);
+            nuevo_concepto.Rubro = self.rubro;
+            for (var i = 0; i < self.tipos_afectacion.length; i++) {
+              afectacion_concepto.Concepto = {
+                Id: 0
+              };
+              afectacion_concepto.TipoAfectacion = self.tipos_afectacion[i];
+              afectacion_concepto.AfectacionIngreso = self.tipos_afectacion[i].Ingreso;
+              afectacion_concepto.AfectacionEgreso = self.tipos_afectacion[i].Egreso;
+              afectaciones.push(afectacion_concepto);
+              afectacion_concepto = {};
+            }
+          } else {
+            afectaciones = null;
+          }
+          var tr_concepto = {
+            Concepto: nuevo_concepto,
+            ConceptoPadre: self.padre,
+            Afectaciones: afectaciones,
+            Cuentas: cuentas
+          };
+          financieraRequest.post('tr_concepto', tr_concepto).then(function(response) {
+            if (response.data.Type == 'success') {
+              swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
+              self.recargar = !self.recargar;
+              self.resetear();
+            } else {
+              swal("", $translate.instant(response.data.Code), response.data.Type);
+            }
 
-               if (response.data.Type=='success') {
-                 swal($translate.instant(response.data.Code),$translate.instant("CONCEPTO")+" "+response.data.Body, response.data.Type);
-                  self.recargar = !self.recargar;
-                  $("#conceptoForm").$setPristine();
-                  $("#conceptoForm").$setUntouched();
-                  self.resetear($("#conceptoForm"));
-               } else {
-                 swal("",$translate.instant(response.data.Code), response.data.Type);
-               }
+          });
+        });
 
-             });
-           });
 
-         }
       } else {
-        swal("Espera!", "Tienes que ubicar el concepto en una carpeta", "error");
+        swal($translate.instant('SELECCIONE_CARPETA_CONCEPTO'), "error");
       }
     };
 
@@ -106,17 +112,15 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
       enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar:0,
+      enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       enableFiltering: true,
       enableSorting: true,
-      treeRowHeaderAlwaysVisible: false,
-      rowEditWaitInterval: -1,
-      enableHorizontalScrollbar: 0,
       columnDefs: [{
           headerCellClass: 'text-success',
+          displayName: $translate.instant('CODIGO'),
           field: 'Codigo',
           cellTooltip: function(row) {
             return row.entity.Codigo;
@@ -125,6 +129,7 @@ angular.module('financieraClienteApp')
         },
         {
           headerCellClass: 'text-success',
+          displayName: $translate.instant('NOMBRE'),
           field: 'Nombre',
           cellTooltip: function(row) {
             return row.entity.Nombre;
@@ -135,8 +140,7 @@ angular.module('financieraClienteApp')
     };
 
     self.gridOptions.multiSelect = false;
-    self.gridOptions.modifierKeysToMultiSelect = false;
-    self.gridOptions.noUnselect = true;
+    //self.gridOptions.noUnselect = true;
 
     self.gridOptions.onRegisterApi = function(gridApi) {
       $scope.gridApi = gridApi;
@@ -145,15 +149,16 @@ angular.module('financieraClienteApp')
       });
     };
 
-    self.resetear = function(form) {
-      form.$setPristine();
-      form.$setUntouched();
+    self.resetear = function() {
       self.nuevo_concepto = {};
+      self.cuentas = [];
       self.padre = undefined;
+      self.rubro = undefined;
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
         self.tipos_afectacion[i].Egreso = false;
         self.tipos_afectacion[i].Ingreso = false;
       }
+      $scope.gridApi.selection.clearSelectedRows();
     };
 
     financieraRequest.get('rubro', $.param({
@@ -164,7 +169,7 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_concepto", "").then(function(response) {
       self.tipos_concepto = response.data;
-      self.tipo_concepto=self.tipos_concepto[0];
+      self.tipo_concepto = self.tipos_concepto[0];
     });
 
     financieraRequest.get("tipo_afectacion", "").then(function(response) {
@@ -174,10 +179,9 @@ angular.module('financieraClienteApp')
     self.cargar_plan_maestro();
 
     $scope.$watch('crearConcepto.tipo_concepto', function() {
-      $scope.filtro_padre=self.tipo_concepto.Nombre;
-      self.padre=undefined;
-      $scope.nodo=undefined;
-      console.log(self.padre);
+      $scope.filtro_padre = self.tipo_concepto.Nombre;
+      self.padre = undefined;
+      $scope.nodo = undefined;
     }, true);
 
     $scope.$watch('crearConcepto.cuenta_contable', function() {

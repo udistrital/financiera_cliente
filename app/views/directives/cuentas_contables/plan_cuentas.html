@@ -1,6 +1,6 @@
-<div class="panel panel-success panel-body">
+<div class="panel panel-default panel-body shadow-box">
   <div class="panel panel-heading">
-    <h4 class="text-center panel-title">{{d_planCuentas.plan.Nombre}} <i class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="d_planCuentas.cargar_arbol()"></i></h4>
+    <h4 class="text-center panel-title">{{d_planCuentas.plan.Nombre}}   <loading class="pull-right" load="load" tam="1"/><i ng-show="!load" class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="d_planCuentas.cargar_arbol()"></i></h4>
   </div>
   <div class="row">
 
@@ -10,12 +10,10 @@
         <span class="text-success">{{node.Codigo}}:</span>  {{node.Nombre}}
       </treecontrol>
     </div>
-
-
-    <loading tam="4" load="load"/>
+     <loading load="load" tam="2"/>
     <br>
 
-    <div ng-class="{'col-md-6':rvdesc}" class="panel panel-success panel-body row sticky" ng-show="cuentasel!=undefined && showc && !vista_resumen">
+    <div ng-class="{'col-md-6':rvdesc}" class="panel panel-success panel-body row sticky shadow-box" ng-show="cuentasel!=undefined && showc && !vista_resumen">
       <span class="pull-right text-danger" ng-click="cuentasel=undefined">X</span>
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
       <p class="text-muted text-justify ">{{cuentasel.Descripcion | limitTo:370}} ...</p>
@@ -43,7 +41,7 @@
   <div id="modalCuentas{{d_planCuentas.plan.Id}}" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
       <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        <button type="button" class="btn btn-outline btn-danger btn-xs close" data-dismiss="modal">&times</button><br>
       </div>
       <div class="modal-body" ng-if="ver_cuentaid!=undefined">
         <ver-cuenta-contable codigocuenta="ver_cuentaid" />

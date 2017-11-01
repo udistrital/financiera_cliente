@@ -367,6 +367,11 @@ angular
               controller: 'GestionCompromisosCtrl',
               controllerAs: 'gestionCompromisos'
             })
+            .when('/conceptos/listado_conceptos', {
+              templateUrl: 'views/conceptos/listado_conceptos.html',
+              controller: 'ListadoConceptosCtrl',
+              controllerAs: 'listadoConceptos'
+            })
             .otherwise({
                 redirectTo: '/'
             });
