@@ -1,0 +1,52 @@
+clone:
+  path: github.com/udistrital/financiera_cliente
+
+build:
+  npm_install:
+    image: node
+    commands:
+      - npm install
+      - npm run postinstall
+  test:
+    image: node
+    commands:
+      - npm run test-single-run
+  build:
+    image: node
+    commands:
+      - npm run build
+  package:
+    image: alpine
+    commands:
+      - tar cf financiera_cliente-$$BRANCH-$${COMMIT:0:7}-$$BUILD_NUMBER.tar dist
+      - gzip financiera_cliente-$$BRANCH-$${COMMIT:0:7}-$$BUILD_NUMBER.tar
+      - echo jorge prueba que funcione primero con "drone exec" antes de hacer push
+
+# al hacer esto el directorio node_modules queda cacheado en el server de CI y no hay que bajar todo cada vez
+cache:
+  mount:
+    - node_modules
+
+publish:
+  sftp:
+    host: nas03.udistritaloas.edu.co
+    port: 22
+    username: drone
+    password: $$DRONE_NAS_PASSWORD
+    destination_path: /share/artifacts/front-end
+    files:
+      - financiera_cliente*.tar.gz
+    when:
+      branch: master
+
+notify:
+  webhook:
+    urls:
+      - https://api.telegram.org/bot$$DRONE_TELEGRAM_TOKEN/sendMessage
+    content_type: application/json
+    template: >
+      {
+        "chat_id": "-162718164",
+        "parse_mode": "Markdown",
+        "text": "`{{repo.full_name}}` [{{uppercase build.status}}]({{build.link_url}}) `{{build.branch}}`@{{truncate build.commit 7}}"
+      }
