@@ -9,44 +9,44 @@
         <a href="" class="navbar-brand" ng-click="toggleLeft()">
             <i class="fa fa-university faa-shake animated-hover" aria-hidden="true"></i>
         </a>
-        <a ng-href="#/">
+        <a ng-click="redirect_url('/')">
             <img src="images/kronos.logo.png" class="logo" alt="">
         </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse in">
         <ul class="nav navbar-nav navbar-right">
             <li ng-repeat="nivel_1 in ::my_menu">
-                <a ng-if="nivel_1.Opciones === null && nivel_1.TipoOpcion === 'Menú'" ng-href="{{'#/' + nivel_1.Url}}">
+                <a ng-if="nivel_1.Opciones === null && nivel_1.TipoOpcion === 'Menú'" ng-click="redirect_url('/' + nivel_1.Url)">
           {{nivel_1.Nombre}}
         </a>
             </li>
             <li ng-repeat="nivel_1 in ::my_menu" class="dropdown">
-                <a ng-if="nivel_1.Opciones !== null && nivel_1.TipoOpcion === 'Menú'" ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown">
+                <a ng-if="nivel_1.Opciones !== null && nivel_1.TipoOpcion === 'Menú'" class="dropdown-toggle" data-toggle="dropdown">
             {{nivel_1.Nombre}} <b class="caret">
           </b>
         </a>
                 <ul class="dropdown-menu">
                     <li ng-repeat="nivel_2 in nivel_1.Opciones">
-                        <a ng-href="{{'#/' + nivel_2.Url}}" ng-if="nivel_2.Opciones === null && nivel_2.TipoOpcion === 'Menú'">
+                        <a ng-click="redirect_url('/' + nivel_2.Url)" ng-if="nivel_2.Opciones === null && nivel_2.TipoOpcion === 'Menú'">
               {{nivel_2.Nombre}}
             </a>
                     </li>
                     <li class="dropdown dropdown-submenu" aria-haspopup="true" aria-expanded="false" ng-repeat="nivel_2 in nivel_1.Opciones">
-                        <a ng-href="{{actual}}" class="dropdown-toggle" data-toggle="dropdown" ng-if="nivel_2.Opciones !== null && nivel_2.TipoOpcion === 'Menú'">
+                        <a class="dropdown-toggle" data-toggle="dropdown" ng-if="nivel_2.Opciones !== null && nivel_2.TipoOpcion === 'Menú'">
               {{nivel_2.Nombre}}
             </a>
                         <ul class="dropdown-menu ">
                             <li ng-repeat="nivel_3 in nivel_2.Opciones ">
-                                <a ng-href="{{ '#/' + nivel_3.Url}} " ng-if="nivel_3.Opciones == null && nivel_3.TipoOpcion==='Menú' ">
+                                <a ng-click="redirect_url('/' + nivel_3.Url)" ng-if="nivel_3.Opciones == null && nivel_3.TipoOpcion==='Menú' ">
                   {{nivel_3.Nombre}}
                 </a>
                             </li>
                             <li class="dropdown dropdown-submenu " aria-haspopup="true " aria-expanded="false " ng-repeat="nivel_3 in nivel_2.Opciones ">
-                                <a ng-href="{{actual}} " class="dropdown-toggle " data-toggle="dropdown " ng-if="nivel_3.Opciones !== null && nivel_3.TipoOpcion==='Menú' ">{{nivel_3.Nombre}}
+                                <a class="dropdown-toggle " data-toggle="dropdown " ng-if="nivel_3.Opciones !== null && nivel_3.TipoOpcion==='Menú' ">{{nivel_3.Nombre}}
                 </a>
                                 <ul class="dropdown-menu ">
                                     <li ng-repeat="nivel_4 in nivel_3.Opciones ">
-                                        <a ng-href="{{ '#/' + nivel_4.Url}} " ng-if="nivel_4.TipoOpcion === 'Menú' ">
+                                        <a ng-click="redirect_url('/' + nivel_4.Url)" ng-if="nivel_4.TipoOpcion === 'Menú' ">
                       {{nivel_4.Nombre}}
                     </a></li>
                                 </ul>
@@ -58,17 +58,17 @@
 
             <!-- /.dropdown Notifications-->
             <li class="dropdown ">
-                <a class=" notificacion_vista dropdown-toggle " data-toggle="dropdown " ng-href="{{actual}} " ng-if="notificacion.no_vistos()> 0">
+                <a class=" notificacion_vista dropdown-toggle " data-toggle="dropdown" ng-if="notificacion.no_vistos()> 0">
                     <i class="fa fa-bell fa-fw faa-ring animated"></i>{{notificacion.no_vistos()}}
                     <i class="fa fa-caret-down"></i>
                 </a>
-                <a class="dropdown-toggle" data-toggle="dropdown" ng-href="{{actual}}" ng-if="notificacion.no_vistos() == 0">
+                <a class="dropdown-toggle" data-toggle="dropdown" ng-if="notificacion.no_vistos() == 0">
                     <i class="fa fa-bell fa-fw"></i>
                     <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     <li ng-repeat=" notificacion in notificacion.log | limitTo:6">
-                        <a ng-href="{{'#' + actual}}" ng-click="notificacion.viewed = true">
+                        <a ng-click="notificacion.viewed = true">
                             <div>
                                 <i ng-if="! notificacion.viewed" class="fa fa-comment fa-fw "></i>
                                 <i ng-if="notificacion.viewed" class="fa fa-check-circle"></i>
@@ -83,7 +83,7 @@
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="text-center" ng-href="#/notificaciones">
+                        <a class="text-center" ng-click="redirect_url('/notificaciones')">
                             <strong>Ver todas las notificaciones</strong>
                             <i class="fa fa-angle-right"></i>
                         </a>
@@ -91,7 +91,7 @@
                 </ul>
                 <!-- /.dropdown -->
                 <li class="dropdown" ng-if="token_service.live_token()">
-                    <a class="dropdown-toggle" data-toggle="dropdown" ng-href="{{menuCtrl.actual}}">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
@@ -140,7 +140,7 @@
     <section layout="row" flex>
         <md-sidenav class="md-sidenav-left" md-component-id="left">
             <md-content>
-                <a ng-repeat="app in menu_app" title="{{app.title}}" ng-href="{{app.url}}" target="_blank">
+                <a ng-repeat="app in menu_app" title="{{app.title}}" ng-click="redirect_url(app.url)" target="_blank">
                     <img class="menu-app" id="{{app.id}}"></img>
                 </a>
             </md-content>
