@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbiertaLiquidacion = false;
     self.OrdenPago = {};
     self.Necesidad = {};
+    self.NecesidadProcesoExterno = {};
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',
       $.param({

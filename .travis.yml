@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - 1.6
+
+before_script:
+  - npm install
+  - npm install grunt-cli -g
+
+script:
+  #- npm run test-single-run
+  - npm run build
