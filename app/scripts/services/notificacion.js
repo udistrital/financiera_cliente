@@ -23,12 +23,12 @@ angular.module('financieraNotificacion', [])
  * Factory que permite gestionar los servicios de notificaciones, tanto de websocket, como tambien del api de notificaciones los metodos GET, PUT.
  */
 
-.factory('notificacion', function($websocket, $http) {
+.factory('notificacion', function($websocket, $http, CONF) {
     // Service logic
     // ...
     var id = 3;
-    var path = "http://10.20.0.254/configuracion_api/v1/";
-    var dataStream = $websocket("ws://10.20.2.134:8080/ws/join?id=" + id + "&profiles=2");
+    var path = CONF.GENERAL.CONFIGURACION_SERVICE;
+    var dataStream = $websocket(CONF.GENERAL.NOTIFICACION_WS + "?id=" + id + "&profiles=2");
     var log = [];
     dataStream.onMessage(function(message) {
         console.log(message.data);
