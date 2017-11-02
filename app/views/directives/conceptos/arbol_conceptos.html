@@ -1,48 +1,44 @@
-<div class="panel panel-info panel-body">
+<div class="panel panel-default panel-body shadow-box">
 
-  <div class="panel panel-primary panel-heading ">
-    <h4 class="text-center panel-title">Conceptos <i class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="recargar=!recargar"></i></h4>
+  <div ng-class="{'panel panel-heading':vtitle }" >
+    <h4 class="text-center panel-title" ><spanng-show="vtitle">{{"CONCEPTOS" | translate}} </span><loading class="pull-right" load="load" tam="1"/><i ng-show="!load" class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="recargar=!recargar"></i><br ng-show="!vtitle" /></h4>
   </div>
 
   <div class="row">
-    <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro">
-      <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
-    </treecontrol>
-    <br>
-    <style>
-      div.sticky {
-        position: sticky;
-        bottom: 0;
-        right: 1;
-      }
-    </style>
-    <div class="panel panel-info panel-body row sticky" ng-show="conceptosel!=undefined && showc">
+    <div ng-class="{'col-md-6':rvdesc}">
+      <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro" order-by="'Codigo'" reverse-order="{{false}}">
+        <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
+      </treecontrol>
+    </div>
+    <loading load="load" tam="2"/>
+
+    <div ng-class="{'col-md-6':rvdesc}" class="panel panel-info panel-body row sticky shadow-box" ng-show="conceptosel!=undefined && showc">
       <span class="pull-right text-danger" ng-click="conceptosel=undefined">X</span>
       <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
       <p class="text-muted">{{conceptosel.Descripcion}}</p>
       <dl>
-        <dt>Codigo: {{conceptosel.Codigo}}</dt>
-        <dt>Fechas</dt>
-        <dd>- Creacion : {{conceptosel.FechaCreacion | date:'d-MMMM-yyyy'}}</dd>
-        <dd>- Expiracion: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
+        <dt>{{"CODIGO" | translate}}: {{conceptosel.Codigo}}</dt>
+        <dt>{{"FECHA" | translate}}</dt>
+        <dd>- {{"FECHA_CREACION" | translate}} : {{conceptosel.FechaCreacion | date:'d-MMMM-yyyy'}}</dd>
+        <dd>- {{"FECHA_EXPIRACION" | translate}}: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
       </dl>
       <div class="col-md-3 col-md-offset-6">
         <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalConceptos">{{"BTN.VER" | translate}}</button>
       </div>
       <div class="col-md-3">
-        <input class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)" value="Seleccionar">
+        <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">{{"SELECCIONAR" | translate}}</button>
       </div>
     </div>
   </div>
 
   <div ng-show="seleccion!=undefined || conceptosel!=undefined;">
-    <center><button class="btn btn-info btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">Cancelar Selección</button></center>
+    <center><button type="button" class="btn btn-danger btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
 
   <div id="modalConceptos" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
       <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        <button type="button" class=" btn-xs close" data-dismiss="modal">&times</button>
       </div>
       <div class="modal-body" ng-if="conceptosel.Codigo!=undefined">
         <ver-concepto codigoconcepto="conceptosel.Codigo" />
