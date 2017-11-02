@@ -7,7 +7,7 @@
     </div>
 
     <div class="col-md-12" ng-show="gestionCompromisos.gridfield">
-      <div class="panel panel-default">
+      <div class="panel panel-default shadow-box">
         <div id="mi-grid"  ui-grid="gestionCompromisos.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="mi-grid"></div>
       </div>
     </div>
@@ -26,7 +26,7 @@
               <h4>
                 {{gestionCompromisos.compromiso.TipoCompromisoTesoral.CategoriaCompromiso.Nombre}} | {{gestionCompromisos.compromiso.TipoCompromisoTesoral.Nombre}} </h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body shadow-box">
               <p><label class="text-info">{{gestionCompromisos.compromiso.EstadoCompromiso.Nombre}}</label></p>
               <blockquote class="blockquote">
                 <small>{{gestionCompromisos.compromiso.Objeto}}</small>
