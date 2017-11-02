@@ -372,6 +372,11 @@ angular
               controller: 'ListadoConceptosCtrl',
               controllerAs: 'listadoConceptos'
             })
+            .when('/conceptos/editar/:Codigo', {
+              templateUrl: 'views/conceptos/editar.html',
+              controller: 'conceptosEditarCtrl',
+              controllerAs: 'conceptosEditar'
+            })
             .otherwise({
                 redirectTo: '/'
             });

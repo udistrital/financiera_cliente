@@ -1,0 +1,83 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{"CONCEPTO" | translate}} {{conceptosEditar.concepto.Codigo}}</h2>
+  <div class="panel panel-default shadow-box">
+    <div class="panel-body">
+
+      <form name="editconcepto">
+
+        <fieldset class="form-group col-md-12 ">
+          <label>{{"NOMBRE" | translate}}:</label>
+          <input class="form-control" type="text" ng-model="conceptosEditar.e_concepto.Nombre">
+        </fieldset>
+
+        <fieldset class="form-group col-md-12 ">
+          <label>{{"DESCRIPCION" | translate}}:</label>
+          <textarea class="form-control" type="text" ng-model="conceptosEditar.e_concepto.Descripcion" rows="5"></textarea>
+        </fieldset>
+
+        <fieldset class="col-md-12 form-group ">
+          <label>{{"AFECTACION_CONTABLE" | translate}}:</label>
+          <div class="panel panel-default shadow-box">
+            <table class="table table-bordered table-responsive table-hover">
+              <tr class="text-success">
+                <td>{{"TIPO" | translate}}</td>
+                <td>{{"INGRESO" | translate}}</td>
+                <td>{{"EGRESO" | translate}}</td>
+              </tr>
+              <tr ng-repeat="tipo_afect in conceptosEditar.e_afectaciones">
+                <td>{{tipo_afect.TipoAfectacion.Nombre}}</td>
+                <td><input ng-model="tipo_afect.AfectacionIngreso" type="checkbox"></td>
+                <td><input ng-model="tipo_afect.AfectacionEgreso" type="checkbox"></td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+
+        <div class="col-md-12 form-group ">
+          <label>{{"CUENTAS_CONTABLES" | translate}}:</label>
+          <small class="text-muted">{{"CUENTAS_SELECCIONADAS" | translate}}: {{conceptosEditar.e_cuentas.length}}</small>
+          <div class="panel panel-default shadow-box" ng-show="conceptosEditar.e_cuentas.length">
+            <table class='table table-hover table-bordered' >
+                <tr>
+                  <th>{{"CODIGO" | translate}}</th>
+                  <th>{{"NOMBRE" | translate}}</th>
+                  <th>{{"NATURALEZA" | translate}}</th>
+                  <th>X</th>
+                </tr>
+                <tr ng-repeat="cu in conceptosEditar.e_cuentas">
+                  <td>{{cu.Codigo}}</td>
+                  <td>{{cu.Nombre}}</td>
+                  <td>{{cu.Naturaleza}}</td>
+                  <td><span class="badge badge-error" ng-click="conceptosEditar.quitar_cuentas($index)">x</span></td>
+                </tr>
+            </table>
+          </div>
+          <fieldset class="form-group">
+            <small class="text-muted">{{"SELECCIONAR_CUENTAS_CONTABLES_CONCEPTO" | translate}}</small>
+            <plan-cuentas filtro="filtro_padre" seleccion="conceptosEditar.cuenta_contable" recargar="conceptosEditar.recargar_arbol" planid="conceptosEditar.plan_maestro.Id" rdesc/>
+          </fieldset>
+
+
+          <div class="col-md-12 form-group ">
+            <div class="col-md-2">
+              <label>{{"FECHA_EXPIRACION" | translate}}:</label>
+            </div>
+            <div class="col-md-10">
+              <div class="input-group date" data-provide="datepicker">
+                <md-datepicker md-bcurrent-view="year" md-placeholder="Fecha" ng-model="conceptosEditar.e_concepto.FechaExpiracion"></md-datepicker>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 form-group">
+            <center>
+              <button type="submit" class="btn btn-success btn-outline btn-lg" ng-click="conceptosEditar.editar_concepto()">{{"BTN.ACTUALIZAR" | translate}}</button>
+              <button type="button" class="btn btn-danger btn-outline btn-lg">{{"BTN.CANCELAR" | translate}}</button>
+            </center>
+          </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>

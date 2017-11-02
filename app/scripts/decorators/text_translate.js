@@ -183,7 +183,7 @@ var text_es = {
   FECHA_REGISTRO: "Fecha de Registro",
   FECHA_INGRESO: "Fecha Ingreso",
   FECHA_CONSIGNACION: "Fecha de consignación",
-  FECHA_EXPIRACION: "Fecha de Esxpiración",
+  FECHA_EXPIRACION: "Fecha de Expiración",
   FILTRO_NOTIFICACION: "Filtrar notificación",
   FINALIZAR: "Finalizar",
   FINANCIERO: "Financiero",
