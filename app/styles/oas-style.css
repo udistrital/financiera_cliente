@@ -2,7 +2,6 @@
   background-color:#eea236;
 }
 
-
 .menu-app{
   background: url('https://s3.amazonaws.com/assets-oas/logos-75.png');
   display: inline-block;
@@ -59,6 +58,10 @@ md-sidenav {
   padding-bottom: 80px;
   padding-top: 80px;
   width: 100px;
+}
+
+.shadow-box{
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.10) !important;
 }
 
 .my-icon-button {
@@ -276,6 +279,10 @@ legend:hover {
 
 .ng-valid.ng-dirty {
   border-color: green;
+}
+
+.error-field{
+    border-color: red !important;
 }
 
 /*style footer */
@@ -697,6 +704,21 @@ table.dataTable thead .sorting:after {
   float: right;
   font-family: fontawesome;
   color: rgba(50, 50, 50, .5);
+}
+
+div.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  top: 0;
+  right: 1;
+}
+div.fixed{
+  position: -webkit-fixed;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 1;
 }
 
 .btn-circle {
