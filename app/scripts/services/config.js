@@ -10,7 +10,7 @@
 var conf_cloud = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
     ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
-    ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
+    ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_amazon_api/v1/",
     AGORA_SERVICE: "http://10.20.0.254/agora_api/v1/",
     ARGO_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
     ARKA_SERVICE: "http://10.20.0.254/arka_api_crud/v1/",
@@ -96,5 +96,6 @@ var conf_local = {
 
 angular.module('financieraClienteApp')
     .constant('CONF', {
-        GENERAL: conf_pruebas
+        GENERAL: conf_pruebas,
+        CLOUD: conf_cloud
     });
