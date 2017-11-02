@@ -38,12 +38,12 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
-              field: 'infoPersona.informacion_contratista.nombre_completo',
+              field: 'infoPersona.nombre_completo',
               displayName: $translate.instant('NOMBRE'),
               width: '30%',
             },
             {
-              field: 'infoPersona.informacion_contratista.Documento.numero',
+              field: 'infoPersona.Documento.numero',
               displayName: $translate.instant('NO_DOCUMENTO'),
               width: '40%',
               cellClass: 'input_center'
@@ -80,7 +80,7 @@ angular.module('financieraClienteApp')
                       multiSelect: false,
                       columnDefs: [{
                           field: 'Concepto.Id',
-                          visible: true
+                          visible: false
                         },
                         {
                           field: 'Concepto.Codigo',
