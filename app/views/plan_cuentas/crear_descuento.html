@@ -36,8 +36,13 @@
 
             <div class="form-group">
               <label for="descdescuento">*{{"PROVEEDOR" | translate}}:</label><span> {{crearDescuento.proveedor.NomProveedor}}</span>
-              <div class="mi-grid" id="mi-grid" ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-            </div><br>
+              <div class="form-group">
+                <span>Documento: </span><input type="number" class="form-control form-control-inline" ng-model="num_documento"> <i class="btn btn-primary fa fa-search" aria-hidden="true" ng-click="crearDescuento.search_tercero()"></i>
+              </div>
+              <div ng-show="crearDescuento.gridOptions.data.length>0">
+                <div class="mi-grid" id="mi-grid" ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+              </div>              
+            </div>
 
             <div ng-if="crearDescuento.tipo_cuenta.Nombre=='Impuesto'">
               <div class="form-group">
