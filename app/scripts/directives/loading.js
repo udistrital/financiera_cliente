@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           tam:'=?'
         },
       template: '<div class="loading" ng-show="load">' +
-                   '<i class="fa fa-clock-o fa-spin fa-{{tam}}x faa-burst animated  text-info" aria-hidden="true" ></i>' +
+                   '<i class="fa fa-clock-o fa-spin fa-{{tam}}x faa-burst animated " aria-hidden="true" ></i>' +
                    '</div>',
       controller:function($scope){
         if ($scope.tam===undefined) {
