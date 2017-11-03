@@ -12,15 +12,35 @@ angular.module('financieraClienteApp')
             restrict: 'E',
             scope: {
                 nodes: '=?',
-                edges: '=?'
+                edges: '=?',
+                node: '=?',
+                nodeclick: '=',
+                eventclick: '&'
+
             },
 
             templateUrl: 'views/directives/proceso.html',
-            controller: function($scope) {
+            link: function(scope, elm, attrs) {
+
+            },
+            controller: function($scope, $localStorage) {
+
+                $scope.clicknode = function(params) {
+                    var data = {
+                        Estado: { Id: this.getNodeAt(params.pointer.DOM) }
+                    };
+                    if ($scope.childrens.indexOf(data.Estado.Id) !== -1) {
+                        $scope.nodeclick = data.Estado;
+                        $localStorage.nodeclick = data.Estado;
+                        $scope.eventclick();
+                    }
+
+                };
                 var nodes = {};
                 var edges = {};
                 var network = {};
-                $scope.$watch('nodes', function() {
+
+                $scope.$watch('node', function() {
                     nodes = new vis.DataSet($scope.nodes);
                     edges = new vis.DataSet($scope.edges);
                     var container = document.getElementById('mynetwork');
@@ -31,6 +51,7 @@ angular.module('financieraClienteApp')
                     };
                     var options = {
                         nodes: {
+                            color: '#BFBFBF',
                             borderWidth: 3,
                             borderWidthSelected: 1,
                             font: {
@@ -48,7 +69,8 @@ angular.module('financieraClienteApp')
                         },
                         physics: false,
                         interaction: {
-                            dragNodes: true, // do not allow dragging nodes
+                            selectable: false,
+                            dragNodes: false, // do not allow dragging nodes
                             zoomView: false, // do not allow zooming
                             dragView: true // do not allow dragging
                         },
@@ -58,7 +80,7 @@ angular.module('financieraClienteApp')
                             hierarchical: {
                                 enabled: true,
                                 levelSeparation: 300,
-                                nodeSpacing: 100,
+                                nodeSpacing: 150,
                                 treeSpacing: 10,
                                 blockShifting: false,
                                 edgeMinimization: true,
@@ -70,6 +92,30 @@ angular.module('financieraClienteApp')
                     };
                     // initialize your network!
                     network = new vis.Network(container, data, options);
+
+                    network.on('click', $scope.clicknode);
+
+                    $scope.childrens = network.getConnectedNodes($scope.node.Id, 'to');
+                    angular.forEach($scope.childrens, function(node) {
+                        var clickedNode = nodes.get(node);
+                        clickedNode.color = {
+                            background: '#31708F',
+                        };
+                        clickedNode.clicked = true;
+                        nodes.update(clickedNode);
+                    });
+                    var node_active = nodes.get($scope.node.Id);
+
+                    node_active.shape = "icon";
+                    node_active.icon = {
+                        face: 'FontAwesome',
+                        code: '\uf058',
+                        size: 60,
+                        color: '#2ECC71'
+                    };
+                    nodes.update(node_active);
+
+
                 });
 
             },

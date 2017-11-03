@@ -27,6 +27,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/apropiacion/apropiacion_consulta.html',
       controller:function($scope, $translate){
         var self = this;
+        self.UnidadEjecutora = 1;
         $scope.datachangeevent = false;        
         console.log($scope.botonesPadre);
         self.treeOptions = {
@@ -48,7 +49,9 @@ angular.module('financieraClienteApp')
         
         self.cargar_arbol = function() {
           $scope.arbol = [];
-          financieraRequest.get("rubro/ArbolRubros/", "").then(function(response) {
+          financieraRequest.get("rubro/ArbolRubros/",  $.param({
+          UnidadEjecutora: self.UnidadEjecutora
+        })).then(function(response) {
             
             if (response.data !== null) {
               $scope.arbol = response.data;
@@ -86,7 +89,7 @@ angular.module('financieraClienteApp')
                     
                   }else{
                     financieraRequest.get("apropiacion/SaldoApropiacionPadre/"+self.apropiacionsel.Id, $.param({
-                      UnidadEjecutora: 1,
+                      UnidadEjecutora: self.UnidadEjecutora,
                       Vigencia: $scope.vigencia
                     })).then(function(response) {
                       
