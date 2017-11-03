@@ -15,7 +15,8 @@ angular.module('financieraClienteApp')
         outputnecesidad: '=?',
         outputvalortotalrp: '=?',
         outputregistropresupuestal: '=?',
-        outputsubtipoordenpago: '=?'
+        outputsubtipoordenpago: '=?',
+        outputnecesidadprocesoexterno: '=?'
       },
 
       templateUrl: 'views/directives/necesidad/necesida_listar.html',
@@ -29,6 +30,12 @@ angular.module('financieraClienteApp')
           columnDefs: [{
               field: 'Necesidad.Id',
               visible: true
+            },
+            {
+              field: 'Necesidad.TipoNecesidad.Nombre',
+              displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center',
+              width: '11%',
             },
             {
               field: 'Necesidad.Numero',
@@ -56,7 +63,7 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center',
             },
             {
-              field: 'Necesidad.Estado.Nombre',
+              field: 'Necesidad.EstadoNecesidad.Nombre',
               displayName: $translate.instant('ESTADO'),
               width: '10%',
             },
@@ -76,21 +83,28 @@ angular.module('financieraClienteApp')
                 $scope.outputnecesidad = {};
                 $scope.outputvalortotalrp = 0;
                 $scope.outputregistropresupuestal = {};
+                $scope.outputnecesidadprocesoexterno = {};
               } else {
                 $scope.outputnecesidad = row.entity.Necesidad;
                 $scope.outputvalortotalrp = row.entity.subGridOptions.data[0].ValorTotal;
                 $scope.outputregistropresupuestal = row.entity.subGridOptions.data[0];
+                administrativaRequest.get('necesidad_proceso_externo',
+                  $.param({
+                    query: 'Necesidad.Id:' + $scope.outputnecesidad.Id,
+                  })).then(function(response) {
+                  $scope.outputnecesidadprocesoexterno = response.data[0];
+                });
               };
             });
           }
         };
         //
-        administrativaRequest.get('solicitud_disponibilidad',
+        financieraMidRequest.get('registro_presupuestal/ListaNecesidadesByRp/2017',
           $.param({
-            query: "Expedida:true,Necesidad.TipoNecesidad.CodigoAbreviacion:N", //necesidades de Nomina (N) -se require un in
+            tipoNecesidad:"N", //necesidades de Nomina (N) -se require un in
             limit: -1
           })).then(function(response) {
-          self.gridOptions_necesidad.data = response.data;
+            self.gridOptions_necesidad.data = response.data;
           //subGrid
           angular.forEach(self.gridOptions_necesidad.data, function(iterador) {
             iterador.subGridOptions = {
@@ -144,18 +158,15 @@ angular.module('financieraClienteApp')
               ]
             };
             //
-            financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/" + iterador.Necesidad.Id)
-              .then(function(data) {
-                iterador.subGridOptions.data = [];
-                iterador.subGridOptions.data.push(data.data[0].registro_presupuestal[0]); //primer rp cuando se va por muchos rubros
-                // get valor rp
-                financieraRequest.get('registro_presupuestal/ValorTotalRp/' + iterador.subGridOptions.data[0].Id)
-                  .then(function(response) {
-                    iterador.subGridOptions.data[0].ValorTotal = response.data;
-                  });
-                // fin get valor rp
+            iterador.subGridOptions.data = [];
+            iterador.subGridOptions.data.push(iterador.InfoRp); //llega un solo objeto (InfoRp)
+            // get valor rp
+            financieraRequest.get('registro_presupuestal/ValorTotalRp/' + iterador.subGridOptions.data[0].Id)
+              .then(function(response) {
+                iterador.subGridOptions.data[0].ValorTotal = response.data;
               });
-          });
+            // fin get valor rp
+          }); //forEach
           //subGrid
         });
 

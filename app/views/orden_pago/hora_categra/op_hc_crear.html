@@ -1,0 +1,55 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }} {{ 'NOMINA' | translate }}  {{ 'HORA_CATEDRA' | translate }} </h2>
+  <div class="panel-body">
+    <!-- Liquidaciones -->
+    <liquidacion-ver-todas
+      inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
+      ouputdatanominaselect="opHcCrear.NominaTitan">
+    </liquidacion-ver-todas>
+
+    <pre>{{opHcCrear.NominaTitan | json }}</pre>
+    <!--atributos de la orden de pago -->
+    <!-- <hora-catedra-atributos-orden-pago
+      inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
+      inputnomina="opHcCrear.NominaTitan">
+    </hora-catedra-atributos-orden-pago> -->
+
+    <!--Valor del Pago-->
+    <legend class="text-primary" ng-click="opHcCrear.PestanaAbiertaDetallePago=!opHcCrear.PestanaAbiertaDetallePago">
+      {{'DETALLE_OP' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!opHcCrear.PestanaAbiertaDetallePago"></span>
+      <span class="fa fa-minus pull-right" ng-show="opHcCrear.PestanaAbiertaDetallePago"></span>
+    </legend class="text-primary">
+    <div ng-show="opHcCrear.PestanaAbiertaDetallePago" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+          <div class="col-sm-4">
+            <select ng-model="opHcCrear.OrdenPago.FormaPago" ng-options="i.Nombre for i in opHcCrear.formaPagos" class="form-control" required>
+              <option value="">Seleccionar Forma de Pago</option>
+            </select>
+          </div>
+          <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+          <div class="col-sm-4">
+            <select ng-model="opHcCrear.OrdenPago.SubTipoOrdenPago" ng-options="i.Nombre for i in opHcCrear.subTipoOrdenPago" class="form-control" required>
+              <option value="">Seleccionar Documento</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">{{opHcCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+          </div>
+          <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <pre>{{opHcCrear.OrdenPago | json }}</pre>
+
+  </div>
+</div>
