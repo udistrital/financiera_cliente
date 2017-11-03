@@ -17,7 +17,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest, oikosRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
@@ -89,6 +89,12 @@ angular.module('financieraClienteApp')
       self.Vigencia = self.years[0];
       self.gridOptions.totalItems = 5000;
       self.actualizar_solicitudes(0,'');
+    });
+    oikosRequest.get("dependencia",$.param({
+          limit: -1,
+        }))
+    .then(function(response){
+      self.Dependencias = response.data;
     });
     /**
      * @ngdoc function

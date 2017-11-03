@@ -1,0 +1,53 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'CARGUE_MASIVO_RP' | translate}}</h2>
+    <div class="panel-body">
+      <div class="form-group col-md-8 col-md-offset-2">
+        <table >
+      <tr>
+        <td class="col-md-2">
+          <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+          <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpCargueMasivo.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpCargueMasivo.years" value="{{option}}">{{option}}</option>
+        </select> 
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpCargueMasivo.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year"  md-min-date="rpCargueMasivo.fechamin" md-max-date="rpCargueMasivo.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpCargueMasivo.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year"  md-min-date="rpCargueMasivo.fechamin" md-max-date="rpCargueMasivo.fechamax"></md-datepicker>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <table >
+      <tr>
+        <td class="col-md-2">
+          <label for="select_dependencia" class="col-form-label">{{'DEPENDENCIA_SOLICITANTE' | translate}} </label>
+          <select class="form-control" name="select_dependencia" id="select_dependencia" ng-model="rpCargueMasivo.Dependencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpCargueMasivo.Dependencias" value="{{option.Id}}">{{option.Nombre}}</option>
+        </select> 
+        </td>
+        <td class="col-md-2">
+
+          <label for="select_tipo_necesidad" class="col-form-label"> {{'TIPO_NECESIDAD' | translate}} </label>
+          <select class="form-control" name="select_tipo_necesidad" id="select_tipo_necesidad" ng-model="rpCargueMasivo.tipoNecesidad" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpCargueMasivo.tiposNecesidad" value="{{option.CodigoAbreviacion}}">{{option.Nombre}}</option>
+        </select> 
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="rpCargueMasivo.cargarSolicitudesMasivas()" class="fa fa-filter btn btn-info btn-outline" aria-hidden="true"></a>
+        </td>
+      </tr>
+    </table>
+    </div>
+    <hr>
+        <div class="form-group col-md-8 col-md-offset-2">
+            <div ui-grid="rpCargueMasivo.gridOptions" ui-grid-selection ui-grid-pagination  class="myGrid"></div>  
+        </div>
+</div>
+</div>
