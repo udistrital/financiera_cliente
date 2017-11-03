@@ -84,15 +84,19 @@
 
           <div class="col-md-12 form-group ">
             <label>{{"RUBRO" | translate}}:</label>
-            <div class="shadow-box" ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+            <li  readonly ng-show="crearConcepto.rubro!=undefined">{{crearConcepto.rubro.Codigo}} -- {{crearConcepto.rubro.Nombre}}
+              <span class="text-danger" ng-click="crearConcepto.rubro=undefined">&times</span>
+            </li>
+            <div class="panel panel-default shadow-box">
+              <div ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+            </div>
           </div>
-
 
           <div class="col-md-12 form-group ">
             <label>{{"CUENTAS_CONTABLES" | translate}}:</label>
             <fieldset class="form-group">
               <small class="text-muted">{{"SELECCIONAR_CUENTAS_CONTABLES_CONCEPTO" | translate}}</small>
-              <plan-cuentas filtro="filtro_padre" seleccion="crearConcepto.cuenta_contable" recargar="crearConcepto.recargar_arbol" planid="crearConcepto.plan_maestro.Id" rdesc/>
+              <plan-cuentas filtro="filtro_padre" seleccion="crearConcepto.cuenta_contable" recargar="crearConcepto.recargar_arbol" planid="crearConcepto.plan_maestro.Id" rdesc btnselnom="btnagregar"/>
             </fieldset>
             <small class="text-muted">{{"CUENTAS_SELECCIONADAS" | translate}}: {{crearConcepto.cuentas.length}}</small>
             <div class="panel panel-default shadow-box" ng-show="crearConcepto.cuentas.length">
@@ -101,7 +105,7 @@
                     <th>{{"CODIGO" | translate}}</th>
                     <th>{{"NOMBRE" | translate}}</th>
                     <th>{{"NATURALEZA" | translate}}</th>
-                    <th>X</th>
+                    <th>{{"QUITAR" | translate}}</th>
                   </tr>
                   <tr ng-repeat="cu in crearConcepto.cuentas">
                     <td>{{cu.Codigo}}</td>
@@ -136,7 +140,7 @@
 
         <div class="form-group" align="center">
           <div class="col-md-3 col-md-offset-3">
-            <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="Confirmar" ng-click="submitted=true">
+            <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="{{'BTN.CONFIRMAR' | translate}}" ng-click="submitted=true">
           </div>
           <div class="col-md-3 ">
             <button ng-click="crearConcepto.resetear()" class="btn btn-outline btn-danger btn-lg btn-block">{{"BTN.CANCELAR" | translate}}</button>

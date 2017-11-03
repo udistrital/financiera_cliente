@@ -19,14 +19,14 @@
       <dl>
         <dt>{{"CODIGO" | translate}}: {{conceptosel.Codigo}}</dt>
         <dt>{{"FECHA" | translate}}</dt>
-        <dd>- {{"FECHA_CREACION" | translate}} : {{conceptosel.FechaCreacion | date:'d-MMMM-yyyy'}}</dd>
-        <dd>- {{"FECHA_EXPIRACION" | translate}}: {{conceptosel.FechaExpiracion | date:'d-MMMM-yyyy'}}</dd>
+        <dd>- {{"FECHA_CREACION" | translate}} : {{conceptosel.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</dd>
+        <dd>- {{"FECHA_EXPIRACION" | translate}}: {{conceptosel.FechaExpiracion | date:"yyyy-MM-dd":"UTC"}}</dd>
       </dl>
       <div class="col-md-3 col-md-offset-6">
         <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalConceptos">{{"BTN.VER" | translate}}</button>
       </div>
       <div class="col-md-3">
-        <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">{{"SELECCIONAR" | translate}}</button>
+        <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">{{btnsel}}</button>
       </div>
     </div>
   </div>

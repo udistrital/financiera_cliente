@@ -10,8 +10,8 @@
       <div class="col-md-4 pull-right" name="fechas">
         <h3>
           <small><span style="color: white"><span ng-show="!d_verConcepto.v_concepto.Clasificador">{{"CONCEPTO" | translate}}</span><span ng-show="d_verConcepto.v_concepto.Clasificador">{{"CLASIFICACION" | translate}}</span>  {{"TIPO" | translate}} {{d_verConcepto.v_concepto.TipoConcepto.Nombre}}</span> </small><br>
-          <small style="color:cyan">{{"FECHA_CREACION" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaCreacion | date: "yyyy-MM-dd"}}</span> </small><br>
-          <small style="color:cyan">{{"FECHA_EXPIRACION" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaExpiracion | date: "yyyy-MM-dd"}}</span></small>
+          <small style="color:cyan">{{"FECHA_CREACION" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaCreacion | date: "yyyy-MM-dd":"UTC"}}</span> </small><br>
+          <small style="color:cyan">{{"FECHA_EXPIRACION" | translate}}: <span style="color: white">{{d_verConcepto.v_concepto.FechaExpiracion | date: "yyyy-MM-dd":"UTC"}}</span></small>
           </h3>
       </div>
     </div>

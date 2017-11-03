@@ -68,7 +68,7 @@ angular
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
-            return date ? moment(date).format('YYYY-MM-DD') : '';
+            return date ? moment.utc(date).format('YYYY-MM-DD') : '';
         };
     })
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
