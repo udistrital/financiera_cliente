@@ -450,7 +450,7 @@ angular.module('financieraClienteApp')
     $scope.$watch("rpSolicitudConsulta.Vigencia", function() {
       
        
-        self.actualizar_solicitudes(0,'');
+        //self.actualizar_solicitudes(0,'');
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
