@@ -22,8 +22,8 @@ angular.module('financieraClienteApp')
     self.alerta = "";
     self.aprovarMasivo = false;
     self.gridOptions = {
-      enableRowSelection: true,
-      enableRowHeaderSelection: true,
+      enableRowSelection: false,
+      enableRowHeaderSelection: false,
       enableFiltering: true,
        paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,

@@ -361,6 +361,7 @@ var text_es = {
   REQUISITOS_AVANCE: "Requisitos de Avance",
   RESPONSABLE: "Responsable",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",
+  RESUMEN_AFECTACION_PRESUPUESTAL: "Resumen Afectación Presupuestal",
   RUBRO: "Rubro",
   RUBROS: "Rubros",
   RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
