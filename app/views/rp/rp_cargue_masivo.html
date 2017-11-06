@@ -24,6 +24,12 @@
     <table >
       <tr>
         <td class="col-md-2">
+          <label for="select_dependencia" class="col-form-label">{{'TIPO_DEPENDENCIA_SOLICITANTE' | translate}} </label>
+          <select class="form-control" name="select_dependencia" id="select_dependencia" ng-model="rpCargueMasivo.TipoDependencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpCargueMasivo.TiposDependencias" value="{{option.Id}}">{{option.Nombre}}</option>
+        </select> 
+        </td>
+        <td class="col-md-2">
           <label for="select_dependencia" class="col-form-label">{{'DEPENDENCIA_SOLICITANTE' | translate}} </label>
           <select class="form-control" name="select_dependencia" id="select_dependencia" ng-model="rpCargueMasivo.Dependencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
               <option ng-repeat="option in rpCargueMasivo.Dependencias" value="{{option.Id}}">{{option.Nombre}}</option>
