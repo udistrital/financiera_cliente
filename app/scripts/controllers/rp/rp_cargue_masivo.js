@@ -89,11 +89,11 @@ angular.module('financieraClienteApp')
     .then(function(response) { //error con el success
       self.Vigencia = parseInt(response.data);
     });
-    oikosRequest.get("dependencia",$.param({
+    oikosRequest.get("tipo_dependencia",$.param({
           limit: -1
         }))
     .then(function(response){
-      self.Dependencias = response.data;
+      self.TiposDependencias = response.data;
     });
     argoRequest.get("tipo_necesidad",$.param({
           limit: -1
@@ -299,6 +299,19 @@ angular.module('financieraClienteApp')
         self.Vigencia,
         12, 0
       );
+    }, true);
+
+      $scope.$watch("rpCargueMasivo.TipoDependencia", function() {
+       if (self.TipoDependencia != undefined ){
+        oikosRequest.get("dependencia",$.param({
+            limit: -1,
+            query: "DependenciaTipoDependencia.TipoDependenciaId.Id:"+self.TipoDependencia
+          }))
+      .then(function(response){
+        self.Dependencias = response.data;
+      });
+       }
+      
     }, true);
 
   });
