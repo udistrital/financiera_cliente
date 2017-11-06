@@ -34,6 +34,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
         var self = this;
+        self.UnidadEjecutora = 1;
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
@@ -57,7 +58,9 @@ angular.module('financieraClienteApp')
          * @description Recarga la estructura de los rubros haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
          */
         self.cargar_arbol = function() {
-          financieraRequest.get("rubro/ArbolRubros", "").then(function(response) {
+          financieraRequest.get("rubro/ArbolRubros", $.param({
+          UnidadEjecutora: self.UnidadEjecutora
+        })).then(function(response) {
             $scope.arbol = [];
             if (response.data !== null) {
               $scope.arbol = response.data;
