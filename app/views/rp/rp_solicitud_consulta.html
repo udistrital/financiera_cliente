@@ -1,12 +1,36 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header" align="center">Solicitudes de Registro Presupuestal</h2>
     <div class="panel-body">
+      <div class="row">
+        <table>
       <tr>
         <td>
-          <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
+          <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+          <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in rpSolicitudConsulta.years" value="{{option}}">{{option}}</option>
+        </select> 
+        </td>
+        <br>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpSolicitudConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year"  md-min-date="rpSolicitudConsulta.fechamin" md-max-date="rpSolicitudConsulta.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+          <br>
+          <md-datepicker ng-model="rpSolicitudConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year"  md-min-date="rpSolicitudConsulta.fechamin" md-max-date="rpSolicitudConsulta.fechamax"></md-datepicker>
+        </td>
+        <td class="col-md-2">
+          <br>
+          <a type="button" name="button" ng-click="rpSolicitudConsulta.actualizar_solicitudes(0,'')" class="fa fa-filter btn btn-info btn-outline" aria-hidden="true"></a>
         </td>
       </tr>
     </table>
+    </div>
+    <hr>
+          <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination  class="myGrid"></div>
+      
     <center ng-if="rpSolicitudConsulta.aprovarMasivo">
             <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.RegistrarMasivo()">{{ 'BTN.APROBAR' | translate }}</button>
             <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
@@ -16,7 +40,7 @@
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="rpSolicitudConsulta.actualizar_solicitudes()">&times</button><br>
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
     </div>
     <div class="panel panel-default">
       <div class="panel-heading">

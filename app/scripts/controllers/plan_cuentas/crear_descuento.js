@@ -7,9 +7,9 @@
  * @requires $scope
  * @requires $translate
  * @requires financieraService.service:financieraRequest
- * @requires financieraService.service:agoraRequest
+ * @requires financieraService.service:administrativaRequest
  * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
- * @param {service} agoraRequest Servicio para el API de financiera {@link agoraService.service:agoraRequest agoraRequest}
+ * @param {service} administrativaRequest Servicio para el API de financiera {@link agoraService.service:administrativaRequest administrativaRequest}
  * @param {injector} $scope scope del controlador
  * @param {injector} $translate translate de internacionalizacion
  * @description
@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, agoraRequest, $translate) {
+  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, administrativaRequest, $translate) {
     var self = this;
     self.descuento_nuevo = {};
 
@@ -35,17 +35,24 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
+      data:[],
       columnDefs: [{
-          field: 'Id',
-          displayName: $translate.instant('NIT'),
+          field: 'NumDocumento',
+          displayName: $translate.instant('DOCUMENTO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '30%'
+          width: '20%'
+        },
+        {
+            field: 'Tipopersona',
+            displayName: $translate.instant('TIPO'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '20%'
         },
         {
           field: 'NomProveedor',
           displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '69%'
+          width: '60%'
         }
       ]
     };
@@ -67,22 +74,18 @@ angular.module('financieraClienteApp')
      * @methodOf financieraClienteApp.controller:CrearDescuentoCtrl
      * @description
      * Se realiza la carga de proveedores, plan de cuentas y los tipos de cuentas especiales (inmpuestos y descuentos) a traves de los servicios
-     * {@link financieraService.service:financieraRequest financieraRequest} y {@link agoraService.service:agoraRequest agoraRequest}
+     * {@link financieraService.service:financieraRequest financieraRequest} y {@link agoraService.service:administrativaRequest administrativaRequest}
      * que retorna la informacion de la cuenta contable y la del descuento o impuesto.
      */
     self.cargar = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
         self.tipos_cuentas = response.data;
       });
+
       financieraRequest.get("plan_cuentas", $.param({
         query: "PlanMaestro:" + true
       })).then(function(response) {
         self.plan_maestro = response.data[0];
-      });
-      agoraRequest.get("informacion_persona_juridica", $.param({
-        limit: -1
-      })).then(function(response) {
-        self.gridOptions.data = response.data;
       });
     };
 
@@ -109,7 +112,7 @@ angular.module('financieraClienteApp')
           Descripcion: self.descripcion,
           CuentaContable: self.cuenta_contable,
           TipoCuentaEspecial: self.tipo_cuenta,
-          InformacionPersonaJuridica: self.proveedor.Id
+          InformacionPersonaJuridica: self.proveedor.NumDocumento
         };
         console.log(self.proveedor.Id);
         if (self.tipo_cuenta.Nombre === "Impuesto") {
@@ -126,6 +129,16 @@ angular.module('financieraClienteApp')
     };
 
     self.cargar();
+
+    self.search_tercero=function(){
+      administrativaRequest.get("informacion_proveedor", $.param({
+        query:"NumDocumento:"+$scope.num_documento,
+        limit: -1
+      })).then(function(response) {
+        self.gridOptions.data = response.data;
+      });
+    };
+
 
     /**
      * @ngdoc event

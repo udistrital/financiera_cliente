@@ -106,7 +106,7 @@ angular
             })
             .when('/compromisos/nuevo', {
                 templateUrl: 'views/compromisos/crear_compromiso.html',
-                controller: 'CrearCompromisoCtrl',
+                controller: 'crearCompromisoCtrl',
                 controllerAs: 'crearCompromiso'
             })
             .when('/plan_cuentas/cuentas/nueva', {
@@ -266,6 +266,11 @@ angular
                 controller: 'OpSeguridadSocialVerPorIdCtrl',
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
+            .when('/orden_pago/hora_categra/crear', {
+              templateUrl: 'views/orden_pago/hora_categra/op_hc_crear.html',
+              controller: 'OrdenPagoHoraCategraOpHcCrearCtrl',
+              controllerAs: 'opHcCrear'
+            })
             .when('/orden_pago/giros/ver_todos', {
                 templateUrl: 'views/orden_pago/giros/giros_view_all.html',
                 controller: 'OpGirosViewAllCtrl',
@@ -361,6 +366,16 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
+            })
+            .when('/compromisos/listado_compromisos', {
+              templateUrl: 'views/compromisos/listado_compromisos.html',
+              controller: 'GestionCompromisosCtrl',
+              controllerAs: 'gestionCompromisos'
+            })
+            .when('/conceptos/listado_conceptos', {
+              templateUrl: 'views/conceptos/listado_conceptos.html',
+              controller: 'ListadoConceptosCtrl',
+              controllerAs: 'listadoConceptos'
             })
             .otherwise({
                 redirectTo: '/'
