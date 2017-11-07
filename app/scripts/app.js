@@ -40,6 +40,7 @@ angular
         'ui.grid.expandable',
         'ui.grid.pinning',
         'ui.select',
+        'ui.knob',
         // Servicios
         'academicaService',
         'financieraService',
@@ -267,9 +268,9 @@ angular
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
             .when('/orden_pago/hora_categra/crear', {
-              templateUrl: 'views/orden_pago/hora_categra/op_hc_crear.html',
-              controller: 'OrdenPagoHoraCategraOpHcCrearCtrl',
-              controllerAs: 'opHcCrear'
+                templateUrl: 'views/orden_pago/hora_categra/op_hc_crear.html',
+                controller: 'OrdenPagoHoraCategraOpHcCrearCtrl',
+                controllerAs: 'opHcCrear'
             })
             .when('/orden_pago/giros/ver_todos', {
                 templateUrl: 'views/orden_pago/giros/giros_view_all.html',
@@ -368,19 +369,19 @@ angular
                 controllerAs: 'rpAprobacionAnulacion'
             })
             .when('/compromisos/listado_compromisos', {
-              templateUrl: 'views/compromisos/listado_compromisos.html',
-              controller: 'GestionCompromisosCtrl',
-              controllerAs: 'gestionCompromisos'
+                templateUrl: 'views/compromisos/listado_compromisos.html',
+                controller: 'GestionCompromisosCtrl',
+                controllerAs: 'gestionCompromisos'
             })
             .when('/conceptos/listado_conceptos', {
-              templateUrl: 'views/conceptos/listado_conceptos.html',
-              controller: 'ListadoConceptosCtrl',
-              controllerAs: 'listadoConceptos'
+                templateUrl: 'views/conceptos/listado_conceptos.html',
+                controller: 'ListadoConceptosCtrl',
+                controllerAs: 'listadoConceptos'
             })
             .when('/conceptos/editar/:Codigo', {
-              templateUrl: 'views/conceptos/editar.html',
-              controller: 'conceptosEditarCtrl',
-              controllerAs: 'conceptosEditar'
+                templateUrl: 'views/conceptos/editar.html',
+                controller: 'conceptosEditarCtrl',
+                controllerAs: 'conceptosEditar'
             })
             .otherwise({
                 redirectTo: '/'
