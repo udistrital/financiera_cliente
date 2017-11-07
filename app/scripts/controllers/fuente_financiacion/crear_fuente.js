@@ -334,7 +334,7 @@ angular.module('financieraClienteApp')
 
       var data = {
         Valor: parseInt(valor),
-        FechaRegistro: self.fecha,
+        Fecha: self.fecha,
         TipoDocumento: parseInt(documento),
         TipoMovimiento: {
           Id: parseInt(self.tipo_movimiento)

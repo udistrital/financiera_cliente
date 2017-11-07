@@ -77,9 +77,9 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         },
         {
           displayName: $translate.instant('FECHA'),
-          field: 'FechaRegistro',
+          field: 'Fecha',
           width: '10%',
-          cellTemplate: '<div align="center">{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.Fecha | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'TipoMovimiento.Nombre',
