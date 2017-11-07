@@ -34,18 +34,18 @@ angular.module('financieraClienteApp')
             {
               field: 'VigenciaContrato',
               displayName: $translate.instant('VIGENCIA') + ' ' + $translate.instant('CONTRATO'),
-              width: '15%',
+              width: '12%',
               cellClass: 'input_center'
             },
             {
-              field: 'infoPersona.informacion_contratista.nombre_completo',
+              field: 'infoPersona.nombre_completo',
               displayName: $translate.instant('NOMBRE'),
-              width: '30%',
+              width: '40%',
             },
             {
-              field: 'infoPersona.informacion_contratista.Documento.numero',
+              field: 'infoPersona.Documento.numero',
               displayName: $translate.instant('NO_DOCUMENTO'),
-              width: '40%',
+              width: '33%',
               cellClass: 'input_center'
             },
           ]
@@ -69,58 +69,101 @@ angular.module('financieraClienteApp')
                 mesLiquidacion: $scope.mesSelect,
                 anioLiquidacion: $scope.anoSelect,
               })
-              ).then(function(response) {
-                if(response.data != null){
-                  self.gridOptions_preliquidacion.data = response.data.Contratos_por_preliq;
-                  self.IdLiquidacion = response.data.Id_Preliq;
+            ).then(function(response) {
+              if (response.data != null) {
+                self.gridOptions_preliquidacion.data = response.data.Contratos_por_preliq;
+                self.IdLiquidacion = response.data.Id_Preliq;
 
-                  angular.forEach(self.gridOptions_preliquidacion.data, function(iterador){
-                    iterador.subGridOptions = {
-                      enableRowHeaderSelection: false,
-                      multiSelect: false,
-                      columnDefs: [{
-                          field: 'Concepto.Id',
-                          visible: true
-                        },
-                        {
-                          field: 'Concepto.Codigo',
-                          displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
-                        },
-                        {
-                          field: 'Concepto.Nombre',
-                          displayName: $translate.instant('NOMBRE'),
-                        },
-                        {
-                          field: 'Concepto.Descripcion',
-                          displayName: $translate.instant('DESCRIPCION'),
-                        },
-                        {
-                          field: 'Concepto.TipoConcepto.Nombre',
-                          displayName: $translate.instant('TIPO'),
-                        },
-                        {
-                          field: 'Valor',
-                          displayName: $translate.instant('AFECTACION'),
-                          cellFilter: 'currency',
-                          cellClass: 'input_right'
-                        },
-                      ]
-                    };
-                    // subGrid
-                    financieraMidRequest.get('orden_pago_nomina/ListaConceptosNominaHomologados',
-                      $.param({
-                        nContrato:iterador.NumeroContrato,
-                        vigenciaContrato:iterador.VigenciaContrato,
-                        idLiquidacion:self.IdLiquidacion,
-                      })
-                      ).then(function(response) {
-                        iterador.subGridOptions.data = response.data;
+                // forEach 2do nivel
+                angular.forEach(self.gridOptions_preliquidacion.data, function(iterador) {
+                  iterador.subGridOptions = {
+                    expandableRowHeight: 250,
+                    expandableRowTemplate: 'expandableRowUpc3nivel.html',
+                    expandableRowHeight: 100,
+                    enableRowHeaderSelection: false,
+                    multiSelect: false,
+                    columnDefs: [{
+                        field: 'Concepto.Id',
+                        visible: false
+                      },
+                      {
+                        field: 'Concepto.Codigo',
+                        displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
+                        width: '15%',
+                      },
+                      {
+                        field: 'Concepto.Nombre',
+                        displayName: $translate.instant('NOMBRE'),
+                      },
+                      {
+                        field: 'Concepto.TipoConcepto.Nombre',
+                        displayName: $translate.instant('TIPO'),
+                        width: '10%',
+                      },
+                      {
+                        field: 'Valor',
+                        displayName: $translate.instant('AFECTACION'),
+                        cellFilter: 'currency',
+                        cellClass: 'input_right',
+                        width: '15%',
+                      },
+                    ]
+                  };
+                  // subGrid
+                  financieraMidRequest.get('orden_pago_nomina/ListaConceptosNominaHomologados',
+                    $.param({
+                      nContrato: iterador.NumeroContrato,
+                      vigenciaContrato: iterador.VigenciaContrato,
+                      idLiquidacion: self.IdLiquidacion,
                     })
-                  })//forEach
-
-                }else{
-                  self.gridOptions_preliquidacion.data = {};
-                }
+                  ).then(function(response) {
+                    iterador.subGridOptions.data = response.data;
+                    // forEach 3er nivel
+                    angular.forEach(iterador.subGridOptions.data, function(iterador3) {
+                      iterador3.sub3GridOption = {
+                        enableRowHeaderSelection: false,
+                        multiSelect: false,
+                        columnDefs: [{
+                            field: 'CuentaContable.CuentaContable.Id',
+                            visible: false
+                          },
+                          {
+                            field: 'CuentaContable.CuentaContable.Codigo',
+                            displayName: $translate.instant('CUENTAS_CONTABLES'),
+                            width: '15%',
+                          },
+                          {
+                            field: 'CuentaContable.CuentaContable.Nombre',
+                            displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+                          },
+                          {
+                            field: 'Debito',
+                            displayName: $translate.instant('DEBITO'),
+                            cellFilter: 'currency',
+                            cellClass: 'input_right',
+                            width: '15%',
+                          },
+                          {
+                            field: 'Credito',
+                            displayName: $translate.instant('CREDITO'),
+                            cellFilter: 'currency',
+                            cellClass: 'input_right',
+                            width: '15%',
+                          },
+                          {
+                            field: 'CuentaContable.CuentaContable.Naturaleza',
+                            displayName: $translate.instant('NATURALEZA'),
+                            width: '10%',
+                          },
+                        ]
+                      }
+                      iterador3.sub3GridOption.data = iterador3.MovimientoContable;
+                    }) // fin forEach 3er nivel
+                  })
+                }) // fin forEach 2do nivel
+              } else {
+                self.gridOptions_preliquidacion.data = {};
+              }
             })
           }
         }
