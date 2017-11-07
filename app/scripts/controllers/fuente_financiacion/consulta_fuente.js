@@ -7,7 +7,7 @@
  * # FuenteFinanciacionConsultaFuenteCtrl
  * Controller of the financieraClienteApp
  */
-angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest, oikosRequest, coreRequest) {
+angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraMidRequest, financieraRequest, oikosRequest, coreRequest) {
 
     var self = this;
     self.gridOptions = {
@@ -107,8 +107,13 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
           displayName: $translate.instant('VALOR'),
           width: '15%'
+        },
+        {
+          field: 'ValorGastado',
+          cellTemplate: '<div align="right">{{row.entity.ValorGastado | currency}}</div>',
+          displayName: $translate.instant('COMPROMETIDO'),
+          width: '15%'
         }
-
 
       ]
     };
@@ -134,7 +139,11 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
 
     self.mostrar_registro =function(fuente) {
 
-      financieraRequest.get('movimiento_fuente_financiamiento_apropiacion', 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + fuente ).then(function(response) {
+      financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista",$.param({
+        idfuente: parseInt(fuente)
+      })).then(function(response) {
+
+        console.log(response.data)
         self.gridOptionsapropiacion.data = response.data;
         angular.forEach(self.gridOptionsapropiacion.data, function (data) {
           oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
@@ -153,6 +162,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
       });
+
     };
 
 
