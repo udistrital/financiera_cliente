@@ -126,14 +126,14 @@
 
             <div class="form-group" ng-repeat="asignado in fuente.seleccionado">
 
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
                 <select data-size="10" title="{{'SELECCIONE_DEPENDENCIA' | translate }}" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
               </div>
 
-              <div class="col-md-2">
-                <label for="valor">{{'VALOR' | translate }}:</label>
-                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
+              <div class="col-md-3">
+                <label for="valor">{{'DISPONIBLE' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorDisponible" disabled>
               </div>
               <div class="col-md-3">
                 <label for="valor">{{'VALOR_ADICION' | translate }}:</label>
