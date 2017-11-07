@@ -77,10 +77,10 @@ angular.module('financieraClienteApp')
         }).then(function() {
             var del_cuentas = [];
             var add_cuentas = angular.copy(self.e_cuentas);
-            for (let i = 0; i < self.cuentas.length; i++) {
+            for (var i = 0; i < self.cuentas.length; i++) {
               var exist = false;
               var index;
-              for (let j = 0; j < add_cuentas.length; j++) {
+              for (var j = 0; j < add_cuentas.length; j++) {
                 if (add_cuentas[j].Codigo == self.cuentas[i].Codigo) {
                   exist = true;
                   index = j;
