@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
     var self = this;
     //self.rubro = {};
     self.cuentas = [];
+    $scope.btnagregar=$translate.instant('BTN.AGREGAR');
 
     self.cargar_plan_maestro = function() {
       financieraRequest.get("plan_cuentas", $.param({
@@ -115,7 +116,7 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableRowSelection: true,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       enableFiltering: true,
       enableSorting: true,
       columnDefs: [{
@@ -134,7 +135,7 @@ angular.module('financieraClienteApp')
           cellTooltip: function(row) {
             return row.entity.Nombre;
           },
-          width: '70%'
+          width: '68%'
         }
       ]
     };
@@ -159,6 +160,9 @@ angular.module('financieraClienteApp')
         self.tipos_afectacion[i].Ingreso = false;
       }
       $scope.gridApi.selection.clearSelectedRows();
+      $scope.conceptoForm.$setPristine();
+      $scope.conceptoForm.$setUntouched();
+      $scope.submitted=false
     };
 
     financieraRequest.get('rubro', $.param({

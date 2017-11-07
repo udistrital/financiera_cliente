@@ -68,7 +68,7 @@ angular
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
-            return date ? moment(date).format('YYYY-MM-DD') : '';
+            return date ? moment.utc(date).format('YYYY-MM-DD') : '';
         };
     })
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -376,6 +376,11 @@ angular
               templateUrl: 'views/conceptos/listado_conceptos.html',
               controller: 'ListadoConceptosCtrl',
               controllerAs: 'listadoConceptos'
+            })
+            .when('/conceptos/editar/:Codigo', {
+              templateUrl: 'views/conceptos/editar.html',
+              controller: 'conceptosEditarCtrl',
+              controllerAs: 'conceptosEditar'
             })
             .otherwise({
                 redirectTo: '/'
