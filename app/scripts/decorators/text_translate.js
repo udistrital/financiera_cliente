@@ -337,6 +337,7 @@ var text_es = {
     ORDEN_PAGO_ACTUALIZAR: "Actualizar Órdenes de Pago",
     ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
     ORIGEN: "Origen",
+    PAGO: "Pago",
     PAGO_REPORTADO: "Pago reportado",
     PLANES_CUENTAS: "Planes de Cuentas",
     PLANTA: "Planta",

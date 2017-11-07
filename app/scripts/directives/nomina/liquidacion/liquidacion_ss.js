@@ -18,7 +18,6 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         $scope.ouputdatanominaselect = {};
-        //
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -32,9 +31,7 @@ angular.module('financieraClienteApp')
           }
         });
         //
-        self.gridOptions_preliquidacion = {
-          expandableRowHeight: 250,
-          expandableRowTemplate: 'expandableRowUpc.html',
+        self.gridOptionsPreliquidacionPersonas = {
           enableRowHeaderSelection: false,
           multiSelect: false,
           columnDefs: [{
@@ -62,6 +59,45 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        self.gridOptionsPreliquidacionPersonas.onRegisterApi = function(gridApi) {
+          //set gridApi on scope
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.PreliquidacionPersonaSelect = row.entity
+            financieraMidRequest.get('orden_pago_ss/DetalleListaPagoSsPorPersona',
+              $.param({
+                idPeriodoPago: self.PeriodoPago,
+                idDetalleLiquidacion: $scope.PreliquidacionPersonaSelect.DetalleLiquidacion,
+              })
+            ).then(function(response) {
+              self.gridOptionsPreliquidacionPagos.data = response.data;
+            })
+          });
+        };
+        //
+        self.gridOptionsPreliquidacionPagos = {
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          columnDefs: [{
+              field: 'TipoPago.AliasConcepto',
+              displayName: $translate.instant('PAGO'),
+              width: '40%',
+            },
+            {
+              field: 'Valor',
+              displayName: $translate.instant('VALOR'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              width: '20%',
+            },
+            {
+              field: 'EntidadPago',
+              displayName: $translate.instant('ENTIDAD'),
+              width: '40%',
+            },
+          ]
+        };
+
         //
         titanRequest.get('nomina',
           $.param({
@@ -69,31 +105,46 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
           self.nomina = response.data;
         })
-        //
+        // para desarrollo
+        financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
+          $.param({
+            idNomina: 5,
+            mesLiquidacion: 9,
+            anioLiquidacion: 2017,
+          })
+        ).then(function(response) {
+          if (response.data != null) {
+            self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
+            self.PeriodoPago = response.data.PeriodoPago;
+          } else {
+            self.gridOptionsPreliquidacionPersonas.data = {};
+            self.PeriodoPago = null;
+          }
+        })
+        // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
-            //self.refresh();
             financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
                 mesLiquidacion: $scope.mesSelect,
                 anioLiquidacion: $scope.anoSelect,
               })
-            ).then(function(response){
-              if(response.data != null){
+            ).then(function(response) {
+              if (response.data != null) {
                 console.log(response.data);
-                self.gridOptions_preliquidacion.data  = response.data.Pagos;
-              }else{
-                self.gridOptions_preliquidacion.data  = {};
+                self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
+                self.PeriodoPago = response.data.PeriodoPago;
+              } else {
+                self.gridOptionsPreliquidacionPersonas.data = {};
+                self.PeriodoPago = null;
               }
             })
-            //
           }
         }
-
       },
       //
       controllerAs: 'd_liquidacionSs'
