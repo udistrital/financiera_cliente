@@ -8,7 +8,7 @@
  * Factory in the financieraClienteApp.
  */
 angular.module('titanService', [])
-    .factory('titanRequest', function($http) {
+    .factory('titanRequest', function($http, CONF) {
         // Service logic
         // ...
         var path = CONF.GENERAL.TITAN_SERVICE;
