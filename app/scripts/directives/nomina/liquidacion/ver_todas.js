@@ -22,7 +22,6 @@ angular.module('financieraClienteApp')
         self.gridOptions_preliquidacion = {
           expandableRowHeight: 250,
           expandableRowTemplate: 'expandableRowUpc.html',
-          expandableRowHeight: 100,
           enableRowHeaderSelection: false,
           multiSelect: false,
           columnDefs: [{
@@ -79,7 +78,6 @@ angular.module('financieraClienteApp')
                   iterador.subGridOptions = {
                     expandableRowHeight: 250,
                     expandableRowTemplate: 'expandableRowUpc3nivel.html',
-                    expandableRowHeight: 100,
                     enableRowHeaderSelection: false,
                     multiSelect: false,
                     columnDefs: [{
