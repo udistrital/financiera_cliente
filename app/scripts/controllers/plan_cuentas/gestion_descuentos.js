@@ -32,17 +32,24 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
+      columnDefs: [
+        {
+            field: 'Id',
+            displayName: $translate.instant('ID'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '7%'
+        },
+        {
           field: 'CuentaContable.Codigo',
-          displayName: $translate.instant('CODIGO'),
+          displayName: $translate.instant('CODIGO_CUENTA'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
+          width: '13%'
         },
         {
           field: 'CuentaContable.Nombre',
-          displayName: $translate.instant('NOMBRE'),
+          displayName: $translate.instant('NOMBRE_CUENTA'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '30%'
+          width: '35%'
         },
         {
           field: 'TarifaUvt',
@@ -54,7 +61,7 @@ angular.module('financieraClienteApp')
           field: 'Porcentaje',
           displayName: $translate.instant('PORCENTAJE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '9%'
+          width: '7%'
         },
         {
           field: 'Deducible',
@@ -67,7 +74,7 @@ angular.module('financieraClienteApp')
           field: 'InformacionPersonaJuridica',
           displayName: $translate.instant('PROVEEDOR'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
+          width: '12%'
         },
         {
           field: 'TipoCuentaEspecial.Nombre',
@@ -78,7 +85,7 @@ angular.module('financieraClienteApp')
         {
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
-          width: '10%',
+          width: '5%',
           cellTemplate: '<center>' +
             '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
