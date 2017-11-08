@@ -286,6 +286,7 @@ var text_es = {
   MSN_DEBE_MES_SS: "Debe seleccionar el mes de la seguridad social",
   MSN_DEBE_MIN_CONCEPTO: "Debe afectar por lo menos un concepto",
   MSN_DEBE_PROVEEDOR: "Debe seleccionar el proveedor para la orden de pago",
+  MSN_DEBE_LIQUIDACION: "Debe seleccionar el tipo de nomina, mes y año en la sección liquidacion",
   MSN_DEBE_REGISTRO: "Debe seleccionar el registro presupuestal",
   MSN_DEBE_TIPO_OP: "Debe seleccionar el tipo de documento en la sección detalle orden pago",
   MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectacion es distinto al valor de la orden de pago",
