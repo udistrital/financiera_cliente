@@ -12,13 +12,13 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        ouputdatanominaselect: '=?'
+        ouputdatanominaselect: '=?',
+        ouputdataresumencarge: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
-        $scope.inputpestanaabierta = true; //desarrollo
         $scope.ouputdatanominaselect = {};
         //
         titanRequest.get('nomina',
@@ -162,8 +162,8 @@ angular.module('financieraClienteApp')
               $scope.mostraDetalleError = false;
               self.gridOptionsConceptos.data = $scope.personaSelect.ConceptoOrdenPago;
               self.gridOptionsMovimientosContables.data = $scope.personaSelect.MovimientoContable;
-            }else{
-              $scope.errorPersona =  $scope.personaSelect.Code;
+            } else {
+              $scope.errorPersona = $scope.personaSelect.Code;
               $scope.mostrar = false;
               $scope.mostraDetalleError = true;
             }
@@ -171,20 +171,20 @@ angular.module('financieraClienteApp')
         };
 
         //para desarrollo
-        financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
-          $.param({
-            idNomina: 5,
-            mesLiquidacion: 9,
-            anioLiquidacion: 2017,
-          })
-        ).then(function(response) {
-          if (response.data != null) {
-            self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
-            self.IdLiquidacion = response.data.Id_Preliq;
-          } else {
-            self.gridOptionsPreliquidacionPersonas.data = {};
-          }
-        })
+        // financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
+        //   $.param({
+        //     idNomina: 5,
+        //     mesLiquidacion: 9,
+        //     anioLiquidacion: 2017,
+        //   })
+        // ).then(function(response) {
+        //   if (response.data != null) {
+        //     self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
+        //     self.IdLiquidacion = response.data.Id_Preliq;
+        //   } else {
+        //     self.gridOptionsPreliquidacionPersonas.data = {};
+        //   }
+        // })
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
@@ -192,18 +192,19 @@ angular.module('financieraClienteApp')
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
             self.refresh();
-            financieraMidRequest.get('orden_pago_nomina/ListaLiquidacionNominaHomologada',
+            financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
                 mesLiquidacion: $scope.mesSelect,
                 anioLiquidacion: $scope.anoSelect,
               })
             ).then(function(response) {
-              if (response.data != null) {
-                self.gridOptionsPreliquidacionPersonas.data = response.data.Contratos_por_preliq;
-                self.IdLiquidacion = response.data.Id_Preliq;
-              } else {
+              if (response.data.Type == 'error') {
                 self.gridOptionsPreliquidacionPersonas.data = {};
+                $scope.ouputdataresumencarge = {};
+              } else {
+                self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
+                $scope.ouputdataresumencarge = response.data.ResumenCargueOp;
               }
             })
           }
