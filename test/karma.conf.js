@@ -52,6 +52,8 @@ module.exports = function(config) {
       'bower_components/vis/dist/vis.js',
       'bower_components/angular-ui-select/dist/select.js',
       'bower_components/select2/select2.js',
+      'bower_components/d3/d3.js',
+      'bower_components/ng-knob/dist/ng-knob.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',
