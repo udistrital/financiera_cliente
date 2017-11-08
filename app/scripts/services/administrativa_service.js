@@ -11,7 +11,7 @@ angular.module('administrativaService', [])
     .factory('administrativaRequest', function($http, CONF) {
         // Service logic
         // ...
-        var path = CONF.CLOUD.ADMINISTRATIVA_SERVICE;
+        var path = CONF.GENERAL.ADMINISTRATIVA_SERVICE;
         //var path = CONF.GENERAL.ADMINISTRATIVA_SERVICE;
         // Public API here
         return {

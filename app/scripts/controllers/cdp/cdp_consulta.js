@@ -13,7 +13,6 @@ angular.module('financieraClienteApp')
     })
     .controller('CdpCdpConsultaCtrl', function($filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest) {
         var self = this;
-        $scope.load = false;
         self.offset = 0;
         self.gridOptions = {
             enableFiltering: true,
