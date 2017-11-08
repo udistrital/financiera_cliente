@@ -96,5 +96,5 @@ var conf_local = {
 
 angular.module('financieraClienteApp')
     .constant('CONF', {
-        GENERAL: conf_pruebas
+        GENERAL: conf_local
     });
