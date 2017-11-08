@@ -39,7 +39,7 @@ angular.module('financieraClienteApp')
             {
               field: 'Concepto.Codigo',
               displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
-              width: '15%',
+              width: '20%',
             },
             {
               field: 'Concepto.Nombre',
@@ -71,7 +71,7 @@ angular.module('financieraClienteApp')
             {
               field: 'CuentaContable.CuentaContable.Codigo',
               displayName: $translate.instant('CUENTAS_CONTABLES'),
-              width: '15%',
+              width: '20%',
             },
             {
               field: 'CuentaContable.CuentaContable.Nombre',
@@ -107,24 +107,49 @@ angular.module('financieraClienteApp')
               field: 'Contrato',
               displayName: $translate.instant('CONTRATO'),
               width: '15%',
-              cellClass: 'input_center'
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
             },
             {
               field: 'VigenciaContrato',
               displayName: $translate.instant('VIGENCIA') + ' ' + $translate.instant('CONTRATO'),
               width: '15%',
-              cellClass: 'input_center'
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
             },
             {
               field: 'infoPersona.nombre_completo',
               displayName: $translate.instant('NOMBRE'),
               width: '40%',
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
             },
             {
               field: 'infoPersona.Documento.numero',
               displayName: $translate.instant('NO_DOCUMENTO'),
               width: '30%',
-              cellClass: 'input_center'
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
             },
           ]
         };
