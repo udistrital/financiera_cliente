@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
      * el que se especifica si existen errores o si la transacción tuvo éxito. Si la transacción fue exitosa se limpia el formulario de lo contrario se
      * deja con los datos y se notifica el error devuelto por el servicio.
      */
-    self.crear_cuenta = function(form) {
+    self.crear_cuenta = function() {
       // Se implementa sweet alert 2 para mostrar la alerta de confirmacion
       swal({
         title: 'Nueva Cuenta!',
@@ -84,8 +84,8 @@ angular.module('financieraClienteApp')
           self.recargar_arbol = !self.recargar_arbol;
           // limpia el formulario si la creacion de la cuena fue exitosA
           if (response.data[0] == "success") {
-            form.$setPristine();
-            form.$setUntouched();
+            $scope.cuentas_form.$setPristine();
+            $scope.cuentas_form.$setUntouched();
             self.nueva_cuenta = {};
             self.padre = undefined;
           }
@@ -100,7 +100,7 @@ angular.module('financieraClienteApp')
      * @param {object} form formulario que es enviado desde la vista para la respectiva limpieza
      * @description Realiza una limpieza sobre los datos digitados en el formulario que es recibido como parámetro
      */
-    self.resetear = function(form) {
+    self.resetear = function() {
       // alerta para confirmar la limpieza del formulario
       swal({
         text: "Deseas limpiar el formulario?",
@@ -111,8 +111,8 @@ angular.module('financieraClienteApp')
         confirmButtonText: 'Aceptar',
         cancelButtonText: 'Cancelar',
       }).then(function() {
-        form.$setPristine();
-        form.$setUntouched();
+        $scope.cuentas_form.$setPristine();
+        $scope.cuentas_form.$setUntouched();
         self.nueva_cuenta = {};
         self.padre = undefined;
         financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
@@ -152,6 +152,7 @@ angular.module('financieraClienteApp')
           } else {
             self.nivel = response.data[0].NivelHijo;
             self.nueva_cuenta.NivelClasificacion = self.nivel;
+            self.nueva_cuenta.Naturaleza=self.padre.Naturaleza;
           }
         });
       }
