@@ -35,7 +35,7 @@ var conf_cloud = {
         SIGN_OUT_APPEND_TOKEN: "true"
     }
 };
-var conf_pruebas = {
+var conf_lo = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
     ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_amazon_api/v1/",
@@ -63,7 +63,7 @@ var conf_pruebas = {
         SIGN_OUT_APPEND_TOKEN: "true"
     }
 };
-var conf_local = {
+var conf_pruebas = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
     ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
@@ -73,7 +73,7 @@ var conf_local = {
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
     FINANCIERA_MID_SERVICE: "http://127.0.0.1:8087/v1/",
-    FINANCIERA_SERVICE: "http://127.0.0.1:8084/v1/",
+    FINANCIERA_SERVICE: "http://127.0.0.1:8080/v1/",
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
@@ -89,7 +89,7 @@ var conf_local = {
         SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
         SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
         SIGN_OUT_APPEND_TOKEN: "true"
-    },
+    }
 };
 
 
