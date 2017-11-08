@@ -37,9 +37,16 @@
       </div>
     </div>
   </div>
-
-  <div class="panel panel-default">
-    <div ng-if="!refresh" ui-grid="d_liquidacionSs.gridOptions_preliquidacion" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div ng-if="!refresh" ui-grid="d_liquidacionSs.gridOptionsPreliquidacionPersonas" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
   </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div ng-if="!refresh" ui-grid="d_liquidacionSs.gridOptionsPreliquidacionPagos" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
+  </div>
+
 
 </div>
