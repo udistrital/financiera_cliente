@@ -367,6 +367,7 @@ var text_es = {
   REGISTRO_PRESUPUESTAL: "Certificado Registro Presupuestal",
   REGISTRO_RUBRO: "Registro de Rubro",
   REQUISITOS: "Requisitos",
+  RESUMEN: "Resumen",
   REQUISITOS_AVANCE: "Requisitos de Avance",
   RESPONSABLE: "Responsable",
   RESPONSABLE_SELECCION_PRESUPUESTO: "Responsable Sección De Presupuesto",

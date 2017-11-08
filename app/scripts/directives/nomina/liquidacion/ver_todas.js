@@ -178,11 +178,12 @@ angular.module('financieraClienteApp')
         //     anioLiquidacion: 2017,
         //   })
         // ).then(function(response) {
-        //   if (response.data != null) {
-        //     self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
-        //     self.IdLiquidacion = response.data.Id_Preliq;
-        //   } else {
+        //   if (response.data.Type == 'error') {
         //     self.gridOptionsPreliquidacionPersonas.data = {};
+        //     $scope.ouputdataresumencarge = {};
+        //   } else {
+        //     self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
+        //     $scope.ouputdataresumencarge = response.data;
         //   }
         // })
         // para desarrollo
@@ -204,7 +205,7 @@ angular.module('financieraClienteApp')
                 $scope.ouputdataresumencarge = {};
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
-                $scope.ouputdataresumencarge = response.data.ResumenCargueOp;
+                $scope.ouputdataresumencarge = response.data;
               }
             })
           }
@@ -219,8 +220,10 @@ angular.module('financieraClienteApp')
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = true;
+            $scope.b = true;
           }
         });
+
       },
       controllerAs: 'd_liquidacionVerTodas'
     };

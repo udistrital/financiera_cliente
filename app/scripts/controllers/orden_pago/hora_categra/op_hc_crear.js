@@ -8,12 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoHoraCategraOpHcCrearCtrl', function ($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest) {
+  .controller('OrdenPagoHoraCategraOpHcCrearCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest) {
     var self = this;
     self.PestanaAbiertaLiquidacion = false;
     self.PestanaAbiertaDetallePago = false;
+    self.DataHomologacion = {};
     self.OrdenPago = {};
-    self.DataNominaTitan = {};
+    self.OrdenPago.Vigencia = 2017;
     self.DataNomininaSelet = {};
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',
@@ -37,8 +38,19 @@ angular.module('financieraClienteApp')
         query: 'TipoOrdenPago.CodigoAbreviacion:OP-PROV',
         limit: -1,
       })
-    ).then(function(response){
+    ).then(function(response) {
       self.subTipoOrdenPago = response.data;
     });
-
+    //
+    self.registrarOpMasivo = function() {
+      console.log("Data Sen");
+      self.dataSen = {};
+      self.dataSen.OrdenPago = self.OrdenPago;
+      self.dataSen.InfoGeneralOp = self.DataHomologacion;
+      console.log(self.dataSen);
+      financieraMidRequest.post('orden_pago_nomina/PreviewCargueMasivoOp', self.dataSen)
+        .then(function(data) {
+          console.log(data);
+        })
+    }
   });
