@@ -42,6 +42,11 @@
   <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptions_preliquidacion" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
   </div>
 </div>
+
 <script type="text/ng-template"  id="expandableRowUpc.html">
-       <div ui-grid="row.entity.subGridOptions" class="grid" style="height:250px;" ui-grid-selection></div>
+       <div ui-grid="row.entity.subGridOptions" class="grid" style="height:250px;" ui-grid-selection ui-grid-expandable></div>
+</script>
+
+<script type="text/ng-template"  id="expandableRowUpc3nivel.html">
+       <div ui-grid="row.entity.sub3GridOption" class="grid" style="height:250px;" ui-grid-selection></div>
 </script>
