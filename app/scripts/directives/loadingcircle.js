@@ -37,7 +37,6 @@ angular.module('financieraClienteApp')
                     } else {
                         $scope.load = true;
                     }
-                    console.log($scope.load);
                 }, 50);
             }
         };
