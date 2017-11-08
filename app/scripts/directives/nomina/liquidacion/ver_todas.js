@@ -157,8 +157,16 @@ angular.module('financieraClienteApp')
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.personaSelect = row.entity;
-            self.gridOptionsConceptos.data = $scope.personaSelect.ConceptoOrdenPago
-            self.gridOptionsMovimientosContables.data = $scope.personaSelect.MovimientoContable
+            if ($scope.personaSelect.Aprobado) {
+              $scope.mostrar = true;
+              $scope.mostraDetalleError = false;
+              self.gridOptionsConceptos.data = $scope.personaSelect.ConceptoOrdenPago;
+              self.gridOptionsMovimientosContables.data = $scope.personaSelect.MovimientoContable;
+            }else{
+              $scope.errorPersona =  $scope.personaSelect.Code;
+              $scope.mostrar = false;
+              $scope.mostraDetalleError = true;
+            }
           });
         };
 
