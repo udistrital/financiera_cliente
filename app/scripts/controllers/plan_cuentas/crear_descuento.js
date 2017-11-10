@@ -123,7 +123,7 @@ angular.module('financieraClienteApp')
             Descripcion: self.descripcion,
             CuentaContable: self.cuenta_contable,
             TipoCuentaEspecial: self.tipo_cuenta,
-            InformacionPersonaJuridica: self.proveedor.NumDocumento
+            InformacionPersonaJuridica: parseInt(self.proveedor.NumDocumento)
           };
           console.log(self.proveedor.Id);
           if (self.tipo_cuenta.Nombre === "Impuesto") {
