@@ -42,48 +42,54 @@ angular.module('financieraClienteApp')
           useExternalPagination: false,
           enableSelectAll: false,
           columnDefs: [{
-              field: 'CuentaContable.Codigo',
-              displayName: $translate.instant('CODIGO'),
+              field: 'Id',
+              displayName: $translate.instant('ID'),
               headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '15%'
-            },
-            {
-              field: 'CuentaContable.Nombre',
-              displayName: $translate.instant('NOMBRE'),
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '30%'
-            },
-            {
-              field: 'TarifaUvt',
-              displayName: $translate.instant('UVT'),
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '5%'
-            },
-            {
-              field: 'Porcentaje',
-              displayName: $translate.instant('PORCENTAJE'),
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '9%'
-            },
-            {
-              field: 'Deducible',
-              displayName: $translate.instant('DEDUCIBLE'),
-              cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.Deducible" disabled></center>',
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '8%'
-            },
-            {
-              field: 'InformacionPersonaJuridica',
-              displayName: $translate.instant('PROVEEDOR'),
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '25%'
-            },
-            {
-              field: 'TipoCuentaEspecial.Nombre',
-              displayName: $translate.instant('TIPO'),
-              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-              width: '8%'
-            }
+              width: '7%'
+          },
+          {
+            field: 'Descripcion',
+            displayName: $translate.instant('DESCRIPCION'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '35%'
+          },
+          {
+            field: 'TarifaUvt',
+            displayName: $translate.instant('UVT'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '5%'
+          },
+          {
+            field: 'Porcentaje',
+            displayName: $translate.instant('PORCENTAJE'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '7%'
+          },
+          {
+            field: 'Deducible',
+            displayName: $translate.instant('DEDUCIBLE'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.Deducible" disabled></center>',
+            width: '8%'
+          },
+          {
+            field: 'CuentaContable.Codigo',
+            displayName: $translate.instant('CODIGO_CUENTA'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '13%'
+          },
+          {
+            field: 'InformacionPersonaJuridica',
+            displayName: $translate.instant('PROVEEDOR'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '17%'
+          },
+          {
+            field: 'TipoCuentaEspecial.Nombre',
+            displayName: $translate.instant('TIPO'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '8%'
+          }
           ]
         };
 

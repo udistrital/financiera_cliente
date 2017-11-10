@@ -40,14 +40,8 @@ angular.module('financieraClienteApp')
             width: '7%'
         },
         {
-          field: 'CuentaContable.Codigo',
-          displayName: $translate.instant('CODIGO_CUENTA'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '13%'
-        },
-        {
-          field: 'CuentaContable.Nombre',
-          displayName: $translate.instant('NOMBRE_CUENTA'),
+          field: 'Descripcion',
+          displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '35%'
         },
@@ -69,6 +63,12 @@ angular.module('financieraClienteApp')
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.Deducible" disabled></center>',
           width: '8%'
+        },
+        {
+          field: 'CuentaContable.Codigo',
+          displayName: $translate.instant('CODIGO_CUENTA'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '13%'
         },
         {
           field: 'InformacionPersonaJuridica',
