@@ -165,7 +165,7 @@ angular.module('financieraClienteApp')
             ]
         };
         $scope.loadrow = function(row, operacion) {
-            $scope.solicitud = row.entity;
+            $scope.ingreso = row.entity;
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
