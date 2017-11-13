@@ -7,7 +7,7 @@
  * # FuenteFinanciacionConsultaFuenteCtrl
  * Controller of the financieraClienteApp
  */
-angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraRequest, oikosRequest, coreRequest) {
+angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate, financieraMidRequest, financieraRequest, oikosRequest, coreRequest) {
 
     var self = this;
     self.gridOptions = {
@@ -66,9 +66,9 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('CODIGO'),
         },
         {
-          field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Descripcion',
+          field: 'FuenteFinanciamientoApropiacion.Apropiacion.Rubro.Nombre',
           width: '25%',
-          displayName: $translate.instant('DESCRIPCION')
+          displayName: $translate.instant('RUBRO')
         },
         {
           field: 'FuenteFinanciamientoApropiacion.Dependencia.Nombre',
@@ -87,28 +87,33 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('MOVIMIENTO')
         },
         {
-          field: 'TipoDocumento.Nombre',
+          field: 'TipoDocumento.TipoDocumento.Nombre',
           width: '15%',
           displayName: $translate.instant('TIPO_DOCUMENTO')
         },
         {
-          field: 'NoDocumento',
+          field: 'TipoDocumento.NoDocumento',
           width: '15%',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
           displayName: $translate.instant('FECHA_DOCUMENTO'),
-          field: 'FechaDocumento',
+          field: 'TipoDocumento.FechaDocumento',
           width: '15%',
-          cellTemplate: '<div align="center">{{row.entity.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.TipoDocumento.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'Valor',
           cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
           displayName: $translate.instant('VALOR'),
           width: '15%'
+        },
+        {
+          field: 'ValorGastado',
+          cellTemplate: '<div align="right">{{row.entity.ValorGastado | currency}}</div>',
+          displayName: $translate.instant('COMPROMETIDO'),
+          width: '15%'
         }
-
 
       ]
     };
@@ -134,7 +139,11 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
 
     self.mostrar_registro =function(fuente) {
 
-      financieraRequest.get('movimiento_fuente_financiamiento_apropiacion', 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + fuente ).then(function(response) {
+      financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista",$.param({
+        idfuente: parseInt(fuente)
+      })).then(function(response) {
+
+        console.log(response.data)
         self.gridOptionsapropiacion.data = response.data;
         angular.forEach(self.gridOptionsapropiacion.data, function (data) {
           oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
@@ -143,7 +152,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         });
 
         angular.forEach(self.gridOptionsapropiacion.data, function (data) {
-          coreRequest.get('tipo_documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+          coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
             data.TipoDocumento = response.data[0];
           });
         });
@@ -153,6 +162,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
       });
+
     };
 
 
