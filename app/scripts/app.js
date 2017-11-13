@@ -383,6 +383,11 @@ angular
                 controller: 'conceptosEditarCtrl',
                 controllerAs: 'conceptosEditar'
             })
+            .when('/rp/rp_cargue_masivo', {
+              templateUrl: 'views/rp/rp_cargue_masivo.html',
+              controller: 'RpRpCargueMasivoCtrl',
+              controllerAs: 'rpCargueMasivo'
+            })
             .otherwise({
                 redirectTo: '/'
             });
