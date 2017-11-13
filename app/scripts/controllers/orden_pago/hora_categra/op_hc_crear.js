@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbiertaLiquidacion = false;
     self.PestanaAbiertaDetallePago = false;
     self.OrdenPago = {};
+    self.DataNominaTitan = {};
     self.DataNomininaSelet = {};
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',

@@ -7,9 +7,9 @@
  * @requires $scope
  * @requires $translate
  * @requires financieraService.service:financieraRequest
- * @requires financieraService.service:agoraRequest
+ * @requires financieraService.service:administrativaRequest
  * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
- * @param {service} agoraRequest Servicio para el API de financiera {@link agoraService.service:agoraRequest agoraRequest}
+ * @param {service} administrativaRequest Servicio para el API de financiera {@link agoraService.service:administrativaRequest administrativaRequest}
  * @param {injector} $scope scope del controlador
  * @param {injector} $translate translate de internacionalizacion
  * @description
@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, agoraRequest, $translate) {
+  .controller('CrearDescuentoCtrl', function($scope, financieraRequest, administrativaRequest, $translate) {
     var self = this;
     self.descuento_nuevo = {};
 
@@ -29,23 +29,30 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableRowSelection: true,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
+      data:[],
       columnDefs: [{
-          field: 'Id',
-          displayName: $translate.instant('NIT'),
+          field: 'NumDocumento',
+          displayName: $translate.instant('DOCUMENTO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '30%'
+          width: '20%'
+        },
+        {
+            field: 'Tipopersona',
+            displayName: $translate.instant('TIPO'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '20%'
         },
         {
           field: 'NomProveedor',
           displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '69%'
+          width: '60%'
         }
       ]
     };
@@ -67,22 +74,19 @@ angular.module('financieraClienteApp')
      * @methodOf financieraClienteApp.controller:CrearDescuentoCtrl
      * @description
      * Se realiza la carga de proveedores, plan de cuentas y los tipos de cuentas especiales (inmpuestos y descuentos) a traves de los servicios
-     * {@link financieraService.service:financieraRequest financieraRequest} y {@link agoraService.service:agoraRequest agoraRequest}
+     * {@link financieraService.service:financieraRequest financieraRequest} y {@link agoraService.service:administrativaRequest administrativaRequest}
      * que retorna la informacion de la cuenta contable y la del descuento o impuesto.
      */
     self.cargar = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
         self.tipos_cuentas = response.data;
+        self.tipo_cuenta=self.tipos_cuentas[0];
       });
+
       financieraRequest.get("plan_cuentas", $.param({
         query: "PlanMaestro:" + true
       })).then(function(response) {
         self.plan_maestro = response.data[0];
-      });
-      agoraRequest.get("informacion_persona_juridica", $.param({
-        limit: -1
-      })).then(function(response) {
-        self.gridOptions.data = response.data;
       });
     };
 
@@ -95,37 +99,64 @@ angular.module('financieraClienteApp')
    * {@link financieraService.service:financieraRequest financieraRequest}
    */
     self.crear_nuevo = function() {
-      var alerta = "";
+
       if (self.cuenta_contable == undefined || self.proveedor == undefined) {
         if (self.cuenta_contable == undefined) {
-          alerta += "<li><small>{{'ALERTA_SELECCIONAR_CUENTA' | translate}}</small></li>";
+          swal("",  $translate.instant('ALERTA_SELECCIONAR_CUENTA'), "error");
         }
-        if (self.proveedor == undefined) {
-          alerta += "<li><small>{{'ALERTA_SELECCIONAR_PROVEEDOR' | translate}}</small></li>";
+        else if (self.proveedor == undefined) {
+          swal("", $translate.instant('ALERTA_SELECCIONAR_PROVEEDOR'), "error");
         }
-        swal("", alerta, "error");
       } else {
-        var nuevo = {
-          Descripcion: self.descripcion,
-          CuentaContable: self.cuenta_contable,
-          TipoCuentaEspecial: self.tipo_cuenta,
-          InformacionPersonaJuridica: self.proveedor.Id
-        };
-        console.log(self.proveedor.Id);
-        if (self.tipo_cuenta.Nombre === "Impuesto") {
-          nuevo.Porcentaje = self.porcentaje;
-          nuevo.TarifaUvt = self.base_min;
-          nuevo.Deducible = self.deducible;
-        }
-        self.descuento_nuevo = nuevo;
-        financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
-          console.log(response);
-          swal("", "La cuenta se creo exitosamente", "success"); //pendiente a modificar servicio para el manejo de codigos
+        swal({
+          title: $translate.instant('NUEVO')+" "+self.tipo_cuenta.Nombre+'!',
+          text: $translate.instant('DESEA_CREAR_REGISTRO'),
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+          cancelButtonText: $translate.instant('BTN.CANCELAR'),
+          buttonsStyling: false
+        }).then(function() {
+          var nuevo = {
+            Descripcion: self.descripcion,
+            CuentaContable: self.cuenta_contable,
+            TipoCuentaEspecial: self.tipo_cuenta,
+            InformacionPersonaJuridica: parseInt(self.proveedor.NumDocumento)
+          };
+          console.log(self.proveedor.Id);
+          if (self.tipo_cuenta.Nombre === "Impuesto") {
+            nuevo.Porcentaje = self.porcentaje;
+            nuevo.TarifaUvt = self.base_min;
+            nuevo.Deducible = self.deducible;
+          }
+          self.descuento_nuevo = nuevo;
+          financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
+            if (response.data.Type == 'success') {
+              swal($translate.instant(response.data.Code), self.tipo_cuenta.Nombre + " " + response.data.Body, response.data.Type);
+              self.recargar = !self.recargar;
+              self.resetear();
+            } else {
+              swal("", $translate.instant(response.data.Code), response.data.Type);
+            }
+          });
         });
+
       }
     };
 
     self.cargar();
+
+    self.search_tercero=function(){
+      administrativaRequest.get("informacion_proveedor", $.param({
+        query:"NumDocumento:"+$scope.num_documento,
+        limit: -1
+      })).then(function(response) {
+        self.gridOptions.data = response.data;
+      });
+    };
+
 
     /**
      * @ngdoc event

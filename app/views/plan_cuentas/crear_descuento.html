@@ -1,71 +1,79 @@
 <div class="panel panel-primary panel-body">
   <center>
-    <h3 class="page-header">{{"IMPUESTOS_DESCUENTOS" | translate}}</h3></center>
+    <h3 class="page-header">{{"CREACION" | translate}} {{"IMPUESTOS_DESCUENTOS" | translate}}</h3></center>
 
-  <div class="col-md-5">
-    <div ng-if="crearDescuento.plan_maestro!=undefined">
-      <plan-cuentas filtro="filtro_padre" seleccion="crearDescuento.cuenta_contable" recargar="crearDescuento.recargar_arbol" planid="crearDescuento.plan_maestro.Id" />
-    </div>
-  </div>
+  <div class="col-md-12">
+    <div class="panel panel-default panel-body shadow-box">
 
-  <div class="col-md-7">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{"NUEVO" | translate}}</h3>
-      </div>
-      <div class="panel-body">
-        <form name="des_imp_form" ng-submit="des_imp_form.$valid && crearDescuento.crear_nuevo()">
+        <form name="des_imp_form" ng-submit="des_imp_form.$valid && crearDescuento.crear_nuevo()" focus-on-field validate>
 
-          <div class="form-group">
-            <label for="nomdescuento">{{"TIPO" | translate}} {{"CUENTA" | translate}}:</label>
-            <select type="text" class="form-control" id="nomdescuento" ng-model="crearDescuento.tipo_cuenta" ng-options="tipo as tipo.Nombre for tipo in crearDescuento.tipos_cuentas" required>
-            <option value="" selected disabled>--{{"SELECCION_OPCION" | translate}}--</option></select>
+          <div class="form-group col-md-12">
+            <label>{{"TIPO" | translate}} {{"CUENTA" | translate}}:</label>
+            <select class="form-control"  ng-model="crearDescuento.tipo_cuenta" ng-options="tipo.Nombre for tipo in crearDescuento.tipos_cuentas track by tipo.Id" required>
+            <option value="" disabled>--{{"SELECCION_OPCION" | translate}}--</option>
+          </select>
+        </div>
+
+          <div class="form-group col-md-12">
+            <label>{{"DESCRIPCION" | translate}}:</label>
+            <textarea type="text" class="form-control" ng-model="crearDescuento.descripcion" placeholder="{{'DESCRIPCION' | translate}} {{crearDescuento.tipo_cuenta.Nombre}}" rows="6" required></textarea>
           </div>
 
-          <div ng-show="crearDescuento.tipo_cuenta!=null">
 
-            <div class="form-group">
-              <label for="cuentadescuento">{{"CUENTA_CONTABLE" | translate}}:</label>
-              <span class="form-control" readonly>{{crearDescuento.cuenta_contable.Codigo}} {{crearDescuento.cuenta_contable.Nombre}}</span>
-            </div>
+          <div ng-if="crearDescuento.tipo_cuenta.Nombre =='Impuesto'">
 
-            <div class="form-group">
-              <label for="descdescuento">{{"DESCRIPCION" | translate}}:</label>
-              <textarea type="text" class="form-control" ng-model="crearDescuento.descripcion" id="descdescuento" placeholder="{{'DESCRIPCION' | translate}} {{crearDescuento.tipo_cuenta.Nombre}}" rows="5"></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="descdescuento">*{{"PROVEEDOR" | translate}}:</label><span> {{crearDescuento.proveedor.NomProveedor}}</span>
-              <div class="mi-grid" id="mi-grid" ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-            </div><br>
-
-            <div ng-if="crearDescuento.tipo_cuenta.Nombre=='Impuesto'">
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label for="porcdescuento">{{"PORCENTAJE" | translate}}:</label>
                 <input type="text" class="form-control" name="field" ng-model="crearDescuento.porcentaje" ui-number-mask="2" id="porcdescuento" placeholder="0.00" required>
               </div>
 
-              <div class="form-group">
+              <div class="form-group col-md-6">
                 <label for="basemin">{{"BASE_UVT" | translate}}:</label>
                 <input type="text" class="form-control" id="basemin" ng-model="crearDescuento.base_min" placeholder="Indica el valor minimo" ui-money-mask="0" required>
               </div>
+          </div>
 
-              <div class="form-group">
-                <label for="deducible">{{"DEDUCIBLE" | translate}}:</label>
-                <input type="checkbox" ng-model="crearDescuento.deducible" class="checkbox-inline" id="deducible">
+          <div class="form-group col-md-12">
+            <label for="descdescuento">{{"PROVEEDOR" | translate}}*:</label>
+            <div class="form-group">
+              <span>{{"DOCUMENTO" | translate}}: </span><input type="number" class="form-control form-control-inline" ng-model="num_documento"> <i class="btn btn-primary fa fa-search" aria-hidden="true" ng-click="crearDescuento.search_tercero()"></i> {{"BUSCAR" | translate}}
+            </div>
+            <div class="panel panel-default shadow-box" ng-show="crearDescuento.gridOptions.data.length>0">
+              <div ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+            </div>
+            <div class="form-group" ng-show="crearDescuento.proveedor != undefined">
+              <span>{{"PROVEEDOR" | translate}}: </span><span class="form-control form-control-inline" readonly> {{crearDescuento.proveedor.NumDocumento}} - {{crearDescuento.proveedor.NomProveedor}}</span>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="cuentadescuento">{{"CUENTA_CONTABLE" | translate}}:</label>
+            <div class="form-group">
+              <small>{{"SELECCIONE_CARPETA_CONCEPTO" | translate}}</small>
+              <div ng-if="crearDescuento.plan_maestro!=undefined">
+                <plan-cuentas filtro="filtro_padre" seleccion="crearDescuento.cuenta_contable" recargar="crearDescuento.recargar_arbol" planid="crearDescuento.plan_maestro.Id" rdesc/>
               </div>
             </div>
-
-            <div class="form-group">
-              <center>
-                <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.CONFIRMAR' | translate}}">
-                <button class="btn btn-danger btn-outline">{{"BTN.CANCELAR" | translate}}</button>
-              </center>
+            <div ng-if="crearDescuento.cuenta_contable != undefined">
+              <span>{{"CUENTA" | translate }}: </span><span class="form-control form-control-inline" readonly>{{crearDescuento.cuenta_contable.Codigo}} {{crearDescuento.cuenta_contable.Nombre}}</span>
             </div>
-
           </div>
+
+          <div class="form-group col-md-12">
+            <label for="deducible">{{"DEDUCIBLE" | translate}}:</label>
+            <input type="checkbox" ng-model="crearDescuento.deducible" class="checkbox-inline" id="deducible">
+          </div>
+
+          <div class="form-group col-md-12">
+            <center>
+              <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.CONFIRMAR' | translate}}">
+              <button type="button" class="btn btn-danger btn-outline">{{"BTN.CANCELAR" | translate}}</button>
+            </center>
+          </div>
+
+
         </form>
-      </div>
+
     </div>
   </div>
   <!--<pre>{{crearDescuento.descuento_nuevo | json}}</pre>-->
