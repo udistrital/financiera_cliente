@@ -12,10 +12,10 @@ angular.module('financieraClienteApp')
     var self = this;
     self.PestanaAbiertaLiquidacion = false;
     self.PestanaAbiertaDetallePago = false;
-    self.DataHomologacion = {};
     self.OrdenPago = {};
-    self.OrdenPago.Vigencia = 2017;
+    self.OrdenPago.Vigencia = 0;
     self.DataNomininaSelet = {};
+    self.DataHomologacion = {};
     self.DataNominaTitanSelect = {};
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',
@@ -54,21 +54,9 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
       }
-      // if (Object.keys(self.Conceptos).length == 0) {
-      //   self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>";
-      // }
-      // if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-      //   self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + "</li>" + self.TotalAfectacion + " != " + self.OrdenPago.ValorBase;
-      // }
-      // if (Object.keys(self.afectacionEnRubros).length != 0 && Object.keys(self.saldoDeRubros).length != 0) {
-      //   angular.forEach(self.afectacionEnRubros, function(afectacionValue, afectacionKey) {
-      //     angular.forEach(self.saldoDeRubros, function(saldoValue, saldoKey) {
-      //       if (saldoKey == afectacionKey && afectacionValue > saldoValue) {
-      //         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_TOTAL_AECTACION') + " " + afectacionKey + " " + $translate.instant('MSN_SUPERA_SALDO') + "</li>";
-      //       }
-      //     })
-      //   })
-      // }
+      if(!self.checkVigencia(self.OrdenPago.Vigencia)){
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_VIGENCIA') + "</li>";
+      }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         return true;
@@ -76,8 +64,13 @@ angular.module('financieraClienteApp')
         return false;
       }
     }
-
-    //
+    self.checkVigencia = function(p_vigencia){
+      if (p_vigencia.length !=  4) {
+        return false;
+      }else{
+        return true;
+      }
+    }
     self.registrarOpMasivo = function() {
       if (self.camposObligatorios()) {
         console.log("operar");
@@ -88,7 +81,6 @@ angular.module('financieraClienteApp')
           type: 'error'
         })
       }
-      console.log("Data Sen");
       self.dataSen = {};
       self.dataSen.OrdenPago = self.OrdenPago;
       self.dataSen.InfoGeneralOp = self.DataHomologacion;
