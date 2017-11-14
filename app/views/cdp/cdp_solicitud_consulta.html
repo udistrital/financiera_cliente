@@ -4,11 +4,9 @@
     <div class="row">
         <table>
       <tr>
-        <td>
+       <td class="col-md-2">
           <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
-          <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
-              <option ng-repeat="option in cdpSolicitudConsulta.years" value="{{option}}">{{option}}</option>
-        </select> 
+          <input type="text" name="select_vigencia" disabled="true" ng-model="cdpSolicitudConsulta.Vigencia" class="form-control">
         </td>
         <br>
         <td class="col-md-2">
