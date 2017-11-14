@@ -78,17 +78,20 @@ angular.module('financieraClienteApp')
         self.dataSen.OrdenPago = self.OrdenPago;
         self.dataSen.InfoGeneralOp = self.DataHomologacion;
         console.log(self.dataSen);
-        // financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
-        //   .then(function(data) {
-        //     console.log(data);
-        //     swal({
-        //       title: 'Orden de Pago',
-        //       text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
-        //       type: self.resultado.data.Type,
-        //     }).then(function() {
-        //       $window.location.href = '#/orden_pago/ver_todos';
-        //     })
-        //   })
+        financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
+          .then(function(response) {
+            self.resultado = response.data;
+            console.log("Resultado");
+            console.log(response);
+            console.log("Resultado");
+            swal({
+              title: 'Orden de Pago',
+              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              type: self.resultado.data.Type,
+            }).then(function() {
+              $window.location.href = '#/orden_pago/ver_todos';
+            })
+          })
       } else {
         swal({
           title: 'Error!',
