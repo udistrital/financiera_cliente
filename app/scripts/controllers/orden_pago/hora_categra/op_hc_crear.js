@@ -54,7 +54,7 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
       }
-      if(!self.checkVigencia(self.OrdenPago.Vigencia)){
+      if (!self.checkVigencia(self.OrdenPago.Vigencia)) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_VIGENCIA') + "</li>";
       }
       // Operar
@@ -64,16 +64,31 @@ angular.module('financieraClienteApp')
         return false;
       }
     }
-    self.checkVigencia = function(p_vigencia){
-      if (p_vigencia.length !=  4) {
+    self.checkVigencia = function(p_vigencia) {
+      if (p_vigencia.length != 4) {
         return false;
-      }else{
+      } else {
         return true;
       }
     }
     self.registrarOpMasivo = function() {
       if (self.camposObligatorios()) {
         console.log("operar");
+        self.dataSen = {};
+        self.dataSen.OrdenPago = self.OrdenPago;
+        self.dataSen.InfoGeneralOp = self.DataHomologacion;
+        console.log(self.dataSen);
+        // financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
+        //   .then(function(data) {
+        //     console.log(data);
+        //     swal({
+        //       title: 'Orden de Pago',
+        //       text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+        //       type: self.resultado.data.Type,
+        //     }).then(function() {
+        //       $window.location.href = '#/orden_pago/ver_todos';
+        //     })
+        //   })
       } else {
         swal({
           title: 'Error!',
@@ -81,13 +96,5 @@ angular.module('financieraClienteApp')
           type: 'error'
         })
       }
-      self.dataSen = {};
-      self.dataSen.OrdenPago = self.OrdenPago;
-      self.dataSen.InfoGeneralOp = self.DataHomologacion;
-      console.log(self.dataSen);
-      // financieraMidRequest.post('orden_pago_nomina/PreviewCargueMasivoOp', self.dataSen)
-      //   .then(function(data) {
-      //     console.log(data);
-      //   })
     }
   });
