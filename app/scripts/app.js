@@ -383,6 +383,11 @@ angular
                 controller: 'conceptosEditarCtrl',
                 controllerAs: 'conceptosEditar'
             })
+            .when('/plan_cuentas/editar_descuento/:Id', {
+              templateUrl: 'views/plan_cuentas/editar_descuento.html',
+              controller: 'EditarDescuentoCtrl',
+              controllerAs: 'editarDescuento'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -34,19 +34,6 @@
           </div>
 
           <div class="form-group col-md-12">
-            <label for="descdescuento">{{"PROVEEDOR" | translate}}*:</label>
-            <div class="form-group">
-              <span>{{"DOCUMENTO" | translate}}: </span><input type="number" class="form-control form-control-inline" ng-model="num_documento"> <i class="btn btn-primary fa fa-search" aria-hidden="true" ng-click="crearDescuento.search_tercero()"></i> {{"BUSCAR" | translate}}
-            </div>
-            <div class="panel panel-default shadow-box" ng-show="crearDescuento.gridOptions.data.length>0">
-              <div ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-            </div>
-            <div class="form-group" ng-show="crearDescuento.proveedor != undefined">
-              <span>{{"PROVEEDOR" | translate}}: </span><span class="form-control form-control-inline" readonly> {{crearDescuento.proveedor.NumDocumento}} - {{crearDescuento.proveedor.NomProveedor}}</span>
-            </div>
-          </div>
-
-          <div class="form-group col-md-12">
             <label for="cuentadescuento">{{"CUENTA_CONTABLE" | translate}}:</label>
             <div class="form-group">
               <small>{{"SELECCIONE_CARPETA_CONCEPTO" | translate}}</small>
@@ -56,6 +43,19 @@
             </div>
             <div ng-if="crearDescuento.cuenta_contable != undefined">
               <span>{{"CUENTA" | translate }}: </span><span class="form-control form-control-inline" readonly>{{crearDescuento.cuenta_contable.Codigo}} {{crearDescuento.cuenta_contable.Nombre}}</span>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="descdescuento">{{"PROVEEDOR" | translate}}*:</label>
+            <div class="form-group">
+              <span>{{"DOCUMENTO" | translate}}: </span><input type="number" class="form-control form-control-inline" ng-model="num_documento"> <i class="btn btn-primary fa fa-search" aria-hidden="true" ng-click="crearDescuento.search_tercero()"></i> {{"BUSCAR" | translate}}
+            </div>
+            <div class="panel panel-default shadow-box" ng-show="crearDescuento.gridOptions.data.length>0">
+              <div ui-grid="crearDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+            </div>
+            <div class="form-group" ng-show="crearDescuento.proveedor != undefined">
+              <span>{{"PROVEEDOR" | translate}}: </span><span class="form-control form-control-inline" readonly> {{crearDescuento.proveedor.NumDocumento}} - {{crearDescuento.proveedor.NomProveedor}}</span>
             </div>
           </div>
 

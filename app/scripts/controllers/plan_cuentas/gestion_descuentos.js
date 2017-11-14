@@ -18,7 +18,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .controller('GestionDescuentosCtrl', function($scope, financieraRequest, $translate) {
+  .controller('GestionDescuentosCtrl', function($scope, financieraRequest, administrativaRequest, $translate) {
     var self = this;
 
     //grid para mostrar los impuestos y descuentos existentes
@@ -71,7 +71,7 @@ angular.module('financieraClienteApp')
           width: '13%'
         },
         {
-          field: 'InformacionPersonaJuridica',
+          field: 'proveedor.NomProveedor',
           displayName: $translate.instant('PROVEEDOR'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '12%'
@@ -101,7 +101,7 @@ angular.module('financieraClienteApp')
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
-        self.cuenta = self.gridApi.selection.getSelectedRows()[0];
+        $scope.cuenta_des = self.gridApi.selection.getSelectedRows()[0];
       });
     };
 
@@ -118,6 +118,15 @@ angular.module('financieraClienteApp')
         limit: -1
       })).then(function(response) {
         self.gridOptions.data = response.data;
+        angular.forEach(self.gridOptions.data, function(value){
+          console.log(value);
+          administrativaRequest.get("informacion_proveedor", $.param({
+            query:"Id:"+value.InformacionPersonaJuridica,
+            fields:"Id,Tipopersona,NumDocumento,NomProveedor"
+          })).then(function(response) {
+            value.proveedor = response.data[0];
+          });
+        });
       });
     };
 
