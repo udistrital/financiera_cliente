@@ -16,7 +16,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .directive('verDescuentos', function(financieraRequest, $translate) {
+  .directive('verDescuentos', function(financieraRequest, administrativaRequest, $translate) {
     return {
       restrict: 'E',
       //variables del scope de la directiva
@@ -79,7 +79,7 @@ angular.module('financieraClienteApp')
             width: '13%'
           },
           {
-            field: 'InformacionPersonaJuridica',
+            field: 'proveedor.NomProveedor',
             displayName: $translate.instant('PROVEEDOR'),
             headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
             width: '17%'
@@ -122,6 +122,15 @@ angular.module('financieraClienteApp')
             limit: -1
           })).then(function(response) {
             self.gridOptions.data = response.data;
+            angular.forEach(self.gridOptions.data, function(value){
+              console.log(value);
+              administrativaRequest.get("informacion_proveedor", $.param({
+                query:"Id:"+value.InformacionPersonaJuridica,
+                fields:"Id,Tipopersona,NumDocumento,NomProveedor"
+              })).then(function(response) {
+                value.proveedor = response.data[0];
+              });
+            });
           });
         };
 
