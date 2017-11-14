@@ -54,8 +54,6 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableFiltering: false,
           enableSorting: true,
-          treeRowHeaderAlwaysVisible: false,
-          showTreeExpandNoChildren: true,
           rowEditWaitInterval: -1,
           columnDefs: [{
               field: 'CuentaContable.Codigo',
@@ -76,7 +74,7 @@ angular.module('financieraClienteApp')
             },
             {
               field: 'CuentaContable.Nombre',
-              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+              displayName: $translate.instant('DESCRIPCION'),
               cellClass: function(_, row) {
                 if (row.entity.TipoCuentaEspecial == undefined) {
                   return 'text-success';
@@ -84,6 +82,8 @@ angular.module('financieraClienteApp')
                   return 'text-info';
                 }
               },
+              cellTemplate:'<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} '+$translate.instant('NO')+'{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} </div>'+
+                            '<div ng-if="row.entity.TipoCuentaEspecial==undefined"> {{row.entity.CuentaContable.Nombre}}</div>',
               headerCellClass: 'text-info',
               cellTooltip: function(row) {
                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
@@ -167,8 +167,6 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           enableFiltering: false,
           enableSorting: true,
-          treeRowHeaderAlwaysVisible: false,
-          showTreeExpandNoChildren: true,
           rowEditWaitInterval: -1,
           headerTemplate: '<div class="ui-grid-top-panel ui-grid-cell-contents ui-grid-header-cell-primary-focus text-info" style="text-align: center">Cuentas Acreedoras</div>',
           columnDefs: [{
@@ -246,7 +244,7 @@ angular.module('financieraClienteApp')
           rowEditWaitInterval: -1,
           columnDefs: [{
               field: 'CuentaContable.Codigo',
-              displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
+              displayName: $translate.instant('CODIGO'),
               cellClass: 'text-info',
               headerCellClass: 'text-info',
               cellTooltip: function(row) {
@@ -256,13 +254,14 @@ angular.module('financieraClienteApp')
               width: '15%'
             },
             {
-              field: 'CuentaContable.Nombre',
-              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+              field: 'Descripcion',
+              displayName: $translate.instant('DESCRIPCION'),
               cellClass: 'text-info',
               headerCellClass: 'text-info',
               cellTooltip: function(row) {
                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
               },
+              cellTemplate:'<div><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} '+$translate.instant('NO')+'{{row.entity.Id}}]</strong>, {{row.entity.CuentaContable.Nombre}} </div>',
               enableCellEdit: false,
               width: '30%'
             },
@@ -361,6 +360,7 @@ angular.module('financieraClienteApp')
               item.Credito = Math.round(item.Porcentaje * $scope.monto);
               console.log(item.Credito);
             }
+            item.CuentaEspecial={Id:item.Id};
             if (self.gridOptionsDescuentos.data.indexOf(item) < 0) {
               self.gridOptionsDescuentos.data.unshift(item);
               $scope.movimientos.unshift(item);

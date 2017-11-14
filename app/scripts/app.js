@@ -55,7 +55,8 @@ angular
         'pagosService',
         'financieraNotificacion',
         'arkaService',
-        'configuracionService'
+        'configuracionService',
+        "wso2Service"
     ])
 
 .run(function(amMoment) {
