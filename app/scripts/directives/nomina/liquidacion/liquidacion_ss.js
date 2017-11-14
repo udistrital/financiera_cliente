@@ -113,6 +113,7 @@ angular.module('financieraClienteApp')
             anioLiquidacion: 2017,
           })
         ).then(function(response) {
+            console.log(response.data);
           if (response.data != null) {
             self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
             self.PeriodoPago = response.data.PeriodoPago;
