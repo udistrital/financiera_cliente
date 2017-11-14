@@ -4,10 +4,11 @@
     <!-- Liquidaciones -->
     <liquidacion-ver-todas
       inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
-      ouputdatanominaselect="opHcCrear.DataNominaTitan">
+      ouputdatanominaselect="opHcCrear.DataNominaTitanSelect"
+      ouputdataresumencarge="opHcCrear.DataHomologacion">
     </liquidacion-ver-todas>
 
-    <pre>{{opHcCrear.DataNominaTitan | json }}</pre>
+    <!-- <pre>{{opHcCrear.DataNominaTitan | json }}</pre> -->
     <!--atributos de la orden de pago -->
     <!-- <hora-catedra-atributos-orden-pago
       inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
@@ -48,8 +49,8 @@
         </div>
       </div>
     </div>
-
-    <pre>{{opHcCrear.OrdenPago | json }}</pre>
-
+    
   </div>
+  <center><button class="btn btn-primary" ng-click="opHcCrear.registrarOpMasivo()">Registrar</button></center>
+
 </div>
