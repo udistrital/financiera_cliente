@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       enableRowSelection: true,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
       enableVerticalScrollbar: 0,
@@ -80,6 +80,7 @@ angular.module('financieraClienteApp')
     self.cargar = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
         self.tipos_cuentas = response.data;
+        self.tipo_cuenta=self.tipos_cuentas[0];
       });
 
       financieraRequest.get("plan_cuentas", $.param({
@@ -98,33 +99,50 @@ angular.module('financieraClienteApp')
    * {@link financieraService.service:financieraRequest financieraRequest}
    */
     self.crear_nuevo = function() {
-      var alerta = "";
+
       if (self.cuenta_contable == undefined || self.proveedor == undefined) {
         if (self.cuenta_contable == undefined) {
-          alerta += "<li><small>{{'ALERTA_SELECCIONAR_CUENTA' | translate}}</small></li>";
+          swal("",  $translate.instant('ALERTA_SELECCIONAR_CUENTA'), "error");
         }
-        if (self.proveedor == undefined) {
-          alerta += "<li><small>{{'ALERTA_SELECCIONAR_PROVEEDOR' | translate}}</small></li>";
+        else if (self.proveedor == undefined) {
+          swal("", $translate.instant('ALERTA_SELECCIONAR_PROVEEDOR'), "error");
         }
-        swal("", alerta, "error");
       } else {
-        var nuevo = {
-          Descripcion: self.descripcion,
-          CuentaContable: self.cuenta_contable,
-          TipoCuentaEspecial: self.tipo_cuenta,
-          InformacionPersonaJuridica: self.proveedor.NumDocumento
-        };
-        console.log(self.proveedor.Id);
-        if (self.tipo_cuenta.Nombre === "Impuesto") {
-          nuevo.Porcentaje = self.porcentaje;
-          nuevo.TarifaUvt = self.base_min;
-          nuevo.Deducible = self.deducible;
-        }
-        self.descuento_nuevo = nuevo;
-        financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
-          console.log(response);
-          swal("", "La cuenta se creo exitosamente", "success"); //pendiente a modificar servicio para el manejo de codigos
+        swal({
+          title: $translate.instant('NUEVO')+" "+self.tipo_cuenta.Nombre+'!',
+          text: $translate.instant('DESEA_CREAR_REGISTRO'),
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+          cancelButtonText: $translate.instant('BTN.CANCELAR'),
+          buttonsStyling: false
+        }).then(function() {
+          var nuevo = {
+            Descripcion: self.descripcion,
+            CuentaContable: self.cuenta_contable,
+            TipoCuentaEspecial: self.tipo_cuenta,
+            InformacionPersonaJuridica: parseInt(self.proveedor.NumDocumento)
+          };
+          console.log(self.proveedor.Id);
+          if (self.tipo_cuenta.Nombre === "Impuesto") {
+            nuevo.Porcentaje = self.porcentaje;
+            nuevo.TarifaUvt = self.base_min;
+            nuevo.Deducible = self.deducible;
+          }
+          self.descuento_nuevo = nuevo;
+          financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
+            if (response.data.Type == 'success') {
+              swal($translate.instant(response.data.Code), self.tipo_cuenta.Nombre + " " + response.data.Body, response.data.Type);
+              self.recargar = !self.recargar;
+              self.resetear();
+            } else {
+              swal("", $translate.instant(response.data.Code), response.data.Type);
+            }
+          });
         });
+
       }
     };
 
