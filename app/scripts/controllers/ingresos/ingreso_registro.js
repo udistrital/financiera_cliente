@@ -8,10 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, pagosRequest, $translate, $filter) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
         var ctrl = this;
         //prueba de codigos de facultad
-
+        $scope.load = true;
         ctrl.homologacion_facultad = [{
             old: 23,
             new: 14
@@ -41,18 +41,8 @@ angular.module('financieraClienteApp')
             rowHeight: 45
         };
 
-        ctrl.gridOptions.columnDefs = [
-            { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
-            { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
-            { name: 'nombre', displayName: 'Nombre', headerCellClass: 'text-info' },
-            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-            { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
-            { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
-            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
-        ];
+
+
         ctrl.ingreso = {};
 
         ctrl.cargarTiposIngreso = function() {
@@ -80,7 +70,6 @@ angular.module('financieraClienteApp')
                 limit: -1
             })).then(function(response) {
                 ctrl.codigo_facultad = response.data;
-                console.log(ctrl.codigo_facultad);
             });
         };
 
@@ -145,9 +134,6 @@ angular.module('financieraClienteApp')
 
 
         ctrl.consultarPagos = function() {
-
-
-
             if (ctrl.tipoIngresoSelec == null) {
                 swal("", "Debe seleccionar la forma de ingreso", "error");
             } else if (ctrl.fechaInicio == null || ctrl.fechaFin == null) {
@@ -155,58 +141,98 @@ angular.module('financieraClienteApp')
             } else if (ctrl.facultadSelec == null) {
                 swal("", "Debe seleccionar la facultad", "error");
             } else {
-
-                var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
-                var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
                 var tipo_recibo = ctrl.tipoIngresoSelec.Nombre;
                 var codigo_facultad = ctrl.facultadSelec.Id;
 
-                var parametros = [{
-                    name: "tipo_recibo",
-                    value: tipo_recibo
-                }, {
-                    name: "codigo_facultad",
-                    value: codigo_facultad
-                }, {
-                    name: "fecha_inicio",
-                    value: inicio
-                }, {
-                    name: "fecha_fin",
-                    value: fin
-                }];
-
-                console.log(parametros);
                 ctrl.rta = null;
                 ctrl.pagos = null;
                 ctrl.cargandoDatosPagos = true;
 
                 switch (tipo_recibo) {
-                    case value:
+                    case "Inscripciones":
+                        ctrl.gridOptions.columnDefs = [
+                            { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                            { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
+                            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'codigo_banco', displayName: 'Codigo del Banco', headerCellClass: 'text-info' },
+                            { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
+                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
+                        ];
+                        var inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
+                        var fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
+                        var parametros = [{
+                            name: "tipo_recibo",
+                            value: "ingresos_admisiones"
+                        }, {
+                            name: "fecha_inicio",
+                            value: inicio
+                        }, {
+                            name: "fecha_fin",
+                            value: fin
+                        }];
+                        angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                            if (facultad.new == parametros[1].value) {
+                                parametros[1].value = facultad.old;
+                            }
+                        });
+                        wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
+                            if (response != null) {
+                                ctrl.gridOptions.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
+                                console.log(ctrl.gridOptions.data);
+                            } else {
+                                console.log("no data");
+                            }
+                        });
 
                         break;
+                    case "CODIGO DE BARRAS":
+                        ctrl.gridOptions.columnDefs = [
+                            { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
+                            { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                            { name: 'nombre', displayName: 'Nombre', headerCellClass: 'text-info' },
+                            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                            { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
+                            { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
+                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
+                        ];
+                        var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
+                        var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
+                        var parametros = [{
+                            name: "tipo_recibo",
+                            value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
+                        }, {
+                            name: "facultad",
+                            value: codigo_facultad
+                        }, {
+                            name: "fecha_inicio",
+                            value: inicio
+                        }, {
+                            name: "fecha_fin",
+                            value: fin
+                        }];
+                        angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                            if (facultad.new == parametros[1].value) {
+                                parametros[1].value = facultad.old;
+                            }
+                        });
+                        wso2Request.get("academicaProxyService", parametros).then(function(response) {
+                            if (response != null) {
+                                ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
+                                console.log(ctrl.gridOptions.data);
+                            } else {
+                                console.log("no data");
+                            }
+                        });
 
                     default:
                         break;
                 }
-
-                wso2Request.get("admisionesProxyServer", parametros, { headers: { 'Accept': 'application/json' } }).then(function(response) {
-                    if (response != null) {
-                        console.log(response.data);
-                        ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
-                        ctrl.pagos = true;
-                        console.log(ctrl.gridOptions.data);
-                    } else {
-                        console.log("no data");
-                    }
-
-                }).finally(function() {
-                    // called no matter success or failure
-                    ctrl.cargandoDatosPagos = false;
-                });
             }
-
-
-        }
+        };
 
         ctrl.gridOptions.onRegisterApi = function(gridApi) {
             ctrl.gridApi = gridApi;
@@ -224,7 +250,6 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch('ingresoRegistro.concepto', function() {
-            console.log("cambio");
             ctrl.calcularTotalIngresos();
         }, true);
 
