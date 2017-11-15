@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .factory("rp", function () {
     return {};
   })
-  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, agoraRequest) {
+  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest) {
     var self = this;
     self.UnidadEjecutora=1;
     self.gridOptions = {
@@ -158,7 +158,7 @@ angular.module('financieraClienteApp')
         self.detalle = response.data;
         angular.forEach(self.detalle, function (data) {
 
-          agoraRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
+          administrativaRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
 
             data.Beneficiario = response.data;
 
