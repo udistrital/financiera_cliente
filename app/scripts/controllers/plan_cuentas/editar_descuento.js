@@ -99,6 +99,48 @@ angular.module('financieraClienteApp')
       });
     };
 
+    self.actualizar_descuento=function(){
+      //if (self.e_descuento.CuentaContable == undefined || self.e_descuento.proveedor == undefined) {
+        if (self.e_descuento.CuentaContable == undefined) {
+          swal("",  $translate.instant('ALERTA_SELECCIONAR_CUENTA'), "error");
+        }
+        else if (self.e_descuento.proveedor == undefined) {
+          swal("", $translate.instant('ALERTA_SELECCIONAR_PROVEEDOR'), "error");
+      //  }
+      } else {
+        swal({
+          title: $translate.instant('EDITAR')+" "+self.e_descuento.TipoCuentaEspecial.Nombre+'!',
+          text: $translate.instant('DESEA_ACTUALIZAR_DESCUENTO'),
+          type: 'info',
+          showCancelButton: true,
+          confirmButtonClass: 'btn btn-success',
+          cancelButtonClass: 'btn btn-danger',
+          confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+          cancelButtonText: $translate.instant('BTN.CANCELAR'),
+          buttonsStyling: false
+        }).then(function() {
+          if (self.e_descuento.TipoCuentaEspecial.Nombre=="Descuento") {
+            self.e_descuento.Porcentaje=null;
+            self.e_descuento.TarifaUvt=null;
+          }
+          financieraRequest.put("cuenta_especial",self.e_descuento.Id,self.e_descuento).then(function(response){
+            console.log(response.data);
+            if (response.data.Type == 'success') {
+              swal($translate.instant(response.data.Code), self.e_descuento.TipoCuentaEspecial.Nombre+" "+ $translate.instant('NO')+ response.data.Body, response.data.Type);
+              $scope.des_imp_uform.$setPristine();
+              $scope.des_imp_uform.$setUntouched();
+              $scope.submitted=false;
+              self.cargar_descuento();
+            } else {
+              swal("", $translate.instant(response.data.Code), response.data.Type);
+            }
+          });
+
+        });
+      }
+
+    };
+
     self.cargar_descuento();
     self.cargar_tipos();
     self.cargar_plan_maestro();
