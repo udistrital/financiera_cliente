@@ -231,7 +231,7 @@ angular.module('financieraClienteApp')
      $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
       
        
-        self.cragarDatos(0,'');
+        //self.cragarDatos(0,'');
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());

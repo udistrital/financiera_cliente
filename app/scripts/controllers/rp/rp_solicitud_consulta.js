@@ -17,13 +17,13 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest, oikosRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
     self.gridOptions = {
-      enableRowSelection: true,
-      enableRowHeaderSelection: true,
+      enableRowSelection: false,
+      enableRowHeaderSelection: false,
       enableFiltering: true,
        paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
@@ -89,6 +89,12 @@ angular.module('financieraClienteApp')
       self.Vigencia = self.years[0];
       self.gridOptions.totalItems = 5000;
       self.actualizar_solicitudes(0,'');
+    });
+    oikosRequest.get("dependencia",$.param({
+          limit: -1,
+        }))
+    .then(function(response){
+      self.Dependencias = response.data;
     });
     /**
      * @ngdoc function
@@ -444,7 +450,7 @@ angular.module('financieraClienteApp')
     $scope.$watch("rpSolicitudConsulta.Vigencia", function() {
       
        
-        self.actualizar_solicitudes(0,'');
+        //self.actualizar_solicitudes(0,'');
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());

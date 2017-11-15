@@ -4,15 +4,10 @@
     <!-- Liquidaciones -->
     <liquidacion-ver-todas
       inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
-      ouputdatanominaselect="opHcCrear.DataNominaTitan">
+      ouputdatanominaselect="opHcCrear.DataNominaTitanSelect"
+      ouputdataresumencarge="opHcCrear.DataHomologacion">
     </liquidacion-ver-todas>
 
-    <pre>{{opHcCrear.DataNominaTitan | json }}</pre>
-    <!--atributos de la orden de pago -->
-    <!-- <hora-catedra-atributos-orden-pago
-      inputpestanaabierta="opHcCrear.PestanaAbiertaLiquidacion"
-      inputnomina="opHcCrear.NominaTitan">
-    </hora-catedra-atributos-orden-pago> -->
 
     <!--Valor del Pago-->
     <legend class="text-primary" ng-click="opHcCrear.PestanaAbiertaDetallePago=!opHcCrear.PestanaAbiertaDetallePago">
@@ -37,19 +32,25 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
           <div class="col-sm-4">
-            <span class="form-control input_right">{{opHcCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+          <input ng-model="opHcCrear.OrdenPago.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
           </div>
           <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
           <div class="col-sm-4">
             <span class="form-control input_right">1</span>
           </div>
         </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">{{opHcCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <pre>{{opHcCrear.OrdenPago | json }}</pre>
-
   </div>
+  <center><button class="btn btn-primary" ng-click="opHcCrear.registrarOpMasivo()">Registrar</button></center>
+
 </div>
