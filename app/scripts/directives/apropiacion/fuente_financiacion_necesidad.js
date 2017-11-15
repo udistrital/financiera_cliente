@@ -7,7 +7,7 @@
  * # apropiacion/fuenteFinanciacionNecesidad
  */
 angular.module('financieraClienteApp')
-  .directive('fuenteFinanciacionNecesidad', function (administrativaRequest,financieraRequest) {
+  .directive('fuenteFinanciacionNecesidad', function (argoRequest,financieraRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
           $scope.resumenafectacion = [];
           if ($scope.necesidad != undefined && $scope.apropiacion != undefined){
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
-              administrativaRequest.get('fuente_financiacion_rubro_necesidad',$.param({
+              argoRequest.get('fuente_financiacion_rubro_necesidad',$.param({
                 query: "Necesidad.Id:"+$scope.necesidad+",Apropiacion:"+apropiacion_data,
                 limit: -1
               })).then(function(response) {
