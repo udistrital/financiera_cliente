@@ -37,7 +37,7 @@ angular.module('financieraClienteApp')
             field: 'Id',
             displayName: $translate.instant('ID'),
             headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-            width: '7%'
+            width: '5%'
         },
         {
           field: 'Descripcion',
@@ -49,7 +49,7 @@ angular.module('financieraClienteApp')
           field: 'TarifaUvt',
           displayName: $translate.instant('UVT'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '5%'
+          width: '7%'
         },
         {
           field: 'Porcentaje',
@@ -68,13 +68,13 @@ angular.module('financieraClienteApp')
           field: 'CuentaContable.Codigo',
           displayName: $translate.instant('CODIGO_CUENTA'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '13%'
+          width: '9%'
         },
         {
           field: 'proveedor.NomProveedor',
           displayName: $translate.instant('PROVEEDOR'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '12%'
+          width: '16%'
         },
         {
           field: 'TipoCuentaEspecial.Nombre',
@@ -87,7 +87,7 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '5%',
           cellTemplate: '<center>' +
-            '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
+            '<a href="#/plan_cuentas/editar_descuento/{{row.entity.Id}}" class="editar">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
             '</center>'
         }
