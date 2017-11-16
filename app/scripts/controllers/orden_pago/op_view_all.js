@@ -16,7 +16,9 @@ angular.module('financieraClienteApp')
         $scope.aristas = [];
         $scope.estadoclick = {};
         $scope.senDataEstado = {};
-        $scope.senDataEstado.Usuario = {'Id': 1}
+        $scope.senDataEstado.Usuario = {
+            'Id': 1
+        }
 
         ctrl.gridOrdenesDePago = {
             enableRowSelection: true,
@@ -51,17 +53,17 @@ angular.module('financieraClienteApp')
                 $scope.senDataEstado.OrdenPago = data;
                 $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
                 financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
-                .then(function(data){
-                  $scope.resultado = data;
-                  swal({
-                    title: 'Orden de Pago',
-                    text: $translate.instant($scope.resultado.data.Code),
-                    type: $scope.resultado.data.Type,
-                  }).then(function() {
-                    $window.location.reload();
-                    //$window.location.href = '#/orden_pago/ver_todos';
-                  })
-                })
+                    .then(function(data) {
+                        $scope.resultado = data;
+                        swal({
+                            title: 'Orden de Pago',
+                            text: $translate.instant($scope.resultado.data.Code),
+                            type: $scope.resultado.data.Type,
+                        }).then(function() {
+                            $window.location.reload();
+                            //$window.location.href = '#/orden_pago/ver_todos';
+                        })
+                    })
             } else {
                 swal(
                     '',
@@ -69,7 +71,6 @@ angular.module('financieraClienteApp')
                     'warning'
                 );
             }
-
         };
 
         $scope.$watch('estado_select', function() {
@@ -90,7 +91,13 @@ angular.module('financieraClienteApp')
                     filter: {
                         //term: 'OP-PROV',
                         type: uiGridConstants.filter.SELECT,
-                        selectOptions: [{ value: 'OP-PROV', label: 'OP-PROV' }, { value: 'OP-PLAN', label: 'OP-PLAN' }]
+                        selectOptions: [{
+                            value: 'OP-PROV',
+                            label: 'OP-PROV'
+                        }, {
+                            value: 'OP-PLAN',
+                            label: 'OP-PLAN'
+                        }]
                     }
                 },
                 {
@@ -156,7 +163,7 @@ angular.module('financieraClienteApp')
                     enableFiltering: false,
                     width: '5%',
                     cellTemplate: '<center>' +
-                        '<a class="ver" ng-click="grid.appScope.d_opListarTodas.op_detalle(row)">' +
+                        '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
                         '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
                         '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
                         '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
@@ -164,7 +171,6 @@ angular.module('financieraClienteApp')
                 }
             ];
         });
-
 
         // OP Proveedores
         ctrl.op_detalle = function(row) {
@@ -216,16 +222,40 @@ angular.module('financieraClienteApp')
                 $scope.aristas = [];
                 ctrl.estados = response.data;
                 angular.forEach(ctrl.estados, function(estado) {
-                    $scope.estados.push({ id: estado.Id, label: estado.Nombre });
-                    $scope.estado_select.push({ value: estado.Nombre, label: estado.Nombre, estado: estado });
+                    $scope.estados.push({
+                        id: estado.Id,
+                        label: estado.Nombre
+                    });
+                    $scope.estado_select.push({
+                        value: estado.Nombre,
+                        label: estado.Nombre,
+                        estado: estado
+                    });
                 });
-                $scope.aristas = [
-                    { from: 1, to: 2 },
-                    { from: 1, to: 3 },
-                    { from: 2, to: 4 },
-                    { from: 2, to: 5 },
-                    { from: 4, to: 6 },
-                    { from: 6, to: 7 }
+                $scope.aristas = [{
+                        from: 1,
+                        to: 2
+                    },
+                    {
+                        from: 1,
+                        to: 3
+                    },
+                    {
+                        from: 2,
+                        to: 4
+                    },
+                    {
+                        from: 2,
+                        to: 5
+                    },
+                    {
+                        from: 4,
+                        to: 6
+                    },
+                    {
+                        from: 6,
+                        to: 7
+                    }
                 ];
             });
     });
