@@ -16,7 +16,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .controller('PlanCuentasCrearCuentasCtrl', function(financieraRequest, $scope) {
+  .controller('PlanCuentasCrearCuentasCtrl', function(financieraRequest, $scope, $translate) {
     // Instanciación del scope local a variable self
     var self = this;
     self.cuentas = [];
@@ -53,71 +53,39 @@ angular.module('financieraClienteApp')
     self.crear_cuenta = function() {
       // Se implementa sweet alert 2 para mostrar la alerta de confirmacion
       swal({
-        title: 'Nueva Cuenta!',
-        text: "Deseas crear la nueva cuenta?",
+        title: $translate.instant('NUEVA_CUENTA')+'!',
+        text: $translate.instant('DESEA_CREAR_CUENTA'),
         type: 'info',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonClass: 'btn btn-success',
+        cancelButtonClass: 'btn btn-danger',
+        confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+        cancelButtonText: $translate.instant('BTN.CANCELAR'),
+        buttonsStyling: false
       }).then(function() {
         //Se verifica si existe una cuenta padre seleccionada
-        if (self.padre != undefined) {
-          self.nueva_cuenta.Codigo = self.padre.Codigo.concat("-", self.nueva_cuenta.Codigo); //Realiza una concatenacion del codigo para la cuenta a crearse
-          self.tr_padre = self.padre; //Se instancia la cuenta padre en otra variable para ser enviada por el servicio
-        } else {
-          self.tr_padre = {};
-        }
-        self.tr_cuenta = {
-          Cuenta: self.nueva_cuenta,
-          CuentaPadre: self.tr_padre,
+        var tr_cuenta = {
+          Cuenta: angular.copy(self.nueva_cuenta),
           PlanCuentas: self.plan_maestro
         };
+        if (self.padre != undefined) {
+          tr_cuenta.Cuenta.Codigo = self.padre.Codigo.concat("-", self.nueva_cuenta.Codigo); //Realiza una concatenacion del codigo para la cuenta a crearse
+          tr_cuenta.CuentaPadre = self.padre; //Se instancia la cuenta padre en otra variable para ser enviada por el servicio
+        } else {
+          tr_cuenta.CuentaPadre  = {};
+        }
         //Se consume servicio por el metodo post
-        financieraRequest.post('tr_cuentas_contables', self.tr_cuenta).then(function(response) {
-          self.alerta = "";
-          for (var i = 1; i < response.data.length; i++) {
-            self.alerta = self.alerta + response.data[i] + "\n";
-          }
-          swal("", self.alerta, response.data[0]);
-          self.recargar_arbol = !self.recargar_arbol;
-          // limpia el formulario si la creacion de la cuena fue exitosA
-          if (response.data[0] == "success") {
+        financieraRequest.post('tr_cuentas_contables', tr_cuenta).then(function(response) {
+          if (response.data.Type == 'success') {
+            swal($translate.instant(response.data.Code), $translate.instant("CUENTA") + " " + response.data.Body, response.data.Type);
             $scope.cuentas_form.$setPristine();
             $scope.cuentas_form.$setUntouched();
             self.nueva_cuenta = {};
             self.padre = undefined;
+          } else {
+            swal("", $translate.instant(response.data.Code), response.data.Type);
           }
-        });
-      });
-    };
-
-    /**
-     * @ngdoc function
-     * @name financieraClienteApp.controller:PlanCuentasCrearCuentasCtrl#resetear
-     * @methodOf financieraClienteApp.controller:PlanCuentasCrearCuentasCtrl
-     * @param {object} form formulario que es enviado desde la vista para la respectiva limpieza
-     * @description Realiza una limpieza sobre los datos digitados en el formulario que es recibido como parámetro
-     */
-    self.resetear = function() {
-      // alerta para confirmar la limpieza del formulario
-      swal({
-        text: "Deseas limpiar el formulario?",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Aceptar',
-        cancelButtonText: 'Cancelar',
-      }).then(function() {
-        $scope.cuentas_form.$setPristine();
-        $scope.cuentas_form.$setUntouched();
-        self.nueva_cuenta = {};
-        self.padre = undefined;
-        financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
-          self.nivel = response.data;
-          self.nueva_cuenta.NivelClasificacion = response.data;
+          // limpia el formulario si la creacion de la cuena fue exitosA
         });
       });
     };
