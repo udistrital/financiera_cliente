@@ -33,6 +33,7 @@ angular.module('financieraClienteApp')
                     $scope.loading = parseInt(cfpLoadingBar.status() * 100);
                     if ($scope.loading == 0 || $scope.loading == 100) {
                         $scope.load = false;
+
                     } else {
                         $scope.load = true;
                     }

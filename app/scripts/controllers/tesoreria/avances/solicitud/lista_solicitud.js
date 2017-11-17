@@ -8,14 +8,19 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $translate, $scope, academicaRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
+
+        $scope.estados = [];
+        $scope.estado_select = [];
+        $scope.aristas = [];
+        $scope.estadoclick = {};
+
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "ver", clase_css: "fa  fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VALIDAR'), operacion: 'validar', estado: true },
-            { clase_color: "editar", clase_css: "fa fa fa-sitemap faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'estado', estado: true }
+            { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
         ];
 
         $scope.toggle = function(item, list) {
@@ -53,7 +58,6 @@ angular.module('financieraClienteApp')
                         //aqui va la conexions con el beneficiario
                         academicaRequest.get("documento=" + solicitud.Beneficiario)
                             .then(function(response) {
-                                console.log(response.data)
                                 solicitud.Tercero = response.data[0];
                             });
                         financieraRequest.get("solicitud_tipo_avance", $.param({
@@ -192,9 +196,69 @@ angular.module('financieraClienteApp')
                         $('#modal_validar').modal('show');
                     }
                     break;
+                case "proceso":
+                    $scope.estado = row.entity.Estado[0].EstadoAvance;
+                    break;
                 default:
             }
         };
+
+        $scope.funcion = function() {
+            $scope.estadoclick = $localStorage.nodeclick;
+            switch ($scope.estadoclick.Id) {
+                case (3):
+                    $('#modal_validar').modal('show');
+                    break;
+                case (2):
+                    $scope.estado = row.entity.EstadoIngreso;
+                    break;
+            }
+        };
+
+        ctrl.cargarEstados = function() {
+            financieraRequest.get("estado_avance", $.param({
+                    sortby: "NumeroOrden",
+                    limit: -1,
+                    order: "asc"
+                }))
+                .then(function(response) {
+                    $scope.estados = [];
+                    $scope.aristas = [];
+                    ctrl.estados = response.data;
+                    angular.forEach(ctrl.estados, function(estado) {
+                        $scope.estados.push({
+                            id: estado.Id,
+                            label: estado.Nombre
+                        });
+                        $scope.estado_select.push({
+                            value: estado.Nombre,
+                            label: estado.Nombre,
+                            estado: estado
+                        });
+                    });
+                    $scope.aristas = [{
+                            from: 2,
+                            to: 3
+                        },
+                        {
+                            from: 2,
+                            to: 1
+                        },
+                        {
+                            from: 3,
+                            to: 4
+                        }, {
+                            from: 4,
+                            to: 5
+                        }, {
+                            from: 5,
+                            to: 6
+                        }
+                    ];
+                });
+        };
+        ctrl.cargarEstados();
+
         ctrl.validar_solicitud = function() {
             var error = "<ol>";
             var i = 0,
