@@ -34,16 +34,16 @@ angular.module('financieraClienteApp')
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
-              field: 'CuentaContable.CuentaContable.Id',
+              field: 'CuentaContable.Id',
               visible: false
             },
             {
-              field: 'CuentaContable.CuentaContable.Codigo',
+              field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CUENTAS_CONTABLES'),
               width: '20%',
             },
             {
-              field: 'CuentaContable.CuentaContable.Nombre',
+              field: 'CuentaContable.Nombre',
               displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
             },
             {
@@ -66,7 +66,7 @@ angular.module('financieraClienteApp')
               width: '15%',
             },
             {
-              field: 'CuentaContable.CuentaContable.Naturaleza',
+              field: 'CuentaContable.Naturaleza',
               displayName: $translate.instant('NATURALEZA'),
               width: '10%',
             },
@@ -141,16 +141,16 @@ angular.module('financieraClienteApp')
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
-              field: 'CuentaContable.CuentaContable.Id',
+              field: 'CuentaContable.Id',
               visible: false
             },
             {
-              field: 'CuentaContable.CuentaContable.Codigo',
+              field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CUENTAS_CONTABLES'),
               width: '20%',
             },
             {
-              field: 'CuentaContable.CuentaContable.Nombre',
+              field: 'CuentaContable.Nombre',
               displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
             },
             {
@@ -173,7 +173,7 @@ angular.module('financieraClienteApp')
               width: '15%',
             },
             {
-              field: 'CuentaContable.CuentaContable.Naturaleza',
+              field: 'CuentaContable.Naturaleza',
               displayName: $translate.instant('NATURALEZA'),
               width: '10%',
             },
