@@ -35,7 +35,7 @@ angular.module('wso2Service', [])
                 angular.forEach(params, function(p) {
                     param_string += "/" + p.value;
                 });
-                return $http.get(path + service + param_string, { headers: { 'Accept': 'application/json' } });
+                return $http.get(path + "/" + service + param_string, { headers: { 'Accept': 'application/json' } });
             }
         };
     });
