@@ -16,19 +16,19 @@
           <div class="col-md-12">
             <p></p>
             <label for="codigocuenta">{{'CODIGO' | translate }}:</label>
-            <input class="form-control" type="text" id="codigocuenta" ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}">
+            <input class="form-control" type="text" maxlength="6" id="codigocuenta"  ng-model="crearFuente.nueva_fuente.Codigo" placeholder="{{'INGRESE_CODIGO' | translate}}">
           </div>
 
           <div class="col-md-12">
             <p></p>
             <label for="Nombre">{{'NOMBRE' | translate }}:</label>
-            <input class="form-control" type="text" id="Nombre" ng-model="crearFuente.nueva_fuente.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate }}">
+            <input class="form-control" type="text" id="Nombre" maxlength="250" ng-model="crearFuente.nueva_fuente.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate }}">
           </div>
 
           <div class="col-md-12">
             <p></p>
             <label for="nombrefuente">{{'DESCRIPCION' | translate }}:</label>
-            <textarea class="form-control" type="text" id="nombrefuente" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}"></textarea>
+            <textarea class="form-control" type="text" id="nombrefuente" maxlength="250" ng-model="crearFuente.nueva_fuente.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate }}"></textarea>
           </div>
 
           <div class="col-md-12">
@@ -48,7 +48,7 @@
           <div class="col-md-6">
             <p></p>
             <label for="no_documento">{{'NO_DOCUMENTO' | translate }}:</label>
-            <input class="form-control" type="text" id="no_documento" ng-model="crearFuente.nueva_fuente_apropiacion.no_documento" placeholder="{{'INGRESE_NO_DOCUMENTO' | translate}}">
+            <input class="form-control" type="text" maxlength="8" id="no_documento" ng-model="crearFuente.nueva_fuente_apropiacion.no_documento" placeholder="{{'INGRESE_NO_DOCUMENTO' | translate}}">
           </div>
 
           <div class="col-md-12">
@@ -56,7 +56,6 @@
             <label for="fecha_documento">{{'FECHA_DOCUMENTO' | translate }}:</label>
             <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.fecha_documento" md-placeholder="{{'INGRESE_FECHA_DOCUMENTO' | translate}}"></md-datepicker>
           </div>
-
 
           <div class="col-md-12">
             <p></p>
@@ -103,7 +102,7 @@
 
             <div class="form-group col-md-12">
               <legend class="text-default" disable>
-                {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Descripcion}}
+                {{'RUBRO' | translate}} : {{rubro.Rubro.Codigo + ' / ' + rubro.Rubro.Nombre}}
               </legend class="text-success">
 
             </div>
@@ -238,7 +237,7 @@
       </div>
       <hr>
       <center>
-        <button ng-click='crearFuente.crear_fuente()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
+        <button ng-click='crearFuente.crear_documento()' class="btn btn-success btn-outline">{{'CREAR_FUENTE' | translate }}</button>
       </center>
       <hr>
     </div>

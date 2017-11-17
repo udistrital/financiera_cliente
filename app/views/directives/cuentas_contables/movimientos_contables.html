@@ -1,20 +1,20 @@
-<div class="panel panel-default" ng-show="showmovs">
+<div class="panel panel-default shadow-box" ng-show="showmovs">
 
   <div class="panel-heading">
 
     <div class="row">
       <div class="col-md-8">
-        <strong>
         <span style="color: black panel-title"> {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}}:
-         {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Nombre}} </span> //
-        <span>{{"RUBRO" | translate}}: {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Rubro.Codigo}}
-          {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Rubro.Descripcion}}</span></strong>
+         {{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Nombre}} </span>
+         <a href="" class="ver" data-toggle="modal" data-target="#modalConceptos{{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}}">
+             <i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" title="{{'BTN.VER' | translate }}"></i>
+         </a>
       </div>
 
       <div class="col-md-4">
         <div class="pull-right">
           <span for="montomovimiento">{{"VALOR" | translate}}</span>
-          <input class="text-success" id="montomovimiento" type="text" ng-model="monto" ng-disabled="!editable" style="height: 25px" ui-money-mask="0">
+          <input class="text-success form-control form-control-inline" id="montomovimiento" type="text" ng-model="monto" ng-disabled="!editable" style="height: 25px" ui-money-mask="0">
         </div>
       </div>
 
@@ -26,8 +26,6 @@
   <div ng-show="show_descs">
     <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos{{conceptoid}}">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
-
-
 
   <div id="modalDescuentos{{conceptoid}}" class="modal fade">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
@@ -70,4 +68,17 @@
       <br><small>{{"PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA" | translate}}</small>
     </div>
   </div>
+
+  <div id="modalConceptos{{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}}" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class=" btn-xs close" data-dismiss="modal">&times</button>
+      </div>
+      <div class="modal-body" ng-if="d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo!=undefined">
+        <ver-concepto codigoconcepto="d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo" />
+      </div>
+    </div>
+
+  </div>
+
 </div>

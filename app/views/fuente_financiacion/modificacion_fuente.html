@@ -29,7 +29,7 @@
               <p></p>
               <label for="fuente">{{'RUBRO' | translate }}:</label>
               <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.adicion_rubro " ng-change="modificacionFuente.mostrar_fuentes()" data-live-search="true">
-              <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+              <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
             </select>
             </div>
 
@@ -126,14 +126,14 @@
 
             <div class="form-group" ng-repeat="asignado in fuente.seleccionado">
 
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <label for="fuente">{{'DEPENDENCIA' | translate }}:</label>
                 <select data-size="10" title="{{'SELECCIONE_DEPENDENCIA' | translate }}" ng-model="asignado.Dependencia" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} class="selectpicker form-control" data-live-search="true"></select>
               </div>
 
-              <div class="col-md-2">
-                <label for="valor">{{'VALOR' | translate }}:</label>
-                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorTotal" disabled>
+              <div class="col-md-3">
+                <label for="valor">{{'DISPONIBLE' | translate }}:</label>
+                <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="asignado.ValorDisponible" disabled>
               </div>
               <div class="col-md-3">
                 <label for="valor">{{'VALOR_ADICION' | translate }}:</label>
@@ -187,7 +187,7 @@
             <p></p>
             <label for="fuente">{{'RUBRO_ORIGEN' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_origen " ng-change="modificacionFuente.buscar_dependencia()" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+            <option ng-repeat="n in modificacionFuente.fuentes_traslado"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
           </select>
           </div>
 
@@ -216,7 +216,7 @@
             <p></p>
             <label for="fuente">{{'RUBRO_DESTINO' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_destino" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Descripcion}}</option>
+            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
           </select>
           </div>
 
