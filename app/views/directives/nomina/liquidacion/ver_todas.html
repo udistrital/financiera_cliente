@@ -66,9 +66,11 @@
 </legend class="text-primary">
 <div class="panel-body row" ng-show="b">
   <div class="col-md-6">
-    <p>Contable</p>
+    <h4><b>Contable</b></h4>
+    <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptionsResumenMovimientosContables" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
   </div>
   <div class="col-md-6">
-    <p>Presupuestal</p>
+    <h4><b>Presupuestal</b></h4>
+    <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptionsResumenConceptos" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
   </div>
 </div>
