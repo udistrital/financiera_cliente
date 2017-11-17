@@ -85,7 +85,7 @@ angular.module('financieraClienteApp')
             console.log(response);
             console.log("Resultado");
             angular.forEach(self.resultado, function(mensaje){
-                self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + "</li>";
+                self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
             })
             swal({
               title: 'Orden de Pago',
