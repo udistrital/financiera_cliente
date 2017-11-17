@@ -384,11 +384,18 @@ angular
                 controller: 'conceptosEditarCtrl',
                 controllerAs: 'conceptosEditar'
             })
+
+            .when('/plan_cuentas/editar_descuento/:Id', {
+              templateUrl: 'views/plan_cuentas/editar_descuento.html',
+              controller: 'EditarDescuentoCtrl',
+              controllerAs: 'editarDescuento'
+            })
             .when('/rp/rp_cargue_masivo', {
               templateUrl: 'views/rp/rp_cargue_masivo.html',
               controller: 'RpRpCargueMasivoCtrl',
               controllerAs: 'rpCargueMasivo'
             })
+      
             .otherwise({
                 redirectTo: '/'
             });
