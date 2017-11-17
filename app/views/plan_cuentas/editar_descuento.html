@@ -1,0 +1,94 @@
+<div class="panel panel-primary panel-body shadow-box">
+  <center>
+    <h3 class="page-header">{{editarDescuento.e_descuento.TipoCuentaEspecial.Nombre}} {{"NO" | translate}} {{editarDescuento.e_descuento.Id}}</h3></center>
+
+  <div >
+    <div >
+
+        <form name="des_imp_uform" ng-submit="des_imp_uform.$valid && editarDescuento.actualizar_descuento()" focus-on-field validate>
+
+          <div class="form-group col-md-12">
+            <label>{{"TIPO" | translate}}*:</label>
+            <select class="form-control"  ng-model="editarDescuento.e_descuento.TipoCuentaEspecial" ng-options="tipo.Nombre for tipo in editarDescuento.tipos_cuentas track by tipo.Id" required>
+            <option value="" disabled>--{{"SELECCION_OPCION" | translate}}--</option>
+          </select>
+        </div>
+
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && conceptoForm.edesc.$invalid}">
+            <label>{{"DESCRIPCION" | translate}}*:</label>
+            <textarea name="edesc" type="text" class="form-control" ng-model="editarDescuento.e_descuento.Descripcion" placeholder="{{'DESCRIPCION' | translate}} {{editarDescuento.tipo_cuenta.Nombre}}" rows="6" required></textarea>
+            <div ng-messages="des_imp_uform.edesc.$error" style="color:maroon" role="alert" ng-show="submitted">
+              <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+            </div>
+          </div>
+
+
+          <div ng-if="editarDescuento.e_descuento.TipoCuentaEspecial.Nombre =='Impuesto'">
+
+              <div class="form-group col-md-6" ng-class="{'text-danger ng-dirty': submitted && conceptoForm.dporc.$invalid}">
+                <label for="porcdescuento">{{"PORCENTAJE" | translate}}*:</label>
+                <input name="dporc" type="text" class="form-control" name="field" ng-model="editarDescuento.e_descuento.Porcentaje" ui-number-mask="2" id="porcdescuento" placeholder="0.00" required>
+                <div ng-messages="des_imp_uform.dporc.$error" style="color:maroon" role="alert" ng-show="submitted">
+                  <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-6" ng-class="{'text-danger ng-dirty': submitted && conceptoForm.duvt.$invalid}">
+                <label for="basemin">{{"BASE_UVT" | translate}}*:</label>
+                <input name="duvt" type="text" class="form-control" id="basemin" ng-model="editarDescuento.e_descuento.TarifaUvt" placeholder="Indica el valor minimo" ui-money-mask="0" required>
+                <div ng-messages="des_imp_uform.duvt.$error" style="color:maroon" role="alert" ng-show="submitted">
+                  <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+                </div>
+              </div>
+
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="cuentadescuento">{{"CUENTA_CONTABLE" | translate}}*:</label>
+            <div ng-if="editarDescuento.e_descuento.CuentaContable != undefined">
+              <span class="form-control" readonly><strong>{{editarDescuento.e_descuento.CuentaContable.Codigo}}</strong> {{editarDescuento.e_descuento.CuentaContable.Nombre}} <span class="text-danger pull-right" ng-click="editarDescuento.e_descuento.CuentaContable=undefined">X</span></span>
+            </div>
+            <div class="form-group">
+              <small ng-class="{'text-danger ng-dirty': submitted && editarDescuento.e_descuento.CuentaContable == undefined}">{{"SELECCIONAR_CUENTA_CONTABLE" | translate}}</small>
+              <div ng-if="editarDescuento.plan_maestro!=undefined">
+                <plan-cuentas filtro="filtro_padre" seleccion="editarDescuento.e_descuento.CuentaContable" planid="editarDescuento.plan_maestro.Id" rdesc/>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="descdescuento">{{"PROVEEDOR" | translate}}*:</label>
+            <div class="form-group" ng-show="editarDescuento.e_descuento.proveedor != undefined">
+              <span class="form-control" readonly><strong>{{editarDescuento.e_descuento.proveedor.NumDocumento}}</strong> - {{editarDescuento.e_descuento.proveedor.NomProveedor}} <span class="text-danger pull-right" ng-click="editarDescuento.e_descuento.proveedor=undefined">X</span></span>
+            </div>
+            <div class="form-group">
+              <span>{{"DOCUMENTO" | translate}}: </span><input type="number" class="form-control form-control-inline" ng-model="num_documento"> <i class="btn btn-primary fa fa-search" aria-hidden="true" ng-click="editarDescuento.search_terceros()"></i> {{"BUSCAR" | translate}}
+            </div>
+            <div class="panel panel-default shadow-box" ng-show="editarDescuento.gridOptions.data.length>0">
+              <div ui-grid="editarDescuento.gridOptions" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12">
+            <label for="deducible">{{"DEDUCIBLE" | translate}}:</label>
+            <input type="checkbox" ng-model="editarDescuento.e_descuento.Deducible" class="checkbox-inline" id="deducible">
+          </div>
+
+          <div class="form-group col-md-12">
+            <center>
+              <input type="submit" class="btn btn-success btn-lg shadow-box" value="{{'BTN.CONFIRMAR' | translate}}" ng-click="submitted=true">
+              <a href="#/plan_cuentas/gestion_descuentos" class="btn btn-danger btn-lg shadow-box">{{"BTN.CANCELAR" | translate}}</a>
+            </center>
+          </div>
+
+
+        </form>
+
+    </div>
+  </div>
+  <!--<pre>{{editarDescuento.descuento_nuevo | json}}</pre>-->
+
+
+
+
+</div>
