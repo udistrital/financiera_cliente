@@ -22,7 +22,6 @@ angular.module('agoraService', [])
 .factory('agoraRequest', function($http, CONF) {
 
     var path = CONF.GENERAL.AGORA_SERVICE;
-    //var path = "http://127.0.0.1:8089/v1/";
     // Public API here
     return {
         /**

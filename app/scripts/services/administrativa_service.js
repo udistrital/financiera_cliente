@@ -12,7 +12,6 @@ angular.module('administrativaService', [])
         // Service logic
         // ...
         var path = CONF.GENERAL.ADMINISTRATIVA_SERVICE;
-        //var path = CONF.GENERAL.ADMINISTRATIVA_SERVICE;
         // Public API here
         return {
             get: function(tabla, params) {
