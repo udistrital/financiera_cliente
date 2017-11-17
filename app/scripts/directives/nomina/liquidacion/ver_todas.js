@@ -7,7 +7,7 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate) {
+  .directive('liquidacionVerTodas', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       scope: {
@@ -27,6 +27,81 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
           self.nomina = response.data;
         })
+        // Resumen
+        self.gridOptionsResumenMovimientosContables = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'CuentaContable.CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+        self.gridOptionsResumenConceptos = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'Rubro.Id',
+              visible: false
+            },
+            {
+              field: 'Rubro.Codigo',
+              displayName: $translate.instant('RUBRO') + " " + $translate.instant('CODIGO'),
+              width: '30%',
+            },
+            {
+              field: 'Rubro.Nombre',
+              displayName: $translate.instant('NOMBRE'),
+              width: '50%',
+            },
+            {
+              field: 'Afectacion',
+              displayName: $translate.instant('AFECTACION'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '20%',
+            },
+          ]
+        };
         //
         self.gridOptionsConceptos = {
           enableRowHeaderSelection: false,
@@ -62,6 +137,7 @@ angular.module('financieraClienteApp')
         //
         self.gridOptionsMovimientosContables = {
           enableRowHeaderSelection: false,
+          showColumnFooter: true,
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
@@ -82,13 +158,18 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('DEBITO'),
               cellFilter: 'currency',
               cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
               width: '15%',
+
             },
             {
               field: 'Credito',
               displayName: $translate.instant('CREDITO'),
               cellFilter: 'currency',
               cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
               width: '15%',
             },
             {
@@ -192,6 +273,10 @@ angular.module('financieraClienteApp')
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
+            $scope.mostrar = false;
+            $scope.mostraDetalleError = false;
+            self.gridOptionsConceptos.data = {};
+            self.gridOptionsMovimientosContables.data = {};
             self.refresh();
             financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
               $.param({
@@ -203,9 +288,15 @@ angular.module('financieraClienteApp')
               if (response.data.Type == 'error') {
                 self.gridOptionsPreliquidacionPersonas.data = {};
                 $scope.ouputdataresumencarge = {};
+                self.gridOptionsResumenMovimientosContables.data = {};
+                self.gridOptionsResumenConceptos.data = {};
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
                 $scope.ouputdataresumencarge = response.data;
+                self.gridOptionsResumenMovimientosContables.data = response.data.ResumenCargueOp.ResumenContable;
+                self.gridOptionsResumenConceptos.data = response.data.ResumenCargueOp.ResumenPresupuestal;
+
+
               }
             })
           }
