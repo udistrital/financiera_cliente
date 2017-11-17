@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
             swal({
               title: 'Orden de Pago',
               html: '<ol align="left">' + self.MensajesAlertaSend + '</ol>',
-              type: "warning",
+              type: "success",
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
             })
