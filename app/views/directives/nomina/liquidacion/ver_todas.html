@@ -9,13 +9,13 @@
       <label for="tipo_documento" class="col-sm-1 control-label">{{'TIPO' | translate }} {{'NOMINA' | translate }}</label>
       <div class="col-sm-3">
         <select ng-model="nominaSelect" ng-options="i.Descripcion for i in d_liquidacionVerTodas.nomina" ng-change="d_liquidacionVerTodas.consultar()" class="form-control" required>
-        <option value="">Seleccionar Nomina</option>
+        <option value="">Seleccionar Nómina</option>
       </select>
       </div>
       <label for="formapago" class="col-sm-1 control-label">{{'MES' | translate }}</label>
       <div class="col-sm-3">
         <select ng-model="mesSelect" class="form-control" ng-change="d_liquidacionVerTodas.consultar()" required>
-        <option value="">Seleccionar Forma de Pago</option>
+        <option value="">Seleccionar Mes</option>
         <option value="1"> {{'MES_ENERO' | translate }} </option>
         <option value="2"> {{'MES_FEBRERO' | translate }} </option>
         <option value="3"> {{'MES_MARZO' | translate }} </option>
