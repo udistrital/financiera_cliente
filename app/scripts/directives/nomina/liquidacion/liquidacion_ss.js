@@ -7,7 +7,7 @@
  * # nomina/liquidacion/liquidacionSs
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionSs', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate) {
+  .directive('liquidacionSs', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       scope: {
@@ -30,6 +30,12 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         });
+        titanRequest.get('nomina',
+          $.param({
+            limit: '-1',
+          })).then(function(response) {
+          self.nomina = response.data;
+        })
         //
         self.gridOptionsPreliquidacionPersonas = {
           enableRowHeaderSelection: false,
@@ -97,37 +103,115 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-
+        // ver movimeintos
+        self.gridOptionsConceptos = {
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'Concepto.Id',
+              visible: false
+            },
+            {
+              field: 'Concepto.Codigo',
+              displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
+              width: '20%',
+            },
+            {
+              field: 'Concepto.Nombre',
+              displayName: $translate.instant('NOMBRE'),
+            },
+            {
+              field: 'Concepto.TipoConcepto.Nombre',
+              displayName: $translate.instant('TIPO'),
+              width: '10%',
+            },
+            {
+              field: 'Valor',
+              displayName: $translate.instant('AFECTACION'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              width: '15%',
+            },
+          ]
+        };
         //
-        titanRequest.get('nomina',
-          $.param({
-            limit: '-1',
-          })).then(function(response) {
-          self.nomina = response.data;
-        })
+        self.gridOptionsMovimientosContables = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+
+
+
         // para desarrollo
-        financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
-          $.param({
-            idNomina: 5,
-            mesLiquidacion: 9,
-            anioLiquidacion: 2017,
-          })
-        ).then(function(response) {
-            console.log(response.data);
-          if (response.data != null) {
-            self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-            self.PeriodoPago = response.data.PeriodoPago;
-          } else {
-            self.gridOptionsPreliquidacionPersonas.data = {};
-            self.PeriodoPago = null;
-          }
-        })
+        // financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
+        //   $.param({
+        //     idNomina: 5,
+        //     mesLiquidacion: 9,
+        //     anioLiquidacion: 2017,
+        //   })
+        // ).then(function(response) {
+        //   console.log(response.data);
+        //   if (response.data != null) {
+        //     self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
+        //     self.PeriodoPago = response.data.PeriodoPago;
+        //   } else {
+        //     self.gridOptionsPreliquidacionPersonas.data = {};
+        //     self.PeriodoPago = null;
+        //   }
+        // })
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
+            //
+            self.gridOptionsPreliquidacionPersonas.data = {};
+            self.PeriodoPago = null;
+            self.gridOptionsPreliquidacionPagos.data = {};
+            self.gridOptionsConceptos.data = {};
+            self.gridOptionsMovimientosContables.data = {};
             financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
@@ -136,7 +220,6 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               if (response.data != null) {
-                console.log(response.data);
                 self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
                 self.PeriodoPago = response.data.PeriodoPago;
               } else {
@@ -144,6 +227,25 @@ angular.module('financieraClienteApp')
                 self.PeriodoPago = null;
               }
             })
+            // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
+            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
+              $.param({
+                idNomina: $scope.nominaSelect.Id,
+                mesLiquidacion: $scope.mesSelect,
+                anioLiquidacion: $scope.anoSelect,
+              })
+            ).then(function(response) {
+              if (response.data != null) {
+                console.log("Movimeintos");
+                console.log(response.data);
+                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
+                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
+              } else {
+                self.gridOptionsConceptos.data = {};
+                self.gridOptionsMovimientosContables.data = {};
+              }
+            })
+            // -- consulta movimeintos y rp
           }
         }
       },
