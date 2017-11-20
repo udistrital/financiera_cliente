@@ -11,7 +11,7 @@
       </treecontrol>
     </div>
      <loading load="load" tam="2"/>
-    <br>
+    
 
     <div ng-class="{'col-md-6':rvdesc}" class="panel panel-success panel-body row sticky shadow-box" ng-show="cuentasel!=undefined && showc && !vista_resumen">
       <span class="pull-right text-danger" ng-click="cuentasel=undefined">X</span>
@@ -35,7 +35,7 @@
   </div>
 
   <div ng-show="seleccion!=undefined || cuentasel!=undefined;">
-    <center><button  class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
+    <center><button type="button"  class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
 
   <div id="modalCuentas{{d_planCuentas.plan.Id}}" class="modal fade" role="dialog">
@@ -49,6 +49,5 @@
     </div>
 
   </div>
-
 
 </div>
