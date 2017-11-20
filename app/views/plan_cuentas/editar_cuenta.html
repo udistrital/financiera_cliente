@@ -1,0 +1,56 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">
+        {{"CUENTA_CONTABLE" | translate}} {{editarCuenta.e_cuenta.Codigo1}}{{editarCuenta.e_cuenta.Codigo2}}
+    </h2>
+    <div class="panel panel-default panel-body shadow-box">
+
+        <form name="form_ecuenta" ng-submit="form_ecuenta.$valid && editarCuenta.editar_cuenta()" focus-on-field validate>
+
+          <div class="form-group">
+            <div class="form-group col-md-6">
+              <label>{{"CLASIFICACION" | translate}}*:</label>
+              <span class="form-control" readonly>{{editarCuenta.e_cuenta.NivelClasificacion.Nombre}}</span>
+            </div>
+
+            <div class="form-group col-md-6">
+              <label>{{"NATURALEZA" | translate}}*:</label>
+              <span class="form-control" readonly>{{editarCuenta.e_cuenta.Naturaleza}}</span>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && form_ecuenta.nombrec.$invalid}">
+            <label>{{"NOMBRE" | translate}}*:</label>
+            <input class="form-control" type="text" name="nombrec" ng-model="editarCuenta.e_cuenta.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate}}" maxlength="250" required>
+            <div ng-messages="form_ecuenta.nombrec.$error" style="color:maroon" role="alert" ng-show="submitted" >
+              <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+              <div ng-message="maxlength">{{"MSN_TAMANO_MAX" | translate}}</div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-12" >
+            <label>{{"DESCRIPCION" | translate}}:</label>
+            <textarea class="form-control" name="desc" ng-model="editarCuenta.e_cuenta.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="6">
+            </textarea>
+          </div>
+
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && form_ecuenta.codigocuenta.$invalid}">
+              <label>{{"CODIGO" | translate}}*:</label><br>
+              <span class="form-control form-control-inline" readonly> {{editarCuenta.e_cuenta.Codigo1}}</span>
+              <input class="form-control form-control-inline" type="text" name="codigocuenta" ng-model="editarCuenta.e_cuenta.Codigo2" placeholder="Ingresar codigo" required maxlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}">
+              <div ng-messages="form_ecuenta.codigocuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
+                <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+                <div ng-message="maxlength">{{"MSN_TAMANO_MAX" | translate}}</div>
+              </div>
+          </div>
+
+          <div class="col-md-12 form-group">
+            <center>
+              <input type="submit" class="btn btn-success shadow-box" value='{{"BTN.CONFIRMAR" | translate}}' ng-click="submitted=true">
+              <a href="#/plan_cuentas/gestion_plan_cuentas" type="button" class="btn btn-danger shadow-box" name="button">{{"BTN.CANCELAR" | translate}}</a>
+            </center>
+          </div>
+
+        </form>
+
+    </div>
+</div>
