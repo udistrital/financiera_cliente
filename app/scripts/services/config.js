@@ -75,7 +75,7 @@ var conf_pruebas = {
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
     FINANCIERA_MID_SERVICE: "http://10.20.0.254/financiera_mid_api/v1/",
-    FINANCIERA_SERVICE: "http://127.0.0.1:8080/v1/",
+    FINANCIERA_SERVICE: "http://10.20.0.254/financiera_api/v1/",
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
@@ -112,7 +112,7 @@ var conf_local = {
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
         AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "NCM5qVWim6MeTGB4Ag4lyLBOlv0a",
+        CLIENTE_ID: "bfPMflsiPVN6WFjJZIpzjsLdlx8a",
         REDIRECT_URL: "http://localhost:9000/",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email",
