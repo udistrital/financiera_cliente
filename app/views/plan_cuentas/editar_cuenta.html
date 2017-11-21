@@ -36,11 +36,22 @@
           <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && form_ecuenta.codigocuenta.$invalid}">
               <label>{{"CODIGO" | translate}}*:</label><br>
               <span class="form-control form-control-inline" readonly> {{editarCuenta.e_cuenta.Codigo1}}</span>
-              <input class="form-control form-control-inline" type="text" name="codigocuenta" ng-model="editarCuenta.e_cuenta.Codigo2" placeholder="Ingresar codigo" required maxlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}">
+              <input class="form-control form-control-inline" type="text" name="codigocuenta" ng-model="editarCuenta.e_cuenta.Codigo2" placeholder="Ingresar codigo" required maxlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}" minlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}">
+              <button type="button" class="btn btn-primary btn-sm" ng-click="editarCuenta.cambiar_padre()">{{'CAMBIAR_PADRE' | translate}}</button>
+              <button type="button" class="btn btn-danger btn-sm" ng-click="editarCuenta.cancelar_padre()">{{'BTN.CANCELAR' | translate}}</button>
               <div ng-messages="form_ecuenta.codigocuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
                 <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
                 <div ng-message="maxlength">{{"MSN_TAMANO_MAX" | translate}}</div>
+                <div ng-message="minlength">{{"MSN_TAMANO_MIN" | translate}}</div>
               </div>
+          </div>
+
+          <div class="col-md-12 form-group" ng-if="editarCuenta.plan_maestro!=undefined">
+            <label>{{"CUENTA_PADRE" | translate}}:</label>
+            <div >
+              <small>{{"SELECCIONAR_CUENTA_CONTABLE_PADRE" | translate}}</small>
+              <plan-cuentas filtro="filtro_padre" seleccion="editarCuenta.padre" recargar="editarCuenta.recargar_arbol" planid="editarCuenta.plan_maestro.Id" rdesc />
+            </div>
           </div>
 
           <div class="col-md-12 form-group">
