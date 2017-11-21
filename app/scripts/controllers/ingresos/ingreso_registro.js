@@ -12,8 +12,10 @@ angular.module('financieraClienteApp')
         var ctrl = this;
         //prueba de codigos de facultad
         $scope.load = true;
+        ctrl.filtro_ingresos = "Ingresos";
+        $scope.datos = false;
         ctrl.homologacion_facultad = [{
-            old: 23,
+            old: 33,
             new: 14
         }, {
             old: 23,
@@ -74,7 +76,7 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.cargar_facultades();
-
+        ctrl.cargarUnidadesEjecutoras();
 
         ctrl.registrarIngreso = function() {
             if (ctrl.unidadejecutora == null) {
@@ -82,24 +84,23 @@ angular.module('financieraClienteApp')
             } else if (ctrl.concepto == null) {
                 swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
             } else {
-                ctrl.ingreso = {};
-                ctrl.ingreso.Ingreso = {};
-                ctrl.ingreso.Ingreso.FormaIngreso = ctrl.tipoIngresoSelec;
-                ctrl.ingreso.Ingreso.FechaConsignacion = ctrl.fechaConsignacion;
-                ctrl.ingreso.Ingreso.Observaciones = ctrl.observaciones;
-                ctrl.ingreso.Ingreso.UnidadEjecutora = ctrl.unidadejecutora;
-                ctrl.ingreso.IngresoBanco = ctrl.totalIngresos; //sumatoria no individual ******
-                ctrl.ingreso.Concepto = ctrl.concepto[0];
+                ctrl.ingreso = {
+                    Ingreso: {
+                        FormaIngreso: ctrl.tipoIngresoSelec,
+                        FechaConsignacion: ctrl.fechaConsignacion,
+                        Observaciones: ctrl.observaciones,
+                        UnidadEjecutora: ctrl.unidadejecutora
+                    },
+                    IngresoBanco: ctrl.totalIngresos,
+                    Concepto: ctrl.concepto[0]
+                };
 
                 angular.forEach(ctrl.movs, function(data) {
                     delete data.Id;
                 });
                 ctrl.ingreso.Movimientos = ctrl.movs;
-                console.log("########################")
                 console.log(ctrl.ingreso);
-                console.log("########################")
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
-                    console.log(response.data);
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -109,29 +110,16 @@ angular.module('financieraClienteApp')
 
                     }
                 }).finally(function() {
-                    ctrl.pagos = undefined;
-                    ctrl.tipoIngresoSelec = undefined;
-                    ctrl.observaciones = undefined;
-                    ctrl.unidadejecutora = undefined;
-                    ctrl.concepto = undefined;
+                    // ctrl.pagos = undefined;
+                    // ctrl.tipoIngresoSelec = undefined;
+                    // ctrl.observaciones = undefined;
+                    // ctrl.unidadejecutora = undefined;
+                    // ctrl.concepto = undefined;
                 });
             }
 
 
         };
-
-        ctrl.calcularTotalIngresos = function() {
-            ctrl.totalIngresos = 0;
-            if (ctrl.gridOptions.data != null) {
-                angular.forEach(ctrl.gridOptions.data, function(data) {
-                    var valor = parseFloat(data.pago_reportado)
-                    ctrl.totalIngresos = ctrl.totalIngresos + valor;
-                });
-            } else {
-
-            }
-        };
-
 
         ctrl.consultarPagos = function() {
             if (ctrl.tipoIngresoSelec == null) {
@@ -178,10 +166,14 @@ angular.module('financieraClienteApp')
                         });
                         wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
                             if (response != null) {
+                                $scope.datos = true;
                                 ctrl.gridOptions.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
-                                console.log(ctrl.gridOptions.data);
+                                ctrl.total = 0;
+                                angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                    ctrl.total += parseFloat(ingreso.referencia_pago);
+                                });
                             } else {
-                                console.log("no data");
+                                $scope.datos = false;
                             }
                         });
 
@@ -221,55 +213,19 @@ angular.module('financieraClienteApp')
                         });
                         wso2Request.get("academicaProxyService", parametros).then(function(response) {
                             if (response != null) {
+                                $scope.datos = true;
                                 ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
-                                console.log(ctrl.gridOptions.data);
+                                ctrl.total = 0;
+                                angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                    ctrl.total += parseFloat(ingreso.pago_reportado);
+                                });
                             } else {
-                                console.log("no data");
+                                $scope.datos = false;
                             }
                         });
-
                     default:
                         break;
                 }
             }
         };
-
-        ctrl.gridOptions.onRegisterApi = function(gridApi) {
-            ctrl.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                $scope.ingresoBanco = ctrl.gridApi.selection.getSelectedRows();
-                ctrl.calcularTotalIngresos();
-                console.log($scope.ingresoBanco);
-            });
-            gridApi.selection.on.rowSelectionChangedBatch($scope, function(rows) {
-                $scope.ingresoBanco = ctrl.gridApi.selection.getSelectedRows();
-                ctrl.calcularTotalIngresos();
-                console.log($scope.ingresoBanco);
-            });
-        };
-
-
-        $scope.$watch('ingresoRegistro.concepto', function() {
-            ctrl.calcularTotalIngresos();
-        }, true);
-
-
-        /*$scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){
-        	console.log("af"+ctrl.gridOptions.data.length);
-        	if ((ctrl.gridOptions.data.length<=ctrl.gridOptions.paginationPageSize || ctrl.gridOptions.paginationPageSize== null) && ctrl.gridOptions.data.length>0) {
-        		$scope.gridHeight = ctrl.gridOptions.rowHeight * 3+ (ctrl.gridOptions.data.length * ctrl.gridOptions.rowHeight);
-        		if (ctrl.gridOptions.data.length<=6) {
-        			$scope.gridHeight = ctrl.gridOptions.rowHeight * 2+ (ctrl.gridOptions.data.length * ctrl.gridOptions.rowHeight);
-        			ctrl.gridOptions.enablePaginationControls= false;
-
-        		}
-        	} else {
-        		$scope.gridHeight = ctrl.gridOptions.rowHeight * 3 + (ctrl.gridOptions.paginationPageSize * ctrl.gridOptions.rowHeight);
-        		ctrl.gridOptions.enablePaginationControls= true;
-        	}
-        },true);*/
-
-
-
-
     });
