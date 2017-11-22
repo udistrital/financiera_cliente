@@ -75,6 +75,7 @@ angular.module('financieraClienteApp')
       if (self.camposObligatorios()) {
         self.dataSen = {};
         self.dataSen = self.DataHomologacion;
+        self.OrdenPago.Vigencia = parseInt(self.OrdenPago.Vigencia);
         self.dataSen.InfoGeneralOp = self.OrdenPago;
         console.log(self.dataSen);
         financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)

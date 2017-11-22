@@ -139,6 +139,56 @@ angular.module('financieraClienteApp')
         self.gridOptionsMovimientosContables = {
           enableRowHeaderSelection: false,
           showColumnFooter: true,
+          multiSelect: true,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'Concepto.Codigo',
+              displayName: $translate.instant('CONCEPTO'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+
+        self.gridOptionsMovimientosContablesTemporal = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
@@ -181,8 +231,6 @@ angular.module('financieraClienteApp')
           ]
         };
 
-
-
         // para desarrollo
         // financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
         //   $.param({
@@ -207,11 +255,13 @@ angular.module('financieraClienteApp')
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
             //
+            self.refresh();
             self.gridOptionsPreliquidacionPersonas.data = {};
             self.PeriodoPago = null;
             self.gridOptionsPreliquidacionPagos.data = {};
             self.gridOptionsConceptos.data = {};
             self.gridOptionsMovimientosContables.data = {};
+
             financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
@@ -222,30 +272,30 @@ angular.module('financieraClienteApp')
               if (response.data != null) {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
                 self.PeriodoPago = response.data.PeriodoPago;
+                // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
+                financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
+                  $.param({
+                    idNomina: $scope.nominaSelect.Id,
+                    mesLiquidacion: $scope.mesSelect,
+                    anioLiquidacion: $scope.anoSelect,
+                  })
+                ).then(function(response) {
+                  if (response.data != null) {
+                    self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
+                    self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
+                    self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
+                  } else {
+                    self.gridOptionsConceptos.data = {};
+                    self.gridOptionsMovimientosContables.data = {};
+                  }
+                })
+                // -- consulta movimeintos y rp
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = {};
                 self.PeriodoPago = null;
               }
             })
-            // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
-            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
-              $.param({
-                idNomina: $scope.nominaSelect.Id,
-                mesLiquidacion: $scope.mesSelect,
-                anioLiquidacion: $scope.anoSelect,
-              })
-            ).then(function(response) {
-              if (response.data != null) {
-                console.log("Movimeintos");
-                console.log(response.data);
-                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
-                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
-              } else {
-                self.gridOptionsConceptos.data = {};
-                self.gridOptionsMovimientosContables.data = {};
-              }
-            })
-            // -- consulta movimeintos y rp
+
           }
         }
       },
