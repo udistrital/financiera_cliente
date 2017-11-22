@@ -74,8 +74,8 @@ angular.module('financieraClienteApp')
     self.registrarOpMasivo = function() {
       if (self.camposObligatorios()) {
         self.dataSen = {};
-        self.dataSen.OrdenPago = self.OrdenPago;
-        self.dataSen.InfoGeneralOp = self.DataHomologacion;
+        self.dataSen = self.DataHomologacion;
+        self.dataSen.InfoGeneralOp = self.OrdenPago;
         console.log(self.dataSen);
         financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
           .then(function(response) {
@@ -85,12 +85,12 @@ angular.module('financieraClienteApp')
             console.log(response);
             console.log("Resultado");
             angular.forEach(self.resultado, function(mensaje){
-                self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + "</li>";
+                self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
             })
             swal({
               title: 'Orden de Pago',
               html: '<ol align="left">' + self.MensajesAlertaSend + '</ol>',
-              type: "warning",
+              type: "success",
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
             })
