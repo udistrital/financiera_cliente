@@ -269,7 +269,7 @@ angular.module('financieraClienteApp')
                 anioLiquidacion: $scope.anoSelect,
               })
             ).then(function(response) {
-              if (response.data != null) {
+              if (response.data != 'error') {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
                 self.PeriodoPago = response.data.PeriodoPago;
                 // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
