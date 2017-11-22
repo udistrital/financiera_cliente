@@ -112,7 +112,7 @@ var conf_local = {
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
         AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "NCM5qVWim6MeTGB4Ag4lyLBOlv0a",
+        CLIENTE_ID: "bfPMflsiPVN6WFjJZIpzjsLdlx8a",
         REDIRECT_URL: "http://localhost:9000/",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email",

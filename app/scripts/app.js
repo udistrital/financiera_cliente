@@ -395,7 +395,12 @@ angular
               controller: 'RpRpCargueMasivoCtrl',
               controllerAs: 'rpCargueMasivo'
             })
-      
+
+            .when('/plan_cuentas/editar_cuenta/:Id', {
+              templateUrl: 'views/plan_cuentas/editar_cuenta.html',
+              controller: 'EditarCuentaCtrl',
+              controllerAs: 'editarCuenta'
+            })
             .otherwise({
                 redirectTo: '/'
             });
