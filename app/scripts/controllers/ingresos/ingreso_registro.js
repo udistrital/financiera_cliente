@@ -12,23 +12,25 @@ angular.module('financieraClienteApp')
         var ctrl = this;
         //prueba de codigos de facultad
         $scope.load = true;
+        ctrl.fechaInicio = new Date();
+        ctrl.fechaFin = new Date();
         ctrl.filtro_ingresos = "Ingresos";
         $scope.datos = false;
         ctrl.homologacion_facultad = [{
             old: 33,
-            new: 14
+            new: 14 //FACULTAD ING
+        }, {
+            old: 24,
+            new: 17 // CIENCIAS Y EDUCACION
         }, {
             old: 23,
-            new: 17
+            new: 35 //ASAB
         }, {
-            old: 23,
-            new: 35
+            old: 101,
+            new: 65 //MEDIO AMB
         }, {
-            old: 23,
-            new: 65
-        }, {
-            old: 23,
-            new: 66
+            old: 32,
+            new: 66 //TECNOLOGICA
         }];
 
         ctrl.cargandoDatosPagos = false;
@@ -52,6 +54,8 @@ angular.module('financieraClienteApp')
                 limit: -1
             })).then(function(response) {
                 ctrl.tiposIngreso = response.data;
+                ctrl.cargar_facultades();
+                ctrl.cargarUnidadesEjecutoras();
             });
         };
 
@@ -71,12 +75,26 @@ angular.module('financieraClienteApp')
                 fields: "Nombre,Id",
                 limit: -1
             })).then(function(response) {
+
                 ctrl.codigo_facultad = response.data;
             });
         };
 
-        ctrl.cargar_facultades();
-        ctrl.cargarUnidadesEjecutoras();
+
+        $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
+            if (!angular.isUndefined(newValue)) {
+                financieraRequest.get('concepto', $.param({
+                    query: "Id:" + newValue.Id,
+                    fields: "Rubro",
+                    limit: -1
+                })).then(function(response) {
+
+                    console.log(newValue);
+                    console.log(response.data[0].Rubro);
+                    $scope.ingresoRegistro.concepto[0].Rubro = response.data[0].Rubro;
+                });
+            }
+        }, true);
 
         ctrl.registrarIngreso = function() {
             if (ctrl.unidadejecutora == null) {
@@ -87,11 +105,11 @@ angular.module('financieraClienteApp')
                 ctrl.ingreso = {
                     Ingreso: {
                         FormaIngreso: ctrl.tipoIngresoSelec,
-                        FechaConsignacion: ctrl.fechaConsignacion,
+                        FechaConsignacion: ctrl.fechaInicio,
                         Observaciones: ctrl.observaciones,
                         UnidadEjecutora: ctrl.unidadejecutora
                     },
-                    IngresoBanco: ctrl.totalIngresos,
+                    IngresoBanco: ctrl.total,
                     Concepto: ctrl.concepto[0]
                 };
 
@@ -122,6 +140,7 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.consultarPagos = function() {
+            $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {
                 swal("", "Debe seleccionar la forma de ingreso", "error");
             } else if (ctrl.fechaInicio == null || ctrl.fechaFin == null) {
