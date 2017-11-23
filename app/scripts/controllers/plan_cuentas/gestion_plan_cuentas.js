@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionPlanCuentasCtrl', function ($scope, $translate, financieraRequest) {
+  .controller('GestionPlanCuentasCtrl', function ($scope, $translate, financieraRequest, $location) {
     var self=this;
     $scope.btneditar=$translate.instant('BTN.EDITAR');
     self.cargar_plan_maestro = function() {
@@ -22,6 +22,6 @@ angular.module('financieraClienteApp')
     self.cargar_plan_maestro();
 
     $scope.$watch("gestionPlanCuentas.padre", function(){
-      window.location = "http://127.0.0.1:9000/#/plan_cuentas/editar_cuenta/"+self.padre.Codigo;
+      $location.path('plan_cuentas/editar_cuenta/'+self.padre.Codigo);       
     },true);
   });
