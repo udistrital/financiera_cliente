@@ -33,9 +33,9 @@
         </div>
     </div>
 
-    <loading load="ingresoRegistro.cargandoDatosPagos" tam="5"></loading>
+    <loadingcircle load="load"></loadingcircle>
 
-    <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
+    <div class="panel panel-primary panel-body" ng-show="!load">
         <div class="panel-body">
             <legend class="text-primary" ng-click="b=!b">
                 {{'TABLA_INGRESOS_BANCO' | translate}}
