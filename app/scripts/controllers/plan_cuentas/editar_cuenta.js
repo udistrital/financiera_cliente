@@ -71,7 +71,7 @@ angular.module('financieraClienteApp')
         financieraRequest.put('tr_cuentas_contables', self.cuenta.Id,tr_cuenta).then(function(response) {
           if (response.data.Type == 'success') {
             swal($translate.instant(response.data.Code), $translate.instant("CUENTA") + " " + response.data.Body, response.data.Type);
-            $location.path('plan_cuentas/editar_cuenta/'+response.data.Bod);
+            $location.path('plan_cuentas/editar_cuenta/'+response.data.Body);
           } else {
             swal("", $translate.instant(response.data.Code), response.data.Type);
           }
