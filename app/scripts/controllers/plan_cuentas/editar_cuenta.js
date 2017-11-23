@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('EditarCuentaCtrl', function ($scope, $routeParams, financieraRequest, $translate) {
+  .controller('EditarCuentaCtrl', function ($scope, $routeParams, financieraRequest, $translate, $location) {
     var self = this;
 
     self.cargar_cuenta=function(){
@@ -71,7 +71,7 @@ angular.module('financieraClienteApp')
         financieraRequest.put('tr_cuentas_contables', self.cuenta.Id,tr_cuenta).then(function(response) {
           if (response.data.Type == 'success') {
             swal($translate.instant(response.data.Code), $translate.instant("CUENTA") + " " + response.data.Body, response.data.Type);
-            window.location = "http://127.0.0.1:9000/#/plan_cuentas/editar_cuenta/"+response.data.Body;
+            $location.path('plan_cuentas/editar_cuenta/'+response.data.Bod);
           } else {
             swal("", $translate.instant(response.data.Code), response.data.Type);
           }
