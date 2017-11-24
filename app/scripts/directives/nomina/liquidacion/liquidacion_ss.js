@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        ouputdatanominaselect: '=?'
+        ouputdatanominaselect: '=?',
+        outputdataregistropresupuestal: '=?'
       },
       templateUrl: 'views/directives/nomina/liquidacion/liquidacion_ss.html',
       controller: function($scope) {
@@ -232,22 +233,42 @@ angular.module('financieraClienteApp')
         };
 
         // para desarrollo
-        // financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
-        //   $.param({
-        //     idNomina: 5,
-        //     mesLiquidacion: 9,
-        //     anioLiquidacion: 2017,
-        //   })
-        // ).then(function(response) {
-        //   console.log(response.data);
-        //   if (response.data != null) {
-        //     self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-        //     self.PeriodoPago = response.data.PeriodoPago;
-        //   } else {
-        //     self.gridOptionsPreliquidacionPersonas.data = {};
-        //     self.PeriodoPago = null;
-        //   }
-        // })
+        financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
+          $.param({
+            idNomina: 5,
+            mesLiquidacion: 11,
+            anioLiquidacion: 2017,
+          })
+        ).then(function(response) {
+          if (response.data != 'error') {
+            self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
+            self.PeriodoPago = response.data.PeriodoPago;
+            // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
+            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
+              $.param({
+                idNomina: 5,
+                mesLiquidacion: 11,
+                anioLiquidacion: 2017,
+              })
+            ).then(function(response) {
+              if (response.data != null) {
+                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
+                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
+                self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
+                $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
+              } else {
+                self.gridOptionsConceptos.data = {};
+                self.gridOptionsMovimientosContables.data = {};
+              }
+            })
+            // -- consulta movimeintos y rp
+          } else {
+            self.gridOptionsPreliquidacionPersonas.data = {};
+            self.PeriodoPago = null;
+          }
+        })
+
+
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
@@ -284,6 +305,7 @@ angular.module('financieraClienteApp')
                     self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
                     self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
                     self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
+                    $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
                   } else {
                     self.gridOptionsConceptos.data = {};
                     self.gridOptionsMovimientosContables.data = {};
