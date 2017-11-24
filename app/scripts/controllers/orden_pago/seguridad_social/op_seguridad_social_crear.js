@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     self.PestanaAbierta = true;
     self.OrdenPago = {};
     self.DataSeguridadSocial = {};
+    self.registroPresupuestal = {};
 
     // obtener vigencia
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
@@ -20,6 +21,16 @@ angular.module('financieraClienteApp')
         self.OrdenPago.Vigencia = parseInt(data.data);
         self.DataSeguridadSocial.Vigencia = self.OrdenPago.Vigencia;
       })
+    //
+    $scope.$watch('opSeguridadSocialCrear.registroPresupuestal', function() {
+      if (Object.keys(self.registroPresupuestal).length > 0) {
+        financieraRequest.get('registro_presupuestal/ValorTotalRp/' + self.registroPresupuestal.Id)
+          .then(function(response) {
+            self.registroPresupuestal.Valor = response.data;
+          });
+      }
+    })
+
     // ***************
     // Funciones
     // ***************
@@ -65,7 +76,7 @@ angular.module('financieraClienteApp')
     //
     self.addOpPlantaSsCrear = function() {
       console.log("funcion");
-      if (self.OrdenPago.RegistroPresupuestal){
+      if (self.OrdenPago.RegistroPresupuestal) {
         self.OrdenPago.ValorBase = self.OrdenPago.RegistroPresupuestal.ValorTotal; // se obtendra del rp
       }
       self.OrdenPago.PersonaElaboro = 1;
@@ -75,5 +86,4 @@ angular.module('financieraClienteApp')
       self.dataSend.SeguridadSocial = self.DataSeguridadSocial;
       self.validar_campos();
     }
-
   });
