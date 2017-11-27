@@ -19,7 +19,7 @@ angular.module('financieraService', [])
  * # financieraService
  * Fabrica sobre la cual se consumen los servicios proveidos por el API de financiera sobre los metodos GET, POST, PUT y DELETE
  */
-.factory('financieraRequest', function($http, CONF) {
+.factory('financieraRequest', function($http, CONF, requestRequest) {
     var path = CONF.GENERAL.FINANCIERA_SERVICE;
     // Public API here
     return {
@@ -33,7 +33,7 @@ angular.module('financieraService', [])
          * @description Metodo GET del servicio
          */
         get: function(tabla, params) {
-            return $http.get(path + tabla + "/?" + params);
+            return requestRequest.add($http.get(path + tabla + "/?" + params));
         },
 
         /**
