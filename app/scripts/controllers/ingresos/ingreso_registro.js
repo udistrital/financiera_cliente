@@ -151,7 +151,7 @@ angular.module('financieraClienteApp')
             } else if (ctrl.facultadSelec == null) {
                 swal("", $translate.instant('SELECCIONAR_FACULTAD'), "error");
             } else {
-                var tipo_recibo = ctrl.tipoIngresoSelec.Nombre;
+                var tipo_recibo = ctrl.tipoIngresoSelec.Nombre.toUpperCase();
                 var codigo_facultad = ctrl.facultadSelec.Id;
 
                 ctrl.rta = null;
@@ -159,7 +159,7 @@ angular.module('financieraClienteApp')
                 ctrl.cargandoDatosPagos = true;
 
                 switch (tipo_recibo) {
-                    case "Inscripciones":
+                    case "INSCRIPCIONES":
                         ctrl.gridOptions.columnDefs = [
                             { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
                             { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
