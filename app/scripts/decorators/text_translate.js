@@ -342,6 +342,7 @@ var text_es = {
     OPERAR_CONCEPTO: "Operar Concepto",
     ORDENADOR_GASTO: "Ordenador del Gasto",
     ORDEN_PAGO: "Ordenes de Pago",
+    ORDEN_DE_PAGO: "Orden de Pago",
     ORDEN_PAGO_ACTUALIZAR: "Actualizar Ordenes de Pago",
     ORDEN_PAGO_SELECCIOANR: "Seleccionar Orden de Pago",
     ORIGEN: "Origen",
