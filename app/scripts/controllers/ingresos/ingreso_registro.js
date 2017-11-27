@@ -105,9 +105,12 @@ angular.module('financieraClienteApp')
                 ctrl.ingreso = {
                     Ingreso: {
                         FormaIngreso: ctrl.tipoIngresoSelec,
-                        FechaConsignacion: ctrl.fechaInicio,
+                        FechaInicio: ctrl.fechaInicio,
+                        FechaFin: ctrl.fechaFin,
                         Observaciones: ctrl.observaciones,
-                        UnidadEjecutora: ctrl.unidadejecutora
+                        UnidadEjecutora: ctrl.unidadejecutora,
+                        Facultad: ctrl.facultadSelec.Id
+
                     },
                     IngresoBanco: ctrl.total,
                     Concepto: ctrl.concepto[0]
@@ -128,11 +131,11 @@ angular.module('financieraClienteApp')
 
                     }
                 }).finally(function() {
-                    // ctrl.pagos = undefined;
-                    // ctrl.tipoIngresoSelec = undefined;
-                    // ctrl.observaciones = undefined;
-                    // ctrl.unidadejecutora = undefined;
-                    // ctrl.concepto = undefined;
+                    ctrl.pagos = undefined;
+                    ctrl.tipoIngresoSelec = undefined;
+                    ctrl.observaciones = undefined;
+                    ctrl.unidadejecutora = undefined;
+                    ctrl.concepto = undefined;
                 });
             }
 

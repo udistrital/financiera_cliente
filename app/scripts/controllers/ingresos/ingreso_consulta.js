@@ -16,7 +16,22 @@ angular.module('financieraClienteApp')
         $scope.aristas = [];
         $scope.estadoclick = {};
         ctrl.ingresoSel = null;
-
+        ctrl.homologacion_facultad = [{
+            old: 33,
+            new: 14 //FACULTAD ING
+        }, {
+            old: 24,
+            new: 17 // CIENCIAS Y EDUCACION
+        }, {
+            old: 23,
+            new: 35 //ASAB
+        }, {
+            old: 101,
+            new: 65 //MEDIO AMB
+        }, {
+            old: 32,
+            new: 66 //TECNOLOGICA
+        }];
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
             { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
@@ -63,10 +78,16 @@ angular.module('financieraClienteApp')
                 cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
-                field: 'FechaConsignacion',
-                displayName: $translate.instant("FECHA_CONSIGNACION"),
+                field: 'FechaInicio',
+                displayName: $translate.instant("FECHA_INICIO"),
                 headerCellClass: 'text-info',
-                cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"UTC"}}</span>'
+                cellTemplate: '<span>{{row.entity.FechaInicio| date:"yyyy-MM-dd":"UTC"}}</span>'
+            },
+            {
+                field: 'FechaFin',
+                displayName: $translate.instant("FECHA_FIN"),
+                headerCellClass: 'text-info',
+                cellTemplate: '<span>{{row.entity.FechaFin | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
                 field: 'FormaIngreso.Nombre',
@@ -112,8 +133,10 @@ angular.module('financieraClienteApp')
 
         ctrl.consultarPagos = function(data) {
             console.log(data);
-            var date = data.FechaConsignacion;
+            var inicio = data.FechaInicio;
+            var fin = data.FechaFin;
             var tipo_recibo = data.FormaIngreso.Nombre;
+            var codigo_facultad = data.Facultad;
 
             ctrl.rta = null;
             ctrl.pagos = null;
@@ -130,8 +153,8 @@ angular.module('financieraClienteApp')
                         { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
                         { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
                     ];
-                    var inicio = $filter('date')(date, "yyyy-MM-dd");
-                    var fin = $filter('date')(date, "yyyy-MM-dd");
+                    var inicio = $filter('date')(inicio, "yyyy-MM-dd");
+                    var fin = $filter('date')(fin, "yyyy-MM-dd");
                     var parametros = [{
                         name: "tipo_recibo",
                         value: "ingresos_admisiones"
@@ -150,7 +173,7 @@ angular.module('financieraClienteApp')
                     wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
                         if (response != null) {
                             $scope.datos = true;
-                            ctrl.gridOptions.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
+                            ctrl.gridOptions_ingresosbanco.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
                             ctrl.total = 0;
                             angular.forEach(ctrl.gridOptions.data, function(ingreso) {
                                 ctrl.total += parseFloat(ingreso.referencia_pago);
@@ -174,8 +197,8 @@ angular.module('financieraClienteApp')
                         { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
                         { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
                     ];
-                    var inicio = $filter('date')(date, "dd-MM-yy");
-                    var fin = $filter('date')(date, "dd-MM-yy");
+                    var inicio = $filter('date')(inicio, "dd-MM-yy");
+                    var fin = $filter('date')(fin, "dd-MM-yy");
                     var parametros = [{
                         name: "tipo_recibo",
                         value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
@@ -197,7 +220,7 @@ angular.module('financieraClienteApp')
                     wso2Request.get("academicaProxyService", parametros).then(function(response) {
                         if (response != null) {
                             $scope.datos = true;
-                            ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
+                            ctrl.gridOptions_ingresosbanco.data = response.data.ingresosConceptoCollection.ingresoConcepto;
                             ctrl.total = 0;
                             angular.forEach(ctrl.gridOptions.data, function(ingreso) {
                                 ctrl.total += parseFloat(ingreso.pago_reportado);
