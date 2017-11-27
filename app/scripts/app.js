@@ -395,11 +395,10 @@ angular
               controller: 'RpRpCargueMasivoCtrl',
               controllerAs: 'rpCargueMasivo'
             })
-
-            .when('/reportes/reportes_spago', {
-              templateUrl: 'views/reportes/reportes_spago.html',
-              controller: 'ReportesReportesSpagoCtrl',
-              controllerAs: 'reportesSpago'
+            .when('/reportes/reportes', {
+              templateUrl: 'views/reportes/reportes.html',
+              controller: 'ReportesReportesCtrl',
+              controllerAs: 'reportes'
             })
             .otherwise({
                 redirectTo: '/'
