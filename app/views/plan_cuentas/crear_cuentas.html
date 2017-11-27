@@ -1,73 +1,70 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">{{"PLAN_CUENTAS_MAESTRO" | translate}}</h2>
+  <h2 class="page-header" align="center">{{"NUEVA_CUENTA" | translate}}</h2>
 
-  <div class="col-md-6">
-    <div ng-if="crearCuentas.plan_maestro!=undefined">
-      <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol" planid="crearCuentas.plan_maestro.Id" />
-    </div>
-  </div>
 
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{"NUEVA_CUENTA" | translate}}</h3>
-      </div>
-      <div class="panel-body">
-        <form name="cuentas_form" ng-submit="cuentas_form.$valid && crearCuentas.crear_cuenta(cuentas_form)">
-
+  <div>
+    <div class="panel panel-default panel-body shadow-box">
+        <form name="cuentas_form" ng-submit="cuentas_form.$valid && crearCuentas.crear_cuenta()" focus-on-field validate>
 
           <div class="form-group">
-            <label for="clasificacioncuenta">{{"CLASIFICACION" | translate}}:</label>
-            <select class="form-control" id="naturalezacuenta" ng-model="crearCuentas.nueva_cuenta.NivelClasificacion" disabled required>
-              <option ng-value="crearCuentas.nivel">{{crearCuentas.nivel.Nombre}}</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-
-            <div class="col-md-6">
-              <label for="codigocuenta">{{"CODIGO_PADRE" | translate}}:</label>
-              <input class="form-control" type="text" id="codigocuenta" ng-model="crearCuentas.padre.Codigo" disabled>
+            <div class="form-group col-md-6">
+              <label>{{"CLASIFICACION" | translate}}*:</label>
+              <span class="form-control" readonly>{{crearCuentas.nueva_cuenta.NivelClasificacion.Nombre}}</span>
             </div>
 
-            <div class="col-md-6">
-              <label for="codigocuenta">{{"CODIGO" | translate}}:</label>
-              <input class="form-control" type="text" id="codigocuenta" ng-model="crearCuentas.nueva_cuenta.Codigo" placeholder="Ingresar codigo" required maxlength="{{crearCuentas.nivel.Longitud}}">
+            <div class="form-group col-md-6" ng-if="crearCuentas.padre==undefined"  ng-class="{'text-danger ng-dirty': submitted && cuentas_form.naturalezacuenta.$invalid}">
+              <label>{{"NATURALEZA" | translate}}:</label>
+              <select class="form-control" name="naturalezacuenta" ng-model="crearCuentas.nueva_cuenta.Naturaleza" ng-options="n for n in crearCuentas.naturalezas" required>
+                <option value="" disabled selected>Selecciona una naturaleza</option>
+              </select>
+              <div ng-messages="cuentas_form.naturalezacuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
+                <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+              </div>
             </div>
-
+            <div class="form-group col-md-6" ng-if="crearCuentas.padre!=undefined">
+              <label>{{"NATURALEZA" | translate}}*:</label>
+              <span class="form-control" readonly>{{crearCuentas.nueva_cuenta.Naturaleza}}</span>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="nombrecuenta">{{"NOMBRE" | translate}}:</label>
-            <input class="form-control" type="text" id="nombrecuenta" ng-model="crearCuentas.nueva_cuenta.Nombre" placeholder="Ingresar nombre" required>
+          <div class="col-md-12 form-group">
+            <label>{{"CUENTA_PADRE" | translate}}:</label>
+            <div ng-if="crearCuentas.plan_maestro!=undefined">
+              <small>{{"SELECCIONAR_CUENTA_CONTABLE_PADRE" | translate}}</small>
+              <plan-cuentas filtro="filtro_padre" seleccion="crearCuentas.padre" recargar="crearCuentas.recargar_arbol" planid="crearCuentas.plan_maestro.Id" rdesc/>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="desccuenta">{{"DESCRIPCION" | translate}}:</label>
-            <textarea class="form-control " id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion"></textarea>
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && cuentas_form.codigocuenta.$invalid}">
+              <label>{{"CODIGO" | translate}}*:</label><br>
+              <span class="form-control form-control-inline" readonly> {{crearCuentas.padre.Codigo}}-</span>
+              <input class="form-control form-control-inline" type="text" name="codigocuenta" ng-model="crearCuentas.nueva_cuenta.Codigo" placeholder="Ingresar codigo" required maxlength="{{crearCuentas.nivel.Longitud}}">
+              <div ng-messages="cuentas_form.codigocuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
+                <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+              </div>
           </div>
 
-          <div class="form-group">
-            <label for="naturalezacuenta">{{"NATURALEZA" | translate}}:</label>
-            <select class="form-control" id="naturalezacuenta" ng-model="crearCuentas.nueva_cuenta.Naturaleza" ng-options="n for n in crearCuentas.naturalezas" required>
-              <option value="" disabled selected>Selecciona una naturaleza</option>
-            </select>
+          <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && cuentas_form.nombrecuenta.$invalid}">
+            <label>{{"NOMBRE" | translate}}*:</label>
+            <input class="form-control" type="text" name="nombrecuenta" ng-model="crearCuentas.nueva_cuenta.Nombre" placeholder="Ingresar nombre" required>
+            <div ng-messages="cuentas_form.nombrecuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
+              <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+            </div>
           </div>
 
-          <div class="form-group">
-            <label for="saldocuenta">{{"SALDO" | translate}}:</label>
-            <input class="form-control" type="number" id="saldocuenta" ng-model="crearCuentas.nueva_cuenta.Saldo" placeholder="Ingresar saldo inicial de la cuenta">
+          <div class="form-group col-md-12">
+            <label>{{"DESCRIPCION" | translate}}:</label>
+            <textarea class="form-control " id="desccuenta" type="text" ng-model="crearCuentas.nueva_cuenta.Descripcion" placeholder="Ingresar Descripcion" rows="6"></textarea>
           </div>
 
-          <div class="form-group">
-            <label for="disponiblecuenta">{{"DISPONIBLE" | translate}}:
-            <input class="form-control checkbox-inline" type="checkbox" id="disponiblecuenta" ng-model="crearCuentas.nueva_cuenta.Disponible"></label>
+          <div class="col-md-12 form-group">
+            <center>
+              <input type="submit" class="btn btn-success shadow-box" value='{{"BTN.CONFIRMAR" | translate}}' ng-click="submitted=true">
+              <a href="#/plan_cuentas/gestion_plan_cuentas" type="button" class="btn btn-danger shadow-box" name="button">{{"BTN.CANCELAR" | translate}}</a>
+            </center>
           </div>
 
-          <input type="submit" class="btn btn-outline btn-success" value='{{"BTN.CONFIRMAR" | translate}}'>
-          <button type="button" class="btn btn-danger btn-outline" name="button" ng-click="crearCuentas.resetear(cuentas_form)">{{"BTN.CANCELAR" | translate}}</button>
         </form>
-      </div>
     </div>
   </div>
 

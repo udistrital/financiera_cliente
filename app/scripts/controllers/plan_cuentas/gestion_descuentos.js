@@ -18,7 +18,7 @@
  */
 
 angular.module('financieraClienteApp')
-  .controller('GestionDescuentosCtrl', function($scope, financieraRequest, $translate) {
+  .controller('GestionDescuentosCtrl', function($scope, financieraRequest, administrativaRequest, $translate) {
     var self = this;
 
     //grid para mostrar los impuestos y descuentos existentes
@@ -32,29 +32,30 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
-          field: 'CuentaContable.Codigo',
-          displayName: $translate.instant('CODIGO'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
+      columnDefs: [
+        {
+            field: 'Id',
+            displayName: $translate.instant('ID'),
+            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            width: '5%'
         },
         {
-          field: 'CuentaContable.Nombre',
-          displayName: $translate.instant('NOMBRE'),
+          field: 'Descripcion',
+          displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '30%'
+          width: '35%'
         },
         {
           field: 'TarifaUvt',
           displayName: $translate.instant('UVT'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '5%'
+          width: '7%'
         },
         {
           field: 'Porcentaje',
           displayName: $translate.instant('PORCENTAJE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '9%'
+          width: '7%'
         },
         {
           field: 'Deducible',
@@ -64,10 +65,16 @@ angular.module('financieraClienteApp')
           width: '8%'
         },
         {
-          field: 'InformacionPersonaJuridica',
+          field: 'CuentaContable.Codigo',
+          displayName: $translate.instant('CODIGO_CUENTA'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          width: '9%'
+        },
+        {
+          field: 'proveedor.NomProveedor',
           displayName: $translate.instant('PROVEEDOR'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
+          width: '16%'
         },
         {
           field: 'TipoCuentaEspecial.Nombre',
@@ -78,9 +85,9 @@ angular.module('financieraClienteApp')
         {
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
-          width: '10%',
+          width: '5%',
           cellTemplate: '<center>' +
-            '<a href="" class="editar" ng-click="grid.appScope.crearPlan.mod_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
+            '<a href="#/plan_cuentas/editar_descuento/{{row.entity.Id}}" class="editar">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
             '</center>'
         }
@@ -94,7 +101,7 @@ angular.module('financieraClienteApp')
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
-        self.cuenta = self.gridApi.selection.getSelectedRows()[0];
+        $scope.cuenta_des = self.gridApi.selection.getSelectedRows()[0];
       });
     };
 
@@ -111,6 +118,15 @@ angular.module('financieraClienteApp')
         limit: -1
       })).then(function(response) {
         self.gridOptions.data = response.data;
+        angular.forEach(self.gridOptions.data, function(value){
+          console.log(value);
+          administrativaRequest.get("informacion_proveedor", $.param({
+            query:"Id:"+value.InformacionPersonaJuridica,
+            fields:"Id,Tipopersona,NumDocumento,NomProveedor"
+          })).then(function(response) {
+            value.proveedor = response.data[0];
+          });
+        });
       });
     };
 

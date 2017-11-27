@@ -2,9 +2,12 @@
     <h2 class="page-header text-center">
         {{ 'SOLICITUD_AVANCE' | translate }}
     </h2>
-    <div ui-grid="listaSolicitud.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+    <loadingcircle load="load"></loadingcircle>
+    <div ng-if="!load" ui-grid="listaSolicitud.gridOptions" class="myGrid" ui-grid-selection ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
 </div>
-
+<div>
+    <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+</div>
 
 <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">

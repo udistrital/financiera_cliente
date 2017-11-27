@@ -29,11 +29,12 @@ angular.module('financieraClienteApp')
         planid: '=?',
         arbol: '=?',
         noresumen: '@?',
-        ramasel: '=?'
+        ramasel: '=?',
+        rdesc:"=?",
+        btnselnom: '=?'
       },
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html', //url del template de la directiva
-      controller: function($scope, $attrs) {
-        $scope.vista_resumen= 'noresumen' in $attrs;
+      controller: function($scope, $attrs, $translate) {
         var self = this;
 
         /**
@@ -62,6 +63,10 @@ angular.module('financieraClienteApp')
             labelSelected: "a8"
           }
         };
+
+        $scope.vista_resumen= 'noresumen' in $attrs;
+        $scope.rvdesc='rdesc' in $attrs;
+        $scope.btnsel=('btnselnom' in $attrs)?$scope.btnselnom:$translate.instant('BTN.SELECCIONAR');
 
         /**
          * @ngdoc function
@@ -97,7 +102,7 @@ angular.module('financieraClienteApp')
              self.cargar_arbol();
            }
          }, true);
-         
+
          $scope.showSelected = function(node, $path) {
             $scope.ramasel = $path();
         };

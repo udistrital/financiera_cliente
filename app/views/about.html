@@ -1,4 +1,6 @@
-<div ui-grid="gridOptions" ui-grid-pinning ui-grid-expandable ui-grid-selection class="grid"></div>
+<input type="number" ng-model="codc">
 
-<br><br>
-<pre>{{outputconceptos}}</pre>
+<movimientos-contables conceptoid="codc" movimientos="movs" monto="Afectacion" editable validatemov="validado" impydesc>
+</movimientos-contables>
+
+<pre>{{movs | json}}</pre>

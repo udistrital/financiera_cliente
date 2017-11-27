@@ -40,6 +40,7 @@ angular
         'ui.grid.expandable',
         'ui.grid.pinning',
         'ui.select',
+        'ui.knob',
         // Servicios
         'academicaService',
         'financieraService',
@@ -54,7 +55,9 @@ angular
         'pagosService',
         'financieraNotificacion',
         'arkaService',
-        'configuracionService'
+        'configuracionService',
+        "wso2Service",
+        "requestService"
     ])
 
 .run(function(amMoment) {
@@ -68,7 +71,7 @@ angular
     }])
     .config(function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
-            return date ? moment(date).format('YYYY-MM-DD') : '';
+            return date ? moment.utc(date).format('YYYY-MM-DD') : '';
         };
     })
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -106,7 +109,7 @@ angular
             })
             .when('/compromisos/nuevo', {
                 templateUrl: 'views/compromisos/crear_compromiso.html',
-                controller: 'CrearCompromisoCtrl',
+                controller: 'crearCompromisoCtrl',
                 controllerAs: 'crearCompromiso'
             })
             .when('/plan_cuentas/cuentas/nueva', {
@@ -219,14 +222,12 @@ angular
                 controller: 'detalleFuenteCtrl',
                 controllerAs: 'detalleFuente'
             })
-
-        .when('/plan_cuentas/crear_descuento', {
-            templateUrl: 'views/plan_cuentas/crear_descuento.html',
-            controller: 'CrearDescuentoCtrl',
-            controllerAs: 'crearDescuento'
-        })
-
-        .when('/orden_pago/proveedor/crear', {
+            .when('/plan_cuentas/crear_descuento', {
+                templateUrl: 'views/plan_cuentas/crear_descuento.html',
+                controller: 'CrearDescuentoCtrl',
+                controllerAs: 'crearDescuento'
+            })
+            .when('/orden_pago/proveedor/crear', {
                 templateUrl: 'views/orden_pago/proveedor/op_crear.html',
                 controller: 'OrdenPagoOpCrearCtrl',
                 controllerAs: 'opCrear'
@@ -266,6 +267,11 @@ angular
                 controller: 'OpSeguridadSocialVerPorIdCtrl',
                 controllerAs: 'opSeguridadSocialVerPorId'
             })
+            .when('/orden_pago/hora_categra/crear', {
+                templateUrl: 'views/orden_pago/hora_categra/op_hc_crear.html',
+                controller: 'OrdenPagoHoraCategraOpHcCrearCtrl',
+                controllerAs: 'opHcCrear'
+            })
             .when('/orden_pago/giros/ver_todos', {
                 templateUrl: 'views/orden_pago/giros/giros_view_all.html',
                 controller: 'OpGirosViewAllCtrl',
@@ -301,8 +307,7 @@ angular
                 controller: 'GestionPlanCuentasCtrl',
                 controllerAs: 'gestionPlanCuentas'
             })
-
-        .when('/ingresos/ingreso_consulta', {
+            .when('/ingresos/ingreso_consulta', {
                 templateUrl: 'views/ingresos/ingreso_consulta.html',
                 controller: 'IngresosIngresoConsultaCtrl',
                 controllerAs: 'ingresoConsulta'
@@ -361,6 +366,37 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
+            })
+            .when('/compromisos/listado_compromisos', {
+                templateUrl: 'views/compromisos/listado_compromisos.html',
+                controller: 'GestionCompromisosCtrl',
+                controllerAs: 'gestionCompromisos'
+            })
+            .when('/conceptos/listado_conceptos', {
+                templateUrl: 'views/conceptos/listado_conceptos.html',
+                controller: 'ListadoConceptosCtrl',
+                controllerAs: 'listadoConceptos'
+            })
+            .when('/conceptos/editar/:Codigo', {
+                templateUrl: 'views/conceptos/editar.html',
+                controller: 'conceptosEditarCtrl',
+                controllerAs: 'conceptosEditar'
+            })
+            .when('/plan_cuentas/editar_descuento/:Id', {
+                templateUrl: 'views/plan_cuentas/editar_descuento.html',
+                controller: 'EditarDescuentoCtrl',
+                controllerAs: 'editarDescuento'
+            })
+            .when('/rp/rp_cargue_masivo', {
+                templateUrl: 'views/rp/rp_cargue_masivo.html',
+                controller: 'RpRpCargueMasivoCtrl',
+                controllerAs: 'rpCargueMasivo'
+            })
+
+        .when('/plan_cuentas/editar_cuenta/:Id', {
+                templateUrl: 'views/plan_cuentas/editar_cuenta.html',
+                controller: 'EditarCuentaCtrl',
+                controllerAs: 'editarCuenta'
             })
             .otherwise({
                 redirectTo: '/'

@@ -7,197 +7,247 @@
  * # IngresosIngresoRegistroCtrl
  * Controller of the financieraClienteApp
  */
- angular.module('financieraClienteApp')
- .controller('IngresosIngresoRegistroCtrl', function($scope,financieraRequest,pagosRequest,$translate,$filter) {
- 	var self = this;
-		//prueba de codigos de facultad
-		self.codigo_facultad = [
-		{
-			COD_FAC: 23,
-			FACULTAD: 'FACULTAD DE CIENCIAS Y EDUCACION'
-		},
-		{
-			COD_FAC: 20,
-			FACULTAD: 'FACULTAD DE INGENIERIA'
-		}
-		];
-		self.cargandoDatosPagos = false;
-		self.concepto = [];
-		self.gridOptions = {
-			enableHorizontalScrollbar:0,
-			enableVerticalScrollbar:1,
-			paginationPageSizes: [10, 20, 30],
-			paginationPageSize: 10,
-			useExternalPagination: false,
-			enableFiltering: true,
-			rowHeight: 45
-		};
-		self.gridOptions.columnDefs = [
-		{ name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info'  },
-		{ name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info'  },
-		{ name: 'nombre', displayName: 'Nombre' ,  headerCellClass: 'text-info'},
-			//{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-			{ name: 'numero_cuenta', displayName: 'N° Cuenta' , headerCellClass: 'text-info' },
-			{ name: 'tipo_recibo', displayName: 'Tipo Recibo' , headerCellClass: 'text-info' },
-			{ name: 'pago_reportado', displayName: 'Pago Reportado' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'matricula', displayName: 'Pago Matricula' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'seguro', displayName: 'Pago Seguro' , headerCellClass: 'text-info',cellFilter: 'currency'},
-			{ name: 'carnet', displayName: 'Pago Carnet' , headerCellClass: 'text-info',cellFilter: 'currency'}
-			];
+angular.module('financieraClienteApp')
+    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
+        var ctrl = this;
+        //prueba de codigos de facultad
+        $scope.load = true;
+        ctrl.fechaInicio = new Date();
+        ctrl.fechaFin = new Date();
+        ctrl.filtro_ingresos = "Ingresos";
+        $scope.datos = false;
+        ctrl.homologacion_facultad = [{
+            old: 33,
+            new: 14 //FACULTAD ING
+        }, {
+            old: 24,
+            new: 17 // CIENCIAS Y EDUCACION
+        }, {
+            old: 23,
+            new: 35 //ASAB
+        }, {
+            old: 101,
+            new: 65 //MEDIO AMB
+        }, {
+            old: 32,
+            new: 66 //TECNOLOGICA
+        }];
+
+        ctrl.cargandoDatosPagos = false;
+        ctrl.concepto = [];
+        ctrl.gridOptions = {
+            enableHorizontalScrollbar: 0,
+            enableVerticalScrollbar: 1,
+            paginationPageSizes: [10, 20, 30],
+            paginationPageSize: 10,
+            useExternalPagination: false,
+            enableFiltering: true,
+            rowHeight: 45
+        };
 
 
 
+        ctrl.ingreso = {};
 
-			self.ingreso = {};
-			self.cargarTiposIngreso = function(){
-				financieraRequest.get('forma_ingreso', $.param({
-					limit: -1
-				})).then(function(response) {
-					self.tiposIngreso = response.data;
-				});
-			};
+        ctrl.cargarTiposIngreso = function() {
+            financieraRequest.get('forma_ingreso', $.param({
+                limit: -1
+            })).then(function(response) {
+                ctrl.tiposIngreso = response.data;
+                ctrl.cargar_facultades();
+                ctrl.cargarUnidadesEjecutoras();
+            });
+        };
 
-			self.cargarUnidadesEjecutoras = function(){
-				financieraRequest.get('unidad_ejecutora', $.param({
-					limit: -1
-				})).then(function(response) {
-					self.unidadesejecutoras = response.data;
-				});
-			};
+        ctrl.cargarTiposIngreso();
 
+        ctrl.cargarUnidadesEjecutoras = function() {
+            financieraRequest.get('unidad_ejecutora', $.param({
+                limit: -1
+            })).then(function(response) {
+                ctrl.unidadesejecutoras = response.data;
+            });
+        };
 
+        ctrl.cargar_facultades = function() {
+            oikosRequest.get('dependencia', $.param({
+                query: "DependenciaTipoDependencia.TipoDependenciaId.Id:2",
+                fields: "Nombre,Id",
+                limit: -1
+            })).then(function(response) {
 
-			self.registrarIngreso = function(){
-				if(self.unidadejecutora == null){
-					swal("", "Debe seleccionar la unidad ejecutora", "error");
-				}else if (self.concepto == null){
-					swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
-				}else{
-					self.ingreso = {};
-					self.ingreso.Ingreso = {};
-					self.ingreso.Ingreso.FormaIngreso = self.tipoIngresoSelec;
-					self.ingreso.Ingreso.FechaConsignacion = self.fechaConsignacion;
-					self.ingreso.Ingreso.Observaciones = self.observaciones;
-					self.ingreso.Ingreso.UnidadEjecutora = self.unidadejecutora;
-				self.ingreso.IngresoBanco = self.totalIngresos;//sumatoria no individual ******
-				self.ingreso.Concepto = self.concepto[0];
-
-				angular.forEach(self.movs, function(data){
-					delete data.Id;
-				});
-				self.ingreso.Movimientos = self.movs;
-				console.log("########################")
-				console.log(self.ingreso);
-				console.log("########################")
-				financieraRequest.post('ingreso/CreateIngresos', self.ingreso).then(function(response){
-					console.log(response.data);
-					if (response.data.Type !== undefined){
-						if (response.data.Type === "error"){
-							swal('',$translate.instant(response.data.Code),response.data.Type);
-						}else{
-							swal('',$translate.instant(response.data.Code)+response.data.Body.Consecutivo,response.data.Type);
-						}
-
-					}
-				}).finally(function(){
-					self.pagos = undefined;
-					self.tipoIngresoSelec = undefined;
-					self.observaciones = undefined;
-					self.unidadejecutora = undefined;
-					self.concepto = undefined;
-				});
-			}
+                ctrl.codigo_facultad = response.data;
+            });
+        };
 
 
-		};
+        $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
+            if (!angular.isUndefined(newValue)) {
+                financieraRequest.get('concepto', $.param({
+                    query: "Id:" + newValue.Id,
+                    fields: "Rubro",
+                    limit: -1
+                })).then(function(response) {
 
-		self.calcularTotalIngresos = function(){
-			self.totalIngresos = 0;
-			if (self.gridOptions.data != null){
-				angular.forEach(self.gridOptions.data ,function(data){
-					var valor = parseFloat(data.pago_reportado)
-					self.totalIngresos = self.totalIngresos + valor;
-				});
-			}else{
+                    console.log(newValue);
+                    console.log(response.data[0].Rubro);
+                    $scope.ingresoRegistro.concepto[0].Rubro = response.data[0].Rubro;
+                });
+            }
+        }, true);
 
-			}
-		};
+        ctrl.registrarIngreso = function() {
+            if (ctrl.unidadejecutora == null) {
+                swal("", "Debe seleccionar la unidad ejecutora", "error");
+            } else if (ctrl.concepto == null) {
+                swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
+            } else {
+                ctrl.ingreso = {
+                    Ingreso: {
+                        FormaIngreso: ctrl.tipoIngresoSelec,
+                        FechaInicio: ctrl.fechaInicio,
+                        FechaFin: ctrl.fechaFin,
+                        Observaciones: ctrl.observaciones,
+                        UnidadEjecutora: ctrl.unidadejecutora,
+                        Facultad: ctrl.facultadSelec.Id
 
+                    },
+                    IngresoBanco: ctrl.total,
+                    Concepto: ctrl.concepto[0]
+                };
 
-		self.consultarPagos= function(){
-			if (self.tipoIngresoSelec == null){
-				swal("", "Debe seleccionar la forma de ingreso", "error");
-			}else if (self.fechaInicio == null || self.fechaFin == null){
-				swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
-			}else if (self.facultadSelec == null){
-				swal("", "Debe seleccionar la facultad", "error");
-			}else{
-				
-				var inicio = $filter('date')(self.fechaInicio, "dd-MM-yy");
-				var fin = $filter('date')(self.fechaFin, "dd-MM-yy");
-				var tipo_recibo = self.tipoIngresoSelec.Nombre;
-				var codigo_facultad = self.facultadSelec.COD_FAC;
-				var parametros = tipo_recibo+"/"+codigo_facultad+"/"+inicio+"/"+fin;
-				console.log(parametros);
-				self.rta=null;
-				self.pagos=null;
-				self.cargandoDatosPagos = true;
-				pagosRequest.get(parametros,{ headers: {'Accept': 'application/json'}}).then(function(response){
-						if(response!=null){
-							console.log(response.data);
-							self.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
-							self.pagos = true;
-							console.log(self.gridOptions.data);
-						}else{
-							console.log("no data");
-						}
+                angular.forEach(ctrl.movs, function(data) {
+                    delete data.Id;
+                });
+                ctrl.ingreso.Movimientos = ctrl.movs;
+                console.log(ctrl.ingreso);
+                financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
+                    if (response.data.Type !== undefined) {
+                        if (response.data.Type === "error") {
+                            swal('', $translate.instant(response.data.Code), response.data.Type);
+                        } else {
+                            swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                        }
 
-					}).finally(function() {
-					// called no matter success or failure
-					self.cargandoDatosPagos = false;
-				});
-				}
-
-
-			}
-
-			self.gridOptions.onRegisterApi = function(gridApi){
-				self.gridApi = gridApi;
-				gridApi.selection.on.rowSelectionChanged($scope,function(row){
-					$scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
-					self.calcularTotalIngresos();
-					console.log($scope.ingresoBanco);
-				});
-				gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
-					$scope.ingresoBanco = self.gridApi.selection.getSelectedRows();
-					self.calcularTotalIngresos();
-					console.log($scope.ingresoBanco);
-				});
-			};
+                    }
+                }).finally(function() {
+                    ctrl.pagos = undefined;
+                    ctrl.tipoIngresoSelec = undefined;
+                    ctrl.observaciones = undefined;
+                    ctrl.unidadejecutora = undefined;
+                    ctrl.concepto = undefined;
+                });
+            }
 
 
-			$scope.$watch('ingresoRegistro.concepto',function(){
-				console.log("cambio");
-				self.calcularTotalIngresos();
-			},true);
+        };
 
+        ctrl.consultarPagos = function() {
+            $scope.datos = false;
+            if (ctrl.tipoIngresoSelec == null) {
+                swal("", "Debe seleccionar la forma de ingreso", "error");
+            } else if (ctrl.fechaInicio == null || ctrl.fechaFin == null) {
+                swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
+            } else if (ctrl.facultadSelec == null) {
+                swal("", "Debe seleccionar la facultad", "error");
+            } else {
+                var tipo_recibo = ctrl.tipoIngresoSelec.Nombre;
+                var codigo_facultad = ctrl.facultadSelec.Id;
 
-			/*$scope.$watch('[ingresoRegistro.gridOptions.paginationPageSize,ingresoRegistro.gridOptions.data]', function(){
-				console.log("af"+self.gridOptions.data.length);
-				if ((self.gridOptions.data.length<=self.gridOptions.paginationPageSize || self.gridOptions.paginationPageSize== null) && self.gridOptions.data.length>0) {
-					$scope.gridHeight = self.gridOptions.rowHeight * 3+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
-					if (self.gridOptions.data.length<=6) {
-						$scope.gridHeight = self.gridOptions.rowHeight * 2+ (self.gridOptions.data.length * self.gridOptions.rowHeight);
-						self.gridOptions.enablePaginationControls= false;
+                ctrl.rta = null;
+                ctrl.pagos = null;
+                ctrl.cargandoDatosPagos = true;
 
-					}
-				} else {
-					$scope.gridHeight = self.gridOptions.rowHeight * 3 + (self.gridOptions.paginationPageSize * self.gridOptions.rowHeight);
-					self.gridOptions.enablePaginationControls= true;
-				}
-			},true);*/
+                switch (tipo_recibo) {
+                    case "Inscripciones":
+                        ctrl.gridOptions.columnDefs = [
+                            { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                            { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
+                            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'codigo_banco', displayName: 'Codigo del Banco', headerCellClass: 'text-info' },
+                            { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
+                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
+                        ];
+                        var inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
+                        var fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
+                        var parametros = [{
+                            name: "tipo_recibo",
+                            value: "ingresos_admisiones"
+                        }, {
+                            name: "fecha_inicio",
+                            value: inicio
+                        }, {
+                            name: "fecha_fin",
+                            value: fin
+                        }];
+                        angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                            if (facultad.new == parametros[1].value) {
+                                parametros[1].value = facultad.old;
+                            }
+                        });
+                        wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
+                            if (response != null) {
+                                $scope.datos = true;
+                                ctrl.gridOptions.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
+                                ctrl.total = 0;
+                                angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                    ctrl.total += parseFloat(ingreso.referencia_pago);
+                                });
+                            } else {
+                                $scope.datos = false;
+                            }
+                        });
 
-
-
-
-		});
+                        break;
+                    case "CODIGO DE BARRAS":
+                        ctrl.gridOptions.columnDefs = [
+                            { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
+                            { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                            { name: 'nombre', displayName: 'Nombre', headerCellClass: 'text-info' },
+                            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                            { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
+                            { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
+                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
+                        ];
+                        var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
+                        var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
+                        var parametros = [{
+                            name: "tipo_recibo",
+                            value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
+                        }, {
+                            name: "facultad",
+                            value: codigo_facultad
+                        }, {
+                            name: "fecha_inicio",
+                            value: inicio
+                        }, {
+                            name: "fecha_fin",
+                            value: fin
+                        }];
+                        angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                            if (facultad.new == parametros[1].value) {
+                                parametros[1].value = facultad.old;
+                            }
+                        });
+                        wso2Request.get("academicaProxyService", parametros).then(function(response) {
+                            if (response != null) {
+                                $scope.datos = true;
+                                ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
+                                ctrl.total = 0;
+                                angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                    ctrl.total += parseFloat(ingreso.pago_reportado);
+                                });
+                            } else {
+                                $scope.datos = false;
+                            }
+                        });
+                    default:
+                        break;
+                }
+            }
+        };
+    });
