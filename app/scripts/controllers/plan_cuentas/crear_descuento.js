@@ -9,7 +9,7 @@
  * @requires financieraService.service:financieraRequest
  * @requires financieraService.service:administrativaRequest
  * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
- * @param {service} administrativaRequest Servicio para el API de financiera {@link agoraService.service:administrativaRequest administrativaRequest}
+ * @param {service} administrativaRequest Servicio para el API de financiera {@link administrativaService.service:administrativaRequest administrativaRequest}
  * @param {injector} $scope scope del controlador
  * @param {injector} $translate translate de internacionalizacion
  * @description
