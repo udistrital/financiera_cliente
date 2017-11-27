@@ -70,15 +70,8 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.PreliquidacionPersonaSelect = row.entity
-            financieraMidRequest.get('orden_pago_ss/DetalleListaPagoSsPorPersona',
-              $.param({
-                idPeriodoPago: self.PeriodoPago,
-                idDetalleLiquidacion: $scope.PreliquidacionPersonaSelect.DetalleLiquidacion,
-              })
-            ).then(function(response) {
-              self.gridOptionsPreliquidacionPagos.data = response.data;
-            })
+            //console.log(row.entity.DetallePagos);
+            self.gridOptionsPreliquidacionPagos.data = row.entity.DetallePagos;
           });
         };
         //
@@ -107,6 +100,7 @@ angular.module('financieraClienteApp')
         // ver movimeintos
         self.gridOptionsConceptos = {
           enableRowHeaderSelection: false,
+          showColumnFooter: false,
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
@@ -132,6 +126,8 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('AFECTACION'),
               cellFilter: 'currency',
               cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
               width: '15%',
             },
           ]
@@ -232,44 +228,9 @@ angular.module('financieraClienteApp')
           ]
         };
 
-        // para desarrollo
-        financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
-          $.param({
-            idNomina: 5,
-            mesLiquidacion: 11,
-            anioLiquidacion: 2017,
-          })
-        ).then(function(response) {
-          if (response.data != 'error') {
-            self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-            self.PeriodoPago = response.data.PeriodoPago;
-            // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
-            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
-              $.param({
-                idNomina: 5,
-                mesLiquidacion: 11,
-                anioLiquidacion: 2017,
-              })
-            ).then(function(response) {
-              if (response.data != null) {
-                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
-                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
-                self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
-                $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
-              } else {
-                self.gridOptionsConceptos.data = {};
-                self.gridOptionsMovimientosContables.data = {};
-              }
-            })
-            // -- consulta movimeintos y rp
-          } else {
-            self.gridOptionsPreliquidacionPersonas.data = {};
-            self.PeriodoPago = null;
-          }
-        })
+        // // para desarrollo
 
-
-        // para desarrollo
+        // // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
@@ -278,12 +239,12 @@ angular.module('financieraClienteApp')
             //
             self.refresh();
             self.gridOptionsPreliquidacionPersonas.data = {};
-            self.PeriodoPago = null;
-            self.gridOptionsPreliquidacionPagos.data = {};
             self.gridOptionsConceptos.data = {};
             self.gridOptionsMovimientosContables.data = {};
+            self.gridOptionsMovimientosContablesTemporal.data = {};
+            $scope.outputdataregistropresupuestal = {};
 
-            financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
+            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
                 mesLiquidacion: $scope.mesSelect,
@@ -291,30 +252,16 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               if (response.data != 'error') {
-                self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-                self.PeriodoPago = response.data.PeriodoPago;
-                // -- consulta movimeintos y rp GetConceptosMovimeintosContablesSs
-                financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
-                  $.param({
-                    idNomina: $scope.nominaSelect.Id,
-                    mesLiquidacion: $scope.mesSelect,
-                    anioLiquidacion: $scope.anoSelect,
-                  })
-                ).then(function(response) {
-                  if (response.data != null) {
-                    self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
-                    self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
-                    self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
-                    $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
-                  } else {
-                    self.gridOptionsConceptos.data = {};
-                    self.gridOptionsMovimientosContables.data = {};
-                  }
-                })
-                // -- consulta movimeintos y rp
+                self.gridOptionsPreliquidacionPersonas.data = response.data.ViewPagosPorPersona;
+
+                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
+                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
+                self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
+                $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
+
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = {};
-                self.PeriodoPago = null;
+
               }
             })
 
