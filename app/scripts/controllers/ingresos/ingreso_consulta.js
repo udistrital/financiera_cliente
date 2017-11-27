@@ -111,15 +111,16 @@ angular.module('financieraClienteApp')
             $scope.estadoclick = $localStorage.nodeclick;
             switch ($scope.estadoclick.Id) {
                 case (3):
-                    ctrl.verIngreso(row.entity);
+                    ctrl.Rechazar();
                     break;
                 case (2):
-                    $scope.estado = row.entity.EstadoIngreso;
+                    ctrl.Aprobar();
                     break;
             }
         };
 
         $scope.loadrow = function(row, operacion) {
+            ctrl.ingresoSel = row.entity;
             $scope.ingreso = row.entity;
             switch (operacion) {
                 case "ver":
@@ -289,7 +290,7 @@ angular.module('financieraClienteApp')
             $("#myModal").modal();
         };
 
-        ctrl.aprobar = function() {
+        ctrl.Aprobar = function() {
             var aprobardata = {};
             aprobardata.Ingreso = ctrl.ingresoSel;
             aprobardata.Movimientos = $scope.movimientos;
@@ -312,7 +313,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        ctrl.rechazar = function() {
+        ctrl.Rechazar = function() {
             $("#myModal").modal('hide');
             swal({
                 title: 'Indica una justificación por el rechazo',
