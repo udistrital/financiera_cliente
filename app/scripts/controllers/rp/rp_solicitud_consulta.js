@@ -17,14 +17,17 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $q, $translate, $window, financieraMidRequest, argoRequest, financieraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest, oikosRequest) {
     var self = this;
     self.alerta = "";
     self.aprovarMasivo = false;
     self.gridOptions = {
-      enableRowSelection: true,
-      enableRowHeaderSelection: true,
+      enableRowSelection: false,
+      enableRowHeaderSelection: false,
       enableFiltering: true,
+       paginationPageSizes: [20, 50, 100],
+      paginationPageSize: 10,
+      useExternalPagination: true,
       columnDefs: [{
           field: 'Id',
           displayName: $translate.instant('NO'),
@@ -72,7 +75,7 @@ angular.module('financieraClienteApp')
       ]
 
     };
-
+    self.UnidadEjecutora = 1;
     financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
@@ -84,7 +87,14 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.years[0];
-      self.actualizar_solicitudes();
+      self.gridOptions.totalItems = 5000;
+      self.actualizar_solicitudes(0,'');
+    });
+    oikosRequest.get("dependencia",$.param({
+          limit: -1,
+        }))
+    .then(function(response){
+      self.Dependencias = response.data;
     });
     /**
      * @ngdoc function
@@ -93,23 +103,67 @@ angular.module('financieraClienteApp')
      * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
      * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
      */
-    self.actualizar_solicitudes = function() {
-      financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.vigenciaActual, '').then(function(response) {
-        self.gridOptions.data.length = 0;
-        self.gridOptions.data = response.data;
+    self.actualizar_solicitudes = function(offset,query) {
+      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+      var query = '';
+      if (inicio !== undefined && fin !== undefined){
+        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+          UnidadEjecutora: self.UnidadEjecutora,
+          rangoinicio: inicio,
+          rangofin: fin,
+          offset: offset
+        })).then(function(response) {
+        if (response.data === null){
+
+          self.gridOptions.data = [];
+        }else{
+          
+          self.gridOptions.data = response.data;
+        }
         console.log(response.data);
 
       });
+      }else{
+        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+          UnidadEjecutora: self.UnidadEjecutora,
+          offset: offset
+        })).then(function(response) {
+        if (response.data === null){
+          self.gridOptions.data = [];
+        }else{
+
+          self.gridOptions.data = response.data;
+        }
+        console.log(response.data);
+
+      });
+      }
+      
     };
 
     self.limpiar_alertas = function() {
       self.alerta_registro_cdp = "";
     };
     //self.gridOptions.multiSelect = false;
-    self.actualizar_solicitudes();
-
+    
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
+        gridApi.core.on.filterChanged($scope, function() {
+          var grid = this.grid;
+          angular.forEach(grid.columns, function(value, key) {
+              if(value.filters[0].term) {
+                  //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+              }
+          });
+        });
+        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
+          console.log('newPage '+newPage+' pageSize '+pageSize);
+          self.gridOptions.data = {};
+          var offset = (newPage-1)*pageSize;
+         
+          self.actualizar_solicitudes(offset,'');
+        });
       self.gridApi.selection.on.rowSelectionChangedBatch($scope, function() {
         self.cargueMasivo = self.gridApi.selection.getSelectedRows();
         if (self.cargueMasivo.length === 0 && self.aprovarMasivo) {
@@ -239,8 +293,9 @@ angular.module('financieraClienteApp')
             showCloseButton: true,
             confirmButtonText: 'Cerrar'
           }).then(function(){
-            self.actualizar_solicitudes();
+            
             $("#myModal").modal('hide');
+            self.actualizar_solicitudes(0,'');
           });
           /*angular.forEach(self.alerta_registro_rp, function(data){
 
@@ -382,7 +437,6 @@ angular.module('financieraClienteApp')
             } else {
               swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
-                self.cargarIngresos();
               });
             }
 
@@ -393,7 +447,26 @@ angular.module('financieraClienteApp')
       });
     };
 
-
+    $scope.$watch("rpSolicitudConsulta.Vigencia", function() {
+      
+       
+        //self.actualizar_solicitudes(0,'');
+    
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
+        self.fechaInicio = undefined;
+        self.fechaFin = undefined;
+      }
+      self.fechamin = new Date(
+        self.Vigencia,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.Vigencia,
+        12, 0
+      );
+    }, true);
 
 
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-    .controller('menuCtrl', function($location, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
+    .controller('menuCtrl', function($location, $window, $q, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
 
         self.perfil = "Admin";
@@ -55,7 +55,7 @@ angular.module('financieraClienteApp')
             }
         ];
         //$scope.menu_service = [];
-        $scope.changeLanguage = function (key){
+        $scope.changeLanguage = function(key) {
             $translate.use(key);
             switch (key) {
                 case 'es':
@@ -67,6 +67,19 @@ angular.module('financieraClienteApp')
                     $scope.language.es = "btn btn-primary btn-circle btn-outline";
                     break;
                 default:
+            }
+        };
+
+        $scope.redirect_url = function(path) {
+            var path_sub = path.substring(0, 4);
+            switch (path_sub.toUpperCase()) {
+                case "HTTP":
+                    $window.open(path, "_blank");
+                    break;
+                default:
+                    requestRequest.cancel_all();
+                    $location.path(path);
+                    break;
             }
         };
 

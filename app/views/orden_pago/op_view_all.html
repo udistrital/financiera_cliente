@@ -1,10 +1,29 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+    <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+        </div>
+        <div ui-grid="opViewAll.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
     </div>
-      <op-listar-todas>
-      <op-listar-todas/>
-  </div>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    </div>
+    <div class="panel-footer">
+      <div align="center">
+        <a ng-href="#/orden_pago/proveedor/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+          {{ 'BTN.NUEVO_OP_PROVEEDOR' | translate }}
+        </a>
+        <a ng-href="#/orden_pago/planta/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+          {{ 'BTN.NUEVO_OP_PLANTA' | translate }}
+        </a>
+        <a ng-href="#/orden_pago/hora_categra/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+          {{ 'BTN.NUEVO_OP_HORA_CATEDRA' | translate }}
+        </a>
+        <a ng-href="#/orden_pago/seguridad_social/crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+          {{ 'BTN.NUEVO_OP_SEGURIDAD_SOCIAL' | translate }}
+        </a>
+      </div>
+    </div>
+
 </div>

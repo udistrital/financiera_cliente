@@ -7,18 +7,300 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(administrativaRequest, titanRequest, $timeout, $translate) {
+  .directive('liquidacionVerTodas', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        inputnecesidad: '=?',
-        ouputpreliquidacion: '=?'
+        ouputdatanominaselect: '=?',
+        ouputdataresumencarge: '=?'
       },
 
       templateUrl: 'views/directives/nomina/liquidacion/ver_todas.html',
       controller: function($scope) {
         var self = this;
+        $scope.ouputdatanominaselect = {};
+        //
+        titanRequest.get('nomina',
+          $.param({
+            limit: '-1',
+          })).then(function(response) {
+          self.nomina = response.data;
+        })
+        // Resumen
+        self.gridOptionsResumenMovimientosContables = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+        self.gridOptionsResumenConceptos = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'Rubro.Id',
+              visible: false
+            },
+            {
+              field: 'Rubro.Codigo',
+              displayName: $translate.instant('RUBRO') + " " + $translate.instant('CODIGO'),
+              width: '30%',
+            },
+            {
+              field: 'Rubro.Nombre',
+              displayName: $translate.instant('NOMBRE'),
+              width: '50%',
+            },
+            {
+              field: 'Afectacion',
+              displayName: $translate.instant('AFECTACION'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '20%',
+            },
+          ]
+        };
+        //
+        self.gridOptionsConceptos = {
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'Concepto.Id',
+              visible: false
+            },
+            {
+              field: 'Concepto.Codigo',
+              displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
+              width: '20%',
+            },
+            {
+              field: 'Concepto.Nombre',
+              displayName: $translate.instant('NOMBRE'),
+            },
+            {
+              field: 'Concepto.TipoConcepto.Nombre',
+              displayName: $translate.instant('TIPO'),
+              width: '10%',
+            },
+            {
+              field: 'Valor',
+              displayName: $translate.instant('AFECTACION'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              width: '15%',
+            },
+          ]
+        };
+        //
+        self.gridOptionsMovimientosContables = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+        //
+        self.gridOptionsPreliquidacionPersonas = {
+          enableRowHeaderSelection: false,
+          multiSelect: false,
+          minRowsToShow: 13,
+          columnDefs: [{
+              field: 'Contrato',
+              displayName: $translate.instant('CONTRATO'),
+              width: '15%',
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
+            },
+            {
+              field: 'VigenciaContrato',
+              displayName: $translate.instant('VIGENCIA') + ' ' + $translate.instant('CONTRATO'),
+              width: '15%',
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
+            },
+            {
+              field: 'infoPersona.nombre_completo',
+              displayName: $translate.instant('NOMBRE'),
+              width: '40%',
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
+            },
+            {
+              field: 'infoPersona.Documento.numero',
+              displayName: $translate.instant('NO_DOCUMENTO'),
+              width: '30%',
+              cellClass: function(_, row) {
+                if (row.entity.Aprobado == false) {
+                  return 'input_center text-danger';
+                } else {
+                  return 'input_center';
+                }
+              }
+            },
+          ]
+        };
+        self.gridOptionsPreliquidacionPersonas.onRegisterApi = function(gridApi) {
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.personaSelect = row.entity;
+            if ($scope.personaSelect.Aprobado) {
+              $scope.mostrar = true;
+              $scope.mostraDetalleError = false;
+              self.gridOptionsConceptos.data = $scope.personaSelect.ConceptoOrdenPago;
+              self.gridOptionsMovimientosContables.data = $scope.personaSelect.MovimientoContable;
+            } else {
+              $scope.errorPersona = $scope.personaSelect.Code;
+              $scope.mostrar = false;
+              $scope.mostraDetalleError = true;
+            }
+          });
+        };
+
+        //para desarrollo
+        // financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
+        //   $.param({
+        //     idNomina: 5,
+        //     mesLiquidacion: 9,
+        //     anioLiquidacion: 2017,
+        //   })
+        // ).then(function(response) {
+        //   if (response.data.Type == 'error') {
+        //     self.gridOptionsPreliquidacionPersonas.data = {};
+        //     $scope.ouputdataresumencarge = {};
+        //   } else {
+        //     self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
+        //     $scope.ouputdataresumencarge = response.data;
+        //   }
+        // })
+        // para desarrollo
+        self.consultar = function() {
+          if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
+            $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
+            $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
+            $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
+            $scope.mostrar = false;
+            $scope.mostraDetalleError = false;
+            self.gridOptionsConceptos.data = {};
+            self.gridOptionsMovimientosContables.data = {};
+            self.refresh();
+            financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
+              $.param({
+                idNomina: $scope.nominaSelect.Id,
+                mesLiquidacion: $scope.mesSelect,
+                anioLiquidacion: $scope.anoSelect,
+              })
+            ).then(function(response) {
+              if (response.data.Type == 'error') {
+                self.gridOptionsPreliquidacionPersonas.data = {};
+                $scope.ouputdataresumencarge = {};
+                self.gridOptionsResumenMovimientosContables.data = {};
+                self.gridOptionsResumenConceptos.data = {};
+              } else {
+                self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
+                $scope.ouputdataresumencarge = response.data;
+                self.gridOptionsResumenMovimientosContables.data = response.data.ResumenCargueOp.ResumenContable;
+                self.gridOptionsResumenConceptos.data = response.data.ResumenCargueOp.ResumenPresupuestal;
+
+
+              }
+            })
+          }
+        }
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -26,138 +308,13 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        self.gridOptions_preliquidacion = {
-          expandableRowTemplate: 'expandableRowUpc.html',
-          expandableRowHeight: 100,
-          enableRowHeaderSelection: false,
-          multiSelect: false,
-          //inicio sub grid
-          onRegisterApi: function(gridApi) {
-            gridApi.expandable.on.rowExpandedStateChanged($scope, function(row) {
-              if (row.isExpanded) {
-                row.entity.subGridOptions = {
-                  enableRowHeaderSelection: false,
-                  multiSelect: false,
-                  columnDefs: [{
-                      field: 'Id',
-                      visible: false
-                    },
-                    {
-                      field: 'NumeroContrato',
-                      displayName: $translate.instant('CONTRATO'),
-                      width: '10%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Concepto.AliasConcepto',
-                      displayName: $translate.instant('CONCEPTOS'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'Concepto.NaturalezaConcepto.Nombre',
-                      displayName: $translate.instant('NATURALEZA'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'TipoPreliquidacion.Nombre',
-                      displayName: $translate.instant('TIPO'),
-                      width: '15%'
-                    },
-                    {
-                      field: 'ValorCalculado',
-                      displayName: $translate.instant('VALOR'),
-                      cellFilter: 'currency',
-                      width: '14%',
-                      cellClass: 'input_right'
-                    }
-                  ]
-                };
-                //consulta
-                titanRequest.get('detalle_preliquidacion',
-                  $.param({
-                    query: 'Preliquidacion.Id:' + row.entity.Id,
-                  })).then(function(response) {
-                  row.entity.subGridOptions.data = response.data;
-                });
-              }; //if
-
-            });
-          },
-          //fin sub grid
-          columnDefs: [{
-              field: 'Id',
-              visible: false
-            },
-            {
-              field: 'Descripcion',
-              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('LIQUIDACION'),
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Mes',
-              displayName: $translate.instant('MES'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Ano',
-              displayName: $translate.instant('ANO'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'EstadoPreliquidacion.Nombre',
-              displayName: $translate.instant('ESTADO'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'FechaRegistro',
-              displayName: $translate.instant('FECHA'),
-              width: '8%',
-              cellClass: 'input_center',
-              cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
-            },
-            {
-              field: 'Nomina.TipoNomina.Nombre',
-              displayName: $translate.instant('NOMINA'),
-              width: '8%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'Nomina.Descripcion',
-              displayName: $translate.instant('DESCRIPCION') + ' ' + $translate.instant('NOMINA'),
-              cellClass: 'input_center'
-            },
-          ]
-        };
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = true;
+            $scope.b = true;
           }
         });
-        $scope.$watch('inputnecesidad', function() {
-          self.refresh();
-          if (Object.keys($scope.inputnecesidad).length > 0) {
-            administrativaRequest.get('necesidad_proceso_externo',
-              $.param({
-                query: 'Necesidad.Id:' + $scope.inputnecesidad.Id,
-              })).then(function(response) {
-              self.NecesidadProcesoExterno = response.data[0];
-              //consultamos liquidacion
-              titanRequest.get('preliquidacion',
-                $.param({
-                  query: 'Id:' + self.NecesidadProcesoExterno.ProcesoExterno,
-                })).then(function(response) {
-                self.gridOptions_preliquidacion.data = response.data;
-                $scope.ouputpreliquidacion = response.data[0].Id;
-              });
-            });
-          } else {
-            self.gridOptions_preliquidacion.data = {};
-          };
-        })
-        // fin
+
       },
       controllerAs: 'd_liquidacionVerTodas'
     };

@@ -1,133 +1,125 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">{{'REGISTRO_INGRESOS' | translate}}</h2>
-  <div class="panel-body">
-
-
-
-    <table>
-      <tr>
-        <td class="col-md-3">
-          <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
-          <br>
-          <select class="form-control" ng-focus="ingresoRegistro.cargarTiposIngreso()" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso">
-          </select>
-        </td>
-        <td class="col-md-1">
-          <br>
-        </td>
-        <td class="col-md-3">
-          <label for="tipo_ingreso">{{'FACULTAD' | translate}}</label>
-          <br>
-          <select class="form-control" ng-model="ingresoRegistro.facultadSelec" ng-options="o as o.FACULTAD for o in ingresoRegistro.codigo_facultad">
-        </td>
-        <td class="col-md-1">
-          <br>
-        </td>
-        <td class="col-md-2">
-          <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
-          <br>
-          <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}"></md-datepicker>
-        </td>
-        <td class="col-md-2">
-          <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
-          <br>
-          <md-datepicker ng-model="ingresoRegistro.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" ></md-datepicker>
-        </td>
-        <td class="col-md-2">
-          <br>
-          <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
-        </td>
-      </tr>
-    </table>
-    <loading load="ingresoRegistro.cargandoDatosPagos" tam="5"></loading>
-
-
-    <div class="panel panel-primary panel-body" ng-show="ingresoRegistro.pagos">
-
-      <div class="panel-body">
-        <legend class="text-primary" ng-click="b=!b">
-          {{'TABLA_INGRESOS_BANCO' | translate}}
-          <span class="fa fa-plus pull-right" ng-show="b"></span>
-          <span class="fa fa-minus pull-right" ng-show="!b"></span>
-        </legend>
-        <div ng-show="!b"  ui-grid="ingresoRegistro.gridOptions"  ui-grid-pagination ui-grid-auto-resize></div>
-        <br>
-        <br>
-        <legend class="text-primary" ng-click="a=!a">
-          {{'DATOS_REG_INGRESO' | translate}}
-          <span class="fa fa-plus pull-right" ng-show="!a"></span>
-          <span class="fa fa-minus pull-right" ng-show="a"></span>
-        </legend>
-        <div ng-show="a">
-          <div class="form-group">
-            <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-            <select class="form-control" ng-focus="ingresoRegistro.cargarUnidadesEjecutoras()" ng-model="ingresoRegistro.unidadejecutora" ng-options="o as o.Nombre for o in ingresoRegistro.unidadesejecutoras">
-
-                </select>
-          </div>
-          <br>
-          <div class="form-group">
-            <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-            <br>
-            <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistro.observaciones">
-
-                </textarea>
-          </div>
-          <div class="form-group">
-            <label for="concepto">{{'CONCEPTO' | translate}}</label>
-            <br>
-
-            <arbol-conceptos filtro="filtro_padre" seleccion="ingresoRegistro.concepto[0]" conceptosel="nodo" recargar="crearConcepto.recargar" />
-          </div>
-          <div ng-show="ingresoRegistro.concepto[0]">
-            <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
-            <ul class="list-unstyled">
-              <hr class="hr-primary">
-              <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto[0].Rubro.Codigo+" / "+ingresoRegistro.concepto[0].Rubro.Descripcion}}
-                <ul>
-                  <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoRegistro.totalIngresos|currency}}</li>
-                </ul>
-              </li>
-
-
-
-
-            </ul>
-
-          </div>
-          <hr/>
-          <legend class="text-primary" ng-click="a=!a">
-            {{'CUENTAS_CONTABLES' | translate}}
-            <span class="fa fa-plus pull-right" ng-show="!a"></span>
-            <span class="fa fa-minus pull-right" ng-show="a"></span>
-          </legend class="text-primary">
-          <div class="panel-body row" ng-show="a">
-            <div class=" col-sm-12">
-              <div class="panel-body">
-                <ul class="nav nav-tabs">
-                  <li ng-class="{active: selected == c.Id}" ng-repeat="c in ingresoRegistro.concepto"><a href ng-click="ingresoRegistro.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
-                  </li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                  <div class="tab-pane fade in active" ng-repeat="c in ingresoRegistro.concepto" ng-show="ingresoRegistro.selected==c.Id">
-                    <movimientos-contables conceptoid="c.Id" movimientos="ingresoRegistro.movs" monto="ingresoRegistro.totalIngresos" editable validatemov="c.validado">
-                    </movimientos-contables>
-
-                  </div>
+    <h2 class="page-header" align="center">{{'REGISTRO_INGRESOS' | translate}}</h2>
+    <div class="panel-body">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
+                            <br>
+                            <select class="form-control" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso"></select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'FACULTAD' | translate}}</label>
+                            <br>
+                            <select class="form-control" ng-model="ingresoRegistro.facultadSelec" ng-options="o as o.Nombre for o in ingresoRegistro.codigo_facultad"></select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
+                            <br>
+                            <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}"></md-datepicker>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
+                            <br>
+                            <md-datepicker ng-model="ingresoRegistro.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}"></md-datepicker>
+                        </div>
+                        <div class="col-md-2">
+                            <br>
+                            <center>
+                                <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                            </center>
+                        </div>
+                    </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-        <div class="form-group text-center">
-          <a type="button" class="btn btn-outline btn-success" ng-click="ingresoRegistro.registrarIngreso()"> Registrar </a>
-        </div>
-      </div>
     </div>
-    <div ng-if="ingresoRegistro.gridOptions.data!=null" class="alert alert-danger">
-      No data
+    <div ng-if="!datos">
+        <loadingcircle load="load">
     </div>
-  </div>
 
+
+    </loadingcircle>
+    <div class="panel panel-primary panel-body" ng-show="datos ">
+        <div class="panel-body">
+            <legend class="text-primary" ng-click="b=!b">
+                {{'TABLA_INGRESOS_BANCO' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="b"></span>
+                <span class="fa fa-minus pull-right" ng-show="!b"></span>
+            </legend>
+            <div ng-show="!b " ui-grid="ingresoRegistro.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+            <legend class="text-primary" ng-click="a=!a">
+                {{'DATOS_REG_INGRESO' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="!a"></span>
+                <span class="fa fa-minus pull-right" ng-show="a"></span>
+            </legend>
+            <div ng-show="a">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+                        <select class="form-control" ng-model="ingresoRegistro.unidadejecutora" ng-options="o as o.Nombre for o in ingresoRegistro.unidadesejecutoras">
+                </select>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
+                        <br>
+                        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistro.observaciones">
+                </textarea>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="concepto">{{'CONCEPTO' | translate}}</label>
+                        <br>
+
+                        <arbol-conceptos filtro="ingresoRegistro.filtro_ingresos" seleccion="ingresoRegistro.concepto[0]" conceptosel="nodo"></arbol-conceptos>
+                    </div>
+                </div>
+
+                <div class="row" ng-show="ingresoRegistro.concepto[0]">
+                    <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
+                    <ul class="list-unstyled">
+                        <hr class="hr-primary">
+                        <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto[0].Rubro.Codigo+" / "+ingresoRegistro.concepto[0].Rubro.Nombre}}
+                            <ul>
+                                <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoRegistro.total|currency}}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <legend class="text-primary" ng-click="c=!c">
+                {{'CUENTAS_CONTABLES' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="!c"></span>
+                <span class="fa fa-minus pull-right" ng-show="c"></span>
+            </legend class="text-primary">
+            <div class="panel-body row" ng-show="c">
+                <div class=" col-sm-12">
+                    <div class="panel-body">
+                        <ul class="nav nav-tabs">
+                            <li ng-class="{active: selected == c.Id}" ng-repeat="c in ingresoRegistro.concepto"><a href ng-click="ingresoRegistro.selected=c.Id" data-toggle="tab">
+                                Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" ng-repeat="c in ingresoRegistro.concepto" ng-show="ingresoRegistro.selected==c.Id">
+                                <movimientos-contables conceptoid="c.Id" movimientos="ingresoRegistro.movs" monto="ingresoRegistro.total" editable validatemov="c.validado">
+                                </movimientos-contables>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group text-center">
+                <a type="button" class="btn btn-outline btn-success" ng-click="ingresoRegistro.registrarIngreso()"> Registrar </a>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

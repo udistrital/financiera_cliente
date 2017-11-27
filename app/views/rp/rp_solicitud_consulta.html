@@ -1,74 +1,105 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">Solicitudes de Registro Presupuestal</h2>
+    <h2 class="page-header" align="center">Solicitudes de Registro Presupuestal</h2>
     <div class="panel-body">
-      <tr>
-        <td>
-          <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection class="myGrid"></div>
-        </td>
-      </tr>
-    </table>
-    <center ng-if="rpSolicitudConsulta.aprovarMasivo">
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-md-offset-1">
+                            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+                            <br>
+                            <input type="text" name="select_vigencia" disabled="true" ng-model="rpSolicitudConsulta.Vigencia" class="form-control">
+
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
+                            <md-datepicker ng-model="rpSolicitudConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year" md-min-date="rpSolicitudConsulta.fechamin" md-max-date="rpSolicitudConsulta.fechamax"></md-datepicker>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label><br>
+                            <md-datepicker ng-model="rpSolicitudConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year" md-min-date="rpSolicitudConsulta.fechamin" md-max-date="rpSolicitudConsulta.fechamax"></md-datepicker>
+                        </div>
+                        <div class="col-md-1">
+                            <br>
+                            <a type="button" name="button" ng-click="rpSolicitudConsulta.actualizar_solicitudes(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+
+        <loadingcircle load="load"></loadingcircle>
+        <div ng-if="!load">
+            <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination></div>
+        </div>
+
+
+        <center ng-if="rpSolicitudConsulta.aprovarMasivo">
             <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.RegistrarMasivo()">{{ 'BTN.APROBAR' | translate }}</button>
             <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
-    </center>
-  </div>
+        </center>
+    </div>
 </div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
-  <div class="modal-content col-md-offset-1 col-md-10">
-    <div class="modal-header">
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="rpSolicitudConsulta.actualizar_solicitudes()">&times</button><br>
+    <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="page-header">Solicitud de Registro Presupuestal No {{rpSolicitudConsulta.data.Id}} de {{rpSolicitudConsulta.data.Vigencia}}</h3>
+                <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
+            </div>
+            <div class="panel-body">
+                <table class="table ">
+                    <tr>
+                        <th>CDP No: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
+                    </tr>
+                    <tr>
+                        <th>Necesidad No: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
+                    </tr>
+                    <tr>
+                        <th>Beneficiario: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosProveedor.NomProveedor}}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo Persona: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosProveedor.Tipopersona}}</td>
+                    </tr>
+                    <tr>
+                        <th>No. Documento: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
+                    </tr>
+                    <tr>
+                        <th>Compromiso: </th>
+                        <td>{{rpSolicitudConsulta.data.InfoCompromiso.Id+" / "+rpSolicitudConsulta.data.InfoCompromiso.Objeto}}</td>
+                    </tr>
+                    <tr>
+                        <th>Modalidad de selección: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Id+" / "+rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Nombre}}</td>
+                    </tr>
+                    <tr>
+                        <th>Objeto: </th>
+                        <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
+                    </tr>
+                </table>
+                <hr>
+
+                <h4 class="text-info">Afectación Presupuestal</h4>
+                <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones" afectacion="afectacion">
+                </fuente-financiacion-solicitud-rp>
+                <hr>
+                <center ng-if="!rpSolicitudConsulta.data.Expedida">
+                    <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
+                    <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
+                </center>
+            </div>
+        </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="page-header">Solicitud de Registro Presupuestal No {{rpSolicitudConsulta.data.Id}} de {{rpSolicitudConsulta.data.Vigencia}}</h3>
-        <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
-      </div>
-      <div class="panel-body">
-        <table class="table ">
-          <tr>
-            <th>CDP No: </th>
-            <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
-          </tr>
-          <tr>
-            <th>Necesidad No: </th>
-            <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
-          </tr>
-          <tr>
-            <th>Beneficiario: </th>
-            <td>{{rpSolicitudConsulta.data.DatosProveedor.NomProveedor}}</td>
-          </tr>
-          <tr>
-            <th>Tipo Persona: </th>
-            <td>{{rpSolicitudConsulta.data.DatosProveedor.Tipopersona}}</td>
-          </tr>
-          <tr>
-            <th>No. Documento: </th>
-            <td>{{rpSolicitudConsulta.data.DatosProveedor.NumDocumento}}</td>
-          </tr>
-          <tr>
-            <th>Compromiso: </th>
-            <td>{{rpSolicitudConsulta.data.InfoCompromiso.Id+" / "+rpSolicitudConsulta.data.InfoCompromiso.Objeto}}</td>
-          </tr>
-          <tr>
-            <th>Modalidad de selección: </th>
-            <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Id+" / "+rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Nombre}}</td>
-          </tr>
-          <tr>
-            <th>Objeto: </th>
-            <td>{{rpSolicitudConsulta.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
-          </tr>
-        </table>
-        <hr>
-        
-        <h4 class="text-info">Afectación Presupuestal</h4>
-        <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones" afectacion="afectacion">
-        </fuente-financiacion-solicitud-rp>
-          <hr>
-          <center ng-if="!rpSolicitudConsulta.data.Expedida">
-            <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
-            <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
-          </center>
-      </div>
-    </div>
-  </div>
 </div>
