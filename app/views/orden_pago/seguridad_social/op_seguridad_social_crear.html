@@ -4,7 +4,7 @@
     <!--liquidacion -->
     <liquidacion-ss
     inputpestanaabierta="opSeguridadSocialCrear.PestanaAbierta"
-    ouputdatanominaselect=""
+    ouputdatanominaselect="opSeguridadSocialCrear.dataSeguridadSocial"
     outputdataregistropresupuestal="opSeguridadSocialCrear.registroPresupuestal">
     </liquidacion-ss>
 
@@ -70,6 +70,96 @@
           <label class="control-label col-sm-1">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
           <div class="col-sm-5">
             <textarea class="form-control" rows="2" readonly> {{opSeguridadSocialCrear.solicitud.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--detalle Proveedor-->
+    <legend class="text-primary" ng-click="panelProveedor=!panelProveedor">
+      {{'PROVEEDOR' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!panelProveedor"></span>
+      <span class="fa fa-minus pull-right" ng-show="panelProveedor"></span>
+    </legend class="text-primary">
+    <div ng-show="panelProveedor" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'TIPO_PERSONA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].Tipopersona}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'NO_DOCUMENTO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NumDocumento}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'NOMBRE' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NomProveedor}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'DIRECCION' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].Direccion}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'TELEFONO' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.tel_proveedor.IdTelefono.NumeroTel}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'CUENTA_BANCARIA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NumCuentaBancaria}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-1">{{'SUCURSAL' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.banco_proveedor.NombreBanco}}</span>
+          </div>
+          <label class="control-label col-sm-1">{{'TIPO_CUENTA' | translate}}</label>
+          <div class="col-sm-5">
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].TipoCuentaBancaria}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--OP-->
+    <legend class="text-primary" ng-click="opSeguridadSocialCrear.PestanaAbiertaDetallePago=!opSeguridadSocialCrear.PestanaAbiertaDetallePago">
+      {{'DETALLE_OP' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!opSeguridadSocialCrear.PestanaAbiertaDetallePago"></span>
+      <span class="fa fa-minus pull-right" ng-show="opSeguridadSocialCrear.PestanaAbiertaDetallePago"></span>
+    </legend class="text-primary">
+    <div ng-show="opSeguridadSocialCrear.PestanaAbiertaDetallePago" class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+          <div class="col-sm-4">
+            <select ng-model="opSeguridadSocialCrear.OrdenPago.FormaPago" ng-options="i.Nombre for i in opSeguridadSocialCrear.formaPagos" class="form-control" required>
+              <option value="">Seleccionar Forma de Pago</option>
+            </select>
+          </div>
+          <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">{{opSeguridadSocialCrear.OrdenPago.SubTipoOrdenPago.Nombre}}</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+          <div class="col-sm-4">
+          <input ng-model="opSeguridadSocialCrear.OrdenPago.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
+          </div>
+          <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">1</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <div class="col-sm-4">
+            <span class="form-control input_right">{{opSeguridadSocialCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
           </div>
         </div>
       </div>
