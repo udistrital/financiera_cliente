@@ -8,6 +8,7 @@
 </div>
 
 <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+
 <div id="myModal" class="modal fade col-md-12" role="dialog">
     <div class="modal-content col-md-offset-1 col-md-10">
         <div class="modal-header">
@@ -20,7 +21,6 @@
                     <div align="right">{{'FECHA_REGISTRO' | translate}}: {{ingresoConsulta.ingresoSel.FechaIngreso | date:"yyyy-MM-dd":"UTC"}}</div>
                 </div>
                 <div class="panel-body">
-
                     <table class="table text-justify">
                         <tr>
                             <th>{{'TIPO_INGRESO' | translate}}: </th>

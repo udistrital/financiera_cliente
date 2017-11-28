@@ -5,9 +5,11 @@
  * @name financieraClienteApp.controller:PlanCuentasCrearCuentasCtrl
  * @alias crearCuentas
  * @requires $scope
+ * @requires $translate
  * @requires financieraService.service:financieraRequest
  * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
  * @param {injector} $scope scope del controlador
+  * @param {injector} $translate internacionalización
  * @description
  * # PlanCuentasCrearCuentasCtrl
  * Controlador para la creación de nuevas cuentas contables en el plan maestro de cuentas.
@@ -43,7 +45,6 @@ angular.module('financieraClienteApp')
      * @ngdoc function
      * @name financieraClienteApp.controller:PlanCuentasCrearCuentasCtrl#crear_cuenta
      * @methodOf financieraClienteApp.controller:PlanCuentasCrearCuentasCtrl
-     * @param {object} form formulario que es enviado desde la vista para el control de limpieza o envio de errores
      * @description
      * Se genera alerta en la cual se notifica al usuario si desea crear una nueva cuenta, luego se construye el objeto que
      * será enviado por el método post del servicio {@link financieraService.service:financieraRequest financieraRequest} el cual retornará un mensaje en
