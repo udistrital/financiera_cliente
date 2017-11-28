@@ -3,7 +3,7 @@
         {{ 'SOLICITUD_AVANCE' | translate }}
     </h2>
     <loadingcircle load="load"></loadingcircle>
-    <div ng-if="!load" ui-grid="listaSolicitud.gridOptions" class="myGrid" ui-grid-selection ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
+    <div ng-if="!load" ui-grid="listaSolicitud.gridOptions" class="myGrid" ui-grid-pagination ui-grid-auto-resize ui-grid-auto-fit-columns></div>
 </div>
 <div>
     <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
@@ -91,13 +91,36 @@
     </div>
 </div>
 
+
 <div id="modal_aprobacion" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
         </div>
-        <div class="panel panel-body">
-            Aprobar Avance
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'APROBAR_AVANCE' | translate }}
+            </div>
+            <div class="panel panel-body">
+                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+
+                <fieldset class="form-group">
+                    <legend class="text-primary" ng-click="d=!d">{{'NECESIDAD'| translate}} <span class="fa fa-plus pull-right" ng-show="!d"></span>
+                        <span class="fa fa-minus pull-right" ng-show="d"></span></legend>
+                    <div class="panel panel-default" ng-show="!d">
+                        <div class="alert alert-warning" ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad == null">
+                            <h3>
+                                <strong>Pendiente por necesidad!</strong>
+                            </h3>
+                        </div>
+                        <div ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad != null">
+                            <pre>  
+                            {{listaSolicitud.necesidad_proceso_externo | json}}
+                            </pre>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
         </div>
     </div>
 </div>
