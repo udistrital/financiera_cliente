@@ -228,8 +228,8 @@ angular.module('financieraClienteApp')
 
         ctrl.solicitud_necesidad = function() {
             swal({
-                title: 'Solicitud Necesidad',
-                text: "Avance No. " + $scope.solicitud.Consecutivo + " Para " + $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
+                title: $translate.instant('SOLICITUD_NECESIDAD'),
+                text: $translate.instant('AVANCE_NO') + $scope.solicitud.Consecutivo + $translate.instant('PARA') + $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
