@@ -447,6 +447,7 @@ var text_es = {
     TIPO_DEPENDENCIA_SOLICITANTE: "Tipo Dependencia Solicitante",
     TIPO_DOCUMENTO: "Tipo Documento",
     TIPO_EMPLEADO: "Tipo Empleado",
+    TIPO_FUENTE_FINANCIAMIENTO: "Tipo de Fuente de Financiamiento",
     TIPO_INGRESO: "Tipo de Ingreso",
     TIPO_MODIFICACION: "Tipo de Modificación Presupuestal",
     TIPO_PERSONA: "Tipo Persona",
