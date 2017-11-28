@@ -511,6 +511,7 @@ var text_es = {
         REGRESAR: "Regresar",
         SELECCIONAR: "Seleccionar",
         SOLICITAR_RP: "Solicitar RP",
+        SOLICITAR: "Solicitar",
         VER: "Ver",
         VERIFICAR: "Verificar Requisitos"
     },

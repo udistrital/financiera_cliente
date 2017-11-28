@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest, administrativaPruebasRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -240,7 +240,7 @@ angular.module('financieraClienteApp')
                     ProcesoExterno: $scope.solicitud.Id,
                     TipoNecesidad: { Id: 3 }
                 };
-                administrativaRequest.post("necesidad_proceso_externo", data)
+                administrativaPruebasRequest.post("necesidad_proceso_externo", data)
                     .then(function(response) {
                         if (response.status === 200) {
                             console.log(response.data);
@@ -253,13 +253,29 @@ angular.module('financieraClienteApp')
 
         $scope.funcion = function() {
             $scope.estadoclick = $localStorage.nodeclick;
+            console.log($scope.estadoclick);
             switch ($scope.estadoclick.Id) {
                 case (3):
                     $('#modal_validar').modal('show');
                     break;
                 case (2):
-                    $scope.estado = row.entity.EstadoIngreso;
+                    $scope.estado = $scope.solicitud.EstadoIngreso;
                     break;
+                case (4):
+                    administrativaPruebasRequest.get("necesidad_proceso_externo",
+                            $.param({
+                                query: "proceso_externo:" + $scope.solicitud.Id,
+                                limit: -1
+                            }))
+                        .then(function(response) {
+                            if (response.data == null) {
+                                ctrl.solicitud_necesidad();
+                            } else {
+                                $('#modal_aprobacion').modal('show');
+                                ctrl.necesidad_proceso_externo = response.data[0];
+                            }
+                        });
+
             }
         };
 
