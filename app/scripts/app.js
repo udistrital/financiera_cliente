@@ -56,7 +56,8 @@ angular
         'financieraNotificacion',
         'arkaService',
         'configuracionService',
-        "wso2Service"
+        "wso2Service",
+        "requestService"
     ])
 
 .run(function(amMoment) {
@@ -221,14 +222,12 @@ angular
                 controller: 'detalleFuenteCtrl',
                 controllerAs: 'detalleFuente'
             })
-
-        .when('/plan_cuentas/crear_descuento', {
-            templateUrl: 'views/plan_cuentas/crear_descuento.html',
-            controller: 'CrearDescuentoCtrl',
-            controllerAs: 'crearDescuento'
-        })
-
-        .when('/orden_pago/proveedor/crear', {
+            .when('/plan_cuentas/crear_descuento', {
+                templateUrl: 'views/plan_cuentas/crear_descuento.html',
+                controller: 'CrearDescuentoCtrl',
+                controllerAs: 'crearDescuento'
+            })
+            .when('/orden_pago/proveedor/crear', {
                 templateUrl: 'views/orden_pago/proveedor/op_crear.html',
                 controller: 'OrdenPagoOpCrearCtrl',
                 controllerAs: 'opCrear'
@@ -308,8 +307,7 @@ angular
                 controller: 'GestionPlanCuentasCtrl',
                 controllerAs: 'gestionPlanCuentas'
             })
-
-        .when('/ingresos/ingreso_consulta', {
+            .when('/ingresos/ingreso_consulta', {
                 templateUrl: 'views/ingresos/ingreso_consulta.html',
                 controller: 'IngresosIngresoConsultaCtrl',
                 controllerAs: 'ingresoConsulta'
@@ -384,22 +382,21 @@ angular
                 controller: 'conceptosEditarCtrl',
                 controllerAs: 'conceptosEditar'
             })
-
             .when('/plan_cuentas/editar_descuento/:Id', {
-              templateUrl: 'views/plan_cuentas/editar_descuento.html',
-              controller: 'EditarDescuentoCtrl',
-              controllerAs: 'editarDescuento'
+                templateUrl: 'views/plan_cuentas/editar_descuento.html',
+                controller: 'EditarDescuentoCtrl',
+                controllerAs: 'editarDescuento'
             })
             .when('/rp/rp_cargue_masivo', {
-              templateUrl: 'views/rp/rp_cargue_masivo.html',
-              controller: 'RpRpCargueMasivoCtrl',
-              controllerAs: 'rpCargueMasivo'
+                templateUrl: 'views/rp/rp_cargue_masivo.html',
+                controller: 'RpRpCargueMasivoCtrl',
+                controllerAs: 'rpCargueMasivo'
             })
 
-            .when('/plan_cuentas/editar_cuenta/:Id', {
-              templateUrl: 'views/plan_cuentas/editar_cuenta.html',
-              controller: 'EditarCuentaCtrl',
-              controllerAs: 'editarCuenta'
+        .when('/plan_cuentas/editar_cuenta/:Id', {
+                templateUrl: 'views/plan_cuentas/editar_cuenta.html',
+                controller: 'EditarCuentaCtrl',
+                controllerAs: 'editarCuenta'
             })
             .otherwise({
                 redirectTo: '/'

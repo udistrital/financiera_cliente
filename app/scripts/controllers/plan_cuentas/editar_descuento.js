@@ -1,31 +1,65 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name financieraClienteApp.controller:PlanCuentasEditarDescuentoCtrl
+ * @ngdoc controller
+ * @name financieraClienteApp.controller:EditarDescuentoCtrl
+ * @alias editarDescuento
+ * @requires $scope
+ * @requires $translate
+ * @requires $location
+ * @requires $routeParams
+ * @requires financieraService.service:financieraRequest
+ * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
+ * @param {service} administrativaRequest Servicio para el API de financiera {@link administrativaService.service:administrativaRequest administrativaRequest}
+ * @param {injector} $scope scope del controlador
+ * @param {injector} $translate internacionalización
+ * @param {injector} $routeParams parametros de route
  * @description
- * # PlanCuentasEditarDescuentoCtrl
- * Controller of the financieraClienteApp
+ * # EditarDescuentoCtrl
+ * Controlador para la edición de descuentos e impuestos.
+ *
+ * **Nota:** El plan de cuentas maestro debe estar creado
  */
 angular.module('financieraClienteApp')
   .controller('EditarDescuentoCtrl', function (financieraRequest,administrativaRequest, $scope, $routeParams, $translate) {
     var self = this;
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#cargar_descuento
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y obtener la información del descuento a editarse
+     */
     self.cargar_descuento=function(){
       financieraRequest.get("cuenta_especial", $.param({
         query: "Id:" + $routeParams.Id
       })).then(function(response) {
         self.e_descuento=response.data[0];
-        self.search_tercero();
+        self.search_tercero();  // Funcion para cargar la info del tercero asociada al descuento
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#cargar_tipos
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y obtener la información de los tipos de descuentos (impuesto, descuento), para la selecccion en el formulario.
+     */
     self.cargar_tipos = function() {
       financieraRequest.get("tipo_cuenta_especial", "").then(function(response) {
         self.tipos_cuentas = response.data;
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#cargar_plan_maestro
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * y obtener la información del plan de cuentas maestro para cargar el arbol de cuentas.
+     */
     self.cargar_plan_maestro = function() {
       financieraRequest.get("plan_cuentas", $.param({
         query: "PlanMaestro:" + true
@@ -34,6 +68,7 @@ angular.module('financieraClienteApp')
       });
     };
 
+    //tabla que muestra la información del proveedor
     self.gridOptions = {
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
@@ -78,6 +113,13 @@ angular.module('financieraClienteApp')
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#search_tercero
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description Se encarga de consumir el servicio {@link administrativaService.service:administrativaRequest administrativaRequest}
+     * y obtener la información del tercero asociada al descuento.
+     */
     self.search_tercero=function(){
       administrativaRequest.get("informacion_proveedor", $.param({
         query:"Id:"+self.e_descuento.InformacionPersonaJuridica,
@@ -85,10 +127,16 @@ angular.module('financieraClienteApp')
       })).then(function(response) {
         //self.gridOptions.data = response.data;
         self.e_descuento.proveedor=response.data[0];
-        console.log("aui",response.data);
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#search_terceros
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description Se encarga de consumir el servicio {@link administrativaService.service:administrativaRequest administrativaRequest}
+     * y obtener la información delos terceros en la busqueda de proveedor del descuento
+     */
     self.search_terceros=function(){
       administrativaRequest.get("informacion_proveedor", $.param({
         query:"NumDocumento:"+$scope.num_documento,
@@ -99,6 +147,14 @@ angular.module('financieraClienteApp')
       });
     };
 
+    /**
+     * @ngdoc function
+     * @name financieraClienteApp.controller:EditarDescuentoCtrl#actualizar_descuento
+     * @methodOf financieraClienteApp.controller:EditarDescuentoCtrl
+     * @description valida la informacion ingresada para la actualización del concepto, luego
+     * se encarga de consumir el servicio {@link administrativaService.service:administrativaRequest administrativaRequest}
+     * y actualizar la información sobre el descuento
+     */
     self.actualizar_descuento=function(){
       //if (self.e_descuento.CuentaContable == undefined || self.e_descuento.proveedor == undefined) {
         if (self.e_descuento.CuentaContable == undefined) {
