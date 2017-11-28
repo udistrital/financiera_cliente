@@ -111,15 +111,16 @@ angular.module('financieraClienteApp')
             $scope.estadoclick = $localStorage.nodeclick;
             switch ($scope.estadoclick.Id) {
                 case (3):
-                    ctrl.verIngreso(row.entity);
+                    ctrl.Rechazar();
                     break;
                 case (2):
-                    $scope.estado = row.entity.EstadoIngreso;
+                    ctrl.Aprobar();
                     break;
             }
         };
 
         $scope.loadrow = function(row, operacion) {
+            ctrl.ingresoSel = row.entity;
             $scope.ingreso = row.entity;
             switch (operacion) {
                 case "ver":
@@ -135,7 +136,7 @@ angular.module('financieraClienteApp')
             console.log(data);
             var inicio = data.FechaInicio;
             var fin = data.FechaFin;
-            var tipo_recibo = data.FormaIngreso.Nombre;
+            var tipo_recibo = data.FormaIngreso.Nombre.toUpperCase();
             var codigo_facultad = data.Facultad;
 
             ctrl.rta = null;
@@ -143,7 +144,7 @@ angular.module('financieraClienteApp')
             ctrl.cargandoDatosPagos = true;
 
             switch (tipo_recibo) {
-                case "Inscripciones":
+                case "INSCRIPCIONES":
                     ctrl.gridOptions_ingresosbanco.columnDefs = [
                         { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
                         { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
@@ -289,7 +290,7 @@ angular.module('financieraClienteApp')
             $("#myModal").modal();
         };
 
-        ctrl.aprobar = function() {
+        ctrl.Aprobar = function() {
             var aprobardata = {};
             aprobardata.Ingreso = ctrl.ingresoSel;
             aprobardata.Movimientos = $scope.movimientos;
@@ -312,7 +313,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        ctrl.rechazar = function() {
+        ctrl.Rechazar = function() {
             $("#myModal").modal('hide');
             swal({
                 title: 'Indica una justificación por el rechazo',
