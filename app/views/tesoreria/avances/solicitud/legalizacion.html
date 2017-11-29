@@ -11,10 +11,10 @@
                         {{ 'LEGALIZACION_EVENTO_COMPRA' | translate }}
                     </div>
                     <div class="panel-body">
-                        <div class="mi-grid" id="mi-grid" ui-grid="legalizacion.gridOptionscOMPRAS" ui-grid-selection ui-grid-pagination></div>
+                        <div class="mi-grid" id="mi-grid" ui-grid="legalizacion.gridOptionsCompras" ui-grid-selection ui-grid-pagination></div>
                     </div>
                     <div class="panel-footer">
-                        <div align="center"> <button ng-click="loadrow('', 'add')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+                        <div align="center"> <button ng-click="loadrowcompras('', 'add')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
                     </div>
                 </div>
             </div>
@@ -36,9 +36,6 @@
                 </div>
             </div>
         </fieldset>
-        <div class="panel-footer">
-            <div align="center"> <button ng-click="loadrowcompras('', 'add')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
-        </div>
     </div>
 </div>
 
@@ -54,48 +51,51 @@
             <div class="panel-heading" ng-if="legalizacion.operacion === 'edit' ">
                 {{'EDITAR_REQUISITO_AVANCE' | translate }}
             </div>
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit()">
+            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_practicas()">
                 <br>
                 <div class="row">
-                    <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ABREVIACION' | translate }}:</label>
-                    <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.row_entity.CodigoAbreviacion" class="form-control" ng-required="true" />
+                    <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Codigo" class="form-control" ng-required="true" />
+                    </div>
+                    <div class="col-sm-3">
+                        <loading load="estudiante_cargado" tam=1 clase="clase_load"></loading>
+                        <div class="alert alert-warning" ng-if="encontrado">
+                            <strong>No se han encontrado resultados para el código {{legalizacion.LegalizacionPracticaAcademica.Codigo}}</strong>
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.row_entity.Nombre" class="form-control" ng-required="true" />
+                        <span class="form-control">{{legalizacion.LegalizacionPracticaAcademica.Estudiante.nombre}}</span>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
+                    <label for="nombre" class="col-sm-2 control-label">{{'DOCUMENTO' | translate }}:</label>
                     <div class="col-sm-9">
-                        <textarea name="descripcion" ng-model="legalizacion.row_entity.Descripcion" rows=7 class="form-control" required="true"></textarea>
+                        <span class="form-control">{{legalizacion.LegalizacionPracticaAcademica.Estudiante.numero_documento}}</span>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'ETAPA' | translate }}:</label>
+                    <label for="descripcion" class="col-sm-2 control-label">{{'VALOR' | translate }}:</label>
                     <div class="col-sm-9">
-                        <select name="estado" ng-model="legalizacion.row_entity.EtapaAvance.Id" class="form-control">
-                                <option ng-repeat="etapa in legalizacion.etapas" ng-value="etapa.Id">{{etapa.Nombre}}</option>
-                            </select>
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control" ng-required="true" />
                     </div>
                 </div>
                 <br>
-                <div class="row" ng-if="legalizacion.operacion ==='edit'">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'ACTIVO' | translate }}:</label>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-2 control-label">{{'NO_DIAS' | translate }}:</label>
                     <div class="col-sm-9">
-                        <md-checkbox ng-model="legalizacion.row_entity.Activo" class="blue">
-                        </md-checkbox>
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Dias" class="form-control" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <center>
-                    <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacion.operacion ==='add'" />
+                    <input type="reset" ng-click="legalizacion.limpiar_practica()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacion.operacion ==='add'" />
                     <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
                 </center>
             </form>
@@ -116,7 +116,7 @@
             <div class="panel-heading" ng-if="legalizacion.operacion === 'edit' ">
                 {{'EDITAR_REGISTRO_ESTUDIANTE' | translate }}
             </div>
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_practicas()">
+            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_compras()">
                 <br>
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
