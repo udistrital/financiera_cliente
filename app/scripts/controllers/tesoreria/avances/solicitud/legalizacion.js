@@ -185,6 +185,30 @@ angular.module('financieraClienteApp')
             }
         };
 
+
+        ctrl.cargar_proveedor = function() {
+            $scope.encontrado = false;
+            ctrl.LegalizacionPracticaAcademica.Estudiante = null;
+            if (ctrl.LegalizacionPracticaAcademica.Codigo.length === 11) {
+                $scope.estudiante_cargado = true;
+                var parametros = [{
+                    name: "Información básica",
+                    value: "info_basica"
+                }, {
+                    name: "codigo",
+                    value: ctrl.LegalizacionPracticaAcademica.Codigo
+                }];
+                wso2Request.get("bienestarProxy", parametros).then(function(response) {
+                    $scope.estudiante_cargado = false;
+                    if (!angular.isUndefined(response.data.datosCollection.datos)) {
+                        console.log(response.data.datosCollection.datos[0]);
+                        ctrl.LegalizacionPracticaAcademica.Estudiante = response.data.datosCollection.datos[0];
+                    } else {
+                        $scope.encontrado = "true";
+                    }
+                });
+            }
+        };
         ctrl.delete_compra = function() {
             swal({
                 title: 'Está seguro ?',
@@ -234,7 +258,24 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.add_edit_practicas = function() {
+            switch (ctrl.operacion) {
+                case 'edit':
+                    $('#modal_practicas_academicas').modal('hide');
+                    break;
+                case 'add':
+                    ctrl.gridOptionsPracticas.data.push(ctrl.LegalizacionPracticaAcademica);
+                    $('#modal_practicas_academicas').modal('hide');
+                    break;
+                case 'delete':
+                    ctrl.delete_tipo();
+                    break;
+                default:
+            }
+            ctrl.row_entity = {};
+            $("#myModal").modal('hide');
+        };
 
+        ctrl.add_edit_compras = function() {
             switch (ctrl.operacion) {
                 case 'edit':
                     $('#modal_practicas_academicas').modal('hide');
