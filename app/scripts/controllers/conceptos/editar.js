@@ -8,27 +8,77 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('conceptosEditarCtrl', function($scope, financieraRequest, $routeParams, $translate) {
+  .controller('conceptosEditarCtrl', function($scope, financieraRequest, $routeParams, $translate, $location) {
       var self = this;
       $scope.btnagregar=$translate.instant('BTN.AGREGAR');
+
       self.cargar_concepto = function() {
         financieraRequest.get("concepto", $.param({
           query: "Codigo:" + $routeParams.Codigo
         })).then(function(response) {
           self.e_concepto = response.data[0];
+          $scope.isconcepto=!self.e_concepto.Clasificador;
+          self.codigo_original= self.e_concepto.Codigo;
+          financieraRequest.get("concepto_concepto", $.param({
+            query: "ConceptoHijo:" + self.e_concepto.Id,
+            fields: "ConceptoPadre"
+          })).then(function(response) {
+            self.cpadre =(response.data==null)?null:response.data[0].ConceptoPadre;
+            self.padre_original=angular.copy(self.cpadre);
+            self.actualizar_codigo();
+          });
+
           financieraRequest.get("afectacion_concepto", $.param({
             query: "Concepto.Id:" + self.e_concepto.Id
           })).then(function(response) {
-            self.e_afectaciones = response.data;
+            if (response.data == null) {
+              financieraRequest.get("tipo_afectacion", "").then(function(response) {
+                self.e_afectaciones=[];
+                for (var i = 0; i < response.data.length; i++) {
+                  self.e_afectaciones.push(
+                    {TipoAfectacion:response.data[i],
+                    Concepto: self.e_concepto});
+                }
+              });
+            } else {
+              self.e_afectaciones = response.data;
+            }
           });
+
           self.e_concepto.FechaExpiracion = new Date(self.e_concepto.FechaExpiracion);
           self.cuentas = [];
+
           for (var i = 0; i < self.e_concepto.ConceptoCuentaContable.length; i++) {
             self.cuentas.push(self.e_concepto.ConceptoCuentaContable[i].CuentaContable)
           }
           self.e_cuentas = angular.copy(self.cuentas);
         });
       };
+
+      self.actualizar_codigo=function(){
+        if (self.cpadre != null) {
+          self.e_concepto.Codigo1= self.cpadre.Codigo+"-";
+          self.e_concepto.Codigo2= self.e_concepto.Codigo2?self.e_concepto.Codigo2:self.e_concepto.Codigo.substring(self.cpadre.Codigo.length+1,self.e_concepto.Codigo.length);
+          self.e_concepto.TipoConcepto=self.cpadre.TipoConcepto
+        } else {
+          self.e_concepto.Codigo1= "";
+          self.e_concepto.Codigo2= self.e_concepto.Codigo2?self.e_concepto.Codigo2:self.e_concepto.Codigo;
+        }
+      };
+
+      self.cambiar_padre=function(){
+        $scope.varbolpadre=true;
+      };
+
+      self.cancelar_padre=function(){
+        $scope.varbolpadre=false;
+        self.cpadre=self.padre_original;
+        self.e_concepto.Codigo=self.codigo_original;
+        self.e_concepto.Codigo1=null;
+        self.e_concepto.Codigo2=null;
+        self.actualizar_codigo();
+      };
+
 
       self.agregar_cuentas = function() {
         if (self.e_cuentas.indexOf(self.cuenta_contable) < 0 && self.cuenta_contable != undefined) {
@@ -94,7 +144,10 @@ angular.module('financieraClienteApp')
                 add_cuentas.splice(index, 1);
               }
             }
+            self.e_concepto.Codigo=self.e_concepto.Codigo1+self.e_concepto.Codigo2;
+            self.e_concepto.Clasificador=!$scope.isconcepto;
             var tr_concepto = {
+              ConceptoPadre: self.cpadre,
               Concepto: self.e_concepto,
               Afectaciones: self.e_afectaciones,
               Cuentas: add_cuentas,
@@ -104,6 +157,7 @@ angular.module('financieraClienteApp')
             financieraRequest.put('tr_concepto', self.e_concepto.Id, tr_concepto).then(function(response) {
               if (response.data.Type == 'success') {
                 swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
+                $location.path('conceptos/editar/'+response.data.Body);
                 //self.recargar = !self.recargar;
                 self.cargar_concepto();
               } else {
@@ -160,6 +214,10 @@ angular.module('financieraClienteApp')
 
         self.cargar_plan_maestro();
         self.cargar_concepto();
+
+        $scope.$watch('conceptosEditar.cpadre', function() {
+          self.actualizar_codigo();
+        }, true);
 
         $scope.$watch('conceptosEditar.cuenta_contable', function() {
           self.agregar_cuentas();
