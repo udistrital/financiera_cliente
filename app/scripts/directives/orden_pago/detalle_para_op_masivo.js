@@ -22,7 +22,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         $scope.outputordenpago = {};
-        $scope.outputordenpago.Vigencia =0;
+        $scope.outputordenpago.Vigencia = 0;
         // obtener vigencia
         // financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
         //   .then(function(data) { //error con el success
