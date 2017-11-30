@@ -37,6 +37,11 @@
       </div>
     </div>
   </div>
+
+  <div class="alert alert-danger" role="alert" ng-show="mostrarPanelError">
+    <p><b>{{ outputerrorop | translate }}</b></p>
+  </div>
+
   <div class="col-md-6">
     <div class="panel panel-default">
       <div ng-if="!refresh" ui-grid="d_liquidacionSs.gridOptionsPreliquidacionPersonas" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>

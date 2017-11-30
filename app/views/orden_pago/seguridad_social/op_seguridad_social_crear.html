@@ -4,8 +4,9 @@
     <!--liquidacion -->
     <liquidacion-ss
     inputpestanaabierta="opSeguridadSocialCrear.PestanaAbierta"
-    ouputdatanominaselect="opSeguridadSocialCrear.dataSeguridadSocial"
-    outputdataregistropresupuestal="opSeguridadSocialCrear.registroPresupuestal">
+    ouputdatanominaselect="opSeguridadSocialCrear.dataSeguridadSocialSelect"
+    outputdataopss="opSeguridadSocialCrear.allDataOpSs"
+    outputerrorop="opSeguridadSocialCrear.errorOpMasivo" >
     </liquidacion-ss>
 
     <!-- Registro Presupuestal -->
@@ -19,47 +20,47 @@
         <div class="form-group">
           <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
           <div class="col-sm-3">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.NumeroRegistroPresupuestal}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
           </div>
           <label class="control-label col-sm-1">{{'VIGENCIA' | translate}} {{'CRP' | translate}}</label>
           <div class="col-sm-3">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.Vigencia}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Vigencia}}</span>
           </div>
           <label class="control-label col-sm-1">{{'ESTADO' | translate}} {{'CRP' | translate}}</label>
           <div class="col-sm-3">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.Estado.Nombre}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Estado.Nombre}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'RESPONSABLE' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.Responsable}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Responsable}}</span>
           </div>
           <label class="control-label col-sm-1">{{'VALOR_CRP' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control input_right">{{opSeguridadSocialCrear.registroPresupuestal.Valor | currency}}</span>
+            <span class="form-control input_right">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Valor | currency}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'COMPROMISO' | translate}}</label>
           <div class="col-sm-11">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
           <div class="col-sm-11">
-            <textarea class="form-control" rows="2" readonly> {{opSeguridadSocialCrear.registroPresupuestal.Compromiso.Objeto}} </textarea>
+            <textarea class="form-control" rows="2" readonly> {{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Compromiso.Objeto}} </textarea>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'NO_CDP' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
           </div>
           <label class="control-label col-sm-1">{{'ESTADO' | translate}} {{'CDP' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.registroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
           </div>
         </div>
         <div class="form-group">
@@ -126,41 +127,10 @@
       </div>
     </div>
 
-    <!--OP-->
-    <legend class="text-primary" ng-click="opSeguridadSocialCrear.PestanaAbiertaDetallePago=!opSeguridadSocialCrear.PestanaAbiertaDetallePago">
-      {{'DETALLE_OP' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!opSeguridadSocialCrear.PestanaAbiertaDetallePago"></span>
-      <span class="fa fa-minus pull-right" ng-show="opSeguridadSocialCrear.PestanaAbiertaDetallePago"></span>
-    </legend class="text-primary">
-    <div ng-show="opSeguridadSocialCrear.PestanaAbiertaDetallePago" class="panel-body">
-      <div class="form-horizontal">
-        <div class="form-group">
-          <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
-          <div class="col-sm-4">
-            <select ng-model="opSeguridadSocialCrear.OrdenPago.FormaPago" ng-options="i.Nombre for i in opSeguridadSocialCrear.formaPagos" class="form-control" required>
-              <option value="">Seleccionar Forma de Pago</option>
-            </select>
-          </div>
-          <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
-          <div class="col-sm-4">
-            <span class="form-control input_right">{{opSeguridadSocialCrear.OrdenPago.SubTipoOrdenPago.Nombre}}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
-          <div class="col-sm-4">
-          <input ng-model="opSeguridadSocialCrear.OrdenPago.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
-          </div>
-          <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
-          <div class="col-sm-4">
-            <span class="form-control input_right">1</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
-          <div class="col-sm-4">
-            <span class="form-control input_right">{{opSeguridadSocialCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
-          </div>
-        </div>
-      </div>
-    </div>
+    <detalle-para-op-masivo
+      inputtiponomina="opSeguridadSocialCrear.tipoNominaDeLiquidacion"
+      outputordenpago="opSeguridadSocialCrear.OrdenPago">
+    </detalle-para-op-masivo>
+
+  <center><button class="btn btn-primary" ng-click="opSeguridadSocialCrear.registrarOpSS()">Registrar</button></center>
+</div>
