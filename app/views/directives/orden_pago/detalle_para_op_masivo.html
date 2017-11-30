@@ -1,0 +1,39 @@
+<legend class="text-primary" ng-click="d_detalleParaOpMasivo.PestanaAbiertaDetallePago=!d_detalleParaOpMasivo.PestanaAbiertaDetallePago">
+  {{'DETALLE_OP' | translate}}
+  <span class="fa fa-plus pull-right" ng-show="!d_detalleParaOpMasivo.PestanaAbiertaDetallePago"></span>
+  <span class="fa fa-minus pull-right" ng-show="d_detalleParaOpMasivo.PestanaAbiertaDetallePago"></span>
+</legend class="text-primary">
+<div ng-show="d_detalleParaOpMasivo.PestanaAbiertaDetallePago" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+      <div class="col-sm-4">
+        <select ng-model="outputordenpago.FormaPago" ng-options="i.Nombre for i in d_detalleParaOpMasivo.formaPagos" class="form-control" required>
+          <option value="">Seleccionar Forma de Pago</option>
+        </select>
+      </div>
+      <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+      <div class="col-sm-4">
+        <select ng-model="outputordenpago.SubTipoOrdenPago" ng-options="i.Nombre for i in d_detalleParaOpMasivo.subTipoOrdenPago" class="form-control" required>
+          <option value="">Seleccionar Documento</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-4">
+      <input ng-model="outputordenpago.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
+      </div>
+      <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+      <div class="col-sm-4">
+        <span class="form-control input_right">1</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
+      <div class="col-sm-4">
+        <span class="form-control input_right">{{outputordenpago.UnidadEjecutora.Nombre}}</span>
+      </div>
+    </div>
+  </div>
+</div>

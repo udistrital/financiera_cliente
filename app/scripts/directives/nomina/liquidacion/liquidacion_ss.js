@@ -13,12 +13,13 @@ angular.module('financieraClienteApp')
       scope: {
         inputpestanaabierta: '=?',
         ouputdatanominaselect: '=?',
-        outputdataregistropresupuestal: '=?'
+        outputerrorop: '=?',
+        outputdataopss: '=?'
       },
       templateUrl: 'views/directives/nomina/liquidacion/liquidacion_ss.html',
       controller: function($scope) {
         var self = this;
-        $scope.ouputdatanominaselect = {};
+        $scope.mostrarPanelError = false;
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -100,7 +101,7 @@ angular.module('financieraClienteApp')
         // ver movimeintos
         self.gridOptionsConceptos = {
           enableRowHeaderSelection: false,
-          showColumnFooter: false,
+          showColumnFooter: true,
           multiSelect: false,
           minRowsToShow: 6,
           columnDefs: [{
@@ -145,12 +146,12 @@ angular.module('financieraClienteApp')
             {
               field: 'Concepto.Codigo',
               displayName: $translate.instant('CONCEPTO'),
-              width: '20%',
+              width: '10%',
             },
             {
               field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CUENTAS_CONTABLES'),
-              width: '20%',
+              width: '10%',
             },
             {
               field: 'CuentaContable.Nombre',
@@ -242,7 +243,8 @@ angular.module('financieraClienteApp')
             self.gridOptionsConceptos.data = {};
             self.gridOptionsMovimientosContables.data = {};
             self.gridOptionsMovimientosContablesTemporal.data = {};
-            $scope.outputdataregistropresupuestal = {};
+            $scope.outputdataopss = {};
+
 
             financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
               $.param({
@@ -251,16 +253,20 @@ angular.module('financieraClienteApp')
                 anioLiquidacion: $scope.anoSelect,
               })
             ).then(function(response) {
-              if (response.data != 'error') {
-                self.gridOptionsPreliquidacionPersonas.data = response.data.ViewPagosPorPersona;
+              if (response.data.Type != 'error') {
+                self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp[0].ViewPagosPorPersona;
+                if (response.data.DetalleCargueOp[0].Aprobado == false){
+                  $scope.mostrarPanelError = true;
+                  $scope.outputerrorop = response.data.DetalleCargueOp[0].Code;
+                }
 
-                self.gridOptionsConceptos.data = response.data.ConceptoOrdenPago;
-                self.gridOptionsMovimientosContables.data = response.data.MovimientoContable;
-                self.gridOptionsMovimientosContablesTemporal.data = response.data.MovimientosDeDescuento;
-                $scope.outputdataregistropresupuestal = response.data.RegistroPresupuestal;
-
+                self.gridOptionsConceptos.data = response.data.DetalleCargueOp[0].ConceptoOrdenPago;
+                self.gridOptionsMovimientosContables.data = response.data.DetalleCargueOp[0].MovimientoContable;
+                self.gridOptionsMovimientosContablesTemporal.data = response.data.DetalleCargueOp[0].MovimientosDeDescuento;
+                $scope.outputdataopss = response.data;
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = {};
+                $scope.mostrarPanelError = false;
 
               }
             })
