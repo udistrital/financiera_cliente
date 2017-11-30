@@ -56,7 +56,7 @@
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
                     <div class="col-sm-6">
-                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Codigo" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Tercero" class="form-control" ng-required="true" />
                     </div>
                     <div class="col-sm-3">
                         <loading load="estudiante_cargado" tam=1 clase="clase_load"></loading>
@@ -116,12 +116,12 @@
             <div class="panel-heading" ng-if="legalizacion.operacion === 'edit' ">
                 {{'EDITAR_REGISTRO_ESTUDIANTE' | translate }}
             </div>
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_compras()">
+            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_practicas()">
                 <br>
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
                     <div class="col-sm-6">
-                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Codigo" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Tercero" class="form-control" ng-required="true" />
                     </div>
                     <div class="col-sm-3">
                         <loading load="estudiante_cargado" tam=1 clase="clase_load"></loading>

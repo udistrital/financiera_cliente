@@ -89,7 +89,7 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Codigo',
+                    field: 'Tercero',
                     displayName: $translate.instant('CODIGO'),
                     width: '12%',
                 },
@@ -133,6 +133,8 @@ angular.module('financieraClienteApp')
                     $('#modal_practicas_academicas').modal('show');
                     break;
                 case "edit":
+                    console.log(ctrl.row_entity);
+                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_practicas_academicas').modal('show');
                     break;
                 case "delete":
@@ -149,6 +151,8 @@ angular.module('financieraClienteApp')
                     $('#modal_legalizacion_compras').modal('show');
                     break;
                 case "edit":
+                    console.log(ctrl.row_entity);
+                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_legalizacion_compras').modal('show');
                     break;
                 case "delete":
@@ -164,14 +168,14 @@ angular.module('financieraClienteApp')
         ctrl.cargar_estudiante = function() {
             $scope.encontrado = false;
             ctrl.LegalizacionPracticaAcademica.Estudiante = null;
-            if (ctrl.LegalizacionPracticaAcademica.Codigo.length === 11) {
+            if (ctrl.LegalizacionPracticaAcademica.Tercero.length === 11) {
                 $scope.estudiante_cargado = true;
                 var parametros = [{
                     name: "Información básica",
                     value: "info_basica"
                 }, {
-                    name: "codigo",
-                    value: ctrl.LegalizacionPracticaAcademica.Codigo
+                    name: "codigo estudiante",
+                    value: ctrl.LegalizacionPracticaAcademica.Tercero
                 }];
                 wso2Request.get("bienestarProxy", parametros).then(function(response) {
                     $scope.estudiante_cargado = false;
@@ -184,7 +188,6 @@ angular.module('financieraClienteApp')
                 });
             }
         };
-
 
         ctrl.cargar_proveedor = function() {
             $scope.encontrado = false;
@@ -236,19 +239,19 @@ angular.module('financieraClienteApp')
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Estudiante.nombre,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-                financieraRequest.delete("requisito_avance", ctrl.row_entity.Id)
+                financieraRequest.delete("avance_legalizacion", ctrl.row_entity.Id)
                     .then(function(response) {
                         if (response.status === 200) {
                             swal(
                                 $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                ctrl.row_entity.Estudiante.nombre + ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
                             ctrl.get_all_avances();
@@ -257,22 +260,46 @@ angular.module('financieraClienteApp')
             })
         };
 
-        ctrl.add_edit_practicas = function() {
-            switch (ctrl.operacion) {
-                case 'edit':
-                    $('#modal_practicas_academicas').modal('hide');
-                    break;
-                case 'add':
-                    ctrl.gridOptionsPracticas.data.push(ctrl.LegalizacionPracticaAcademica);
-                    $('#modal_practicas_academicas').modal('hide');
-                    break;
-                case 'delete':
-                    ctrl.delete_tipo();
-                    break;
-                default:
-            }
-            ctrl.row_entity = {};
-            $("#myModal").modal('hide');
+        ctrl.get_all_avance_legalizacion_practica = function() {
+            financieraRequest.get("avance_legalizacion", $.param({
+                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:1",
+                    limit: -1,
+                    sortby: "Id",
+                    order: "asc"
+                }))
+                .then(function(response) {
+                    ctrl.gridOptionsPracticas.data = response.data;
+                    console.log(ctrl.gridOptionsPracticas.data);
+                    angular.forEach(ctrl.gridOptionsPracticas.data, function(estudiante) {
+                        var parametros = [{
+                            name: "Información básica",
+                            value: "info_basica"
+                        }, {
+                            name: "codigo",
+                            value: estudiante.Tercero
+                        }];
+                        wso2Request.get("bienestarProxy", parametros).then(function(response) {
+                            $scope.estudiante_cargado = false;
+                            if (!angular.isUndefined(response.data.datosCollection.datos)) {
+                                estudiante.Estudiante = response.data.datosCollection.datos[0];
+                            }
+                        });
+                    });
+                });
+        };
+
+        ctrl.get_all_avance_legalizacion_practica();
+
+        ctrl.get_all_avance_legalizacion_compra = function() {
+            financieraRequest.get("avance_legalizacion", $.param({
+                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:2",
+                    limit: -1,
+                    sortby: "Id",
+                    order: "asc"
+                }))
+                .then(function(response) {
+                    ctrl.gridOptionsCompras = response.data;
+                });
         };
 
         ctrl.add_edit_compras = function() {
@@ -281,7 +308,6 @@ angular.module('financieraClienteApp')
                     $('#modal_practicas_academicas').modal('hide');
                     break;
                 case 'add':
-                    ctrl.gridOptionsPracticas.data.push(ctrl.LegalizacionPracticaAcademica);
                     $('#modal_practicas_academicas').modal('hide');
                     break;
                 case 'delete':
@@ -293,38 +319,27 @@ angular.module('financieraClienteApp')
             $("#myModal").modal('hide');
         };
 
-        ctrl.add_edit = function() {
-            var data = {};
+        ctrl.add_edit_practicas = function() {
+            ctrl.LegalizacionPracticaAcademica.TipoAvanceLegalizacion = { Id: 1 };
+            ctrl.LegalizacionPracticaAcademica.Avance = { Id: $scope.solicitud.Id };
+            ctrl.LegalizacionPracticaAcademica.Valor = parseFloat(ctrl.LegalizacionPracticaAcademica.Valor);
+            ctrl.LegalizacionPracticaAcademica.Dias = parseInt(ctrl.LegalizacionPracticaAcademica.Dias);
             switch (ctrl.operacion) {
                 case 'edit':
-                    data = {
-                        Id: ctrl.row_entity.Id,
-                        CodigoAbreviacion: ctrl.row_entity.CodigoAbreviacion,
-                        Nombre: ctrl.row_entity.Nombre,
-                        Descripcion: ctrl.row_entity.Descripcion,
-                        Activo: ctrl.row_entity.Activo,
-                        EtapaAvance: ctrl.row_entity.EtapaAvance,
-                        FechaRegistro: ctrl.row_entity.FechaRegistro
-                    };
-                    financieraRequest.put("requisito_avance", data.Id, data)
+                    financieraRequest.put("avance_legalizacion", ctrl.LegalizacionPracticaAcademica.Id, ctrl.LegalizacionPracticaAcademica)
                         .then(function(info) {
                             console.log(info);
-                            ctrl.get_all_avances();
+                            ctrl.get_all_avance_legalizacion_practica();
                         });
+                    $('#modal_practicas_academicas').modal('hide');
                     break;
                 case 'add':
-                    data = {
-                        CodigoAbreviacion: ctrl.row_entity.CodigoAbreviacion,
-                        Nombre: ctrl.row_entity.Nombre,
-                        Descripcion: ctrl.row_entity.Descripcion,
-                        EtapaAvance: ctrl.row_entity.EtapaAvance
-                    };
-                    console.log(data);
-                    financieraRequest.post("requisito_avance", data)
+                    financieraRequest.post("avance_legalizacion", ctrl.LegalizacionPracticaAcademica)
                         .then(function(info) {
                             console.log(info);
-                            ctrl.get_all_avances();
+                            ctrl.get_all_avance_legalizacion_practica();
                         });
+                    $('#modal_practicas_academicas').modal('hide');
                     break;
                 case 'delete':
                     ctrl.delete_tipo();
@@ -332,6 +347,6 @@ angular.module('financieraClienteApp')
                 default:
             }
             ctrl.row_entity = {};
-            $("#myModal").modal('hide');
         };
+
     });
