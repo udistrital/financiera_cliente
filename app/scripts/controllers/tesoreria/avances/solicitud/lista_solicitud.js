@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest, administrativaPruebasRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -170,6 +170,7 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
+            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
@@ -182,7 +183,7 @@ angular.module('financieraClienteApp')
                         $scope.estados.push({ id: estado.EstadoAvance.Id, label: estado.EstadoAvance.Nombre });
                     });
                     $scope.aristas = [
-                        { from: 4, to: 6 }
+                        { from: 2, to: 3 }
                     ];
                     break;
                 case "validar":
@@ -196,6 +197,28 @@ angular.module('financieraClienteApp')
                         $('#modal_validar').modal('show');
                     }
                     break;
+                case "necesidad":
+                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
+                        ctrl.solicitud_necesidad();
+                    } else {
+                        swal(
+                            '',
+                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
+                            "warning"
+                        );
+                    }
+                    break;
+                case "aprobar":
+                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
+
+                        $('#modal_aprobacion').modal('show');
+                    } else {
+                        swal(
+                            '',
+                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
+                            "warning"
+                        );
+                    }
                 case "proceso":
                     $scope.estado = row.entity.Estado[0].EstadoAvance;
                     break;
@@ -203,15 +226,56 @@ angular.module('financieraClienteApp')
             }
         };
 
+        ctrl.solicitud_necesidad = function() {
+            swal({
+                title: $translate.instant('SOLICITUD_NECESIDAD'),
+                text: $translate.instant('AVANCE_NO') + $scope.solicitud.Consecutivo + $translate.instant('PARA') + $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: $translate.instant('BTN.SOLICITAR')
+            }).then(function() {
+                var data = {
+                    ProcesoExterno: $scope.solicitud.Id,
+                    TipoNecesidad: { Id: 3 }
+                };
+                administrativaPruebasRequest.post("necesidad_proceso_externo", data)
+                    .then(function(response) {
+                        if (response.status === 200) {
+                            console.log(response.data);
+                        }
+                    });
+            });
+
+        };
+
+
         $scope.funcion = function() {
             $scope.estadoclick = $localStorage.nodeclick;
+            console.log($scope.estadoclick);
             switch ($scope.estadoclick.Id) {
                 case (3):
                     $('#modal_validar').modal('show');
                     break;
                 case (2):
-                    $scope.estado = row.entity.EstadoIngreso;
+                    $scope.estado = $scope.solicitud.EstadoIngreso;
                     break;
+                case (4):
+                    administrativaPruebasRequest.get("necesidad_proceso_externo",
+                            $.param({
+                                query: "proceso_externo:" + $scope.solicitud.Id,
+                                limit: -1
+                            }))
+                        .then(function(response) {
+                            if (response.data == null) {
+                                ctrl.solicitud_necesidad();
+                            } else {
+                                $('#modal_aprobacion').modal('show');
+                                ctrl.necesidad_proceso_externo = response.data[0];
+                            }
+                        });
+
             }
         };
 

@@ -3,7 +3,7 @@
     <h3 class="page-header">{{"CREACION" | translate}} {{"IMPUESTOS_DESCUENTOS" | translate}}</h3></center>
 
   <div>
-    <div>
+    <div class="panel panel-default panel-body">
 
         <form name="des_imp_form" ng-submit="des_imp_form.$valid && crearDescuento.crear_nuevo()" focus-on-field validate>
 
@@ -65,8 +65,8 @@
 
           <div class="form-group col-md-12">
             <center>
-              <input type="submit" class="btn btn-success btn-lg" value="{{'BTN.CONFIRMAR' | translate}}">
-              <a href="#/plan_cuentas/gestion_descuentos" class="btn btn-danger btn-lg shadow-box">{{"BTN.CANCELAR" | translate}}</a>
+              <input type="submit" class="btn btn-success " value="{{'BTN.CONFIRMAR' | translate}}">
+              <a href="#/plan_cuentas/gestion_descuentos" class="btn btn-danger shadow-box">{{"BTN.CANCELAR" | translate}}</a>
             </center>
           </div>
 
