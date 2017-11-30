@@ -17,31 +17,15 @@ angular.module('financieraClienteApp')
     self.DataNomininaSelet = {};
     self.DataHomologacion = {};
     self.DataNominaTitanSelect = {};
-    // unidad ejecutora
-    financieraRequest.get('unidad_ejecutora',
-      $.param({
-        query: 'Id:1', //llega por rol de usuario
-      })
-    ).then(function(response) {
-      self.OrdenPago.UnidadEjecutora = response.data[0];
-    });
-    //forma de pago
-    financieraRequest.get('forma_pago',
-      $.param({
-        limit: 0
-      })
-    ).then(function(response) {
-      self.formaPagos = response.data;
-    });
-    // subtipo op porveedor
-    financieraRequest.get('sub_tipo_orden_pago',
-      $.param({
-        query: 'TipoOrdenPago.CodigoAbreviacion:OP-PROV',
-        limit: -1,
-      })
-    ).then(function(response) {
-      self.subTipoOrdenPago = response.data;
-    });
+
+    $scope.$watch('opHcCrear.DataHomologacion', function() {
+      if (Object.keys(self.DataHomologacion).length > 0 && self.DataHomologacion.TipoLiquidacion != null) {
+        self.tipoNominaDeLiquidacion = {};
+        self.tipoNominaDeLiquidacion.tipoNomina = self.DataHomologacion.TipoLiquidacion;
+        self.tipoNominaDeLiquidacion.tipoOrdenPago = "HC";
+      }
+    })
+
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
       self.MensajesAlerta = '';
