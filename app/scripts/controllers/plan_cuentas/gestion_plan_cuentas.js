@@ -8,9 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionPlanCuentasCtrl', function (financieraRequest) {
+  .controller('GestionPlanCuentasCtrl', function ($scope, $translate, financieraRequest, $location) {
     var self=this;
-
+    $scope.btneditar=$translate.instant('BTN.EDITAR');
     self.cargar_plan_maestro = function() {
       financieraRequest.get("plan_cuentas", $.param({
         query: "PlanMaestro:" + true
@@ -20,4 +20,8 @@ angular.module('financieraClienteApp')
     };
 
     self.cargar_plan_maestro();
+
+    $scope.$watch("gestionPlanCuentas.padre", function(){
+      $location.path('plan_cuentas/editar_cuenta/'+self.padre.Codigo);       
+    },true);
   });

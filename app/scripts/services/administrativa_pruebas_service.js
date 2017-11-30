@@ -1,47 +1,48 @@
 'use strict';
 
 /**
- * @ngdoc overview
- * @name financieraService
+ * @ngdoc service
+ * @name financieraClienteApp.administrativaPruebasService
  * @description
- * # financieraService
- *
- * Service module of the application.
+ * # administrativaPruebasService
+ * Factory in the financieraClienteApp.
  */
-angular.module('financieraService', [])
+angular.module('administrativaPruebasService', [])
 
 /**
  * @ngdoc service
- * @name financieraService.service:financieraRequest
+ * @name administrativaPruebasService.service:administrativaRequest
  * @requires $http
  * @param {injector} $http componente http de angular
  * @description
- * # financieraService
+ * # administrativaPruebasService
  * Fabrica sobre la cual se consumen los servicios proveidos por el API de financiera sobre los metodos GET, POST, PUT y DELETE
  */
-.factory('financieraRequest', function($http, CONF, requestRequest) {
-    var path = CONF.GENERAL.FINANCIERA_SERVICE;
+.factory('administrativaPruebasRequest', function($http, CONF) {
+    // Service logic
+    // ...
+    var path = CONF.GENERAL.ADMINISTRATIVA_PRUEBAS_SERVICE;
     // Public API here
     return {
         /**
          * @ngdoc function
-         * @name financieraService.service:financieraRequest#get
-         * @methodOf financieraService.service:financieraRequest
+         * @name administrativaPruebasService.service:administrativaRequest#get
+         * @methodOf administrativaPruebasService.service:administrativaRequest
          * @param {string} tabla Nombre de la tabla en el API
          * @param {string} params parametros para filtrar la busqueda
          * @return {array|object} objeto u objetos del get
          * @description Metodo GET del servicio
          */
         get: function(tabla, params) {
-            return requestRequest.add($http.get(path + tabla + "/?" + params));
+            return $http.get(path + tabla + "/?" + params);
         },
 
         /**
          * @ngdoc function
-         * @name financieraService.service:financieraRequest#post
+         * @name administrativaPruebasService.service:administrativaRequest#post
          * @param {string} tabla Nombre de la tabla en el API
          * @param {object} elemento objeto a ser creado por el API
-         * @methodOf financieraService.service:financieraRequest
+         * @methodOf administrativaPruebasService.service:administrativaRequest
          * @return {array|string} mensajes del evento en el servicio
          * @description Metodo POST del servicio
          */
@@ -51,11 +52,11 @@ angular.module('financieraService', [])
 
         /**
          * @ngdoc function
-         * @name financieraService.service:financieraRequest#put
+         * @name administrativaPruebasService.service:administrativaRequest#put
          * @param {string} tabla Nombre de la tabla en el API
          * @param {string|int} id del elemento en el API
          * @param {object} elemento objeto a ser actualizado por el API
-         * @methodOf financieraService.service:financieraRequest
+         * @methodOf administrativaPruebasService.service:administrativaRequest
          * @return {array|string} mensajes del evento en el servicio
          * @description Metodo PUT del servicio
          */
@@ -65,8 +66,8 @@ angular.module('financieraService', [])
 
         /**
          * @ngdoc function
-         * @name financieraService.service:financieraRequest#delete
-         * @methodOf financieraService.service:financieraRequest
+         * @name administrativaPruebasService.service:administrativaRequest#delete
+         * @methodOf administrativaPruebasService.service:administrativaRequest
          * @param {string} tabla Nombre de la tabla en el API
          * @param {object} elemento objeto a ser eliminado por el API
          * @return {array|string} mensajes del evento en el servicio
