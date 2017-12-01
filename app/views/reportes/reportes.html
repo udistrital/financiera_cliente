@@ -1,15 +1,12 @@
 <br>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        reportes/reportes.
-    </div>
     <div class="panel-body">
         <p>
-          <h1>Reportes</h1>
+          <h2 class="page-header text-center">{{ 'REPORTES_SPAGO.REPORTES' | translate }}</h2>
           <form>
-            <span ng-repeat="r in reportes.reportes">
+            <span ng-repeat="r in reportes.dataSet.rows">
               <div class="col-md-4">
-                <button style="margin-bottom: 20px;" ng-click="prueba(r.label)" class="btn btn-info btn-block btn-lg btn-outline" ng-value="reporteLabel" value="">{{r.nombre}}</button>
+                <button style="margin-bottom: 20px;" ng-click="reportes.setLabelReporte(r.column_1)" class="btn btn-info btn-block btn-lg btn-outline">{{r.column_2}}</button>
               </div>
             </span>
           </form>

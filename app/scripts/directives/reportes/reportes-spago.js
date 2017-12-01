@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
       });
 
       $scope.$watch('intputreporte', function() {
-        if ($scope.intputreporte.length !== 0) {
+        if ($scope.intputreporte !== undefined && $scope.intputreporte.length !== 0) {
           function execTest() {
             var html = sbi.api.getDocumentHtml({
               documentLabel: $scope.intputreporte,
@@ -43,6 +43,7 @@ angular.module('financieraClienteApp')
               },
               newSesion: true
             });
+            console.log(html);
             $('#frame').html('');
             $('#frame').append(html)
           }
@@ -57,8 +58,8 @@ angular.module('financieraClienteApp')
 
           sbi.api.authenticate({
             params: {
-              user: 'cosultaArgo'
-              , password: 'cosultaArgo'
+              user: 'biconsulta'
+              , password: 'biconsulta'
             }
             , callback: {
               fn: cb

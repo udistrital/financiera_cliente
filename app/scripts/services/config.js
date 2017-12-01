@@ -81,6 +81,7 @@ var conf_pruebas = {
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
+    SPAGOBI_SERVICE: "https://intelligentia.udistrital.edu.co:8443/SpagoBI/restful-services/1.0/",
     TOKEN: {
         AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
         CLIENTE_ID: "MWxzi3GKKMVj0RDitf4z5xWYVe0a",

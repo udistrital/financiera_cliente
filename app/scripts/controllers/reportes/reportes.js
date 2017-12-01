@@ -1,22 +1,22 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name financieraClienteApp.controller:ReportesReportesCtrl
- * @description
- * # ReportesReportesCtrl
- * Controller of the financieraClienteApp
- */
+* @ngdoc function
+* @name financieraClienteApp.controller:ReportesReportesCtrl
+* @description
+* # ReportesReportesCtrl
+* Controller of the financieraClienteApp
+*/
 angular.module('financieraClienteApp')
-  .controller('ReportesReportesCtrl', function ($scope, $localStorage) {
-    var ctrl = this;
-    ctrl.reportes = [
-      {nombre: 'Control Nomina', label: 'RteControlNomina'},
-      {nombre: 'Descuentos FEUD', label: 'RteDescFEUD'}
-    ];
+.controller('ReportesReportesCtrl', function ($scope, $localStorage, financieraMidRequest) {
+  var ctrl = this;
 
-    $scope.prueba = function(reporteLabel) {
-      ctrl.reporteLabel = reporteLabel;
-      $localStorage.reporte = ctrl.reporteLabel;
-    }
+  financieraMidRequest.get('reportes/GetDataSetFinanciera','').then(function(response) {
+    ctrl.dataSet = response.data;
   });
+
+  ctrl.setLabelReporte = function(reporteLabel) {
+    ctrl.reporteLabel = reporteLabel;
+    $localStorage.reporte = ctrl.reporteLabel;
+  }
+});
