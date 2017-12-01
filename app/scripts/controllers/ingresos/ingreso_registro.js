@@ -98,9 +98,9 @@ angular.module('financieraClienteApp')
 
         ctrl.registrarIngreso = function() {
             if (ctrl.unidadejecutora == null) {
-                swal("", "Debe seleccionar la unidad ejecutora", "error");
+                swal("", $translate.instant('SELECCIONAR_UNIDAD_EJECUTORA'), "error");
             } else if (ctrl.concepto == null) {
-                swal("", "Debe seleccionar el concepto que afecta este ingreso", "error");
+                swal("", $translate.instant('SELECCIONAR_CONCEPTO_INGRESO'), "error");
             } else {
                 ctrl.ingreso = {
                     Ingreso: {
@@ -145,13 +145,13 @@ angular.module('financieraClienteApp')
         ctrl.consultarPagos = function() {
             $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {
-                swal("", "Debe seleccionar la forma de ingreso", "error");
+                swal("", $translate.instant('SELECCIONAR_FORMA_INGRESO'), "error");
             } else if (ctrl.fechaInicio == null || ctrl.fechaFin == null) {
-                swal("", "Debe seleccionar la fecha de consulta  de los ingresos", "error");
+                swal("", $translate.instant('SELECCIONAR_FECHA_INGRESO'), "error");
             } else if (ctrl.facultadSelec == null) {
-                swal("", "Debe seleccionar la facultad", "error");
+                swal("", $translate.instant('SELECCIONAR_FACULTAD'), "error");
             } else {
-                var tipo_recibo = ctrl.tipoIngresoSelec.Nombre;
+                var tipo_recibo = ctrl.tipoIngresoSelec.Nombre.toUpperCase();
                 var codigo_facultad = ctrl.facultadSelec.Id;
 
                 ctrl.rta = null;
@@ -159,7 +159,7 @@ angular.module('financieraClienteApp')
                 ctrl.cargandoDatosPagos = true;
 
                 switch (tipo_recibo) {
-                    case "Inscripciones":
+                    case "INSCRIPCIONES":
                         ctrl.gridOptions.columnDefs = [
                             { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
                             { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
