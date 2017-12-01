@@ -1,11 +1,20 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">{{"CONCEPTO" | translate}} {{conceptosEditar.e_concepto.Codigo}}</h2>
+  <h2 class="page-header" align="center">{{"CONCEPTO" | translate}} {{conceptosEditar.e_concepto.Codigo1}}{{conceptosEditar.e_concepto.Codigo2}}</h2>
   <div class="panel panel-default shadow-box">
     <div class="panel-body">
 
       <form name="editconcepto" id="editconcepto" ng-submit="editconcepto.$valid && conceptosEditar.editar_concepto()" focus-on-field novalidate>
 
-
+        <div class="col-md-12 form-group">
+          <center><label>
+                <input type="radio" ng-model="isconcepto" ng-value="true">
+                {{"CONCEPTO" | translate}}
+              </label>
+            <label>
+                <input type="radio" ng-model="isconcepto" ng-value="false">
+                {{"CLASIFICACION" | translate}}
+              </label></center>
+        </div>
 
         <fieldset class="form-group col-md-12 " ng-class="{'text-danger': submitted && editconcepto.nombre.$invalid}">
           <label>{{"NOMBRE" | translate}}:</label>
@@ -20,9 +29,26 @@
           <textarea class="form-control" type="text" ng-model="conceptosEditar.e_concepto.Descripcion" rows="5"></textarea>
         </fieldset>
 
-        <div ng-if="!conceptosEditar.e_concepto.Clasificador">
+        <div class="form-group col-md-12" ng-class="{'text-danger ng-dirty': submitted && form_ecuenta.codigocuenta.$invalid}">
+            <label>{{"CODIGO" | translate}}*:</label><br>
+            <span class="form-control form-control-inline" readonly> {{conceptosEditar.e_concepto.Codigo1}}</span>
+            <input class="form-control form-control-inline" type="text" name="codigoconcepto" ng-model="conceptosEditar.e_concepto.Codigo2" placeholder="Ingresar codigo" required maxlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}" minlength="{{editarCuenta.e_cuenta.NivelClasificacion.Longitud}}">
+            <button type="button" class="btn btn-primary btn-sm" ng-click="conceptosEditar.cambiar_padre()">{{'CAMBIAR_PADRE' | translate}}</button>
+            <button type="button" class="btn btn-danger btn-sm" ng-click="conceptosEditar.cancelar_padre()">{{'BTN.CANCELAR' | translate}}</button>
+            <div ng-messages="form_ecuenta.codigocuenta.$error" style="color:maroon" role="alert" ng-show="submitted">
+              <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
+            </div>
+        </div>
 
+        <div class="col-md-12 form-group" ng-if="varbolpadre">
+          <label>{{"CODIGO" | translate}}*:</label>
+          <fieldset class="form-group">
+            <small>{{"SELECCIONE_CARPETA_CONCEPTO" | translate}}</small>
+            <arbol-conceptos filtro="filtro_padre" seleccion="conceptosEditar.cpadre" conceptosel="nodo" recargar="conceptosEditar.recargar" rdesc />
+          </fieldset>
+        </div>
 
+        <div ng-if="isconcepto">
 
           <fieldset class="col-md-12 form-group ">
             <label>{{"AFECTACION_CONTABLE" | translate}}:</label>
@@ -41,6 +67,7 @@
               </table>
             </div>
           </fieldset>
+
 
           <fieldset class="col-md-12 form-group ">
             <label>{{"RUBRO" | translate}}:</label>
@@ -92,12 +119,14 @@
 
         <div class="col-md-12 form-group">
           <center>
-            <button type="submit" class="btn btn-outline btn-primary btn-lg" ng-click="submitted=true"> {{'BTN.CONFIRMAR' | translate}}</button>
-            <a href="#/conceptos/listado_conceptos" class="btn btn-danger btn-outline btn-lg">{{"BTN.CANCELAR" | translate}}</a>
+            <button type="submit" class="btn btn-success" ng-click="submitted=true"> {{'BTN.CONFIRMAR' | translate}}</button>
+            <a href="#/conceptos/listado_conceptos" class="btn btn-danger">{{"BTN.CANCELAR" | translate}}</a>
           </center>
         </div>
 
       </form>
+
+      <!--pre>{{conceptosEditar.e_afectaciones | json}}</pre -->
 
     </div>
   </div>
