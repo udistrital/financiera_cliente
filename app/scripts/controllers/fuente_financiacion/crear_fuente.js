@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
       self.gridOptionsapropiacion.data = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-001-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
       self.apropiacion1 = response.data;
       self.gridOptionsapropiacion1.data = response.data;
     });

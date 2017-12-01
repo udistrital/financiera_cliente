@@ -24,15 +24,24 @@ angular.module('financieraClienteApp')
       self.fuente_financiamiento_apropiacion = response.data;
     });
 
-
     financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista", 'limit=-1').then(function(response) {
-      self.movimiento_fuente_financiamiento_apropiacion_serv = response.data;
+      self.movimiento_fuente_financiamiento_apropiacion_serv1 = response.data;
+      console.log(response.data)
+    });
+
+    financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteListaFunc", 'limit=-1').then(function(response) {
+      self.movimiento_fuente_financiamiento_apropiacion_serv2 = response.data;
       console.log(response.data)
     });
 
     financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
       self.apropiacion = response.data;
     });
+
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+      self.apropiacion1 = response.data;
+    });
+
 
     oikosRequest.get("dependencia", 'limit=-1').then(function(response) {
       self.dependencia = response.data;
@@ -52,6 +61,34 @@ angular.module('financieraClienteApp')
       }
 
     });
+
+    self.tipo_fuente_rubro=[
+      {Id: 1 , tipo: "Inversión" },
+      {Id: 2 , tipo: "Funcionamiento"}
+    ];
+
+    self.cambiar_rubro = function(){
+
+      self.movimiento_fuente_financiamiento_apropiacion_serv=[];
+      if(self.tipo_fuente_r == 1){
+        financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+          self.apropiacion = response.data;
+        });
+
+        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv1;
+        self.fuentes_seleccionadas = [];
+        self.fuentes_traslado = [];
+        console.log(self.movimiento_fuente_financiamiento_apropiacion_serv)
+      }else{
+        financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+          self.apropiacion = response.data;
+        });
+        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv2;
+        self.fuentes_seleccionadas = [];
+        self.fuentes_traslado = [];
+        console.log(self.movimiento_fuente_financiamiento_apropiacion_serv)
+      }
+    };
 
     self.traslado = false;
     self.adicion = false;

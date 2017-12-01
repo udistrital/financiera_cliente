@@ -57,20 +57,13 @@
             <md-datepicker ng-model="crearFuente.nueva_fuente_apropiacion.fecha_documento" md-placeholder="{{'INGRESE_FECHA_DOCUMENTO' | translate}}"></md-datepicker>
           </div>
 
-
-
               <div class="col-md-6">
                 <p></p>
               <label for="tipo_fuente">{{'TIPO_FUENTE_FINANCIAMIENTO' | translate }}:</label>
-              <select  ng-model="crearFuente.tipo_fuente" ng-options="n.Id as n.tipo for n in crearFuente.tipo_fuente_rubro" value={{n.Id}} class="form-control" ng-change ="crearFuente.cambiar_rubro()" >
+              <select  ng-model="crearFuente.tipo_fuente_r" ng-options="n.Id as n.tipo for n in crearFuente.tipo_fuente_rubro" value={{n.Id}} class="form-control" ng-change ="crearFuente.cambiar_rubro()" >
                 <option value="">{{'SELECCIONAR_TIPO' | translate }}</option>
               </select>
               </div>
-              <div class="col-md-5">
-
-              </div>
-
-
 
           <div class="col-md-12" ng-show="crearFuente.inversion" >
             <p></p>

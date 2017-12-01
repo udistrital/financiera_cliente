@@ -129,17 +129,93 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+        self.tipo_fuente=1;
         self.valor_total = 0;
-        self.mostrar_registro(row.entity.Id);
         self.fuente_seleccionada = row.entity;
+        self.cambiar_rubro();
         console.log(row.entity.Id);
         $("#myModal").modal();
       });
     };
 
+
+
+        self.tipo_fuente_rubro=[
+          {Id: 1 , tipo: "Inversión" },
+          {Id: 2 , tipo: "Funcionamiento"}
+        ];
+
+        self.cambiar_rubro = function(){
+
+          if(self.tipo_fuente == 1){
+
+            financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista",$.param({
+              idfuente: parseInt(self.fuente_seleccionada.Id)
+            })).then(function(response) {
+
+              console.log(response.data)
+              self.gridOptionsapropiacion.data = response.data;
+              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+                oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
+                  data.FuenteFinanciamientoApropiacion.Dependencia = response.data[0];
+                });
+              });
+
+              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+                coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+                  data.TipoDocumento = response.data[0];
+                });
+              });
+              self.valor_total = 0;
+              self.fuente_financiamiento_apropiacion1 = response.data;
+              if(self.fuente_financiamiento_apropiacion1){
+              for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
+                self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
+              }
+            }else{
+              self.gridOptionsapropiacion.data=[];
+            }
+            });
+
+          }else{
+
+            financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteListaFunc",$.param({
+              idfuente: parseInt(self.fuente_seleccionada.Id)
+            })).then(function(response) {
+
+              console.log(response.data)
+              self.gridOptionsapropiacion.data = response.data;
+              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+                oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
+                  data.FuenteFinanciamientoApropiacion.Dependencia = response.data[0];
+                });
+              });
+
+              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
+                coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
+                  data.TipoDocumento = response.data[0];
+                });
+              });
+
+              self.valor_total = 0;
+              self.fuente_financiamiento_apropiacion1 = response.data;
+              if(self.fuente_financiamiento_apropiacion1){
+
+              for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
+                self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
+              }
+            }else{
+              self.gridOptionsapropiacion.data=[];
+            }
+          });
+
+          }
+        };
+
+/*
     self.mostrar_registro =function(fuente) {
 
-      financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista",$.param({
+      financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteListaFuncionamiento",$.param({
         idfuente: parseInt(fuente)
       })).then(function(response) {
 
@@ -164,6 +240,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
       });
 
     };
-
+*/
 
   });
