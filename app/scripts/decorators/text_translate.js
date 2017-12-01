@@ -512,6 +512,10 @@ var text_es = {
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
         NO_FILAS: "Número de Filas"
+    },
+
+    REPORTES_SPAGO: {
+      REPORTES: "Reportes"
     }
 };
 
