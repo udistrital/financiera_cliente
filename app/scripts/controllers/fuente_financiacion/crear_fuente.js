@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
       self.gridOptionsapropiacion.data = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
       self.apropiacion1 = response.data;
       self.gridOptionsapropiacion1.data = response.data;
     });
@@ -132,7 +132,7 @@ angular.module('financieraClienteApp')
     ];
 
     self.cambiar_rubro = function(){
-      if(self.tipo_fuente == 1){
+      if(self.tipo_fuente_r == 1){
         self.inversion=true;
         self.funcionamiento=false;
         self.rubros_seleccionados = [];
@@ -332,9 +332,6 @@ angular.module('financieraClienteApp')
           if (self.fuente_financiamiento[i].Codigo == self.nueva_fuente.Codigo) {
             self.asignar_rubros(self.fuente_financiamiento[i].Id,documento);
             self.fuente_encontrada = true;
-            swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-              $window.location.href = '#/fuente_financiacion/consulta_fuente';
-            });
           }
         }
       }
@@ -348,9 +345,6 @@ angular.module('financieraClienteApp')
           self.fuente_financiamiento = response.data;
           self.id = response.data.Id;
           self.asignar_rubros(self.id,documento);
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-            $window.location.href = '#/fuente_financiacion/consulta_fuente';
-          });
         });
       }
     };
@@ -398,10 +392,15 @@ angular.module('financieraClienteApp')
           Id: parseInt(apropiacion)
         }
       }
-      console.log(data)
       financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
-        console.log(response.data);
+        if(response.data){
+          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+            $window.location.href = '#/fuente_financiacion/consulta_fuente';
+          });
+        }else{
+            swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
+        }
       });
     };
 
