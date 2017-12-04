@@ -5,8 +5,8 @@
     <liquidacion-ss
     inputpestanaabierta="opSeguridadSocialCrear.PestanaAbierta"
     ouputdatanominaselect="opSeguridadSocialCrear.dataSeguridadSocialSelect"
-    outputdataopss="opSeguridadSocialCrear.allDataOpSs"
-    outputerrorop="opSeguridadSocialCrear.errorOpMasivo" >
+    outputerrorop="opSeguridadSocialCrear.errorOpMasivo"
+    outputdataopss="opSeguridadSocialCrear.allDataOpSs">
     </liquidacion-ss>
 
     <!-- Registro Presupuestal -->
@@ -87,41 +87,41 @@
         <div class="form-group">
           <label class="control-label col-sm-1">{{'TIPO_PERSONA' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].Tipopersona}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.Tipopersona}}</span>
           </div>
           <label class="control-label col-sm-1">{{'NO_DOCUMENTO' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NumDocumento}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.NumDocumento}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'NOMBRE' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NomProveedor}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.NomProveedor}}</span>
           </div>
           <label class="control-label col-sm-1">{{'DIRECCION' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].Direccion}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.Direccion}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'TELEFONO' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.tel_proveedor.IdTelefono.NumeroTel}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.tel.IdTelefono.NumeroTel}}</span>
           </div>
           <label class="control-label col-sm-1">{{'CUENTA_BANCARIA' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].NumCuentaBancaria}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.NumCuentaBancaria}}</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label col-sm-1">{{'SUCURSAL' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.banco_proveedor.NombreBanco}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.banco.NombreBanco}}</span>
           </div>
           <label class="control-label col-sm-1">{{'TIPO_CUENTA' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opSeguridadSocialCrear.proveedor[0].TipoCuentaBancaria}}</span>
+            <span class="form-control">{{opSeguridadSocialCrear.proveedor.TipoCuentaBancaria}}</span>
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
         });
 
         $scope.$watch('inputtiponomina', function() {
-          if ($scope.inputtiponomina != undefined) {
+          if(Object.keys($scope.inputtiponomina).length > 0){
             // consulta el subtipo op
             if ($scope.inputtiponomina.tipoNomina == 'HCS' && $scope.inputtiponomina.tipoOrdenPago == "SS") {
               var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-SALA";
@@ -70,6 +70,8 @@ angular.module('financieraClienteApp')
               });
             }
 
+          }else{
+            self.subTipoOrdenPago = {};
           }
         })
       },

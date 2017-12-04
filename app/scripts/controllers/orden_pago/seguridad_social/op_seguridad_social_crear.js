@@ -29,6 +29,9 @@ angular.module('financieraClienteApp')
         self.tipoNominaDeLiquidacion = {};
         self.tipoNominaDeLiquidacion.tipoNomina = self.allDataOpSs.TipoLiquidacion;
         self.tipoNominaDeLiquidacion.tipoOrdenPago = "SS";
+      }else{
+        self.proveedor = {};
+        self.tipoNominaDeLiquidacion = {};
       }
     })
 
@@ -39,11 +42,11 @@ angular.module('financieraClienteApp')
           query: "Id:" + beneficiario_id,
         })
       ).then(function(response) {
-        self.proveedor = response.data;
+        self.proveedor = response.data[0];
         // datos banco
-        self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
+        self.get_info_banco(self.proveedor.IdEntidadBancaria);
         //datos telefono
-        self.get_tel_provee(self.proveedor[0].Id)
+        self.get_tel_provee(self.proveedor.Id)
       });
     }
     //
@@ -52,7 +55,7 @@ angular.module('financieraClienteApp')
         $.param({
           query: "Id:" + id_banco,
         })).then(function(response) {
-        self.banco_proveedor = response.data[0];
+        self.proveedor.banco = response.data[0];
       });
     }
     //
@@ -61,7 +64,7 @@ angular.module('financieraClienteApp')
         $.param({
           query: "Id:" + id_prove,
         })).then(function(response) {
-        self.tel_proveedor = response.data[0];
+        self.proveedor.tel = response.data[0];
       });
     }
 

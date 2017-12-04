@@ -228,10 +228,9 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        // para desarrollo
 
-        // // para desarrollo
-
-        // // para desarrollo
+        // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
@@ -240,11 +239,11 @@ angular.module('financieraClienteApp')
             //
             self.refresh();
             self.gridOptionsPreliquidacionPersonas.data = {};
+            self.gridOptionsPreliquidacionPagos.data = {};
             self.gridOptionsConceptos.data = {};
             self.gridOptionsMovimientosContables.data = {};
             self.gridOptionsMovimientosContablesTemporal.data = {};
             $scope.outputdataopss = {};
-
 
             financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
               $.param({
@@ -255,22 +254,16 @@ angular.module('financieraClienteApp')
             ).then(function(response) {
               if (response.data.Type != 'error') {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp[0].ViewPagosPorPersona;
-                if (response.data.DetalleCargueOp[0].Aprobado == false){
+                if (response.data.DetalleCargueOp[0].Aprobado == false) {
                   $scope.mostrarPanelError = true;
                   $scope.outputerrorop = response.data.DetalleCargueOp[0].Code;
                 }
-
                 self.gridOptionsConceptos.data = response.data.DetalleCargueOp[0].ConceptoOrdenPago;
                 self.gridOptionsMovimientosContables.data = response.data.DetalleCargueOp[0].MovimientoContable;
                 self.gridOptionsMovimientosContablesTemporal.data = response.data.DetalleCargueOp[0].MovimientosDeDescuento;
                 $scope.outputdataopss = response.data;
-              } else {
-                self.gridOptionsPreliquidacionPersonas.data = {};
-                $scope.mostrarPanelError = false;
-
               }
             })
-
           }
         }
       },
