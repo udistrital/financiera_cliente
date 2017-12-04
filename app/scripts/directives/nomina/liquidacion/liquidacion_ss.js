@@ -228,10 +228,9 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        // para desarrollo
 
-        // // para desarrollo
-
-        // // para desarrollo
+        // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
@@ -245,7 +244,6 @@ angular.module('financieraClienteApp')
             self.gridOptionsMovimientosContables.data = {};
             self.gridOptionsMovimientosContablesTemporal.data = {};
             $scope.outputdataopss = {};
-
 
             financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
               $.param({
