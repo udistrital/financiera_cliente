@@ -17,7 +17,6 @@ angular.module('financieraClienteApp')
 
 
     $scope.$watch('opSeguridadSocialCrear.allDataOpSs', function() {
-      console.log(self.allDataOpSs);
       if (Object.keys(self.allDataOpSs).length > 0 && self.allDataOpSs.TipoLiquidacion != null) {
         // rp valor
         financieraRequest.get('registro_presupuestal/ValorTotalRp/' + self.allDataOpSs.DetalleCargueOp[0].RegistroPresupuestal.Id)
