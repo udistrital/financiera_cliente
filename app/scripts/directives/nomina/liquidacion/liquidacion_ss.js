@@ -240,6 +240,7 @@ angular.module('financieraClienteApp')
             //
             self.refresh();
             self.gridOptionsPreliquidacionPersonas.data = {};
+            self.gridOptionsPreliquidacionPagos.data = {};
             self.gridOptionsConceptos.data = {};
             self.gridOptionsMovimientosContables.data = {};
             self.gridOptionsMovimientosContablesTemporal.data = {};
@@ -255,7 +256,7 @@ angular.module('financieraClienteApp')
             ).then(function(response) {
               if (response.data.Type != 'error') {
                 self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp[0].ViewPagosPorPersona;
-                if (response.data.DetalleCargueOp[0].Aprobado == false){
+                if (response.data.DetalleCargueOp[0].Aprobado == false) {
                   $scope.mostrarPanelError = true;
                   $scope.outputerrorop = response.data.DetalleCargueOp[0].Code;
                 }
@@ -263,12 +264,8 @@ angular.module('financieraClienteApp')
                 self.gridOptionsMovimientosContables.data = response.data.DetalleCargueOp[0].MovimientoContable;
                 self.gridOptionsMovimientosContablesTemporal.data = response.data.DetalleCargueOp[0].MovimientosDeDescuento;
                 $scope.outputdataopss = response.data;
-              } else {
-                self.gridOptionsPreliquidacionPersonas.data = {};
-                $scope.mostrarPanelError = false;
               }
             })
-
           }
         }
       },

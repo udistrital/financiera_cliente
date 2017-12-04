@@ -30,6 +30,9 @@ angular.module('financieraClienteApp')
         self.tipoNominaDeLiquidacion = {};
         self.tipoNominaDeLiquidacion.tipoNomina = self.allDataOpSs.TipoLiquidacion;
         self.tipoNominaDeLiquidacion.tipoOrdenPago = "SS";
+      }else{
+        self.proveedor = {};
+        self.tipoNominaDeLiquidacion = {};
       }
     })
 
