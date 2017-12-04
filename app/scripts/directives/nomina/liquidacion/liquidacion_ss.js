@@ -259,7 +259,6 @@ angular.module('financieraClienteApp')
                   $scope.mostrarPanelError = true;
                   $scope.outputerrorop = response.data.DetalleCargueOp[0].Code;
                 }
-
                 self.gridOptionsConceptos.data = response.data.DetalleCargueOp[0].ConceptoOrdenPago;
                 self.gridOptionsMovimientosContables.data = response.data.DetalleCargueOp[0].MovimientoContable;
                 self.gridOptionsMovimientosContablesTemporal.data = response.data.DetalleCargueOp[0].MovimientosDeDescuento;
@@ -267,7 +266,6 @@ angular.module('financieraClienteApp')
               } else {
                 self.gridOptionsPreliquidacionPersonas.data = {};
                 $scope.mostrarPanelError = false;
-
               }
             })
 
