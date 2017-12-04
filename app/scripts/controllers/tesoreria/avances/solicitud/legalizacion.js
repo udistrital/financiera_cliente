@@ -38,7 +38,7 @@ angular.module('financieraClienteApp')
                 },
                 {
                     field: 'Tercero',
-                    displayName: $translate.instant('CODIGO'),
+                    displayName: $translate.instant('DOCUMENTO'),
                     width: '12%',
                 },
                 {
@@ -386,15 +386,19 @@ angular.module('financieraClienteApp')
                     order: "asc"
                 }))
                 .then(function(response) {
-                    ctrl.gridOptionsCompras = response.data;
+                    ctrl.gridOptionsCompras.data = response.data;
+                    console.log("__________________________");
+                    console.log(ctrl.gridOptionsCompras.data);
                 });
         };
+
+        ctrl.get_all_avance_legalizacion_compra();
 
         ctrl.add_edit_compras = function() {
             var lista_impuestos = [];
             for (var i in ctrl.Impuesto) {
                 if (ctrl.Impuesto[i].Valor !== 0) {
-                    lista_impuestos.push(ctrl.Impuesto[i]);
+                    lista_impuestos.push({ CuentaEspecial: ctrl.Impuesto[i] });
                 }
             }
             ctrl.LegalizacionCompras.TipoAvanceLegalizacion = { Id: 2 };
