@@ -330,6 +330,7 @@ var text_es = {
     NO_CRP: "No. CRP",
     NO_DIAS: "No. de días",
     NO_DOCUMENTO: "No. Documento",
+    NO_FACTURA: "No. de factura",
     NO_QUINCENA: "Nro. Quincena",
     NO_ENCONTRADO_RESULTADOS: "No se han encontrado resultados para el",
     NUEVA_CUENTA: "Nueva Cuenta",

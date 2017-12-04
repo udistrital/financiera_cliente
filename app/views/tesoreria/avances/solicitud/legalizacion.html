@@ -86,7 +86,14 @@
                 <br>
                 <div class="row">
                     <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
-                    <md-datepicker ng-model="legalizacion.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
+                    <md-datepicker ng-model="legalizacion.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'NO_FACTURA' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionCompras.NumeroFactura" class="form-control input_right" ng-required="true" />
+                    </div>
                 </div>
                 <br>
                 <div class="row">
@@ -190,6 +197,9 @@
                     </div>
                 </div>
                 <br>
+                <pre>
+{{}}
+                </pre>
                 <center>
                     <input type="reset" ng-click="legalizacion.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacion.operacion ==='add'" />
                     <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
