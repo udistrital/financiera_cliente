@@ -39,63 +39,159 @@
     </div>
 </div>
 
-<div id="modal_legalizacion_compras" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+<div id="modal_legalizacion_compras" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <style>
+        .md-datepicker-calendar-pane {
+            z-index: 1200
+        }
+    </style>
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header panel-heading">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading" ng-if="legalizacion.operacion === 'add' ">
-                {{'NUEVO_REQUISITO_AVANCE' | translate }}
+                {{'LEGALIZACION_EVENTO_COMPRA' | translate }}
             </div>
             <div class="panel-heading" ng-if="legalizacion.operacion === 'edit' ">
-                {{'EDITAR_REQUISITO_AVANCE' | translate }}
+                {{'LEGALIZACION_EVENTO_COMPRA' | translate }}
             </div>
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_practicas()">
+
+            <form class="form-horizontal" name="compras" ng-submit="compras.$valid && legalizacion.add_edit_compras()">
                 <br>
                 <div class="row">
-                    <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
+                    <label for="CodigoAbreviacion" class="col-sm-3 control-label">{{'DOCUMENTO_NIT' | translate }}:</label>
                     <div class="col-sm-6">
-                        <input name="CodigoAbreviacion" type="text" ng-change="legalizacion.cargar_estudiante()" ng-model="legalizacion.LegalizacionPracticaAcademica.Tercero" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionCompras.Tercero" class="form-control" ng-required="true" />
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-1">
+                        <center>
+                            <a type="button" name="button" ng-click="legalizacion.cargar_proveedor()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                        </center>
+                    </div>
+                    <div class="col-sm-2">
                         <loading load="estudiante_cargado" tam=1 clase="clase_load"></loading>
                         <div class="alert alert-warning" ng-if="encontrado">
-                            <strong>No se han encontrado resultados para el código {{legalizacion.LegalizacionPracticaAcademica.Codigo}}</strong>
+                            <strong>{{'NO_ENCONTRADO_RESULTADOS' | translate }} {{'DOCUMENTO_NIT' | translate }} {{legalizacion.LegalizacionCompras.Codigo}}</strong>
                         </div>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
-                    <div class="col-sm-9">
-                        <span class="form-control">{{legalizacion.LegalizacionPracticaAcademica.Estudiante.nombre}}</span>
+                    <label for="nombre" class="col-sm-3 control-label">{{'NOMBRE' | translate }}:</label>
+                    <div class="col-sm-8">
+                        <span class="form-control">{{legalizacion.LegalizacionCompras.InformacionProveedor.NomProveedor}}</span>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="nombre" class="col-sm-2 control-label">{{'DOCUMENTO' | translate }}:</label>
-                    <div class="col-sm-9">
-                        <span class="form-control">{{legalizacion.LegalizacionPracticaAcademica.Estudiante.numero_documento}}</span>
+                    <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
+                    <md-datepicker ng-model="legalizacion.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'VALOR_FACTURA_COMPRA' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" ng-change="legalizacion.calcular_valor_impuesto()" type="text" ng-model="legalizacion.LegalizacionCompras.Valor" ui-money-mask="0" class="form-control input_right" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'VALOR' | translate }}:</label>
-                    <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control" ng-required="true" />
+                    <label for="descripcion" class="col-sm-3 control-label">{{'TRM_COMPRA' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionCompras.TrmFechaCompra" ui-percentage-mask class="form-control input_right" />
+                    </div>
+                    <div class="col-sm-3">
+                        <label for="descripcion"><small>{{'TRM_COMPRA_DESCRIPCION' | translate }}</small></label>
                     </div>
                 </div>
                 <br>
                 <div class="row">
-                    <label for="descripcion" class="col-sm-2 control-label">{{'NO_DIAS' | translate }}:</label>
-                    <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Dias" class="form-control" ng-required="true" />
+                    <label for="descripcion" class="col-sm-3 control-label">{{'TIPO_IVA' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-change="legalizacion.calcular_valor_impuesto()" ng-model="legalizacion.Impuesto.IVA" ng-options="o as o.Descripcion for o in legalizacion.iva"></select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.IVA.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'SUBTOTAL' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.subtotal" ui-money-mask="0" class="form-control input_right" disabled/>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'RETE_IVA' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.rete_iva.Porcentaje" ui-percentage-mask class="form-control input_right" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.rete_iva.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'TIPO_ICA' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-change="legalizacion.calcular_valor_impuesto()" ng-model="legalizacion.Impuesto.ICA" ng-options="o as o.Descripcion for o in legalizacion.ica"></select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.ICA.Valor" ui-money-mask="0" class="form-control input_right">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'TIPO_RENTA' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <select class="form-control" ng-change="legalizacion.calcular_valor_impuesto()" ng-model="legalizacion.Impuesto.RENTA" ng-options="o as o.Descripcion for o in legalizacion.renta"></select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.RENTA.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'ESTAMPILLA_UD' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_ud.Porcentaje" ui-percentage-mask class="form-control input_right" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_ud.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'ESTAMPILLA_PROCULTURA' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_procultura.Porcentaje" ui-percentage-mask class="form-control input_right" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_procultura.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'ESTAMPILLA_PRO_ADULTO_MAYOR' | translate }}:</label>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_proadulto_mayor.Porcentaje" ui-percentage-mask class="form-control input_right" />
+                    </div>
+                    <div class="col-sm-3">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Impuesto.estampilla_proadulto_mayor.Valor" ui-money-mask="0" class="form-control input_right" />
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-3 control-label">{{'TOTAL' | translate }}:</label>
+                    <div class="col-sm-6">
+                        <input name="CodigoAbreviacion" type="text" disabled ng-model="legalizacion.Total" class="form-control input_right" ui-money-mask="0" disabled/>
                     </div>
                 </div>
                 <br>
                 <center>
-                    <input type="reset" ng-click="legalizacion.limpiar_practica()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacion.operacion ==='add'" />
+                    <input type="reset" ng-click="legalizacion.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacion.operacion ==='add'" />
                     <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
                 </center>
             </form>
@@ -116,7 +212,7 @@
             <div class="panel-heading" ng-if="legalizacion.operacion === 'edit' ">
                 {{'EDITAR_REGISTRO_ESTUDIANTE' | translate }}
             </div>
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && legalizacion.add_edit_practicas()">
+            <form class="form-horizontal" name="practicas" ng-submit="practicas.$valid && legalizacion.add_edit_practicas()">
                 <br>
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
@@ -126,7 +222,7 @@
                     <div class="col-sm-3">
                         <loading load="estudiante_cargado" tam=1 clase="clase_load"></loading>
                         <div class="alert alert-warning" ng-if="encontrado">
-                            <strong>No se han encontrado resultados para el código {{legalizacion.LegalizacionPracticaAcademica.Codigo}}</strong>
+                            <strong>{{'NO_ENCONTRADO_RESULTADOS' | translate }}  {{'CODIGO_ESTUDIANTE' | translate }} {{legalizacion.LegalizacionPracticaAcademica.Codigo}}</strong>
                         </div>
                     </div>
                 </div>
@@ -148,7 +244,7 @@
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'VALOR' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="legalizacion.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control input_right" ng-required="true" />
                     </div>
                 </div>
                 <br>
