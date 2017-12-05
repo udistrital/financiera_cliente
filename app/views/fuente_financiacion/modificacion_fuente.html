@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'MODIFICACIONES_PRESUPUESTALES' | translate }}</h2>
+  <h2 class="page-header text-center">{{ 'MODIFICACION_FUENTES_FINANCIAMIENTO' | translate }}</h2>
   <form name="fuentes_form" ng-submit="">
 
 
@@ -8,7 +8,7 @@
       <div class="panel panel-default">
 
         <div class="panel-heading">
-          <h3 class="panel-title">{{'MODIFICACIONES_PRESUPUESTALES' | translate }} </h3>
+          <h3 class="panel-title">{{'MODIFICACION_FUENTES_FINANCIAMIENTO' | translate }} </h3>
         </div>
 
         <div class="panel-body">
@@ -17,11 +17,18 @@
             <p></p>
             <label for="fuente">{{'TIPO_MODIFICACION' | translate }}:</label>
             <select class="form-control " ng-model="modificacionFuente.tipo_fuente" ng-change="modificacionFuente.cambiar_estado()">
-              <option value="">{{'SELECCIONE_TIPO' | translate }}</option>
+              <option value="">{{'SELECCIONE_TIPO_MODIFICACION' | translate }}</option>
               <option ng-repeat="n in modificacionFuente.tipo" value={{n.Id}}>{{n.Nombre}}</option>
             </select>
           </div>
 
+          <div class="col-md-12">
+            <p></p>
+          <label for="">{{'TIPO_FUENTE_FINANCIAMIENTO' | translate }}:</label>
+          <select  ng-model="modificacionFuente.tipo_fuente_r" ng-options="n.Id as n.tipo for n in modificacionFuente.tipo_fuente_rubro" value={{n.Id}} class="form-control" ng-change ="modificacionFuente.cambiar_rubro()" >
+            <option value="">{{'SELECCIONAR_TIPO' | translate }}</option>
+          </select>
+          </div>
 
           <div class="" ng-show="modificacionFuente.adicion || modificacionFuente.traslado">
 
