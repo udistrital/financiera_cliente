@@ -404,6 +404,11 @@ angular
                 controller: 'LegalizacionCtrl',
                 controllerAs: 'legalizacion'
             })
+            .when('/rubro/modificacion_solicitud_registro', {
+              templateUrl: 'views/rubro/modificacion_solicitud_registro.html',
+              controller: 'RubroModificacionSolicitudRegistroCtrl',
+              controllerAs: 'rubroModificacionSolicitudRegistro'
+            })
             .otherwise({
                 redirectTo: '/'
             });
