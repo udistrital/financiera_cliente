@@ -166,7 +166,7 @@ angular.module('financieraClienteApp')
       console.log("########################");
       console.log(arrSolicitudes);
       console.log("########################");
-        financieraMidRequest.post('disponibilidad/ExpedirDisponibilidad', arrSolicitudes).then(function(response){
+        financieraMidRequest.post('disponibilidad/ExpedirDisponibilidad?tipoDisponibilidad=1', arrSolicitudes).then(function(response){
           console.log(response.data);
             if (response.data[0].Type !== undefined){
               if (response.data[0].Type === "error"){
