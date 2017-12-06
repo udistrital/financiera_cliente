@@ -1,0 +1,62 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'REGISTRO_SOLICITUD_MODIFICACION_PRES' | translate}}</h2>
+    <div class="panel-body">
+        <div class="row" >
+            <legend class="text-primary" ng-click="b=!b">
+                {{'DATOS_SOLICITUD_MODIFICACION_PRES' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="b"></span>
+                <span class="fa fa-minus pull-right" ng-show="!b"></span>
+            </legend>
+            <div class="col-md-6 col-md-offset-3" ng-show="!b ">
+                <div class="form-group">
+                            <label for="descripcion">{{'DESCRIPCION' | translate}}</label>
+                            <br>
+                            <textarea name="descripcion" class="form-control" rows="4" cols="40" ng-model="rubroModificacionSolicitudRegistro.descripcion">
+                    </textarea>
+                        </div>
+            </div>
+        </div>
+        <div class="row" >
+            <legend class="text-primary" ng-click="a=!a">
+                    {{'RUBROS_SOLICITUD_MODIFICACION_PRES' | translate}}
+                    <span class="fa fa-plus pull-right" ng-show="!a"></span>
+                    <span class="fa fa-minus pull-right" ng-show="a"></span>
+            </legend>
+            <div class="col-md-6" ng-show="a">
+                <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botones" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubrosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+            </div>
+            <div class="col-md-6" ng-show="a">
+                <div class="panel panel-info panel-body">
+                    <div class="panel panel-heading">
+                        <h4 class="text-center panel-title">{{"INFORMACION_RUBROS_MODIFICACION_PRES" | translate}}</h4>
+                    </div>
+                    <div ng-if="rubroModificacionSolicitudRegistro.rubrosel">
+                        <div class="form-group">
+                        <label for="rubro">{{'RUBRO' | translate}} : </label>
+                        <br>
+                        <span name="rubro">{{rubroModificacionSolicitudRegistro.rubrosel.Nombre}} / {{rubroModificacionSolicitudRegistro.rubrosel.Codigo}}</span>
+                        <hr>
+                        <label for="unidadejecutora">{{'TIPO_MODIFICACION' | translate}} :</label>
+                        <select class="form-control" ng-model="ingresoRegistro.unidadejecutora" ng-options="o as o.Nombre for o in rubroModificacionSolicitudRegistro.tiposModificaciones">
+                        </select>
+                        <hr>
+                        <label for="valor_mod">{{'VALOR' | translate}} : </label>
+                        <br>
+                        <input type="valor_mod" name="valor_mod" class="form-control">
+                        <hr>
+                    </div>
+                    <div class="form-group text-center">
+                        <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.agregarRubro()"> {{"AGREGAR" | translate}} </a>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!--pre>
+                {{rubroModificacionSolicitudRegistro.rubrosel | json}}
+            </pre-->
+        </div>
+         <div class="form-group text-center">
+                <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.registrarModificacion()"> {{"REGISTRAR" | translate}} </a>
+         </div>
+    </div>
+</div>
