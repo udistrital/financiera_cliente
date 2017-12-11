@@ -70,10 +70,10 @@
             <hr>
             <div ng-repeat="data in rubroModificacionSolicitudRegistro.modificaciones track by $index" class="form-group col-md-6 col-md-offset-3">
                 <label for="CuentaCredito">{{'CUENTA_CREDITO' | translate}} : </label>
-                <span name="CuentaCredito">{{data.CuentaCredito.Nombre}} / {{data.CuentaCredito.Codigo}}</span>
+                <span name="CuentaCredito">{{data.CuentaCredito.Rubro.Nombre}} / {{data.CuentaCredito.Rubro.Codigo}}</span>
                 <br>
                 <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO' | translate}} : </label>
-                <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  name="CuentaContraCredito">{{data.CuentaContraCredito.Nombre}} / {{data.CuentaContraCredito.Codigo}}</span>
+                <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  name="CuentaContraCredito">{{data.CuentaContraCredito.Rubro.Nombre}} / {{data.CuentaContraCredito.Rubro.Codigo}}</span>
                 <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" >
                 <label for="TipoMov">{{'TIPO_MODIFICACION' | translate}} : </label>
                 <span name="TipoMov">{{data.TipoMovimientoApropiacion.Nombre}}</span>

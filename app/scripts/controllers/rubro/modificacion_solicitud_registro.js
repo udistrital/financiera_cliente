@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudRegistroCtrl', function ($translate,financieraRequest) {
+  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope,$translate,financieraRequest) {
     var self = this;
     self.modificaciones = [];
     self.descripcion = '';
@@ -49,12 +49,15 @@ angular.module('financieraClienteApp')
     		var modificacion = {};
     		modificacion.TipoMovimientoApropiacion = self.tipoModificacion;
     		modificacion.Valor = self.valor;
-    		modificacion.CuentaCredito = self.rubroCuentaCreditosel;
+    		modificacion.CuentaCredito = self.rubroCuentaCredito;
     		modificacion.CuentaContraCredito = self.rubrosel;
     		if (self.rubrosel == null || self.rubrosel == undefined){
     			modificacion.CuentaContraCredito = modificacion.CuentaCredito;
+    		}else{
+    			modificacion.CuentaContraCredito = self.rubro;
     		}
     		self.modificaciones.push(modificacion);
+
     		self.limpiarRubrosSelec();
     	}
     };
@@ -72,10 +75,71 @@ angular.module('financieraClienteApp')
     	dataRegistroModificacion.MovimientoApropiacion.Descripcion = self.descripcion;
     	dataRegistroModificacion.MovimientoApropiacionDisponibilidadApropiacion = self.modificaciones;
     	console.log(dataRegistroModificacion);
+    	financieraRequest.post('movimiento_apropiacion/RegistroSolicitudMovimientoApropiacion', dataRegistroModificacion).then(function(response) {
+    		console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                });
+              }
+
+            }
+    	});
     };
 
     self.quitarModificacion = function(index){
     	 self.modificaciones.splice(index,1);
     };
+
+    $scope.$watch("rubroModificacionSolicitudRegistro.rubroCuentaCreditosel", function() {    
+             
+             if (self.rubroCuentaCreditosel != null && self.rubroCuentaCreditosel != undefined){
+             	financieraRequest.get("apropiacion", $.param({
+                      query: "Rubro.Id:"+self.rubroCuentaCreditosel.Id + ",Vigencia:"+self.Vigencia
+            })).then(function(response) {
+    			
+    			 if (response.data !== null) {
+                        console.log(response.data);
+                        self.rubroCuentaCredito = response.data[0];
+                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.rubroCuentaCredito.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                           self.rubroCuentaCredito.InfoSaldo = response.data;
+                          }
+                        });
+                      }
+    		});
+             }
+             
+             
+           
+        }, true);
+
+
+    $scope.$watch("rubroModificacionSolicitudRegistro.rubrosel", function() {    
+             
+             if (self.rubrosel != null && self.rubrosel != undefined){
+             	financieraRequest.get("apropiacion", $.param({
+                      query: "Rubro.Id:"+self.rubrosel.Id + ",Vigencia:"+self.Vigencia
+            })).then(function(response) {
+    			
+    			 if (response.data !== null) {
+                        console.log(response.data);
+                        self.rubro = response.data[0];
+                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.rubro.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                           self.rubro.InfoSaldo = response.data;
+                          }
+                        });
+                      }
+    		});
+             }
+             
+             
+           
+        }, true);
 
   });
