@@ -162,6 +162,8 @@ var text_es = {
     E_CDP001: "Expedición de CDP no aprobada, algunos valores superan el saldo de las Apropiaciones.",
     E_CDP002: "No se pudo cargar los rubros de la solicitud",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
+    // op masivas
+    E_OPM_0001: "No se encontraron ordenes de pago relacionadas a la liquidacion",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
     E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
     E_OPN_01_2: "No se obtuvo Id de la liquidación. ",
