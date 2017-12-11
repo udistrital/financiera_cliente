@@ -407,6 +407,7 @@ var text_es = {
     RESUMEN: "Resumen",
     RUBRO: "Rubro",
     RUBROS: "Rubros",
+    RUBROS_AFECTADOS_MOVIMIENTO: "Rubros afectados por este Movimiento",
     RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
     RUBRO_DESTINO: "Rubro de Destino",
     RUBRO_ORIGEN: "Rubro de Origen",
