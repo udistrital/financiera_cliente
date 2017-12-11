@@ -45,6 +45,9 @@ angular.module('financieraClienteApp')
     	}else if (self.tipoModificacion.CuentaContraCredito && (self.rubrosel == undefined || self.rubrosel == null)){
     		swal('', $translate.instant("E_MODP002") , "error").then(function() {
                         });
+    	}else if(self.saldomov == undefined || self.saldomov == null){
+    		swal('', $translate.instant("E_MODP003") , "error").then(function() {
+                        });
     	}else{
     		var modificacion = {};
     		modificacion.TipoMovimientoApropiacion = self.tipoModificacion;
@@ -56,17 +59,27 @@ angular.module('financieraClienteApp')
     		}else{
     			modificacion.CuentaContraCredito = self.rubro;
     		}
-    		self.modificaciones.push(modificacion);
+    		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2) && self.saldomov >= self.valor){
+    			self.modificaciones.push(modificacion);
+    			self.limpiarRubrosSelec();
+    		}else{
+    			swal('', $translate.instant("E_MODP004") , "error").then(function() {
+                        });
+    		}
+    		
 
-    		self.limpiarRubrosSelec();
+    		
     	}
     };
 
     self.limpiarRubrosSelec = function(){
     	self.rubrosel = null;
     	self.rubroCuentaCreditosel = null;
+    	self.rubro = null;
+    	self.rubroCuentaCredito = null;
     	self.valor = null;
     	self.tipoModificacion = null;
+    	self.saldomov = null;
     };
 
     self.registrarModificacion = function(){
@@ -107,6 +120,8 @@ angular.module('financieraClienteApp')
                           
                           if (response.data !== null) {
                            self.rubroCuentaCredito.InfoSaldo = response.data;
+                           self.saldomov = self.rubroCuentaCredito.InfoSaldo.saldo;
+                           console.log(response.data);
                           }
                         });
                       }
@@ -132,6 +147,8 @@ angular.module('financieraClienteApp')
                           
                           if (response.data !== null) {
                            self.rubro.InfoSaldo = response.data;
+                           self.saldomov = self.rubro.InfoSaldo.saldo;
+
                           }
                         });
                       }
