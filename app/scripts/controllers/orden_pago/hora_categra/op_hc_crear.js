@@ -21,7 +21,9 @@ angular.module('financieraClienteApp')
       if (Object.keys(self.DataHomologacion).length > 0 && self.DataHomologacion.TipoLiquidacion != null) {
         self.tipoNominaDeLiquidacion = {};
         self.tipoNominaDeLiquidacion.tipoNomina = self.DataHomologacion.TipoLiquidacion;
-        self.tipoNominaDeLiquidacion.tipoOrdenPago = "HC";
+        self.tipoNominaDeLiquidacion.tipoOrdenPago = "GENERAL";
+      }else{
+        self.tipoNominaDeLiquidacion = {};
       }
     })
 

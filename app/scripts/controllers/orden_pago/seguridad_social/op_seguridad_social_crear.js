@@ -15,7 +15,6 @@ angular.module('financieraClienteApp')
     self.allDataOpSs = {};
     self.dataSeguridadSocialSelect = {}
 
-
     $scope.$watch('opSeguridadSocialCrear.allDataOpSs', function() {
       if (Object.keys(self.allDataOpSs).length > 0 && self.allDataOpSs.TipoLiquidacion != null) {
         // rp valor
