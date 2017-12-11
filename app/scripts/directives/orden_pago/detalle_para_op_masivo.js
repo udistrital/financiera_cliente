@@ -50,10 +50,14 @@ angular.module('financieraClienteApp')
           if(Object.keys($scope.inputtiponomina).length > 0){
             // consulta el subtipo op
             if ($scope.inputtiponomina.tipoNomina == 'HCS' && $scope.inputtiponomina.tipoOrdenPago == "SS") {
-              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-SALA";
+              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-HC-SALA";
             } else if ($scope.inputtiponomina.tipoNomina == 'HCH' && $scope.inputtiponomina.tipoOrdenPago == "SS") {
-              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-HONO";
-            } else if ($scope.inputtiponomina.tipoNomina == 'HCH' && $scope.inputtiponomina.tipoOrdenPago == "HC") {
+              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-HC-HONO";
+            }else if ($scope.inputtiponomina.tipoNomina == 'DP' && $scope.inputtiponomina.tipoOrdenPago == "SS") {
+              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-PLAN-DOCE";
+            }else if ($scope.inputtiponomina.tipoNomina == 'FP' && $scope.inputtiponomina.tipoOrdenPago == "SS") {
+              var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-SS,CodigoAbreviacion:OP-SS-PLAN-ADMI";
+            } else if ($scope.inputtiponomina.tipoNomina == 'HCH' && $scope.inputtiponomina.tipoOrdenPago == "HC") {  //ajustar despues de definir tipo documento
               var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-PROV";
             } else if ($scope.inputtiponomina.tipoNomina == 'HCS' && $scope.inputtiponomina.tipoOrdenPago == "HC") {
               var querySubTipo = "TipoOrdenPago.CodigoAbreviacion:OP-PROV";
