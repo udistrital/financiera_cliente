@@ -164,7 +164,7 @@ var text_es = {
     E_A07: "El valor debe ser mayor a 0",
     E_CDP001: "Expedición de CDP no aprobada, algunos valores superan el saldo de las Apropiaciones.",
     E_CDP002: "No se pudo cargar los rubros de la solicitud",
-    E_MODP001: "Debe seleccionar los rubros y/o llenar los datos de la solicitud para esta solicitud.",
+    E_MODP001: "Debe seleccionar los rubros y/o llenar los datos requeridos para esta solicitud.",
     E_MODP002: "Todos Los campos son obligatorios para agregar el rubro a la solicitud",
     E_MODP003: "El rubro destino del movimiento no tiene apropiacion para la vigerncia actual.",
     E_MODP004: "El saldo del rubro origen del movimiento no cubre el valor del movimineto",
