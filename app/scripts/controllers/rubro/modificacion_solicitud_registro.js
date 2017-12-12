@@ -59,13 +59,19 @@ angular.module('financieraClienteApp')
     		}else{
     			modificacion.CuentaContraCredito = self.rubro;
     		}
-    		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2) && self.saldomov >= self.valor){
-    			self.modificaciones.push(modificacion);
-    			self.limpiarRubrosSelec();
-    		}else{
-    			swal('', $translate.instant("E_MODP004") , "error").then(function() {
+    		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2)){
+          if(self.saldomov >= self.valor){
+            self.modificaciones.push(modificacion);
+            self.limpiarRubrosSelec();
+          }else{
+          swal('', $translate.instant("E_MODP004") , "error").then(function() {
                         });
-    		}
+          }
+    			
+    		}else{
+           self.modificaciones.push(modificacion);
+            self.limpiarRubrosSelec();
+        }
     		
 
     		
@@ -86,6 +92,8 @@ angular.module('financieraClienteApp')
     	var dataRegistroModificacion = {};
     	dataRegistroModificacion.MovimientoApropiacion = {};
     	dataRegistroModificacion.MovimientoApropiacion.Descripcion = self.descripcion;
+      dataRegistroModificacion.MovimientoApropiacion.Noficio = parseInt(self.oficio);
+      dataRegistroModificacion.MovimientoApropiacion.Foficio = self.fechaOficio;
     	dataRegistroModificacion.MovimientoApropiacionDisponibilidadApropiacion = self.modificaciones;
     	console.log(dataRegistroModificacion);
     	financieraRequest.post('movimiento_apropiacion/RegistroSolicitudMovimientoApropiacion', dataRegistroModificacion).then(function(response) {
