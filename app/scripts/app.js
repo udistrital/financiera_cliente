@@ -409,6 +409,11 @@ angular
               controller: 'RubroModificacionSolicitudRegistroCtrl',
               controllerAs: 'rubroModificacionSolicitudRegistro'
             })
+            .when('/rubro/modificacion_solicitud_consulta', {
+              templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
+              controller: 'RubroModificacionSolicitudConsultaCtrl',
+              controllerAs: 'modificacionSolicitudConsulta'
+            })
             .otherwise({
                 redirectTo: '/'
             });

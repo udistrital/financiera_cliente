@@ -168,6 +168,8 @@ var text_es = {
     E_MODP002: "Todos Los campos son obligatorios para agregar el rubro a la solicitud",
     E_MODP003: "El rubro destino del movimiento no tiene apropiacion para la vigerncia actual.",
     E_MODP004: "El saldo del rubro origen del movimiento no cubre el valor del movimineto",
+    E_MODP005: "No se pudo obtener el saldo de la apropiación origen del movimiento",
+    E_MODP006 :"No se Pudo registrar una de las disponibilidades para este movimiento",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
     E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
