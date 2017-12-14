@@ -60,6 +60,10 @@
                         <th>{{ 'DESCRIPCION' | translate }}: </th>
                         <td>{{modificacionSolicitudConsulta.data.Descripcion}}</td>
                     </tr>
+                    <tr>
+                        <th>{{ 'ESTADO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Nombre}}</td>
+                    </tr>
                 </table>
                 <hr>
                 <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
@@ -79,9 +83,9 @@
                     <br>
                     <hr>
                 </div>
-                <center ng-if="!modificacionSolicitudConsulta.data.SolicitudDisponibilidad.Expedida">
+                <center ng-if="modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Id == 1">
                     <button class="btn btn-success btn-outline" ng-click="modificacionSolicitudConsulta.generarModificacion()">{{ 'BTN.APROBAR' | translate }}</button>
-                    <button class="btn btn-danger btn-outline" ng-click="modificacionSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
+                    <button class="btn btn-danger btn-outline" ng-click="modificacionSolicitudConsulta.rechzarMoidficacion()">{{ 'BTN.RECHAZAR' | translate }}</button>
                 </center>
             </div>
         </div>

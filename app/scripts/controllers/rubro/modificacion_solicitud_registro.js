@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope,$translate,financieraRequest) {
+  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope,$translate,$window,financieraRequest) {
     var self = this;
     self.modificaciones = [];
     self.descripcion = '';
@@ -103,6 +103,7 @@ angular.module('financieraClienteApp')
                 swal('',$translate.instant(response.data.Code),response.data.Type);
               }else{
                 swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                	$window.location.href = "#/rubro/modificacion_solicitud_consulta"
                 });
               }
 
