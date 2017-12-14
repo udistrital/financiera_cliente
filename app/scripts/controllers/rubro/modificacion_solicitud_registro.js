@@ -55,7 +55,7 @@ angular.module('financieraClienteApp')
     		modificacion.CuentaCredito = self.rubroCuentaCredito;
     		modificacion.CuentaContraCredito = self.rubrosel;
     		if (self.rubrosel == null || self.rubrosel == undefined){
-    			modificacion.CuentaContraCredito = modificacion.CuentaCredito;
+    			//modificacion.CuentaContraCredito = modificacion.CuentaCredito;
     		}else{
     			modificacion.CuentaContraCredito = self.rubro;
     		}

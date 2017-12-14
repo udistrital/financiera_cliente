@@ -634,6 +634,7 @@ var text_en = {
     MES_NOBIEMBRE: "November",
     MES_OCTUBRE: "October",
     MES_SEPTIEMBRE: "september",
+    MOVIMIENTOS_APROPIACION: "Movimientos De la Apropiación",
     MSN_DEBE_CONCEPTO: "You must select at least one Concept",
     MSN_DEBE_IVA: "You must indicate the value of the IVA in the Payment Value Section",
     MSN_DEBE_LIQUIDACION: "You must select a liquidation",
