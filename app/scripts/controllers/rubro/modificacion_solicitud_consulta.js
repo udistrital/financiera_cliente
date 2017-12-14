@@ -19,13 +19,15 @@ angular.module('financieraClienteApp')
       enableFiltering : true,
       paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
-      useExternalPagination: true,
+      //useExternalPagination: true,
       columnDefs : [
         {field: 'Id',             visible : false},
         {field: 'Vigencia' ,displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info' },
         {field: 'FechaMovimiento',  displayName: $translate.instant("FECHA_MOVIMIENTO"), cellClass: 'input_center',headerCellClass: 'text-info' ,cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"UTF"}}</span>'},
         {field: 'Noficio',  displayName: $translate.instant("NO_OFICIO"),headerCellClass: 'text-info'},
         {field: 'Foficio',  displayName: $translate.instant("FECHA_OFICIO"),headerCellClass: 'text-info',cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'},
+        {field: 'EstadoMovimientoApropiacion.Nombre',  displayName: $translate.instant("ESTADO"),headerCellClass: 'text-info'},
+
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
@@ -34,23 +36,7 @@ angular.module('financieraClienteApp')
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
           headerCellClass: 'text-info'
       }
-      ],
-      onRegisterApi : function( gridApi ){
-        gridApi.core.on.filterChanged($scope, function() {
-          var grid = this.grid;
-          angular.forEach(grid.columns, function(value, key) {
-              if(value.filters[0].term) {
-                  //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
-              }
-          });
-        });
-        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-          console.log('newPage '+newPage+' pageSize '+pageSize);
-          self.gridOptions.data = {};
-          var offset = (newPage-1)*pageSize;
-          self.cragarDatos(offset,query);
-        });
-        }
+      ]
 
     };
     financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
@@ -64,7 +50,7 @@ angular.module('financieraClienteApp')
                 }
                 self.years = range;
                 self.Vigencia = self.vigenciaActual;
-                self.cargarDatos(0,'');
+                self.cargarDatos(-1,'');
 
             });
 
@@ -167,8 +153,32 @@ angular.module('financieraClienteApp')
 
             
             self.data = null;
+            self.cargarDatos(-1,'');
             $("#myModal").modal('hide');
     	});
+  };
+
+  self.rechzarMoidficacion = function(){
+    var dataupd = {};
+    angular.copy(self.data,dataupd);
+    console.log(dataupd);
+    dataupd.EstadoMovimientoApropiacion.Id=3;
+    financieraRequest.put('movimiento_apropiacion',self.data.Id+"?fields=EstadoMovimientoApropiacion", dataupd).then(function(response) {
+      if (response.data.Type !== undefined) {
+                        if (response.data.Type === "error") {
+                            swal('', $translate.instant(response.data.Code), response.data.Type);
+                            console.log(response.data);
+                        } else {
+                            swal('', $translate.instant(response.data.Code) +" " + $translate.instant("NO")+" : " + response.data.Body.Id, response.data.Type).then(function() {
+                                self.data = null;
+                                self.cargarDatos(-1,'');
+                                $("#myModal").modal('hide');
+                                
+                            });
+                        }
+
+                    }
+    });
   };
 
   });
