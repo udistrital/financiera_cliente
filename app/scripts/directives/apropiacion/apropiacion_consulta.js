@@ -46,7 +46,26 @@ angular.module('financieraClienteApp')
           }
         };
 
-        
+        self.gridOptions = {
+          enableRowSelection: false,
+          enableRowHeaderSelection: false,
+          enableFiltering : true,
+          paginationPageSizes: [20, 50, 100],
+          paginationPageSize: 10,
+          //useExternalPagination: true,
+          columnDefs : [
+            {field: 'Id',             visible : false},
+            {field: 'Noficio' ,displayName: $translate.instant("NO_OFICIO"), cellClass: 'input_center',headerCellClass: 'text-info' },
+            {field: 'Foficio',  displayName: $translate.instant("FECHA_OFICIO"), cellClass: 'input_center',headerCellClass: 'text-info' ,cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'},
+            {field: 'Tipo',  displayName: $translate.instant("TIPO"),headerCellClass: 'text-info'},
+            {field: 'CuentaContraCredito',  displayName: $translate.instant("CUENTA_CONTRA_CREDITO"),headerCellClass: 'text-info'},
+            {field: 'CuentaCredito',  displayName: $translate.instant("CUENTA_CREDITO"),headerCellClass: 'text-info'},
+            {field: 'NumeroDisponibilidad',  displayName: $translate.instant("NO_CDP"),headerCellClass: 'text-info'},
+            {field: 'Valor',  displayName: $translate.instant("VALOR"),headerCellClass: 'text-info', cellFilter: 'currency'},
+          ]
+
+        };
+
         self.cargar_arbol = function() {
           $scope.arbol = [];
           financieraRequest.get("rubro/ArbolRubros/",  $.param({
@@ -66,6 +85,8 @@ angular.module('financieraClienteApp')
           
           switch (operacion) {
               case "ver":
+                  
+                  self.gridOptions.data.length=0;
                   $("#myModal").modal();
                   self.apropiacionsel = null;
                   self.apropiacionsel = nodo;
@@ -82,6 +103,13 @@ angular.module('financieraClienteApp')
                           
                           if (response.data !== null) {
                             self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                          }
+                        });
+                        financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                            self.apropiacionsel.Apropiacion.InfoMovs = response.data;
+                            self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
                           }
                         });
                       }
@@ -122,6 +150,13 @@ angular.module('financieraClienteApp')
                           
                           if (response.data !== null) {
                             self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                          }
+                        });
+                        financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                          
+                          if (response.data !== null) {
+                            self.apropiacionsel.Apropiacion.InfoMovs = response.data;
+                            self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
                           }
                         });
                       }

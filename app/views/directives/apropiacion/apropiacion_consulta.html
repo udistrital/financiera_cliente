@@ -50,6 +50,12 @@
               </ul>
             </li>
             </ul>
+            <div ng-if="d_apropiacionConsulta.gridOptions.data.length != 0">
+              <hr>
+              <h4 class="text-info">{{'MOVIMIENTOS'|translate}}</h4>
+              <div ui-grid="d_apropiacionConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination ui-grid-auto-resize class="myGrid"></div>
+                
+              </div>
             <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion == null" class="alert alert-danger">
               {{'E_AP001'|translate}}
             </div>
