@@ -171,6 +171,7 @@ var text_es = {
     E_MODP005: "No se pudo obtener el saldo de la apropiación origen del movimiento",
     E_MODP006 :"No se Pudo registrar una de las disponibilidades para este movimiento",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
+    E_MODP007: "No se pudo aprobar la solicitud de Modificación Presupuestal",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
     E_OPN_01_1: "Error en la estructura de datos para Crear a OP de Nomina. ",
     E_OPN_01_2: "No se obtuvo Id de la liquidación. ",
