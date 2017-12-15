@@ -44,7 +44,12 @@
             <li><b>{{'INFORMACION_SALDO_APROPIACION'|translate}}</b>
               <ul>
                 <li><b>{{'APROPIACION_INICIAL'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.original | currency}}</li>  
-                <li><b>{{'TOTAL_COMPROMETIDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido | currency}}</li>     
+                <li><b>{{'TOTAL_COMPROMETIDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido | currency}}
+                  <ul>
+                    <li><b>{{'TOTAL_REDUCCIONES'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.reducciones | currency}}</li>
+                  </ul>
+                </li> 
+                <li><b>{{'TOTAL_ADICIONES'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.adiciones | currency}}</li>                  
                 <li><b>{{'TOTAL_ANULADO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido_anulado | currency}}</li>                                                  
                 <li><b>{{'SALDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.saldo | currency}}</li>
               </ul>
