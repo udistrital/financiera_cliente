@@ -252,21 +252,7 @@ angular.module('financieraClienteApp')
         };
 
         //para desarrollo
-        // financieraMidRequest.get('orden_pago_nomina/PreviewCargueMasivoOp',
-        //   $.param({
-        //     idNomina: 5,
-        //     mesLiquidacion: 9,
-        //     anioLiquidacion: 2017,
-        //   })
-        // ).then(function(response) {
-        //   if (response.data.Type == 'error') {
-        //     self.gridOptionsPreliquidacionPersonas.data = {};
-        //     $scope.ouputdataresumencarge = {};
-        //   } else {
-        //     self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
-        //     $scope.ouputdataresumencarge = response.data;
-        //   }
-        // })
+
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
@@ -285,7 +271,7 @@ angular.module('financieraClienteApp')
                 anioLiquidacion: $scope.anoSelect,
               })
             ).then(function(response) {
-              if (response.data.Type == 'error') {
+              if (response.data == null) {
                 self.gridOptionsPreliquidacionPersonas.data = {};
                 $scope.ouputdataresumencarge = {};
                 self.gridOptionsResumenMovimientosContables.data = {};
@@ -295,8 +281,6 @@ angular.module('financieraClienteApp')
                 $scope.ouputdataresumencarge = response.data;
                 self.gridOptionsResumenMovimientosContables.data = response.data.ResumenCargueOp.ResumenContable;
                 self.gridOptionsResumenConceptos.data = response.data.ResumenCargueOp.ResumenPresupuestal;
-
-
               }
             })
           }

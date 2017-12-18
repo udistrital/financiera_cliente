@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $scope, academicaRequest, administrativaPruebasRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -20,7 +20,9 @@ angular.module('financieraClienteApp')
 
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
+            { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('LEGALIZAR'), operacion: 'legalizar', estado: true }
+
         ];
 
         $scope.toggle = function(item, list) {
@@ -186,39 +188,10 @@ angular.module('financieraClienteApp')
                         { from: 2, to: 3 }
                     ];
                     break;
-                case "validar":
-                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
-                        swal(
-                            '',
-                            $translate.instant('SOLICITUD_AVANCE_VALIDADA'),
-                            "warning"
-                        );
-                    } else {
-                        $('#modal_validar').modal('show');
-                    }
+                case "legalizar":
+                    $localStorage.avance = $scope.solicitud;
+                    $location.path('/tesoreria/avances/legalizacion');
                     break;
-                case "necesidad":
-                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
-                        ctrl.solicitud_necesidad();
-                    } else {
-                        swal(
-                            '',
-                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
-                            "warning"
-                        );
-                    }
-                    break;
-                case "aprobar":
-                    if ($scope.solicitud.Estado[0].EstadoAvance.Nombre == "Verificado") {
-
-                        $('#modal_aprobacion').modal('show');
-                    } else {
-                        swal(
-                            '',
-                            $translate.instant('NECESIDAD_SOL_AVANCE_ERR'),
-                            "warning"
-                        );
-                    }
                 case "proceso":
                     $scope.estado = row.entity.Estado[0].EstadoAvance;
                     break;
