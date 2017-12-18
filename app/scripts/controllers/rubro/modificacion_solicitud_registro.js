@@ -106,7 +106,7 @@ angular.module('financieraClienteApp')
               if (response.data.Type === "error"){
                 swal('',$translate.instant(response.data.Code),response.data.Type);
               }else{
-                swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                swal('',$translate.instant(response.data.Code)+ response.data.Body.MovimientoApropiacion.NumeroMovimiento,response.data.Type).then(function(){
                 	$window.location.href = "#/rubro/modificacion_solicitud_consulta"
                 });
               }

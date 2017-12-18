@@ -49,11 +49,15 @@
                 <h4 class="text-info">{{'DATOS_SOLICITUD' | translate}}</h4>
                 <table class="table">
                     <tr>
+                        <th>{{ 'NO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.NumeroMovimiento}}</td>
+                    </tr>
+                    <tr>
                         <th>{{ 'NO_OFICIO' | translate }}: </th>
                         <td>{{modificacionSolicitudConsulta.data.Noficio}}</td>
                     </tr>
                     <tr>
-                        <th>{{ 'Foficio' | translate }}: </th>
+                        <th>{{ 'FECHA_OFICIO' | translate }}: </th>
                         <td>{{modificacionSolicitudConsulta.data.Foficio | date:"yyyy-MM-dd":"UTC"}}</td>
                     </tr>
                     <tr>

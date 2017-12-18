@@ -55,9 +55,10 @@ angular.module('financieraClienteApp')
           //useExternalPagination: true,
           columnDefs : [
             {field: 'Id',             visible : false},
+            {field: 'NumeroMovimiento' ,displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
             {field: 'Noficio' ,displayName: $translate.instant("NO_OFICIO"), cellClass: 'input_center',headerCellClass: 'text-info' },
             {field: 'Foficio',  displayName: $translate.instant("FECHA_OFICIO"), cellClass: 'input_center',headerCellClass: 'text-info' ,cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'},
-            {field: 'Tipo',  displayName: $translate.instant("TIPO"),headerCellClass: 'text-info'},
+            {field: 'Tipo',  displayName: $translate.instant("TIPO_MOVIMIENTO"),headerCellClass: 'text-info'},
             {field: 'CuentaContraCredito',  displayName: $translate.instant("CUENTA_CONTRA_CREDITO"),headerCellClass: 'text-info'},
             {field: 'CuentaCredito',  displayName: $translate.instant("CUENTA_CREDITO"),headerCellClass: 'text-info'},
             {field: 'NumeroDisponibilidad',  displayName: $translate.instant("NO_CDP"),headerCellClass: 'text-info'},
