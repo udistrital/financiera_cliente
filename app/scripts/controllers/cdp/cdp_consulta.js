@@ -26,6 +26,7 @@ angular.module('financieraClienteApp')
                 { field: 'Id', visible: false },
                 { field: 'Vigencia', cellClass: 'input_center', headerCellClass: 'text-info' },
                 { field: 'NumeroDisponibilidad', displayName: 'No.', cellClass: 'input_center', headerCellClass: 'text-info' },
+                { field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre', displayName: $translate.instant("TIPO"), cellClass: 'input_center', headerCellClass: 'text-info' },
                 { field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero', displayName: 'Necesidad No.', cellClass: 'input_center', headerCellClass: 'text-info' },
                 { field: 'FechaRegistro', displayName: 'Fecha de Registro', cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>', headerCellClass: 'text-info' },
                 { field: 'Estado.Nombre', displayName: 'Estado', headerCellClass: 'text-info' },
