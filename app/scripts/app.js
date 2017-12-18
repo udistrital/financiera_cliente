@@ -399,6 +399,11 @@ angular
                 controller: 'EditarCuentaCtrl',
                 controllerAs: 'editarCuenta'
             })
+            .when('/tesoreria/avances/legalizacion', {
+                templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
+                controller: 'LegalizacionCtrl',
+                controllerAs: 'legalizacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
