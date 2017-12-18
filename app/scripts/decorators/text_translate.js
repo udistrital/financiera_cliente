@@ -91,6 +91,7 @@ var text_es = {
     CUENTA_CONTABLE: "Cuenta Contable",
     CUENTA_PADRE: "Cuenta Padre",
     DATOS_NECESIDAD: "Datos de la Necesidad",
+    DATOS_MOVIMIENTO: "Datos del Movimiento Presupuestal",
     DATOS_SOLICITUD_MODIFICACION_PRES: "Datos de la Solicitud",
     DATOS_REG_INGRESO: "Datos para este ingreso",
     DEBITO: "Débito",
