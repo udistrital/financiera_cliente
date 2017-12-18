@@ -62,7 +62,7 @@ angular.module('financieraClienteApp')
             {field: 'CuentaContraCredito',  displayName: $translate.instant("CUENTA_CONTRA_CREDITO"),headerCellClass: 'text-info'},
             {field: 'CuentaCredito',  displayName: $translate.instant("CUENTA_CREDITO"),headerCellClass: 'text-info'},
             {field: 'NumeroDisponibilidad',  displayName: $translate.instant("NO_CDP"),headerCellClass: 'text-info'},
-            {field: 'Valor',  displayName: $translate.instant("VALOR"),headerCellClass: 'text-info', cellFilter: 'currency'},
+            {field: 'Valor',  displayName: $translate.instant("VALOR"),headerCellClass: 'text-info', cellFilter: 'currency', cellClass: 'input_right'},
           ]
 
         };
