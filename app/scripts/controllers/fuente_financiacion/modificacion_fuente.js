@@ -107,7 +107,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 15,
+      paginationPageSize: 10,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),

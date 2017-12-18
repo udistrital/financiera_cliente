@@ -170,8 +170,11 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
               for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
                 self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
               }
+              self.tipo = "Inversión";
             }else{
               self.gridOptionsapropiacion.data=[];
+              self.tipo_fuente=2;
+              self.cambiar_rubro();
             }
             });
 
@@ -201,6 +204,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
               for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
                 self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
               }
+              self.tipo = "Funcionamiento";
             }else{
               self.gridOptionsapropiacion.data=[];
             }
