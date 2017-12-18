@@ -23,6 +23,7 @@ angular.module('financieraClienteApp')
       columnDefs : [
         {field: 'Id',             visible : false},
         {field: 'Vigencia' ,displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info' },
+        {field: 'NumeroMovimiento' ,displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
         {field: 'FechaMovimiento',  displayName: $translate.instant("FECHA_MOVIMIENTO"), cellClass: 'input_center',headerCellClass: 'text-info' ,cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"UTF"}}</span>'},
         {field: 'Noficio',  displayName: $translate.instant("NO_OFICIO"),headerCellClass: 'text-info'},
         {field: 'Foficio',  displayName: $translate.instant("FECHA_OFICIO"),headerCellClass: 'text-info',cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'},
