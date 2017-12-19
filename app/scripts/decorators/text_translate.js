@@ -463,6 +463,7 @@ var text_es = {
     TIPO_EMPLEADO: "Tipo Empleado",
     TIPO_INGRESO: "Tipo de Ingreso",
     TIPO_MODIFICACION: "Tipo de Modificación Presupuestal",
+    TIPO_ORDEN_PAGO: "Tipo Orden Pago",
     TIPO_PERSONA: "Tipo Persona",
     TIPO_NECESIDAD: "Tipo Necesidad",
     TITULO: "GENERATOR-OAS",
