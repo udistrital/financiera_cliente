@@ -22,7 +22,7 @@
     <div class="form-group">
       <label for="tipo_documento" class="col-sm-2 control-label">{{'TIPO_DOCUMENTO' | translate }}</label>
       <div class="col-sm-4">
-        <select ng-model="outputdocumento" ng-options="i.Id as i.Nombre for i in d_detalleParaOpMasivo.documento" class="form-control" required>
+        <select ng-model="outputordenpago.Documento" ng-options="i.Id as i.Nombre for i in d_detalleParaOpMasivo.documento" class="form-control" required>
           <option value="">Seleccionar Documento</option>
         </select>
       </div>
