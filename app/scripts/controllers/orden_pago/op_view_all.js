@@ -174,18 +174,8 @@ angular.module('financieraClienteApp')
 
         // OP Proveedores
         ctrl.op_detalle = function(row) {
-            if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'SEGURIDAD SOCIAL') {
-                var path = "/orden_pago/seguridad_social/ver/";
-                $location.url(path + row.entity.Id);
-            }
-            if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
-                var path = "/orden_pago/proveedor/ver/";
-                $location.url(path + row.entity.Id);
-            }
-            if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PLAN') {
-                var path = "/orden_pago/planta/ver/";
-                $location.url(path + row.entity.Id);
-            }
+            var path = "/orden_pago/proveedor/ver/";
+            $location.url(path + row.entity.Id);
         }
         ctrl.op_editar = function(row) {
                 if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
