@@ -399,6 +399,11 @@ angular
                 controller: 'EditarCuentaCtrl',
                 controllerAs: 'editarCuenta'
             })
+            .when('/homologacion_concepto/homologacion_concepto_ver_todas', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
+              controller: 'HomologacionConceptoVerTodasCtrl',
+              controllerAs: 'homologacionConceptoVerTodas'
+            })
             .otherwise({
                 redirectTo: '/'
             });
