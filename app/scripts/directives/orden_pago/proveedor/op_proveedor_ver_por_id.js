@@ -33,21 +33,35 @@ angular.module('financieraClienteApp')
           if ($scope.opproveedorid != undefined) {
             financieraRequest.get('orden_pago',
               $.param({
-                query: "Id:" + $scope.opproveedorid + ',SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:OP-PROV',
+                query: "Id:" + $scope.opproveedorid,
               })).then(function(response) {
               self.orden_pago = response.data[0];
               $scope.outputopp = response.data[0];
+              // documento
+              self.getDocumento(self.orden_pago);
               // proveedor
-              self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario)
+              self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
               // detalle rp
-              self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id)
+              self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
               // entrada almacen
               if (self.orden_pago.EntradaAlmacen != 0) {
-                self.entradaAlmacen(self.orden_pago.EntradaAlmacen)
+                self.entradaAlmacen(self.orden_pago.EntradaAlmacen);
               }
             });
           }
         })
+        // documento
+        self.getDocumento = function(orden_pago){
+          coreRequest.get('documento',
+            $.param({
+              query: "Id:" + orden_pago.Documento + ",TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True",
+              limit: 1
+            })
+          ).then(function(response) {
+            self.documento = response.data[0];
+          });
+        }
+
         // Function buscamos datos del proveedor que esta en el rp
         self.asignar_proveedor = function(beneficiario_id) {
           agoraRequest.get('informacion_proveedor',

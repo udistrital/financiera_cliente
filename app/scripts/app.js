@@ -393,11 +393,15 @@ angular
                 controller: 'RpRpCargueMasivoCtrl',
                 controllerAs: 'rpCargueMasivo'
             })
-
-        .when('/plan_cuentas/editar_cuenta/:Id', {
+            .when('/plan_cuentas/editar_cuenta/:Id', {
                 templateUrl: 'views/plan_cuentas/editar_cuenta.html',
                 controller: 'EditarCuentaCtrl',
                 controllerAs: 'editarCuenta'
+            })
+            .when('/homologacion_concepto/homologacion_concepto_ver_todas', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
+              controller: 'HomologacionConceptoVerTodasCtrl',
+              controllerAs: 'homologacionConceptoVerTodas'
             })
             .when('/tesoreria/avances/legalizacion', {
                 templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
