@@ -483,6 +483,8 @@ var text_es = {
     S_A01: "Se Rechazo la Solicitud ",
     S_CDP001: "CDP Expedido con el consecutivo:",
     S_A12: "Operación para Anulación correctamente realizada para la solicitud",
+    S_M001: "Indique una justificación por el rechazo",
+    SM002: "Por favor indica una justificación!",
     S_MODP001: "Se registro la solicitud del Modificación presupuestal correctamente Con el Consecutivo No. ",
     S_MODP002: "Solicitud de Modificación Presupuestal Aprobada",
     S_MODP003: "CDP para la Modificación Presupuestal Correctamente Expedido",
