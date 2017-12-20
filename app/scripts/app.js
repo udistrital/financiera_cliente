@@ -393,8 +393,7 @@ angular
                 controller: 'RpRpCargueMasivoCtrl',
                 controllerAs: 'rpCargueMasivo'
             })
-
-        .when('/plan_cuentas/editar_cuenta/:Id', {
+            .when('/plan_cuentas/editar_cuenta/:Id', {
                 templateUrl: 'views/plan_cuentas/editar_cuenta.html',
                 controller: 'EditarCuentaCtrl',
                 controllerAs: 'editarCuenta'
@@ -403,6 +402,21 @@ angular
               templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
               controller: 'HomologacionConceptoVerTodasCtrl',
               controllerAs: 'homologacionConceptoVerTodas'
+            })
+            .when('/tesoreria/avances/legalizacion', {
+                templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
+                controller: 'LegalizacionCtrl',
+                controllerAs: 'legalizacion'
+            })
+            .when('/rubro/modificacion_solicitud_registro', {
+              templateUrl: 'views/rubro/modificacion_solicitud_registro.html',
+              controller: 'RubroModificacionSolicitudRegistroCtrl',
+              controllerAs: 'rubroModificacionSolicitudRegistro'
+            })
+            .when('/rubro/modificacion_solicitud_consulta', {
+              templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
+              controller: 'RubroModificacionSolicitudConsultaCtrl',
+              controllerAs: 'modificacionSolicitudConsulta'
             })
             .otherwise({
                 redirectTo: '/'
