@@ -80,6 +80,9 @@ angular.module('financieraClienteApp')
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>";
       }
+      if (self.OrdenPago.Documento == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_DOCUMENTO') + "</li>";
+      }
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
       }
