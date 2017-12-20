@@ -412,7 +412,7 @@ angular.module('financieraClienteApp')
       var solicitud = self.data;
       $("#myModal").modal('hide');
       swal({
-        title: 'Indique una justificación por el rechazo',
+        title: $translate.instant("S_M001"),
         input: 'textarea',
         showCancelButton: true,
         inputValidator: function(value) {
@@ -420,7 +420,7 @@ angular.module('financieraClienteApp')
             if (value) {
               resolve();
             } else {
-              reject('Por favor indica una justificación!');
+              reject($translate.instant("S_M002"));
             }
           });
         }
