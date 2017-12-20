@@ -24,15 +24,22 @@ angular.module('financieraClienteApp')
       self.fuente_financiamiento_apropiacion = response.data;
     });
 
-
     financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista", 'limit=-1').then(function(response) {
-      self.movimiento_fuente_financiamiento_apropiacion_serv = response.data;
-      console.log(response.data)
+      self.movimiento_fuente_financiamiento_apropiacion_serv1 = response.data;
+    });
+
+    financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteListaFunc", 'limit=-1').then(function(response) {
+      self.movimiento_fuente_financiamiento_apropiacion_serv2 = response.data;
     });
 
     financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
-      self.apropiacion = response.data;
+      self.apropiacion1 = response.data;
     });
+
+    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+      self.apropiacion2 = response.data;
+    });
+
 
     oikosRequest.get("dependencia", 'limit=-1').then(function(response) {
       self.dependencia = response.data;
@@ -52,6 +59,28 @@ angular.module('financieraClienteApp')
       }
 
     });
+
+    self.tipo_fuente_rubro=[
+      {Id: 1 , tipo: "Inversión" },
+      {Id: 2 , tipo: "Funcionamiento"}
+    ];
+
+    self.cambiar_rubro = function(){
+      self.apropiacion=[];
+      self.movimiento_fuente_financiamiento_apropiacion_serv=[];
+      if(self.tipo_fuente_r == 1){
+        self.apropiacion = self.apropiacion1;
+        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv1;
+        self.fuentes_seleccionadas = [];
+        self.fuentes_traslado = [];
+      }else{
+        self.apropiacion = self.apropiacion2;
+        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv2;
+        self.fuentes_seleccionadas = [];
+        self.fuentes_traslado = [];
+      }
+      self.actualizar();
+    };
 
     self.traslado = false;
     self.adicion = false;
@@ -167,9 +196,9 @@ angular.module('financieraClienteApp')
 
     self.mostrar_rubros = function() {
       self.fuentes_traslado = [];
-      for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
-        self.codigo_rubro= self.fuente_financiamiento_apropiacion[i].Apropiacion;
-        if (self.fuente_financiamiento_apropiacion[i].FuenteFinanciamiento.Id == self.adicion_fuente) {
+      for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion_serv.length; i++) {
+        self.codigo_rubro= self.movimiento_fuente_financiamiento_apropiacion_serv[i].FuenteFinanciamientoApropiacion.Apropiacion;
+        if (self.movimiento_fuente_financiamiento_apropiacion_serv[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.adicion_fuente) {
           var repetido = false;
           for (var j = 0; j < self.fuentes_traslado.length; j++) {
             if (self.fuentes_traslado[j].Id == self.codigo_rubro.Id) {
@@ -198,8 +227,6 @@ angular.module('financieraClienteApp')
         }
       }
       self.actualizar();
-      console.log(self.fuentes_traslado);
-
     };
 
     self.agregar_dependencia_general = function(fuentes, id, dependencia, valor, apropiacion, gastado, disponible) {
@@ -280,7 +307,6 @@ angular.module('financieraClienteApp')
     };
 
     self.quitarDependencia = function(fuente, dep) {
-      console.log(fuente, dep);
       for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
         if (self.fuentes_seleccionadas[i].Id == fuente) {
           for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
@@ -433,7 +459,6 @@ angular.module('financieraClienteApp')
             iddependencia: parseInt(self.dependencia_origen)
           })).then(function(response) {
             self.movimiento_taslado = response.data;
-            console.log(response.data)
             self.valor_origen = self.movimiento_taslado.ValorDisponible;
           });
     };
@@ -445,7 +470,6 @@ angular.module('financieraClienteApp')
       self.total_fuente_destino = 0;
       self.total_destino = 0;
 
-      console.log(self.fuentes_traslado)
       for (var i = 0; i < self.fuentes_traslado.length; i++) {
         for (var j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
 
@@ -493,7 +517,6 @@ angular.module('financieraClienteApp')
           traslado: parseInt(self.nueva_fuente_apropiacion.Monto)
         })).then(function(response) {
           self.movimiento_fuente_taslado = response.data;
-          console.log(response.data)
           self.reglas=self.movimiento_fuente_taslado.Trasladar;
           self.monto_traslado();
           if (self.reglas) {
@@ -560,10 +583,6 @@ angular.module('financieraClienteApp')
           self.id = response.data.Id;
           self.asignar_rubros(self.adicion_rubro,self.id);
         });
-
-      swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-        $window.location.href = '#/fuente_financiacion/consulta_fuente';
-      });
     };
 
 
@@ -590,10 +609,8 @@ angular.module('financieraClienteApp')
 
       financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
         self.fuente_financiamiento_apropiacion = response.data;
-        console.log(response.data);
         self.id = response.data.Id;
         self.crear_Movimiento_apropiacion(self.id, valor, self.tipo_fuente,documento);
-        console.log('resul: ' + self.id);
       });
 
     };
@@ -615,13 +632,19 @@ angular.module('financieraClienteApp')
 
       financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
         self.movimiento_fuente_financiamiento_apropiacion_serv = response.data;
-        console.log(response.data);
         self.id_movimiento.push(response.data);
         if (self.traslado && self.id_movimiento.length==2) {
            self.id_movimiento[0].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[1].Id);
            self.id_movimiento[1].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[0].Id);
            self.traslado_movimiento(self.id_movimiento[0]);
            self.traslado_movimiento(self.id_movimiento[1]);
+        }
+        if(response.data){
+          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+            $window.location.href = '#/fuente_financiacion/consulta_fuente';
+          });
+        }else{
+            swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
         }
       });
     };
@@ -644,16 +667,12 @@ angular.module('financieraClienteApp')
         self.crear_fuente_apropiacion( self.fuente_destino, self.adicion_fuente, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto),self.id);
       });
 
-      swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-        $window.location.href = '#/fuente_financiacion/consulta_fuente';
-      });
     };
 
     self.traslado_movimiento = function(movimiento) {
 
       financieraRequest.put("movimiento_fuente_financiamiento_apropiacion", movimiento.Id, movimiento).then(function(response) {
         self.movimiento_fuente_financiamiento_apropiacion_serv = response.data;
-        console.log(response.data);
       });
 
     };
@@ -662,7 +681,6 @@ angular.module('financieraClienteApp')
       $timeout(function() {
         $('.selectpicker').selectpicker('refresh');
       });
-      console.log("si")
     };
     self.actualizar();
 
