@@ -21,7 +21,9 @@ angular.module('financieraClienteApp')
       if (Object.keys(self.DataHomologacion).length > 0 && self.DataHomologacion.TipoLiquidacion != null) {
         self.tipoNominaDeLiquidacion = {};
         self.tipoNominaDeLiquidacion.tipoNomina = self.DataHomologacion.TipoLiquidacion;
-        self.tipoNominaDeLiquidacion.tipoOrdenPago = "HC";
+        self.tipoNominaDeLiquidacion.tipoOrdenPago = "GENERAL";
+      }else{
+        self.tipoNominaDeLiquidacion = {};
       }
     })
 
@@ -33,6 +35,9 @@ angular.module('financieraClienteApp')
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>";
+      }
+      if (self.OrdenPago.Documento == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_DOCUMENTO') + "</li>";
       }
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
