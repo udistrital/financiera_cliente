@@ -30,8 +30,8 @@
                 </div>
             </div>
         </div>
-        <loadingcircle load="load"></loadingcircle>
-        <div ng-if="!load">
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div >
             <div ui-grid="cdpConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
         </div>
     </div>
@@ -51,8 +51,9 @@
                     <div align="right">Fecha de Registro: {{cdpConsulta.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
                 </div>
                 <div class="panel-body">
+                    <div ng-if = "cdpConsulta.cdp.DisponibilidadProcesoExterno[0].TipoDisponibilidad.Id==1">
                     <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
-                    <div>
+                    
                         <table class="table text-justify">
                             <tr>
                                 <th>{{'NECESIDAD_NO' | translate}}: </th>
@@ -85,6 +86,30 @@
                             </tr>
                         </table>
                         <hr>
+                    </div>
+                    <div ng-if = "cdpConsulta.cdp.DisponibilidadProcesoExterno[0].TipoDisponibilidad.Id==2">
+                    <h4 class="text-info">{{'DATOS_MOVIMIENTO' | translate}}</h4>
+                    
+                        <table class="table text-justify">
+                            <tr>
+                                <th>{{'NO' | translate}}: </th>
+                                <td>{{cdpConsulta.cdp.Solicitud.NumeroMovimiento}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{'ESTADO' | translate}}: </th>
+                                <td>{{cdpConsulta.cdp.Estado.Nombre}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{'RESPONSABLE_SELECCION_PRESUPUESTO' | translate}}: </th>
+                                <td>{{cdpConsulta.cdp.Responsable.PrimerApellido + ' ' + cdpConsulta.cdp.Responsable.SegundoApellido + ' ' + cdpConsulta.cdp.Responsable.PrimerNombre + ' '+ cdpConsulta.cdp.Responsable.SegundoNombre + ' '}}</td>
+                            </tr>
+                            <tr>
+                                <th>{{'OBJETO' | translate}}: </th>
+                                <td>{{cdpConsulta.cdp.Solicitud.Descripcion}}</td>
+                            </tr>
+                        </table>
+                        <hr>
+                    </div>
                         <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
                         <fuente-financiacion-cdp cdp="cdpConsulta.cdp.Id" apropiacion="apropiaciones" resumen="cdpConsulta.rubros_afectados"></fuente-financiacion-cdp>
                         <form class="form-ctrl" ng-show="cdpConsulta.anular">
@@ -151,7 +176,8 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    
+                    
                 </div>
             </div>
         </div>

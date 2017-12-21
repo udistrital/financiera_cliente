@@ -131,3 +131,4 @@ angular.module('financieraClienteApp')
     .constant('CONF', {
         GENERAL: conf_pruebas
     });
+
