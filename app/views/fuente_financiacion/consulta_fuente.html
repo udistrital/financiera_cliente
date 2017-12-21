@@ -32,15 +32,15 @@
           <th>{{ 'VALOR' | translate }}: </th>
           <td>{{ consultaFuente.valor_total | currency}}</td>
         </tr>
+        <tr ng-show="consultaFuente.tipo_fuente == 1">
+          <th>{{ 'TIPO' | translate }}: </th>
+          <td>{{ 'INVERSION' | translate }}</td>
+        </tr>
+        <tr ng-show="consultaFuente.tipo_fuente == 2">
+          <th>{{ 'TIPO' | translate }}: </th>
+          <td>{{ 'FUNCIONAMIENTO' | translate }}</td>
+        </tr>
       </table>
-
-      <div class="col-ms-12">
-        <p></p>
-      <label for="">{{'TIPO_FUENTE_FINANCIAMIENTO' | translate }}:</label>
-
-
-        <select data-size="10" title="{{'SELECCIONE_DEPENDENCIA' | translate }}" ng-model="consultaFuente.tipo_fuente" ng-options="n.Id as n.tipo for n in consultaFuente.tipo_fuente_rubro" value={{n.Id}} class="form-control" ng-change ="consultaFuente.cambiar_rubro()"></select>
-      </div>
       <hr>
       <h4 class="text-info">{{'RUBROS' | translate}}</h4>
 

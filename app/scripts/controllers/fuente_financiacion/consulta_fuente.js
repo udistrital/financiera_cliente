@@ -92,15 +92,15 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           displayName: $translate.instant('TIPO_DOCUMENTO')
         },
         {
-          field: 'TipoDocumento.NoDocumento',
+          field: 'TipoDocumento.JsonContenido.Documento.NoDocumento',
           width: '15%',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
           displayName: $translate.instant('FECHA_DOCUMENTO'),
-          field: 'TipoDocumento.FechaDocumento',
+          field: 'TipoDocumento.JsonContenido.Documento.Fecha',
           width: '15%',
-          cellTemplate: '<div align="center">{{row.entity.TipoDocumento.FechaDocumento | date:"yyyy-MM-dd":"UTC"}}</div>'
+          cellTemplate: '<div align="center">{{row.entity.TipoDocumento.JsonContenido.Documento.Fecha | date:"yyyy-MM-dd":"UTC"}}</div>'
         },
         {
           field: 'Valor',
@@ -138,12 +138,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     };
 
 
-
-        self.tipo_fuente_rubro=[
-          {Id: 1 , tipo: "Inversión" },
-          {Id: 2 , tipo: "Funcionamiento"}
-        ];
-
         self.cambiar_rubro = function(){
 
           if(self.tipo_fuente == 1){
@@ -162,6 +156,11 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
               angular.forEach(self.gridOptionsapropiacion.data, function (data) {
                 coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
                   data.TipoDocumento = response.data[0];
+                  data.TipoDocumento.JsonContenido=JSON.parse(data.TipoDocumento.Contenido);
+                  var mydate = new Date(data.TipoDocumento.JsonContenido.Documento.FechaDocumento);
+                  data.TipoDocumento.JsonContenido.Documento.Fecha = mydate;
+                  console.log(data.TipoDocumento.JsonContenido);
+
                 });
               });
               self.valor_total = 0;
@@ -172,6 +171,8 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
               }
             }else{
               self.gridOptionsapropiacion.data=[];
+              self.tipo_fuente=2;
+              self.cambiar_rubro();
             }
             });
 
