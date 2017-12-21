@@ -24,12 +24,13 @@ angular.module('financieraClienteApp')
             useExternalPagination: true,
             columnDefs: [
                 { field: 'Id', visible: false },
-                { field: 'Vigencia', cellClass: 'input_center', headerCellClass: 'text-info' },
-                { field: 'NumeroDisponibilidad', displayName: 'No.', cellClass: 'input_center', headerCellClass: 'text-info' },
-                { field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero', displayName: 'Necesidad No.', cellClass: 'input_center', headerCellClass: 'text-info' },
-                { field: 'FechaRegistro', displayName: 'Fecha de Registro', cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>', headerCellClass: 'text-info' },
-                { field: 'Estado.Nombre', displayName: 'Estado', headerCellClass: 'text-info' },
-                { field: 'Solicitud.DependenciaSolicitante.Nombre', displayName: 'Dependencia Solicitante', headerCellClass: 'text-info' },
+                { field: 'Vigencia', cellClass: 'input_center',displayName: $translate.instant('VIGENCIA'), headerCellClass: 'text-info',enableFiltering: false },
+                { field: 'NumeroDisponibilidad',displayName: $translate.instant('NO'), cellClass: 'input_center', headerCellClass: 'text-info' },
+                { field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre', displayName: $translate.instant("TIPO"), cellClass: 'input_center', headerCellClass: 'text-info' },
+                { field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero',displayName: $translate.instant('NECESIDAD_NO'), cellClass: 'input_center', headerCellClass: 'text-info' ,enableFiltering: false},
+                { field: 'FechaRegistro',displayName: $translate.instant('FECHA_REGISTRO'), cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>', headerCellClass: 'text-info' },
+                { field: 'Estado.Nombre',  displayName: $translate.instant('ESTADO'), headerCellClass: 'text-info' },
+                { field: 'Solicitud.DependenciaSolicitante.Nombre', displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'), headerCellClass: 'text-info',enableFiltering: false },
                 {
                     field: 'Opciones',
                     cellTemplate: '<center>' +
@@ -37,7 +38,8 @@ angular.module('financieraClienteApp')
                         '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
                         ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,true)" >' +
                         '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
-                    headerCellClass: 'text-info'
+                    headerCellClass: 'text-info',
+                    enableFiltering: false
                 }
             ]
 
@@ -279,24 +281,36 @@ angular.module('financieraClienteApp')
         self.gridOptions.onRegisterApi = function(gridApi) {
             gridApi.core.on.filterChanged($scope, function() {
                 var grid = this.grid;
+                var query = '';
                 angular.forEach(grid.columns, function(value, key) {
                     if (value.filters[0].term) {
-                        //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                        
                     }
                 });
+                self.actualizarLista(self.offset, query);
             });
             gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
-                console.log('newPage ' + newPage + ' pageSize ' + pageSize);
-                self.gridOptions.data = {};
+                
+                //self.gridOptions.data = {};
+                
                 var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
                 var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
                 var query = '';
                 if (inicio !== undefined && fin !== undefined) {
                     query = '&rangoinicio=' + inicio + "&rangofin=" + fin;
                 }
-
-                var offset = (newPage - 1) * pageSize;
-                self.actualizarLista(offset, query);
+                var grid = this.grid;
+                angular.forEach(grid.columns, function(value, key) {
+                    if (value.filters[0].term) {
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                       
+                    }
+                });
+                self.offset = (newPage - 1) * pageSize;
+                self.actualizarLista(self.offset, query);
             });
         };
         self.gridOptions_rubros.onRegisterApi = function(gridApi) {
