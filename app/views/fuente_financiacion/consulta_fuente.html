@@ -32,9 +32,13 @@
           <th>{{ 'VALOR' | translate }}: </th>
           <td>{{ consultaFuente.valor_total | currency}}</td>
         </tr>
-        <tr>
+        <tr ng-show="consultaFuente.tipo_fuente == 1">
           <th>{{ 'TIPO' | translate }}: </th>
-          <td>{{ consultaFuente.tipo }}</td>
+          <td>{{ 'INVERSION' | translate }}</td>
+        </tr>
+        <tr ng-show="consultaFuente.tipo_fuente == 2">
+          <th>{{ 'TIPO' | translate }}: </th>
+          <td>{{ 'FUNCIONAMIENTO' | translate }}</td>
         </tr>
       </table>
       <hr>

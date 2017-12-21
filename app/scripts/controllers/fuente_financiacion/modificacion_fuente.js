@@ -570,19 +570,33 @@ angular.module('financieraClienteApp')
     // Registro
     self.adicionar_fuente = function() {
       self.cerrar_ventana();
+      // crea documento
 
-        // crea documento
-        var data = {
-          FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
-          NoDocumento: self.nueva_fuente_apropiacion.no_documento,
-          TipoDocumento: {
-            Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
+      self.contenido = {
+      	  "Documento": {
+            "FechaDocumento" : self.nueva_fuente_apropiacion.fecha_documento,
+            "NoDocumento": self.nueva_fuente_apropiacion.no_documento
           }
+        };
+
+      self.contenido_string=JSON.stringify(self.contenido);
+
+      var data = {
+        Nombre: "prueba",
+        Descripcion: "Descrpción",
+        CodigoAbreviacion: "REG-FUE",
+        Activo: true,
+        Contenido: self.contenido_string,
+        TipoDocumento: {
+          Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
-        coreRequest.post("documento", data).then(function(response) {
-          self.id = response.data.Id;
-          self.asignar_rubros(self.adicion_rubro,self.id);
-        });
+      }
+      console.log(data)
+      coreRequest.post("documento", data).then(function(response) {
+        self.id = response.data.Id;
+        console.log(response.data)
+        self.asignar_rubros(self.adicion_rubro,self.id);
+      });
     };
 
 
@@ -654,9 +668,23 @@ angular.module('financieraClienteApp')
     self.traslado_fuente = function() {
       self.cerrar_ventana();
 
+      // crea documento
+
+      self.contenido = {
+      	  "Documento": {
+            "FechaDocumento" : self.nueva_fuente_apropiacion.fecha_documento,
+            "NoDocumento": self.nueva_fuente_apropiacion.no_documento
+          }
+        };
+
+      self.contenido_string=JSON.stringify(self.contenido);
+
       var data = {
-        FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
-        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
+        Nombre: "prueba",
+        Descripcion: "Descrpción",
+        CodigoAbreviacion: "REG-FUE",
+        Activo: true,
+        Contenido: self.contenido_string,
         TipoDocumento: {
           Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
