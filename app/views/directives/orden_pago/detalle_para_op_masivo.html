@@ -6,30 +6,36 @@
 <div ng-show="d_detalleParaOpMasivo.PestanaAbiertaDetallePago" class="panel-body">
   <div class="form-horizontal">
     <div class="form-group">
+      <label class="control-label col-sm-2">{{'TIPO_ORDEN_PAGO' | translate}}</label>
+      <div class="col-sm-4">
+        <select ng-model="outputordenpago.SubTipoOrdenPago" ng-options="i.Nombre for i in d_detalleParaOpMasivo.subTipoOrdenPago" class="form-control" required>
+          <option value="">Seleccionar Tipo Orden</option>
+        </select>
+      </div>
       <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
       <div class="col-sm-4">
         <select ng-model="outputordenpago.FormaPago" ng-options="i.Nombre for i in d_detalleParaOpMasivo.formaPagos" class="form-control" required>
           <option value="">Seleccionar Forma de Pago</option>
         </select>
       </div>
-      <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+    </div>
+    <div class="form-group">
+      <label for="tipo_documento" class="col-sm-2 control-label">{{'TIPO_DOCUMENTO' | translate }}</label>
       <div class="col-sm-4">
-        <select ng-model="outputordenpago.SubTipoOrdenPago" ng-options="i.Nombre for i in d_detalleParaOpMasivo.subTipoOrdenPago" class="form-control" required>
+        <select ng-model="outputordenpago.Documento" ng-options="i.Id as i.Nombre for i in d_detalleParaOpMasivo.documento" class="form-control" required>
           <option value="">Seleccionar Documento</option>
         </select>
       </div>
-    </div>
-    <div class="form-group">
       <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
       <div class="col-sm-4">
       <input ng-model="outputordenpago.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
       </div>
+    </div>
+    <div class="form-group">
       <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
       <div class="col-sm-4">
         <span class="form-control input_right">1</span>
       </div>
-    </div>
-    <div class="form-group">
       <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
       <div class="col-sm-4">
         <span class="form-control input_right">{{outputordenpago.UnidadEjecutora.Nombre}}</span>
