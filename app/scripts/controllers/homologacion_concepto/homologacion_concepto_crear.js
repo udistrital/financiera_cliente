@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionConceptoCrearCtrl', function($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window, titanRequest) {
+  .controller('HomologacionConceptoCrearCtrl', function($scope, oikosRequest, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window, titanRequest) {
 
     var self = this;
     self.HomologacionConcepto = {};
+    self.HomologacionConcepto.Vigencia = 0;
     self.camposFacultades = false;
 
     titanRequest.get('nomina',
@@ -23,9 +24,8 @@ angular.module('financieraClienteApp')
       self.nominaTitanData = response.data
     })
     //
-    financieraRequest.get('concepto',
+    oikosRequest.get('dependencia_padre/FacultadesConProyectos',
       $.param({
-        query: "Id:73",
         limit: -1
       })
     ).then(function(response) {
@@ -91,8 +91,12 @@ angular.module('financieraClienteApp')
     self.gridConcepto.onRegisterApi = function(gridApi) {
       $scope.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
-        self.ConceptoSelect = $scope.gridApi.selection.getSelectedRows()[0];
-        self.HomologacionConcepto.ConceptoKronos = self.ConceptoSelect.Id;
+        if ($scope.gridApi.selection.getSelectedRows()[0] != undefined) {
+          self.ConceptoSelect = $scope.gridApi.selection.getSelectedRows()[0];
+          self.HomologacionConcepto.ConceptoKronos = self.ConceptoSelect.Id;
+        } else {
+          delete self.HomologacionConcepto['ConceptoKronos'];
+        }
       });
     };
     financieraRequest.get("concepto",
@@ -134,8 +138,13 @@ angular.module('financieraClienteApp')
     self.gridConceptoTitan.onRegisterApi = function(gridApi) {
       $scope.gridApi2 = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
-        self.ConceptoTitanSelect = $scope.gridApi2.selection.getSelectedRows()[0];
-        self.HomologacionConcepto.ConceptoTitan = self.ConceptoTitanSelect.Id;
+        if ($scope.gridApi2.selection.getSelectedRows()[0] != undefined) {
+          self.ConceptoTitanSelect = $scope.gridApi2.selection.getSelectedRows()[0];
+          self.HomologacionConcepto.ConceptoTitan = self.ConceptoTitanSelect.Id;
+        } else {
+          delete self.HomologacionConcepto['ConceptoTitan'];
+        }
+
       });
     };
     titanRequest.get("concepto_nomina",
@@ -148,6 +157,78 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.gridConceptoTitan.data = response.data;
     });
+    // Funcion encargada de validar la obligatoriedad de los campos
+    self.camposObligatorios = function() {
+      self.MensajesAlerta = '';
+      if (self.HomologacionConcepto.NominaTitan == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
+      }
+      if (self.camposFacultades) {
+        if (self.HomologacionConcepto.Facultad == undefined) {
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONAR_FACULTAD') + "</li>";
+        }
+        if (self.HomologacionConcepto.ProyectoCurricular == undefined) {
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONAR_PROYECTO_CURRICULAR') + "</li>";
+        }
+      }
+      if (self.HomologacionConcepto.ConceptoKronos == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + " Kronos </li>";
+      }
+      if (self.HomologacionConcepto.ConceptoTitan == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + " Titan </li>";
+      }
+      if (!self.checkVigencia(self.HomologacionConcepto.Vigencia)) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_VIGENCIA') + "</li>";
+      }
+      // Operar
+      if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    self.checkVigencia = function(p_vigencia) {
+      if (p_vigencia.length != 4) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+    // Registra
+    self.registrarHomologacion = function() {
+      if (self.camposObligatorios()) {
+        self.HomologacionConcepto.Vigencia = parseInt(self.HomologacionConcepto.Vigencia)
+        console.log("registrar");
+        console.log(self.HomologacionConcepto);
+
+        financieraRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
+          .then(function(response) {
+            self.MensajesAlertaSend = '';
+            self.resultado = response.data;
+            console.log("Resultado");
+            console.log(response);
+            console.log("Resultado");
+            // angular.forEach(self.resultado, function(mensaje) {
+            //   self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
+            // })
+            // swal({
+            //   title: $translate.instant('ORDEN_DE_PAGO'),
+            //   html: '<ol align="left">' + self.MensajesAlertaSend + '</ol>',
+            //   type: "success",
+            // }).then(function() {
+            //   $window.location.href = '#/orden_pago/ver_todos';
+            // })
+          })
+
+
+      } else {
+        swal({
+          title: 'Error!',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          type: 'error'
+        })
+      }
+    }
 
 
   });
