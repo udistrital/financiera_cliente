@@ -201,7 +201,7 @@ angular.module('financieraClienteApp')
         console.log("registrar");
         console.log(self.HomologacionConcepto);
 
-        financieraRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
+        financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
           .then(function(response) {
             self.MensajesAlertaSend = '';
             self.resultado = response.data;
