@@ -203,24 +203,18 @@ angular.module('financieraClienteApp')
 
         financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
           .then(function(response) {
-            self.MensajesAlertaSend = '';
             self.resultado = response.data;
             console.log("Resultado");
-            console.log(response);
+            console.log(self.resultado);
             console.log("Resultado");
-            // angular.forEach(self.resultado, function(mensaje) {
-            //   self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
-            // })
-            // swal({
-            //   title: $translate.instant('ORDEN_DE_PAGO'),
-            //   html: '<ol align="left">' + self.MensajesAlertaSend + '</ol>',
-            //   type: "success",
-            // }).then(function() {
-            //   $window.location.href = '#/orden_pago/ver_todos';
-            // })
+            swal({
+              title: $translate.instant('HOMOLOGACION') + " " +$translate.instant('CONCEPTOS'),
+              text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+              type: self.resultado.Type,
+            }).then(function() {
+              $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
+            })
           })
-
-
       } else {
         swal({
           title: 'Error!',
