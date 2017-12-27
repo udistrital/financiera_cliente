@@ -1,0 +1,68 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'NUEVA' | translate }} {{ 'HOMOLOGACION' | translate }} {{ 'CONCEPTO' | translate }}</h2>
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-3">
+        <input ng-model="homologacionConceptoCrear.HomologacionConcepto.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
+      </div>
+      <label for="Nomina" class="col-sm-1 control-label">{{'NOMINA' | translate }}</label>
+      <div class="col-sm-3">
+        <select ng-model="homologacionConceptoCrear.nominaSelect" ng-change="homologacionConceptoCrear.getIdNomina(homologacionConceptoCrear.nominaSelect)" ng-options="i.Descripcion for i in homologacionConceptoCrear.nominaTitanData" class="form-control" required>
+          <option value="">Seleccionar Nomina</option>
+        </select>
+      </div>
+      <label for="Descripcion" class="col-sm-1 control-label">{{'NOMINA' | translate }}   {{'DESCRIPCION' | translate }}  </label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoCrear.nominaSelect.TipoNomina.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group" ng-show="homologacionConceptoCrear.camposFacultades">
+      <label class="control-label col-sm-1">{{'FACULTAD' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="homologacionConceptoCrear.FacultadSelect" ng-change="homologacionConceptoCrear.getIdFacultad(homologacionConceptoCrear.FacultadSelect)" ng-options="i.Nombre for i in homologacionConceptoCrear.facultades" class="form-control" required>
+          <option value="">Seleccionar Facultad</option>
+        </select>
+      </div>
+      <label class="control-label col-sm-1">{{'PROYECTO_CURRICULAR' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="homologacionConceptoCrear.ProyectoCurricularSelect" ng-change="homologacionConceptoCrear.getIdProyectoCurricular(homologacionConceptoCrear.ProyectoCurricularSelect)" ng-options="i.Nombre for i in homologacionConceptoCrear.FacultadSelect.Opciones"
+          class="form-control" required>
+          <option value="">Seleccionar Facultad</option>
+        </select>
+      </div>
+    </div>
+    <pre>{{homologacionConceptoCrear.HomologacionConcepto | json}}</pre>
+
+
+    <div class="form-group">
+      <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Kronos:</label>
+    </div>
+    <div class="form-group">
+      <span class="col-sm-1"></span>
+      <div class=" col-sm-11">
+        <div ui-grid="homologacionConceptoCrear.gridConcepto" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Titan:</label>
+    </div>
+    <div class="form-group">
+      <span class="col-sm-1"></span>
+      <div class=" col-sm-11">
+        <div ui-grid="homologacionConceptoCrear.gridConceptoTitan" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div align="center">
+      <a ng-href="#/homologacion_concepto/homologacion_concepto_ver_todas" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
+        << {{ 'BTN.REGRESAR' | translate }} </a>
+          <button class="btn btn-primary" ng-click="homologacionConceptoCrear.registrarHomologacion()">Registrar</button></center>
+    </div>
+  </div>
+
+
+</div>

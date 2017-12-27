@@ -403,6 +403,11 @@ angular
               controller: 'HomologacionConceptoVerTodasCtrl',
               controllerAs: 'homologacionConceptoVerTodas'
             })
+            .when('/homologacion_concepto/homologacion_concepto_crear', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_crear.html',
+              controller: 'HomologacionConceptoCrearCtrl',
+              controllerAs: 'homologacionConceptoCrear'
+            })
             .when('/tesoreria/avances/legalizacion', {
                 templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
                 controller: 'LegalizacionCtrl',
