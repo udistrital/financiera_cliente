@@ -423,6 +423,11 @@ angular
               controller: 'RubroModificacionSolicitudConsultaCtrl',
               controllerAs: 'modificacionSolicitudConsulta'
             })
+            .when('/homologacion_concepto/homologacion_concepto_ver_por_id', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
+              controller: 'HomologacionConceptoHomologacionConceptoVerPorIdCtrl',
+              controllerAs: 'homologacionConcepto/homologacionConceptoVerPorId'
+            })
             .otherwise({
                 redirectTo: '/'
             });
