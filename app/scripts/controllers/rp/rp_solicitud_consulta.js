@@ -295,7 +295,7 @@ angular.module('financieraClienteApp')
           }).then(function(){
             
             $("#myModal").modal('hide');
-            self.actualizar_solicitudes(0,'');
+            //self.actualizar_solicitudes(0,'');
           });
           /*angular.forEach(self.alerta_registro_rp, function(data){
 

@@ -64,7 +64,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: false,
       paginationPageSizes: [5, 10, 15],
-      paginationPageSize: 15,
+      paginationPageSize: 10,
 
       columnDefs: [{
           displayName: $translate.instant('CODIGO'),
@@ -310,15 +310,30 @@ angular.module('financieraClienteApp')
 
     self.crear_documento =function(){
       // crea documento
+
+      self.contenido = {
+      	  "Documento": {
+            "FechaDocumento" : self.nueva_fuente_apropiacion.fecha_documento,
+            "NoDocumento": self.nueva_fuente_apropiacion.no_documento
+          }
+        };
+
+      self.contenido_string=JSON.stringify(self.contenido);
+
       var data = {
-        FechaDocumento: self.nueva_fuente_apropiacion.fecha_documento,
-        NoDocumento: self.nueva_fuente_apropiacion.no_documento,
+        Nombre: "prueba",
+        Descripcion: "Descrpción",
+        CodigoAbreviacion: "REG-FUE",
+        Activo: true,
+        Contenido: self.contenido_string,
         TipoDocumento: {
           Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
       }
+      console.log(data)
       coreRequest.post("documento", data).then(function(response) {
         self.id = response.data.Id;
+        console.log(response.data)
         self.crear_fuente(self.id);
       });
     };

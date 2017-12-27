@@ -7,7 +7,7 @@
 
               <ul ng-repeat="fuente in item">
 
-                <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Descripcion + " "}}
+                <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Nombre + " "}}
                   <ul>
                     <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
                     <li><b>{{'TOTAL_COMPROMETIDO' | translate}}:</b> {{" "+fuente.Comprometido|currency}}</li>
