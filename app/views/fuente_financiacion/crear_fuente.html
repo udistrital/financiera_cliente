@@ -81,19 +81,6 @@
 
           <p></p>
 
-
-          <div class="col-md-6">
-
-          </div>
-
-          <div class="col-md-12">
-            <p></p>
-
-            <button ng-click='crearFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
-
-          </div>
-          <label for="espacio"></label>
-
         </div>
       </div>
     </div>
@@ -168,6 +155,26 @@
           </div>
 
         </div>
+
+      </div>
+
+      <div class="col-md-1">
+
+      </div>
+
+      <div class="panel panel-success col-md-10" ng-show="crearFuente.rubros_seleccionados.length > 0">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">{{'CREAR_FUENTE' | translate }} </h3>
+        </div>
+
+          <div class="panel-body">
+            <div class="col-md-12">
+              <button ng-click='crearFuente.comprobar_fuente()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
+
+            </div>
+
+          </div>
 
       </div>
 
