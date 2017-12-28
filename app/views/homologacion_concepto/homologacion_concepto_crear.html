@@ -59,8 +59,10 @@
   <div class="panel-footer">
     <div align="center">
       <a ng-href="#/homologacion_concepto/homologacion_concepto_ver_todas" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
-        << {{ 'BTN.REGRESAR' | translate }} </a>
-          <button class="btn btn-primary" ng-click="homologacionConceptoCrear.registrarHomologacion()">Registrar</button></center>
+        <i data-toggle="tooltip"  class="glyphicon glyphicon-backward faa-shake animated-hover" aria-hidden="true"></i>
+        {{ 'BTN.REGRESAR' | translate }}
+      </a>
+      <button class="btn btn-primary" ng-click="homologacionConceptoCrear.registrarHomologacion()">Registrar</button></center>
     </div>
   </div>
 
