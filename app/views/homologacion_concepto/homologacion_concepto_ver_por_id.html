@@ -1,0 +1,58 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center"> {{ 'HOMOLOGACION' | translate }} {{ 'CONCEPTO' | translate }}</h2>
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-3">
+        <span class="form-control">{{homologacionConceptoVerPorId.homologacionConcepto.Vigencia}}</span>
+      </div>
+      <label for="Nomina" class="col-sm-1 control-label">{{'NOMINA' | translate }}</label>
+      <div class="col-sm-3">
+        <span class="form-control">{{homologacionConceptoVerPorId.NominaTitanData.Descripcion}}</span>
+      </div>
+      <label for="Descripcion" class="col-sm-1 control-label">{{'NOMINA' | translate }}   {{'DESCRIPCION' | translate }}  </label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoVerPorId.NominaTitanData.TipoNomina.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'FACULTAD' | translate}}</label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoVerPorId.FacultadData.Nombre}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'PROYECTO_CURRICULAR' | translate}}</label>
+      <div class="col-sm-7">
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoVerPorId.ProyectoCurricularData.Nombre}}</textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'CONCEPTO' | translate }} Kronos:</label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoVerPorId.homologacionConcepto.ConceptoKronos.Codigo}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'NOMBRE' | translate }} {{'CONCEPTO' | translate }} Kronos:</label>
+      <div class="col-sm-7">
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoVerPorId.homologacionConcepto.ConceptoKronos.Nombre}}</textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'CONCEPTO' | translate }} Titan:</label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoVerPorId.ConceptoTitanData.Id}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'NOMBRE' | translate }} {{'CONCEPTO' | translate }} Titan:</label>
+      <div class="col-sm-7">
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoVerPorId.ConceptoTitanData.NombreConcepto}}</textarea>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div align="center">
+        <a ng-href="#/homologacion_concepto/homologacion_concepto_ver_todas" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
+          << {{ 'BTN.REGRESAR' | translate }} </a>
+      </div>
+    </div>
+
+  </div>

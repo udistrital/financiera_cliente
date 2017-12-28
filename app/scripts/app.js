@@ -408,6 +408,11 @@ angular
               controller: 'HomologacionConceptoCrearCtrl',
               controllerAs: 'homologacionConceptoCrear'
             })
+            .when('/homologacion_concepto/ver/:Id', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
+              controller: 'HomologacionConceptoVerPorIdCtrl',
+              controllerAs: 'homologacionConceptoVerPorId'
+            })
             .when('/tesoreria/avances/legalizacion', {
                 templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
                 controller: 'LegalizacionCtrl',
