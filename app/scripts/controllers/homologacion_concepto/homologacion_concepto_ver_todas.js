@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionConceptoVerTodasCtrl', function($scope, financieraRequest, $window, $translate, financieraMidRequest, titanRequest, agoraRequest, coreRequest, uiGridConstants) {
+  .controller('HomologacionConceptoVerTodasCtrl', function($scope, financieraRequest, $window, $location, $translate, financieraMidRequest, titanRequest, agoraRequest, coreRequest, uiGridConstants) {
     var self = this;
     $scope.tipos_nomina = [];
 
@@ -68,7 +68,7 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '5%',
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
+            '<a class="ver" ng-click="grid.appScope.homologacionConceptoVerTodas.detalle(row)">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
@@ -112,7 +112,6 @@ angular.module('financieraClienteApp')
         order: "asc",
       })
     ).then(function(response) {
-      console.log(response.data);
       angular.forEach(response.data, function(tipo) {
         $scope.tipos_nomina.push({
           value: tipo.Nombre,
@@ -120,5 +119,10 @@ angular.module('financieraClienteApp')
         });
       });
     });
+    //Operacion de botones
+    self.detalle = function(row){
+      var path = "/homologacion_concepto/ver/"
+      $location.url(path + row.entity.Id)
+    }
 
   });
