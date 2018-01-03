@@ -70,7 +70,7 @@ angular.module('financieraClienteApp')
           cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.homologacionConceptoVerTodas.detalle(row)">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
+            '<a class="editar" ng-click="grid.appScope.homologacionConceptoVerTodas.editar(row);" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
             '</center>'
         }
@@ -122,6 +122,10 @@ angular.module('financieraClienteApp')
     //Operacion de botones
     self.detalle = function(row){
       var path = "/homologacion_concepto/ver/"
+      $location.url(path + row.entity.Id)
+    }
+    self.editar = function(row){
+      var path = "/homologacion_concepto/actualizar/"
       $location.url(path + row.entity.Id)
     }
 
