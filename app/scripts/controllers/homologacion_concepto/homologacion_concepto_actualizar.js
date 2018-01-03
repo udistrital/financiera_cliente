@@ -229,5 +229,28 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.gridConceptoTitan.data = response.data;
     });
+    // ===============
+    // Actualizar
+    // ===============
+    self.actualizarHomologacion = function() {
+      self.homologacionConceptoData.Vigencia = parseInt(self.homologacionConceptoData.Vigencia)
+      console.log("Actualizar");
+      console.log(self.homologacionConceptoData);
 
+      // financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
+      //   .then(function(response) {
+      //     self.resultado = response.data;
+      //     console.log("Resultado");
+      //     console.log(self.resultado);
+      //     console.log("Resultado");
+      //     swal({
+      //       title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
+      //       text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+      //       type: self.resultado.Type,
+      //     }).then(function() {
+      //       $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
+      //     })
+      //   })
+    }
+    //
   });
