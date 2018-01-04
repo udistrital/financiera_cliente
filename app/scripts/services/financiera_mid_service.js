@@ -17,9 +17,11 @@ angular.module('financieraMidService', [])
      * # financieraMidService
      * Fabrica sobre la cual se consumen los servicios proveidos por el API de financiera sobre los metodos GET, POST, PUT y DELETE
      */
-    .factory('financieraMidRequest', function($http, CONF) {
+    .factory('financieraMidRequest', function($http, $q,CONF) {
         // Service logic
         var path = CONF.GENERAL.FINANCIERA_MID_SERVICE;
+        var cancelSearch ; //defer object
+        var promise;
         // Public API here
         return {
             /**
@@ -32,7 +34,8 @@ angular.module('financieraMidService', [])
              * @description Metodo GET del servicio
              */
             get: function(tabla, params) {
-                return $http.get(path + tabla + "/?" + params);
+                cancelSearch = $q.defer(); //create new defer for new request
+                return $http.get(path+tabla+"/?"+params,{timeout:cancelSearch.promise});
             },
             /**
              * @ngdoc function
@@ -70,6 +73,12 @@ angular.module('financieraMidService', [])
              */
             delete: function(tabla, id) {
                 return $http.delete(path + tabla + "/" + id);
+            },
+            cancel: function(){
+                if (cancelSearch != undefined){
+                    return cancelSearch.resolve('search aborted');
+                }
+                return null
             }
         };
     });
