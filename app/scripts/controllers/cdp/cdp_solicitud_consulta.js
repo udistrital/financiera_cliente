@@ -27,8 +27,8 @@ angular.module('financieraClienteApp')
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
         {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
-        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),headerCellClass: 'text-info'},
-        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),headerCellClass: 'text-info'},
+        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),headerCellClass: 'text-info',enableFiltering : false},
+        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),headerCellClass: 'text-info',enableFiltering : false},
         {field: 'SolicitudDisponibilidad.Vigencia', displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info'},
         {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: $translate.instant("FECHA_REGISTRO") , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>', headerCellClass: 'text-info'},
         {
@@ -39,25 +39,49 @@ angular.module('financieraClienteApp')
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
           headerCellClass: 'text-info'
       }
-      ],
-      onRegisterApi : function( gridApi ){
-        gridApi.core.on.filterChanged($scope, function() {
-          var grid = this.grid;
-          angular.forEach(grid.columns, function(value, key) {
-              if(value.filters[0].term) {
-                  //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
-              }
-          });
-        });
-        gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
-          console.log('newPage '+newPage+' pageSize '+pageSize);
-          self.gridOptions.data = {};
-          var offset = (newPage-1)*pageSize;
-          self.cragarDatos(offset,query);
-        });
-        }
-
+      ]
     };
+    self.gridOptions.onRegisterApi = function(gridApi) {
+            self.gridApi = gridApi;
+            self.gridApi.core.on.filterChanged($scope, function() {
+                var grid = this.grid;
+                var query = '';
+                angular.forEach(grid.columns, function(value, key) {
+                    if (value.filters[0].term) {
+
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        if (query === ''){
+                          query = formtstr + '__icontains:' + value.filters[0].term ;
+                        }else{
+                          query = query+','+formtstr + '__icontains:' + value.filters[0].term ;
+                        }
+                    }
+                });
+                self.offset=0;
+                self.cragarDatos(self.offset,query);
+            });
+            self.gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
+
+                //self.gridOptions.data = {};
+                console.log("change p");
+                var query = '';
+                var grid = this.grid;
+                angular.forEach(grid.columns, function(value, key) {
+                    if (value.filters[0].term) {
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        if (query === ''){
+                          query = formtstr + '__icontains:' + value.filters[0].term ;
+                        }else{
+                          query = query+','+formtstr + '__icontains:' + value.filters[0].term ;
+                        }
+
+                    }
+                });
+                self.offset = (newPage - 1) * pageSize;
+                self.cragarDatos(self.offset,query);   
+            });
+            self.gridOptions.totalItems = 50000;
+};
     self.UnidadEjecutora = 1;
     financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
@@ -106,6 +130,7 @@ angular.module('financieraClienteApp')
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
       var query = '';
       if (inicio !== undefined && fin !== undefined) {
+        financieraMidRequest.cancel();
         financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
           UnidadEjecutora: self.UnidadEjecutora,
           rangoinicio: inicio,
@@ -121,6 +146,7 @@ angular.module('financieraClienteApp')
   
         });
       }else{
+        financieraMidRequest.cancel();
         financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
           UnidadEjecutora: self.UnidadEjecutora,
           offset: offset
@@ -231,7 +257,7 @@ angular.module('financieraClienteApp')
      $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
       
        
-        //self.cragarDatos(0,'');
+        self.cragarDatos(0,'');
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
