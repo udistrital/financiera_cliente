@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpCargueMasivoCtrl', function ($scope, $filter, $translate, $window,$q, financieraMidRequest, argoRequest, financieraRequest, oikosRequest) {
+  .controller('RpRpCargueMasivoCtrl', function ($scope, $filter, $translate, $window,$q, financieraMidRequest, argoRequest,agoraRequest, financieraRequest, oikosRequest) {
     var self = this;
     self.aprovarMasivo = false;
     
@@ -150,8 +150,8 @@ angular.module('financieraClienteApp')
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
       self.data = row.entity;
-      financieraRequest.get('compromiso/' + self.data.Compromiso, '').then(function(response) {
-        self.data.InfoCompromiso = response.data;
+      agoraRequest.get('informacion_proveedor/' + self.data.Proveedor, '').then(function(response) {
+        self.data.DatosProveedor = response.data;
       });
       self.afectacion_pres = self.data.Rubros;
       console.log("------------------------");
@@ -267,8 +267,9 @@ angular.module('financieraClienteApp')
           Vigencia: self.cargueMasivo[i].DatosDisponibilidad.Vigencia,
           Responsable: self.cargueMasivo[i].DatosDisponibilidad.Responsable,
           Estado: estado,
-          Beneficiario: self.cargueMasivo[i].DatosProveedor.Id,
-          Compromiso: self.cargueMasivo[i].DatosCompromiso,
+          Beneficiario: self.cargueMasivo[i].Proveedor,
+          TipoCompromiso: self.cargueMasivo[i].DatosCompromiso,
+          NumeroCompromiso: self.cargueMasivo[i].NumeroCompromiso,
           Solicitud: self.cargueMasivo[i].Id,
           DatosSolicitud: self.cargueMasivo[i]
         };

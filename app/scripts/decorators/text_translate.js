@@ -65,6 +65,7 @@ var text_es = {
     MSN_DEBE_FORMA_VIGENCIA: "El formato para la vigencia es AAAA",
     COMPANIA: "Compañía",
     COMPROMISO: "Compromiso",
+    COMPROMISO_NO: "Compromiso No.",
     COMPROMISOS: "Compromisos",
     CONCEPTO: "Concepto",
     CONCEPTOS: "Conceptos",

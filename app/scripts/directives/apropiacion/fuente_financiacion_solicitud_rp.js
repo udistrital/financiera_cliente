@@ -59,6 +59,7 @@ angular.module('financieraClienteApp')
 
               });
               $scope.afectacion = self.resumen_afectacion_presupuestal;
+              console.log("resumen rubros rp sol:");
 console.log(self.resumen_afectacion_presupuestal);
 
           }

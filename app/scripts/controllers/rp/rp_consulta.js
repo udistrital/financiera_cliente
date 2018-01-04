@@ -139,6 +139,7 @@ angular.module('financieraClienteApp')
         }else{
           console.log(response.data);
           self.gridOptions.data = response.data;
+          console.log(response.data);
         }
         self.cargandoDatosPagos = false;
       });
