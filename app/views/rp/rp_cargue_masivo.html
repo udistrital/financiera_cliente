@@ -97,35 +97,39 @@
             <div class="panel-body">
                 <table class="table ">
                     <tr>
-                        <th>CDP No: </th>
+                        <th>{{'NO_CDP' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosDisponibilidad.NumeroDisponibilidad}}</td>
                     </tr>
                     <tr>
-                        <th>Necesidad No: </th>
+                        <th>{{'NECESIDAD_NO' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosDisponibilidad.DatosNecesidad.Numero}}</td>
                     </tr>
                     <tr>
-                        <th>Beneficiario: </th>
+                        <th>{{'BENEFECIARIO' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosProveedor.NomProveedor}}</td>
                     </tr>
                     <tr>
-                        <th>Tipo Persona: </th>
+                        <th>{{'TIPO_PERSONA' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosProveedor.Tipopersona}}</td>
                     </tr>
                     <tr>
-                        <th>No. Documento: </th>
+                        <th>{{'NO_DOCUMENTO' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosProveedor.NumDocumento}}</td>
                     </tr>
                     <tr>
-                        <th>Compromiso: </th>
-                        <td>{{rpCargueMasivo.data.InfoCompromiso.Id+" / "+rpCargueMasivo.data.InfoCompromiso.Objeto}}</td>
+                        <th>Tipo Compromiso: </th>
+                        <td>{{rpCargueMasivo.data.DatosCompromiso.Id+" / "+rpCargueMasivo.data.DatosCompromiso.Objeto}}</td>
                     </tr>
                     <tr>
-                        <th>Modalidad de selección: </th>
+                        <th>No. Compromiso: </th>
+                        <td>{{rpCargueMasivo.data.NumeroCompromiso}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Id+" / "+rpCargueMasivo.data.DatosDisponibilidad.DatosNecesidad.ModalidadSeleccion.Nombre}}</td>
                     </tr>
                     <tr>
-                        <th>Objeto: </th>
+                        <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th>
                         <td>{{rpCargueMasivo.data.DatosDisponibilidad.DatosNecesidad.Objeto}}</td>
                     </tr>
                 </table>
