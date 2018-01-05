@@ -100,7 +100,7 @@
                                 <i class="fa fa-sign-in fa-fw"></i> {{token_service.token.sub}}</a>
                             </a>
                         </li>
-                        <li><a><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a ng-click="token_service.valid_token()"><i class="fa fa-gear fa-fw"></i> Refresh</a>
                         </li>
                         <li class="divider"></li>
                         <li><a ng-click="signOut(); token_service.logout() "><i class="fa fa-sign-out fa-fw"></i> Logout</a>
