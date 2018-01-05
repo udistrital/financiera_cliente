@@ -35,6 +35,7 @@ angular.module('financieraClienteApp')
     self.getIdNomina = function(nominaSelect) {
       if (nominaSelect != undefined) {
         self.HomologacionConcepto.NominaTitan = nominaSelect.Id;
+
         if (nominaSelect.TipoNomina.Nombre == 'HCS') {
           self.camposFacultades = true;
         } else {

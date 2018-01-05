@@ -1,0 +1,97 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'ACTUALIZAR' | translate }}  {{ 'HOMOLOGACION' | translate }} {{ 'CONCEPTO' | translate }}</h2>
+
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-3">
+        <span class="form-control">{{homologacionConceptoActualizar.homologacionConceptoData.Vigencia}}</span>
+      </div>
+      <label for="Nomina" class="col-sm-1 control-label">{{'NOMINA' | translate }}</label>
+      <div class="col-sm-3">
+        <select
+          ng-model="homologacionConceptoActualizar.NominaTitanData"
+          ng-options="i.Descripcion for i in homologacionConceptoActualizar.selectNominaTitan track by i.Descripcion"
+          ng-change="homologacionConceptoActualizar.getIdNomina(homologacionConceptoActualizar.NominaTitanData)"
+          class="form-control" required>
+        </select>
+      </div>
+      <label for="Descripcion" class="col-sm-1 control-label">{{'NOMINA' | translate }}   {{'DESCRIPCION' | translate }}  </label>
+      <div class="col-sm-3">
+        <span class="form-control ">{{homologacionConceptoActualizar.NominaTitanData.TipoNomina.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group" ng-show="homologacionConceptoActualizar.camposFacultades">
+      <label class="control-label col-sm-1">{{'FACULTAD' | translate}}</label>
+      <div class="col-sm-3">
+        <select
+          ng-model="homologacionConceptoActualizar.FacultadData"
+          ng-options="i.Nombre for i in homologacionConceptoActualizar.selectFacultades track by i.Nombre"
+          ng-change="homologacionConceptoActualizar.getIdFacultad(homologacionConceptoActualizar.FacultadData)"
+          class="form-control" required>
+        </select>
+      </div>
+      <label class="control-label col-sm-1">{{'PROYECTO_CURRICULAR' | translate}}</label>
+      <div class="col-sm-7">
+        <select
+          ng-model="homologacionConceptoActualizar.ProyectoCurricularData"
+          ng-options="i.Nombre for i in homologacionConceptoActualizar.selectProyectoCurriculares track by i.Nombre"
+          ng-change="homologacionConceptoActualizar.getIdProyectoCurricular(homologacionConceptoActualizar.ProyectoCurricularData)"
+          class="form-control" required>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'CONCEPTO' | translate }} Kronos:</label>
+      <div class="col-sm-3">
+        <span class="form-control" readonly="">{{homologacionConceptoActualizar.homologacionConceptoData.ConceptoKronos.Codigo}}</span>
+      </div>
+      <label class="control-label col-sm-1" >{{'NOMBRE' | translate }} {{'CONCEPTO' | translate }} Kronos:</label>
+      <div class="col-sm-7">
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoActualizar.homologacionConceptoData.ConceptoKronos.Nombre}}</textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'CONCEPTO' | translate }} Titan:</label>
+      <div class="col-sm-3">
+        <span class="form-control" readonly="">{{homologacionConceptoActualizar.ConceptoTitanData.Id}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'NOMBRE' | translate }} {{'CONCEPTO' | translate }} Titan:</label>
+      <div class="col-sm-7">
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoActualizar.ConceptoTitanData.NombreConcepto}}</textarea>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Kronos:</label>
+    </div>
+    <div class="form-group">
+      <span class="col-sm-1"></span>
+      <div class=" col-sm-11">
+        <div ui-grid="homologacionConceptoActualizar.gridConcepto" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Titan:</label>
+    </div>
+    <div class="form-group">
+      <span class="col-sm-1"></span>
+      <div class=" col-sm-11">
+        <div ui-grid="homologacionConceptoActualizar.gridConceptoTitan" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+      </div>
+    </div>
+    <pre>{{homologacionConceptoActualizar.homologacionConceptoData | json }}</pre>
+    <div class="panel-footer">
+      <div align="center">
+        <a ng-href="#/homologacion_concepto/homologacion_concepto_ver_todas" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
+          <i data-toggle="tooltip"  class="glyphicon glyphicon-backward faa-shake animated-hover" aria-hidden="true"></i>
+          {{ 'BTN.REGRESAR' | translate }}
+        </a>
+          <button class="btn btn-primary" ng-click="homologacionConceptoActualizar.actualizarHomologacion()">{{ 'BTN.ACTUALIZAR' | translate }}</button></center>
+      </div>
+    </div>
+
+  </div>
