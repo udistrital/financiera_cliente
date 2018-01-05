@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 /**
  * @ngdoc function
@@ -62,9 +62,6 @@ angular.module('financieraClienteApp')
           self.ProyectoCurricularData = response.data[0];
         })
       })
-
     })
-
-
     //
   });

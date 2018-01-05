@@ -159,7 +159,7 @@ angular.module('financieraClienteApp')
           cellTemplate: '<center>' +
             '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.d_opListarTodas.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
+            '<a class="editar" ng-click="grid.appScope.opViewAll.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
             '</center>'
         }
@@ -189,9 +189,8 @@ angular.module('financieraClienteApp')
           iterador.Proveedor = response.data[0];
         });
       });
-      // data proveedor
     });
-    // data tipos para filtros
+    // datos tipos OP para filtros
     financieraRequest.get("tipo_orden_pago",
       $.param({
         sortby: "NumeroOrden",
@@ -206,7 +205,7 @@ angular.module('financieraClienteApp')
         });
       });
     });
-    // dato de filtros para el estado
+    // datos de filtros para el estado
     financieraRequest.get("estado_orden_pago", $.param({
         sortby: "NumeroOrden",
         limit: -1,
