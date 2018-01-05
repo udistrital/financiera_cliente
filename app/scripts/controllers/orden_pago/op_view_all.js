@@ -171,7 +171,6 @@ angular.module('financieraClienteApp')
       $location.url(path + row.entity.Id);
     }
     ctrl.op_editar = function(row) {
-      console.log(row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion);
       if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
         var path_update = "/orden_pago/proveedor/actualizar/";
         $location.url(path_update + row.entity.Id);
@@ -190,9 +189,8 @@ angular.module('financieraClienteApp')
           iterador.Proveedor = response.data[0];
         });
       });
-      // data proveedor
     });
-    // data tipos para filtros
+    // datos tipos OP para filtros
     financieraRequest.get("tipo_orden_pago",
       $.param({
         sortby: "NumeroOrden",
@@ -207,7 +205,7 @@ angular.module('financieraClienteApp')
         });
       });
     });
-    // dato de filtros para el estado
+    // datos de filtros para el estado
     financieraRequest.get("estado_orden_pago", $.param({
         sortby: "NumeroOrden",
         limit: -1,
