@@ -70,7 +70,7 @@ var conf_pruebas = {
     ADMINISTRATIVA_MID_SERVICE: "http://10.20.0.254/administrativa_mid_api/v1/",
     ADMINISTRATIVA_SERVICE: "http://10.20.0.254/administrativa_amazon_api/v1/",
     ADMINISTRATIVA_PRUEBAS_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
-    AGORA_SERVICE: "http://10.20.0.254/agora_api/v1/",
+    AGORA_SERVICE: "http://10.20.0.254/administrativa_amazon_api/v1/",
     ARGO_SERVICE: "http://10.20.0.254/administrativa_api/v1/",
     ARKA_SERVICE: "http://10.20.0.254/arka_api_crud/v1/",
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
