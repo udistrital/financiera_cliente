@@ -9,7 +9,10 @@
                         <div class="col-md-4 col-md-offset-1">
                             <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
                             <br>
-                            <input type="text" name="select_vigencia" disabled="true" ng-model="modificacionSolicitudConsulta.Vigencia" class="form-control">
+                            <!--input type="text" name="select_vigencia" disabled="true" ng-model="modificacionSolicitudConsulta.Vigencia" class="form-control"-->
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="modificacionSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                              <option ng-repeat="option in modificacionSolicitudConsulta.years" value="{{option}}">{{option}}</option>
+                            </select>
                         </div>
                         <div class="col-md-3">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
