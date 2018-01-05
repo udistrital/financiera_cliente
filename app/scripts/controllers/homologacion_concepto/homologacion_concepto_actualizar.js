@@ -59,7 +59,7 @@ angular.module('financieraClienteApp')
           self.FacultadData = response.data[0];
           self.homologacionConceptoData.Facultad = self.FacultadData.Id;
           // select de proyectos curriculares
-          oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id, ).then(function(response) {
+          oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id).then(function(response) {
             self.selectProyectoCurriculares = response.data;
           });
         });
