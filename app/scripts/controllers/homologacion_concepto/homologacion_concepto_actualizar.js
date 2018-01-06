@@ -49,30 +49,32 @@ angular.module('financieraClienteApp')
           limit: 1
         })
       ).then(function(response) {
-        self.ConceptoFaculatadProyecto = response.data[0];
-        // data proyecto y Facultad
-        oikosRequest.get('dependencia',
-          $.param({
-            query: "Id:" + self.ConceptoFaculatadProyecto.Facultad,
-            limit: 1
-          })
-        ).then(function(response) {
-          self.FacultadData = response.data[0];
-          self.homologacionConceptoData.Facultad = self.FacultadData.Id;
-          // select de proyectos curriculares
-          oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id).then(function(response) {
-            self.selectProyectoCurriculares = response.data;
+        if (response.data != null) {
+          self.ConceptoFaculatadProyecto = response.data[0];
+          // data proyecto y Facultad
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.Facultad,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.FacultadData = response.data[0];
+            self.homologacionConceptoData.Facultad = self.FacultadData.Id;
+            // select de proyectos curriculares
+            oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id).then(function(response) {
+              self.selectProyectoCurriculares = response.data;
+            });
           });
-        });
-        oikosRequest.get('dependencia',
-          $.param({
-            query: "Id:" + self.ConceptoFaculatadProyecto.ProyectoCurricular,
-            limit: 1
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.ProyectoCurricular,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.ProyectoCurricularData = response.data[0];
+            self.homologacionConceptoData.ProyectoCurricular = self.ProyectoCurricularData.Id;
           })
-        ).then(function(response) {
-          self.ProyectoCurricularData = response.data[0];
-          self.homologacionConceptoData.ProyectoCurricular = self.ProyectoCurricularData.Id;
-        })
+        }
       })
     })
     // ===============
