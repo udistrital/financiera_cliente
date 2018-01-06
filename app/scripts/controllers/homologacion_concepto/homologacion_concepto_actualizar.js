@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionConceptoActualizarCtrl', function($scope, $routeParams, financieraRequest, financieraMidRequest, titanRequest, agoraRequest, coreRequest, oikosRequest, $translate) {
+  .controller('HomologacionConceptoActualizarCtrl', function($scope, $routeParams, financieraRequest, financieraMidRequest, titanRequest, agoraRequest, coreRequest, oikosRequest, $translate, $window) {
     var self = this;
     self.HomologacionId = $routeParams.Id;
     financieraRequest.get("homologacion_concepto",
@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
       })
     ).then(function(response) {
       self.homologacionConceptoData = response.data[0];
+      self.homologacionConceptoData.Vigencia = self.homologacionConceptoData.Vigencia.toString(); //para validar campos vigencia
       // data concepti titan
       titanRequest.get('concepto_nomina',
         $.param({
@@ -48,30 +49,32 @@ angular.module('financieraClienteApp')
           limit: 1
         })
       ).then(function(response) {
-        self.ConceptoFaculatadProyecto = response.data[0];
-        // data proyecto y Facultad
-        oikosRequest.get('dependencia',
-          $.param({
-            query: "Id:" + self.ConceptoFaculatadProyecto.Facultad,
-            limit: 1
-          })
-        ).then(function(response) {
-          self.FacultadData = response.data[0];
-          self.homologacionConceptoData.Facultad = self.FacultadData.Id;
-          // select de proyectos curriculares
-          oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id, ).then(function(response) {
-            self.selectProyectoCurriculares = response.data;
+        if (response.data != null) {
+          self.ConceptoFaculatadProyecto = response.data[0];
+          // data proyecto y Facultad
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.Facultad,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.FacultadData = response.data[0];
+            self.homologacionConceptoData.Facultad = self.FacultadData.Id;
+            // select de proyectos curriculares
+            oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id).then(function(response) {
+              self.selectProyectoCurriculares = response.data;
+            });
           });
-        });
-        oikosRequest.get('dependencia',
-          $.param({
-            query: "Id:" + self.ConceptoFaculatadProyecto.ProyectoCurricular,
-            limit: 1
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.ProyectoCurricular,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.ProyectoCurricularData = response.data[0];
+            self.homologacionConceptoData.ProyectoCurricular = self.ProyectoCurricularData.Id;
           })
-        ).then(function(response) {
-          self.ProyectoCurricularData = response.data[0];
-          self.homologacionConceptoData.ProyectoCurricular = self.ProyectoCurricularData.Id;
-        })
+        }
       })
     })
     // ===============
@@ -232,25 +235,56 @@ angular.module('financieraClienteApp')
     // ===============
     // Actualizar
     // ===============
-    self.actualizarHomologacion = function() {
-      self.homologacionConceptoData.Vigencia = parseInt(self.homologacionConceptoData.Vigencia)
-      console.log("Actualizar");
-      console.log(self.homologacionConceptoData);
-
-      // financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
-      //   .then(function(response) {
-      //     self.resultado = response.data;
-      //     console.log("Resultado");
-      //     console.log(self.resultado);
-      //     console.log("Resultado");
-      //     swal({
-      //       title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
-      //       text: $translate.instant(self.resultado.Code) + self.resultado.Body,
-      //       type: self.resultado.Type,
-      //     }).then(function() {
-      //       $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
-      //     })
-      //   })
+    // Funcion encargada de validar la obligatoriedad de los campos
+    self.camposObligatorios = function() {
+      self.MensajesAlerta = '';
+      if (!self.checkVigencia(self.homologacionConceptoData.Vigencia)) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_VIGENCIA') + "</li>";
+      }
+      // Operar
+      if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
+    self.checkVigencia = function(p_vigencia) {
+      if (p_vigencia.length != 4) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    self.actualizarHomologacion = function() {
+      if (self.camposObligatorios()) {
+        self.homologacionConceptoData.Vigencia = parseInt(self.homologacionConceptoData.Vigencia)
+        console.log("Actualizar");
+        console.log(self.homologacionConceptoData);
+        financieraRequest.post('homologacion_concepto/ActualizarHomologacionConcepto', self.homologacionConceptoData)
+          .then(function(response) {
+            self.resultado = response.data;
+            console.log("Resultado");
+            console.log(self.resultado);
+            console.log("Resultado");
+            swal({
+              title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
+              text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+              type: self.resultado.Type,
+            }).then(function() {
+              $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
+            })
+          })
+      } else {
+        swal({
+          title: 'Error!',
+          html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+          type: 'error'
+        })
+      }
+    }
+
+
+
     //
   });
