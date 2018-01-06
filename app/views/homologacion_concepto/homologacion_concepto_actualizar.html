@@ -5,7 +5,7 @@
     <div class="form-group">
       <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
       <div class="col-sm-3">
-        <span class="form-control">{{homologacionConceptoActualizar.homologacionConceptoData.Vigencia}}</span>
+        <input ng-model="homologacionConceptoActualizar.homologacionConceptoData.Vigencia" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" required/>
       </div>
       <label for="Nomina" class="col-sm-1 control-label">{{'NOMINA' | translate }}</label>
       <div class="col-sm-3">
@@ -83,7 +83,6 @@
         <div ui-grid="homologacionConceptoActualizar.gridConceptoTitan" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
       </div>
     </div>
-    <pre>{{homologacionConceptoActualizar.homologacionConceptoData | json }}</pre>
     <div class="panel-footer">
       <div align="center">
         <a ng-href="#/homologacion_concepto/homologacion_concepto_ver_todas" data-toggle="modal" data-target="#myModal" class="btn btn-primary">
