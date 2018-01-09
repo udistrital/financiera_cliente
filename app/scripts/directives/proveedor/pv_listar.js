@@ -66,11 +66,17 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputproveedor = row.entity
-            // datos banco
-            self.get_info_banco($scope.outputproveedor.IdEntidadBancaria)
-            // dato telefono
-            self.get_tel_provee($scope.outputproveedor.Id)
+            if (self.gridApi.selection.getSelectedRows()[0] != undefined) {
+              $scope.outputproveedor = self.gridApi.selection.getSelectedRows()[0];
+              // datos banco
+              self.get_info_banco($scope.outputproveedor.IdEntidadBancaria)
+              // dato telefono
+              self.get_tel_provee($scope.outputproveedor.Id)
+            } else {
+              $scope.outputproveedor = {};
+              self.banco_proveedor = {};
+              self.tel_proveedor = {};
+            }
           });
         };
         self.gridOptions_proveedor.multiSelect = false;
