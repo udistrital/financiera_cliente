@@ -46,7 +46,6 @@ angular.module('financieraClienteApp')
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            console.log(self.gridApi.selection.getSelectedRows()[0]);
             if (self.gridApi.selection.getSelectedRows()[0] != undefined) {
               $scope.outputrpselect = self.gridApi.selection.getSelectedRows()[0];
               //Valor total del Rp
@@ -61,7 +60,7 @@ angular.module('financieraClienteApp')
                   self.necesidadInfo = response.data;
                 });
             } else {
-              $scope.outputrpselect  = {};
+              $scope.outputrpselect = {};
               self.valor_total_rp = {};
               self.necesidadInfo = {};
             }
@@ -90,6 +89,8 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               self.gridOptions_rp.data = response.data;
             });
+          } else {
+            self.gridOptions_rp.data = {};
           }
         })
 
