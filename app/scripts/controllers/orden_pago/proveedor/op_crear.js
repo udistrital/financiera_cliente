@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
     self.panelUnidadEjecutora = false;
     self.OrdenPago = {};
     self.Proveedor = {};
+    //self.OrdenPago.RegistroPresupuestal = {'Id': 103} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
     // unidad ejecutora
