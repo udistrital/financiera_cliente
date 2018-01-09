@@ -322,7 +322,7 @@ var text_es = {
     MSN_CAMPO_REQUERIDO: "Campo requerido*",
     MSN_TAMANO_MAX: "Sobrepasa el tamaño máximo",
     MSN_TAMANO_MIN: "Es menor al tamaño mínimo",
-    MSN_DEBE_CONCEPTO: "Debe seleccionar por lo mínimo un comcepto",
+    MSN_DEBE_CONCEPTO: "Debe seleccionar por lo mínimo un concepto",
     MSN_DEBE_NOMINA: "Debe seleccionar por lo mínimo una nomina",
     MSN_DEBE_FORMA_PAGO_OP: "Debe seleccionar la forma de pago en la sección detalle orden pago",
     MSN_DEBE_IVA: "Debe indicar el valor del iva en la sección detalle orden pago",
