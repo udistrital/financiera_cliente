@@ -18,31 +18,31 @@
           <div class="form-group">
             <label class="control-label col-sm-2">{{'NO_CRP' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
+              <span class="form-control">{{outputrpselect.NumeroRegistroPresupuestal}}</span>
             </div>
             <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Vigencia}}</span>
+              <span class="form-control">{{outputrpselect.Vigencia}}</span>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2">{{'RESPONSABLE' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Responsable}}</span>
+              <span class="form-control">{{outputrpselect.Responsable}}</span>
             </div>
             <label class="control-label col-sm-2">{{'ESTADO' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Estado.Nombre}}</span>
+              <span class="form-control">{{outputrpselect.Estado.Nombre}}</span>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2">{{'COMPROMISO' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control"> {{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+              <span class="form-control"> {{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Nombre}}</span>
             </div>
             <label class="control-label col-sm-2">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Compromiso.Objeto}}</span>
+              <textarea class="form-control" rows="2" readonly> {{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Descripcion}} </textarea>
             </div>
           </div>
           <div class="form-group">
@@ -54,21 +54,21 @@
           <div class="form-group">
             <label class="control-label col-sm-2">{{'NO_CDP' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+              <span class="form-control">{{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
             </div>
             <label class="control-label col-sm-2">{{'ESTADO' | translate}} {{'CDP' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
+              <span class="form-control">{{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
             </div>
           </div>
           <div class="form-group">
             <label class="control-label col-sm-2">{{'NECESIDAD_NO' | translate}}</label>
             <div class="col-sm-4">
-              <span class="form-control">{{d_rpPorProveedorListar.solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</span>
+              <span class="form-control">{{d_rpPorProveedorListar.necesidadInfo.SolicitudDisponibilidad.Necesidad.Numero}}</span>
             </div>
             <label class="control-label col-sm-2">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
             <div class="col-sm-4">
-              <textarea class="form-control" rows="2" readonly> {{d_rpPorProveedorListar.solicitud.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
+              <textarea class="form-control" rows="2" readonly> {{d_rpPorProveedorListar.necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
             </div>
           </div>
         </div>
