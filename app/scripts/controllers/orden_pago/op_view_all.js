@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
           width: '7%',
           displayName: $translate.instant('ESTADO'),
           filter: {
-            term: 'Elaborado',
+            //term: 'Elaborado',
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.estado_select
 
