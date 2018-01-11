@@ -20,7 +20,15 @@ angular.module('financieraClienteApp')
         var self = this;
         $scope.outputvisible = true;
         self.confirmar = function() {
-          $scope.outputvisible = false;
+          if ($scope.outputopselect.length > 0) {
+            $scope.outputvisible = false;
+          } else {
+            swal({
+              title: $translate.instant('GIROS'),
+              text: $translate.instant('MSN_DEBE_OP_GIRO'),
+              type: "error",
+            })
+          }
         }
         //
         financieraRequest.get('tipo_orden_pago',
