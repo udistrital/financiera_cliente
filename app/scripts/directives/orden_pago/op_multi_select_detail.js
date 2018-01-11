@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -117,6 +117,68 @@ angular.module('financieraClienteApp')
             $scope.outputopselect = row.entity;
           });
         };
+        // cuentas bancarias
+        self.gridOptions_cuenta_bancaria = {
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [15, 30, 45],
+          enableFiltering: true,
+          minRowsToShow: 8,
+          useExternalPagination: false,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'NumeroCuenta',
+              //width: '8%',
+              displayName: $translate.instant('NUMERO'),
+            },
+            {
+              field: 'TipoCuentaBancaria.Nombre',
+              displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'SucursalData[0].Nombre',
+              displayName: $translate.instant('SUCURSAL'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'SucursalData[0].Banco.DenominacionBanco',
+              displayName: $translate.instant('BANCO'),
+              cellClass: 'input_center'
+            },
+          ]
+        };
+        self.gridOptions_cuenta_bancaria.multiSelect = false;
+        self.gridOptions_cuenta_bancaria.onRegisterApi = function(gridApi) {
+          self.gridApi2 = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            if (self.gridApi2.selection.getSelectedRows()[0] != undefined) {
+              $scope.cuentaBancariaSelect = self.gridApi2.selection.getSelectedRows()[0];
+            } else {
+              console.log("banco no definido ");
+            }
+          });
+        };
+        financieraRequest.get('cuenta_bancaria',
+          $.param({
+            query: "EstadoActivo:true", //unidad ejecutora entra por usuario logueado
+            limit: -1,
+          })).then(function(response) {
+          self.gridOptions_cuenta_bancaria.data = response.data;
+          //data sucursal, banco
+          angular.forEach(self.gridOptions_cuenta_bancaria.data, function(iterador) {
+            coreRequest.get('sucursal',
+              $.param({
+                query: "Id:" + iterador.Sucursal,
+                limit: -1,
+              })).then(function(response) {
+              iterador.SucursalData = response.data;
+            })
+          })
+        });
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;

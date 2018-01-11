@@ -377,6 +377,7 @@ var text_es = {
     NUEVO_TIPO_AVANCE: "Nuevo Tipo de Avance",
     NUEVO_COMPROMISO: "Nuevo Compromiso",
     NUEVO_TIPO_COMPROMISO: "Nuevo Tipo Compromiso",
+    NUMERO: "Numero",
     NUMERO_CELULAR: "Numero Celular",
     NUMERO_TELEFONICO: "Número telefónico",
     OBJETIVO: "Objetivo",
