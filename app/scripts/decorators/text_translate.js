@@ -70,7 +70,7 @@ var text_es = {
     CONCEPTO: "Concepto",
     CONCEPTOS: "Conceptos",
     CONFIGURAR: "Configurar",
-    CONSECUTIVO: "#",
+    CONSECUTIVO: "Consecutivo",
     CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
     CONSULTA_INGRESOS: "Consulta Ingresos",
     CONSULTA_RUBRO: "Consulta de Rubros",
