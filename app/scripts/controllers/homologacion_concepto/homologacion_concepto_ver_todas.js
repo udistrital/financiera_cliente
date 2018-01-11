@@ -20,7 +20,9 @@ angular.module('financieraClienteApp')
       useExternalPagination: false,
       columnDefs: [{
           field: 'Id',
-          visible: false
+          displayName: $translate.instant('CONSECUTIVO'),
+          width: '5%',
+          cellClass: 'input_center',
         },
         {
           field: 'Vigencia',
@@ -31,7 +33,7 @@ angular.module('financieraClienteApp')
         {
           field: 'ConceptoKronos.Codigo',
           displayName: $translate.instant('CODIGO') + " " + $translate.instant('CONCEPTO') + " Kronos",
-          width: '8%',
+          width: '10%',
           cellClass: 'input_center',
         },
         {
@@ -49,13 +51,13 @@ angular.module('financieraClienteApp')
         {
           field: 'ConceptoTitanData.AliasConcepto',
           displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CONCEPTO') + " Titan",
-          width: '20%',
+          width: '10%',
           cellClass: 'input_center'
         },
         {
           field: 'NominaTitanData.TipoNomina.Nombre',
           displayName: $translate.instant('NOMINA'),
-          width: '5%',
+          width: '8%',
           cellClass: 'input_center',
           filter: {
             //term: 'OP-PROV',   // default filter
@@ -120,11 +122,11 @@ angular.module('financieraClienteApp')
       });
     });
     //Operacion de botones
-    self.detalle = function(row){
+    self.detalle = function(row) {
       var path = "/homologacion_concepto/ver/"
       $location.url(path + row.entity.Id)
     }
-    self.editar = function(row){
+    self.editar = function(row) {
       var path = "/homologacion_concepto/actualizar/"
       $location.url(path + row.entity.Id)
     }

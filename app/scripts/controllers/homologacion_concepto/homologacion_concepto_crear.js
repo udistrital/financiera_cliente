@@ -13,7 +13,9 @@ angular.module('financieraClienteApp')
     var self = this;
     self.HomologacionConcepto = {};
     self.HomologacionConcepto.Vigencia = 0;
+    self.HomologacionConcepto.SeguridadSocial = false;
     self.camposFacultades = false;
+    self.campoSeguridadSocial = false;
 
     titanRequest.get('nomina',
       $.param({
@@ -42,6 +44,12 @@ angular.module('financieraClienteApp')
           self.camposFacultades = false;
           delete self.HomologacionConcepto['Facultad']
           delete self.HomologacionConcepto['ProyectoCurricular']
+        }
+        //ss
+        if (nominaSelect.TipoNomina.Nombre == 'HCS' || nominaSelect.TipoNomina.Nombre == 'HCH' || nominaSelect.TipoNomina.Nombre == 'FP' || nominaSelect.TipoNomina.Nombre == 'DP') {
+          self.campoSeguridadSocial = true;
+        } else {
+          self.campoSeguridadSocial = false;
         }
       } else {
         delete self.HomologacionConcepto['NominaTitan']
@@ -209,7 +217,7 @@ angular.module('financieraClienteApp')
             console.log(self.resultado);
             console.log("Resultado");
             swal({
-              title: $translate.instant('HOMOLOGACION') + " " +$translate.instant('CONCEPTOS'),
+              title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
               text: $translate.instant(self.resultado.Code) + self.resultado.Body,
               type: self.resultado.Type,
             }).then(function() {
