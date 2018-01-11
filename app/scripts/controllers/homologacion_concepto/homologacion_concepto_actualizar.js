@@ -41,6 +41,12 @@ angular.module('financieraClienteApp')
         } else {
           self.camposFacultades = false;
         }
+        //ss
+        if (self.NominaTitanData.TipoNomina.Nombre == 'HCS' || self.NominaTitanData.TipoNomina.Nombre == 'HCH' || self.NominaTitanData.TipoNomina.Nombre == 'FP' || self.NominaTitanData.TipoNomina.Nombre == 'DP') {
+          self.campoSeguridadSocial = true;
+        } else {
+          self.campoSeguridadSocial = false;
+        }
       })
       // Proyecto y facultad
       financieraRequest.get('concepto_tesoral_facultad_proyecto',
@@ -106,6 +112,14 @@ angular.module('financieraClienteApp')
           delete self.homologacionConceptoData['Facultad']
           delete self.homologacionConceptoData['ProyectoCurricular']
         }
+        //ss
+        if (nominaSelect.TipoNomina.Nombre == 'HCS' || nominaSelect.TipoNomina.Nombre == 'HCH' || nominaSelect.TipoNomina.Nombre == 'FP' || nominaSelect.TipoNomina.Nombre == 'DP') {
+          self.campoSeguridadSocial = true;
+        } else {
+          self.campoSeguridadSocial = false;
+          self.homologacionConceptoData.SeguridadSocial = false;
+        }
+
       } else {
         delete self.HomologacionConcepto['NominaTitan']
       }
