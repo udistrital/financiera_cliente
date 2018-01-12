@@ -209,6 +209,7 @@ angular.module('financieraClienteApp')
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
       self.data = row.entity;
+      console.log(row.entity);
       agoraRequest.get('informacion_proveedor/' + self.data.Proveedor, '').then(function(response) {
         self.data.DatosProveedor = response.data;
       });
