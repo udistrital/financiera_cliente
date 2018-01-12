@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_multi_select_detail.html',
       controller: function($scope) {
         var self = this;
+        self.giro = {};
         //
         self.regresar = function() {
           $scope.inputvisible = !$scope.inputvisible;
@@ -109,7 +110,6 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-        self.gridOptions_op_detail.multiSelect = true;
         self.gridOptions_op_detail.enablePaginationControls = true;
         self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
@@ -156,9 +156,9 @@ angular.module('financieraClienteApp')
           self.gridApi2 = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if (self.gridApi2.selection.getSelectedRows()[0] != undefined) {
-              $scope.cuentaBancariaSelect = self.gridApi2.selection.getSelectedRows()[0];
+              self.giro.CuentaBancaria = self.gridApi2.selection.getSelectedRows()[0];
             } else {
-              console.log("banco no definido ");
+              delete self.giro['CuentaBancaria']
             }
           });
         };
@@ -191,14 +191,56 @@ angular.module('financieraClienteApp')
           if (Object.keys($scope.inputopselect).length > 0) {
             self.gridOptions_op_detail.data = [];
             self.gridOptions_op_detail.data = $scope.inputopselect;
-            self.total = 0;
-            self.formaPago = self.gridOptions_op_detail.data[0].FormaPago.CodigoAbreviacion;
+            self.giro.ValorTotal = 0;
+            self.giro.FormaPago = self.gridOptions_op_detail.data[0].FormaPago;
+            self.giro.Vigencia = self.gridOptions_op_detail.data[0].Vigencia;
             // calculo totales
             angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
-              self.total = self.total + iterador.ValorTotal;
+              self.giro.ValorTotal = self.giro.ValorTotal + iterador.ValorTotal;
             })
           }
         }, true)
+        // Funcion encargada de validar la obligatoriedad de los campos
+        self.camposObligatorios = function() {
+          self.MensajesAlerta = '';
+          if (self.giro.CuentaBancaria == undefined) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
+          }
+          // Operar
+          if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        self.confirmar = function() {
+          if (self.camposObligatorios()) {
+            self.dataGiroSend = {};
+            self.dataGiroSend.Giro = self.giro;
+            self.dataGiroSend.OrdnePago = $scope.inputopselect;
+            console.log("registrar");
+            // financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
+            //   .then(function(response) {
+            //     self.resultado = response.data;
+            //     console.log("Resultado");
+            //     console.log(self.resultado);
+            //     console.log("Resultado");
+            //     swal({
+            //       title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
+            //       text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+            //       type: self.resultado.Type,
+            //     }).then(function() {
+            //       $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
+            //     })
+            //   })
+          } else {
+            swal({
+              title: 'Error!',
+              html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+              type: 'error'
+            })
+          }
+        }
         // fin
       },
       controllerAs: 'd_opMultiSelectDetail'
