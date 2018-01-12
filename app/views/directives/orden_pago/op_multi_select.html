@@ -1,14 +1,20 @@
 <div ng-show="outputvisible">
   <div class="form-horizontal">
     <div class="form-group">
-      <label class="control-label col-sm-2">{{'TIPO' | translate}}</label>
-      <div class="col-sm-4">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="d_opMultiSelect.vigenciaSelect" ng-options="i as i for i in d_opMultiSelect.vigencias" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
+          <option value="">Seleccionar Vigencia</option>
+        </select>
+      </div>
+      <label class="control-label col-sm-1">{{'TIPO' | translate}}</label>
+      <div class="col-sm-3">
         <select ng-model="d_opMultiSelect.tipoOrdenPagoSelect" ng-options="i.CodigoAbreviacion for i in d_opMultiSelect.tipoOrdenPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
           <option value="">Seleccionar Tipo OP</option>
         </select>
       </div>
-      <label class="control-label col-sm-2">{{'FORMA_PAGO' | translate}}</label>
-      <div class="col-sm-4">
+      <label class="control-label col-sm-1">{{'FORMA_PAGO' | translate}}</label>
+      <div class="col-sm-3">
         <select ng-model="d_opMultiSelect.formaPagoSelect" ng-options="i.Nombre for i in d_opMultiSelect.formaPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
           <option value="">Seleccionar forma pago</option>
         </select>

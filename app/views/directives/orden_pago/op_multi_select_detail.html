@@ -5,12 +5,12 @@
     <br/>
     <div class="form-horizontal">
       <div class="form-group">
-        <label ng-show=" d_opMultiSelectDetail.formaPago == 'AC'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
-        <label ng-show=" d_opMultiSelectDetail.formaPago == 'CH'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
-        <label ng-show=" d_opMultiSelectDetail.formaPago == 'EF'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
-        <label ng-show=" d_opMultiSelectDetail.formaPago == 'ND'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'AC'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'CH'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'EF'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'ND'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
         <div class="col-sm-10">
-          <span class="form-control input_right" readonly>{{d_opMultiSelectDetail.total | currency:"$":2  }}</span>
+          <span class="form-control input_right" readonly>{{d_opMultiSelectDetail.giro.ValorTotal  | currency:"$":2  }}</span>
         </div>
       </div>
       <div class="form-group">
@@ -21,6 +21,7 @@
       </div>
     </div>
   </div>
+  <pre>{{d_opMultiSelectDetail.dataGiroSend | json}}</pre>
   <div align="center">
     <a class="btn btn-info btn-outline" ng-click="d_opMultiSelectDetail.regresar()">
       {{ 'BTN.REGRESAR' | translate }}
@@ -29,5 +30,7 @@
       {{ 'BTN.CONFIRMAR' | translate }}
     </a>
   </div>
+
+
 
 </div>
