@@ -100,7 +100,7 @@
                 <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones" afectacion="afectacion">
                 </fuente-financiacion-solicitud-rp>
                 <hr>
-                <center ng-if="!rpSolicitudConsulta.data.Expedida">
+                <center ng-if="!rpSolicitudConsulta.data.Expedida && rpSolicitudConsulta.data.Vigencia === rpSolicitudConsulta.vigenciaActual"">
                     <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
                     <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
                 </center>
