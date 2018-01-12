@@ -98,7 +98,7 @@
                 </fuente-financiacion-necesidad>
 
                 <hr>
-                <center ng-if="!cdpSolicitudConsulta.data.SolicitudDisponibilidad.Expedida ">
+                <center ng-if="!cdpSolicitudConsulta.data.SolicitudDisponibilidad.Expedida && cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Vigencia === cdpSolicitudConsulta.vigenciaActual">
                     <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
                     <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
                 </center>
