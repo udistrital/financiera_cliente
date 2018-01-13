@@ -25,7 +25,12 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         {
           displayName: $translate.instant('CODIGO'),
           field: 'Codigo',
-          width: '20%',
+          width: '10%',
+        },
+        {
+          displayName: $translate.instant('TIPO'),
+          field: 'TipoFuenteFinanciamiento.Nombre',
+          width: '10%',
         },
         {
           displayName: $translate.instant('NOMBRE'),
@@ -35,7 +40,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
         {
           displayName: $translate.instant('DESCRIPCION'),
           field: 'Descripcion',
-          displayName: 'Descripción',
           width: '50%',
         },
       ]
