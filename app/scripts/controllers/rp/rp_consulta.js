@@ -139,6 +139,7 @@ angular.module('financieraClienteApp')
         }else{
           console.log(response.data);
           self.gridOptions.data = response.data;
+          console.log(response.data);
         }
         self.cargandoDatosPagos = false;
       });
@@ -158,9 +159,11 @@ angular.module('financieraClienteApp')
       $("#myModal").modal();
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
-      financieraRequest.get('registro_presupuestal', 'query=Id:' + row.entity.Id).then(function (response) {
-
-        self.detalle = response.data;
+      var data = [];
+      data.push(row.entity);
+        self.detalle = data;
+        console.log("entt");
+        console.log(row.entity);
         angular.forEach(self.detalle, function (data) {
 
           administrativaRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
@@ -181,16 +184,10 @@ angular.module('financieraClienteApp')
               financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
-               financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
-                var solicitud = response.data;
-                console.log(response.data);
                 
-                  self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
+                
+                  self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
                   
-
-
-
-              });
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
               } else {
@@ -202,7 +199,7 @@ angular.module('financieraClienteApp')
           
 
         });
-      });
+      
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){

@@ -182,4 +182,25 @@ angular.module('financieraClienteApp')
     });
   };
 
+  $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
+      
+       
+        self.cargarDatos(0,'');
+    
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+        console.log("reset fecha inicio");
+        self.fechaInicio = undefined;
+        self.fechaFin = undefined;
+      }
+      self.fechamin = new Date(
+        self.Vigencia,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.Vigencia,
+        12, 0
+      );
+    }, true);
+
   });

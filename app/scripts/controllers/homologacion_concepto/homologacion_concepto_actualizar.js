@@ -2,76 +2,147 @@
 
 /**
  * @ngdoc function
- * @name financieraClienteApp.controller:HomologacionConceptoHomologacionConceptoCrearCtrl
+ * @name financieraClienteApp.controller:HomologacionConceptoHomologacionConceptoActualizarCtrl
  * @description
- * # HomologacionConceptoHomologacionConceptoCrearCtrl
+ * # HomologacionConceptoHomologacionConceptoActualizarCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionConceptoCrearCtrl', function($scope, oikosRequest, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window, titanRequest) {
-
+  .controller('HomologacionConceptoActualizarCtrl', function($scope, $routeParams, financieraRequest, financieraMidRequest, titanRequest, agoraRequest, coreRequest, oikosRequest, $translate, $window) {
     var self = this;
-    self.HomologacionConcepto = {};
-    self.HomologacionConcepto.Vigencia = 0;
-    self.HomologacionConcepto.SeguridadSocial = false;
-    self.camposFacultades = false;
-    self.campoSeguridadSocial = false;
-
+    self.HomologacionId = $routeParams.Id;
+    financieraRequest.get("homologacion_concepto",
+      $.param({
+        query: "Id:" + self.HomologacionId,
+        limit: 1,
+      })
+    ).then(function(response) {
+      self.homologacionConceptoData = response.data[0];
+      self.homologacionConceptoData.Vigencia = self.homologacionConceptoData.Vigencia.toString(); //para validar campos vigencia
+      // data concepti titan
+      titanRequest.get('concepto_nomina',
+        $.param({
+          query: "Id:" + self.homologacionConceptoData.ConceptoTitan,
+          limit: 1
+        })
+      ).then(function(response) {
+        self.ConceptoTitanData = response.data[0];
+      })
+      // data nomina titan
+      titanRequest.get('nomina',
+        $.param({
+          query: "Id:" + self.homologacionConceptoData.NominaTitan,
+          limit: 1
+        })
+      ).then(function(response) {
+        self.NominaTitanData = response.data[0];
+        if (self.NominaTitanData.TipoNomina.Nombre == 'HCS') {
+          self.camposFacultades = true;
+        } else {
+          self.camposFacultades = false;
+        }
+        //ss
+        if (self.NominaTitanData.TipoNomina.Nombre == 'HCS' || self.NominaTitanData.TipoNomina.Nombre == 'HCH' || self.NominaTitanData.TipoNomina.Nombre == 'FP' || self.NominaTitanData.TipoNomina.Nombre == 'DP') {
+          self.campoSeguridadSocial = true;
+        } else {
+          self.campoSeguridadSocial = false;
+        }
+      })
+      // Proyecto y facultad
+      financieraRequest.get('concepto_tesoral_facultad_proyecto',
+        $.param({
+          query: "HomologacionConcepto.Id:" + self.homologacionConceptoData.Id,
+          limit: 1
+        })
+      ).then(function(response) {
+        if (response.data != null) {
+          self.ConceptoFaculatadProyecto = response.data[0];
+          // data proyecto y Facultad
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.Facultad,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.FacultadData = response.data[0];
+            self.homologacionConceptoData.Facultad = self.FacultadData.Id;
+            // select de proyectos curriculares
+            oikosRequest.get('dependencia/proyectosPorFacultad/' + self.FacultadData.Id).then(function(response) {
+              self.selectProyectoCurriculares = response.data;
+            });
+          });
+          oikosRequest.get('dependencia',
+            $.param({
+              query: "Id:" + self.ConceptoFaculatadProyecto.ProyectoCurricular,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.ProyectoCurricularData = response.data[0];
+            self.homologacionConceptoData.ProyectoCurricular = self.ProyectoCurricularData.Id;
+          })
+        }
+      })
+    })
+    // ===============
+    // Opciones Select
+    // ===============
     titanRequest.get('nomina',
       $.param({
         query: "Activo:true",
         limit: -1
       })
     ).then(function(response) {
-      self.nominaTitanData = response.data
+      self.selectNominaTitan = response.data
     })
-    //
     oikosRequest.get('dependencia_padre/FacultadesConProyectos',
       $.param({
         limit: -1
       })
     ).then(function(response) {
-      self.facultades = response.data;
+      self.selectFacultades = response.data;
     })
     //
     self.getIdNomina = function(nominaSelect) {
       if (nominaSelect != undefined) {
-        self.HomologacionConcepto.NominaTitan = nominaSelect.Id;
-
+        self.homologacionConceptoData.NominaTitan = nominaSelect.Id;
         if (nominaSelect.TipoNomina.Nombre == 'HCS') {
           self.camposFacultades = true;
         } else {
           self.camposFacultades = false;
-          delete self.HomologacionConcepto['Facultad']
-          delete self.HomologacionConcepto['ProyectoCurricular']
+          delete self.homologacionConceptoData['Facultad']
+          delete self.homologacionConceptoData['ProyectoCurricular']
         }
         //ss
         if (nominaSelect.TipoNomina.Nombre == 'HCS' || nominaSelect.TipoNomina.Nombre == 'HCH' || nominaSelect.TipoNomina.Nombre == 'FP' || nominaSelect.TipoNomina.Nombre == 'DP') {
           self.campoSeguridadSocial = true;
         } else {
           self.campoSeguridadSocial = false;
+          self.homologacionConceptoData.SeguridadSocial = false;
         }
+
       } else {
         delete self.HomologacionConcepto['NominaTitan']
       }
     }
-    //
     self.getIdFacultad = function(facultadSelect) {
       if (facultadSelect != undefined) {
-        self.HomologacionConcepto.Facultad = facultadSelect.Id;
+        self.homologacionConceptoData.Facultad = facultadSelect.Id;
+        self.selectProyectoCurriculares = facultadSelect.Opciones
       } else {
-        delete self.HomologacionConcepto['Facultad']
+        delete self.homologacionConceptoData['Facultad'];
       }
     }
     //
     self.getIdProyectoCurricular = function(proyectoCurricularSelect) {
       if (proyectoCurricularSelect != undefined) {
-        self.HomologacionConcepto.ProyectoCurricular = proyectoCurricularSelect.Id;
+        self.homologacionConceptoData.ProyectoCurricular = proyectoCurricularSelect.Id;
       } else {
-        delete self.HomologacionConcepto['ProyectoCurricular']
+        delete self.homologacionConceptoData['ProyectoCurricular']
       }
     }
-    //
+    // ===============
+    // grid para cambiar conceptos
+    // ===============
     self.gridConcepto = {
       enableRowSelection: true,
       enableRowHeaderSelection: true,
@@ -102,9 +173,9 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope, function() {
         if ($scope.gridApi.selection.getSelectedRows()[0] != undefined) {
           self.ConceptoSelect = $scope.gridApi.selection.getSelectedRows()[0];
-          self.HomologacionConcepto.ConceptoKronos = self.ConceptoSelect.Id;
+          self.homologacionConceptoData.ConceptoKronos = self.ConceptoSelect;
         } else {
-          delete self.HomologacionConcepto['ConceptoKronos'];
+          delete self.homologacionConceptoData['ConceptoKronos'];
         }
       });
     };
@@ -149,9 +220,18 @@ angular.module('financieraClienteApp')
       gridApi.selection.on.rowSelectionChanged($scope, function() {
         if ($scope.gridApi2.selection.getSelectedRows()[0] != undefined) {
           self.ConceptoTitanSelect = $scope.gridApi2.selection.getSelectedRows()[0];
-          self.HomologacionConcepto.ConceptoTitan = self.ConceptoTitanSelect.Id;
+          self.homologacionConceptoData.ConceptoTitan = self.ConceptoTitanSelect.Id;
+          // refrescar ConceptoTitanData
+          titanRequest.get('concepto_nomina',
+            $.param({
+              query: "Id:" + self.homologacionConceptoData.ConceptoTitan,
+              limit: 1
+            })
+          ).then(function(response) {
+            self.ConceptoTitanData = response.data[0];
+          })
         } else {
-          delete self.HomologacionConcepto['ConceptoTitan'];
+          delete self.homologacionConceptoData['ConceptoTitan'];
         }
 
       });
@@ -166,27 +246,13 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.gridConceptoTitan.data = response.data;
     });
+    // ===============
+    // Actualizar
+    // ===============
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
       self.MensajesAlerta = '';
-      if (self.HomologacionConcepto.NominaTitan == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
-      }
-      if (self.camposFacultades) {
-        if (self.HomologacionConcepto.Facultad == undefined) {
-          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONAR_FACULTAD') + "</li>";
-        }
-        if (self.HomologacionConcepto.ProyectoCurricular == undefined) {
-          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONAR_PROYECTO_CURRICULAR') + "</li>";
-        }
-      }
-      if (self.HomologacionConcepto.ConceptoKronos == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + " Kronos </li>";
-      }
-      if (self.HomologacionConcepto.ConceptoTitan == undefined) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + " Titan </li>";
-      }
-      if (!self.checkVigencia(self.HomologacionConcepto.Vigencia)) {
+      if (!self.checkVigencia(self.homologacionConceptoData.Vigencia)) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_VIGENCIA') + "</li>";
       }
       // Operar
@@ -203,14 +269,13 @@ angular.module('financieraClienteApp')
         return true;
       }
     }
-    // Registra
-    self.registrarHomologacion = function() {
-      if (self.camposObligatorios()) {
-        self.HomologacionConcepto.Vigencia = parseInt(self.HomologacionConcepto.Vigencia)
-        console.log("registrar");
-        console.log(self.HomologacionConcepto);
 
-        financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
+    self.actualizarHomologacion = function() {
+      if (self.camposObligatorios()) {
+        self.homologacionConceptoData.Vigencia = parseInt(self.homologacionConceptoData.Vigencia)
+        console.log("Actualizar");
+        console.log(self.homologacionConceptoData);
+        financieraRequest.post('homologacion_concepto/ActualizarHomologacionConcepto', self.homologacionConceptoData)
           .then(function(response) {
             self.resultado = response.data;
             console.log("Resultado");
@@ -234,4 +299,6 @@ angular.module('financieraClienteApp')
     }
 
 
+
+    //
   });

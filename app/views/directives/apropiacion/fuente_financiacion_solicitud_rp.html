@@ -4,7 +4,7 @@
     <ul>
       <li ng-show="item[0].FuenteFinanciamiento.Id !== 0"><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
         <ul ng-repeat="fuente in item">
-          <li>{{fuente.FuenteFinanciacion.Codigo + " / "+fuente.FuenteFinanciacion.Nombre + " "}}
+          <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Nombre + " "}}
             <ul>
               <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
             </ul>
