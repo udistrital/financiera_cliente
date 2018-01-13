@@ -7,19 +7,19 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function (financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
-      scope:{
-          inputopselect:'=?',
-          inputvisible: '=?'
-        },
+      scope: {
+        inputopselect: '=?',
+        inputvisible: '=?'
+      },
 
       templateUrl: 'views/directives/orden_pago/op_multi_select_detail.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
         //
-        self.regresar = function(){
+        self.regresar = function() {
           $scope.inputvisible = !$scope.inputvisible;
         }
         self.gridOptions_op_detail = {
@@ -48,13 +48,18 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
+              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '8%',
+              displayName: $translate.instant('TIPO'),
+            },
+            {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
               cellClass: 'input_center'
             },
             {
-              field: 'FechaCreacion',
+              field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
               cellFilter: "date:'yyyy-MM-dd'",
@@ -70,11 +75,6 @@ angular.module('financieraClienteApp')
               field: 'FormaPago.CodigoAbreviacion',
               width: '5%',
               displayName: $translate.instant('FORMA_PAGO')
-            },
-            {
-              field: 'Nomina',
-              width: '10%',
-              displayName: $translate.instant('NOMINA')
             },
             {
               field: 'Proveedor.Tipopersona',
@@ -109,6 +109,14 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        self.gridOptions_op_detail.multiSelect = true;
+        self.gridOptions_op_detail.enablePaginationControls = true;
+        self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.outputopselect = row.entity;
+          });
+        };
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -118,43 +126,19 @@ angular.module('financieraClienteApp')
         };
         // data
         $scope.$watch('inputopselect', function() {
-          if ($scope.inputopselect != undefined) {
+          if (Object.keys($scope.inputopselect).length > 0) {
             self.gridOptions_op_detail.data = [];
             self.gridOptions_op_detail.data = $scope.inputopselect;
-            self.total_abono_cuenta = 0;  //AC
-            self.total_cheque = 0;        //CH
-            self.total_efectivo = 0;      //EF
-            self.total_nota_debito = 0;   //ND
+            self.total = 0;
+            self.formaPago = self.gridOptions_op_detail.data[0].FormaPago.CodigoAbreviacion;
             // calculo totales
-            angular.forEach(self.gridOptions_op_detail.data, function(iterador){
-              if(iterador.FormaPago.CodigoAbreviacion == 'AC'){
-                self.total_abono_cuenta = self.total_abono_cuenta + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'CH'){
-                self.total_cheque = self.total_cheque + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'EF'){
-                self.total_efectivo = self.total_efectivo + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'ND'){
-                self.total_nota_debito = self.total_nota_debito + iterador.ValorTotal;
-              }
+            angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
+              self.total = self.total + iterador.ValorTotal;
             })
           }
-        },true)
-        //
-        self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputopselect = row.entity;
-          });
-        };
-        //
-        self.gridOptions_op_detail.multiSelect = true;
-        self.gridOptions_op_detail.enablePaginationControls = true;
+        }, true)
         // fin
       },
-      controllerAs:'d_opMultiSelectDetail'
+      controllerAs: 'd_opMultiSelectDetail'
     };
   });

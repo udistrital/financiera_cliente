@@ -7,21 +7,72 @@
  * # ordenPago/opMultiSelect
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelect', function (financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('opMultiSelect', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
-      scope:{
-          inputestado:'=?',
-          outputopselect: '=?',
-          outputvisible: '=?'
-        },
+      scope: {
+        inputestado: '=?',
+        outputopselect: '=?',
+        outputvisible: '=?'
+      },
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
         $scope.outputvisible = true;
-
-        self.confirmar = function(){
-          $scope.outputvisible = false;
+        self.confirmar = function() {
+          if ($scope.outputopselect.length > 0) {
+            $scope.outputvisible = false;
+          } else {
+            swal({
+              title: $translate.instant('GIROS'),
+              text: $translate.instant('MSN_DEBE_OP_GIRO'),
+              type: "error",
+            })
+          }
+        }
+        //
+        financieraRequest.get('tipo_orden_pago',
+          $.param({
+            limit: -1,
+          })
+        ).then(function(response) {
+          self.tipoOrdenPagoData = response.data;
+        })
+        financieraRequest.get('forma_pago',
+          $.param({
+            limit: -1,
+          })
+        ).then(function(response) {
+          self.formaPagoData = response.data;
+        })
+        //
+        self.consultar = function() {
+          if (self.tipoOrdenPagoSelect != undefined && self.formaPagoSelect != undefined && $scope.inputestado != undefined) {
+            financieraRequest.get('orden_pago',
+              $.param({
+                query: "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado + ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion
+              })).then(function(response) {
+              self.refresh();
+              self.gridOptions_op.data = response.data;
+              // data proveedor
+              angular.forEach(self.gridOptions_op.data, function(iterador) {
+                agoraRequest.get('informacion_proveedor',
+                  $.param({
+                    query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
+                  })
+                ).then(function(response) {
+                  iterador.Proveedor = response.data[0];
+                });
+                financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
+                  iterador.ValorTotal = response.data;
+                });
+              })
+              // data proveedor
+            });
+          } else {
+            self.gridOptions_op.data = null;
+            self.refresh();
+          }
         }
         //
         self.gridOptions_op = {
@@ -50,13 +101,18 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
+              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '8%',
+              displayName: $translate.instant('TIPO'),
+            },
+            {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
               cellClass: 'input_center'
             },
             {
-              field: 'FechaCreacion',
+              field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
               cellFilter: "date:'yyyy-MM-dd'",
@@ -72,11 +128,6 @@ angular.module('financieraClienteApp')
               field: 'FormaPago.CodigoAbreviacion',
               width: '5%',
               displayName: $translate.instant('FORMA_PAGO')
-            },
-            {
-              field: 'Nomina',
-              width: '10%',
-              displayName: $translate.instant('NOMINA')
             },
             {
               field: 'Proveedor.Tipopersona',
@@ -107,6 +158,14 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        self.gridOptions_op.multiSelect = true;
+        self.gridOptions_op.enablePaginationControls = true;
+        self.gridOptions_op.onRegisterApi = function(gridApi) {
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.outputopselect = self.gridApi.selection.getSelectedRows();
+          });
+        };
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -114,46 +173,9 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        // data
-        $scope.$watch('tiponomina', function() {
-          if ($scope.inputestado != undefined && $scope.tiponomina != undefined) {
-            financieraRequest.get('orden_pago',
-              $.param({
-                query: "Nomina:" + $scope.tiponomina + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado,
-              })).then(function(response) {
-              self.refresh();
-              self.gridOptions_op.data = response.data;
-              // data proveedor
-              angular.forEach(self.gridOptions_op.data, function(iterador){
-                agoraRequest.get('informacion_proveedor',
-                  $.param({
-                    query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
-                  })
-                ).then(function(response) {
-                  iterador.Proveedor = response.data[0];
-                });
-                financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id
-                ).then(function(response) {
-                  iterador.ValorTotal = response.data;
-                });
-              })
-              // data proveedor
-            });
-          }
-        },true)
-        //
-        self.gridOptions_op.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputopselect = self.gridApi.selection.getSelectedRows();
-          });
-        };
-        //
-        self.gridOptions_op.multiSelect = true;
-        self.gridOptions_op.enablePaginationControls = true;
+
         // fin
       },
-      controllerAs:'d_opMultiSelect'
+      controllerAs: 'd_opMultiSelect'
     };
   });

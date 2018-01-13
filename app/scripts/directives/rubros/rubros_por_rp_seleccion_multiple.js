@@ -37,17 +37,12 @@ angular.module('financieraClienteApp')
             {
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
               displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('RUBRO'),
+              width: '15%',
               cellClass: 'input_center'
             },
             {
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',
-              displayName: $translate.instant('VIGENCIA'),
-              width: '5%',
-              cellClass: 'input_center'
-            },
-            {
-              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',
-              displayName: $translate.instant('DESCRIPCION')
+              field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Nombre',
+              displayName: $translate.instant('NOMBRE')
             },
             {
               field: 'Valor',
@@ -70,7 +65,7 @@ angular.module('financieraClienteApp')
             {
               field: 'DisponibilidadApropiacion.FuenteFinanciamiento.Codigo',
               displayName: $translate.instant('FUENTE_FINANCIACION_CODIGO'),
-              width: '7%',
+              width: '10%',
               cellClass: 'input_center'
             },
           ]
@@ -91,7 +86,6 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               self.gridOptions_rubros.data = response.data;
-
               angular.forEach(self.gridOptions_rubros.data, function(iterador) {
                 // get saldos de lor rp
                 var rpData = {
