@@ -11,7 +11,7 @@
 
 // First, parse the query string
 var params = {},
-    queryString = location.hash.substring(1),
+    queryString = location.search.substring(1),
     regex = /([^&=]+)=([^&]*)/g,
     m;
 while (!!(m = regex.exec(queryString))) {
@@ -23,7 +23,7 @@ var req = new XMLHttpRequest();
 var query = 'https://' + window.location.host + '?' + queryString;
 //console.log(query);
 req.open('GET', query, true);
-
+if (params.code !== undefined) {}
 req.onreadystatechange = function(e) {
     console.log(e);
     if (req.readyState === 4) {
@@ -32,6 +32,8 @@ req.onreadystatechange = function(e) {
         } else if (req.status === 400) {
             window.alert('There was an error processing the token.');
         } else {
+
+
             //alert('something else other than 200 was returned');
             //console.log(req);
         }
@@ -40,6 +42,7 @@ req.onreadystatechange = function(e) {
 
 angular.module('financieraClienteApp')
     .factory('token_service', function($location, $http, $sessionStorage, CONF, $interval) {
+
         var service = {
             session: $sessionStorage.$default(params),
             header: null,
@@ -58,72 +61,101 @@ angular.module('financieraClienteApp')
             },
 
             live_token: function() {
-                if (typeof service.session.id_token === 'undefined' || service.session.id_token === null) {
+                if (service.session === null) {
+                    service.session = $sessionStorage.$default(params);
                     return false;
                 } else {
-                    service.header = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[0]));
-                    service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
-                    return true;
+                    if (!angular.isUndefined(service.session.id_token)) {
+                        service.header = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[0]));
+                        service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
+                        return true;
+                    } else {}
+
                 }
             },
             logout: function() {
                 window.location = $location.absUrl();
                 var url = service.config.SIGN_OUT_URL;
-                url = url + '?logout_redirect_uri=' + CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL;
                 url = url + '?id_token_hint=' + service.session.id_token;
-                console.log(url);
+                url = url + '&post_logout_redirect_uri=' + CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL;
                 service.token = null;
                 $sessionStorage.$reset();
                 window.location.replace(url);
             },
             refresh: function() {
                 var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
-                url = url + '?grant_type=refresh_token';
-                url = url + '&refresh_token=' + $sessionStorage.access_token;
-                $http.get(url, {
-                        headers: {
-                            'Authorization': 'Basic bfPMflsiPVN6WFjJZIpzjsLdlx8a:1kM_E4MZNaMLtPY3l9CvS3pOSioa'
-                        }
-                    })
+                var data = {};
+                url += "?grant_type=refresh_token";
+                url += "&refresh_token=" + $sessionStorage.refresh_token;
+                url += "&redirect_uri=" + CONF.GENERAL.TOKEN.REDIRECT_URL;
+
+                var settings = {
+                    headers: {
+                        "content-type": "application/x-www-form-urlencoded",
+                        "authorization": "Basic YmZQTWZsc2lQVk42V0ZqSlpJcHpqc0xkbHg4YTo0Q19Ia2RhWnNNRjRGdGhmbTZEMm41am9MekVh",
+                        "cache-control": "no-cache",
+                    }
+                };
+
+                $http.post(url, data, settings)
                     .then(function(response) {
-                        console.log(response.data);
+                        $sessionStorage.access_token = response.data.access_token;
+                        $sessionStorage.expires_in = response.data.expires_in;
+                        $sessionStorage.id_token = response.data.id_token;
+                        $sessionStorage.refresh_token = response.data.refresh_token;
+                        $sessionStorage.expires_at = null;
+                        service.setExpiresAt();
                     });
             },
-            valid_token: function() {
-                var url = CONF.GENERAL.TOKEN.URL_USER_INFO;
-                $http.get(url, {
+            get_id_token: function() {
+                if ((!angular.isUndefined($sessionStorage.code)) && (angular.isUndefined($sessionStorage.id_token))) {
+                    var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
+                    var data = {};
+                    url += "?grant_type=authorization_code";
+                    url += "&code=" + $sessionStorage.code;
+                    url += "&redirect_uri=" + CONF.GENERAL.TOKEN.REDIRECT_URL;
+
+                    var settings = {
                         headers: {
-                            'Authorization': "Bearer " + $sessionStorage.access_token
+                            "content-type": "application/x-www-form-urlencoded",
+                            "authorization": "Basic YmZQTWZsc2lQVk42V0ZqSlpJcHpqc0xkbHg4YTo0Q19Ia2RhWnNNRjRGdGhmbTZEMm41am9MekVh",
+                            "cache-control": "no-cache",
                         }
-                    })
-                    .then(function(response) {
-                        console.log(response.data);
-                    });
+                    };
+
+                    $http.post(url, data, settings)
+                        .then(function(response) {
+                            window.location.replace(CONF.GENERAL.TOKEN.REDIRECT_URL);
+                            $sessionStorage.$default(response.data);
+                            service.timer();
+
+                        });
+                }
+
             },
             setExpiresAt: function() {
-                if (!(typeof service.session.id_token === 'undefined' || service.session.id_token === null)) {
+                if (angular.isUndefined($sessionStorage.expires_at) || $sessionStorage.expires_at === null) {
                     var expires_at = new Date();
                     expires_at.setSeconds(expires_at.getSeconds() + parseInt($sessionStorage.expires_in) - 60); // 60 seconds less to secure browser and response latency
                     $sessionStorage.expires_at = expires_at;
                 }
             },
             expired: function() {
-                return ($sessionStorage.expires_at < new Date());
+                return (new Date($sessionStorage.expires_at) < new Date());
             },
 
             timer: function() {
-                if (!(typeof service.session.id_token === 'undefined' || service.session.id_token === null)) {
+                if (!angular.isUndefined($sessionStorage.expires_at) || $sessionStorage.expires_at === null) {
                     $interval(function() {
                         if (service.expired()) {
-                            service.logout();
+                            service.refresh();
                         }
                     }, 5000);
-                    console.log($sessionStorage.expires_in);
                 }
             }
 
         };
-        service.setExpiresAt();
-        service.timer();
+        //
+        service.get_id_token();
         return service;
     });

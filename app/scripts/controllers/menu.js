@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
                 $scope.notificacion.log = response.data;
             });
 
-        configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil).then(function(response) {
+        configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
             $rootScope.my_menu = response.data;
             /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");

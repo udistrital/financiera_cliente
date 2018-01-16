@@ -1,70 +1,70 @@
 <legend class="text-primary" ng-click="a=!a">
-  {{'PROVEEDOR' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!a"></span>
-  <span class="fa fa-minus pull-right" ng-show="a"></span>
+    {{'PROVEEDOR' | translate}}
+    <span class="fa fa-plus pull-right" ng-show="!a"></span>
+    <span class="fa fa-minus pull-right" ng-show="a"></span>
 </legend class="text-primary">
 <div class="panel-body row" ng-show="a">
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="form-horizontal">
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'TIPO_PERSONA' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.Tipopersona}}</span>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div ui-grid="d_pvListar.gridOptions_proveedor" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="mygrid"></div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'NO_DOCUMENTO' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.NumDocumento}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'NOMBRE' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.NomProveedor}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'DIRECCION' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.Direccion}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'TELEFONO' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{d_pvListar.tel_proveedor.IdTelefono.NumeroTel}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'CUENTA_BANCARIA' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.NumCuentaBancaria}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'SUCURSAL' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{d_pvListar.banco_proveedor.NombreBanco}}</span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-sm-2">{{'TIPO_CUENTA' | translate}}</label>
-            <div class="col-sm-10">
-              <span class="form-control">{{outputproveedor.TipoCuentaBancaria}}</span>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'TIPO_PERSONA' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.Tipopersona}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'NO_DOCUMENTO' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.NumDocumento}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'NOMBRE' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.NomProveedor}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'DIRECCION' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.Direccion}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'TELEFONO' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{d_pvListar.tel_proveedor.IdTelefono.NumeroTel}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'CUENTA_BANCARIA' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.NumCuentaBancaria}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'SUCURSAL' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{d_pvListar.banco_proveedor.NombreBanco}}</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{{'TIPO_CUENTA' | translate}}</label>
+                        <div class="col-sm-10">
+                            <span class="form-control">{{outputproveedor.TipoCuentaBancaria}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
