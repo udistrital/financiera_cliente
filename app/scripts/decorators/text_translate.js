@@ -575,6 +575,7 @@ var text_es = {
         AGREGAR: "Agregar",
         ANADIR: "Añadir",
         APROBAR: "Aprobar",
+        CREAR: "Crear",
         BORRAR: "Borrar",
         CANCELAR: "Cancelar",
         CONFIGURAR: "Configurar",

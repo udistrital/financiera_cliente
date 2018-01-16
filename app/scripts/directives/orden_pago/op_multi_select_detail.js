@@ -217,8 +217,9 @@ angular.module('financieraClienteApp')
           if (self.camposObligatorios()) {
             self.dataGiroSend = {};
             self.dataGiroSend.Giro = self.giro;
-            self.dataGiroSend.OrdnePago = $scope.inputopselect;
+            self.dataGiroSend.OrdenPago = $scope.inputopselect;
             console.log("registrar");
+            console.log(self.dataGiroSend);
             // financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
             //   .then(function(response) {
             //     self.resultado = response.data;
