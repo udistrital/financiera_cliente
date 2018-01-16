@@ -66,7 +66,7 @@ angular.module('financieraClienteApp')
                 query: "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion
                       + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado
                       + ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion
-                      + ", Vigencia:"
+                      + ",Vigencia:" + self.vigenciaSelect
               })).then(function(response) {
               self.refresh();
               self.gridOptions_op.data = response.data;
