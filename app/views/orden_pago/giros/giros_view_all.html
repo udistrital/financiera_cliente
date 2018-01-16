@@ -2,11 +2,10 @@
   <h2 class="page-header text-center"> {{ 'GIROS' | translate }}</h2>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }} a Girar</h3>
+      <h3 class="panel-title">{{ 'GIROS' | translate }}</h3>
     </div>
-    <br>
     <div class="panel-default">
-
+      <div ng-if="!refresh" ui-grid="opGirosViewAll.gridGiros" ui-grid-auto-resize ui-grid-selection></div>
     </div>
   </div>
 
