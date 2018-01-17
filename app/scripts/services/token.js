@@ -47,7 +47,14 @@ angular.module('financieraClienteApp')
             session: $sessionStorage.$default(params),
             header: null,
             token: null,
-
+            setting_basic: {
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
+                    "authorization": "Basic " + btoa(CONF.GENERAL.TOKEN.CLIENTE_ID + ":" + CONF.GENERAL.TOKEN.CLIENT_SECRET),
+                    "cache-control": "no-cache",
+                }
+            },
+            setting_bearer: null,
             config: {
                 AUTORIZATION_URL: CONF.GENERAL.TOKEN.AUTORIZATION_URL,
                 CLIENTE_ID: CONF.GENERAL.TOKEN.CLIENTE_ID,
@@ -68,6 +75,13 @@ angular.module('financieraClienteApp')
                     if (!angular.isUndefined(service.session.id_token)) {
                         service.header = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[0]));
                         service.token = KJUR.jws.JWS.readSafeJSONString(b64utoutf8(service.session.id_token.split(".")[1]));
+                        service.setting_bearer = {
+                            headers: {
+                                "content-type": "application/x-www-form-urlencoded",
+                                "authorization": "Bearer " + $sessionStorage.access_token,
+                                "cache-control": "no-cache",
+                            }
+                        };
                         return true;
                     } else {}
 
@@ -89,15 +103,7 @@ angular.module('financieraClienteApp')
                 url += "&refresh_token=" + $sessionStorage.refresh_token;
                 url += "&redirect_uri=" + CONF.GENERAL.TOKEN.REDIRECT_URL;
 
-                var settings = {
-                    headers: {
-                        "content-type": "application/x-www-form-urlencoded",
-                        "authorization": "Basic YmZQTWZsc2lQVk42V0ZqSlpJcHpqc0xkbHg4YTo0Q19Ia2RhWnNNRjRGdGhmbTZEMm41am9MekVh",
-                        "cache-control": "no-cache",
-                    }
-                };
-
-                $http.post(url, data, settings)
+                $http.post(url, data, service.setting_basic)
                     .then(function(response) {
                         $sessionStorage.access_token = response.data.access_token;
                         $sessionStorage.expires_in = response.data.expires_in;
@@ -115,20 +121,12 @@ angular.module('financieraClienteApp')
                     url += "&code=" + $sessionStorage.code;
                     url += "&redirect_uri=" + CONF.GENERAL.TOKEN.REDIRECT_URL;
 
-                    var settings = {
-                        headers: {
-                            "content-type": "application/x-www-form-urlencoded",
-                            "authorization": "Basic YmZQTWZsc2lQVk42V0ZqSlpJcHpqc0xkbHg4YTo0Q19Ia2RhWnNNRjRGdGhmbTZEMm41am9MekVh",
-                            "cache-control": "no-cache",
-                        }
-                    };
-
-                    $http.post(url, data, settings)
+                    $http.post(url, data, service.setting_basic)
                         .then(function(response) {
                             window.location.replace(CONF.GENERAL.TOKEN.REDIRECT_URL);
                             $sessionStorage.$default(response.data);
                             service.timer();
-
+                            service.setExpiresAt();
                         });
                 }
 
