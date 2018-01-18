@@ -55,6 +55,11 @@ angular.module('financieraClienteApp')
       }
     });
 
+    financieraRequest.get("tipo_fuente_financiamiento", 'limit=-1').then(function(response) {
+      self.tipo_fuente_financiamiento = response.data;
+      console.log(response.data)
+    });
+
     self.nueva_fuente = {};
     self.nueva_fuente_apropiacion = {};
 
@@ -126,20 +131,21 @@ angular.module('financieraClienteApp')
 
     self.rubros_seleccionados = [];
 
-    self.tipo_fuente_rubro=[
-      {Id: 1 , tipo: "Inversión" },
-      {Id: 2 , tipo: "Funcionamiento"}
-    ];
-
     self.cambiar_rubro = function(){
-      if(self.tipo_fuente_r == 1){
-        self.inversion=true;
-        self.funcionamiento=false;
-        self.rubros_seleccionados = [];
-      }else{
-        self.inversion=false;
-        self.funcionamiento=true;
-        self.rubros_seleccionados = [];
+
+      for (var i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
+        if(self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id){
+          if(self.tipo_fuente_financiamiento[i].Nombre == "Inversión"){
+            self.inversion=true;
+            self.funcionamiento=false;
+            self.rubros_seleccionados = [];
+          }
+          if(self.tipo_fuente_financiamiento[i].Nombre == "Funcionamiento"){
+            self.inversion=false;
+            self.funcionamiento=true;
+            self.rubros_seleccionados = [];
+          }
+        }
       }
     };
 
@@ -321,8 +327,8 @@ angular.module('financieraClienteApp')
       self.contenido_string=JSON.stringify(self.contenido);
 
       var data = {
-        Nombre: "prueba",
-        Descripcion: "Descrpción",
+        Nombre: "Registro Fuente de Financiamiento",
+        Descripcion: "",
         CodigoAbreviacion: "REG-FUE",
         Activo: true,
         Contenido: self.contenido_string,
@@ -353,7 +359,11 @@ angular.module('financieraClienteApp')
       var data = {
         Codigo: self.nueva_fuente.Codigo,
         Nombre: self.nueva_fuente.Nombre,
-        Descripcion: self.nueva_fuente.Descripcion
+        Descripcion: self.nueva_fuente.Descripcion,
+        TipoFuenteFinanciamiento:{
+          Id: parseInt(self.tipo_fuente_r)
+        }
+
       }
       if (!self.fuente_encontrada) {
         financieraRequest.post("fuente_financiamiento", data).then(function(response) {
@@ -416,6 +426,7 @@ angular.module('financieraClienteApp')
         }else{
             swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
         }
+        console.log(response.data)
       });
     };
 
