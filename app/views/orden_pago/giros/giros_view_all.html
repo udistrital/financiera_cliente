@@ -1,21 +1,21 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center"> {{ 'GIROS' | translate }} {{ 'OP_TITULO' | translate }}</h2>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }} a Girar</h3>
-      </div>
-      <br>
-      <div class="panel-default">
-        <op-multi-select
-          inputestado="opGirosViewAll.estado"
-          outputopselect="opGirosViewAll.op_seleccionadas"
-          outputvisible="opGirosViewAll.visible">
-        </op-multi-select>
-
-        <op-multi-select-detail
-          inputopselect="opGirosViewAll.op_seleccionadas"
-          inputvisible="opGirosViewAll.visible">
-        </op-multi-select-detail>
-      </div>
+  <h2 class="page-header text-center"> {{ 'GIROS' | translate }}</h2>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ 'GIROS' | translate }}</h3>
     </div>
+    <div class="panel-default">
+      <div ng-if="!refresh" ui-grid="opGirosViewAll.gridGiros" ui-grid-auto-resize ui-grid-selection></div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div align="center">
+      <a ng-href="#/orden_pago/giros/giros_crear" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+        {{ 'BTN.CREAR' | translate }}
+      </a>
+
+    </div>
+  </div>
+
 </div>

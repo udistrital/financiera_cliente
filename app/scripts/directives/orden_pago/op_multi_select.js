@@ -18,6 +18,19 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
       controller: function($scope) {
         var self = this;
+        //
+        self.cargar_vigencia = function() {
+          financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+            self.vigencia_calendarios = parseInt(response.data);
+            var year = parseInt(response.data) + 1;
+            self.vigencias = [];
+            for (var i = 0; i < 5; i++) {
+              self.vigencias.push(year - i);
+            }
+          });
+        };
+        self.cargar_vigencia();
+        //
         $scope.outputvisible = true;
         self.confirmar = function() {
           if ($scope.outputopselect.length > 0) {
@@ -47,27 +60,44 @@ angular.module('financieraClienteApp')
         })
         //
         self.consultar = function() {
-          if (self.tipoOrdenPagoSelect != undefined && self.formaPagoSelect != undefined && $scope.inputestado != undefined) {
+          if (self.tipoOrdenPagoSelect != undefined && self.formaPagoSelect != undefined && $scope.inputestado != undefined && self.vigenciaSelect != undefined) {
+            console.log(
+              "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion +
+              ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado +
+              ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion +
+              ",Vigencia:" + self.vigenciaSelect
+            );
             financieraRequest.get('orden_pago',
               $.param({
-                query: "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion + ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado + ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion
+                query: "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion +
+                  ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado +
+                  ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion +
+                  ",Vigencia:" + self.vigenciaSelect
               })).then(function(response) {
               self.refresh();
-              self.gridOptions_op.data = response.data;
-              // data proveedor
-              angular.forEach(self.gridOptions_op.data, function(iterador) {
-                agoraRequest.get('informacion_proveedor',
-                  $.param({
-                    query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
-                  })
-                ).then(function(response) {
-                  iterador.Proveedor = response.data[0];
-                });
-                financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
-                  iterador.ValorTotal = response.data;
-                });
-              })
-              // data proveedor
+              if (response.data != null) {
+                self.gridOptions_op.data = response.data;
+                // clear
+                for (var i = self.gridOptions_op.data.length - 1; i >= 0; i--) {
+                  if (self.gridOptions_op.data[i].OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.CodigoAbreviacion != 'EOP_07') {
+                    self.gridOptions_op.data.splice(i, 1);
+                  }
+                }
+                // data
+                angular.forEach(self.gridOptions_op.data, function(iterador) {
+                  agoraRequest.get('informacion_proveedor',
+                    $.param({
+                      query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
+                    })
+                  ).then(function(response) {
+                    iterador.Proveedor = response.data[0];
+                  });
+                  financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
+                    iterador.ValorTotal = response.data;
+                  });
+                })
+                // data proveedor
+              }
             });
           } else {
             self.gridOptions_op.data = null;
