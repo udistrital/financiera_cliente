@@ -61,28 +61,17 @@ angular.module('financieraClienteApp')
         //
         self.consultar = function() {
           if (self.tipoOrdenPagoSelect != undefined && self.formaPagoSelect != undefined && $scope.inputestado != undefined && self.vigenciaSelect != undefined) {
-            console.log(
-              "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion +
-              ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado +
-              ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion +
-              ",Vigencia:" + self.vigenciaSelect
-            );
-            financieraRequest.get('orden_pago',
+            financieraRequest.get("orden_pago/GetOrdenPagoByEstado/",
               $.param({
-                query: "SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion:" + self.tipoOrdenPagoSelect.CodigoAbreviacion +
-                  ",OrdenPagoEstadoOrdenPago.EstadoOrdenPago.CodigoAbreviacion:" + $scope.inputestado +
-                  ",FormaPago.CodigoAbreviacion:" + self.formaPagoSelect.CodigoAbreviacion +
-                  ",Vigencia:" + self.vigenciaSelect
-              })).then(function(response) {
+                codigoEstado: $scope.inputestado,
+                vigencia: self.vigenciaSelect,
+                tipoOp: self.tipoOrdenPagoSelect.Id,
+                formaPago: self.formaPagoSelect.Id,
+              })
+            ).then(function(response) {
               self.refresh();
               if (response.data != null) {
                 self.gridOptions_op.data = response.data;
-                // clear
-                for (var i = self.gridOptions_op.data.length - 1; i >= 0; i--) {
-                  if (self.gridOptions_op.data[i].OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.CodigoAbreviacion != 'EOP_07') {
-                    self.gridOptions_op.data.splice(i, 1);
-                  }
-                }
                 // data
                 angular.forEach(self.gridOptions_op.data, function(iterador) {
                   agoraRequest.get('informacion_proveedor',
@@ -97,6 +86,9 @@ angular.module('financieraClienteApp')
                   });
                 })
                 // data proveedor
+              } else {
+                self.gridOptions_op.data = null;
+                self.refresh();
               }
             });
           } else {
