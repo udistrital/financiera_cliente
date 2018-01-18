@@ -278,6 +278,11 @@ angular
                 controller: 'OpGirosViewAllCtrl',
                 controllerAs: 'opGirosViewAll'
             })
+            .when('/orden_pago/giros/giros_crear', {
+              templateUrl: 'views/orden_pago/giros/giros_crear.html',
+              controller: 'GirosCrearCtrl',
+              controllerAs: 'girosCrear'
+            })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
                 controller: 'RpRpAnulacionCtrl',
