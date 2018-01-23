@@ -278,6 +278,11 @@ angular
                 controller: 'OpGirosViewAllCtrl',
                 controllerAs: 'opGirosViewAll'
             })
+            .when('/orden_pago/giros/giros_crear', {
+              templateUrl: 'views/orden_pago/giros/giros_crear.html',
+              controller: 'GirosCrearCtrl',
+              controllerAs: 'girosCrear'
+            })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
                 controller: 'RpRpAnulacionCtrl',
@@ -412,6 +417,11 @@ angular
               templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
               controller: 'HomologacionConceptoVerPorIdCtrl',
               controllerAs: 'homologacionConceptoVerPorId'
+            })
+            .when('/homologacion_concepto/actualizar/:Id', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_actualizar.html',
+              controller: 'HomologacionConceptoActualizarCtrl',
+              controllerAs: 'homologacionConceptoActualizar'
             })
             .when('/tesoreria/avances/legalizacion', {
                 templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
