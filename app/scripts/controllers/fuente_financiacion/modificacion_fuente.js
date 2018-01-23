@@ -57,28 +57,35 @@ angular.module('financieraClienteApp')
           self.tipo.splice(i, 1)
         }
       }
-
     });
 
-    self.tipo_fuente_rubro=[
-      {Id: 1 , tipo: "Inversión" },
-      {Id: 2 , tipo: "Funcionamiento"}
-    ];
+    financieraRequest.get("tipo_fuente_financiamiento", 'limit=-1').then(function(response) {
+      self.tipo_fuente_financiamiento = response.data;
+      console.log(response.data)
+    });
+
 
     self.cambiar_rubro = function(){
       self.apropiacion=[];
       self.movimiento_fuente_financiamiento_apropiacion_serv=[];
-      if(self.tipo_fuente_r == 1){
-        self.apropiacion = self.apropiacion1;
-        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv1;
-        self.fuentes_seleccionadas = [];
-        self.fuentes_traslado = [];
-      }else{
-        self.apropiacion = self.apropiacion2;
-        self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv2;
-        self.fuentes_seleccionadas = [];
-        self.fuentes_traslado = [];
+
+      for (var i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
+        if(self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id){
+          if(self.tipo_fuente_financiamiento[i].Nombre == "Inversión"){
+            self.apropiacion = self.apropiacion1;
+            self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv1;
+            self.fuentes_seleccionadas = [];
+            self.fuentes_traslado = [];
+          }
+          if(self.tipo_fuente_financiamiento[i].Nombre == "Funcionamiento"){
+            self.apropiacion = self.apropiacion2;
+            self.movimiento_fuente_financiamiento_apropiacion_serv=self.movimiento_fuente_financiamiento_apropiacion_serv2;
+            self.fuentes_seleccionadas = [];
+            self.fuentes_traslado = [];
+          }
+        }
       }
+
       self.actualizar();
     };
 

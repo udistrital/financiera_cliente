@@ -1,61 +1,27 @@
 <div ng-show="!inputvisible">
 
   <div class="panel-body">
-    <div ng-if="!refresh" ui-grid="d_opMultiSelectDetail.gridOptions_op_detail" ui-grid-selection ui-grid-auto-resize></div>
+    <div ng-if="!refresh" ui-grid="d_opMultiSelectDetail.gridOptions_op_detail" ui-grid-selection></div>
     <br/>
-
     <div class="form-horizontal">
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label class="control-label col-sm-2">{{'TIPO' | translate}} {{'GIRO' | translate}}</label>
-          <div class="col-sm-4">
-            <select ng-model="tipogiro" class="form-control" required>
-          <option value="">Seleccionar Tipo Giro</option>
-          <option value="TRANS_BANCARIA">TRANS. BANCARIA</option>
-          <option value="CHEQUE">CHEQUE</option>
-        </select>
-          </div>
-          <label class="control-label col-sm-2">{{'TIPO' | translate}}</label>
-          <div class="col-sm-4">
-            <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2">{{'SUCURSAL' | translate}}</label>
-          <div class="col-sm-10">
-            <span class="form-control">{{d_rpPorProveedorListar.rp_select_de_consulta[0].RegistroPresupuestal.Vigencia}}</span>
-          </div>
+      <div class="form-group">
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'AC'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'CH'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'EF'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
+        <label ng-show=" d_opMultiSelectDetail.giro.FormaPago.CodigoAbreviacion == 'ND'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
+        <div class="col-sm-10">
+          <span class="form-control input_right" readonly>{{d_opMultiSelectDetail.giro.ValorTotal  | currency:"$":2  }}</span>
         </div>
       </div>
-      <div class="col-sm-6">
-        <div class="form-group">
-          <label class="control-label col-sm-3">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
-          <div class="col-sm-9">
-            <span class="form-control input_right">{{d_opMultiSelectDetail.total_abono_cuenta | currency:"$":2  }}</span>
-          </div>
+      <div class="form-group">
+        <label for="formapago" class="col-sm-2 control-label">{{'CUENTA_BANCARIA' | translate }}</label>
+        <div class=" col-sm-10">
+          <div ui-grid="d_opMultiSelectDetail.gridOptions_cuenta_bancaria" ui-grid-selection ui-grid-pagination></div>
         </div>
-        <div class="form-group">
-          <label class="control-label col-sm-3">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
-          <div class="col-sm-9">
-            <span class="form-control input_right">{{d_opMultiSelectDetail.total_cheque | currency:"$":2  }}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-3">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
-          <div class="col-sm-9">
-            <span class="form-control input_right">{{d_opMultiSelectDetail.total_efectivo | currency:"$":2 }}</span>
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-3">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
-          <div class="col-sm-9">
-            <span class="form-control input_right">{{d_opMultiSelectDetail.total_nota_debito | currency:"$":2 }}</span>
-          </div>
-        </div>
-
       </div>
     </div>
   </div>
+  <pre>{{d_opMultiSelectDetail.dataGiroSend | json}}</pre>
   <div align="center">
     <a class="btn btn-info btn-outline" ng-click="d_opMultiSelectDetail.regresar()">
       {{ 'BTN.REGRESAR' | translate }}
@@ -64,5 +30,7 @@
       {{ 'BTN.CONFIRMAR' | translate }}
     </a>
   </div>
+
+
 
 </div>
