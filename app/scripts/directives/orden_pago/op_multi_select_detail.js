@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest) {
+  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window) {
     return {
       restrict: 'E',
       scope: {
@@ -220,20 +220,21 @@ angular.module('financieraClienteApp')
             self.dataGiroSend.OrdenPago = $scope.inputopselect;
             console.log("registrar");
             console.log(self.dataGiroSend);
-            // financieraRequest.post('homologacion_concepto/RegistrarHomologacionConcepto', self.HomologacionConcepto)
-            //   .then(function(response) {
-            //     self.resultado = response.data;
-            //     console.log("Resultado");
-            //     console.log(self.resultado);
-            //     console.log("Resultado");
-            //     swal({
-            //       title: $translate.instant('HOMOLOGACION') + " " + $translate.instant('CONCEPTOS'),
-            //       text: $translate.instant(self.resultado.Code) + self.resultado.Body,
-            //       type: self.resultado.Type,
-            //     }).then(function() {
-            //       $window.location.href = '#/homologacion_concepto/homologacion_concepto_ver_todas';
-            //     })
-            //   })
+            console.log("registrar");
+            financieraRequest.post('giro/RegistrarGiro', self.dataGiroSend)
+              .then(function(response) {
+                self.resultado = response.data;
+                console.log("Resultado");
+                console.log(self.resultado);
+                console.log("Resultado");
+                swal({
+                  title: $translate.instant('GIRO'),
+                  text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+                  type: self.resultado.Type,
+                }).then(function() {
+                  $window.location.href = '#/orden_pago/giros/ver_todos';
+                })
+              })
           } else {
             swal({
               title: 'Error!',

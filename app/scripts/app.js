@@ -283,6 +283,11 @@ angular
               controller: 'GirosCrearCtrl',
               controllerAs: 'girosCrear'
             })
+            .when('/orden_pago/giros/ver/:Id', {
+              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+              controller: 'GirosVerPorIdCtrl',
+              controllerAs: 'girosVerPorId'
+            })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
                 controller: 'RpRpAnulacionCtrl',
@@ -372,6 +377,10 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
+            })            .when('/orden_pago/giros/giros_ver_por_id', {
+              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+              controller: 'OrdenPagoGirosGirosVerPorIdCtrl',
+              controllerAs: 'ordenPago/giros/girosVerPorId'
             })
             .when('/compromisos/listado_compromisos', {
                 templateUrl: 'views/compromisos/listado_compromisos.html',
