@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpGirosViewAllCtrl', function($scope, financieraRequest, $window, $translate, coreRequest, uiGridConstants) {
+  .controller('OpGirosViewAllCtrl', function($scope, financieraRequest, $window, $translate, $location, coreRequest, uiGridConstants) {
     var self = this;
     self.selectEstadoGiro = [];
 
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
           enableFiltering: false,
           width: '10%',
           cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
+            '<a class="ver" ng-click="grid.appScope.opGirosViewAll.detalle(row)">' +
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
             '<a class="editar" ng-click="grid.appScope.opViewAll.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
             '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
@@ -147,7 +147,15 @@ angular.module('financieraClienteApp')
         $scope.refresh = false;
       }, 0);
     };
-
+    //
+    self.detalle = function(row) {
+      var path = "/orden_pago/giros/ver/"
+      $location.url(path + row.entity.Id)
+    }
+    self.editar = function(row) {
+      var path = "/homologacion_concepto/actualizar/"
+      $location.url(path + row.entity.Id)
+    }
 
     //f
   });
