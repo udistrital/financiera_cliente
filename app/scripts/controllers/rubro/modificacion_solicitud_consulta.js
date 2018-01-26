@@ -158,7 +158,11 @@ angular.module('financieraClienteApp')
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('APROPIACION') + "</th>";
           angular.forEach(self.alerta, function(data) {
             if (data.Type === "error") {
-              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
+              if (data.Body !== null){
+                templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
+              }else{
+                templateAlert = templateAlert + "<tr class='danger'><td>" + 'N/A' + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + 'N/A' + "</td>"+ "<td>" + 'N/A'+ "</td>";
+              }
             } else if (data.Type === "success") {
               templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>" ;
             }
@@ -211,7 +215,11 @@ angular.module('financieraClienteApp')
   $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
       
        
-        self.cargarDatos(0,'');
+    financieraRequest.get("movimiento_apropiacion/TotalMovimientosApropiacion/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.gridOptions.totalItems = response.data;
+      self.cargarDatos(self.offset, '');
+    });
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
