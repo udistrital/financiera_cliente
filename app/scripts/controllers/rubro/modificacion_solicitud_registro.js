@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
     var self = this;
     self.modificaciones = [];
     self.descripcion = '';
+    self.UnidadEjecutora = 1;
     console.log(self.descripcion.length);
     self.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
@@ -98,6 +99,7 @@ angular.module('financieraClienteApp')
     	dataRegistroModificacion.MovimientoApropiacion.Descripcion = self.descripcion;
       dataRegistroModificacion.MovimientoApropiacion.Noficio = parseInt(self.oficio);
       dataRegistroModificacion.MovimientoApropiacion.Foficio = self.fechaOficio;
+      dataRegistroModificacion.MovimientoApropiacion.UnidadEjecutora = self.UnidadEjecutora;
     	dataRegistroModificacion.MovimientoApropiacionDisponibilidadApropiacion = self.modificaciones;
     	console.log(dataRegistroModificacion);
     	financieraRequest.post('movimiento_apropiacion/RegistroSolicitudMovimientoApropiacion', dataRegistroModificacion).then(function(response) {
