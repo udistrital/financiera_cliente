@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
   .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,$scope,$translate,$filter) {
     var self = this;
+    self.offset = 0;
+    self.UnidadEjecutora = 1;
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -19,7 +21,7 @@ angular.module('financieraClienteApp')
       enableFiltering : true,
       paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
-      //useExternalPagination: true,
+      useExternalPagination: true,
       columnDefs : [
         {field: 'Id',             visible : false},
         {field: 'Vigencia' ,displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info' },
@@ -51,45 +53,69 @@ angular.module('financieraClienteApp')
                 }
                 self.years = range;
                 self.Vigencia = self.vigenciaActual;
-                self.cargarDatos(-1,'');
-
+                //self.cargarDatos(self.offset,'');
+                financieraRequest.get("movimiento_apropiacion/TotalMovimientosApropiacion/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                .then(function(response) { //error con el success
+                  self.gridOptions.totalItems = response.data;
+                  self.cargarDatos(self.offset, '');
+                });
             });
 
+            
+
     self.cargarDatos = function(offset,query){
-      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
-      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
-      var query = '';
-      if (inicio !== undefined && fin !== undefined) {
-        financieraRequest.get('movimiento_apropiacion/',$.param({
-          query: "Vigencia:" + self.Vigencia+",FechaMovimiento__gte:"+inicio+",FechaMovimiento__lte:"+fin,
-          offset: offset
-        })).then(function(response) {
-        if (response.data === null){
-          self.gridOptions.data = [];
-        }else{
-          self.gridOptions.data = response.data;
-        }
-  
-  
-        });
+      if (query === ''){
+        query = query+ '&query=Vigencia:'+ self.Vigencia+",UnidadEjecutora:"+self.UnidadEjecutora;
       }else{
-        financieraRequest.get('movimiento_apropiacion/',$.param({
-          query: "Vigencia:"+self.Vigencia,
-          offset: offset
-        })).then(function(response) {
-        if (response.data === null){
-          self.gridOptions.data = [];
-        }else{
-          self.gridOptions.data = response.data;
-        }
-        
-  
-  
-        });
+        query = query+ ',Vigencia:'+ self.Vigencia+",UnidadEjecutora:"+self.UnidadEjecutora;
       }
+      financieraRequest.get('movimiento_apropiacion','limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) {
+        if (response.data === null || response.data.Type !== undefined) {
+            self.gridOptions.data = [];
+        } else {
+            console.log(response.data);
+            self.gridOptions.data = response.data;
+        }
+    });
           
     	
     };
+
+    self.gridOptions.onRegisterApi = function(gridApi) {
+      gridApi.core.on.filterChanged($scope, function() {
+          var grid = this.grid;
+          var query = '';
+          angular.forEach(grid.columns, function(value, key) {
+              if (value.filters[0].term) {
+                  var formtstr = value.colDef.name.replace('[0]','');
+                  query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                  console.log(query);
+              }
+          });
+          self.cargarDatos(self.offset, query);
+      });
+      gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
+          
+          //self.gridOptions.data = {};
+          
+          // var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+          // var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+          // var query = '';
+          // if (inicio !== undefined && fin !== undefined) {
+          //     query = '&rangoinicio=' + inicio + "&rangofin=" + fin;
+          // }
+          var grid = this.grid;
+          angular.forEach(grid.columns, function(value, key) {
+              if (value.filters[0].term) {
+                  var formtstr = value.colDef.name.replace('[0]','');
+                  query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                 
+              }
+          });
+          self.offset = (newPage - 1) * pageSize;
+          self.cargarDatos(self.offset, query);
+      });
+  };
 
     $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
       
@@ -132,7 +158,11 @@ angular.module('financieraClienteApp')
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('APROPIACION') + "</th>";
           angular.forEach(self.alerta, function(data) {
             if (data.Type === "error") {
-              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
+              if (data.Body !== null){
+                templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
+              }else{
+                templateAlert = templateAlert + "<tr class='danger'><td>" + 'N/A' + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + 'N/A' + "</td>"+ "<td>" + 'N/A'+ "</td>";
+              }
             } else if (data.Type === "success") {
               templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>" ;
             }
@@ -185,7 +215,11 @@ angular.module('financieraClienteApp')
   $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
       
        
-        self.cargarDatos(0,'');
+    financieraRequest.get("movimiento_apropiacion/TotalMovimientosApropiacion/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+    .then(function(response) { //error con el success
+      self.gridOptions.totalItems = response.data;
+      self.cargarDatos(self.offset, '');
+    });
     
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
