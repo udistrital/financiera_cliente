@@ -65,9 +65,9 @@ angular.module('financieraClienteApp')
 
     self.cargarDatos = function(offset,query){
       if (query === ''){
-        query = query+ '&query=Vigencia:'+ self.Vigencia;
+        query = query+ '&query=Vigencia:'+ self.Vigencia+",UnidadEjecutora:"+self.UnidadEjecutora;
       }else{
-        query = query+ ',Vigencia:'+ self.Vigencia;
+        query = query+ ',Vigencia:'+ self.Vigencia+",UnidadEjecutora:"+self.UnidadEjecutora;
       }
       financieraRequest.get('movimiento_apropiacion','limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) {
         if (response.data === null || response.data.Type !== undefined) {
