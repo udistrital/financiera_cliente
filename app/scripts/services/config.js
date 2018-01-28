@@ -25,16 +25,19 @@ var conf_cloud = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
-        AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "MWxzi3GKKMVj0RDitf4z5xWYVe0a",
-        REDIRECT_URL: "http://10.20.0.254/kronos/",
-        RESPONSE_TYPE: "id_token token",
+        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        CLIENTE_ID: "2sbv8HxQIZCMC1CqPTP6yI6VPDca",
+        REDIRECT_URL: "http://localhost:9000/",
+        RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "http://10.20.0.254/kronos/",
-        SIGN_OUT_APPEND_TOKEN: "true"
-    }
+        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
+        SIGN_OUT_APPEND_TOKEN: "true",
+        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
+    },
 };
 var conf_presentacion = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
@@ -53,16 +56,19 @@ var conf_presentacion = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
-        AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "MWxzi3GKKMVj0RDitf4z5xWYVe0a",
-        REDIRECT_URL: "http://10.20.0.254/kronos/",
-        RESPONSE_TYPE: "id_token token",
+        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        CLIENTE_ID: "2sbv8HxQIZCMC1CqPTP6yI6VPDca",
+        REDIRECT_URL: "http://localhost:9000/",
+        RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "http://10.20.0.254/kronos/",
-        SIGN_OUT_APPEND_TOKEN: "true"
-    }
+        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
+        SIGN_OUT_APPEND_TOKEN: "true",
+        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
+    },
 };
 var conf_pruebas = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -83,16 +89,19 @@ var conf_pruebas = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
-        AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "MWxzi3GKKMVj0RDitf4z5xWYVe0a",
-        REDIRECT_URL: "http://10.20.0.254/kronos/",
-        RESPONSE_TYPE: "id_token token",
+        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        CLIENTE_ID: "m3m5r9DACVJd58tAcbD1jIyktZQa",
+        REDIRECT_URL: "http://kronos.portaloas.udistrital.edu.co/",
+        RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "http://10.20.0.254/kronos/",
-        SIGN_OUT_APPEND_TOKEN: "true"
-    }
+        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "http://kronos.portaloas.udistrital.edu.co/",
+        SIGN_OUT_APPEND_TOKEN: "true",
+        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "kL8YZVnayCztbsWQQRkQ_x9FT9Ea"
+    },
 };
 var conf_local = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -113,15 +122,18 @@ var conf_local = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
-        AUTORIZATION_URL: "https://10.20.0.162:9443/oauth2/authorize",
-        CLIENTE_ID: "bfPMflsiPVN6WFjJZIpzjsLdlx8a",
+        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        CLIENTE_ID: "2sbv8HxQIZCMC1CqPTP6yI6VPDca",
         REDIRECT_URL: "http://localhost:9000/",
-        RESPONSE_TYPE: "id_token token",
+        RESPONSE_TYPE: "code",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "https://10.20.0.162:9443/oidc/logout",
+        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
         SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
-        SIGN_OUT_APPEND_TOKEN: "true"
+        SIGN_OUT_APPEND_TOKEN: "true",
+        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
 };
 
