@@ -1,5 +1,17 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'TITULO_FUENTES_CONSULTAR' | translate }}</h2>
+
+  <div class="panel-body">
+    <div class="col-md-2 col-md-offset-5">
+        <center>
+            <label for="select_vigencia" class="col-form-label">Vigencia </label>
+            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia">
+                  <option ng-repeat="option in consultaFuente.years" value="{{option}}">{{option}}</option>
+            </select>
+        </center>
+    </div>
+  </div>
+
   <div class="panel-body">
     <div ui-grid="consultaFuente.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
   </div>
@@ -32,14 +44,11 @@
           <th>{{ 'VALOR' | translate }}: </th>
           <td>{{ consultaFuente.valor_total | currency}}</td>
         </tr>
-        <tr ng-show="consultaFuente.tipo_fuente == 1">
+        <tr>
           <th>{{ 'TIPO' | translate }}: </th>
-          <td>{{ 'INVERSION' | translate }}</td>
+          <td>{{consultaFuente.tipo_fuente}}</td>
         </tr>
-        <tr ng-show="consultaFuente.tipo_fuente == 2">
-          <th>{{ 'TIPO' | translate }}: </th>
-          <td>{{ 'FUNCIONAMIENTO' | translate }}</td>
-        </tr>
+
       </table>
       <hr>
       <h4 class="text-info">{{'RUBROS' | translate}}</h4>

@@ -24,6 +24,11 @@ angular.module('financieraClienteApp')
       self.fuente_financiamiento_apropiacion = response.data;
     });
 
+    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=Fecha__startswith:' + parseInt(self.year)).then(function(response) {
+      self.movimiento_fuente_financiamiento_apropiacion = response.data;
+      console.log(self.movimiento_fuente_financiamiento_apropiacion)
+    });
+
     financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista", 'limit=-1').then(function(response) {
       self.movimiento_fuente_financiamiento_apropiacion_serv1 = response.data;
     });
@@ -32,14 +37,13 @@ angular.module('financieraClienteApp')
       self.movimiento_fuente_financiamiento_apropiacion_serv2 = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:'+parseInt(self.year)+',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
       self.apropiacion1 = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=rubro.codigo__startswith:3-1-&query=rubro.codigo__startswith:3-1-002-&sortby=rubro&order=asc&query=vigencia:' + self.fecha).then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:'+parseInt(self.year)+',rubro.codigo__startswith:3-1-&sortby=rubro&order=asc').then(function(response) {
       self.apropiacion2 = response.data;
     });
-
 
     oikosRequest.get("dependencia", 'limit=-1').then(function(response) {
       self.dependencia = response.data;
@@ -326,9 +330,10 @@ angular.module('financieraClienteApp')
     };
 
     self.montoAsignado = function() {
-
+      self.comprobar_valor = true;
       self.totalMonto = 0;
       self.valorTotal = 0;
+      self.valor_total_apropiacion = 0;
       for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
         for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
           for (var k = 0; k < self.dependencia.length; k++) {
@@ -341,11 +346,25 @@ angular.module('financieraClienteApp')
       }
       self.valorTotal = self.valor_rubro + self.totalMonto;
 
-      if (self.totalMonto == self.nueva_fuente_apropiacion.Monto) {
-        return true;
-      } else {
-        return false;
+      if (self.totalMonto != self.nueva_fuente_apropiacion.Monto) {
+        self.comprobar_valor = false;
+         swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_ADICION'), "error");
       }
+
+      for (var k = 0; k < self.apropiacion.length; k++) {
+        if (self.apropiacion[k].Id== self.adicion_rubro) {
+          self.valor_total_apropiacion = self.apropiacion[k].Valor;
+        }
+      }
+
+      if (self.valorTotal > self.valor_total_apropiacion) {
+        self.comprobar_valor = false;
+          console.log(self.valor_total_apropiacion)
+            console.log(self.valorTotal)
+        swal($translate.instant('ERROR'), $translate.instant('RUBRO_MAYOR_APROPIACION'), "error");
+      }
+
+      return self.comprobar_valor;
     };
 
     self.tabla_fuentes = [];
@@ -411,8 +430,6 @@ angular.module('financieraClienteApp')
           if (self.montoAsignado()) {
             self.generar_tabla_fuentes();
             $("#myModal").modal();
-          } else {
-            swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_ADICION'), "error");
           }
         }
       }
@@ -589,9 +606,9 @@ angular.module('financieraClienteApp')
       self.contenido_string=JSON.stringify(self.contenido);
 
       var data = {
-        Nombre: "prueba",
-        Descripcion: "Descrpción",
-        CodigoAbreviacion: "REG-FUE",
+        Nombre: "Adición Fuente de Financiamiento",
+        Descripcion: "",
+        CodigoAbreviacion: "MOD-FUE",
         Activo: true,
         Contenido: self.contenido_string,
         TipoDocumento: {
@@ -687,15 +704,16 @@ angular.module('financieraClienteApp')
       self.contenido_string=JSON.stringify(self.contenido);
 
       var data = {
-        Nombre: "prueba",
-        Descripcion: "Descrpción",
-        CodigoAbreviacion: "REG-FUE",
+        Nombre: "Traslado Fuente de Financiamiento",
+        Descripcion: "",
+        CodigoAbreviacion: "MOD-FUE",
         Activo: true,
         Contenido: self.contenido_string,
         TipoDocumento: {
           Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
       }
+
       coreRequest.post("documento", data).then(function(response) {
         self.id = response.data.Id;
         self.crear_fuente_apropiacion( self.fuente_origen, self.adicion_fuente, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)),self.id);

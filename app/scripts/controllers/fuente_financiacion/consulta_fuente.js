@@ -111,12 +111,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           cellTemplate: '<div align="right">{{row.entity.Valor | currency}}</div>',
           displayName: $translate.instant('VALOR'),
           width: '15%'
-        },
-        {
-          field: 'ValorGastado',
-          cellTemplate: '<div align="right">{{row.entity.ValorGastado | currency}}</div>',
-          displayName: $translate.instant('COMPROMETIDO'),
-          width: '15%'
         }
 
       ]
@@ -127,28 +121,41 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
       $("#myModal").modal('hide');
     };
 
+    financieraRequest.get("orden_pago/FechaActual/2006")
+    .then(function(response) {
+      self.vigenciaActual = parseInt(response.data);
+      var dif = self.vigenciaActual - 1995 ;
+      var range = [];
+      range.push(self.vigenciaActual);
+      for(var i=1;i<dif;i++) {
+        range.push(self.vigenciaActual - i);
+      }
+      self.years = range;
+      self.Vigencia = self.years[0];
+    });
+
     self.fuente_seleccionada = {};
     self.fuente_financiamiento_apropiacion = [];
 
     self.gridOptions.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-        self.tipo_fuente=1;
         self.valor_total = 0;
         self.fuente_seleccionada = row.entity;
-        self.cambiar_rubro();
+        self.cambiar_rubro(row.entity);
         $("#myModal").modal();
       });
     };
 
+        self.cambiar_rubro = function(fuente){
+          self.gridOptionsapropiacion.data = [];
 
-        self.cambiar_rubro = function(){
-
-          if(self.tipo_fuente == 1){
-
-            financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista",$.param({
-              idfuente: parseInt(self.fuente_seleccionada.Id)
-            })).then(function(response) {
+          if(fuente.TipoFuenteFinanciamiento.Nombre == "Inversión" ){
+            self.tipo_fuente=$translate.instant('INVERSION');
+          }else{
+            self.tipo_fuente=$translate.instant('FUNCIONAMIENTO');
+          }
+            financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(fuente.Id) + ',FuenteFinanciamientoApropiacion.Apropiacion.Vigencia:', parseInt(self.Vigencia)).then(function(response) {
 
               self.gridOptionsapropiacion.data = response.data;
               angular.forEach(self.gridOptionsapropiacion.data, function (data) {
@@ -173,44 +180,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
               for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
                 self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
               }
-            }else{
-              self.gridOptionsapropiacion.data=[];
-              self.tipo_fuente=2;
-              self.cambiar_rubro();
             }
             });
-
-          }else{
-
-            financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteListaFunc",$.param({
-              idfuente: parseInt(self.fuente_seleccionada.Id)
-            })).then(function(response) {
-
-              self.gridOptionsapropiacion.data = response.data;
-              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
-                oikosRequest.get('dependencia', 'limit=1&query=Id:' + data.FuenteFinanciamientoApropiacion.Dependencia).then(function (response) {
-                  data.FuenteFinanciamientoApropiacion.Dependencia = response.data[0];
-                });
-              });
-
-              angular.forEach(self.gridOptionsapropiacion.data, function (data) {
-                coreRequest.get('documento', 'limit=1&query=Id:' + data.TipoDocumento).then(function (response) {
-                  data.TipoDocumento = response.data[0];
-                });
-              });
-
-              self.valor_total = 0;
-              self.fuente_financiamiento_apropiacion1 = response.data;
-              if(self.fuente_financiamiento_apropiacion1){
-
-              for (var i = 0; i < self.fuente_financiamiento_apropiacion1.length; i++) {
-                self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion1[i].Valor;
-              }
-            }else{
-              self.gridOptionsapropiacion.data=[];
-            }
-          });
-
-          }
         };
       });
