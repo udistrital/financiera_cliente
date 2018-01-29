@@ -20,7 +20,7 @@ angular.module('financieraClienteApp')
     ];
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
-      //self.Vigencia =  parseInt(response.data);
+      self.Vigencia =  parseInt(response.data);
       financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
         UnidadEjecutora: self.UnidadEjecutora,
         Vigencia: parseInt(response.data)
