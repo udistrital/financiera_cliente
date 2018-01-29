@@ -20,7 +20,6 @@ angular.module('financieraMidService', [])
     .factory('financieraMidRequest', function($http, CONF) {
         // Service logic
         var path = CONF.GENERAL.FINANCIERA_MID_SERVICE;
-        var path = 'http://127.0.0.1:8087/v1/'
         // Public API here
         return {
             /**
