@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
     var self = this;
     self.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-      //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+      { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
     ];
     
     financieraRequest.get('entidad','limit=0').then(function (response) {
@@ -49,9 +49,10 @@ angular.module('financieraClienteApp')
           swal("", $translate.instant("E_RB001"),"error");
         }else if (self.descripcion_hijo === '' || self.descripcion_hijo === undefined){
           swal("", $translate.instant("E_RB002"),"error");
-        }else if (self.selectEntidad === null){
+        }/*else if (self.selectEntidad === null){
           swal("", $translate.instant("E_RB004"),"error");
-        }else{
+        }*/
+        else{
           var codigo_rubro = "";
           var id_hijo = 0;
           var rubro_padre;
@@ -67,12 +68,10 @@ angular.module('financieraClienteApp')
                 };
   
           }
-          var entidad = {
-                Id: parseInt(self.selectEntidad)
-            };
+          
           var rubro_hijo = {
                 Vigencia: 0,
-                Entidad: entidad,
+                Entidad: 1,
                 Nombre: self.nombre_hijo,
                 Codigo: codigo_rubro,
                 Descripcion: self.descripcion_hijo,
