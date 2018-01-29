@@ -156,7 +156,7 @@ var text_es = {
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",
     E_23503: "No se puede realizar la operacion Solicitada",
     E_23505: "Ya existe un registro con uno de los parámetros únicos ingresados",
-    E_25P02: "Este registro ya ha sido creado. ",
+    E_25P02: "Operación No Permitida. ",
     E_901: "No se ha podido validar los requisitos",
     E_A02: "Debe digitar el motivo de la anulación",
     E_A03: "Debe seleccionar el tipo de anulación a realizar",
