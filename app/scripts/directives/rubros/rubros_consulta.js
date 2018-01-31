@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
         botones: '=?',
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
-      controller: function($scope, $translate) {
+      controller: function($scope, $translate,$interval) {
         var self = this;
         self.UnidadEjecutora = 1;
         self.treeOptions = {
@@ -146,6 +146,10 @@ angular.module('financieraClienteApp')
              
            
         }, true);
+
+        $interval(function() {
+          self.cargar_arbol();// your code
+       }, 5000);
         
         /**
          * @ngdoc event
