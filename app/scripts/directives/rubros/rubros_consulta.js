@@ -75,6 +75,7 @@ angular.module('financieraClienteApp')
           
           switch (operacion) {
               case "ver":
+                  $scope.data = nodo;
                   $("#myModal").modal();
                   break;
               case "add":
@@ -82,6 +83,22 @@ angular.module('financieraClienteApp')
               case "edit":
                   break;
               case "delete":
+                  
+                 if (nodo !== undefined){
+                  financieraRequest.delete("rubro",nodo.Id).then(function(response){
+                    console.log(response.data);
+                    if (response.data.Type !== undefined) {
+                      if (response.data.Type === "error") {
+                          swal('', $translate.instant(response.data.Code), response.data.Type);
+                      } else {
+
+                          swal('', $translate.instant(response.data.Code), response.data.Type);
+                          $scope.recargar = !$scope.recargar;
+                      }
+
+                  }
+                  });
+                 }
                   break;
               case "config":
                   break;
