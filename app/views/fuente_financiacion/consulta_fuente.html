@@ -5,7 +5,7 @@
     <div class="col-md-2 col-md-offset-5">
         <center>
             <label for="select_vigencia" class="col-form-label">Vigencia </label>
-            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia">
+            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia" ng-change="consultaFuente.consulta_fuente_vigencia()">
                   <option ng-repeat="option in consultaFuente.years" value="{{option}}">{{option}}</option>
             </select>
         </center>

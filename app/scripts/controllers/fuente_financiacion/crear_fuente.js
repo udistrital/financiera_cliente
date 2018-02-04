@@ -26,7 +26,6 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=Fecha__startswith:' + parseInt(self.year)).then(function(response) {
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
-      console.log(self.movimiento_fuente_financiamiento_apropiacion)
     });
 
     financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:'+parseInt(self.year)+',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
@@ -59,7 +58,6 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_fuente_financiamiento", 'limit=-1').then(function(response) {
       self.tipo_fuente_financiamiento = response.data;
-      console.log(response.data)
     });
 
     self.nueva_fuente = {};
@@ -225,11 +223,8 @@ angular.module('financieraClienteApp')
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
         self.total_monto_rubro=0;
         for (var h = 0; h < self.movimiento_fuente_financiamiento_apropiacion.length; h++) {
-          console.log("apropiacion : " + self.movimiento_fuente_financiamiento_apropiacion[h].FuenteFinanciamientoApropiacion.Apropiacion.Id)
-          console.log("rubro seleccionado : "+ self.rubros_seleccionados[i].Id)
           if(self.movimiento_fuente_financiamiento_apropiacion[h].FuenteFinanciamientoApropiacion.Apropiacion.Id==self.rubros_seleccionados[i].Id){
             self.total_monto_rubro=self.total_monto_rubro+parseInt(self.movimiento_fuente_financiamiento_apropiacion[h].Valor);
-            console.log(self.total_monto_rubro)
           }
         }
         for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
@@ -242,7 +237,6 @@ angular.module('financieraClienteApp')
           self.total_monto_rubro = self.total_monto_rubro+ parseInt(self.rubros_seleccionados[i].seleccionado[j].Valor);
         }
         if (self.total_monto_rubro > self.rubros_seleccionados[i].Valor) {
-          console.log(self.total_monto_rubro)
           self.comprobar_valor=false;
           swal($translate.instant('ERROR'), $translate.instant('RUBRO_MAYOR_APROPIACION'), "error");
         }
@@ -359,10 +353,8 @@ angular.module('financieraClienteApp')
           Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
       }
-      console.log(data)
       coreRequest.post("documento", data).then(function(response) {
         self.id = response.data.Id;
-        console.log(response.data)
         self.crear_fuente(self.id);
       });
     };
@@ -441,7 +433,6 @@ angular.module('financieraClienteApp')
         }else{
             swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
         }
-        console.log(response.data)
       });
     };
 

@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
 
     self.fecha = new Date();
     self.year = self.fecha.getFullYear();
-
+    self.year = 2017;
     financieraRequest.get("fuente_financiamiento", 'limit=-1&sortby=descripcion&order=asc').then(function(response) {
       self.fuente_financiamiento = response.data;
       self.gridOptionsfuente.data = response.data;
@@ -26,7 +26,6 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=Fecha__startswith:' + parseInt(self.year)).then(function(response) {
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
-      console.log(self.movimiento_fuente_financiamiento_apropiacion)
     });
 
     financieraMidRequest.get("aprobacion_fuente/ValorMovimientoFuenteLista", 'limit=-1').then(function(response) {
@@ -65,7 +64,6 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_fuente_financiamiento", 'limit=-1').then(function(response) {
       self.tipo_fuente_financiamiento = response.data;
-      console.log(response.data)
     });
 
 
@@ -359,8 +357,6 @@ angular.module('financieraClienteApp')
 
       if (self.valorTotal > self.valor_total_apropiacion) {
         self.comprobar_valor = false;
-          console.log(self.valor_total_apropiacion)
-            console.log(self.valorTotal)
         swal($translate.instant('ERROR'), $translate.instant('RUBRO_MAYOR_APROPIACION'), "error");
       }
 
@@ -615,10 +611,8 @@ angular.module('financieraClienteApp')
           Id: parseInt(self.nueva_fuente_apropiacion.tipo_documento)
         }
       }
-      console.log(data)
       coreRequest.post("documento", data).then(function(response) {
         self.id = response.data.Id;
-        console.log(response.data)
         self.asignar_rubros(self.adicion_rubro,self.id);
       });
     };
