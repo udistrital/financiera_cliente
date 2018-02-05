@@ -3,8 +3,22 @@
 angular.module('financieraClienteApp')
     .controller('menuCtrl', function($location, $window, $q, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
-
-        self.perfil = "Admin";
+        $scope.token_service = token_service;
+         $scope.$on('$routeChangeSuccess', function(scope, next, current){
+            configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
+            $rootScope.my_menu = response.data;
+            if (!$scope.havePermission(next.templateUrl,$rootScope.my_menu)){
+                $location.path("/");
+            }
+            /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
+            console.log("get menu");
+            $scope.menu_service = configuracionRequest.get_menu();*/
+        });
+            
+         });
+        if($scope.token_service.live_token()){
+            self.perfil = $scope.token_service.getRoles();
+        }
         //$scope.menuserv=configuracionRequest;
         $scope.language = {
             es: "btn btn-primary btn-circle btn-outline active",
@@ -12,7 +26,7 @@ angular.module('financieraClienteApp')
         };
         $scope.notificacion = notificacion;
         $scope.actual = "";
-        $scope.token_service = token_service;
+        
         $scope.breadcrumb = [];
 
         $scope.menu_app = [{
@@ -81,6 +95,33 @@ angular.module('financieraClienteApp')
                     $location.path(path);
                     break;
             }
+        };
+
+        $scope.havePermission = function(viewPath,menu){
+            var currentPath = viewPath.replace(".html","").split("views/").pop();
+            var head = menu;
+            var permission = $scope.menuWalkThrough(head,currentPath);
+            console.log("Permission: ",permission);
+            return permission;
+        };
+
+        $scope.menuWalkThrough = function(head,url){
+            var acum = 0;
+            if(!angular.isUndefined(head)){
+                angular.forEach(head,function(node){
+                    if (node.Opciones === null && node.Url === url){
+                        acum = acum + 1;
+                    }else if (node.Opciones !== null){
+                        acum = acum  + $scope.menuWalkThrough(node.Opciones,url);
+                    }else{
+                        acum = acum + 0;
+                    }
+                });
+                return acum;
+            }else{
+                return acum;
+            }
+            
         };
 
         $scope.notificacion.get_crud('notificacion', $.param({

@@ -11,9 +11,10 @@ angular.module('financieraClienteApp')
     .factory("disponibilidad", function() {
         return {};
     })
-    .controller('CdpCdpConsultaCtrl', function($filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest) {
+    .controller('CdpCdpConsultaCtrl', function($filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest,token_service) {
         var self = this;
         self.offset = 0;
+        self.token = token_service.getRoles();
         self.gridOptions = {
             enableFiltering: true,
             enableSorting: true,
