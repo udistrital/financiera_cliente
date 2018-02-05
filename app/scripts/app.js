@@ -438,6 +438,9 @@ angular
               controller: 'RubroModificacionSolicitudConsultaCtrl',
               controllerAs: 'modificacionSolicitudConsulta'
             })
+            .when('/no_permission', {
+              templateUrl: '404.html'
+            })
             .otherwise({
                 redirectTo: '/'
             });

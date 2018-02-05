@@ -8,7 +8,7 @@ angular.module('financieraClienteApp')
             configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
             $rootScope.my_menu = response.data;
             if (!$scope.havePermission(next.templateUrl,$rootScope.my_menu)){
-                $location.path("/");
+                $location.path("/no_permission");
             }
             /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");
@@ -100,9 +100,14 @@ angular.module('financieraClienteApp')
         $scope.havePermission = function(viewPath,menu){
             var currentPath = viewPath.replace(".html","").split("views/").pop();
             var head = menu;
-            var permission = $scope.menuWalkThrough(head,currentPath);
-            console.log("Permission: ",permission);
+            var permission = 0;
+            if (currentPath !== "main"){
+                permission=$scope.menuWalkThrough(head,currentPath);
+            }else{
+                permission =1;
+             }
             return permission;
+            
         };
 
         $scope.menuWalkThrough = function(head,url){
