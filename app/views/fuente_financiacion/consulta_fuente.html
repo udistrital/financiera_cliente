@@ -3,12 +3,12 @@
 
   <div class="panel-body">
     <div class="col-md-2 col-md-offset-5">
-        <center>
-            <label for="select_vigencia" class="col-form-label">Vigencia </label>
-            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia" ng-change="consultaFuente.consulta_fuente_vigencia()">
+      <center>
+        <label for="select_vigencia" class="col-form-label">Vigencia </label>
+        <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia" ng-change="consultaFuente.consulta_fuente_vigencia()">
                   <option ng-repeat="option in consultaFuente.years" value="{{option}}">{{option}}</option>
             </select>
-        </center>
+      </center>
     </div>
   </div>
 
@@ -27,38 +27,36 @@
         <h4 class="text-info">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
       </div>
       <div class="panel-body">
-      <table class="table">
-        <tr>
-          <th>{{'CODIGO' | translate}}: </th>
-          <td>{{consultaFuente.fuente_seleccionada.Codigo }}</td>
-        </tr>
-        <tr>
-          <th>{{ 'NOMBRE' | translate }}: </th>
-          <td>{{consultaFuente.fuente_seleccionada.Nombre}}</td>
-        </tr>
-        <tr>
-          <th>{{ 'DESCRIPCION' | translate }}: </th>
-          <td>{{consultaFuente.fuente_seleccionada.Descripcion}}</td>
-        </tr>
-        <tr>
-          <th>{{ 'VALOR' | translate }}: </th>
-          <td>{{ consultaFuente.valor_total | currency}}</td>
-        </tr>
-        <tr>
-          <th>{{ 'TIPO' | translate }}: </th>
-          <td>{{consultaFuente.tipo_fuente}}</td>
-        </tr>
+        <table class="table">
+          <tr>
+            <th>{{'CODIGO' | translate}}: </th>
+            <td>{{consultaFuente.fuente_seleccionada.Codigo }}</td>
+          </tr>
+          <tr>
+            <th>{{ 'NOMBRE' | translate }}: </th>
+            <td>{{consultaFuente.fuente_seleccionada.Nombre}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'DESCRIPCION' | translate }}: </th>
+            <td>{{consultaFuente.fuente_seleccionada.Descripcion}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'VALOR' | translate }}: </th>
+            <td>{{ consultaFuente.valor_total | currency}}</td>
+          </tr>
+          <tr>
+            <th>{{ 'TIPO' | translate }}: </th>
+            <td>{{consultaFuente.tipo_fuente}}</td>
+          </tr>
 
-      </table>
-      <hr>
-      <h4 class="text-info">{{'RUBROS' | translate}}</h4>
+        </table>
+        <hr>
+        <h4 class="text-info">{{'RUBROS' | translate}}</h4>
 
-      <div class="modal-body">
-        <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-auto-resize class="grid"></div>
+        <div class="modal-body">
+          <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-auto-resize class="grid"></div>
+        </div>
       </div>
-    </div>
-
-
     </div>
   </div>
 </div>
