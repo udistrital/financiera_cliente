@@ -14,7 +14,8 @@ angular.module('financieraClienteApp')
 
     self.fecha = new Date();
     self.year = self.fecha.getFullYear();
-    self.year = 2017;
+    self.year = 2018;
+    self.year1 = 2017;
 
 
     financieraRequest.get("fuente_financiamiento", 'limit=-1&sortby=descripcion&order=asc').then(function(response) {
@@ -29,12 +30,12 @@ angular.module('financieraClienteApp')
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year1) + ',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
       self.apropiacion = response.data;
       self.gridOptionsapropiacion.data = response.data;
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-1-&sortby=rubro&order=asc').then(function(response) {
+    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year1) + ',rubro.codigo__startswith:3-1-&sortby=rubro&order=asc').then(function(response) {
       self.apropiacion1 = response.data;
       self.gridOptionsapropiacion1.data = response.data;
     });

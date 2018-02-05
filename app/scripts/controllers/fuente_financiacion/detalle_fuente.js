@@ -214,12 +214,12 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       },
       {
         field: 'RegistroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre',
-        width: '21%',
+        width: '20%',
         displayName: $translate.instant('RUBRO')
       },
       {
         field: 'Nesecidad.Dependencia.Nombre',
-        width: '21%',
+        width: '20%',
         displayName: $translate.instant('DEPENDENCIA')
       },
       {
