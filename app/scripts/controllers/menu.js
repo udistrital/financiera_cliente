@@ -133,7 +133,7 @@ angular.module('financieraClienteApp')
                 query: "UsuarioDestino:2"
             }))
             .then(function(response) {
-                $scope.notificacion.log = response.data;
+                //$scope.notificacion.log = response.data;
             });
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
