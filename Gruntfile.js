@@ -19,6 +19,9 @@ module.exports = function(grunt) {
         cdnify: 'grunt-google-cdn'
     });
 
+    // enable grunt-sonar-runner
+    grunt.loadNpmTasks('grunt-sonar-runner');
+
     // Configurable paths for the application
     var appConfig = {
         app: require('./bower.json').appPath || 'app',
@@ -70,7 +73,7 @@ module.exports = function(grunt) {
         // The actual grunt server settings
         connect: {
             options: {
-                port: 9000,
+                port: 7000,
                 // Change this to '0.0.0.0' to access the server from outside.
                 hostname: '0.0.0.0',
                 //hostname: 'localhost',
@@ -451,6 +454,35 @@ module.exports = function(grunt) {
                 'svgmin'
             ]
         },
+
+        //sonar
+        sonarRunner: {
+          analysis: {
+            options: {
+              debug: true,
+              separator: '\n',
+              dryRun: false,
+              sonar: {
+                host: {
+                  url: 'http://localhost:9000'
+                },
+                jdbc: {
+                  url: 'jdbc:mysql://localhost:3306/sonar',
+                  username: 'sonar',
+                  password: 'sonar'
+                },
+
+                projectKey: 'sonar:kronos-clinetes:0.1.0',
+                projectName: 'Kronos Cliente',
+                projectVersion: '0.10',
+                sources: ['app','test'].join(','),
+                language: 'js',
+                sourceEncoding: 'UTF-8'
+              }
+            }
+          }
+        },
+        // fin sonar
 
         // Test settings
         karma: {
