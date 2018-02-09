@@ -472,9 +472,9 @@ module.exports = function(grunt) {
                   password: 'sonar'
                 },
 
-                projectKey: 'grunt:kronos-clinetes:0.1.0',
+                projectKey: 'grunt:kronos-clinetes:0.01',
                 projectName: 'Grunt: Kronos Cliente',
-                projectVersion: '0.10',
+                projectVersion: '0.01',
                 sources: ['app','test'].join(','),
                 language: 'js',
                 sourceEncoding: 'UTF-8'
