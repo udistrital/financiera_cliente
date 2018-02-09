@@ -129,11 +129,14 @@ angular.module('financieraClienteApp')
             
         };
 
-        $scope.notificacion.get_crud('notificacion', $.param({
-                query: "UsuarioDestino:2"
+        $scope.notificacion.get_crud('notify', $.param({
+                query: "NotificacionConfiguracion.NotificacionConfiguracionPerfil.Perfil.Nombre__in:"+ self.perfil.join('|')+"&sortby=id&order=asc" 
             }))
             .then(function(response) {
-                //$scope.notificacion.log = response.data;
+                if (response.data !== null){
+                    console.log("not ",response.data)
+                    
+                }
             });
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {

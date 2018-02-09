@@ -35,12 +35,11 @@ angular.module('financieraNotificacion', [])
     
     //console.log("Token ",$scope.token_service.token);
     //var id = "utest01";
-    var path = CONF.GENERAL.CONFIGURACION_SERVICE;
+    var path = CONF.GENERAL.NOTIFICACION_SERVICE;
     var dataStream = $websocket(CONF.GENERAL.NOTIFICACION_WS + "?id=" + id + "&profiles="+perfil);
     var log = [];
     dataStream.onMessage(function(message) {
         log.unshift(JSON.parse(message.data));
-        console.log(log);
     });
     // Public API here
     var fabrica = {
