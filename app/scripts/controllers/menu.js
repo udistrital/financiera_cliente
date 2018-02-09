@@ -129,7 +129,8 @@ angular.module('financieraClienteApp')
             
         };
 
-        $scope.notificacion.get_crud('notify', $.param({
+      if (self.perfil !== undefined){
+          $scope.notificacion.get_crud('notify', $.param({
                 query: "NotificacionConfiguracion.NotificacionConfiguracionPerfil.Perfil.Nombre__in:"+ self.perfil.join('|')+"&sortby=id&order=asc" 
             }))
             .then(function(response) {
@@ -138,6 +139,7 @@ angular.module('financieraClienteApp')
                     
                 }
             });
+      }
 
         configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
             $rootScope.my_menu = response.data;
