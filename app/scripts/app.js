@@ -21,6 +21,7 @@ angular
         'afOAuth2',
         'treeControl',
         'ngMaterial',
+        //'material.svgAssetsCache',
         'ui.grid',
         'ui.grid.edit',
         'ui.grid.rowEdit',
@@ -446,6 +447,11 @@ angular
               templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
               controller: 'RubroModificacionSolicitudConsultaCtrl',
               controllerAs: 'modificacionSolicitudConsulta'
+            })
+            .when('/pac/cierre_periodo', {
+              templateUrl: 'views/pac/cierre_periodo.html',
+              controller: 'PacCierrePeriodoCtrl',
+              controllerAs: 'cierrePeriodo'
             })
             .otherwise({
                 redirectTo: '/'

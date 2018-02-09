@@ -1,0 +1,24 @@
+<div class="panel panel-primary panel-body">
+<h2 class="page-header" align="center">{{'CIERRE_PERIODO_PAC'|translate}}</h2>
+<div class="panel-body">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+            <div class="panel-body">
+                 <div class="row">
+                        <div class="col-md-2">
+                            <label for="tipo_ingreso">{{'FECHA_CIERRE' | translate}}</label>
+                            <br>
+                            <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_CIERRE' | translate}}" md-mode="month" md-current-view="year"></md-datepicker>
+                        </div>
+                        <div class="col-md-4">
+                            <br>
+                            <center>
+                                <a type="button" name="button" ng-click="cierrePeriodo.incrementaMes()" class="fa fa-check btn btn-info btn-outline" aria-hidden="true"  ></a>
+                            </center>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
