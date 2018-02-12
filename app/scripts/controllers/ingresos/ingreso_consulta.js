@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, pagosRequest, $scope, $translate, $localStorage) {
+    .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, wso2Request, pagosRequest, $filter, $scope, $translate, $localStorage) {
         var ctrl = this;
         $scope.doc = 0;
         $scope.estados = [];
@@ -16,7 +16,22 @@ angular.module('financieraClienteApp')
         $scope.aristas = [];
         $scope.estadoclick = {};
         ctrl.ingresoSel = null;
-
+        ctrl.homologacion_facultad = [{
+            old: 33,
+            new: 14 //FACULTAD ING
+        }, {
+            old: 24,
+            new: 17 // CIENCIAS Y EDUCACION
+        }, {
+            old: 23,
+            new: 35 //ASAB
+        }, {
+            old: 101,
+            new: 65 //MEDIO AMB
+        }, {
+            old: 32,
+            new: 66 //TECNOLOGICA
+        }];
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
             { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
@@ -33,19 +48,6 @@ angular.module('financieraClienteApp')
             enableFiltering: true,
             rowHeight: 45
         };
-        ctrl.gridOptions_ingresosbanco.columnDefs = [
-            { name: 'VIGENCIA', displayName: 'Vigencia', headerCellClass: 'text-info' },
-            { name: 'IDENTIFICACION', displayName: 'Identificación', headerCellClass: 'text-info' },
-            { name: 'NOMBRE', displayName: 'Nombre', headerCellClass: 'text-info' },
-            //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-            { name: 'NUMERO_CUENTA', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
-            { name: 'TIPO_RECIBO', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
-            { name: 'PAGO_REPORTADO', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'MATRICULA', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'SEGURO', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
-            { name: 'CARNET', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
-        ];
-
 
         ctrl.gridOptions = {
             enableHorizontalScrollbar: 0,
@@ -76,10 +78,16 @@ angular.module('financieraClienteApp')
                 cellTemplate: '<span>{{row.entity.FechaIngreso | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
-                field: 'FechaConsignacion',
-                displayName: $translate.instant("FECHA_CONSIGNACION"),
+                field: 'FechaInicio',
+                displayName: $translate.instant("FECHA_INICIO"),
                 headerCellClass: 'text-info',
-                cellTemplate: '<span>{{row.entity.FechaConsignacion | date:"yyyy-MM-dd":"UTC"}}</span>'
+                cellTemplate: '<span>{{row.entity.FechaInicio| date:"yyyy-MM-dd":"UTC"}}</span>'
+            },
+            {
+                field: 'FechaFin',
+                displayName: $translate.instant("FECHA_FIN"),
+                headerCellClass: 'text-info',
+                cellTemplate: '<span>{{row.entity.FechaFin | date:"yyyy-MM-dd":"UTC"}}</span>'
             },
             {
                 field: 'FormaIngreso.Nombre',
@@ -103,15 +111,16 @@ angular.module('financieraClienteApp')
             $scope.estadoclick = $localStorage.nodeclick;
             switch ($scope.estadoclick.Id) {
                 case (3):
-                    ctrl.verIngreso(row.entity);
+                    ctrl.Rechazar();
                     break;
                 case (2):
-                    $scope.estado = row.entity.EstadoIngreso;
+                    ctrl.Aprobar();
                     break;
             }
         };
 
         $scope.loadrow = function(row, operacion) {
+            ctrl.ingresoSel = row.entity;
             $scope.ingreso = row.entity;
             switch (operacion) {
                 case "ver":
@@ -123,42 +132,107 @@ angular.module('financieraClienteApp')
             }
         };
 
-        ctrl.consultarPagos = function(date) {
-            ctrl.pagos = null;
-            ctrl.gridOptions_ingresosbanco.data = null;
-            var parseDate = new Date(ctrl.ingresoSel.FechaConsignacion);
-            console.log(parseDate.getDate());
-            var parametros = {
-                'dia': parseDate.getDate() + 1,
-                'mes': parseDate.getMonth() + 1,
-                'anio': parseDate.getFullYear(),
-                'rango_ini': ctrl.rango_inicial,
-                'rango_fin': ctrl.rango_fin
+        ctrl.consultarPagos = function(data) {
+            console.log(data);
+            var inicio = data.FechaInicio;
+            var fin = data.FechaFin;
+            var tipo_recibo = data.FormaIngreso.Nombre.toUpperCase();
+            var codigo_facultad = data.Facultad;
 
-            };
             ctrl.rta = null;
             ctrl.pagos = null;
             ctrl.cargandoDatosPagos = true;
 
-            pagosRequest.get(parametros).then(function(response) {
-                console.log(response.data);
-                if (response != null) {
-                    if (typeof response === "string") {
-                        console.log(response);
-                        ctrl.rta = response;
-                    } else {
-                        ctrl.pagos = response;
-                        angular.forEach(ctrl.pagos, function(data) {
-                            data.VALOR = 100;
-                        });
-                        ctrl.gridOptions_ingresosbanco.data = ctrl.pagos;
+            switch (tipo_recibo) {
+                case "INSCRIPCIONES":
+                    ctrl.gridOptions_ingresosbanco.columnDefs = [
+                        { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                        { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
+                        //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                        { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency' },
+                        { name: 'codigo_banco', displayName: 'Codigo del Banco', headerCellClass: 'text-info' },
+                        { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
+                        { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
+                    ];
+                    var inicio = $filter('date')(inicio, "yyyy-MM-dd");
+                    var fin = $filter('date')(fin, "yyyy-MM-dd");
+                    var parametros = [{
+                        name: "tipo_recibo",
+                        value: "ingresos_admisiones"
+                    }, {
+                        name: "fecha_inicio",
+                        value: inicio
+                    }, {
+                        name: "fecha_fin",
+                        value: fin
+                    }];
+                    angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                        if (facultad.new == parametros[1].value) {
+                            parametros[1].value = facultad.old;
+                        }
+                    });
+                    wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
+                        if (response != null) {
+                            $scope.datos = true;
+                            ctrl.gridOptions_ingresosbanco.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
+                            ctrl.total = 0;
+                            angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                ctrl.total += parseFloat(ingreso.referencia_pago);
+                            });
+                        } else {
+                            $scope.datos = false;
+                        }
+                    });
 
-                    }
-                } else {}
-            }).finally(function() {
-                // called no matter success or failure
-                ctrl.cargandoDatosPagos = false;
-            });
+                    break;
+                case "CODIGO DE BARRAS":
+                    ctrl.gridOptions_ingresosbanco.columnDefs = [
+                        { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
+                        { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
+                        { name: 'nombre', displayName: 'Nombre', headerCellClass: 'text-info' },
+                        //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
+                        { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
+                        { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
+                        { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
+                        { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
+                        { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
+                        { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
+                    ];
+                    var inicio = $filter('date')(inicio, "dd-MM-yy");
+                    var fin = $filter('date')(fin, "dd-MM-yy");
+                    var parametros = [{
+                        name: "tipo_recibo",
+                        value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
+                    }, {
+                        name: "facultad",
+                        value: codigo_facultad
+                    }, {
+                        name: "fecha_inicio",
+                        value: inicio
+                    }, {
+                        name: "fecha_fin",
+                        value: fin
+                    }];
+                    angular.forEach(ctrl.homologacion_facultad, function(facultad) {
+                        if (facultad.new == parametros[1].value) {
+                            parametros[1].value = facultad.old;
+                        }
+                    });
+                    wso2Request.get("academicaProxyService", parametros).then(function(response) {
+                        if (response != null) {
+                            $scope.datos = true;
+                            ctrl.gridOptions_ingresosbanco.data = response.data.ingresosConceptoCollection.ingresoConcepto;
+                            ctrl.total = 0;
+                            angular.forEach(ctrl.gridOptions.data, function(ingreso) {
+                                ctrl.total += parseFloat(ingreso.pago_reportado);
+                            });
+                        } else {
+                            $scope.datos = false;
+                        }
+                    });
+                default:
+                    break;
+            }
         };
 
 
@@ -212,11 +286,11 @@ angular.module('financieraClienteApp')
         ctrl.ver_ingreso = function(row) {
             ctrl.ingresoSel = row;
             $scope.documm = row.Id;
-            ctrl.consultarPagos();
+            ctrl.consultarPagos(row);
             $("#myModal").modal();
         };
 
-        ctrl.aprobar = function() {
+        ctrl.Aprobar = function() {
             var aprobardata = {};
             aprobardata.Ingreso = ctrl.ingresoSel;
             aprobardata.Movimientos = $scope.movimientos;
@@ -239,7 +313,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        ctrl.rechazar = function() {
+        ctrl.Rechazar = function() {
             $("#myModal").modal('hide');
             swal({
                 title: 'Indica una justificación por el rechazo',

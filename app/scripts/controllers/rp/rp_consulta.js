@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
   })
   .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest) {
     var self = this;
+    self.offset = 0;
     self.UnidadEjecutora=1;
     self.gridOptions = {
       enableFiltering: true,
@@ -30,6 +31,7 @@ angular.module('financieraClienteApp')
           field: 'Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           cellClass: 'input_center',
+          enableFiltering: false,
            headerCellClass: 'text-info'
         },
         {
@@ -48,6 +50,7 @@ angular.module('financieraClienteApp')
           field: 'InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad.Numero',
           displayName: $translate.instant('NECESIDAD_NO'),
           cellClass: 'input_center',
+          enableFiltering: false,
            headerCellClass: 'text-info'
         },
         {
@@ -65,6 +68,7 @@ angular.module('financieraClienteApp')
         {
           field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
           displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+          enableFiltering: false,
            headerCellClass: 'text-info'
         },
         {
@@ -74,6 +78,7 @@ angular.module('financieraClienteApp')
             '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
             ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.rpConsulta.verRp(row,true)" >' +
             '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
+            enableFiltering: false,
           headerCellClass: 'text-info'
         }
       ]
@@ -134,6 +139,7 @@ angular.module('financieraClienteApp')
         }else{
           console.log(response.data);
           self.gridOptions.data = response.data;
+          console.log(response.data);
         }
         self.cargandoDatosPagos = false;
       });
@@ -153,9 +159,11 @@ angular.module('financieraClienteApp')
       $("#myModal").modal();
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
-      financieraRequest.get('registro_presupuestal', 'query=Id:' + row.entity.Id).then(function (response) {
-
-        self.detalle = response.data;
+      var data = [];
+      data.push(row.entity);
+        self.detalle = data;
+        console.log("entt");
+        console.log(row.entity);
         angular.forEach(self.detalle, function (data) {
 
           administrativaRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
@@ -176,16 +184,10 @@ angular.module('financieraClienteApp')
               financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
-               financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
-                var solicitud = response.data;
-                console.log(response.data);
                 
-                  self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
+                
+                  self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
                   
-
-
-
-              });
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
               } else {
@@ -197,7 +199,7 @@ angular.module('financieraClienteApp')
           
 
         });
-      });
+      
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
@@ -354,11 +356,15 @@ angular.module('financieraClienteApp')
     self.gridOptions.onRegisterApi = function(gridApi){
       gridApi.core.on.filterChanged($scope, function() {
         var grid = this.grid;
-        angular.forEach(grid.columns, function(value, key) {
-            if(value.filters[0].term) {
-                //console.log('FILTER TERM FOR ' + value.colDef.name + ' = ' + value.filters[0].term);
-            }
-        });
+                var query = '';
+                angular.forEach(grid.columns, function(value, key) {
+                    if (value.filters[0].term) {
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                        
+                    }
+                });
+                self.cargarLista(self.offset, query);
     });
     gridApi.pagination.on.paginationChanged($scope, function (newPage, pageSize) {
       console.log('newPage '+newPage+' pageSize '+pageSize);
@@ -369,9 +375,16 @@ angular.module('financieraClienteApp')
       if (inicio !== undefined && fin !== undefined) {
         query = '&rangoinicio='+inicio+"&rangofin="+fin;
       }
-      
-      var offset = (newPage-1)*pageSize;
-      self.cargarLista(offset,query);
+      var grid = this.grid;
+                angular.forEach(grid.columns, function(value, key) {
+                    if (value.filters[0].term) {
+                        var formtstr = value.colDef.name.replace('[0]','');
+                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                       
+                    }
+                });
+      self.offset = (newPage-1)*pageSize;
+      self.cargarLista(self.offset,query);
     });
     };
     self.gridOptions_rubros.onRegisterApi = function (gridApi) {

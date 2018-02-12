@@ -7,7 +7,7 @@
  * # ordenPago/opProveedorDetallePago
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorDetallePago', function(financieraRequest, arkaRequest) {
+  .directive('opProveedorDetallePago', function(financieraRequest, arkaRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -17,13 +17,23 @@ angular.module('financieraClienteApp')
         outputformapago: '=?',
         outputentradaalmacen: '=?',
         outputvigencia: '=?',
-        outputvalorbase: '=?'
+        outputvalorbase: '=?',
+        outputdocumento: '=?',
       },
 
       templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_detalle_pago.html',
       controller: function($scope) {
         var self = this;
-        //sub_tipo_documentos
+        //documentos financieros
+        coreRequest.get('documento',
+          $.param({
+            query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True",
+            limit: -1
+          })
+        ).then(function(response) {
+          self.documento = response.data;
+        });
+        //sub_tipo_orden_pago
         financieraRequest.get('sub_tipo_orden_pago',
           $.param({
             query: "TipoOrdenPago.CodigoAbreviacion:OP-PROV",

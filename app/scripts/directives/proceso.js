@@ -34,13 +34,17 @@ angular.module('financieraClienteApp')
                         $localStorage.nodeclick = data.Estado;
                         $scope.eventclick();
                     }
-
                 };
                 var nodes = {};
                 var edges = {};
                 var network = {};
 
                 $scope.$watch('node', function() {
+                    if (!angular.isUndefined($scope.node)) {
+                        $scope.ver_proceso = true;
+                    } else {
+                        $scope.ver_proceso = false;
+                    }
                     nodes = new vis.DataSet($scope.nodes);
                     edges = new vis.DataSet($scope.edges);
                     var container = document.getElementById('mynetwork');
@@ -114,7 +118,6 @@ angular.module('financieraClienteApp')
                         color: '#2ECC71'
                     };
                     nodes.update(node_active);
-
 
                 });
 

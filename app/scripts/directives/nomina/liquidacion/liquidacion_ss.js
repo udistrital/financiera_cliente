@@ -7,17 +7,19 @@
  * # nomina/liquidacion/liquidacionSs
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionSs', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate) {
+  .directive('liquidacionSs', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       scope: {
         inputpestanaabierta: '=?',
-        ouputdatanominaselect: '=?'
+        ouputdatanominaselect: '=?',
+        outputerrorop: '=?',
+        outputdataopss: '=?'
       },
       templateUrl: 'views/directives/nomina/liquidacion/liquidacion_ss.html',
       controller: function($scope) {
         var self = this;
-        $scope.ouputdatanominaselect = {};
+        $scope.mostrarPanelError = false;
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -30,6 +32,12 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         });
+        titanRequest.get('nomina',
+          $.param({
+            limit: '-1',
+          })).then(function(response) {
+          self.nomina = response.data;
+        })
         //
         self.gridOptionsPreliquidacionPersonas = {
           enableRowHeaderSelection: false,
@@ -63,15 +71,8 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.PreliquidacionPersonaSelect = row.entity
-            financieraMidRequest.get('orden_pago_ss/DetalleListaPagoSsPorPersona',
-              $.param({
-                idPeriodoPago: self.PeriodoPago,
-                idDetalleLiquidacion: $scope.PreliquidacionPersonaSelect.DetalleLiquidacion,
-              })
-            ).then(function(response) {
-              self.gridOptionsPreliquidacionPagos.data = response.data;
-            })
+            //console.log(row.entity.DetallePagos);
+            self.gridOptionsPreliquidacionPagos.data = row.entity.DetallePagos;
           });
         };
         //
@@ -97,51 +98,170 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-
+        // ver movimeintos
+        self.gridOptionsConceptos = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'Concepto.Id',
+              visible: false
+            },
+            {
+              field: 'Concepto.Codigo',
+              displayName: $translate.instant('CONCEPTO') + " " + $translate.instant('CODIGO'),
+              width: '20%',
+            },
+            {
+              field: 'Concepto.Nombre',
+              displayName: $translate.instant('NOMBRE'),
+            },
+            {
+              field: 'Concepto.TipoConcepto.Nombre',
+              displayName: $translate.instant('TIPO'),
+              width: '10%',
+            },
+            {
+              field: 'Valor',
+              displayName: $translate.instant('AFECTACION'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+          ]
+        };
         //
-        titanRequest.get('nomina',
-          $.param({
-            limit: '-1',
-          })).then(function(response) {
-          self.nomina = response.data;
-        })
+        self.gridOptionsMovimientosContables = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: true,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'Concepto.Codigo',
+              displayName: $translate.instant('CONCEPTO'),
+              width: '10%',
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '10%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
+
+        self.gridOptionsMovimientosContablesTemporal = {
+          enableRowHeaderSelection: false,
+          showColumnFooter: true,
+          multiSelect: false,
+          minRowsToShow: 6,
+          columnDefs: [{
+              field: 'CuentaContable.Id',
+              visible: false
+            },
+            {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTAS_CONTABLES'),
+              width: '20%',
+            },
+            {
+              field: 'CuentaContable.Nombre',
+              displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CUENTA'),
+            },
+            {
+              field: 'Debito',
+              displayName: $translate.instant('DEBITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+
+            },
+            {
+              field: 'Credito',
+              displayName: $translate.instant('CREDITO'),
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div class="input_right">{{col.getAggregationValue() | currency}}</div>',
+              width: '15%',
+            },
+            {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              width: '10%',
+            },
+          ]
+        };
         // para desarrollo
-        financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
-          $.param({
-            idNomina: 5,
-            mesLiquidacion: 9,
-            anioLiquidacion: 2017,
-          })
-        ).then(function(response) {
-            console.log(response.data);
-          if (response.data != null) {
-            self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-            self.PeriodoPago = response.data.PeriodoPago;
-          } else {
-            self.gridOptionsPreliquidacionPersonas.data = {};
-            self.PeriodoPago = null;
-          }
-        })
+
         // para desarrollo
         self.consultar = function() {
           if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
-            financieraMidRequest.get('orden_pago_ss/ListaPagoSsPorPersona',
+            //
+            self.refresh();
+            self.gridOptionsPreliquidacionPersonas.data = {};
+            self.gridOptionsPreliquidacionPagos.data = {};
+            self.gridOptionsConceptos.data = {};
+            self.gridOptionsMovimientosContables.data = {};
+            self.gridOptionsMovimientosContablesTemporal.data = {};
+            $scope.outputdataopss = {};
+
+            financieraMidRequest.get('orden_pago_ss/GetConceptosMovimeintosContablesSs',
               $.param({
                 idNomina: $scope.nominaSelect.Id,
                 mesLiquidacion: $scope.mesSelect,
                 anioLiquidacion: $scope.anoSelect,
               })
             ).then(function(response) {
-              if (response.data != null) {
-                console.log(response.data);
-                self.gridOptionsPreliquidacionPersonas.data = response.data.Pagos;
-                self.PeriodoPago = response.data.PeriodoPago;
-              } else {
-                self.gridOptionsPreliquidacionPersonas.data = {};
-                self.PeriodoPago = null;
+              if (response.data.Type != 'error') {
+                self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp[0].ViewPagosPorPersona;
+                if (response.data.DetalleCargueOp[0].Aprobado == false) {
+                  $scope.mostrarPanelError = true;
+                  $scope.outputerrorop = response.data.DetalleCargueOp[0].Code;
+                }
+                self.gridOptionsConceptos.data = response.data.DetalleCargueOp[0].ConceptoOrdenPago;
+                self.gridOptionsMovimientosContables.data = response.data.DetalleCargueOp[0].MovimientoContable;
+                self.gridOptionsMovimientosContablesTemporal.data = response.data.DetalleCargueOp[0].MovimientosDeDescuento;
+                $scope.outputdataopss = response.data;
               }
             })
           }

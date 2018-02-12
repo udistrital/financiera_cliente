@@ -44,12 +44,24 @@
             <li><b>{{'INFORMACION_SALDO_APROPIACION'|translate}}</b>
               <ul>
                 <li><b>{{'APROPIACION_INICIAL'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.original | currency}}</li>  
-                <li><b>{{'TOTAL_COMPROMETIDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido | currency}}</li>     
+                <li><b>{{'TOTAL_COMPROMETIDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido | currency}}
+                  <ul>
+                    <li><b>{{'TOTAL_REDUCCIONES'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.reducciones | currency}}</li>
+                  </ul>
+                </li> 
+                <li><b>{{'TOTAL_ADICIONES'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.adiciones | currency}}</li>                  
+                <li><b>{{'TOTAL_TRASLADOS'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.traslados | currency}}</li>
                 <li><b>{{'TOTAL_ANULADO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.comprometido_anulado | currency}}</li>                                                  
                 <li><b>{{'SALDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.saldo | currency}}</li>
               </ul>
             </li>
             </ul>
+            <div ng-if="d_apropiacionConsulta.gridOptions.data.length != 0">
+              <hr>
+              <h4 class="text-info">{{'MOVIMIENTOS'|translate}}</h4>
+              <div ui-grid="d_apropiacionConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination ui-grid-auto-resize class="myGrid"></div>
+                
+              </div>
             <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion == null" class="alert alert-danger">
               {{'E_AP001'|translate}}
             </div>

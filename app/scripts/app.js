@@ -46,6 +46,7 @@ angular
         'financieraService',
         'financieraMidService',
         'administrativaService',
+        'administrativaPruebasService',
         'agoraService',
         'adminMidService',
         'argoService',
@@ -56,7 +57,8 @@ angular
         'financieraNotificacion',
         'arkaService',
         'configuracionService',
-        "wso2Service"
+        "wso2Service",
+        "requestService"
     ])
 
 .run(function(amMoment) {
@@ -221,14 +223,12 @@ angular
                 controller: 'detalleFuenteCtrl',
                 controllerAs: 'detalleFuente'
             })
-
-        .when('/plan_cuentas/crear_descuento', {
-            templateUrl: 'views/plan_cuentas/crear_descuento.html',
-            controller: 'CrearDescuentoCtrl',
-            controllerAs: 'crearDescuento'
-        })
-
-        .when('/orden_pago/proveedor/crear', {
+            .when('/plan_cuentas/crear_descuento', {
+                templateUrl: 'views/plan_cuentas/crear_descuento.html',
+                controller: 'CrearDescuentoCtrl',
+                controllerAs: 'crearDescuento'
+            })
+            .when('/orden_pago/proveedor/crear', {
                 templateUrl: 'views/orden_pago/proveedor/op_crear.html',
                 controller: 'OrdenPagoOpCrearCtrl',
                 controllerAs: 'opCrear'
@@ -278,6 +278,16 @@ angular
                 controller: 'OpGirosViewAllCtrl',
                 controllerAs: 'opGirosViewAll'
             })
+            .when('/orden_pago/giros/giros_crear', {
+              templateUrl: 'views/orden_pago/giros/giros_crear.html',
+              controller: 'GirosCrearCtrl',
+              controllerAs: 'girosCrear'
+            })
+            .when('/orden_pago/giros/ver/:Id', {
+              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+              controller: 'GirosVerPorIdCtrl',
+              controllerAs: 'girosVerPorId'
+            })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
                 controller: 'RpRpAnulacionCtrl',
@@ -308,8 +318,7 @@ angular
                 controller: 'GestionPlanCuentasCtrl',
                 controllerAs: 'gestionPlanCuentas'
             })
-
-        .when('/ingresos/ingreso_consulta', {
+            .when('/ingresos/ingreso_consulta', {
                 templateUrl: 'views/ingresos/ingreso_consulta.html',
                 controller: 'IngresosIngresoConsultaCtrl',
                 controllerAs: 'ingresoConsulta'
@@ -368,6 +377,10 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
+            })            .when('/orden_pago/giros/giros_ver_por_id', {
+              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+              controller: 'OrdenPagoGirosGirosVerPorIdCtrl',
+              controllerAs: 'ordenPago/giros/girosVerPorId'
             })
             .when('/compromisos/listado_compromisos', {
                 templateUrl: 'views/compromisos/listado_compromisos.html',
@@ -384,16 +397,55 @@ angular
                 controller: 'conceptosEditarCtrl',
                 controllerAs: 'conceptosEditar'
             })
-
             .when('/plan_cuentas/editar_descuento/:Id', {
-              templateUrl: 'views/plan_cuentas/editar_descuento.html',
-              controller: 'EditarDescuentoCtrl',
-              controllerAs: 'editarDescuento'
+                templateUrl: 'views/plan_cuentas/editar_descuento.html',
+                controller: 'EditarDescuentoCtrl',
+                controllerAs: 'editarDescuento'
             })
             .when('/rp/rp_cargue_masivo', {
-              templateUrl: 'views/rp/rp_cargue_masivo.html',
-              controller: 'RpRpCargueMasivoCtrl',
-              controllerAs: 'rpCargueMasivo'
+                templateUrl: 'views/rp/rp_cargue_masivo.html',
+                controller: 'RpRpCargueMasivoCtrl',
+                controllerAs: 'rpCargueMasivo'
+            })
+            .when('/plan_cuentas/editar_cuenta/:Id', {
+                templateUrl: 'views/plan_cuentas/editar_cuenta.html',
+                controller: 'EditarCuentaCtrl',
+                controllerAs: 'editarCuenta'
+            })
+            .when('/homologacion_concepto/homologacion_concepto_ver_todas', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
+              controller: 'HomologacionConceptoVerTodasCtrl',
+              controllerAs: 'homologacionConceptoVerTodas'
+            })
+            .when('/homologacion_concepto/homologacion_concepto_crear', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_crear.html',
+              controller: 'HomologacionConceptoCrearCtrl',
+              controllerAs: 'homologacionConceptoCrear'
+            })
+            .when('/homologacion_concepto/ver/:Id', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
+              controller: 'HomologacionConceptoVerPorIdCtrl',
+              controllerAs: 'homologacionConceptoVerPorId'
+            })
+            .when('/homologacion_concepto/actualizar/:Id', {
+              templateUrl: 'views/homologacion_concepto/homologacion_concepto_actualizar.html',
+              controller: 'HomologacionConceptoActualizarCtrl',
+              controllerAs: 'homologacionConceptoActualizar'
+            })
+            .when('/tesoreria/avances/legalizacion', {
+                templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
+                controller: 'LegalizacionCtrl',
+                controllerAs: 'legalizacion'
+            })
+            .when('/rubro/modificacion_solicitud_registro', {
+              templateUrl: 'views/rubro/modificacion_solicitud_registro.html',
+              controller: 'RubroModificacionSolicitudRegistroCtrl',
+              controllerAs: 'rubroModificacionSolicitudRegistro'
+            })
+            .when('/rubro/modificacion_solicitud_consulta', {
+              templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
+              controller: 'RubroModificacionSolicitudConsultaCtrl',
+              controllerAs: 'modificacionSolicitudConsulta'
             })
             .when('/reportes/reportes', {
               templateUrl: 'views/reportes/reportes.html',

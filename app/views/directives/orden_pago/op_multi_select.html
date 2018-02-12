@@ -1,15 +1,35 @@
 <div ng-show="outputvisible">
-  <select ng-model="tiponomina" class="form-control" required>
-    <option value="">Seleccionar Nomina</option>
-    <option value="PROVEEDOR">PROVEEDOR</option>
-    <option value="PLANTA">PLANTA</option>
-  </select>
-
-  <div class="panel-body">
-    <div ng-if="!refresh" ui-grid="d_opMultiSelect.gridOptions_op" ui-grid-selection ui-grid-auto-resize></div>
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="d_opMultiSelect.vigenciaSelect" ng-options="i as i for i in d_opMultiSelect.vigencias" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
+          <option value="">Seleccionar Vigencia</option>
+        </select>
+      </div>
+      <label class="control-label col-sm-1">{{'TIPO' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="d_opMultiSelect.tipoOrdenPagoSelect" ng-options="i.CodigoAbreviacion for i in d_opMultiSelect.tipoOrdenPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
+          <option value="">Seleccionar Tipo OP</option>
+        </select>
+      </div>
+      <label class="control-label col-sm-1">{{'FORMA_PAGO' | translate}}</label>
+      <div class="col-sm-3">
+        <select ng-model="d_opMultiSelect.formaPagoSelect" ng-options="i.Nombre for i in d_opMultiSelect.formaPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
+          <option value="">Seleccionar forma pago</option>
+        </select>
+      </div>
+    </div>
   </div>
 
-  <div align="center">
+  <div class="panel-default">
+    <div ng-if="!refresh" ui-grid="d_opMultiSelect.gridOptions_op" ui-grid-auto-resize ui-grid-selection></div>
+  </div>
+
+  <div align="center" class="panel-footer">
+    <a ng-href="#/orden_pago/giros/ver_todos" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
+      {{ 'BTN.REGRESAR' | translate }}
+    </a>
     <a class="btn btn-info btn-outline" ng-click="d_opMultiSelect.confirmar()">
       {{ 'BTN.CONFIRMAR' | translate }}
     </a>

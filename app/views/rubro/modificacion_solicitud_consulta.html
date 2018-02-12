@@ -1,0 +1,100 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'LISTA_SOLICITUDES_MODIFICACION_PRESUPUESTAL' | translate}}</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-6 col-md-offset-3">
+                            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+                            <br>
+                            <!--input type="text" name="select_vigencia" disabled="true" ng-model="modificacionSolicitudConsulta.Vigencia" class="form-control"-->
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="modificacionSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                              <option ng-repeat="option in modificacionSolicitudConsulta.years" value="{{option}}">{{option}}</option>
+                            </select>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
+                            <md-datepicker ng-model="modificacionSolicitudConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year" md-min-date="modificacionSolicitudConsulta.fechamin" md-max-date="modificacionSolicitudConsulta.fechamax"></md-datepicker>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label><br>
+                            <md-datepicker ng-model="modificacionSolicitudConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year" md-min-date="modificacionSolicitudConsulta.fechamin" md-max-date="modificacionSolicitudConsulta.fechamax"></md-datepicker>
+                        </div>
+                        <div class="col-md-1">
+                            <br>
+                            <a type="button" name="button" ng-click="modificacionSolicitudConsulta.cargarDatos(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                        </div> -->
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <loadingcircle load="load"></loadingcircle>
+        <div ng-if="!load">
+            <div ui-grid="modificacionSolicitudConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+    <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="page-header">Solicitud de Modificacion Presupuestal No. {{modificacionSolicitudConsulta.data.NumeroModifcacion}} de {{modificacionSolicitudConsulta.data.Vigencia}}</h3>
+                <div align="right">Fecha Movimiento: {{modificacionSolicitudConsulta.data.FechaMovimiento | date:"yyyy-MM-dd":"UTC"}}</div>
+            </div>
+            <div class="panel-body">
+                <h4 class="text-info">{{'DATOS_SOLICITUD' | translate}}</h4>
+                <table class="table">
+                    <tr>
+                        <th>{{ 'NO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.NumeroMovimiento}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'NO_OFICIO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.Noficio}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'FECHA_OFICIO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.Foficio | date:"yyyy-MM-dd":"UTC"}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'DESCRIPCION' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.Descripcion}}</td>
+                    </tr>
+                    <tr>
+                        <th>{{ 'ESTADO' | translate }}: </th>
+                        <td>{{modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Nombre}}</td>
+                    </tr>
+                </table>
+                <hr>
+                <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+                <hr>
+                <div ng-repeat="data in modificacionSolicitudConsulta.data.MovimientoApropiacionDisponibilidadApropiacion track by $index" class="form-group">
+                    <label for="CuentaCredito">{{'CUENTA_CREDITO' | translate}} : </label>
+                    <span name="CuentaCredito">{{data.CuentaCredito.Rubro.Nombre}} / {{data.CuentaCredito.Rubro.Codigo}}</span>
+                    <br>
+                    <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO' | translate}} : </label>
+                    <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  name="CuentaContraCredito">{{data.CuentaContraCredito.Rubro.Nombre}} / {{data.CuentaContraCredito.Rubro.Codigo}}</span>
+                    <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" >
+                    <label for="TipoMov">{{'TIPO_MODIFICACION' | translate}} : </label>
+                    <span name="TipoMov">{{data.TipoMovimientoApropiacion.Nombre}}</span>
+                    <br>
+                    <label for="Valor">{{'VALOR' | translate}} : </label>
+                    <span name="Valor">{{data.Valor | currency}}</span>
+                    <br>
+                    <hr>
+                </div>
+                <center ng-if="modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Id == 1 && modificacionSolicitudConsulta.data.Vigencia ==  modificacionSolicitudConsulta.vigenciaActual">
+                    <button class="btn btn-success btn-outline" ng-click="modificacionSolicitudConsulta.generarModificacion()">{{ 'BTN.APROBAR' | translate }}</button>
+                    <button class="btn btn-danger btn-outline" ng-click="modificacionSolicitudConsulta.rechzarMoidficacion()">{{ 'BTN.RECHAZAR' | translate }}</button>
+                </center>
+            </div>
+        </div>
+    </div>
+</div>

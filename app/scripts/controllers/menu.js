@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-    .controller('menuCtrl', function($location, $window, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
+    .controller('menuCtrl', function($location, $window, $q, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
 
         self.perfil = "Admin";
@@ -77,6 +77,7 @@ angular.module('financieraClienteApp')
                     $window.open(path, "_blank");
                     break;
                 default:
+                    requestRequest.cancel_all();
                     $location.path(path);
                     break;
             }
@@ -89,7 +90,7 @@ angular.module('financieraClienteApp')
                 $scope.notificacion.log = response.data;
             });
 
-        configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil).then(function(response) {
+        configuracionRequest.get('menu_opcion_padre/ArbolMenus/' + self.perfil + '/Kronos').then(function(response) {
             $rootScope.my_menu = response.data;
             /*configuracionRequest.update_menu(https://10.20.0.162:9443/store/apis/authenticate response.data);
             console.log("get menu");
