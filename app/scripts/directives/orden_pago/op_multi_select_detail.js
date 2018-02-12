@@ -7,19 +7,20 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function (financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window) {
     return {
       restrict: 'E',
-      scope:{
-          inputopselect:'=?',
-          inputvisible: '=?'
-        },
+      scope: {
+        inputopselect: '=?',
+        inputvisible: '=?'
+      },
 
       templateUrl: 'views/directives/orden_pago/op_multi_select_detail.html',
-      controller:function($scope){
+      controller: function($scope) {
         var self = this;
+        self.giro = {};
         //
-        self.regresar = function(){
+        self.regresar = function() {
           $scope.inputvisible = !$scope.inputvisible;
         }
         self.gridOptions_op_detail = {
@@ -48,13 +49,18 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center'
             },
             {
+              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '8%',
+              displayName: $translate.instant('TIPO'),
+            },
+            {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
               cellClass: 'input_center'
             },
             {
-              field: 'FechaCreacion',
+              field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
               cellFilter: "date:'yyyy-MM-dd'",
@@ -70,11 +76,6 @@ angular.module('financieraClienteApp')
               field: 'FormaPago.CodigoAbreviacion',
               width: '5%',
               displayName: $translate.instant('FORMA_PAGO')
-            },
-            {
-              field: 'Nomina',
-              width: '10%',
-              displayName: $translate.instant('NOMINA')
             },
             {
               field: 'Proveedor.Tipopersona',
@@ -109,6 +110,75 @@ angular.module('financieraClienteApp')
             },
           ]
         };
+        self.gridOptions_op_detail.enablePaginationControls = true;
+        self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
+          self.gridApi = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            $scope.outputopselect = row.entity;
+          });
+        };
+        // cuentas bancarias
+        self.gridOptions_cuenta_bancaria = {
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [15, 30, 45],
+          enableFiltering: true,
+          minRowsToShow: 8,
+          useExternalPagination: false,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'NumeroCuenta',
+              //width: '8%',
+              displayName: $translate.instant('NUMERO'),
+            },
+            {
+              field: 'TipoCuentaBancaria.Nombre',
+              displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'SucursalData[0].Nombre',
+              displayName: $translate.instant('SUCURSAL'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'SucursalData[0].Banco.DenominacionBanco',
+              displayName: $translate.instant('BANCO'),
+              cellClass: 'input_center'
+            },
+          ]
+        };
+        self.gridOptions_cuenta_bancaria.multiSelect = false;
+        self.gridOptions_cuenta_bancaria.onRegisterApi = function(gridApi) {
+          self.gridApi2 = gridApi;
+          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            if (self.gridApi2.selection.getSelectedRows()[0] != undefined) {
+              self.giro.CuentaBancaria = self.gridApi2.selection.getSelectedRows()[0];
+            } else {
+              delete self.giro['CuentaBancaria']
+            }
+          });
+        };
+        financieraRequest.get('cuenta_bancaria',
+          $.param({
+            query: "EstadoActivo:true", //unidad ejecutora entra por usuario logueado
+            limit: -1,
+          })).then(function(response) {
+          self.gridOptions_cuenta_bancaria.data = response.data;
+          //data sucursal, banco
+          angular.forEach(self.gridOptions_cuenta_bancaria.data, function(iterador) {
+            coreRequest.get('sucursal',
+              $.param({
+                query: "Id:" + iterador.Sucursal,
+                limit: -1,
+              })).then(function(response) {
+              iterador.SucursalData = response.data;
+            })
+          })
+        });
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -118,43 +188,63 @@ angular.module('financieraClienteApp')
         };
         // data
         $scope.$watch('inputopselect', function() {
-          if ($scope.inputopselect != undefined) {
+          if (Object.keys($scope.inputopselect).length > 0) {
             self.gridOptions_op_detail.data = [];
             self.gridOptions_op_detail.data = $scope.inputopselect;
-            self.total_abono_cuenta = 0;  //AC
-            self.total_cheque = 0;        //CH
-            self.total_efectivo = 0;      //EF
-            self.total_nota_debito = 0;   //ND
+            self.giro.ValorTotal = 0;
+            self.giro.FormaPago = self.gridOptions_op_detail.data[0].FormaPago;
+            self.giro.Vigencia = self.gridOptions_op_detail.data[0].Vigencia;
             // calculo totales
-            angular.forEach(self.gridOptions_op_detail.data, function(iterador){
-              if(iterador.FormaPago.CodigoAbreviacion == 'AC'){
-                self.total_abono_cuenta = self.total_abono_cuenta + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'CH'){
-                self.total_cheque = self.total_cheque + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'EF'){
-                self.total_efectivo = self.total_efectivo + iterador.ValorTotal;
-              }
-              if(iterador.FormaPago.CodigoAbreviacion == 'ND'){
-                self.total_nota_debito = self.total_nota_debito + iterador.ValorTotal;
-              }
+            angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
+              self.giro.ValorTotal = self.giro.ValorTotal + iterador.ValorTotal;
             })
           }
-        },true)
-        //
-        self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputopselect = row.entity;
-          });
-        };
-        //
-        self.gridOptions_op_detail.multiSelect = true;
-        self.gridOptions_op_detail.enablePaginationControls = true;
+        }, true)
+        // Funcion encargada de validar la obligatoriedad de los campos
+        self.camposObligatorios = function() {
+          self.MensajesAlerta = '';
+          if (self.giro.CuentaBancaria == undefined) {
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
+          }
+          // Operar
+          if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+        self.confirmar = function() {
+          if (self.camposObligatorios()) {
+            self.dataGiroSend = {};
+            self.dataGiroSend.Giro = self.giro;
+            self.dataGiroSend.OrdenPago = $scope.inputopselect;
+            console.log("registrar");
+            console.log(self.dataGiroSend);
+            console.log("registrar");
+            financieraRequest.post('giro/RegistrarGiro', self.dataGiroSend)
+              .then(function(response) {
+                self.resultado = response.data;
+                console.log("Resultado");
+                console.log(self.resultado);
+                console.log("Resultado");
+                swal({
+                  title: $translate.instant('GIRO'),
+                  text: $translate.instant(self.resultado.Code) + self.resultado.Body,
+                  type: self.resultado.Type,
+                }).then(function() {
+                  $window.location.href = '#/orden_pago/giros/ver_todos';
+                })
+              })
+          } else {
+            swal({
+              title: 'Error!',
+              html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+              type: 'error'
+            })
+          }
+        }
         // fin
       },
-      controllerAs:'d_opMultiSelectDetail'
+      controllerAs: 'd_opMultiSelectDetail'
     };
   });

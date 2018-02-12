@@ -154,7 +154,7 @@
   <div class="form-horizontal">
     <div class="form-horizontal">
       <div class="form-group">
-        <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
+        <label class="control-label col-sm-2">{{'TIPO_ORDEN_PAGO' | translate}}</label>
         <div class="col-sm-4">
           <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.SubTipoOrdenPago.Nombre}}</span>
         </div>
@@ -164,9 +164,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2">{{'ENTRADA_ALMACEN' | translate}}</label>
+        <label class="control-label col-sm-2">{{'TIPO_DOCUMENTO' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.entrada.Consecutivo}} - {{d_opProveedorVerPorId.entrada.TipoContrato.Descripcion}}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.documento.Nombre}}</span>
         </div>
         <label class="control-label col-sm-2">{{'VALOR_BASE_RETENCION' | translate}}</label>
         <div class="col-sm-4">
@@ -174,15 +174,22 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+        <label class="control-label col-sm-2">{{'ENTRADA_ALMACEN' | translate}}</label>
         <div class="col-sm-4">
-          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.OrdenPagoEstadoOrdenPago[0].Usuario }}</span>
+          <span class="form-control input_right">{{d_opProveedorVerPorId.entrada.Consecutivo}} - {{d_opProveedorVerPorId.entrada.TipoContrato.Descripcion}}</span>
         </div>
         <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
         <div class="col-sm-4">
           <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.Vigencia}}</span>
         </div>
       </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'ELABORADO_POR' | translate}}</label>
+        <div class="col-sm-4">
+          <span class="form-control input_right">{{d_opProveedorVerPorId.orden_pago.OrdenPagoEstadoOrdenPago[0].Usuario }}</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>

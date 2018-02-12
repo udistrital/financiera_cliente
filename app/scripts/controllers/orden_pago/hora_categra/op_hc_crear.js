@@ -13,35 +13,20 @@ angular.module('financieraClienteApp')
     self.PestanaAbiertaLiquidacion = false;
     self.PestanaAbiertaDetallePago = false;
     self.OrdenPago = {};
-    self.OrdenPago.Vigencia = 0;
     self.DataNomininaSelet = {};
     self.DataHomologacion = {};
     self.DataNominaTitanSelect = {};
-    // unidad ejecutora
-    financieraRequest.get('unidad_ejecutora',
-      $.param({
-        query: 'Id:1', //llega por rol de usuario
-      })
-    ).then(function(response) {
-      self.OrdenPago.UnidadEjecutora = response.data[0];
-    });
-    //forma de pago
-    financieraRequest.get('forma_pago',
-      $.param({
-        limit: 0
-      })
-    ).then(function(response) {
-      self.formaPagos = response.data;
-    });
-    // subtipo op porveedor
-    financieraRequest.get('sub_tipo_orden_pago',
-      $.param({
-        query: 'TipoOrdenPago.CodigoAbreviacion:OP-PROV',
-        limit: -1,
-      })
-    ).then(function(response) {
-      self.subTipoOrdenPago = response.data;
-    });
+
+    $scope.$watch('opHcCrear.DataHomologacion', function() {
+      if (Object.keys(self.DataHomologacion).length > 0 && self.DataHomologacion.TipoLiquidacion != null) {
+        self.tipoNominaDeLiquidacion = {};
+        self.tipoNominaDeLiquidacion.tipoNomina = self.DataHomologacion.TipoLiquidacion;
+        self.tipoNominaDeLiquidacion.tipoOrdenPago = "GENERAL";
+      }else{
+        self.tipoNominaDeLiquidacion = {};
+      }
+    })
+
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
       self.MensajesAlerta = '';
@@ -50,6 +35,9 @@ angular.module('financieraClienteApp')
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>";
+      }
+      if (self.OrdenPago.Documento == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_DOCUMENTO') + "</li>";
       }
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";
@@ -71,10 +59,12 @@ angular.module('financieraClienteApp')
         return true;
       }
     }
+
     self.registrarOpMasivo = function() {
       if (self.camposObligatorios()) {
         self.dataSen = {};
         self.dataSen = self.DataHomologacion;
+        self.OrdenPago.Vigencia = parseInt(self.OrdenPago.Vigencia);
         self.dataSen.InfoGeneralOp = self.OrdenPago;
         console.log(self.dataSen);
         financieraMidRequest.post('orden_pago_nomina/RegistroCargueMasivoOp', self.dataSen)
@@ -84,11 +74,11 @@ angular.module('financieraClienteApp')
             console.log("Resultado");
             console.log(response);
             console.log("Resultado");
-            angular.forEach(self.resultado, function(mensaje){
-                self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
+            angular.forEach(self.resultado, function(mensaje) {
+              self.MensajesAlertaSend = self.MensajesAlertaSend + "<li>" + $translate.instant(mensaje.Code) + mensaje.Body + "</li>";
             })
             swal({
-              title: 'Orden de Pago',
+              title: $translate.instant('ORDEN_DE_PAGO'),
               html: '<ol align="left">' + self.MensajesAlertaSend + '</ol>',
               type: "success",
             }).then(function() {

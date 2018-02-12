@@ -33,8 +33,8 @@
         </div>
 
 
-        <loadingcircle load="load"></loadingcircle>
-        <div ng-if="!load">
+        <!-- ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div >
             <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
         </div>
     </div>
@@ -77,8 +77,12 @@
                             <td>{{item.Beneficiario.NumDocumento}}</td>
                         </tr>
                         <tr>
-                            <th>{{'COMPROMISO' | translate}}: </th>
-                            <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+                            <th>{{'TIPO_COMPROMISO' | translate}}: </th>
+                            <td>{{item.TipoCompromiso.Id+" / "+item.TipoCompromiso.Objeto}}</td>
+                        </tr>
+                        <tr>
+                            <th>{{'COMPROMISO_NO' | translate}}: </th>
+                            <td>{{item.NumeroCompromiso}}</td>
                         </tr>
                         <tr>
                             <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>

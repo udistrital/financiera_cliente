@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
     self.panelUnidadEjecutora = false;
     self.OrdenPago = {};
     self.Proveedor = {};
-    //self.OrdenPago.RegistroPresupuestal = {'Id': 99} // data tes
+    //self.OrdenPago.RegistroPresupuestal = {'Id': 103} // data tes
     self.Conceptos = {};
     self.MensajesAlerta = null;
     // unidad ejecutora
@@ -135,6 +135,9 @@ angular.module('financieraClienteApp')
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TIPO_OP') + "</li>";
+      }
+      if (self.OrdenPago.Documento == undefined) {
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_DOCUMENTO') + "</li>";
       }
       if (self.OrdenPago.FormaPago == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_FORMA_PAGO_OP') + "</li>";

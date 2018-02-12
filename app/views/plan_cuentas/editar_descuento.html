@@ -3,7 +3,7 @@
     <h3 class="page-header">{{editarDescuento.e_descuento.TipoCuentaEspecial.Nombre}} {{"NO" | translate}} {{editarDescuento.e_descuento.Id}}</h3></center>
 
   <div >
-    <div >
+    <div class="panel panel-default panel-body">
 
         <form name="des_imp_uform" ng-submit="des_imp_uform.$valid && editarDescuento.actualizar_descuento()" focus-on-field validate>
 
@@ -76,8 +76,8 @@
 
           <div class="form-group col-md-12">
             <center>
-              <input type="submit" class="btn btn-success btn-lg shadow-box" value="{{'BTN.CONFIRMAR' | translate}}" ng-click="submitted=true">
-              <a href="#/plan_cuentas/gestion_descuentos" class="btn btn-danger btn-lg shadow-box">{{"BTN.CANCELAR" | translate}}</a>
+              <input type="submit" class="btn btn-success shadow-box" value="{{'BTN.CONFIRMAR' | translate}}" ng-click="submitted=true">
+              <a href="#/plan_cuentas/gestion_descuentos" class="btn btn-danger shadow-box">{{"BTN.CANCELAR" | translate}}</a>
             </center>
           </div>
 

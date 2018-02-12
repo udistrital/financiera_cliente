@@ -9,9 +9,11 @@
                         <div class="col-md-4 col-md-offset-1">
                             <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
                             <br>
-                            <input type="text" name="select_vigencia" disabled="true" ng-model="cdpSolicitudConsulta.Vigencia" class="form-control">
-
+                            <!--input type="text" name="select_vigencia" disabled="true" ng-model="cdpSolicitudConsulta.Vigencia" class="form-control"-->
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                              <option ng-repeat="option in cdpSolicitudConsulta.years" value="{{option}}">{{option}}</option>
                             </select>
+                           
                         </div>
                         <div class="col-md-3">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
@@ -31,8 +33,8 @@
             </div>
         </div>
 
-        <loadingcircle load="load"></loadingcircle>
-        <div ng-if="!load">
+        
+        <div>
             <div ui-grid="cdpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
         </div>
 
@@ -96,7 +98,7 @@
                 </fuente-financiacion-necesidad>
 
                 <hr>
-                <center ng-if="!cdpSolicitudConsulta.data.SolicitudDisponibilidad.Expedida">
+                <center ng-if="!cdpSolicitudConsulta.data.SolicitudDisponibilidad.Expedida && cdpSolicitudConsulta.data.SolicitudDisponibilidad.Necesidad.Vigencia === cdpSolicitudConsulta.vigenciaActual">
                     <button class="btn btn-success btn-outline" ng-click="cdpSolicitudConsulta.generar_disponibilidad()">{{ 'BTN.APROBAR' | translate }}</button>
                     <button class="btn btn-danger btn-outline" ng-click="cdpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
                 </center>
