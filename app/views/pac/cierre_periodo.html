@@ -8,12 +8,12 @@
                         <div class="col-md-2">
                             <label for="tipo_ingreso">{{'FECHA_CIERRE' | translate}}</label>
                             <br>
-                            <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_CIERRE' | translate}}" md-mode="month" md-current-view="year"></md-datepicker>
+                            <md-datepicker ng-model="cierrePeriodo.fechaInicio" md-placeholder="{{'FECHA_CIERRE' | translate}}" md-mode="month" md-current-view="year"></md-datepicker>
                         </div>
                         <div class="col-md-4">
                             <br>
                             <center>
-                                <a type="button" name="button" ng-click="cierrePeriodo.incrementaMes()" class="fa fa-check btn btn-info btn-outline" aria-hidden="true"  ></a>
+                                <a type="button" name="button" ng-click="cierrePeriodo.generarCierre()" class="fa fa-check btn btn-info btn-outline" aria-hidden="true"  ></a>
                             </center>
                         </div>
                     </div>
