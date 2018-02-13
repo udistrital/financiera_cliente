@@ -1,0 +1,29 @@
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        reportes/presupuesto/listado_apropiaciones.
+    </div>
+    <div class="panel-body">
+      <h2 class="page-header text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate}}</h2>
+
+      <div class="form-group">
+        <label>Unidad Ejecutora</label>
+        <select ng-model="listadoApropiaciones.unidadEjecutora"
+          ng-options="u.Nombre for u in listadoApropiaciones.unidadesEjecutoras">
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Vigencia</label>
+        <select ng-model="listadoApropiaciones.vigencia" ng-options="v for v in listadoApropiaciones.vigencias">
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary" ng-click="listadoApropiaciones.buscarApropiaciones()">Generar</button>
+
+      <pre>{{listadoApropiaciones.apropiaciones | json}}</pre>
+    </div>
+    <div class="panel-footer">
+        Panel Footer
+    </div>
+</div>
