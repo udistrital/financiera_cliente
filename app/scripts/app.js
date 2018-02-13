@@ -452,6 +452,11 @@ angular
               controller: 'ReportesReportesCtrl',
               controllerAs: 'reportes'
             })
+            .when('/reportes/presupuesto/listado_apropiaciones', {
+              templateUrl: 'views/reportes/presupuesto/listado_apropiaciones.html',
+              controller: 'ReporteListadoApropiacionesCtrl',
+              controllerAs: 'listadoApropiaciones'
+            })
             .otherwise({
                 redirectTo: '/'
             });

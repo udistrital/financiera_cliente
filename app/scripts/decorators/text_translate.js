@@ -608,9 +608,11 @@ var text_es = {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
         NO_FILAS: "Número de Filas"
     },
-
     REPORTES_SPAGO: {
       REPORTES: "Reportes"
+    },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Listado de Apropiaciones"
     }
 };
 
@@ -756,6 +758,9 @@ var text_en = {
         SOLICITAR_RP: "Solicitar RP",
         VER: "Ver",
     },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Apropiations List"
+    }
 };
 
 //
