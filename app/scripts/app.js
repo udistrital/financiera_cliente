@@ -41,6 +41,7 @@ angular
         'ui.grid.pinning',
         'ui.select',
         'ui.knob',
+        'kendo.directives',
         // Servicios
         'academicaService',
         'financieraService',
