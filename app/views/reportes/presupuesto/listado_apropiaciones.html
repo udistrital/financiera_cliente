@@ -7,6 +7,25 @@
       <h2 class="page-header text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate}}</h2>
 
       <div class="form-group">
+
+        <button class="btn btn-primary" ng-click="listadoApropiaciones.generatePDF()"><i class="fa fa-save"></i> Save as PDF</button>
+        <div id="testForm">
+            <center><h1> Titulo de un reporte </h1></center>
+            <hr>
+            <ul>
+              <li>a</li>
+              <li>b</li>
+              <li>c</li>
+              <table border="1px">
+                <tr>
+                  <td>asf</td>
+                  <td>asdf</td>
+                  <td>asfasdf</td>
+                </tr>
+              </table>
+            </ul>
+        </div>
+
         <label>Unidad Ejecutora</label>
         <select ng-model="listadoApropiaciones.unidadEjecutora"
           ng-options="u.Nombre for u in listadoApropiaciones.unidadesEjecutoras">

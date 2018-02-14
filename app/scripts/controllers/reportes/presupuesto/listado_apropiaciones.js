@@ -25,7 +25,6 @@ angular.module('financieraClienteApp')
   });
 
   ctrl.buscarApropiaciones = function() {
-    console.log('buscando apropiaciones....');
     financieraRequest.get('apropiacion', $.param({
       limit: -1,
       fields: 'Rubro,Valor',
@@ -35,7 +34,14 @@ angular.module('financieraClienteApp')
       order: 'asc'
     })).then(function(response) {
       ctrl.apropiaciones = response.data;
-      console.log(ctrl.apropiaciones);
+    });
+  }
+
+  ctrl.generatePDF = function() {
+    console.log("generando pdf....");
+    kendo.drawing.drawDOM($("#testForm")).then(function(group) {
+      console.log("si..?");
+      kendo.drawing.pdf.saveAs(group, "Converted PDF.pdf");
     });
   }
 
