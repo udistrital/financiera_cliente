@@ -22,3 +22,13 @@
             </div>
         </div>
     </div>
+    <div class="panel panel-primary panel-body" ng-show="ingresos">
+      <div class="panel-body">
+        <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
+          CIERRE
+          <span class="fa fa-plus pull-right" ng-show="b"></span>
+          <span class="fa fa-minus pull-right" ng-show="!b"></span>
+        </legend>
+        <div ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-exporter></div>
+      </div>
+    </div>
