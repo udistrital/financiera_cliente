@@ -131,7 +131,7 @@ angular.module('financieraClienteApp')
 
       if (self.perfil !== undefined){
           $scope.notificacion.get_crud('notify', $.param({
-                query: "NotificacionConfiguracion.NotificacionConfiguracionPerfil.Perfil.Nombre__in:"+ self.perfil.join('|')+"&sortby=id&order=asc" 
+                query: "NotificacionConfiguracion.NotificacionConfiguracionPerfil.Perfil.Nombre__in:"+ self.perfil.join('|')+"&sortby=id&order=asc&limit=-1" 
             }))
             .then(function(response) {
                 if (response.data !== null){

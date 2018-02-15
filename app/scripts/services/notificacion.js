@@ -89,6 +89,9 @@ angular.module('financieraNotificacion', [])
                     j += 1;
                 }
             });
+            if (j > 0) {
+                document.title = 'Kronos (' + j + ')';    
+            }
             return j;
         }
     };

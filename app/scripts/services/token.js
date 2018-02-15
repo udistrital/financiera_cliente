@@ -110,6 +110,16 @@ angular.module('financieraClienteApp')
                         service.setExpiresAt();
                     });
             },
+            clear_url: function() {
+                var uri = window.location.toString();
+                if (uri.indexOf('?') >= 0) {
+                    var clean_uri = uri.substring(0, uri.indexOf('?'));  
+                    console.log(clean_uri);
+                    //window.history.pushState({}, document.title, "/"+clean_uri);
+                    window.history.replaceState(null, null, window.location.pathname);
+                    window.location.href =  window.location.href.split("?")[0];
+                }
+            },
             get_id_token: function() {
                 if ((!angular.isUndefined($sessionStorage.code)) && (angular.isUndefined($sessionStorage.id_token))) {
                     var url = CONF.GENERAL.TOKEN.REFRESH_TOKEN;
@@ -121,9 +131,9 @@ angular.module('financieraClienteApp')
                     $http.post(url, data, service.setting_basic)
                         .then(function(response) {
                             //window.location.replace(CONF.GENERAL.TOKEN.REDIRECT_URL);
-                            location.search = "";
                             $sessionStorage.$default(response.data);
                             service.setExpiresAt();
+                            service.clear_url();
                         });
                 }
                 service.timer();
