@@ -69,7 +69,7 @@ angular.module('financieraClienteApp')
       var consulta = {
         inicio: ctrl.fechaInicio,
         fin: new Date(ctrl.fechaInicio.getFullYear(),ctrl.fechaInicio.getMonth() + 1,0),
-        codigo:'2'
+        nperiodos:'3'
       };
       console.log("fecha fin "+ consulta.fin);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
