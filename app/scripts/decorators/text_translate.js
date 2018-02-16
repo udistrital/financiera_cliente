@@ -612,7 +612,8 @@ var text_es = {
       REPORTES: "Reportes"
     },
     REPORTES: {
-      LISTADO_APROPIACIONES: "Listado de Apropiaciones"
+      LISTADO_APROPIACIONES: "Listado de Apropiaciones",
+      FECHA_REPORTE: "Fecha del reporte"
     }
 };
 
@@ -759,7 +760,8 @@ var text_en = {
         VER: "Ver",
     },
     REPORTES: {
-      LISTADO_APROPIACIONES: "Apropiations List"
+      LISTADO_APROPIACIONES: "Apropiations List",
+      FECHA_REPORTE: "Reporte date"
     }
 };
 
