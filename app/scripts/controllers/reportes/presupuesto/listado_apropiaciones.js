@@ -8,15 +8,31 @@
 * Controller of the financieraClienteApp
 */
 angular.module('financieraClienteApp')
-.controller('ReporteListadoApropiacionesCtrl', function (financieraRequest) {
+.controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $scope) {
   var ctrl = this;
+  ctrl.hideReport = false;
+
+  ctrl.gridOptions = {
+    enableFiltering: false,
+    enableSorting: false,
+    enableRowHeaderSelection: false,
+    paginationPageSize: 20,
+
+    columnDefs: [
+      { field: 'Rubro.Codigo' },
+      { field: 'Rubro.Nombre' },
+      { field: 'Valor' }
+    ]
+  };
+
+  var d = new Date();
+  ctrl.fechaActual = d.toLocaleDateString()+" "+d.toLocaleTimeString();
 
   financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
     limit: 0
   })).then(function(response) {
     ctrl.vigencias = response.data;
   });
-
 
   financieraRequest.get('unidad_ejecutora', $.param({
     limit: 0
@@ -25,6 +41,10 @@ angular.module('financieraClienteApp')
   });
 
   ctrl.buscarApropiaciones = function() {
+    financieraRequest.get('entidad').then(function(response) {
+      ctrl.entidad = response.data[0];
+    });
+
     financieraRequest.get('apropiacion', $.param({
       limit: -1,
       fields: 'Rubro,Valor',
@@ -33,14 +53,17 @@ angular.module('financieraClienteApp')
       sortby: 'Rubro',
       order: 'asc'
     })).then(function(response) {
-      ctrl.apropiaciones = response.data;
+      //ctrl.apropiaciones = response.data;
+      ctrl.gridOptions.data = response.data;
+      //ctrl.gridOptions.paginationPageSize = response.data.length;
+      console.log(ctrl.gridOptions.paginationPageSize );
     });
+
+    ctrl.hideReport = !ctrl.hideReport;
   }
 
   ctrl.generatePDF = function() {
-    console.log("generando pdf....");
     kendo.drawing.drawDOM($("#testForm")).then(function(group) {
-      console.log("si..?");
       kendo.drawing.pdf.saveAs(group, "Converted PDF.pdf");
     });
   }
