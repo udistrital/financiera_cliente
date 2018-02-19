@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
   .controller('PacCierrePeriodoCtrl', function ($scope, $translate,financieraMidRequest) {
   	var ctrl = this;
+    $scope.load = false;
+    $scope.datos=true;
 
     $scope.gridOptions = {
       rowHeight: 30,
@@ -29,6 +31,7 @@ angular.module('financieraClienteApp')
     $scope.gridOptions.data=null;
 
     ctrl.generarCierre = function(){
+      $scope.datos = false;
       $scope.gridOptions.columnDefs = [
       {
         name: 'Fdescrip',
@@ -69,14 +72,19 @@ angular.module('financieraClienteApp')
       var consulta = {
         inicio: ctrl.fechaInicio,
         fin: new Date(ctrl.fechaInicio.getFullYear(),ctrl.fechaInicio.getMonth() + 1,0),
-        nperiodos:'3'
+        nperiodos:3
       };
       console.log("fecha fin "+ consulta.fin);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
            console.log(response.data);
+           $scope.datos = true;
            $scope.ingresos = response.data.Ingresos;
+           $scope.egresos = response.data.egresos;
            $scope.gridOptions.data = $scope.ingresos;
+           $scope.gridOptions.data.push($scope.egresos);
+        }else{
+          $scope.datos = false;
         }
 
     });
