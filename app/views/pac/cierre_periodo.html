@@ -21,7 +21,9 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div ng-if="!datos">
+            <loadingcircle load="load"></loadingcircle>
+        </div>
     <div class="panel panel-primary panel-body" ng-show="ingresos">
       <div class="panel-body">
         <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
@@ -31,4 +33,5 @@
         </legend>
         <div ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-exporter></div>
       </div>
+    </div>
     </div>
