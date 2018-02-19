@@ -8,8 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('PacCierrePeriodoCtrl', function ($scope, $translate,financieraMidRequest) {
+  .controller('PacCierrePeriodoCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
+
+    $scope.load = false;
 
     $scope.gridOptions = {
       rowHeight: 30,
@@ -69,19 +71,40 @@ angular.module('financieraClienteApp')
       var consulta = {
         inicio: ctrl.fechaInicio,
         fin: new Date(ctrl.fechaInicio.getFullYear(),ctrl.fechaInicio.getMonth() + 1,0),
-        nperiodos:'3'
+        nperiodos:3
       };
+      $scope.union = [];
       console.log("fecha fin "+ consulta.fin);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
-           console.log(response.data);
+          
+           
            $scope.ingresos = response.data.Ingresos;
-           $scope.gridOptions.data = $scope.ingresos;
-        }
+           $scope.egresos = response.data.Egresos;
+           //$scope.union  = angular.extend([],$scope.ingresos);
+           $scope.union.push.apply($scope.union,$scope.ingresos);
+           $scope.union.push.apply($scope.union,$scope.egresos);
+           console.log($scope.ingresos);
+           console.log($scope.egresos);
+           console.log($scope.union);
+
+           $scope.gridOptions.data = $scope.union;
+         }
 
     });
     }
 
+    ctrl.guardarCierre = function(){
+      console.log("guardar cierre");
+      var insercion = {
+          datos = $scope.union;
+      }
+        financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
 
+
+        });
+      }
+
+    }
 
     });
