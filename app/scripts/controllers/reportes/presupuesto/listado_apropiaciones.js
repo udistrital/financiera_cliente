@@ -10,20 +10,31 @@
 angular.module('financieraClienteApp')
 .controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $scope) {
   var ctrl = this;
+
   ctrl.hideReport = false;
+  ctrl.isPdf = false;
+  var apropiaciones = 0;
 
   ctrl.gridOptions = {
     enableFiltering: false,
     enableSorting: false,
     enableRowHeaderSelection: false,
-    paginationPageSize: 20,
+    rowHeight: 30,
 
     columnDefs: [
       { field: 'Rubro.Codigo' },
       { field: 'Rubro.Nombre' },
-      { field: 'Valor' }
+      { field: 'Valor', cellFilter: 'currency', cellClass: 'right-letters' }
     ]
   };
+
+  ctrl.getTableHeight = function() {
+      var rowHeight = 30.1;
+      var headerHeight = 30;
+      return {
+        height: (ctrl.gridOptions.data.length * rowHeight + headerHeight) + "px"
+      }
+  }
 
   var d = new Date();
   ctrl.fechaActual = d.toLocaleDateString()+" "+d.toLocaleTimeString();
@@ -53,18 +64,22 @@ angular.module('financieraClienteApp')
       sortby: 'Rubro',
       order: 'asc'
     })).then(function(response) {
-      //ctrl.apropiaciones = response.data;
       ctrl.gridOptions.data = response.data;
-      //ctrl.gridOptions.paginationPageSize = response.data.length;
-      console.log(ctrl.gridOptions.paginationPageSize );
+      apropiaciones = response.data.length;
     });
 
     ctrl.hideReport = !ctrl.hideReport;
   }
 
+  //ctrl.gridOptions.paginationPageSize = apropiaciones;
+  //console.log(ctrl.gridOptions.paginationPageSize);
+  //ctrl.isPdf = true;
+
   ctrl.generatePDF = function() {
-    kendo.drawing.drawDOM($("#testForm")).then(function(group) {
-      kendo.drawing.pdf.saveAs(group, "Converted PDF.pdf");
+    kendo.drawing.drawDOM("#reporte", {
+      multiPage: true
+    }).then(function(group) {
+      kendo.drawing.pdf.saveAs(group, "Listado_de_apropiaciones.pdf");
     });
   }
 

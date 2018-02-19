@@ -26,9 +26,11 @@
         </div>
 
         <button type="submit" class="btn btn-primary" ng-click="listadoApropiaciones.buscarApropiaciones()">
-          Generar
+          {{"BTN.CONSULTAR" | translate}}
         </button>
       </form>
+
+      <button class="btn btn-primary" ng-show="listadoApropiaciones.hideReport" class="btn btn-primary" ng-click="listadoApropiaciones.generatePDF()"><i class="fa fa-save">Generar PDF</i></button>
 
       <div id="reporte" ng-if="listadoApropiaciones.hideReport">
         <h1 class="text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate | uppercase}}</h1>
@@ -49,11 +51,37 @@
           </div>
         </div>
 
-        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-pagination class="grid"></div>
+        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-auto-resize ng-style="listadoApropiaciones.getTableHeight()"></div>
       </div>
 
+      <div id="grid"></div>
+   <script>
+       $("#grid").kendoGrid({
+           toolbar: ["pdf"],
+           pdf: {
+               allPages: true,
+               paperSize: "A4",
+               landscape: true,
+               scale: 0.75
+           },
+           dataSource: {
+               type: "odata",
+               transport: {
+                   read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+               },
+               pageSize: 7
+           },
+           pageable: true,
+           columns: [
+               { width: 300, field: "ProductName", title: "Product Name" },
+               { field: "UnitsOnOrder", title: "Units On Order" },
+               { field: "UnitsInStock", title: "Units In Stock" }
+           ]
+       });
+   </script>
+   
       <!--<div ui-grid="{ data: listadoApropiaciones.apropiaciones }" class="myGrid"></div>-->
-      <!--<button class="btn btn-primary" ng-click="listadoApropiaciones.generatePDF()"><i class="fa fa-save"></i> Save as PDF</button>-->
+      <!-- Save as PDF</button>-->
       <!--<pre>{{listadoApropiaciones.apropiaciones | json}}</pre>-->
     </div>
     <div class="panel-footer">

@@ -100,11 +100,15 @@
     padding: auto !important;
 }
 
-.ui-grid,
+/*.ui-grid,*/
 .ui-grid-viewport,
 .ui-grid-render-container-body,
 .ui-grid-canvas {
     height: auto !important;
+}
+
+.no-height {
+  height: 300px;
 }
 
 .ui-grid-pager-panel {
@@ -139,6 +143,10 @@ md-checkbox.md-checked.blue .md-icon {
 .middle {
     vertical-align: center;
     text-align: center;
+}
+
+.right-letters {
+  text-align: right;
 }
 
 sencillo {
