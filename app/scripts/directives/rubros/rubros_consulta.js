@@ -147,9 +147,9 @@ angular.module('financieraClienteApp')
            
         }, true);
 
-        $interval(function() {
+        /*$interval(function() {
           self.cargar_arbol();// your code
-       }, 5000);
+       }, 5000);*/
         
         /**
          * @ngdoc event
