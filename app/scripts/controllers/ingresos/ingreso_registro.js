@@ -126,7 +126,11 @@ angular.module('financieraClienteApp')
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
-                            swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
+                            
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" ;
+
+                            swal('', templateAlert, response.data.Type);
                         }
 
                     }
