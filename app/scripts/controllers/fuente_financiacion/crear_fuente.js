@@ -28,6 +28,22 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=Fecha__startswith:' + parseInt(self.year)).then(function(response) {
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
+
+      self.fuente_financiamiento = [];
+
+      for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
+        self.repetido = false;
+
+        for (var j = 0; j < self.fuente_financiamiento.length; j++) {
+          if (self.movimiento_fuente_financiamiento_apropiacion[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.fuente_financiamiento[j].Id) {
+            self.repetido = true;
+          }
+        }
+        if (!self.repetido) {
+          self.fuente_financiamiento.push(self.movimiento_fuente_financiamiento_apropiacion[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento);
+        }
+      }
+      
     });
 
     financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year1) + ',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
