@@ -55,7 +55,7 @@
                         <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
                         <ul class="list-unstyled" ng-repeat=" ingresoconcepto in ingresoConsulta.ingresoSel.IngresoConcepto">
                             <hr class="hr-primary">
-                            <li><b>{{'RUBRO' | translate}}:</b> {{ingresoconcepto.Concepto.Rubro.Codigo+" / "+ingresoconcepto.Concepto.Rubro.Descripcion}}
+                            <li><b>{{'RUBRO' | translate}}:</b> {{ingresoconcepto.Concepto.Rubro.Codigo+" / "+ingresoconcepto.Concepto.Rubro.Nombre}}
                                 <ul>
                                     <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+ingresoconcepto.ValorAgregado|currency}}</li>
                                 </ul>
