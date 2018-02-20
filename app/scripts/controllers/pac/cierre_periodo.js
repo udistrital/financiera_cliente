@@ -80,9 +80,7 @@ angular.module('financieraClienteApp')
       console.log("fecha fin "+ consulta.fin);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
-<<<<<<< HEAD
-          
-           
+
            $scope.ingresos = response.data.Ingresos;
            $scope.egresos = response.data.Egresos;
            //$scope.union  = angular.extend([],$scope.ingresos);
@@ -93,33 +91,21 @@ angular.module('financieraClienteApp')
            console.log($scope.union);
 
            $scope.gridOptions.data = $scope.union;
-         }
-=======
-           console.log(response.data);
-           $scope.datos = true;
-           $scope.ingresos = response.data.Ingresos;
-           $scope.egresos = response.data.egresos;
-           $scope.gridOptions.data = $scope.ingresos;
-           $scope.gridOptions.data.push($scope.egresos);
         }else{
           $scope.datos = false;
         }
->>>>>>> 5653d62a781f78ac73821c31bd5b8071ea735a35
-
     });
     }
 
     ctrl.guardarCierre = function(){
       console.log("guardar cierre");
       var insercion = {
-          datos = $scope.union;
-      }
-        financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
-
+          datos:$scope.union
+      };
+        financieraRequest.post('detalle_pac/InsertarRegistros',$scope.union).then(function(response){
+           console.log(response);
 
         });
       }
-
-    }
 
     });
