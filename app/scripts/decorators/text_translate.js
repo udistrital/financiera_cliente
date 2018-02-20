@@ -602,11 +602,19 @@ var text_es = {
         SOLICITAR_RP: "Solicitar RP",
         SOLICITAR: "Solicitar",
         VER: "Ver",
-        VERIFICAR: "Verificar Requisitos"
+        VERIFICAR: "Verificar Requisitos",
+        CONSULTAR: "Consultar"
     },
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
         NO_FILAS: "Número de Filas"
+    },
+    REPORTES_SPAGO: {
+      REPORTES: "Reportes"
+    },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Listado de Apropiaciones",
+      FECHA_REPORTE: "Fecha del reporte"
     }
 };
 
@@ -751,7 +759,12 @@ var text_en = {
         SELECCIONAR: "Select",
         SOLICITAR_RP: "Solicitar RP",
         VER: "Ver",
+        CONSULTAR: "Consult"
     },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Apropiations List",
+      FECHA_REPORTE: "Reporte date"
+    }
 };
 
 //
