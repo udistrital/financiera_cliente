@@ -18,8 +18,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
     self.movimiento_fuente_financiamiento_apropiacion = [];
     self.fuente_seleccionada = {};
 
-  //  financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.Apropiacion.Vigencia:' + parseInt(self.Vigencia)).then(function(response) {
-    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1').then(function(response) {
+    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.Apropiacion.Vigencia:' + parseInt(self.Vigencia)).then(function(response) {
+  // financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1').then(function(response) {
       if (response.data != null) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
       }
@@ -45,6 +45,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
       self.vigenciaActual = parseInt(response.data);
+      console.log(self.vigenciaActual)
       var dif = self.vigenciaActual - 1995;
       var range = [];
       range.push(self.vigenciaActual);
@@ -248,8 +249,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
     self.movimiento_fuente_financiamiento_apropiacion = [];
     self.fuente_financiamiento_apropiacion = [];
 
-    //financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente) + ',Fecha__startswith:' + parseInt(self.Vigencia)).then(function(response) {
-    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
+    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente) + ',Fecha__startswith:' + parseInt(self.Vigencia)).then(function(response) {
+    //financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
       self.valor_total = 0;
       self.fuente_financiamiento_apropiacion = response.data;
       if (self.fuente_financiamiento_apropiacion) {
