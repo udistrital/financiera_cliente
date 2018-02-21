@@ -23,9 +23,6 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       if (response.data != null) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
       }
-      console.log(self.movimiento_fuente_financiamiento_apropiacion)
-      console.log(response.data)
-      console.log(self.Vigencia)
       for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
         self.repetido = false;
 
@@ -45,7 +42,6 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
       self.vigenciaActual = parseInt(response.data);
-      console.log(self.vigenciaActual)
       var dif = self.vigenciaActual - 1995;
       var range = [];
       range.push(self.vigenciaActual);
@@ -276,7 +272,6 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       }
 
       self.valor_disponible = self.valor_total - self.valor_cdp;
-      console.log(self.fuente_cdp_tabla)
       self.gridOptionCDP.data = self.fuente_cdp_tabla;
       self.fuente_cdp = response.data;
     });
@@ -292,7 +287,6 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
           self.fuente_crp_tabla.push(self.fuente_crp[i]);
         }
       }
-      console.log(self.fuente_crp_tabla)
       self.gridOptionCRP.data = self.fuente_crp_tabla;
       self.fuente_crp = response.data;
 
@@ -301,13 +295,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
     financieraMidRequest.get('orden_pago/GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&unidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
 
       self.fuente_op = response.data.OrdenPago;
-      console.log(response.data.OrdenPago)
-
-
-
       self.gridOptionOP.data = self.fuente_op;
-      self.fuente_op = response.data;
-
+      
     });
 
     for (var i = 0; i < self.fuente_financiamiento.length; i++) {

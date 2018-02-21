@@ -127,9 +127,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
       if (response.data != null) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
       }
-      console.log(self.movimiento_fuente_financiamiento_apropiacion)
-      console.log(response.data)
-      console.log(self.Vigencia)
       for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
         self.repetido = false;
 
@@ -144,7 +141,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
       }
 
       self.gridOptions.data = self.fuente_financiamiento;
-      console.log(self.fuente_financiamiento)
     });
 
 
@@ -200,8 +196,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
           data.TipoDocumento.JsonContenido = JSON.parse(data.TipoDocumento.Contenido);
           var mydate = new Date(data.TipoDocumento.JsonContenido.Documento.FechaDocumento);
           data.TipoDocumento.JsonContenido.Documento.Fecha = mydate;
-          console.log(data.TipoDocumento.JsonContenido);
-
         });
       });
       self.valor_total = 0;
