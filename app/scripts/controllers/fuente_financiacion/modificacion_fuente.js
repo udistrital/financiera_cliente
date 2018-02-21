@@ -18,6 +18,9 @@ angular.module('financieraClienteApp')
         self.datos_vigencia();
       });
 
+      self.fecha = new Date();
+      //self.year = self.fecha.getFullYear();
+
     financieraRequest.get("fuente_financiamiento_apropiacion", 'limit=-1').then(function(response) {
       self.fuente_financiamiento_apropiacion = response.data;
     });

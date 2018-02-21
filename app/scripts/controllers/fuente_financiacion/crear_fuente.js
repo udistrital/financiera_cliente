@@ -18,6 +18,9 @@ angular.module('financieraClienteApp')
         self.datos_vigencia();
       });
 
+      self.fecha = new Date();
+      //self.year = self.fecha.getFullYear();
+
     financieraRequest.get("fuente_financiamiento", 'limit=-1&sortby=descripcion&order=asc').then(function(response) {
       self.fuente_financiamiento = response.data;
     });
