@@ -491,7 +491,7 @@ var text_es = {
     S_542: "Se Actualizo exitosamente",
     S_5412: "Se canceló el compromiso ",
     S_543: "Se registro exitosamente",
-    S_544: "Se aprobó el Ingreso con el consecutivo ",
+    S_544: "Se aprobó el Ingreso ",
     S_545: "Se rechazó el Ingreso con el consecutivo ",
     S_554: "Se eliminó exitosamente",
     S_588: "El registro se actualizó exitosamente",
