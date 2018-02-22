@@ -46,6 +46,9 @@ angular.module('financieraClienteApp')
       enableGridMenu: true,
       exporterCsvFilename: 'egresospac.csv',
       exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
+      //exporterFieldCallback: function (grid, row, col, value) {
+      //    return grid.getCellDisplayValue(row, col);
+      //},
       onRegisterApi: function(gridApi) {
         $scope.gridApi = gridApi;
       }
@@ -132,7 +135,8 @@ angular.module('financieraClienteApp')
             headerCellClass: 'text-info',
             width: "8%",
             enablePinning: false,
-            cellFilter: 'currency'
+            cellFilter: 'currency',
+            cellClass:'ui-grid-number-cell'
           });
           $scope.gridOptions.columnDefs.push({
             name: '' + response.data.Ingresos[0].Reporte[i].Mes + ' PROY',
