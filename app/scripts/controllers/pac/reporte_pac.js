@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
         $scope.gridApi = gridApi;
       }
     };
-    
+
     $scope.gridOptions_egresos = {
       enableHorizontalScrollbar: 1,
       enableVerticalScrollbar: 1,
@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
         $scope.gridApi = gridApi;
       }
     };
-    
+
     $scope.gridOptions_egresos.data = null;
     $scope.gridOptions.data=null;
     self.generarReporte = function() {
@@ -120,7 +120,7 @@ angular.module('financieraClienteApp')
         periodosproy: 3
       };
       financieraMidRequest.post('rubro/GenerarPac', consulta).then(function(response) {
-       
+
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
            console.log(response.data);
           for (var i = 0; i < response.data.Ingresos[0].Reporte.length; i++) {
@@ -202,11 +202,13 @@ angular.module('financieraClienteApp')
           });
         }
         }
-        
+        $scope.union = [];
         $scope.ingresos = response.data.Ingresos;
         $scope.egresos =  response.data.Egresos;
+        $scope.union.push.apply($scope.union,$scope.ingresos)
+        $scope.union.push.apply($scope.union,$scope.egresos)
         $scope.gridOptions.data = $scope.ingresos;
-        $scope.gridOptions_egresos.data = $scope.egresos;
+        $scope.gridOptions_egresos.data = $scope.union;
 
       });
     }
