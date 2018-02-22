@@ -10,7 +10,21 @@
 angular.module('financieraClienteApp')
   .controller('PacCierrePeriodoCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
-    $scope.load = false;
+
+
+    ctrl.cargar_vigencia = function() {
+      financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+        ctrl.vigencia_calendarios = parseInt(response.data);
+        var year = parseInt(response.data);
+        ctrl.vigencias = [];
+        for (var i = 0; i < 5; i++) {
+          ctrl.vigencias.push(year - i);
+        }
+      });
+    };
+
+    ctrl.cargar_vigencia();
+
     $scope.datos=true;
 
     $scope.load = false;
@@ -72,12 +86,11 @@ angular.module('financieraClienteApp')
       },
     ];
       var consulta = {
-        inicio: ctrl.fechaInicio,
-        fin: new Date(ctrl.fechaInicio.getFullYear(),ctrl.fechaInicio.getMonth() + 1,0),
-        nperiodos:3
+        vigencia: ctrl.vigencia,
+        mes: $scope.mes
       };
       $scope.union = [];
-      console.log("fecha fin "+ consulta.fin);
+      console.log(consulta);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
 
