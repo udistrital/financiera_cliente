@@ -1,0 +1,62 @@
+<br>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <h2 class="page-header text-center">{{"REPORTES.CDP" | translate}}</h2>
+        <form>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"NECESIDAD_NO" | translate}}</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" ng-model="cDP.necesidad">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate}}</label>
+            <div class="col-sm-4">
+              <select class="form-control form-control-sm" ng-model="cDP.unidadEjecutora"
+                ng-options="u.Nombre for u in cDP.unidadesEjecutoras">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate}}</label>
+            <div class="col-sm-4">
+              <select class="form-control form-control-sm" ng-model="cDP.vigencia"
+                ng-options="v for v in cDP.vigencias">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"DEPENDENCIA" | translate}}</label>
+            <div class="col-sm-4">
+              <ui-select ng-model="cDP.dependencia" theme="bootstrap" style="min-width: 300px;" title="Choose a person">
+                <ui-select-match>{{cDP.dependencia.Nombre}}</ui-select-match>
+                <ui-select-choices repeat="dependencia in cDP.dependencias | filter: {Nombre: $select.search}">
+                  <div ng-bind-html="dependencia.Nombre | highlight: $select.search"></div>
+                  <small>
+                    {{dependencia.Nombre}}
+                    <!--age: <span ng-bind-html="''+person.age | highlight: $select.search"></span>-->
+                  </small>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"TIPO_FUENTE_FINANCIAMIENTO" | translate}}</label>
+            <div class="col-sm-4">
+              <select class="form-control form-control-sm" ng-model="cDP.tipoFuenteFinanciamiento"
+                ng-options="tp.Nombre for tp in cDP.tiposFuentesFinanciamiento">
+              </select>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" name="button">{{"REPORTES.GENERAR_REPORTE" | translate}}</button>
+        </form>
+    </div>
+    <div class="panel-footer">
+        Panel Footer
+    </div>
+</div>

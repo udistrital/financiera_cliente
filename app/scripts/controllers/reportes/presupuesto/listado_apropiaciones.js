@@ -39,12 +39,14 @@ angular.module('financieraClienteApp')
   var d = new Date();
   ctrl.fechaActual = d.toLocaleDateString()+" "+d.toLocaleTimeString();
 
+  // Vigencias de apropiaciones
   financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
     limit: 0
   })).then(function(response) {
     ctrl.vigencias = response.data;
   });
 
+  // Unidades ejecutoras
   financieraRequest.get('unidad_ejecutora', $.param({
     limit: 0
   })).then(function(response) {

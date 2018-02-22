@@ -458,6 +458,11 @@ angular
               controller: 'ReporteListadoApropiacionesCtrl',
               controllerAs: 'listadoApropiaciones'
             })
+            .when('/reportes/presupuesto/c_d_p', {
+              templateUrl: 'views/reportes/presupuesto/c_d_p.html',
+              controller: 'ReportesPresupuestoCDPCtrl',
+              controllerAs: 'cDP'
+            })
             .otherwise({
                 redirectTo: '/'
             });
