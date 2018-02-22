@@ -614,7 +614,9 @@ var text_es = {
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Listado de Apropiaciones",
-      FECHA_REPORTE: "Fecha del reporte"
+      FECHA_REPORTE: "Fecha del reporte",
+      CDP: "Certificado de Disponibilidad Presupuestal",
+      GENERAR_REPORTE: "Generar Reporte"
     }
 };
 
@@ -763,7 +765,9 @@ var text_en = {
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Apropiations List",
-      FECHA_REPORTE: "Reporte date"
+      FECHA_REPORTE: "Reporte date",
+      CDP: "Certificado de Disponibilidad Presupuestal",
+      GENERAR_REPORTE: "Make Report"
     }
 };
 
