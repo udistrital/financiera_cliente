@@ -53,33 +53,7 @@
 
         <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-auto-resize ng-style="listadoApropiaciones.getTableHeight()"></div>
       </div>
-
-      <div id="grid"></div>
-   <script>
-       $("#grid").kendoGrid({
-           toolbar: ["pdf"],
-           pdf: {
-               allPages: true,
-               paperSize: "A4",
-               landscape: true,
-               scale: 0.75
-           },
-           dataSource: {
-               type: "odata",
-               transport: {
-                   read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
-               },
-               pageSize: 7
-           },
-           pageable: true,
-           columns: [
-               { width: 300, field: "ProductName", title: "Product Name" },
-               { field: "UnitsOnOrder", title: "Units On Order" },
-               { field: "UnitsInStock", title: "Units In Stock" }
-           ]
-       });
-   </script>
-   
+  
       <!--<div ui-grid="{ data: listadoApropiaciones.apropiaciones }" class="myGrid"></div>-->
       <!-- Save as PDF</button>-->
       <!--<pre>{{listadoApropiaciones.apropiaciones | json}}</pre>-->
