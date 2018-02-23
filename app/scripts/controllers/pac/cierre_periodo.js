@@ -60,7 +60,7 @@ angular.module('financieraClienteApp')
         name: 'Descrubro',
         displayName: $translate.instant('RUBRO'),
         headerCellClass: 'text-info',
-        width: "20%",
+        width: "40%",
         pinnedLeft: true
       },
       {
@@ -71,17 +71,21 @@ angular.module('financieraClienteApp')
         pinnedLeft: true
       },
       {
-        name: 'Proyeccion',
-        displayName:  'Proyeccion',
+        name: 'Valor',
+        displayName:  $translate.instant('VAL_EJEC'),
         headerCellClass: 'text-info',
-        width: "20%",
+        width: "10%",
+        cellFilter:"currency",
+        cellClass:'ui-grid-number-cell',
         pinnedLeft: true
       },
       {
-        name: 'Pvariacion',
-        displayName: 'Pvariacion' ,
+        name: 'Proyeccion',
+        displayName:  $translate.instant('VAL_PROY'),
         headerCellClass: 'text-info',
-        width: "20%",
+        width: "10%",
+        cellFilter:"currency",
+        cellClass:'ui-grid-number-cell',
         pinnedLeft: true
       },
     ];
