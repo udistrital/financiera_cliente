@@ -21,7 +21,6 @@ angular.module('financieraService', [])
  */
 .factory('financieraRequest', function($http, CONF, requestRequest) {
     var path = CONF.GENERAL.FINANCIERA_SERVICE;
-    
     // Public API here
     return {
         /**
