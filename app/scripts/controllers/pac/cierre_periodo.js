@@ -91,10 +91,10 @@ angular.module('financieraClienteApp')
     ];
       var consulta = {
         vigencia: ctrl.vigencia,
-        mes: $scope.mes
+        mes: $scope.mes,
+        periodosproy: 3
       };
       $scope.union = [];
-      console.log(consulta);
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
         if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
 
@@ -103,9 +103,6 @@ angular.module('financieraClienteApp')
            //$scope.union  = angular.extend([],$scope.ingresos);
            $scope.union.push.apply($scope.union,$scope.ingresos);
            $scope.union.push.apply($scope.union,$scope.egresos);
-           console.log($scope.ingresos);
-           console.log($scope.egresos);
-           console.log($scope.union);
 
            $scope.gridOptions.data = $scope.union;
         }else{
@@ -115,12 +112,17 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.guardarCierre = function(){
-      console.log("guardar cierre");
       var insercion = {
-          datos:$scope.union
+          datos:$scope.union,
+          vigencia: ctrl.vigencia,
+          mes: $scope.mes
       };
-        financieraRequest.post('detalle_pac/InsertarRegistros',$scope.union).then(function(response){
+      console.log(insercion)
+        financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
            console.log(response);
+           if (response.data.Type !== undefined) {
+                   swal('', $translate.instant(response.data.Code), response.data.Type); 
+           }
 
         });
       }
