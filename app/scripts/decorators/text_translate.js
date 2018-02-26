@@ -242,6 +242,7 @@ var text_es = {
     FUENTE_FINANCIACION_CODIGO: "Código Fuente",
     FUENTE_FINANCIAMIENTO: "Fuente de Financiamiento",
     FUENTE_FINANCIAMIENTO_DESTINO: "Fuente de Financiamiento de Destino",
+    FUENTE_FINANCIAMIENTO_EXISTE: "La Fuente de Financiamiento ya existe",
     FUENTE_FINANCIAMIENTO_ORIGEN: "Fuente de Financiamiento de Origen",
     FUE_ACTUALIZADO: "ha sido actualizado",
     FUE_ELIMINADO: "ha sido eliminado",
@@ -439,6 +440,7 @@ var text_es = {
     RUBROS_AFECTADOS_MOVIMIENTO: "Rubros afectados por este Movimiento",
     RUBROS_ASIGNADOS_FUENTE: "Rubros Asignados Fuente de Financiamiento",
     RUBRO_DESTINO: "Rubro de Destino",
+    RUBRO_MAYOR_APROPIACION: "Uno de los Rubros Ingresados Supera el Valor de la Apropiación Inicial",
     RUBRO_ORIGEN: "Rubro de Origen",
     RUBRO_SELECCIONADO: "Rubros Seleccionado",
     RUBROS_SOLICITUD_MODIFICACION_PRES: "Datos de los Rubros de la Modificación",
@@ -494,7 +496,7 @@ var text_es = {
     S_542: "Se Actualizo exitosamente",
     S_5412: "Se canceló el compromiso ",
     S_543: "Se registro exitosamente",
-    S_544: "Se aprobó el Ingreso con el consecutivo ",
+    S_544: "Se aprobó el Ingreso ",
     S_545: "Se rechazó el Ingreso con el consecutivo ",
     S_554: "Se eliminó exitosamente",
     S_588: "El registro se actualizó exitosamente",
@@ -558,8 +560,10 @@ var text_es = {
     VALOR_BASE: "Valor Base",
     VALOR_BASE_RETENCION: "Valor Base Retención",
     VALOR_BRUTO: "Valor Bruto",
+    VALOR_CDP: "Valor CDP",
     VALOR_CONTRATACION: "Valor De La Contratación",
     VALOR_CRP: "Valor CRP",
+    VALOR_DISPONIBLE: "Valor Disponible",
     VALOR_FUENTE: "Valor Fuente Financiamiento",
     VALOR_PAGO: "Valor Pago",
     VALOR_RUBRO: "Valor Rubro",
@@ -605,11 +609,19 @@ var text_es = {
         SOLICITAR_RP: "Solicitar RP",
         SOLICITAR: "Solicitar",
         VER: "Ver",
-        VERIFICAR: "Verificar Requisitos"
+        VERIFICAR: "Verificar Requisitos",
+        CONSULTAR: "Consultar"
     },
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
         NO_FILAS: "Número de Filas"
+    },
+    REPORTES_SPAGO: {
+      REPORTES: "Reportes"
+    },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Listado de Apropiaciones",
+      FECHA_REPORTE: "Fecha del reporte"
     }
 };
 
@@ -761,7 +773,12 @@ var text_en = {
         SELECCIONAR: "Select",
         SOLICITAR_RP: "Solicitar RP",
         VER: "Ver",
+        CONSULTAR: "Consult"
     },
+    REPORTES: {
+      LISTADO_APROPIACIONES: "Apropiations List",
+      FECHA_REPORTE: "Reporte date"
+    }
 };
 
 //

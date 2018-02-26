@@ -42,6 +42,7 @@ angular
         'ui.grid.pinning',
         'ui.select',
         'ui.knob',
+        'kendo.directives',
         // Servicios
         'academicaService',
         'financieraService',
@@ -448,11 +449,20 @@ angular
               controller: 'RubroModificacionSolicitudConsultaCtrl',
               controllerAs: 'modificacionSolicitudConsulta'
             })
+            .when('/reportes/reportes', {
+              templateUrl: 'views/reportes/reportes.html',
+              controller: 'ReportesReportesCtrl',
+              controllerAs: 'reportes'
+            })
+            .when('/reportes/presupuesto/listado_apropiaciones', {
+              templateUrl: 'views/reportes/presupuesto/listado_apropiaciones.html',
+              controller: 'ReporteListadoApropiacionesCtrl',
+              controllerAs: 'listadoApropiaciones'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
-              controllerAs: 'cierrePeriodo'
-            })
+              controllerAs: 'cierrePeriodo'})
             .otherwise({
                 redirectTo: '/'
             });

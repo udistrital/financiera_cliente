@@ -1,0 +1,90 @@
+<br>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        reportes/presupuesto/listado_apropiaciones.
+    </div>
+    <div class="panel-body">
+      <h2 class="page-header text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate}}</h2>
+
+      <form>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate}}</label>
+          <div class="col-sm-4">
+            <select class="form-control form-control-sm" ng-model="listadoApropiaciones.unidadEjecutora"
+              ng-options="u.Nombre for u in listadoApropiaciones.unidadesEjecutoras">
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate}}</label>
+          <div class="col-sm-4">
+            <select class="form-control form-control-sm" ng-model="listadoApropiaciones.vigencia"
+              ng-options="v for v in listadoApropiaciones.vigencias">
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-click="listadoApropiaciones.buscarApropiaciones()">
+          {{"BTN.CONSULTAR" | translate}}
+        </button>
+      </form>
+
+      <button class="btn btn-primary" ng-show="listadoApropiaciones.hideReport" class="btn btn-primary" ng-click="listadoApropiaciones.generatePDF()"><i class="fa fa-save">Generar PDF</i></button>
+
+      <div id="reporte" ng-if="listadoApropiaciones.hideReport">
+        <h1 class="text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate | uppercase}}</h1>
+        <p class="lead text-center">{{"REPORTES.FECHA_REPORTE" | translate | uppercase}}: {{listadoApropiaciones.fechaActual}}</p>
+
+        <div class="form-group">
+          <div class="row">
+              <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate | uppercase}}:</label>
+              <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.vigencia}}</label>
+          </div>
+          <div class="row">
+            <label class="col-sm-2 col-form-label">{{"ENTIDAD" | translate | uppercase}}:</label>
+            <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.entidad.Nombre}}</label>
+          </div>
+          <div class="row">
+            <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate | uppercase}}:</label>
+            <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.unidadEjecutora.Nombre}}</label>
+          </div>
+        </div>
+
+        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-auto-resize ng-style="listadoApropiaciones.getTableHeight()"></div>
+      </div>
+
+      <div id="grid"></div>
+   <script>
+       $("#grid").kendoGrid({
+           toolbar: ["pdf"],
+           pdf: {
+               allPages: true,
+               paperSize: "A4",
+               landscape: true,
+               scale: 0.75
+           },
+           dataSource: {
+               type: "odata",
+               transport: {
+                   read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
+               },
+               pageSize: 7
+           },
+           pageable: true,
+           columns: [
+               { width: 300, field: "ProductName", title: "Product Name" },
+               { field: "UnitsOnOrder", title: "Units On Order" },
+               { field: "UnitsInStock", title: "Units In Stock" }
+           ]
+       });
+   </script>
+   
+      <!--<div ui-grid="{ data: listadoApropiaciones.apropiaciones }" class="myGrid"></div>-->
+      <!-- Save as PDF</button>-->
+      <!--<pre>{{listadoApropiaciones.apropiaciones | json}}</pre>-->
+    </div>
+    <div class="panel-footer">
+        Panel Footer
+    </div>
+</div>

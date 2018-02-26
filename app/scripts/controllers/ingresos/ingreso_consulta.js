@@ -33,8 +33,8 @@ angular.module('financieraClienteApp')
             new: 66 //TECNOLOGICA
         }];
         $scope.botones = [
-            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+            //{ clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
         ];
 
 
@@ -302,7 +302,11 @@ angular.module('financieraClienteApp')
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
                     } else {
-                        swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
+                        var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('ESTADO') + "</th>";
+                            
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>";
+                            swal('', templateAlert, response.data.Type);
+                        swal('', templateAlert, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
                             ctrl.cargarIngresos();
                         });
