@@ -8,9 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest) {
+  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q) {
     var ctrl = this;
-
+    var docDefinition = {};
     ctrl.vigencias = [2017,2018]
     // // Vigencias de apropiaciones
     // financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
@@ -42,69 +42,85 @@ angular.module('financieraClienteApp')
       ctrl.dependencias = response.data;
     });
 
-    function entidad(idEntidad) {
-      financieraRequest.get('entidad', $.param({
-        limit: 0,
-        query: 'Id:'+idEntidad
-      })).then(function(response) {
-        if (response.data !== null) {
-          console.log('entidad: ', response.data);
-        }
-      });
+    // Entidad
+    function asynEntidad() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get('entidad/'+ctrl.unidadEjecutora.Entidad.Id)
+        .then(function(response) {
+          defered.resolve(response.data);
+        }, function(err) {
+          defered.reject(err);
+        });
+
+      return promise;
     }
 
-    function rubro(idRubro) {
-      financieraRequest.get('rubro', $.param({
-        limit: 0,
-        query: 'Id:'+idRubro
-      })).then(function(response) {
-        console.log('rubro: ',response.data);
-      });
+    //Rubro
+    function asynRubro(idRubro) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get('rubro/'+idRubro)
+        .then(function(response) {
+          defered.resolve(response.data);
+        }, function(err) {
+          defered.reject(err);
+        });
+
+        return promise;
     }
 
     // Apropiacion
-    function apropiacion(idApropiacion) {
-      financieraRequest.get('apropiacion', $.param({
-        limit: 0,
-        query: 'Id:'+idApropiacion
-      })).then(function(response) {
-        if (response.data !== null) {
-          console.log('apropiacion: ',response.data);
-          rubro(response.data[0].Rubro.Id)
-        }
+    function asynApropiacion(idApropiacion) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get('apropiacion/'+idApropiacion)
+        .then(function(response) {
+          defered.resolve(response.data);
+        }, function(err) {
+          defered.reject(err);
       });
+
+      return promise;
     }
 
     // Fuente de finaciamiento apropiacion
-    function fuentFinanApropiacion(idFuenteFinanciamiento) {
+    function asynFuentFinanApropiacion(idFuente) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
       financieraRequest.get('fuente_financiamiento_apropiacion', $.param({
-        limit:1,
-        query: 'FuenteFinanciamiento.Id:'+idFuenteFinanciamiento+',Dependencia:'+ctrl.dependencia.Id
+        limit: 1,
+        query: 'FuenteFinanciamiento:'+idFuente+',Dependencia:'+ctrl.dependencia.Id
       })).then(function(response) {
-        if (response.data !== null) {
-          console.log("fuente_finacim eianto_apropiacion: ",response.data);
-          apropiacion(response.data[0].Apropiacion.Id);
-        }
-      })
+        defered.resolve(response.data);
+      }, function(err) {
+        defered.reject(err);
+      });
+
+      return promise;
     }
 
     // Fuente de financiamiento
-    function fuentFinan(idFuente) {
-      financieraRequest.get('fuente_financiamiento', $.param({
-        limit: 1,
-        query: 'Id:'+idFuente
+    function asynFuentFinan(idFuente) {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get('fuente_financiamiento/'+idFuente, $.param({
+        query: 'TipoFuenteFinanciamiento.Id:'+ctrl.tipoFuenteFinanciamiento.Id
       })).then(function(response) {
-        if (response.data !== null) {
-          console.log("fuente financiamiento: ", response.data);
-          fuentFinanApropiacion(response.data[0].Id);
-        }
+        defered.resolve(response.data);
+      }, function(err) {
+        defered.reject(err);
       });
+
+      return promise;
     }
 
-
     ctrl.generarReporte = function() {
-      console.log(ctrl.unidadEjecutora);
-      entidad(ctrl.unidadEjecutora.Entidad.Id)
       administrativaPruebasRequest.get('fuente_financiacion_rubro_necesidad', $.param({
         limit: 1,
         query: 'Necesidad.Numero:'+ctrl.necesidad+',Necesidad.Vigencia:'+ctrl.vigencia
@@ -114,10 +130,50 @@ angular.module('financieraClienteApp')
             'No se encontraron datos que coincidan con la necesidad y la vigencia'
           )
         } else {
-          fuentFinan(response.data[0].FuenteFinanciamiento);
+          docDefinition = {text: 'UNIVERSIDAD DISTRITAL FRANCISCO JOSÉ DE CALDAS'}
+
+          asynFuentFinan(response.data[0].FuenteFinanciamiento)
+            .then(function(data) {
+              console.log(data);
+
+                asynFuentFinanApropiacion(data.Id)
+                  .then(function(data) {
+                    console.log(data);
+
+                    asynApropiacion(data[0].Apropiacion.Id)
+                      .then(function(data) {
+                        console.log(data);
+
+                        asynRubro(data.Rubro.Id)
+                          .then(function(data) {
+                            console.log(data);
+                          }).catch(function(err) {
+                            console.log(error);
+                          });
+
+                      }).catch(function(err) {
+                        console.error(err);
+                      });
+
+                  }).catch(function(err) {
+                    console.error(err);
+                  });
+
+            }).catch(function(err) {
+              console.error(err);
+            });
+
+            asynEntidad()
+              .then(function(data) {
+                console.log(data);
+              }).catch(function(err) {
+                console.error(err);
+              });
+
         }
-        //ctrl.necesidad = response
-      });
+    }, function(err) { //if something happends
+    });
+
     }
 
   });
