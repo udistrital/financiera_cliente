@@ -100,7 +100,7 @@
     padding: auto !important;
 }
 
-/*.ui-grid,*/
+.ui-grid,
 .ui-grid-viewport,
 .ui-grid-render-container-body,
 .ui-grid-canvas {
@@ -152,4 +152,7 @@ md-checkbox.md-checked.blue .md-icon {
 sencillo {
     padding: 0;
     margin: 0;
+}
+.ui-grid-number-cell {
+    text-align: right;
 }
