@@ -153,3 +153,6 @@ sencillo {
     padding: 0;
     margin: 0;
 }
+.ui-grid-number-cell {
+    text-align: right;
+}

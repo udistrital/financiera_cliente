@@ -18,13 +18,11 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
     self.movimiento_fuente_financiamiento_apropiacion = [];
     self.fuente_seleccionada = {};
 
-    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=Fecha__startswith:' + parseInt(self.Vigencia)).then(function(response) {
+    financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.Apropiacion.Vigencia:' + parseInt(self.Vigencia)).then(function(response) {
+  // financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1').then(function(response) {
       if (response.data != null) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
       }
-      console.log(self.movimiento_fuente_financiamiento_apropiacion)
-      console.log(response.data)
-      console.log(self.Vigencia)
       for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
         self.repetido = false;
 
@@ -129,7 +127,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       },
       {
         field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
-        width: '7%',
+        width: '6%',
         cellClass: 'input_center',
         displayName: $translate.instant('NO_CDP'),
       },
@@ -185,47 +183,42 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       },
       {
         field: 'Consecutivo',
-        width: '5%',
+        width: '6%',
         cellClass: 'input_center',
         displayName: $translate.instant('NO'),
       },
       {
         field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
-        width: '7%',
+        width: '9%',
         cellClass: 'input_center',
         displayName: $translate.instant('NO_CRP'),
       },
       {
-        field: 'Necesidad.Numero',
-        width: '10%',
-        cellClass: 'input_center',
-        displayName: $translate.instant('NECESIDAD_NO'),
-      },
-      {
         field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
-        width: '11%',
+        width: '12%',
         displayName: $translate.instant('FECHA_REGISTRO'),
-        cellTemplate: '<div align="center">{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>'
+        cellTemplate: '<div align="center">{{row.entity.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>'
       },
       {
         field: 'RegistroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
-        width: '15%',
+        width: '16%',
         displayName: $translate.instant('CODIGO'),
       },
       {
         field: 'RegistroPresupuestal.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre',
-        width: '20%',
+        width: '22%',
         displayName: $translate.instant('RUBRO')
       },
       {
-        field: 'Nesecidad.Dependencia.Nombre',
-        width: '20%',
+        field: 'Necesidad.Dependencia.Nombre',
+        width: '22%',
         displayName: $translate.instant('DEPENDENCIA')
       },
       {
         field: 'ValorBase',
         width: '12%',
-        displayName: $translate.instant('VALOR')
+        displayName: $translate.instant('VALOR'),
+        cellTemplate: '<div align="right">{{row.entity.ValorBase| currency}}</div>'
       }
 
     ]
@@ -253,6 +246,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
     self.fuente_financiamiento_apropiacion = [];
 
     financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente) + ',Fecha__startswith:' + parseInt(self.Vigencia)).then(function(response) {
+    //financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", 'limit=-1&query=FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
       self.valor_total = 0;
       self.fuente_financiamiento_apropiacion = response.data;
       if (self.fuente_financiamiento_apropiacion) {
@@ -278,7 +272,6 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       }
 
       self.valor_disponible = self.valor_total - self.valor_cdp;
-      console.log(self.fuente_cdp_tabla)
       self.gridOptionCDP.data = self.fuente_cdp_tabla;
       self.fuente_cdp = response.data;
     });
@@ -294,26 +287,16 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
           self.fuente_crp_tabla.push(self.fuente_crp[i]);
         }
       }
-      console.log(self.fuente_crp_tabla)
       self.gridOptionCRP.data = self.fuente_crp_tabla;
       self.fuente_crp = response.data;
 
     });
 
-    financieraMidRequest.get('orden_pago//GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&Fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&UnidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
+    financieraMidRequest.get('orden_pago/GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&unidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
 
-      self.fuente_crp = response.data;
-
-      for (var i = 0; i < self.fuente_crp.length; i++) {
-        for (var j = 0; j < self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
-          self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
-          self.fuente_crp_tabla.push(self.fuente_crp[i]);
-        }
-      }
-      console.log(self.fuente_crp_tabla)
-      self.gridOptionCRP.data = self.fuente_crp_tabla;
-      self.fuente_crp = response.data;
-
+      self.fuente_op = response.data.OrdenPago;
+      self.gridOptionOP.data = self.fuente_op;
+      
     });
 
     for (var i = 0; i < self.fuente_financiamiento.length; i++) {

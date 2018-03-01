@@ -29,16 +29,16 @@
     <br>
   </div>
 </div>
-<div class="panel panel-primary panel-body" ng-show="ingresos  || egresos">
+<div class="panel panel-primary panel-body" ng-show="union">
   <div class="panel-body">
-    <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
+    <!--legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
       {{'INGRESOS' | translate}}
       <span class="fa fa-plus pull-right" ng-show="b"></span>
       <span class="fa fa-minus pull-right" ng-show="!b"></span>
     </legend>
-    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div-->
     <legend class="text-primary" ng-click="a=!a">
-      {{'EGRESOS' | translate}}
+      {{'REPORTE_PAC' | translate}}
       <span class="fa fa-plus pull-right" ng-show="a"></span>
       <span class="fa fa-minus pull-right" ng-show="!a"></span>
     </legend>
