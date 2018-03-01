@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name financieraClienteApp.controller:ReportesPresupuestoCDPCtrl
+ * @name financieraClienteApp.controller:ReportesPresupuestoRPCtrl
  * @description
- * # ReportesPresupuestoCDPCtrl
+ * # ReportesPresupuestoRPCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q, $filter) {
+  .controller('ReportesPresupuestoRPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q, $filter, $translate) {
     var ctrl = this;
     var reporte = { content: [], styles: {}};
 
@@ -205,11 +205,11 @@ angular.module('financieraClienteApp')
                                   { text: data.Nombre, style: 'header' },
                                   { text: data.CodigoEntidad+' - '+data.Nombre, style: 'subheader' },
                                   { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
-                                  { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
+                                  { text: $translate.instant('REPORTES.RP'), style: 'subheader' },
                                   { text: 'No.   1', style: 'subheader_part' },
                                   { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
                                   { text: 'CERTIFICA', style: 'subheader_part' },
-                                  { text: 'Que en el Presupuesto de Gastos e Inversiones de la vigencia '+ctrl.vigencia+' existe apropiación disponible para atender a la presente solicitud así: ', style: 'paragraph' },
+                                  { text: 'Que se ha efectuado registro presupuestal para atender compromisos así: ', style: 'paragraph' },
                                   {
                                     style: 'rubro_table',
                                     table:
@@ -223,7 +223,7 @@ angular.module('financieraClienteApp')
                                         ]
                                       }
                                   },
-                                  { text: 'OBJETO:', bold: true, margin: [0,20,0,10] },
+                                  { text: 'CDP Nº 1:', bold: true, margin: [0,20,0,10] },
                                   { text:  ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'});
 
                                 pdfMake.createPdf(reporte).download('cdp.pdf');
