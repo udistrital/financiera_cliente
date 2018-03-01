@@ -41,7 +41,7 @@ angular
         'ui.grid.pinning',
         'ui.select',
         'ui.knob',
-        'kendo.directives',
+        //'kendo.directives',
         // Servicios
         'academicaService',
         'financieraService',
@@ -462,6 +462,11 @@ angular
               templateUrl: 'views/reportes/presupuesto/c_d_p.html',
               controller: 'ReportesPresupuestoCDPCtrl',
               controllerAs: 'cDP'
+            })
+            .when('/reportes/presupuesto/r_p', {
+              templateUrl: 'views/reportes/presupuesto/r_p.html',
+              controller: 'ReportesPresupuestoRPCtrl',
+              controllerAs: 'rP'
             })
             .otherwise({
                 redirectTo: '/'
