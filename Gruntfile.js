@@ -466,14 +466,8 @@ module.exports = function(grunt) {
                 host: {
                   url: 'http://localhost:9000'
                 },
-                jdbc: {
-                  url: 'jdbc:mysql://localhost:3306/sonar',
-                  username: 'sonar',
-                  password: 'sonar'
-                },
-
                 projectKey: 'grunt:kronos-clinetes:0.01',
-                projectName: 'Grunt: Kronos Cliente',
+                projectName: 'Grunt: Kronos Cliente 0.01',
                 projectVersion: '0.01',
                 sources: ['app','test'].join(','),
                 language: 'js',
