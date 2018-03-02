@@ -1,8 +1,5 @@
 <br>
 <div class="panel panel-default">
-    <div class="panel-heading">
-        reportes/presupuesto/listado_apropiaciones.
-    </div>
     <div class="panel-body">
       <h2 class="page-header text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate}}</h2>
 
@@ -30,9 +27,7 @@
         </button>
       </form>
 
-      <button class="btn btn-primary" ng-show="listadoApropiaciones.hideReport" class="btn btn-primary" ng-click="listadoApropiaciones.generatePDF()"><i class="fa fa-save">Generar PDF</i></button>
-
-      <div id="reporte" ng-if="listadoApropiaciones.hideReport">
+      <div id="reporte" ng-if="listadoApropiaciones.mostrarGrid">
         <h1 class="text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate | uppercase}}</h1>
         <p class="lead text-center">{{"REPORTES.FECHA_REPORTE" | translate | uppercase}}: {{listadoApropiaciones.fechaActual}}</p>
 
@@ -50,39 +45,10 @@
             <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.unidadEjecutora.Nombre}}</label>
           </div>
         </div>
+        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-pagination></div>
 
-        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-auto-resize ng-style="listadoApropiaciones.getTableHeight()"></div>
+        <button type="button" class="btn btn-primary" ng-click="listadoApropiaciones.makePdf()">{{"BTN.DESCARGAR_PDF" | translate}}</button>
       </div>
-
-      <div id="grid"></div>
-   <script>
-       $("#grid").kendoGrid({
-           toolbar: ["pdf"],
-           pdf: {
-               allPages: true,
-               paperSize: "A4",
-               landscape: true,
-               scale: 0.75
-           },
-           dataSource: {
-               type: "odata",
-               transport: {
-                   read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Products"
-               },
-               pageSize: 7
-           },
-           pageable: true,
-           columns: [
-               { width: 300, field: "ProductName", title: "Product Name" },
-               { field: "UnitsOnOrder", title: "Units On Order" },
-               { field: "UnitsInStock", title: "Units In Stock" }
-           ]
-       });
-   </script>
-   
-      <!--<div ui-grid="{ data: listadoApropiaciones.apropiaciones }" class="myGrid"></div>-->
-      <!-- Save as PDF</button>-->
-      <!--<pre>{{listadoApropiaciones.apropiaciones | json}}</pre>-->
     </div>
     <div class="panel-footer">
         Panel Footer

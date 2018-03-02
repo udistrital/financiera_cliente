@@ -613,7 +613,8 @@ var text_es = {
         SOLICITAR: "Solicitar",
         VER: "Ver",
         VERIFICAR: "Verificar Requisitos",
-        CONSULTAR: "Consultar"
+        CONSULTAR: "Consultar",
+        DESCARGAR_PDF: "Descargar PDF"
     },
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
@@ -624,7 +625,10 @@ var text_es = {
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Listado de Apropiaciones",
-      FECHA_REPORTE: "Fecha del reporte"
+      FECHA_REPORTE: "Fecha del reporte",
+      CDP: "Certificado de Disponibilidad Presupuestal",
+      GENERAR_REPORTE: "Generar Reporte",
+      RP: "Certificado de Registro Presupuestal"
     }
 };
 
@@ -776,11 +780,15 @@ var text_en = {
         SELECCIONAR: "Select",
         SOLICITAR_RP: "Solicitar RP",
         VER: "Ver",
-        CONSULTAR: "Consult"
+        CONSULTAR: "Consult",
+        DESCARGAR_PDF: "PDF Download"
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Apropiations List",
-      FECHA_REPORTE: "Reporte date"
+      FECHA_REPORTE: "Reporte date",
+      CDP: "Certificado de Disponibilidad Presupuestal",
+      GENERAR_REPORTE: "Make Report",
+      RP: "Certificado de Registro Presupuestal"
     }
 };
 
