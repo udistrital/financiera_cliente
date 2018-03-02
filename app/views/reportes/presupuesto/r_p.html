@@ -1,0 +1,60 @@
+<br>
+<div class="panel panel-default">
+    <div class="panel-body">
+      <h2 class="page-header text-center">{{"REPORTES.RP" | translate}}</h2>
+      <form>
+        <form>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"NECESIDAD_NO" | translate}}</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" ng-model="rP.necesidad">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate}}</label>
+            <div class="col-sm-6">
+              <select class="form-control form-control-sm" ng-model="rP.unidadEjecutora"
+                ng-options="u.Nombre for u in rP.unidadesEjecutoras">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate}}</label>
+            <div class="col-sm-6">
+              <select class="form-control form-control-sm" ng-model="rP.vigencia"
+                ng-options="v for v in rP.vigencias">
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"DEPENDENCIA" | translate}}</label>
+            <div class="col-sm-6">
+              <ui-select ng-model="rP.dependencia" theme="bootstrap" style="min-width: 300px;" title="Choose a person">
+                <ui-select-match>{{rP.dependencia.Nombre}}</ui-select-match>
+                <ui-select-choices repeat="dependencia in rP.dependencias | filter: {Nombre: $select.search}">
+                  <div ng-bind-html="dependencia.Nombre | highlight: $select.search"></div>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{"TIPO_FUENTE_FINANCIAMIENTO" | translate}}</label>
+            <div class="col-sm-6">
+              <select class="form-control form-control-sm" ng-model="rP.tipoFuenteFinanciamiento"
+                ng-options="tp.Nombre for tp in rP.tiposFuentesFinanciamiento">
+              </select>
+            </div>
+          </div>
+          <button type="button" class="btn btn-primary" ng-click="rP.generarReporte()">{{"REPORTES.GENERAR_REPORTE" | translate}}</button>
+        </form>
+      </form>
+    </div>
+    <div class="panel-footer">
+        Panel Footer
+    </div>
+</div>
