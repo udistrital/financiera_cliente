@@ -117,9 +117,7 @@ angular.module('financieraClienteApp')
           vigencia: ctrl.vigencia,
           mes: $scope.mes
       };
-      console.log(insercion)
         financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
-           console.log(response);
            if (response.data.Type !== undefined) {
                    swal('', $translate.instant(response.data.Code), response.data.Type); 
            }
