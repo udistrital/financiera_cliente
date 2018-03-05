@@ -469,6 +469,11 @@ angular
               controller: 'ReportesPresupuestoRPCtrl',
               controllerAs: 'rP'
             })
+            .when('/comprobantes/consulta_comprobantes', {
+              templateUrl: 'views/comprobantes/consulta_comprobantes.html',
+              controller: 'ConsultaComprobantesCtrl',
+              controllerAs: 'consultaComprobantes'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
@@ -476,4 +481,7 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
+
+
+
     }]);
