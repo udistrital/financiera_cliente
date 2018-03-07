@@ -159,7 +159,7 @@
               <div class="col-md-9">
                 <ul class="list-unstyled"  ng-repeat="item in cdpAprobacionAnulacion.resumen">
                   <hr class="hr-primary">
-                    <li><b>{{'RUBRO' | translate}}:</b> {{item.Apropiacion.Rubro.Codigo+" / "+item.Apropiacion.Rubro.Descripcion}}
+                    <li><b>{{'RUBRO' | translate}}:</b> {{item.Apropiacion.Rubro.Codigo+" / "+item.Apropiacion.Rubro.Nombre}}
                     <ul>
                       <li ng-show="item.FuenteFinanciamiento[0].Id !== 0" ><b>{{'FUENTES_AFECTADAS' | translate}}:</b>
 
