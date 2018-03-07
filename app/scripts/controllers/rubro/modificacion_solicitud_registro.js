@@ -13,13 +13,14 @@ angular.module('financieraClienteApp')
     self.modificaciones = [];
     self.descripcion = '';
     self.UnidadEjecutora = 1;
+    self.selected = 1;
     console.log(self.descripcion.length);
     self.botones = [
-      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
     ];
     self.botonesccr = [
-      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
     ];
 
@@ -85,12 +86,12 @@ angular.module('financieraClienteApp')
 
     self.limpiarRubrosSelec = function(){
     	self.rubrosel = null;
-    	self.rubroCuentaCreditosel = null;
+    	//self.rubroCuentaCreditosel = null;
     	self.rubro = null;
-    	self.rubroCuentaCredito = null;
+    	//self.rubroCuentaCredito = null;
     	self.valor = null;
-    	self.tipoModificacion = null;
-    	self.saldomov = null;
+    	//self.tipoModificacion = null;
+    	//self.saldomov = null;
     };
 
     self.registrarModificacion = function(){
@@ -137,8 +138,17 @@ angular.module('financieraClienteApp')
                            self.rubroCuentaCredito.InfoSaldo = response.data;
                            self.saldomov = self.rubroCuentaCredito.InfoSaldo.saldo;
                            console.log(response.data);
+                          }else{
+                             self.rubroCuentaCredito.InfoSaldo = {};
+                             self.rubroCuentaCredito.InfoSaldo.saldo = 0;
+                             self.saldomov = 0;
                           }
                         });
+                      }else{
+                        self.rubroCuentaCredito = {};
+                        self.rubroCuentaCredito.InfoSaldo = {};
+                        self.rubroCuentaCredito.InfoSaldo.saldo = 0;
+                        self.saldomov = 0;
                       }
     		});
              }
@@ -164,8 +174,17 @@ angular.module('financieraClienteApp')
                            self.rubro.InfoSaldo = response.data;
                            self.saldomov = self.rubro.InfoSaldo.saldo;
 
+                          }else{
+                            self.rubro.InfoSaldo = {};
+                            self.rubro.InfoSaldo.saldo = 0;
+                             self.saldomov = 0;
                           }
                         });
+                      }else{
+                        self.rubro = {};
+                        self.rubro.InfoSaldo = {};
+                        self.rubro.InfoSaldo.saldo = 0;
+                        self.saldomov = 0;
                       }
     		});
              }
