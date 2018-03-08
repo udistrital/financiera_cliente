@@ -8,9 +8,9 @@
 * Controller of the financieraClienteApp
 */
 angular.module('financieraClienteApp')
-.controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $filter) {
+.controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $filter, uiGridConstants) {
   var ctrl = this;
-
+  var rubros = [];
   ctrl.mostrarGrid = false;
 
   ctrl.gridOptions = {
@@ -22,7 +22,12 @@ angular.module('financieraClienteApp')
      paginationPageSize: 20,
 
     columnDefs: [
-      { field: 'Rubro.Codigo' },
+      { field: 'Rubro.Codigo' ,
+        sort: {
+            direction: uiGridConstants.ASC,
+            priority: 1
+          }
+        },
       { field: 'Rubro.Nombre' },
       { field: 'Valor', cellFilter: 'currency', cellClass: 'right-letters' }
     ]
@@ -91,34 +96,66 @@ angular.module('financieraClienteApp')
     }
   }
 
+  function getHijosRubros(idRubro) {
+    var defered = $q.defer();
+    var promise = defered.promise;
+
+    financieraRequest.get('rubro_rubro', $.param({
+      limit: 0,
+      query: 'Rubro.Padre:'+idRubro
+    })).then(function(response) {
+      defered.resolve(response.data);
+      return promise;
+    }, function(err) {
+      defered.reject(err);
+    });
+  }
+
   ctrl.buscarApropiaciones = function() {
     financieraRequest.get('entidad').then(function(response) {
       ctrl.entidad = response.data[0];
-  });
+    });
 
-  financieraRequest.get('apropiacion', $.param({
-    limit: -1,
-    fields: 'Rubro,Valor',
-    query: 'Vigencia:'+ctrl.vigencia+',Rubro.UnidadEjecutora:'+ctrl.unidadEjecutora.Id,
-    exclude: 'Rubro.Codigo.istartswith:2-0,Rubro.Codigo.startswith:3-0',
-    sortby: 'Rubro',
-    order: 'asc'
-  })).then(function(response) {
-    ctrl.gridOptions.data = response.data;
-    ctrl.mostrarGrid = true;
-  });
+    financieraRequest.get('apropiacion', $.param({
+      limit: -1,
+      fields: 'Rubro,Valor',
+      query: 'Vigencia:'+ctrl.vigencia+',Rubro.UnidadEjecutora:'+ctrl.unidadEjecutora.Id,
+      exclude: 'Rubro.Codigo.istartswith:2-0,Rubro.Codigo.startswith:3-0,Rubro.Codigo:startswith:',
+      sortby: 'Rubro',
+      order: 'desc'
+    })).then(function(response) {
+      //ctrl.gridOptions.data = response.data;
+      rubros = response.data;
+      // ctrl.gridOptions.data.sort(function(a,b) {
+      //   return parseInt(a.Rubro.Codigo.replace(/-/g,'')) > parseInt(b.Rubro.Codigo.replace(/-/g,''));
+      // });
+      ctrl.mostrarGrid = true;
+    });
 }
+
+function getFamiliaRubros() {
+
+}
+
 
 ctrl.makePdf = function() {
   dd.content[2].text += ctrl.vigencia;
   dd.content[3].text += ctrl.entidad.Nombre;
   dd.content[4].text += ctrl.unidadEjecutora.Nombre;
-  for (var i = 0; i < ctrl.gridOptions.data.length; i++) {
+  console.log(rubros);
+  rubros.sort(function(a,b) {
+    //console.log(Number(a.Rubro.Codigo.replace(/-/g,'')) );
+    return Number(a.Rubro.Codigo.replace(/-/g,'')) - Number(b.Rubro.Codigo.replace(/-/g,''));
+  });
+  console.log(rubros);
+  for (var i = 0; i < rubros.length; i++) {
+    // console.log(ctrl.gridOptions.data[i].Rubro.Codigo);
     var apropiacion = ([
-      ctrl.gridOptions.data[i].Rubro.Codigo, ctrl.gridOptions.data[i].Rubro.Nombre,
-      {text: $filter('currency')(parseInt(ctrl.gridOptions.data[i].Valor)), alignment: 'right'}])
+      rubros[i].Rubro.Codigo, rubros[i].Rubro.Nombre,
+      {text: $filter('currency')(parseInt(rubros[i].Valor)), alignment: 'right'}])
     dd.content[5].table.body.push(apropiacion)
   }
   pdfMake.createPdf(dd).download('Listado_de_apropiaciones.pdf');
+  dd.content = [];
 }
 });
