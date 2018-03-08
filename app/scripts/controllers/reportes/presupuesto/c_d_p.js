@@ -59,8 +59,31 @@ angular.module('financieraClienteApp')
         fontSize: 12,
         margin: [0,20,0,10],
         alignment: 'center'
+      },
+      lineaFirma: {
+        margin: [0,10,0,10],
+        alignment: 'center'
       }
     }
+
+    oikosRequest.get('dependencia', $.param({
+      limit: 1,
+      query: 'Nombre__icontains:PRESUPUESTO'
+    })).then(function(response) {
+      ctrl.dependenciaPresupuesto = response.data;
+
+      coreRequest.get('jefe_dependencia', $.param({
+        limit: 1,
+        query: 'DependenciaId:'+ctrl.dependenciaPresupuesto[0].Id
+      })).then(function(response) {
+
+        administrativaRequest.get('informacion_proveedor/'+response.data[0].TerceroId)
+          .then(function(response) {
+            ctrl.jefePresupuesto = response.data;
+          });
+      });
+    });
+
     ctrl.vigencias = [2017,2018]
     // // Vigencias de apropiaciones
     // financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
@@ -213,6 +236,7 @@ angular.module('financieraClienteApp')
             'No se encontraron datos que coincidan con la necesidad y la vigencia'
           )
         } else {
+
           ctrl.fuenteFinanciacionNecesidad = response.data[0];
           asynFuentFinan(response.data[0].FuenteFinanciamiento)
             .then(function(data) {
@@ -221,7 +245,6 @@ angular.module('financieraClienteApp')
                 asynFuentFinanApropiacion(data.Id)
                   .then(function(data) {
                     console.log(data);
-
                     asynApropiacion(data[0].Apropiacion.Id)
                       .then(function(data) {
                         ctrl.apropiacion = data;
@@ -236,9 +259,10 @@ angular.module('financieraClienteApp')
                                 asynDependenciaSolicitante()
                                   .then(function(data) {
                                     ctrl.dependenciaSolicitante = data;
-                                    console.log(ctrl.dependenciaSolicitante);
+
                                     reporte.content.push(
                                       { text: ctrl.entidad.Nombre, style: 'header' },
+                                      { text: 'Necesidad Nº: '+ctrl.necesidad, alignment: 'center'},
                                       { text: ctrl.entidad.CodigoEntidad+' - '+ctrl.entidad.Nombre, style: 'subheader' },
                                       { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
                                       { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
@@ -263,34 +287,46 @@ angular.module('financieraClienteApp')
                                       { text: ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'},
                                       { text: 'Se expide a solicitud de '+ctrl.dependenciaSolicitante.NomProveedor+',[CARGO],'+ctrl.dependencia.Nombre+' mediante el OFICIO ....', style: 'objeto'},
                                       { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left'},
-                                      { text: '______________'}
+                                      { text: '', margin: [0,30,0,30]},
+                                      { text: '_______________________', style: 'lineaFirma'},
+                                      { text: ctrl.jefePresupuesto.NomProveedor, style: 'objeto', bold: true},
+                                      { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, style: 'objeto'},
+                                      { text: '_______________________', style: 'lineaFirma'},
+                                      { text: 'ELABORO', style: 'objeto', bold: true},
+                                      { text: '[USUARIO_SESIÓN]', style: 'objeto', bold: true}
                                     );
 
                                     pdfMake.createPdf(reporte).download('cdp.pdf');
                                   }).catch(function(err) {
                                     console.error(err);
+                                    return
                                   });
 
                             }).catch(function(err) {
                                 console.error(err);
+                                return
                             });
 
                           }).catch(function(err) {
                             console.log(error);
+                            return
                           });
 
 
                       }).catch(function(err) {
                         console.error(err);
+                        return
                       });
 
 
                   }).catch(function(err) {
                     console.error(err);
+                    return
                   });
 
             }).catch(function(err) {
               console.error(err);
+              return
             });
 
         }
