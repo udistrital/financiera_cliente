@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q, $filter) {
+  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, coreRequest, administrativaRequest, administrativaPruebasRequest, $q, $filter) {
     var ctrl = this;
     var reporte = { content: [], styles: {}};
-
+    var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    var f = new Date();
     // Estilos del reporte
     var estilos = {
       header: {
@@ -56,10 +57,33 @@ angular.module('financieraClienteApp')
       },
       objeto: {
         fontSize: 12,
-        margin: [0,5,5,0],
+        margin: [0,20,0,10],
+        alignment: 'center'
+      },
+      lineaFirma: {
+        margin: [0,10,0,10],
         alignment: 'center'
       }
     }
+
+    oikosRequest.get('dependencia', $.param({
+      limit: 1,
+      query: 'Nombre__icontains:PRESUPUESTO'
+    })).then(function(response) {
+      ctrl.dependenciaPresupuesto = response.data;
+
+      coreRequest.get('jefe_dependencia', $.param({
+        limit: 1,
+        query: 'DependenciaId:'+ctrl.dependenciaPresupuesto[0].Id
+      })).then(function(response) {
+
+        administrativaRequest.get('informacion_proveedor/'+response.data[0].TerceroId)
+          .then(function(response) {
+            ctrl.jefePresupuesto = response.data;
+          });
+      });
+    });
+
     ctrl.vigencias = [2017,2018]
     // // Vigencias de apropiaciones
     // financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
@@ -170,6 +194,36 @@ angular.module('financieraClienteApp')
       return promise;
     }
 
+    function asynDependenciaSolicitante() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      administrativaPruebasRequest.get('dependencia_necesidad', $.param({
+        limit: 1,
+        query: 'Necesidad.Numero:'+ctrl.necesidad+',Necesidad.Vigencia:'+ctrl.vigencia
+      })).then(function(response) {
+
+        coreRequest.get('jefe_dependencia/'+response.data[0].JefeDependenciaSolicitante)
+          .then(function(response) {
+
+            administrativaRequest.get('informacion_proveedor/'+response.data.TerceroId)
+              .then(function(response) {
+                defered.resolve(response.data);
+              }, function(err) {
+                defered.reject(err);
+              });
+
+          }, function(err) {
+            defered.reject(err);
+          });
+
+      }, function(err) {
+        defered.reject(err);
+      });
+
+      return promise;
+    }
+
     ctrl.generarReporte = function() {
       reporte.styles = estilos;
       var entidad;
@@ -182,6 +236,7 @@ angular.module('financieraClienteApp')
             'No se encontraron datos que coincidan con la necesidad y la vigencia'
           )
         } else {
+
           ctrl.fuenteFinanciacionNecesidad = response.data[0];
           asynFuentFinan(response.data[0].FuenteFinanciamiento)
             .then(function(data) {
@@ -190,7 +245,6 @@ angular.module('financieraClienteApp')
                 asynFuentFinanApropiacion(data.Id)
                   .then(function(data) {
                     console.log(data);
-
                     asynApropiacion(data[0].Apropiacion.Id)
                       .then(function(data) {
                         ctrl.apropiacion = data;
@@ -201,52 +255,78 @@ angular.module('financieraClienteApp')
 
                             asynEntidad()
                               .then(function(data) {
-                                reporte.content.push(
-                                  { text: data.Nombre, style: 'header' },
-                                  { text: data.CodigoEntidad+' - '+data.Nombre, style: 'subheader' },
-                                  { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
-                                  { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
-                                  { text: 'No.   1', style: 'subheader_part' },
-                                  { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
-                                  { text: 'CERTIFICA', style: 'subheader_part' },
-                                  { text: 'Que en el Presupuesto de Gastos e Inversiones de la vigencia '+ctrl.vigencia+' existe apropiación disponible para atender a la presente solicitud así: ', style: 'paragraph' },
-                                  {
-                                    style: 'rubro_table',
-                                    table:
-                                    {
-                                      headerRows: 1,
-                                      widths: ['35%', '40%', '25%'],
-                                      body:
-                                        [
-                                          [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'CONCEPTO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}],
-                                          [{ text: ctrl.rubro.Codigo, style: 'table_content' }, { text: ctrl.rubro.Nombre, style: 'table_content'}, { text: $filter('currency')(ctrl.apropiacion.Valor), style: 'table_content'}]
-                                        ]
-                                      }
-                                  },
-                                  { text: 'OBJETO:', bold: true, margin: [0,20,0,10] },
-                                  { text:  ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'});
+                                ctrl.entidad = data;
+                                asynDependenciaSolicitante()
+                                  .then(function(data) {
+                                    ctrl.dependenciaSolicitante = data;
 
-                                pdfMake.createPdf(reporte).download('cdp.pdf');
+                                    reporte.content.push(
+                                      { text: ctrl.entidad.Nombre, style: 'header' },
+                                      { text: 'Necesidad Nº: '+ctrl.necesidad, alignment: 'center'},
+                                      { text: ctrl.entidad.CodigoEntidad+' - '+ctrl.entidad.Nombre, style: 'subheader' },
+                                      { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
+                                      { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
+                                      { text: 'No.   1', style: 'subheader_part' },
+                                      { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
+                                      { text: 'CERTIFICA', style: 'subheader_part' },
+                                      { text: 'Que en el Presupuesto de Gastos e Inversiones de la vigencia '+ctrl.vigencia+' existe apropiación disponible para atender a la presente solicitud así: ', style: 'paragraph' },
+                                      {
+                                        style: 'rubro_table',
+                                        table:
+                                        {
+                                          headerRows: 1,
+                                          widths: ['35%', '40%', '25%'],
+                                          body:
+                                            [
+                                              [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'CONCEPTO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}],
+                                              [{ text: ctrl.rubro.Codigo, style: 'table_content' }, { text: ctrl.rubro.Nombre, style: 'table_content'}, { text: $filter('currency')(ctrl.apropiacion.Valor), style: 'table_content'}]
+                                            ]
+                                          }
+                                      },
+                                      { text: 'OBJETO:', bold: true, margin: [0,20,0,10] },
+                                      { text: ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'},
+                                      { text: 'Se expide a solicitud de '+ctrl.dependenciaSolicitante.NomProveedor+',[CARGO],'+ctrl.dependencia.Nombre+' mediante el OFICIO ....', style: 'objeto'},
+                                      { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left'},
+                                      { text: '', margin: [0,30,0,30]},
+                                      { text: '_______________________', style: 'lineaFirma'},
+                                      { text: ctrl.jefePresupuesto.NomProveedor, style: 'objeto', bold: true},
+                                      { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, style: 'objeto'},
+                                      { text: '_______________________', style: 'lineaFirma'},
+                                      { text: 'ELABORO', style: 'objeto', bold: true},
+                                      { text: '[USUARIO_SESIÓN]', style: 'objeto', bold: true}
+                                    );
+
+                                    pdfMake.createPdf(reporte).download('cdp.pdf');
+                                  }).catch(function(err) {
+                                    console.error(err);
+                                    return
+                                  });
+
                             }).catch(function(err) {
                                 console.error(err);
+                                return
                             });
 
                           }).catch(function(err) {
                             console.log(error);
+                            return
                           });
 
 
                       }).catch(function(err) {
                         console.error(err);
+                        return
                       });
 
 
                   }).catch(function(err) {
                     console.error(err);
+                    return
                   });
 
             }).catch(function(err) {
               console.error(err);
+              return
             });
 
         }
