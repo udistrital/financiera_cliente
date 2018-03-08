@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q, $filter) {
+  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, oikosRequest, coreRequest, administrativaRequest, administrativaPruebasRequest, $q, $filter) {
     var ctrl = this;
     var reporte = { content: [], styles: {}};
-
+    var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    var f = new Date();
     // Estilos del reporte
     var estilos = {
       header: {
@@ -56,7 +57,7 @@ angular.module('financieraClienteApp')
       },
       objeto: {
         fontSize: 12,
-        margin: [0,5,5,0],
+        margin: [0,20,0,10],
         alignment: 'center'
       }
     }
@@ -170,6 +171,36 @@ angular.module('financieraClienteApp')
       return promise;
     }
 
+    function asynDependenciaSolicitante() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      administrativaPruebasRequest.get('dependencia_necesidad', $.param({
+        limit: 1,
+        query: 'Necesidad.Numero:'+ctrl.necesidad+',Necesidad.Vigencia:'+ctrl.vigencia
+      })).then(function(response) {
+
+        coreRequest.get('jefe_dependencia/'+response.data[0].JefeDependenciaSolicitante)
+          .then(function(response) {
+
+            administrativaRequest.get('informacion_proveedor/'+response.data.TerceroId)
+              .then(function(response) {
+                defered.resolve(response.data);
+              }, function(err) {
+                defered.reject(err);
+              });
+
+          }, function(err) {
+            defered.reject(err);
+          });
+
+      }, function(err) {
+        defered.reject(err);
+      });
+
+      return promise;
+    }
+
     ctrl.generarReporte = function() {
       reporte.styles = estilos;
       var entidad;
@@ -201,32 +232,45 @@ angular.module('financieraClienteApp')
 
                             asynEntidad()
                               .then(function(data) {
-                                reporte.content.push(
-                                  { text: data.Nombre, style: 'header' },
-                                  { text: data.CodigoEntidad+' - '+data.Nombre, style: 'subheader' },
-                                  { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
-                                  { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
-                                  { text: 'No.   1', style: 'subheader_part' },
-                                  { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
-                                  { text: 'CERTIFICA', style: 'subheader_part' },
-                                  { text: 'Que en el Presupuesto de Gastos e Inversiones de la vigencia '+ctrl.vigencia+' existe apropiación disponible para atender a la presente solicitud así: ', style: 'paragraph' },
-                                  {
-                                    style: 'rubro_table',
-                                    table:
-                                    {
-                                      headerRows: 1,
-                                      widths: ['35%', '40%', '25%'],
-                                      body:
-                                        [
-                                          [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'CONCEPTO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}],
-                                          [{ text: ctrl.rubro.Codigo, style: 'table_content' }, { text: ctrl.rubro.Nombre, style: 'table_content'}, { text: $filter('currency')(ctrl.apropiacion.Valor), style: 'table_content'}]
-                                        ]
-                                      }
-                                  },
-                                  { text: 'OBJETO:', bold: true, margin: [0,20,0,10] },
-                                  { text:  ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'});
+                                ctrl.entidad = data;
+                                asynDependenciaSolicitante()
+                                  .then(function(data) {
+                                    ctrl.dependenciaSolicitante = data;
+                                    console.log(ctrl.dependenciaSolicitante);
+                                    reporte.content.push(
+                                      { text: ctrl.entidad.Nombre, style: 'header' },
+                                      { text: ctrl.entidad.CodigoEntidad+' - '+ctrl.entidad.Nombre, style: 'subheader' },
+                                      { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
+                                      { text: 'CERTIFICADO DE DISPONIBILIDAD PRESUPUESTAL', style: 'subheader' },
+                                      { text: 'No.   1', style: 'subheader_part' },
+                                      { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
+                                      { text: 'CERTIFICA', style: 'subheader_part' },
+                                      { text: 'Que en el Presupuesto de Gastos e Inversiones de la vigencia '+ctrl.vigencia+' existe apropiación disponible para atender a la presente solicitud así: ', style: 'paragraph' },
+                                      {
+                                        style: 'rubro_table',
+                                        table:
+                                        {
+                                          headerRows: 1,
+                                          widths: ['35%', '40%', '25%'],
+                                          body:
+                                            [
+                                              [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'CONCEPTO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}],
+                                              [{ text: ctrl.rubro.Codigo, style: 'table_content' }, { text: ctrl.rubro.Nombre, style: 'table_content'}, { text: $filter('currency')(ctrl.apropiacion.Valor), style: 'table_content'}]
+                                            ]
+                                          }
+                                      },
+                                      { text: 'OBJETO:', bold: true, margin: [0,20,0,10] },
+                                      { text: ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'},
+                                      { text: 'Se expide a solicitud de '+ctrl.dependenciaSolicitante.NomProveedor+',[CARGO],'+ctrl.dependencia.Nombre+' mediante el OFICIO ....', style: 'objeto'},
+                                      { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left'},
+                                      { text: '______________'}
+                                    );
 
-                                pdfMake.createPdf(reporte).download('cdp.pdf');
+                                    pdfMake.createPdf(reporte).download('cdp.pdf');
+                                  }).catch(function(err) {
+                                    console.error(err);
+                                  });
+
                             }).catch(function(err) {
                                 console.error(err);
                             });
