@@ -78,4 +78,8 @@ angular.module('financieraClienteApp')
 
         };
 
+        ctrl.crearComprobante = function(){
+          alert("Creacion de comprobante")
+        };
+
     });

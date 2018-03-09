@@ -474,6 +474,11 @@ angular
               controller: 'ConsultaComprobantesCtrl',
               controllerAs: 'consultaComprobantes'
             })
+            .when('/comprobantes/ver_comprobante', {
+              templateUrl: 'views/comprobantes/ver_comprobante.html',
+              controller: 'VerComprobanteCtrl',
+              controllerAs: 'verComprobante'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
