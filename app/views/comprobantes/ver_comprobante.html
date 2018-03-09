@@ -1,0 +1,27 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">DETALLE DE COMPROBANTE</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div align="center" class="panel panel-default">
+                    Tipo: R-6
+                    <br>
+                    Nombre: Ingresos Tercero
+                    <br>
+                    Número: 276
+                    <br>
+                    Fecha: 2018 / Mayo / 26
+                </div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div >
+            <div ui-grid="verComprobante.Comprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+        </div>
+        <!--ESTO DEBE IR EN NG SHOW NG IF -->
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="verComprobante.crearRegistro()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+        </div>
+    </div>
+</div>
