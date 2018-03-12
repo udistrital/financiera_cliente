@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
     }
     var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
     var f = new Date();
+    
     // Estilos del reporte
     var estilos = {
       header: {
