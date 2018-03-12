@@ -8,10 +8,16 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoRPCtrl', function (financieraRequest, oikosRequest, administrativaPruebasRequest, $q, $filter, $translate) {
+  .controller('ReportesPresupuestoRPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $q, $filter, $translate) {
     var ctrl = this;
-    var reporte = { content: [], styles: {}};
-
+    var entidad;
+    var producto =
+    {
+        Codigo: "123424543545",
+        Nombre: "PRODUCTO PRUEBA"
+    }
+    var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    var f = new Date();
     // Estilos del reporte
     var estilos = {
       header: {
@@ -38,7 +44,7 @@ angular.module('financieraClienteApp')
         margin: [0,0,0, 20]
       },
       rubro_table: {
-        marign: [10,20,10,20],
+        marign: [5,20,10,5],
         alignment: 'center',
         border: undefined
       },
@@ -56,18 +62,28 @@ angular.module('financieraClienteApp')
       },
       objeto: {
         fontSize: 12,
-        margin: [0,5,5,0],
+        margin: [0,20,0,20],
         alignment: 'center'
+      },
+      lineaFirma: {
+        margin: [0,10,0,10],
+        alignment: 'center'
+      },
+      valores: {
+        margin: [0,10,0,10],
+        alignment: 'right',
+        bold: true,
+        fontSize: 11
       }
     }
-    ctrl.vigencias = [2017,2018]
-    // // Vigencias de apropiaciones
-    // financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
-    //   limit: 0
-    // })).then(function(response) {
-    //   console.log(response.data);
-    //   ctrl.vigencias = response.data;
-    // });
+    var reporte = { content: [], styles: estilos };
+
+    // Vigencias de apropiaciones
+    financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
+      limit: 0
+    })).then(function(response) {
+      ctrl.vigencias = response.data.sort();
+    });
 
     // Unidades ejecutoras
     financieraRequest.get('unidad_ejecutora', $.param({
@@ -76,22 +92,54 @@ angular.module('financieraClienteApp')
       ctrl.unidadesEjecutoras = response.data;
     });
 
-    financieraRequest.get('tipo_fuente_financiamiento', $.param({
-      fields: "Id,Nombre"
-    })).then(function(response) {
-      ctrl.tiposFuentesFinanciamiento = response.data;
+    // Fuentes de finaciamiento
+    financieraRequest.get('fuente_financiamiento', $.param({
+      fields: 'Id,Nombre,Codigo,TipoFuenteFinanciamiento'
+    })).then(function (response) {
+      ctrl.fuentesFinanciamiento = response.data;
     });
 
+    // Jefe de Presupuesto
     oikosRequest.get('dependencia', $.param({
-      limit: 0,
-      fields: "Id,Nombre",
-      sortby: "Nombre",
-      order: "asc"
+      limit: 1,
+      query: 'Nombre__icontains:PRESUPUESTO'
     })).then(function(response) {
-      ctrl.dependencias = response.data;
+      ctrl.dependenciaPresupuesto = response.data;
+
+      coreRequest.get('jefe_dependencia', $.param({
+        limit: 1,
+        query: 'DependenciaId:'+ctrl.dependenciaPresupuesto[0].Id
+      })).then(function(response) {
+
+        administrativaRequest.get('informacion_proveedor/'+response.data[0].TerceroId)
+          .then(function(response) {
+            ctrl.jefePresupuesto = response.data;
+          });
+      });
     });
 
-    // Entidad
+    function asynMovFuenteFinanApropiacion() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get("movimiento_fuente_financiamiento_apropiacion", $.param({
+        limit: -1,
+        query: 'FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id:'+ctrl.fuenteFinanciamiento.Id+',Fecha__startswith:'+ctrl.vigencia
+      })).then(function(response) {
+        var valorTotal = 0;
+        var fuente_financiamiento_apropiacion = response.data;
+        if (fuente_financiamiento_apropiacion) {
+          for (var i = 0; i < fuente_financiamiento_apropiacion.length; i++) {
+            valorTotal += fuente_financiamiento_apropiacion[i].Valor;
+          }
+        }
+        defered.resolve(valorTotal);
+      }, function(err) {
+        defered.reject(err);
+      });
+      return promise;
+    }
+
     function asynEntidad() {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -106,63 +154,12 @@ angular.module('financieraClienteApp')
       return promise;
     }
 
-    //Rubro
-    function asynRubro(idRubro) {
+    function asynProvedor(idProveedor) {
       var defered = $q.defer();
       var promise = defered.promise;
 
-      financieraRequest.get('rubro/'+idRubro)
-        .then(function(response) {
-          defered.resolve(response.data);
-        }, function(err) {
-          defered.reject(err);
-        });
-
-        return promise;
-    }
-
-    // Apropiacion
-    function asynApropiacion(idApropiacion) {
-      var defered = $q.defer();
-      var promise = defered.promise;
-
-      financieraRequest.get('apropiacion/'+idApropiacion)
-        .then(function(response) {
-          defered.resolve(response.data);
-        }, function(err) {
-          defered.reject(err);
-      });
-
-      return promise;
-    }
-
-    // Fuente de finaciamiento apropiacion
-    function asynFuentFinanApropiacion(idFuente) {
-      var defered = $q.defer();
-      var promise = defered.promise;
-
-      financieraRequest.get('fuente_financiamiento_apropiacion', $.param({
-        limit: 1,
-        query: 'FuenteFinanciamiento:'+idFuente+',Dependencia:'+ctrl.dependencia.Id
-      })).then(function(response) {
+      administrativaRequest.get("informacion_proveedor/"+idProveedor).then(function(response) {
         defered.resolve(response.data);
-      }, function(err) {
-        defered.reject(err);
-      });
-
-      return promise;
-    }
-
-    // Fuente de financiamiento
-    function asynFuentFinan(idFuente) {
-      var defered = $q.defer();
-      var promise = defered.promise;
-
-      financieraRequest.get('fuente_financiamiento/'+idFuente, $.param({
-        query: 'TipoFuenteFinanciamiento.Id:'+ctrl.tipoFuenteFinanciamiento.Id
-      })).then(function(response) {
-        defered.resolve(response.data);
-        return response.data;
       }, function(err) {
         defered.reject(err);
       });
@@ -171,88 +168,129 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.generarReporte = function() {
-      reporte.styles = estilos;
-      var entidad;
-      administrativaPruebasRequest.get('fuente_financiacion_rubro_necesidad', $.param({
-        limit: 1,
-        query: 'Necesidad.Numero:'+ctrl.necesidad+',Necesidad.Vigencia:'+ctrl.vigencia
-      })).then(function(response) {
-        if (response.data === null) {
-          swal(
-            'No se encontraron datos que coincidan con la necesidad y la vigencia'
-          )
-        } else {
-          ctrl.fuenteFinanciacionNecesidad = response.data[0];
-          asynFuentFinan(response.data[0].FuenteFinanciamiento)
-            .then(function(data) {
-              ctrl.fuentesFinanciamiento = data;
+      asynEntidad()
+        .then(function(data) {
+          entidad = data;
 
-                asynFuentFinanApropiacion(data.Id)
-                  .then(function(data) {
-                    console.log(data);
+        financieraMidRequest.get('registro_presupuestal/ListaRp/'+ctrl.vigencia, $.param({
+          limit: -1,
+          UnidadEjecutora: ctrl.unidadEjecutora.Id,
+          query: "RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:"+ctrl.fuenteFinanciamiento.Id
+        })).then(function(response) {
 
-                    asynApropiacion(data[0].Apropiacion.Id)
-                      .then(function(data) {
-                        ctrl.apropiacion = data;
+              var datosCrp;
+              var fuente_crp = response.data;
+              var totalCrp = 0;
 
-                        asynRubro(data.Rubro.Id)
-                          .then(function(data) {
-                            ctrl.rubro = data;
+              for (var i = 0; i < fuente_crp.length; i++) {
+                if (fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad === ctrl.numCdp) {
+                  datosCrp = fuente_crp[i];
+                } else {
+                  for (var j = 0; j < fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
+                    fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
+                  }
+                }
+              }
 
-                            asynEntidad()
-                              .then(function(data) {
-                                reporte.content.push(
-                                  { text: data.Nombre, style: 'header' },
-                                  { text: data.CodigoEntidad+' - '+data.Nombre, style: 'subheader' },
-                                  { text: ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
-                                  { text: $translate.instant('REPORTES.RP'), style: 'subheader' },
-                                  { text: 'No.   1', style: 'subheader_part' },
-                                  { text: 'EL SUSCRITO RESPONSABLE DEL PRESUPUESTO', style: 'subheader' },
-                                  { text: 'CERTIFICA', style: 'subheader_part' },
-                                  { text: 'Que se ha efectuado registro presupuestal para atender compromisos así: ', style: 'paragraph' },
-                                  {
-                                    style: 'rubro_table',
-                                    table:
-                                    {
-                                      headerRows: 1,
-                                      widths: ['35%', '40%', '25%'],
-                                      body:
-                                        [
-                                          [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'CONCEPTO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}],
-                                          [{ text: ctrl.rubro.Codigo, style: 'table_content' }, { text: ctrl.rubro.Nombre, style: 'table_content'}, { text: $filter('currency')(ctrl.apropiacion.Valor), style: 'table_content'}]
-                                        ]
-                                      }
-                                  },
-                                  { text: 'CDP Nº 1:', bold: true, margin: [0,20,0,10] },
-                                  { text:  ctrl.fuenteFinanciacionNecesidad.Necesidad.Objeto, style: 'objeto'});
+              if (datosCrp.NumeroRegistroPresupuestal === 1) {
+                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor;
+              } else {
+                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor);
+              }
 
-                                pdfMake.createPdf(reporte).download('cdp.pdf');
-                            }).catch(function(err) {
-                                console.error(err);
-                            });
-
-                          }).catch(function(err) {
-                            console.log(error);
-                          });
-
-
-                      }).catch(function(err) {
-                        console.error(err);
-                      });
-
-
-                  }).catch(function(err) {
-                    console.error(err);
-                  });
+              asynProvedor(datosCrp.Beneficiario)
+                .then(function(data) {
+                  var beneficiario = data;
+                  construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Valor, beneficiario);
+                }).catch(function(err) {
+                  console.error(err);
+                  return
+                });
 
             }).catch(function(err) {
               console.error(err);
+              return
             });
-
-        }
-      }, function(err) { //if something happends
+      }, function(err) {
+        return
       });
+    }
 
+
+    function construirReporte(datosCrp, valorCdp, valorDisponible, valorTotal, beneficiario) {
       reporte.content = [];
+      reporte.styles = estilos;
+      reporte.content.push(
+        { text: entidad.Nombre+'', style: 'header' },
+        { text: entidad.CodigoEntidad+' - '+entidad.Nombre, style: 'subheader' },
+        { text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
+        { text: 'CERTIFICADO DE REGISTRO PRESUPUESTAL', style: 'subheader' },
+        { text: "No. "+datosCrp.NumeroRegistroPresupuestal, style: 'subheader_part' },
+        { text: "Que se ha efectuado registro presupuestal para atender compromisos así: ", alignment: "center", margin: [0,0,0,25] },
+      );
+
+      reporte.content.push(
+        function () {
+          var tabla = {
+            style: 'rubro_table',
+            headerRows: 1,
+            widths: ['35%', '50%', '25%'],
+            table: { body: [
+              [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'RUBRO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}]
+            ] }
+          }
+          tabla.table.body.push(
+            [{ text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Codigo, style: 'table_content' },
+            { text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre, style: 'table_content' },
+            { text: $filter('currency')(datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor), style: 'table_content' }]
+          );
+        return tabla
+        }()
+      );
+
+      reporte.content.push(
+        { text: 'Valor Apropiacion: '+$filter('currency')(valorTotal), style: 'valores' },
+        { text: 'Valor Disponible: '+$filter('currency')(valorDisponible), style: 'valores' }
+      );
+
+      if (ctrl.fuenteFinanciamiento.TipoFuenteFinanciamiento.Nombre === "Inversión") {
+        reporte.content.push(
+          { text: [ {text: "Fuente de inversión: ", bold: true},
+              ctrl.fuenteFinanciamiento.Nombre
+            ]},
+          { text: [
+              {text: "Producto: ", bold: true},
+              producto.Nombre
+            ]}
+        );
+      }
+
+      reporte.content.push(
+        { text: "CDP Nº:"+datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad, bold: true, margin: [0,20,0,5] },
+        { text: "TIPO DE COMPROMISO: " + datosCrp.TipoCompromiso.Objeto },
+        { text: "OBJETO: " + datosCrp.TipoCompromiso.Objeto }
+      );
+      if (beneficiario.Tipopersona === "NATURAL") {
+        reporte.content.push(
+            { text: "BENEFICIARIO: "+beneficiario.NomProveedor+" identificado con Documento "+beneficiario.NumDocumento }
+        );
+      } else {
+        reporte.content.push(
+            { text: "BENEFICIARIO: "+beneficiario.NomProveedor+" identificado con NIT "+beneficiario.NumDocumento }
+        );
+      }
+
+      reporte.content.push(
+        { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left', margin: [0,15,0,0]},
+        { text: '', margin: [0,30,0,30]},
+        { text: '_______________________', style: 'lineaFirma'},
+        { text: ctrl.jefePresupuesto.NomProveedor, alignment: 'center', bold: true},
+        { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, alignment: 'center' },
+        { text: '_______________________', style: 'lineaFirma'},
+        { text: 'ELABORO', alignment: 'center' },
+        { text: '[USUARIO_SESIÓN]', alignment: 'center', bold: true}
+      );
+
+      pdfMake.createPdf(reporte).download('crp.pdf');
     }
   });
