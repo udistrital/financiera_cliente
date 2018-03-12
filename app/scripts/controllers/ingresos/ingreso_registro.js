@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
         ctrl.fechaFin = new Date();
         ctrl.filtro_ingresos = "Ingresos";
         $scope.datos = false;
+        $scope.otro = false;
         ctrl.homologacion_facultad = [{
             old: 33,
             new: 14 //FACULTAD ING
@@ -79,6 +80,16 @@ angular.module('financieraClienteApp')
                 ctrl.codigo_facultad = response.data;
             });
         };
+
+        $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
+
+            if (angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre)){
+                $scope.otro = false;
+            }else{
+                $scope.otro = true;
+            }
+            
+        }, true);
 
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {

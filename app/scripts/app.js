@@ -472,7 +472,13 @@ angular
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
-              controllerAs: 'cierrePeriodo'})
+              controllerAs: 'cierrePeriodo'
+          })
+            .when('/ingresos/ingreso_registroG', {
+              templateUrl: 'views/ingresos/ingreso_registrog.html',
+              controller: 'IngresosIngresoRegistrogCtrl',
+              controllerAs: 'ingresos/ingresoRegistroG'
+            })
             .otherwise({
                 redirectTo: '/'
             });
