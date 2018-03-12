@@ -11,7 +11,6 @@ angular.module('financieraClienteApp')
 .controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $filter, uiGridConstants) {
   var ctrl = this;
   var rubros = [];
-  ctrl.mostrarGrid = false;
 
   ctrl.gridOptions = {
     enableFiltering: false,
