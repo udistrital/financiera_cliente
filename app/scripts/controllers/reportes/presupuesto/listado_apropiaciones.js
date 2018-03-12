@@ -41,7 +41,7 @@ angular.module('financieraClienteApp')
   financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
     limit: 0
   })).then(function(response) {
-    ctrl.vigencias = response.data;
+    ctrl.vigencias = response.data.sort();
   });
 
   // Unidades ejecutoras
@@ -51,28 +51,9 @@ angular.module('financieraClienteApp')
     ctrl.unidadesEjecutoras = response.data;
   });
 
-  var dd = {
+  var reporte = {
     pageSize: 'A4',
-    content: [
-      {text: 'Listado de Apropiaciones', style: 'header'},
-      {text: 'Fecha del Reporte: \t'+ctrl.fechaActual, alignment: 'center'},
-      {text: 'Vigencia: ', style: 'subheader'},
-      {text: 'Entidad: ', style: 'subheader'},
-      {text: 'Unidad Ejecutora: ', style: 'subheader'},
-      {
-        style: 'table',
-        table: {
-          headerRows: 1,
-          dontBreakRows: true,
-          keepWithHeaderRows: 0,
-          body:
-          [
-            [{text: 'Código', style: 'tableHeader'}, {text: 'Nombre', style: 'tableHeader'}, {text: 'Valor', style: 'tableHeader'}]
-          ]
-        }
-      },
-    ],
-
+    content: [],
     styles: {
       header: {
         fontSize: 16,
@@ -112,50 +93,68 @@ angular.module('financieraClienteApp')
   }
 
   ctrl.buscarApropiaciones = function() {
+    reporte.content = [];
     financieraRequest.get('entidad').then(function(response) {
       ctrl.entidad = response.data[0];
     });
 
-    financieraRequest.get('apropiacion', $.param({
-      limit: -1,
-      fields: 'Rubro,Valor',
-      query: 'Vigencia:'+ctrl.vigencia+',Rubro.UnidadEjecutora:'+ctrl.unidadEjecutora.Id,
-      exclude: 'Rubro.Codigo.istartswith:2-0,Rubro.Codigo.startswith:3-0,Rubro.Codigo:startswith:',
-      sortby: 'Rubro',
-      order: 'desc'
-    })).then(function(response) {
-      //ctrl.gridOptions.data = response.data;
-      rubros = response.data;
-      // ctrl.gridOptions.data.sort(function(a,b) {
-      //   return parseInt(a.Rubro.Codigo.replace(/-/g,'')) > parseInt(b.Rubro.Codigo.replace(/-/g,''));
-      // });
-      ctrl.mostrarGrid = true;
+    var apropiaciones = [];
+    financieraRequest.get('apropiacion/ArbolApropiaciones/'+ctrl.vigencia)
+      .then(function(response) {
+      var arbolApropiaciones = response.data;
+      var apropiaciones = arbolRubrosRecursivo(arbolApropiaciones,[]);
+
+
+      var tabla = {
+        style: 'table',
+        table: {
+          headerRows: 1,
+          dontBreakRows: true,
+          keepWithHeaderRows: 0,
+          body:
+            [
+              [{text: 'Código', style: 'tableHeader'},
+              {text: 'Nombre', style: 'tableHeader'},
+              {text: 'Valor', style: 'tableHeader'}]
+            ]
+        }
+      };
+
+      for (var i = 0; i < apropiaciones.length; i++) {
+        tabla.table.body.push(
+          [
+            { text: apropiaciones[i].Codigo },
+            { text: apropiaciones[i].Nombre },
+            { text: $filter("currency")(apropiaciones[i].Valor) }
+          ]
+        );
+      }
+
+      reporte.content = [
+        {text: 'Listado de Apropiaciones', style: 'header'},
+        {text: 'Fecha del Reporte: \t'+ctrl.fechaActual, alignment: 'center'},
+        {text: 'Vigencia: '+ctrl.vigencia, style: 'subheader'},
+        {text: 'Entidad: '+ctrl.entidad.Nombre, style: 'subheader'},
+        {text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Nombre, style: 'subheader'},
+        tabla
+      ];
+      pdfMake.createPdf(reporte).download('Listado_de_apropiaciones.pdf');
+
+    }, function(err) {
+      return
     });
 }
 
-function getFamiliaRubros() {
+function arbolRubrosRecursivo(arbol,resul) {
+  var resTemp = resul;
 
-}
-
-
-ctrl.makePdf = function() {
-  dd.content[2].text += ctrl.vigencia;
-  dd.content[3].text += ctrl.entidad.Nombre;
-  dd.content[4].text += ctrl.unidadEjecutora.Nombre;
-  console.log(rubros);
-  rubros.sort(function(a,b) {
-    //console.log(Number(a.Rubro.Codigo.replace(/-/g,'')) );
-    return Number(a.Rubro.Codigo.replace(/-/g,'')) - Number(b.Rubro.Codigo.replace(/-/g,''));
-  });
-  console.log(rubros);
-  for (var i = 0; i < rubros.length; i++) {
-    // console.log(ctrl.gridOptions.data[i].Rubro.Codigo);
-    var apropiacion = ([
-      rubros[i].Rubro.Codigo, rubros[i].Rubro.Nombre,
-      {text: $filter('currency')(parseInt(rubros[i].Valor)), alignment: 'right'}])
-    dd.content[5].table.body.push(apropiacion)
+  if (arbol !== null) {
+    for (var i = 0; i < arbol.length; i++) {
+      var obj = {Codigo: arbol[i].Codigo, Nombre: arbol[i].Nombre, Valor: arbol[i].Apropiacion.Valor}
+      resTemp.push(obj);
+      arbolRubrosRecursivo(arbol[i].Hijos, resTemp);
+    }
   }
-  pdfMake.createPdf(dd).download('Listado_de_apropiaciones.pdf');
-  dd.content = [];
+  return resTemp;
 }
 });
