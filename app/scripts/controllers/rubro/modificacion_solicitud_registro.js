@@ -13,13 +13,14 @@ angular.module('financieraClienteApp')
     self.modificaciones = [];
     self.descripcion = '';
     self.UnidadEjecutora = 1;
+    self.selected = 1;
     console.log(self.descripcion.length);
     self.botones = [
-      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
     ];
     self.botonesccr = [
-      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
     ];
 
@@ -67,6 +68,10 @@ angular.module('financieraClienteApp')
     		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2)){
           if(self.saldomov >= self.valor){
             self.modificaciones.push(modificacion);
+            if(self.tipoModificacion.Id === 2){
+              self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo - self.valor;
+              self.saldomov = self.rubroCuentaCredito.InfoSaldo.saldo;
+            }
             self.limpiarRubrosSelec();
           }else{
           swal('', $translate.instant("E_MODP004") , "error").then(function() {
@@ -85,12 +90,12 @@ angular.module('financieraClienteApp')
 
     self.limpiarRubrosSelec = function(){
     	self.rubrosel = null;
-    	self.rubroCuentaCreditosel = null;
+    	//self.rubroCuentaCreditosel = null;
     	self.rubro = null;
-    	self.rubroCuentaCredito = null;
+    	//self.rubroCuentaCredito = null;
     	self.valor = null;
-    	self.tipoModificacion = null;
-    	self.saldomov = null;
+    	//self.tipoModificacion = null;
+    	//self.saldomov = null;
     };
 
     self.registrarModificacion = function(){
@@ -124,21 +129,36 @@ angular.module('financieraClienteApp')
     $scope.$watch("rubroModificacionSolicitudRegistro.rubroCuentaCreditosel", function() {    
              
              if (self.rubroCuentaCreditosel != null && self.rubroCuentaCreditosel != undefined){
-             	financieraRequest.get("apropiacion", $.param({
+              financieraRequest.get("apropiacion", $.param({
                       query: "Rubro.Id:"+self.rubroCuentaCreditosel.Id + ",Vigencia:"+self.Vigencia
             })).then(function(response) {
+                        console.log("Apr: ",response.data);
     			
     			 if (response.data !== null) {
-                        console.log(response.data);
                         self.rubroCuentaCredito = response.data[0];
                         financieraRequest.get("apropiacion/SaldoApropiacion/"+self.rubroCuentaCredito.Id, "").then(function(response) {
                           
                           if (response.data !== null) {
                            self.rubroCuentaCredito.InfoSaldo = response.data;
+                           angular.forEach(self.modificaciones, function(data) {
+                              if(data.CuentaCredito != undefined && data.CuentaCredito != null &&data.CuentaCredito.Id === self.rubroCuentaCredito.Id && data.TipoMovimientoApropiacion.Id === 2){
+                                self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo - data.Valor;
+                              }
+
+                           });
                            self.saldomov = self.rubroCuentaCredito.InfoSaldo.saldo;
-                           console.log(response.data);
+                           console.log("Saldo: ",response.data);
+                          }else{
+                             self.rubroCuentaCredito.InfoSaldo = {};
+                             self.rubroCuentaCredito.InfoSaldo.saldo = 0;
+                             self.saldomov = 0;
                           }
                         });
+                      }else{
+                        self.rubroCuentaCredito = {};
+                        self.rubroCuentaCredito.InfoSaldo = {};
+                        self.rubroCuentaCredito.InfoSaldo.saldo = 0;
+                        self.saldomov = 0;
                       }
     		});
              }
@@ -162,10 +182,30 @@ angular.module('financieraClienteApp')
                           
                           if (response.data !== null) {
                            self.rubro.InfoSaldo = response.data;
-                           self.saldomov = self.rubro.InfoSaldo.saldo;
+                           angular.forEach(self.modificaciones, function(data) {
+                              if(data.CuentaContraCredito != undefined && data.CuentaContraCredito != null &&data.CuentaContraCredito.Id === self.rubro.Id){
+                                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
+                              }
+                              if(data.CuentaCredito != undefined && data.CuentaCredito != null &&data.CuentaCredito.Id === self.rubro.Id && data.TipoMovimientoApropiacion.Id === 2){
+                                console.log("Data1: ",data.CuentaCredito.Id);
+                                console.log("Data1: ",self.rubro.Id);
+                                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
+                              }
 
+                           });
+                           self.saldomov = self.rubro.InfoSaldo.saldo;
+                           
+                          }else{
+                            self.rubro.InfoSaldo = {};
+                            self.rubro.InfoSaldo.saldo = 0;
+                             self.saldomov = 0;
                           }
                         });
+                      }else{
+                        self.rubro = {};
+                        self.rubro.InfoSaldo = {};
+                        self.rubro.InfoSaldo.saldo = 0;
+                        self.saldomov = 0;
                       }
     		});
              }
