@@ -21,13 +21,13 @@ angular.module('financieraClienteApp')
     // Estilos del reporte
     var estilos = {
       header: {
-        fontSize: 16,
+        fontSize: 14,
         bold: true,
         alignment: 'center',
         margin: [0,0,0,20]
       },
       subheader: {
-        fontSize: 13,
+        fontSize: 12,
         bold: true,
         alignment: 'center',
         margin: [10,0,0,0]
@@ -44,29 +44,28 @@ angular.module('financieraClienteApp')
         margin: [0,0,0, 20]
       },
       rubro_table: {
-        marign: [5,20,10,5],
-        alignment: 'center',
+        alignment: "center",
         border: undefined
       },
       table_header: {
-        fontSize: 12,
+        fontSize: 11,
         alignment: 'center',
         bold: true,
         margin: [2,2,2,2]
       },
       table_content: {
-        fontSize: 12,
+        fontSize: 10,
         margin: [0,5,0,0],
         alignment: 'center',
         border: undefined
       },
       objeto: {
-        fontSize: 12,
+        fontSize: 10,
         margin: [0,20,0,20],
         alignment: 'center'
       },
       lineaFirma: {
-        margin: [0,10,0,10],
+        margin: [0,15,0,10],
         alignment: 'center'
       },
       valores: {
@@ -74,8 +73,12 @@ angular.module('financieraClienteApp')
         alignment: 'right',
         bold: true,
         fontSize: 11
+      },
+      firmas: {
+        alignment: "center",
+        fontSize: 10
       }
-    }
+    };
     var reporte = { content: [], styles: estilos };
 
     // Vigencias de apropiaciones
@@ -233,12 +236,18 @@ angular.module('financieraClienteApp')
         function () {
           var tabla = {
             style: 'rubro_table',
-            headerRows: 1,
-            widths: ['35%', '50%', '25%'],
-            table: { body: [
-              [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'RUBRO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}]
-            ] }
-          }
+            table: {
+              widths: ["25%", "40%", "35%"],
+              headerRows: 1,
+              body: [
+                [
+                  { text: 'CODIGO PRESUPUESTAL ', style: 'table_header'},
+                  { text: 'RUBRO', style: 'table_header'},
+                  { text: 'VALOR', style: 'table_header'}
+                ]
+              ]
+            }
+          };
           tabla.table.body.push(
             [{ text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Codigo, style: 'table_content' },
             { text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre, style: 'table_content' },
@@ -266,7 +275,7 @@ angular.module('financieraClienteApp')
       }
 
       reporte.content.push(
-        { text: "CDP Nº:"+datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad, bold: true, margin: [0,20,0,5] },
+        { text: "CDP Nº:"+datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad, fontSize: 10, bold: true, margin: [0,20,0,5] },
         { text: "TIPO DE COMPROMISO: " + datosCrp.TipoCompromiso.Objeto },
         { text: "OBJETO: " + datosCrp.TipoCompromiso.Objeto }
       );
@@ -283,12 +292,12 @@ angular.module('financieraClienteApp')
       reporte.content.push(
         { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left', margin: [0,15,0,0]},
         { text: '', margin: [0,30,0,30]},
-        { text: '_______________________', style: 'lineaFirma'},
-        { text: ctrl.jefePresupuesto.NomProveedor, alignment: 'center', bold: true},
-        { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, alignment: 'center' },
-        { text: '_______________________', style: 'lineaFirma'},
-        { text: 'ELABORO', alignment: 'center' },
-        { text: '[USUARIO_SESIÓN]', alignment: 'center', bold: true}
+        { text: '_______________________', style: 'lineaFirma' },
+        { text: ctrl.jefePresupuesto.NomProveedor, bold: true, style: "firmas" },
+        { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, style: "firmas" },
+        { text: '_______________________', style: 'lineaFirma' },
+        { text: 'ELABORO', style: "firmas" },
+        { text: '[USUARIO_SESIÓN]', bold: true, style: "firmas" }
       );
 
       pdfMake.createPdf(reporte).download('crp.pdf');
