@@ -357,6 +357,7 @@ var text_es = {
     NATURALEZA: "Naturaleza",
     NECESIDAD: "Necesidad",
     NECESIDAD_NO: "Necesidad No. ",
+    NECESIDAD_NO_APROBADA: "Necesidad Aprobada No.",
     NO: "No. ",
     NOMBRE: "Nombre",
     NOMBRES: "Nombres",

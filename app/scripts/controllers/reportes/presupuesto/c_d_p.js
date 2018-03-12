@@ -21,13 +21,13 @@ angular.module('financieraClienteApp')
     // Estilos del reporte
     var estilos = {
       header: {
-        fontSize: 16,
+        fontSize: 14,
         bold: true,
         alignment: 'center',
         margin: [0,0,0,20]
       },
       subheader: {
-        fontSize: 13,
+        fontSize: 12,
         bold: true,
         alignment: 'center',
         margin: [10,0,0,0]
@@ -44,29 +44,28 @@ angular.module('financieraClienteApp')
         margin: [0,0,0, 20]
       },
       rubro_table: {
-        marign: [5,20,10,5],
-        alignment: 'center',
+        alignment: "center",
         border: undefined
       },
       table_header: {
-        fontSize: 12,
+        fontSize: 11,
         alignment: 'center',
         bold: true,
         margin: [2,2,2,2]
       },
       table_content: {
-        fontSize: 12,
+        fontSize: 10,
         margin: [0,5,0,0],
         alignment: 'center',
         border: undefined
       },
       objeto: {
-        fontSize: 12,
+        fontSize: 10,
         margin: [0,20,0,20],
         alignment: 'center'
       },
       lineaFirma: {
-        margin: [0,10,0,10],
+        margin: [0,15,0,10],
         alignment: 'center'
       },
       valores: {
@@ -74,8 +73,12 @@ angular.module('financieraClienteApp')
         alignment: 'right',
         bold: true,
         fontSize: 11
+      },
+      firmas: {
+        alignment: "center",
+        fontSize: 10
       }
-    }
+    };
     var reporte = { content: [], styles: estilos };
 
     // Vigencias de apropiaciones
@@ -217,11 +220,17 @@ angular.module('financieraClienteApp')
         function () {
           var tabla = {
             style: 'rubro_table',
-            headerRows: 1,
-            widths: ['35%', '50%', '25%'],
-            table: { body: [
-              [{ text: 'CODIGO PRESUPUESTAL ', style: 'table_header'}, { text: 'RUBRO', style: 'table_header'}, { text: 'VALOR', style: 'table_header'}]
-            ] }
+            table: {
+              widths: ["25%", "40%", "35%"],
+              headerRows: 1,
+              body: [
+                [
+                  { text: 'CODIGO PRESUPUESTAL ', style: 'table_header'},
+                  { text: 'RUBRO', style: 'table_header'},
+                  { text: 'VALOR', style: 'table_header'}
+                ]
+              ]
+            }
           }
           tabla.table.body.push(
             [{ text: datosCdp.DisponibilidadApropiacion[0].Apropiacion.Rubro.Codigo, style: 'table_content' },
@@ -250,17 +259,17 @@ angular.module('financieraClienteApp')
       }
 
       reporte.content.push(
-        { text: 'OBJETO:', bold: true, margin: [0,20,0,5] },
+        { text: 'OBJETO:', bold: true, margin: [0,20,0,5], fontSize: 10 },
         { text: datosCdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto, style: 'objeto' },
-        { text: 'Se expide con NECESIDAD N° '+ctrl.necesidad+' a solicitud de '+ jefeDependenciaSolicitante + ', '+ datosCdp.Solicitud.DependenciaSolicitante.Nombre ,alignment: 'center'},
+        { text: 'Se expide con NECESIDAD APROBADA N° '+ctrl.necesidad+' a solicitud de '+ jefeDependenciaSolicitante + ', '+ datosCdp.Solicitud.DependenciaSolicitante.Nombre ,alignment: 'center'},
         { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left', margin: [0,15,0,0]},
         { text: '', margin: [0,30,0,30]},
         { text: '_______________________', style: 'lineaFirma'},
-        { text: ctrl.jefePresupuesto.NomProveedor, alignment: 'center', bold: true},
-        { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, alignment: 'center' },
-        { text: '_______________________', style: 'lineaFirma'},
-        { text: 'ELABORO', alignment: 'center' },
-        { text: '[USUARIO_SESIÓN]', alignment: 'center', bold: true}
+        { text: ctrl.jefePresupuesto.NomProveedor, bold: true, style: "firmas" },
+        { text: 'RESPONSABLE DE '+ctrl.dependenciaPresupuesto[0].Nombre, style: "firmas" },
+        { text: '_______________________', margin: [0,20,0,0], style: 'lineaFirma' },
+        { text: 'ELABORO', style: "firmas" },
+        { text: '[USUARIO_SESIÓN]', bold: true, style: "firmas" }
       );
 
       pdfMake.createPdf(reporte).download('cdp.pdf');
