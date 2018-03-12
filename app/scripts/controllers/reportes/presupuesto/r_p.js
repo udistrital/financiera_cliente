@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
     }
     var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
     var f = new Date();
+
     // Estilos del reporte
     var estilos = {
       header: {
@@ -206,12 +207,10 @@ angular.module('financieraClienteApp')
                   var beneficiario = data;
                   construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Valor, beneficiario);
                 }).catch(function(err) {
-                  console.error(err);
                   return
                 });
 
             }).catch(function(err) {
-              console.error(err);
               return
             });
       }, function(err) {
