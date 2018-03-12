@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, administrativaPruebasRequest, $q, $filter) {
+  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $q, $filter) {
     var ctrl = this;
     var entidad;
     var producto =
