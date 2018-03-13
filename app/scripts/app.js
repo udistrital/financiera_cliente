@@ -474,10 +474,10 @@ angular
               controller: 'PacCierrePeriodoCtrl',
               controllerAs: 'cierrePeriodo'
           })
-            .when('/ingresos/ingreso_registroG', {
+            .when('/ingresos/ingreso_registroG/:tipoIngreso', {
               templateUrl: 'views/ingresos/ingreso_registrog.html',
               controller: 'IngresosIngresoRegistrogCtrl',
-              controllerAs: 'ingresos/ingresoRegistroG'
+              controllerAs: 'ingresoRegistroG'
             })
             .otherwise({
                 redirectTo: '/'
