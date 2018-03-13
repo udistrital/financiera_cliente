@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location,financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
         var ctrl = this;
         //prueba de codigos de facultad
         $scope.load = true;
@@ -157,6 +157,16 @@ angular.module('financieraClienteApp')
 
         };
 
+        ctrl.ejecutarIngresos = function(){
+            if($scope.otro){
+                console.log('going on income transfer');
+                $location.path('/ingresos/ingreso_registroG/'+ctrl.tipoIngresoSelec.Nombre);
+            }else{
+                console.log('going on pay consulting');
+                consultarPagos();
+            }
+
+        }
         ctrl.consultarPagos = function() {
             $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {
