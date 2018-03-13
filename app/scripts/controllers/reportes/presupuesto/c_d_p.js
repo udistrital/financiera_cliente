@@ -8,8 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $q, $filter) {
+  .controller('ReportesPresupuestoCDPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $http, $q, $filter) {
     var ctrl = this;
+    var escudoUd64;
     var entidad;
     var producto =
     {
@@ -18,7 +19,7 @@ angular.module('financieraClienteApp')
     }
     var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
     var f = new Date();
-    
+
     // Estilos del reporte
     var estilos = {
       header: {
@@ -66,7 +67,7 @@ angular.module('financieraClienteApp')
         alignment: 'center'
       },
       lineaFirma: {
-        margin: [0,15,0,10],
+        margin: [0,8,0,10],
         alignment: 'center'
       },
       valores: {
@@ -81,6 +82,13 @@ angular.module('financieraClienteApp')
       }
     };
     var reporte = { content: [], styles: estilos };
+
+    // Imagen UD
+    $http.get("scripts/models/imagen_ud.json").then(function(response) {
+      escudoUd64 = response.data;
+    }, function(err) {
+      return
+    });
 
     // Vigencias de apropiaciones
     financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
@@ -207,6 +215,7 @@ angular.module('financieraClienteApp')
       reporte.content = [];
       reporte.styles = estilos;
       reporte.content.push(
+        { image: escudoUd64.imagen, alignment: 'center', width: 100 },
         { text: entidad.Nombre+'', style: 'header' },
         { text: entidad.CodigoEntidad+' - '+entidad.Nombre, style: 'subheader' },
         { text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
@@ -249,21 +258,24 @@ angular.module('financieraClienteApp')
 
       if (ctrl.fuenteFinanciamiento.TipoFuenteFinanciamiento.Nombre === "Inversión") {
         reporte.content.push(
-          { text: [ {text: "Fuente de inversión: ", bold: true},
-              ctrl.fuenteFinanciamiento.Nombre
-            ]},
           { text: [
-              {text: "Producto: ", bold: true},
-              producto.Nombre
-            ]}
+              { text: "Fuente de inversión: ", bold: true, fontSize: 10},
+              { text: ctrl.fuenteFinanciamiento.Nombre, fontSize: 10}
+            ]
+          },
+          { text: [
+              { text: "Producto: ", bold: true, fontSize: 10},
+              { text: producto.Nombre, fontSize: 10 }
+            ]
+          }
         );
       }
 
       reporte.content.push(
         { text: 'OBJETO:', bold: true, margin: [0,20,0,5], fontSize: 10 },
         { text: datosCdp.Solicitud.SolicitudDisponibilidad.Necesidad.Objeto, style: 'objeto' },
-        { text: 'Se expide con NECESIDAD APROBADA N° '+ctrl.necesidad+' a solicitud de '+ jefeDependenciaSolicitante + ', '+ datosCdp.Solicitud.DependenciaSolicitante.Nombre ,alignment: 'center'},
-        { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left', margin: [0,15,0,0]},
+        { text: 'Se expide con NECESIDAD APROBADA N° '+ctrl.necesidad+' a solicitud de '+ jefeDependenciaSolicitante + ', '+ datosCdp.Solicitud.DependenciaSolicitante.Nombre ,alignment: 'center', fontSize: 10},
+        { text: 'Bogotá D.C, '+f.getDate()+' de '+meses[f.getMonth()]+' del '+f.getFullYear(), alignment: 'left', margin: [0,15,0,0], fontSize: 10},
         { text: '', margin: [0,30,0,30]},
         { text: '_______________________', style: 'lineaFirma'},
         { text: ctrl.jefePresupuesto.NomProveedor, bold: true, style: "firmas" },

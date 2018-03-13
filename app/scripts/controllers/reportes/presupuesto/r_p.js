@@ -8,8 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ReportesPresupuestoRPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $q, $filter, $translate) {
+  .controller('ReportesPresupuestoRPCtrl', function (financieraRequest, financieraMidRequest, oikosRequest, coreRequest, administrativaRequest, $http, $q, $filter, $translate) {
     var ctrl = this;
+    var escudoUd64;
     var entidad;
     var producto =
     {
@@ -81,6 +82,13 @@ angular.module('financieraClienteApp')
       }
     };
     var reporte = { content: [], styles: estilos };
+
+    // Imagen UD
+    $http.get("scripts/models/imagen_ud.json").then(function(response) {
+      escudoUd64 = response.data;
+    }, function(err) {
+      return
+    });
 
     // Vigencias de apropiaciones
     financieraRequest.get('apropiacion/VigenciaApropiaciones', $.param({
@@ -223,12 +231,13 @@ angular.module('financieraClienteApp')
       reporte.content = [];
       reporte.styles = estilos;
       reporte.content.push(
+        { image: escudoUd64.imagen, alignment: 'center', width: 100 },
         { text: entidad.Nombre+'', style: 'header' },
         { text: entidad.CodigoEntidad+' - '+entidad.Nombre, style: 'subheader' },
         { text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Id+' - '+ctrl.unidadEjecutora.Nombre, style: 'subheader_part' },
         { text: 'CERTIFICADO DE REGISTRO PRESUPUESTAL', style: 'subheader' },
         { text: "No. "+datosCrp.NumeroRegistroPresupuestal, style: 'subheader_part' },
-        { text: "Que se ha efectuado registro presupuestal para atender compromisos así: ", alignment: "center", margin: [0,0,0,25] },
+        { text: "Que se ha efectuado registro presupuestal para atender compromisos así: ", alignment: "center", margin: [0,0,0,25] }
       );
 
       reporte.content.push(
