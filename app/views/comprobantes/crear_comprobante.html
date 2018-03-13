@@ -2,11 +2,13 @@
     <h2 class="page-header" align="center">{{'CREACION_COMPROBANTE' | translate }}</h2>
     <div class="panel-body">
         <!-- ui-grid-selection -->
+
         <div class="row">
-            <div class="col-md-8">
-              <div ui-grid="crearComprobante.TipoComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
-            </div>
-            <div class="col-md-4">
+            <div class="col-md-2 col-md-offset-5">
+              <div>
+                <label>{{'SECUENCIA' | translate }}</label>
+                <input type="tel" pattern="[0-9]*" class="form-control" ng-model="crearComprobante.Secuencia" readonly >
+              </div>
               <div>
                 <label>{{'NO_ITEMS' | translate }}</label>
                 <input type="tel" pattern="[0-9]*" class="form-control" ng-model="crearComprobante.NumeroItems" required>
@@ -19,6 +21,12 @@
                   <option>{{'NO'|translate}} </option>
                 </select>
               </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+              <div ui-grid="crearComprobante.TipoComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
             </div>
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
