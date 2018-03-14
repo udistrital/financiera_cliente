@@ -87,14 +87,10 @@ angular.module('financieraClienteApp')
         alignment: "center",
         fontSize: 10
       },
-      header: {
-        margin: [0,5,0,0],
-        alignment: "center",
-        fontSize: 9
-      },
       footer: {
-        alignment: "center",
-        fontSize: 10
+        alignment: "right",
+        fontSize: 10,
+        margin: [0,0,10,0]
       }
     }
   }
@@ -165,7 +161,7 @@ angular.module('financieraClienteApp')
               ]
             );
           }
-          reporte.header = {text:'Documento generado con usuario [USUARIO_SESIÓN] y fecha ' +data, style: "header"};
+
           reporte.content.push(
             {image: escudoUd64.imagen, alignment: 'center', width: 100},
             {text: 'Listado de Apropiaciones', style: 'header'},
@@ -174,6 +170,7 @@ angular.module('financieraClienteApp')
             {text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Nombre, style: 'subheader'},
             tabla
           );
+          reporte.footer = {text:'Documento generado con usuario [USUARIO_SESIÓN] y fecha ' +data, style: "footer"};
 
           pdfMake.createPdf(reporte).download('Listado_de_apropiaciones.pdf');
         }).catch(function(err) {
@@ -191,12 +188,13 @@ function arbolRubrosRecursivo(arbol,resul) {
   if (arbol !== null) {
     for (var i = 0; i < arbol.length; i++) {
       var obj = {Codigo: arbol[i].Codigo, Nombre: arbol[i].Nombre, Valor: arbol[i].Apropiacion.Valor}
-      resTemp.push(obj);
-      if (arbol[i].Hijos !== null && arbol[i].Hijos[0].Apropiacion.Valor !== 0) {
-        arbolRubrosRecursivo(arbol[i].Hijos, resTemp);
+      if (arbol[i].Apropiacion.Valor === 0 && arbol[i].Hijos !== null) {
+        arbol[i].Hijos = null;
       }
+      resTemp.push(obj);
+      arbolRubrosRecursivo(arbol[i].Hijos, resTemp);
     }
   }
   return resTemp;
-}
+  }
 });
