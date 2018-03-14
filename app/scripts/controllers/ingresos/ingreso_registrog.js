@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
     $scope.vtitle = true;
-    ctrl.filtro_ingresos = "Ingresos";
+    ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
 
     ctrl.cargarAportantes = function(){
@@ -43,14 +43,28 @@ ctrl.cargarTipoDocumento = function() {
         ).then(function(response) {
           ctrl.documentos = response.data;
         });
-
-
-
         };      
 
   ctrl.cargarTipoDocumento();
   ctrl.cargarAportantes();
   ctrl.cargarUnidadesEjecutoras();
+
+$scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
+            if (!angular.isUndefined(newValue)) {
+                financieraRequest.get('concepto', $.param({
+                    query: "Id:" + newValue.Id,
+                    fields: "Rubro",
+                    limit: -1
+                })).then(function(response) {
+                    console.log(newValue);
+                    console.log(response.data[0].Rubro);
+                    $scope.ingresoRegistroG.concepto[0].Rubro = response.data[0].Rubro;
+                });
+            }
+        }, true);
+
+
+
   });
 
 
