@@ -56,6 +56,7 @@ angular.module('financieraClienteApp')
 
   var reporte = {
     pageSize: 'A4',
+    header: "",
     content: [],
     footer: "",
     styles: {
@@ -85,6 +86,11 @@ angular.module('financieraClienteApp')
       firmas: {
         alignment: "center",
         fontSize: 10
+      },
+      header: {
+        margin: [0,5,0,0],
+        alignment: "center",
+        fontSize: 9
       },
       footer: {
         alignment: "center",
@@ -132,54 +138,47 @@ angular.module('financieraClienteApp')
       var arbolApropiaciones = response.data;
       var apropiaciones = arbolRubrosRecursivo(arbolApropiaciones,[]);
 
-
-      var tabla = {
-        style: 'table',
-        table: {
-          headerRows: 1,
-          dontBreakRows: true,
-          keepWithHeaderRows: 0,
-          body:
-            [
-              [{text: 'Código', style: 'tableHeader'},
-              {text: 'Nombre', style: 'tableHeader'},
-              {text: 'Valor', style: 'tableHeader'}]
-            ]
-        }
-      };
-
-      for (var i = 0; i < apropiaciones.length; i++) {
-        tabla.table.body.push(
-          [
-            { text: apropiaciones[i].Codigo },
-            { text: apropiaciones[i].Nombre },
-            { text: $filter("currency")(apropiaciones[i].Valor), alignment: "right" }
-          ]
-        );
-      }
-
-
-      reporte.content = [
-        { image: escudoUd64.imagen, alignment: 'center', width: 100 },
-        {text: 'Listado de Apropiaciones', style: 'header'},
-        {text: 'Vigencia: '+ctrl.vigencia, style: 'subheader'},
-        {text: 'Entidad: '+ctrl.entidad.Nombre, style: 'subheader'},
-        {text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Nombre, style: 'subheader'},
-        tabla,
-        { text: 'ELABORÓ', style: "firmas" },
-        { text: '[USUARIO_SESIÓN]', bold: true, style: "firmas" }
-      ];
-
       getFechaActual()
         .then(function(data) {
+
+          var tabla = {
+            style: 'table',
+            table: {
+              headerRows: 1,
+              dontBreakRows: true,
+              keepWithHeaderRows: 0,
+              body:
+                [
+                  [{text: 'Código', style: 'tableHeader'},
+                  {text: 'Nombre', style: 'tableHeader'},
+                  {text: 'Valor', style: 'tableHeader'}]
+                ]
+            }
+          };
+
+          for (var i = 0; i < apropiaciones.length; i++) {
+            tabla.table.body.push(
+              [
+                { text: apropiaciones[i].Codigo },
+                { text: apropiaciones[i].Nombre },
+                { text: $filter("currency")(apropiaciones[i].Valor), alignment: "right" }
+              ]
+            );
+          }
+          reporte.header = {text:'Documento generado con usuario [USUARIO_SESIÓN] y fecha ' +data, style: "header"};
           reporte.content.push(
-            { text: "Fecha y hora de impresión: " + data, style: "footer" }
+            {image: escudoUd64.imagen, alignment: 'center', width: 100},
+            {text: 'Listado de Apropiaciones', style: 'header'},
+            {text: 'Vigencia: '+ctrl.vigencia, style: 'subheader'},
+            {text: 'Entidad: '+ctrl.entidad.Nombre, style: 'subheader'},
+            {text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Nombre, style: 'subheader'},
+            tabla
           );
+
           pdfMake.createPdf(reporte).download('Listado_de_apropiaciones.pdf');
         }).catch(function(err) {
           return
-        })
-
+        });
 
     }, function(err) {
       return
@@ -193,7 +192,9 @@ function arbolRubrosRecursivo(arbol,resul) {
     for (var i = 0; i < arbol.length; i++) {
       var obj = {Codigo: arbol[i].Codigo, Nombre: arbol[i].Nombre, Valor: arbol[i].Apropiacion.Valor}
       resTemp.push(obj);
-      arbolRubrosRecursivo(arbol[i].Hijos, resTemp);
+      if (arbol[i].Hijos !== null && arbol[i].Hijos[0].Apropiacion.Valor !== 0) {
+        arbolRubrosRecursivo(arbol[i].Hijos, resTemp);
+      }
     }
   }
   return resTemp;
