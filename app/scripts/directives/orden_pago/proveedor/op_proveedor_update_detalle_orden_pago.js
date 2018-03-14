@@ -7,7 +7,7 @@
  * # ordenPago/proveedor/opProveedorUpdateDetalleOrdenPago
  */
 angular.module('financieraClienteApp')
-  .directive('opProveedorUpdateDetalleOrdenPago', function(financieraRequest, arkaRequest) {
+  .directive('opProveedorUpdateDetalleOrdenPago', function(financieraRequest, arkaRequest, coreRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -21,10 +21,15 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.entrada = {};
+        self.cambiarTipoDocumento = function(documentoName)
+        {
+            $scope.outputnewdataselect.Documento = documentoName['Id'];
+        }
 
         $scope.$watch('inputpreviusdata', function() {
           if ($scope.inputpreviusdata != undefined) {
             $scope.outputnewdataselect = {};
+            $scope.outputnewdataselect.Documento = $scope.inputpreviusdata.Documento;
             $scope.outputnewdataselect.SubTipoOrdenPago = $scope.inputpreviusdata.SubTipoOrdenPago;
             $scope.outputnewdataselect.FormaPago = $scope.inputpreviusdata.FormaPago;
             $scope.outputnewdataselect.ValorBase = $scope.inputpreviusdata.ValorBase;
@@ -45,6 +50,23 @@ angular.module('financieraClienteApp')
                 $scope.outputnewdataselect.EntradaAlmacen = 0;
               }
             }
+            //documento actualizado
+   
+            coreRequest.get('documento',
+              $.param({
+                query: "Id:" + $scope.outputnewdataselect.Documento,
+              })
+              ).then(function(response) {
+                self.documentoName = response.data[0];
+              });        
+            coreRequest.get('documento',
+              $.param({
+                query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True",
+                limit: -1
+              })
+              ).then(function(response) {
+                self.documento = response.data;
+              });         
             //sub_tipo_documentos
             financieraRequest.get('sub_tipo_orden_pago',
               $.param({
@@ -81,6 +103,7 @@ angular.module('financieraClienteApp')
             });
           }
         });
+
         //fin
       },
       controllerAs: 'd_opProveedorUpdateDetalleOrdenPago'

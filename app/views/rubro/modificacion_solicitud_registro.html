@@ -33,17 +33,27 @@
                     <span class="fa fa-minus pull-right" ng-show="a"></span>
             </legend>
             <div class="col-md-6" ng-show="a">
-                <h4 class="text-primary">{{"CUENTA_CREDITO" | translate}}</h4>
-                <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botones" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubroCuentaCreditosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+                <ul class="nav nav-tabs">
+                            <li ng-class="{active: rubroModificacionSolicitudRegistro.selected == 1}"><a href ng-click="rubroModificacionSolicitudRegistro.selected=1" data-toggle="tab">
+                                {{"CUENTA_CREDITO" | translate}}</a>
+                            </li>
+                            <li ng-if="rubroModificacionSolicitudRegistro.tipoModificacion.CuentaContraCredito" ng-class="{active: rubroModificacionSolicitudRegistro.selected == 2}"><a href ng-click="rubroModificacionSolicitudRegistro.selected=2" data-toggle="tab">
+                                {{"CUENTA_CONTRA_CREDITO" | translate}}</a>
+                            </li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==1">
+                               <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botones" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubroCuentaCreditosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+                            </div>
+                            <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==2">
+                               <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botonesccr" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubrosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro_contra_credito" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+                            </div>
+                        </div>
+                
+                
             </div>
-            <div class="col-md-6" ng-if="rubroModificacionSolicitudRegistro.tipoModificacion.CuentaContraCredito">
-                <div  >
-                    <h4 class="text-primary">{{"CUENTA_CONTRA_CREDITO" | translate}}</h4>
-                <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botonesccr" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubrosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro_contra_credito" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
-                </div>
-            </div>
-            <hr>
-            <div class="col-md-6 col-md-offset-3" ng-show="a && rubroModificacionSolicitudRegistro.rubroCuentaCreditosel">
+            <div class="col-md-6" ng-show="a && rubroModificacionSolicitudRegistro.rubroCuentaCreditosel">
                 <div class="panel panel-info panel-body">
                     <div class="panel panel-heading">
                         <h4 class="text-center panel-title">{{"INFORMACION_RUBROS_MODIFICACION_PRES" | translate}}</h4>

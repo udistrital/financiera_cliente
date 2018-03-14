@@ -1,0 +1,38 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'CREACION_COMPROBANTE' | translate }}</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+              <div>
+                <label>{{'SECUENCIA' | translate }}</label>
+                <input type="tel" pattern="[0-9]*" class="form-control" ng-model="crearComprobante.Secuencia" readonly >
+              </div>
+              <div>
+                <label>{{'NO_ITEMS' | translate }}</label>
+                <input type="tel" pattern="[0-9]*" class="form-control" ng-model="crearComprobante.NumeroItems" required>
+              </div>
+              <div>
+                <label>{{'REDONDEO' | translate }}</label>
+                <select class="form-control" ng-model="crearComprobante.redondeo" required>
+                  <option value="">{{'SELECCIONE' | translate }}</option>
+                  <option>{{'SI'|translate}} </option>
+                  <option>{{'NO'|translate}} </option>
+                </select>
+              </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+              <div ui-grid="crearComprobante.TipoComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="crearComprobante.crearComprobante()" class="btn btn-info btn-outline">{{ 'BTN.CREAR' | translate }}</button></div>
+        </div>
+    </div>
+</div>

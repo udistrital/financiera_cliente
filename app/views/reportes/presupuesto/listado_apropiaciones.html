@@ -27,30 +27,5 @@
         </button>
       </form>
 
-      <div id="reporte" ng-if="listadoApropiaciones.mostrarGrid">
-        <h1 class="text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate | uppercase}}</h1>
-        <p class="lead text-center">{{"REPORTES.FECHA_REPORTE" | translate | uppercase}}: {{listadoApropiaciones.fechaActual}}</p>
-
-        <div class="form-group">
-          <div class="row">
-              <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate | uppercase}}:</label>
-              <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.vigencia}}</label>
-          </div>
-          <div class="row">
-            <label class="col-sm-2 col-form-label">{{"ENTIDAD" | translate | uppercase}}:</label>
-            <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.entidad.Nombre}}</label>
-          </div>
-          <div class="row">
-            <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate | uppercase}}:</label>
-            <label class="col-sm-8 col-form-label col-sm-offset-1">{{listadoApropiaciones.unidadEjecutora.Nombre}}</label>
-          </div>
-        </div>
-        <div ui-grid="listadoApropiaciones.gridOptions" ui-grid-pagination></div>
-
-        <button type="button" class="btn btn-primary" ng-click="listadoApropiaciones.makePdf()">{{"BTN.DESCARGAR_PDF" | translate}}</button>
-      </div>
-    </div>
-    <div class="panel-footer">
-        Panel Footer
     </div>
 </div>

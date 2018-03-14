@@ -159,12 +159,12 @@ angular.module('financieraClienteApp')
           angular.forEach(self.alerta, function(data) {
             if (data.Type === "error") {
               if (data.Body !== null){
-                templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
+                templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Movimiento.NumeroMovimiento + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>";
               }else{
                 templateAlert = templateAlert + "<tr class='danger'><td>" + 'N/A' + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + 'N/A' + "</td>"+ "<td>" + 'N/A'+ "</td>";
               }
             } else if (data.Type === "success") {
-              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Movimiento.Id + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>" ;
+              templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Movimiento.NumeroMovimiento + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.Disponibilidad + "</td>"+ "<td>" + data.Body.Apropiacion + "</td>" ;
             }
 
           });

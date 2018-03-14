@@ -469,6 +469,21 @@ angular
               controller: 'ReportesPresupuestoRPCtrl',
               controllerAs: 'rP'
             })
+            .when('/comprobantes/consulta_comprobantes', {
+              templateUrl: 'views/comprobantes/consulta_comprobantes.html',
+              controller: 'ConsultaComprobantesCtrl',
+              controllerAs: 'consultaComprobantes'
+            })
+            .when('/comprobantes/ver_comprobante', {
+              templateUrl: 'views/comprobantes/ver_comprobante.html',
+              controller: 'VerComprobanteCtrl',
+              controllerAs: 'verComprobante'
+            })
+            .when('/comprobantes/crear_comprobante', {
+              templateUrl: 'views/comprobantes/crear_comprobante.html',
+              controller: 'CrearComprobanteCtrl',
+              controllerAs: 'crearComprobante'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
@@ -482,4 +497,7 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
+
+
+
     }]);
