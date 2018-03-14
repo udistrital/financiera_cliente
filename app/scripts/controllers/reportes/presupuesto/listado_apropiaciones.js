@@ -166,7 +166,7 @@ angular.module('financieraClienteApp')
         {text: 'Entidad: '+ctrl.entidad.Nombre, style: 'subheader'},
         {text: 'Unidad Ejecutora: '+ctrl.unidadEjecutora.Nombre, style: 'subheader'},
         tabla,
-        { text: 'ELABORO', style: "firmas" },
+        { text: 'ELABORÓ', style: "firmas" },
         { text: '[USUARIO_SESIÓN]', bold: true, style: "firmas" }
       ];
 
