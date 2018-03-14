@@ -474,10 +474,10 @@ angular
               controller: 'ConsultaComprobantesCtrl',
               controllerAs: 'consultaComprobantes'
             })
-            .when('/comprobantes/ver_comprobante', {
-              templateUrl: 'views/comprobantes/ver_comprobante.html',
-              controller: 'VerComprobanteCtrl',
-              controllerAs: 'verComprobante'
+            .when('/comprobantes/detalle_comprobante', {
+              templateUrl: 'views/comprobantes/detalle_comprobante.html',
+              controller: 'DetalleComprobanteCtrl',
+              controllerAs: 'detalleComprobante'
             })
             .when('/comprobantes/crear_comprobante', {
               templateUrl: 'views/comprobantes/crear_comprobante.html',
