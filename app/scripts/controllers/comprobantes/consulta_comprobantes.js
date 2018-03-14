@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ConsultaComprobantesCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
+  .controller('ConsultaComprobantesCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest,$location,$route) {
   	var ctrl = this;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -79,7 +79,8 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.crearComprobante = function(){
-          alert("Creacion de comprobante")
+          $location.path('/comprobantes/crear_comprobante');
+          $route.reload()
         };
 
     });
