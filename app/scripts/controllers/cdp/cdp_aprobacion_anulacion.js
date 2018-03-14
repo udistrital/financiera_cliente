@@ -43,8 +43,9 @@ angular.module('financieraClienteApp')
       })).then(function(response){
         self.gridOptions.data = response.data;
         angular.forEach(self.gridOptions.data, function(data){
-          financieraMidRequest.get('disponibilidad/SolicitudById/'+data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Solicitud,'').then(function(response) {
-            data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data[0];
+          financieraMidRequest.get('disponibilidad/SolicitudById/'+data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno,'').then(function(response) {
+            data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
+            console.log("Data: ", response.data);
           });
         });
       });
@@ -136,7 +137,7 @@ angular.module('financieraClienteApp')
         });
     };
 
-    self.gridOptions.onRegisterApi = function(gridApi){
+    /*self.gridOptions.onRegisterApi = function(gridApi){
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope,function(row){
         $("#myModal").modal();
@@ -182,7 +183,7 @@ angular.module('financieraClienteApp')
 
         });
       });
-    };
+    };*/
 
 
     self.solicitarAnulacion = function(){
