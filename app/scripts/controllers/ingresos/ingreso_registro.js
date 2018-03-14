@@ -159,11 +159,11 @@ angular.module('financieraClienteApp')
 
         ctrl.ejecutarIngresos = function(){
             if($scope.otro){
-                console.log('going on income transfer');
+                
                 $location.path('/ingresos/ingreso_registroG/'+ctrl.tipoIngresoSelec.Nombre);
             }else{
-                console.log('going on pay consulting');
-                consultarPagos();
+            
+                ctrl.consultarPagos();
             }
 
         }
