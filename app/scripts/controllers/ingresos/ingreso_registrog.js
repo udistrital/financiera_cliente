@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
     $scope.valorDescIng = $routeParams.tipoIngreso;
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
+    ctrl.fechaDocumento = new Date();
 
     ctrl.cargarAportantes = function(){
 
