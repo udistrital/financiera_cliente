@@ -5,19 +5,19 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div align="center" class="panel panel-default">
-                    Tipo: R-6
+                    Tipo: {{detalleComprobante.comprobante.CodigoAbreviacion}}
                     <br>
-                    Nombre: Ingresos Tercero
+                    Nombre: {{detalleComprobante.comprobante.Nombre}}
                     <br>
-                    Número: 276
+                    Número: {{detalleComprobante.comprobante.Secuencia}}
                     <br>
-                    Fecha: 2018 / Mayo / 26
+                    Fecha: {{detalleComprobante.comprobante.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}
                 </div>
             </div>
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="detalleComprobante.Comprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
         </div>
         <br>
         <div class="row">
