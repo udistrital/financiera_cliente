@@ -79,6 +79,11 @@ angular.module('financieraClienteApp')
       firmas: {
         alignment: "center",
         fontSize: 10
+      },
+      footer: {
+        alignment: "right",
+        fontSize: 8,
+        margin: [0,0,10,-2]
       }
     };
     var reporte = { content: [], styles: estilos };
@@ -130,6 +135,17 @@ angular.module('financieraClienteApp')
       });
     });
 
+    function getFechaActual() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get("orden_pago/FechaActual/01-02-2006 15:04:05 PM").then(function(response) {
+        defered.resolve(response.data);
+       }, function(err) {
+         defered.reject(err)
+       });
+       return promise;
+    }
 
     function asynMovFuenteFinanApropiacion() {
       var defered = $q.defer();
@@ -176,35 +192,40 @@ angular.module('financieraClienteApp')
               .then(function(data) {
                 var valor_total = data;
 
-                financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+ctrl.vigencia+ "?", 'limit=-1&UnidadEjecutora='+ctrl.unidadEjecutora.Id+'&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+ctrl.fuenteFinanciamiento.Id).then(function(response) {
-                  var fuente_cdp = response.data;
-                  var totalCdp = 0;
-                  var fuente_cdp_tabla = [];
-                  var tempCdp;
-                  for (var i = 0; i < fuente_cdp.length; i++) {
-                    if (fuente_cdp[i].Solicitud.SolicitudDisponibilidad.Necesidad.Numero === ctrl.necesidad) {
-                      fuente_cdp_tabla = fuente_cdp[i];
-                    } else {
-                      for (var j = 0; j < fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
-                        fuente_cdp[i].DisponibilidadApropiacion[0] = fuente_cdp[i].DisponibilidadApropiacion[j];
-                        totalCdp += fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
+                getFechaActual()
+                  .then(function(data) {
+                    reporte.footer = {text:'Documento generado con usuario [USUARIO_SESIÓN] y fecha ' +data, style: "footer"};
+
+                    financieraMidRequest.get('disponibilidad/ListaDisponibilidades/'+ctrl.vigencia+ "?", 'limit=-1&UnidadEjecutora='+ctrl.unidadEjecutora.Id+'&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+ctrl.fuenteFinanciamiento.Id).then(function(response) {
+                      var fuente_cdp = response.data;
+                      var totalCdp = 0;
+                      var fuente_cdp_tabla = [];
+                      var tempCdp;
+                      for (var i = 0; i < fuente_cdp.length; i++) {
+                        if (fuente_cdp[i].Solicitud.SolicitudDisponibilidad.Necesidad.Numero === ctrl.necesidad) {
+                          fuente_cdp_tabla = fuente_cdp[i];
+                        } else {
+                          for (var j = 0; j < fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
+                            fuente_cdp[i].DisponibilidadApropiacion[0] = fuente_cdp[i].DisponibilidadApropiacion[j];
+                            totalCdp += fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
+                          }
+                        }
                       }
-                    }
-                  }
 
-                  if (fuente_cdp_tabla.DisponibilidadApropiacion[0].Disponibilidad.NumeroDisponibilidad === 1) {
-                    var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor;
-                  } else {
-                    var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - (totalCdp + fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor);
-                  }
+                      if (fuente_cdp_tabla.DisponibilidadApropiacion[0].Disponibilidad.NumeroDisponibilidad === 1) {
+                        var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor;
+                      } else {
+                        var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - (totalCdp + fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor);
+                      }
 
-                  construirReporte(fuente_cdp_tabla, totalCdp, valorDisponible, fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor);
-                });
-
+                      construirReporte(fuente_cdp_tabla, totalCdp, valorDisponible, fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor);
+                    });
+                  }).catch(function(err) {
+                    return
+                  });
               }).catch(function(err) {
                 return
               });
-
           }).catch(function(err) {
             return
           });
