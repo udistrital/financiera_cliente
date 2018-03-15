@@ -184,7 +184,6 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('crearConcepto.tipo_concepto', function() {
       $scope.filtro_padre = self.tipo_concepto.Nombre;
-      console.log(self.tipo_concepto.Nombre);
       self.padre = undefined;
       $scope.nodo = undefined;
     }, true);
