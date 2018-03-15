@@ -8,14 +8,16 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DetalleComprobanteCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
+  .controller('DetalleComprobanteCtrl', function ($localStorage, $scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
+    ctrl.comprobante = $localStorage.comprobante;
+  
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-      { clase_color: "borrar", clase_css: "fa fa-times-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.CONSULTAR'), operacion: 'inactive', estado: true }
+      { clase_color: "borrar", clase_css: "fa fa-times-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'inactive', estado: true }
     ];
 
-    ctrl.Comprobantes = {
+    ctrl.RegistroComprobantes = {
         enableFiltering: true,
         enableSorting: true,
         enableRowSelection: true,
@@ -31,21 +33,20 @@ angular.module('financieraClienteApp')
             { field: 'SubcentroCosto',displayName: $translate.instant('SUBCENTRO_COSTO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Tercero',displayName: $translate.instant('INFORMACION_TERCERO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'CuentaContable.Tipo',displayName: $translate.instant('TIPO_CUENTA'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'Valor',displayName: $translate.instant('VALOR'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'Valor',displayName: $translate.instant('VALOR'), cellClass: 'input_center', cellFilter: 'currency',headerCellClass: 'text-info' },
             {
                 field: 'Opciones',
-                cellTemplate: '<center>' +
-                    ' <a type="button" class="editar" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,false)" > ' +
-                    '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
-                    ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,true)" >' +
-                    '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
-                headerCellClass: 'text-info',
-                enableFiltering: false
+                displayName: $translate.instant('OPCIONES'),
+                cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
+                headerCellClass: 'text-info'
             }
         ]
 
     };
 
+        financieraRequest.get('registro_comprobantes','limit=-1?query=Comprobante:'+ctrl.comprobante.Id).then(function(response) {
+          ctrl.RegistroComprobantes.data = response.data;
+        });
 
         $scope.loadrow = function(row, operacion) {
             self.operacion = operacion;
@@ -63,8 +64,8 @@ angular.module('financieraClienteApp')
 
         };
 
-        ctrl.crearComprobante = function(){
-          alert("Creacion de comprobante")
+        ctrl.crearRegistro = function(){
+          alert("Creacion registro")
         };
 
     });
