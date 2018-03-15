@@ -193,27 +193,30 @@ angular.module('financieraClienteApp')
               var datosCrp;
               var fuente_crp = response.data;
               var totalCrp = 0;
-
+              // console.log(fuente_crp);
               for (var i = 0; i < fuente_crp.length; i++) {
-                if (fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad === ctrl.numCdp) {
+                if (fuente_crp[i].NumeroRegistroPresupuestal === ctrl.numCrp) {
                   datosCrp = fuente_crp[i];
                 } else {
                   for (var j = 0; j < fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
-                    fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
+                    if (datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad === fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad) {
+                      fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
+                      totalCrp += fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j].Valor;
+                    }
                   }
                 }
               }
-
+              
               if (datosCrp.NumeroRegistroPresupuestal === 1) {
-                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor;
+                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor;
               } else {
-                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor);
+                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor);
               }
 
               asynProvedor(datosCrp.Beneficiario)
                 .then(function(data) {
                   var beneficiario = data;
-                  construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Valor, beneficiario);
+                  construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor, beneficiario);
                 }).catch(function(err) {
                   return
                 });
@@ -259,14 +262,14 @@ angular.module('financieraClienteApp')
           tabla.table.body.push(
             [{ text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Codigo, style: 'table_content' },
             { text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre, style: 'table_content' },
-            { text: $filter('currency')(datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor), style: 'table_content' }]
+            { text: $filter('currency')(datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor), style: 'table_content' }]
           );
         return tabla
         }()
       );
 
       reporte.content.push(
-        { text: 'Valor Apropiacion: '+$filter('currency')(valorTotal), style: 'valores' },
+        { text: 'Valor CDP: '+$filter('currency')(valorTotal), style: 'valores' },
         { text: 'Valor Disponible: '+$filter('currency')(valorDisponible), style: 'valores' }
       );
 
