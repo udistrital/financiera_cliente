@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="fechaDocumento">{{'FECHA_DOCUMENTO'|translate}}</label>
                         <br>
-                        <md-datepicker ng-model="" md-placeholder="{{'FECHA_DOCUMENTO'|translate}}"></md-datepicker>
+                        <md-datepicker ng-model="ingresoRegistroG.fechaDocumento" md-placeholder="{{'FECHA_DOCUMENTO'|translate}}"></md-datepicker>
                         </div>
                     </div>
                     </div>
@@ -75,7 +75,8 @@
                 <div class="col-md-6">
 
                     <div class="form-group">
-                        <arbol-conceptos filtro="ingresoRegistroG.filtro_ingresos" seleccion="ingresoRegistroG.concepto[0]" conceptosel="nodo"></arbol-conceptos>
+                        <arbol-conceptos filtro="ingresoRegistroG.filtro_ingresos" seleccion="ingresoRegistroG.concepto[0]" conceptosel="nodo"
+                        </arbol-conceptos>
                     </div>
                 </div>
 
