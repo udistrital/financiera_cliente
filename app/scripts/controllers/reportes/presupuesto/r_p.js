@@ -79,9 +79,14 @@ angular.module('financieraClienteApp')
       firmas: {
         alignment: "center",
         fontSize: 10
+      },
+      footer: {
+        alignment: "right",
+        fontSize: 8,
+        margin: [0,0,10,-2]
       }
     };
-    var reporte = { content: [], styles: estilos };
+    var reporte = { content: [], footer: "", styles: estilos };
 
     // Imagen UD
     $http.get("scripts/models/imagen_ud.json").then(function(response) {
@@ -129,6 +134,18 @@ angular.module('financieraClienteApp')
           });
       });
     });
+
+    function getFechaActual() {
+      var defered = $q.defer();
+      var promise = defered.promise;
+
+      financieraRequest.get("orden_pago/FechaActual/01-02-2006 15:04:05 PM").then(function(response) {
+        defered.resolve(response.data);
+       }, function(err) {
+         defered.reject(err)
+       });
+       return promise;
+    }
 
     function asynMovFuenteFinanApropiacion() {
       var defered = $q.defer();
@@ -184,39 +201,49 @@ angular.module('financieraClienteApp')
         .then(function(data) {
           entidad = data;
 
-        financieraMidRequest.get('registro_presupuestal/ListaRp/'+ctrl.vigencia, $.param({
-          limit: -1,
-          UnidadEjecutora: ctrl.unidadEjecutora.Id,
-          query: "RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:"+ctrl.fuenteFinanciamiento.Id
-        })).then(function(response) {
+          getFechaActual()
+            .then(function(data) {
+              reporte.footer = {text:'Documento generado con usuario [USUARIO_SESIÓN] y fecha ' +data, style: "footer"};
 
-              var datosCrp;
-              var fuente_crp = response.data;
-              var totalCrp = 0;
+              financieraMidRequest.get('registro_presupuestal/ListaRp/'+ctrl.vigencia, $.param({
+                limit: -1,
+                UnidadEjecutora: ctrl.unidadEjecutora.Id,
+                query: "RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:"+ctrl.fuenteFinanciamiento.Id
+              })).then(function(response) {
 
-              for (var i = 0; i < fuente_crp.length; i++) {
-                if (fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad === ctrl.numCdp) {
-                  datosCrp = fuente_crp[i];
-                } else {
-                  for (var j = 0; j < fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
-                    fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
-                  }
-                }
-              }
+                    var datosCrp;
+                    var fuente_crp = response.data;
+                    var totalCrp = 0;
+                    console.log(fuente_crp);
+                    for (var i = 0; i < fuente_crp.length; i++) {
+                      if (fuente_crp[i].NumeroRegistroPresupuestal === ctrl.numCrp) {
+                        datosCrp = fuente_crp[i];
+                      } else {
+                        for (var j = 0; j < fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
+                          if (datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad === fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad) {
+                            fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
+                            totalCrp += fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j].Valor;
+                          }
+                        }
+                      }
+                    }
 
-              if (datosCrp.NumeroRegistroPresupuestal === 1) {
-                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor;
-              } else {
-                var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor);
-              }
+                    if (datosCrp.NumeroRegistroPresupuestal === 1) {
+                      var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor;
+                    } else {
+                      var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor);
+                    }
 
-              asynProvedor(datosCrp.Beneficiario)
-                .then(function(data) {
-                  var beneficiario = data;
-                  construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Valor, beneficiario);
+                    asynProvedor(datosCrp.Beneficiario)
+                      .then(function(data) {
+                        var beneficiario = data;
+                        construirReporte(datosCrp, totalCrp, valorDisponible, datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor, beneficiario);
+                      }).catch(function(err) {
+                        return
+                      });
                 }).catch(function(err) {
-                  return
-                });
+                return
+            });
 
             }).catch(function(err) {
               return
@@ -259,14 +286,14 @@ angular.module('financieraClienteApp')
           tabla.table.body.push(
             [{ text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Codigo, style: 'table_content' },
             { text: datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.Nombre, style: 'table_content' },
-            { text: $filter('currency')(datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor), style: 'table_content' }]
+            { text: $filter('currency')(datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor), style: 'table_content' }]
           );
         return tabla
         }()
       );
 
       reporte.content.push(
-        { text: 'Valor Apropiacion: '+$filter('currency')(valorTotal), style: 'valores' },
+        { text: 'Valor CDP: '+$filter('currency')(valorTotal), style: 'valores' },
         { text: 'Valor Disponible: '+$filter('currency')(valorDisponible), style: 'valores' }
       );
 
