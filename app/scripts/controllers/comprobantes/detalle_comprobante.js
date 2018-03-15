@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('VerComprobanteCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
+  .controller('DetalleComprobanteCtrl', function ($scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -32,7 +32,16 @@ angular.module('financieraClienteApp')
             { field: 'Tercero',displayName: $translate.instant('INFORMACION_TERCERO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'CuentaContable.Tipo',displayName: $translate.instant('TIPO_CUENTA'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Valor',displayName: $translate.instant('VALOR'), cellClass: 'input_center', headerCellClass: 'text-info' },
-
+            {
+                field: 'Opciones',
+                cellTemplate: '<center>' +
+                    ' <a type="button" class="editar" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,false)" > ' +
+                    '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
+                    ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.cdpConsulta.verDisponibilidad(row,true)" >' +
+                    '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
+                headerCellClass: 'text-info',
+                enableFiltering: false
+            }
         ]
 
     };
