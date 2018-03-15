@@ -12,7 +12,6 @@ angular.module('financieraClienteApp')
     var ctrl = this;
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
-    $scope.vtitle = true;
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
 
@@ -43,7 +42,7 @@ ctrl.cargarTipoDocumento = function() {
         ).then(function(response) {
           ctrl.documentos = response.data;
         });
-        };      
+        };
 
   ctrl.cargarTipoDocumento();
   ctrl.cargarAportantes();
@@ -66,5 +65,3 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
 
 
   });
-
-
