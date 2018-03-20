@@ -14,11 +14,12 @@ angular.module('financieraClienteApp')
     $scope.valorDescIng = $routeParams.tipoIngreso;
 
     ctrl.registrar= false;
-    ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
     ctrl.fechaDocumento = new Date();
 
     ctrl.FormaIngreso = ingresoDoc.get();
+
+    console.log(ctrl.FormaIngreso);
 
     ctrl.cargarAportantes = function(){
 
@@ -68,7 +69,6 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
         }, true);
 
         ctrl.registrarIngreso = function() {
-          console.log("ingreso registro");
           ctrl.registrar= true;
                 ctrl.ingreso = {
                     Ingreso: {
@@ -77,17 +77,17 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                         FechaFin: ctrl.fechaFin,
                         Observaciones: ctrl.observaciones,
                         UnidadEjecutora: ctrl.unidadejecutora,
-                        aportante: ctrl.aportanteSelec.id
+                        aportante: Number(ctrl.aportanteSelec.Id), 
+                        NumCuenta: ctrl.numeroCuenta.toString()
                     },
                     DocumentoGenerador:{
                         NumDocumento:ctrl.numDoc,
                         FechaDocumento:ctrl.fechaDocumento,
-                        TipoDocumento:ctl.documentoSelec.Id
+                        TipoDocumento:ctrl.documentoSelec.Id
                     },
                     IngresoBanco: ctrl.total,
                     Concepto: ctrl.concepto[0]
                 };
-
                 angular.forEach(ctrl.movs, function(data) {
                     delete data.Id;
                 });
