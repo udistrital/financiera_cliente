@@ -60,7 +60,8 @@ angular
         'arkaService',
         'configuracionService',
         "wso2Service",
-        "requestService"
+        "requestService",
+        "ingresoDocServ"
     ])
 
 .run(function(amMoment) {

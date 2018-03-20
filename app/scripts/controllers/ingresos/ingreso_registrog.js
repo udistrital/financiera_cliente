@@ -8,13 +8,17 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest) {
+  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,ingresoDoc) {
     var ctrl = this;
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
+
+    ctrl.registrar= false;
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
     ctrl.fechaDocumento = new Date();
+
+    ctrl.FormaIngreso = ingresoDoc.get();
 
     ctrl.cargarAportantes = function(){
 
@@ -63,6 +67,53 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
             }
         }, true);
 
+        ctrl.registrarIngreso = function() {
+          console.log("ingreso registro");
+          ctrl.registrar= true;
+                ctrl.ingreso = {
+                    Ingreso: {
+                        FormaIngreso:ctrl.FormaIngreso,
+                        FechaInicio: ctrl.fechaInicio,
+                        FechaFin: ctrl.fechaFin,
+                        Observaciones: ctrl.observaciones,
+                        UnidadEjecutora: ctrl.unidadejecutora,
+                        aportante: ctrl.aportanteSelec.id
+                    },
+                    DocumentoGenerador:{
+                        NumDocumento:ctrl.numDoc,
+                        FechaDocumento:ctrl.fechaDocumento,
+                        TipoDocumento:ctl.documentoSelec.Id
+                    },
+                    IngresoBanco: ctrl.total,
+                    Concepto: ctrl.concepto[0]
+                };
+
+                angular.forEach(ctrl.movs, function(data) {
+                    delete data.Id;
+                });
+                ctrl.ingreso.Movimientos = ctrl.movs;
+                console.log(ctrl.ingreso);
+                financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
+                    if (response.data.Type !== undefined) {
+                        if (response.data.Type === "error") {
+                            swal('', $translate.instant(response.data.Code), response.data.Type);
+                        } else {
+                            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
+
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" ;
+
+                            swal('', templateAlert, response.data.Type);
+                        }
+                    }
+                }).finally(function() {
+                    ctrl.pagos = undefined;
+                    ctrl.tipoIngresoSelec = undefined;
+                    ctrl.observaciones = undefined;
+                    ctrl.unidadejecutora = undefined;
+                    ctrl.concepto = undefined;
+                    ctrl.registrar= false;
+                });
+        };
 
 
   });
