@@ -8,10 +8,23 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest) {
+  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
         var self = this;
         self.nuevo_calendario = {};
+        $scope.btneditar=$translate.instant('BTN.EDITAR');
+        self.cargar_plan_maestro = function() {
+          financieraRequest.get("plan_cuentas", $.param({
+            query: "PlanMaestro:" + true
+          })).then(function(response) {
+            self.plan_maestro = response.data[0]; //Se carga data devuelta por el servicio en la variable del controlador plan_maestro
+          });
+        };
 
+        self.cargar_plan_maestro();
+
+        $scope.$watch("gestionPlanCuentas.padre", function(){
+          $location.path('plan_cuentas/editar_cuenta/'+self.padre.Codigo);       
+        },true);
         /**
          * @ngdoc function
          * @name financieraClienteApp.controller:saldosInicialesCtrl#cargar_vigencia
@@ -68,8 +81,8 @@ angular.module('financieraClienteApp')
                     width: '15%'
                 },
                 {
-                    field: 'Descripcion',
-                    displayName: $translate.instant('DESCRIPCION'),
+                    field: 'Saldo',
+                    displayName: $translate.instant('SALDO'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '30%'
                 },
@@ -88,8 +101,8 @@ angular.module('financieraClienteApp')
                     width: '9%'
                 },
                 {
-                    field: 'Responsable',
-                    displayName: $translate.instant('RESPONSABLE'),
+                    field: 'CuentaContable',
+                    displayName: $translate.instant('CUENTA_CONTABLE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '14%'
                 },
@@ -105,7 +118,7 @@ angular.module('financieraClienteApp')
                     width: '7%',
                     cellTemplate: '<center>' + '<a href="#/calendario_tributario/admin_calendario/{{row.entity.Id}}" class="ver">' +
                         '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-                        '<a href="" class="editar" ng-click="grid.appScope.saldosIniciales.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
+                        '<a href="" class="editar" ng-click="grid.appScope.saldosIniciales.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalformP">' +
                         '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
                         '</center>'
                 }
