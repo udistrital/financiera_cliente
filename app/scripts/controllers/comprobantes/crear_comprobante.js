@@ -16,10 +16,11 @@ angular.module('financieraClienteApp')
         enableFiltering: true,
         enableSorting: true,
         enableRowSelection: true,
-        enableRowHeaderSelection: false,
+        enableRowHeaderSelection: true,
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 10,
         useExternalPagination: true,
+
         columnDefs: [
             { field: 'Id', visible: false },
             { field: 'CodigoAbreviacion',displayName: $translate.instant('CODIGO'), cellClass: 'input_center', headerCellClass: 'text-info' },
@@ -31,6 +32,16 @@ angular.module('financieraClienteApp')
             ]
     };
 
+    ctrl.TipoComprobantes.multiSelect = false;
 
+    financieraRequest.get('tipo_comprobante','').then(function(response) {
+      ctrl.TipoComprobantes.data = response.data;
+    });
+
+    ctrl.crearComprobante = function (){
+      alert("creación de comprobante")
+    };
+
+  
 
     });
