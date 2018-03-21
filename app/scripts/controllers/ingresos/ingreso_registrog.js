@@ -19,7 +19,7 @@ angular.module('financieraClienteApp')
 
     ctrl.FormaIngreso = ingresoDoc.get();
 
-    console.log(ctrl.FormaIngreso);
+    ctrl.filtro_ingresos = "Ingreso";
 
     ctrl.cargarAportantes = function(){
 
@@ -61,8 +61,6 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                     fields: "Rubro",
                     limit: -1
                 })).then(function(response) {
-                    console.log(newValue);
-                    console.log(response.data[0].Rubro);
                     $scope.ingresoRegistroG.concepto[0].Rubro = response.data[0].Rubro;
                 });
             }
