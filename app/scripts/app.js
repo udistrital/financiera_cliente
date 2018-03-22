@@ -485,6 +485,11 @@ angular
               controller: 'CrearComprobanteCtrl',
               controllerAs: 'crearComprobante'
             })
+            .when('/comprobantes/crear_tipo_comprobante', {
+              templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
+              controller: 'CrearTipoComprobanteCtrl',
+              controllerAs: 'crearTipoComprobante'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
