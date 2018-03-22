@@ -489,7 +489,12 @@ angular
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
               controllerAs: 'cierrePeriodo'
-          })
+            })
+            .when('/bancos/saldos_iniciales', {
+              templateUrl: 'views/bancos/saldos_iniciales.html',
+              controller: 'BancosSaldosInicialesCtrl',
+              controllerAs: 'saldosIniciales'
+            })
             .when('/ingresos/ingreso_registroG/:tipoIngreso', {
               templateUrl: 'views/ingresos/ingreso_registrog.html',
               controller: 'IngresosIngresoRegistrogCtrl',
