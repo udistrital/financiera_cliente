@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
 
     $scope.botones_inactivo = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-      { clase_color: "add", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.ACTIVAR'), operacion: 'active', estado: true }
+      { clase_color: "activar", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.ACTIVAR'), operacion: 'active', estado: true }
     ];
 
 
@@ -65,10 +65,10 @@ angular.module('financieraClienteApp')
                   $('#modal_edicion').modal('show');
                   break;
               case "inactive":
-                  $scope.inactivar(row);
+                  ctrl.inactivar(row);
                   break;
               case "active":
-                  $scope.activar(row);
+                  ctrl.activar(row);
                   break;
               default:
           }
@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
             console.log(response.data)
             if (typeof(response.data) == "object") {
               swal({
-                  html: "Comprobante creado correctamente",
+                  html: $translate.instant('ALERTA_CREACION_COM_CORRECTA'),
                   type: "success",
                   showCancelButton: false,
                   confirmButtonColor: "#449D44",
@@ -105,7 +105,7 @@ angular.module('financieraClienteApp')
               })
           } else {
               swal({
-                  html: "Error al crear comprobante",
+                  html: $translate.instant('ALERTA_CREACION_COM_INCORRECTA'),
                   type: "error",
                   showCancelButton: false,
                   confirmButtonColor: "#449D44",
@@ -129,6 +129,146 @@ angular.module('financieraClienteApp')
 
 
     };
+
+    ctrl.activar = function(row){
+      ctrl.id_edicion = row.entity.Id
+      ctrl.nombre_comprobante_edicion = row.entity.Nombre
+      ctrl.descripcion_comprobante_edicion = row.entity.Descripcion
+      ctrl.codigo_comprobante_edicion = row.entity.CodigoAbreviacion
+      ctrl.activo_edicion = Boolean("true")
+      ctrl.unidad_ejecutora_edicion = row.entity.UnidadEjecutora
+      ctrl.entidad_edicion = row.entity.Entidad
+
+      swal({
+          html: $translate.instant('CONFIRMACION_EDICION_COMPROBANTE') +
+              "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
+              "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
+              "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#449D44",
+          cancelButtonColor: "#C9302C",
+          confirmButtonText: $translate.instant('CONFIRMAR'),
+          cancelButtonText: $translate.instant('CANCELAR'),
+      }).then(function() {
+
+        var comprobante_activar = {
+          Id: ctrl.id_edicion,
+          Nombre : ctrl.nombre_comprobante_edicion,
+          Descripcion:   ctrl.descripcion_comprobante_edicion,
+          CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
+          Activo: ctrl.activo_edicion,
+          UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
+          Entidad: parseInt(ctrl.entidad_edicion)
+        };
+
+          financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
+
+              if (response.data == "OK") {
+                  swal({
+                      html: "Actualizado correctamente",
+                      type: "success",
+                      showCancelButton: false,
+                      confirmButtonColor: "#449D44",
+                      confirmButtonText: $translate.instant('VOLVER'),
+                  }).then(function() {
+                      $('#modal_edicion').modal('hide');
+                      $window.location.reload()
+                  })
+              } else {
+                  swal({
+                      html: "Error al actualizar",
+                      type: "error",
+                      showCancelButton: false,
+                      confirmButtonColor: "#449D44",
+                      confirmButtonText: $translate.instant('VOLVER'),
+                  }).then(function() {
+                      $('#modal_edicion').modal('hide');
+                      $window.location.reload()
+                  })
+              }
+          });
+
+      }, function(dismiss) {
+          if (dismiss === 'cancel') {
+
+              alert("")
+              // $window.location.reload()
+          }
+      })
+
+   };
+
+   ctrl.inactivar = function(row){
+     ctrl.id_edicion = row.entity.Id
+     ctrl.nombre_comprobante_edicion = row.entity.Nombre
+     ctrl.descripcion_comprobante_edicion = row.entity.Descripcion
+     ctrl.codigo_comprobante_edicion = row.entity.CodigoAbreviacion
+     ctrl.activo_edicion = Boolean(false)
+     ctrl.unidad_ejecutora_edicion = row.entity.UnidadEjecutora
+     ctrl.entidad_edicion = row.entity.Entidad
+     console.log("hola"+ctrl.activo_edicion)
+
+     swal({
+         html: $translate.instant('CONFIRMACION_EDICION') +
+             "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
+             "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
+             "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
+         type: "warning",
+         showCancelButton: true,
+         confirmButtonColor: "#449D44",
+         cancelButtonColor: "#C9302C",
+         confirmButtonText: $translate.instant('CONFIRMAR'),
+         cancelButtonText: $translate.instant('CANCELAR'),
+     }).then(function() {
+
+       var comprobante_activar = {
+         Id: ctrl.id_edicion,
+         Nombre : ctrl.nombre_comprobante_edicion,
+         Descripcion:   ctrl.descripcion_comprobante_edicion,
+         CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
+         Activo: ctrl.activo_edicion,
+         UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
+         Entidad: parseInt(ctrl.entidad_edicion)
+       };
+
+       console.log(comprobante_activar)
+         financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
+
+             if (response.data == "OK") {
+                 swal({
+                     html: "Actualizado correctamente",
+                     type: "success",
+                     showCancelButton: false,
+                     confirmButtonColor: "#449D44",
+                     confirmButtonText: $translate.instant('VOLVER'),
+                 }).then(function() {
+                     $('#modal_edicion').modal('hide');
+                     $window.location.reload()
+                 })
+             } else {
+                 swal({
+                     html: "Error al actualizar",
+                     type: "error",
+                     showCancelButton: false,
+                     confirmButtonColor: "#449D44",
+                     confirmButtonText: $translate.instant('VOLVER'),
+                 }).then(function() {
+                     $('#modal_edicion').modal('hide');
+                     $window.location.reload()
+                 })
+             }
+         });
+
+     }, function(dismiss) {
+         if (dismiss === 'cancel') {
+
+             $('#modal_edicion').modal('hide');
+             // $window.location.reload()
+         }
+     })
+
+  };
 
     ctrl.actualizarComprobante = function(row) {
 
