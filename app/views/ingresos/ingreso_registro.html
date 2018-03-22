@@ -5,22 +5,22 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div ng-class="{true:'col-md-6',false:'col-md-3'}[otro]">
                             <label for="tipo_ingreso">{{'TIPO_INGRESO' | translate}}</label>
                             <br>
                             <select class="form-control" ng-model="ingresoRegistro.tipoIngresoSelec" ng-options="o as o.Nombre for o in ingresoRegistro.tiposIngreso"></select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" ng-show="!otro">
                             <label for="tipo_ingreso">{{'FACULTAD' | translate}}</label>
                             <br>
                             <select class="form-control" ng-model="ingresoRegistro.facultadSelec" ng-options="o as o.Nombre for o in ingresoRegistro.codigo_facultad"></select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" ng-show="!otro">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
                             <br>
                             <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}"></md-datepicker>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2" ng-show="!otro">
                             <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
                             <br>
                             <md-datepicker ng-model="ingresoRegistro.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}"></md-datepicker>
@@ -28,7 +28,7 @@
                         <div class="col-md-2">
                             <br>
                             <center>
-                                <a type="button" name="button" ng-click="ingresoRegistro.consultarPagos()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                                <a type="button" name="button" ng-click="ingresoRegistro.ejecutarIngresos()" ng-class="{false:'fa fa-search btn btn-info btn-outline',true:'fa fa-check btn btn-info btn-outline'}[otro]" aria-hidden="true"></a>
                             </center>
                         </div>
                     </div>
