@@ -185,8 +185,10 @@ angular.module('financieraClienteApp')
                 rubros_data.Saldo = response.data;
               });
                 
-                
+                if ( data.InfoSolicitudDisponibilidad != undefined &&  data.InfoSolicitudDisponibilidad != null){
+
                   self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
+                }
                   
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
