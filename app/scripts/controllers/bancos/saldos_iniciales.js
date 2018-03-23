@@ -45,7 +45,7 @@ angular.module('financieraClienteApp')
          */
         self.cargar_vigencia = function() {
             financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
-                self.vigencia_calendarios = parseInt(response.data);
+                self.vigencia_saldos = parseInt(response.data);
                 var year = parseInt(response.data) + 1;
                 self.vigencias = [];
                 for (var i = 0; i < 5; i++) {
@@ -211,10 +211,10 @@ angular.module('financieraClienteApp')
             if ($scope.editar === true) {
                 financieraRequest.put('calendario_tributario', self.nuevo_saldo.Id, self.nuevo_saldo).then(function(response) {
                     console.log(response);
-                    if (self.vigencia_calendarios === null) {
+                    if (self.vigencia_saldos === null) {
                         self.cargar_calendarios_full();
                     } else {
-                        self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+                        self.cargar_calendarios_vigencia(self.vigencia_saldos);
                     }
                 });
             } else {
@@ -229,10 +229,10 @@ angular.module('financieraClienteApp')
                 };
 
                 financieraRequest.post('calendario_tributario', nuevo).then(function(response) {
-                    if (self.vigencia_calendarios === null) {
+                    if (self.vigencia_saldos === null) {
                         self.cargar_calendarios_full();
                     } else {
-                        self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+                        self.cargar_calendarios_vigencia(self.vigencia_saldos);
                     }
                 });
             }
@@ -292,17 +292,17 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc event
-         * @name financieraClienteApp.controller:saldosInicialesCtrl#watch_on_vigencia_calendarios
+         * @name financieraClienteApp.controller:saldosInicialesCtrl#watch_on_vigencia_saldos
          * @eventOf financieraClienteApp.controller:saldosInicialesCtrl
-         * @param {var} vigencia_calendarios Vigencia seleccionada para la carga de calendarios
+         * @param {var} vigencia_saldos Vigencia seleccionada para la carga de calendarios
          * @description
          * Comprueba si la variable vigencia cambia para volver a cargar el grid con los datos correspondientes
          */
-        $scope.$watch('saldosIniciales.vigencia_calendarios', function() {
-            if (self.vigencia_calendarios === null) { //Si no existe vigencia realiza la carga de todos los calendarios
+        $scope.$watch('saldosIniciales.vigencia_saldos', function() {
+            if (self.vigencia_saldos === null) { //Si no existe vigencia realiza la carga de todos los calendarios
                 self.cargar_calendarios_full();
             } else {
-                self.cargar_calendarios_vigencia(self.vigencia_calendarios);
+                self.cargar_calendarios_vigencia(self.vigencia_saldos);
             }
         }, true);
   });
