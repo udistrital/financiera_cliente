@@ -26,7 +26,7 @@
           </div>
           <div class="panel-body">
             <div ng-if="saldosIniciales.plan_maestro !=undefined">
-              <plan-cuentas filtro="filtro_padre" seleccion="saldosIniciales.padre" recargar="saldosIniciales.recargar_arbol" planid="saldosIniciales.plan_maestro.Id" rdesc btnselnom="btneditar" />
+              <plan-cuentas filtro="saldosIniciales.filtro_padre" seleccion="saldosIniciales.padre" recargar="saldosIniciales.recargar_arbol" planid="saldosIniciales.plan_maestro.Id" rdesc btnselnom="btneditar" />
             </div>
             <form class="row" name="formsaldos" ng-submit="formsaldos.$valid && saldosIniciales.crear_saldo()">
               <div class="col-md-12">
