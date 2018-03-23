@@ -42,7 +42,7 @@ angular
         'ui.grid.pinning',
         'ui.select',
         'ui.knob',
-        'kendo.directives',
+        //'kendo.directives',
         // Servicios
         'academicaService',
         'financieraService',
@@ -60,7 +60,8 @@ angular
         'arkaService',
         'configuracionService',
         "wso2Service",
-        "requestService"
+        "requestService",
+        "ingresoDocServ"
     ])
 
 .run(function(amMoment) {
@@ -459,16 +460,55 @@ angular
               controller: 'ReporteListadoApropiacionesCtrl',
               controllerAs: 'listadoApropiaciones'
             })
+            .when('/reportes/presupuesto/c_d_p', {
+              templateUrl: 'views/reportes/presupuesto/c_d_p.html',
+              controller: 'ReportesPresupuestoCDPCtrl',
+              controllerAs: 'cDP'
+            })
+            .when('/reportes/presupuesto/r_p', {
+              templateUrl: 'views/reportes/presupuesto/r_p.html',
+              controller: 'ReportesPresupuestoRPCtrl',
+              controllerAs: 'rP'
+            })
+            .when('/comprobantes/consulta_comprobantes', {
+              templateUrl: 'views/comprobantes/consulta_comprobantes.html',
+              controller: 'ConsultaComprobantesCtrl',
+              controllerAs: 'consultaComprobantes'
+            })
+            .when('/comprobantes/detalle_comprobante', {
+              templateUrl: 'views/comprobantes/detalle_comprobante.html',
+              controller: 'DetalleComprobanteCtrl',
+              controllerAs: 'detalleComprobante'
+            })
+            .when('/comprobantes/crear_comprobante', {
+              templateUrl: 'views/comprobantes/crear_comprobante.html',
+              controller: 'CrearComprobanteCtrl',
+              controllerAs: 'crearComprobante'
+            })
+            .when('/comprobantes/crear_tipo_comprobante', {
+              templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
+              controller: 'CrearTipoComprobanteCtrl',
+              controllerAs: 'crearTipoComprobante'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
-              controllerAs: 'cierrePeriodo'})
+              controllerAs: 'cierrePeriodo'
+            })
             .when('/bancos/saldos_iniciales', {
               templateUrl: 'views/bancos/saldos_iniciales.html',
               controller: 'BancosSaldosInicialesCtrl',
               controllerAs: 'saldosIniciales'
             })
+            .when('/ingresos/ingreso_registroG/:tipoIngreso', {
+              templateUrl: 'views/ingresos/ingreso_registrog.html',
+              controller: 'IngresosIngresoRegistrogCtrl',
+              controllerAs: 'ingresoRegistroG'
+            })
             .otherwise({
                 redirectTo: '/'
             });
+
+
+
     }]);

@@ -1,0 +1,128 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'CREACION_TIPO_COMPROBANTE' | translate }}</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+      <div id="modal_edicion" class="modal fade" role="dialog">
+         <div class="modal-content col-md-4 col-md-offset-4" style="margin-top: 5%">
+           <div class="modal-header">
+             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+           </div>
+           <div class="modal-body">
+             <div class="panel panel-default">
+               <div class="panel-heading">
+                 <h3 class="panel-title">{{'EDICION_TIPO_COMPROBANTE' | translate}}</h3>
+               </div>
+               <div class="panel-body">
+                 <form name="formplan" ng-submit="formplan.$valid">
+                   <fieldset class="form-group">
+                     <label for="codigocomprobanteedicion">{{'CODIGO' | translate}}:</label>
+                     <input type="text" class="form-control" id="codigo_comprobante_edicion" placeholder="{{'CODIGO_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.codigo_comprobante_edicion" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="nombrecomprobanteedicion">{{'NOMBRE' | translate}}:</label>
+                     <input type="text" class="form-control" id="nombre_comprobante_edicion" placeholder="{{'NOMBRE_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.nombre_comprobante_edicion" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="descripcioncomprobante">{{'DESCRIPCION' | translate}}:</label>
+                     <input type="text" class="form-control" id="descripcion_comprobante_edicion" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.descripcion_comprobante_edicion" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
+                     <select class="form-control" id="unidad_ejecutora_edicion" ng-model="crearTipoComprobante.unidad_ejecutora_edicion" required>
+                       <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                       <option> 1 </option>
+                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                     </select>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
+                     <select class="form-control" id="entidad_edicion" ng-model="crearTipoComprobante.entidad_edicion" required>
+                       <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                       <option> 1 </option>
+                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                     </select>
+                   </fieldset>
+
+                   <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.actualizarComprobante()'>
+
+                 </form>
+               </div>
+             </div>
+           </div>
+         </div>
+
+      </div>
+
+      <div id="modal_creacion" class="modal fade" role="dialog">
+         <div class="modal-content col-md-4 col-md-offset-4" style="margin-top: 5%">
+           <div class="modal-header">
+             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+           </div>
+           <div class="modal-body">
+             <div class="panel panel-default">
+               <div class="panel-heading">
+                 <h3 class="panel-title">{{'CREACION_TIPO_COMPROBANTE' | translate}}</h3>
+               </div>
+               <div class="panel-body">
+                 <form name="formplan" ng-submit="formplan.$valid">
+                   <fieldset class="form-group">
+                     <label for="codigocomprobante">{{'CODIGO' | translate}}:</label>
+                     <input type="text" class="form-control" id="codigo_comprobante_nuevo" placeholder="{{'CODIGO_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.CodigoNuevo" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="nombrecomprobante">{{'NOMBRE' | translate}}:</label>
+                     <input type="text" class="form-control" id="nombre_comprobante_nuevo" placeholder="{{'NOMBRE_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.NombreNuevo" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="descripcioncomprobante">{{'DESCRIPCION' | translate}}:</label>
+                     <input type="text" class="form-control" id="descripcion_comprobante_nuevo" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.DescripcionNuevo" required>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
+                     <select class="form-control" id="unidad_ejecutora_nuevo" ng-model="crearTipoComprobante.UnidadEjecutoraNuevo" required>
+                       <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                       <option> 1 </option>
+                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                     </select>
+                   </fieldset>
+
+                   <fieldset class="form-group">
+                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
+                     <select class="form-control" id="entidad_nuevo" ng-model="crearTipoComprobante.EntidadNuevo" required>
+                       <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                       <option> 1 </option>
+                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                     </select>
+                   </fieldset>
+
+                   <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.crearNuevoComprobante()'>
+
+                 </form>
+               </div>
+             </div>
+           </div>
+         </div>
+
+      </div>
+
+        <br>
+        <legend class="text-primary" align="center">{{'TIPOS_COMPROBANTE' | translate }}</legend>
+        <div class="row">
+            <div class="col-md-12">
+              <div ui-grid="crearTipoComprobante.TipoComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="crearTipoComprobante.abrirModalCreacion()" class="btn btn-info btn-outline">{{ 'BTN.CREAR_TIPO_COMPROBANTE' | translate }}</button></div>
+        </div>
+    </div>
+</div>
