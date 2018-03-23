@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-    <h2 class="page-header" align="center">{{'CREACION_COMPROBANTE' | translate }}</h2>
+    <h2 class="page-header" align="center">{{'CREACION_TIPO_COMPROBANTE' | translate }}</h2>
     <div class="panel-body">
         <!-- ui-grid-selection -->
       <div id="modal_edicion" class="modal fade" role="dialog">
@@ -16,17 +16,17 @@
                  <form name="formplan" ng-submit="formplan.$valid">
                    <fieldset class="form-group">
                      <label for="codigocomprobanteedicion">{{'CODIGO' | translate}}:</label>
-                     <input type="text" class="form-control" id="codigo_comprobante_edicion" placeholder="Código del comprobante" ng-model="crearTipoComprobante.codigo_comprobante_edicion" required>
+                     <input type="text" class="form-control" id="codigo_comprobante_edicion" placeholder="{{'CODIGO_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.codigo_comprobante_edicion" required>
                    </fieldset>
 
                    <fieldset class="form-group">
                      <label for="nombrecomprobanteedicion">{{'NOMBRE' | translate}}:</label>
-                     <input type="text" class="form-control" id="nombre_comprobante_edicion" placeholder="Nombre del comprobante" ng-model="crearTipoComprobante.nombre_comprobante_edicion" required>
+                     <input type="text" class="form-control" id="nombre_comprobante_edicion" placeholder="{{'NOMBRE_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.nombre_comprobante_edicion" required>
                    </fieldset>
 
                    <fieldset class="form-group">
                      <label for="descripcioncomprobante">{{'DESCRIPCION' | translate}}:</label>
-                     <input type="text" class="form-control" id="descripcion_comprobante_edicion" placeholder="Descripción del comprobante" ng-model="crearTipoComprobante.descripcion_comprobante_edicion" required>
+                     <input type="text" class="form-control" id="descripcion_comprobante_edicion" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.descripcion_comprobante_edicion" required>
                    </fieldset>
 
                    <fieldset class="form-group">
@@ -71,17 +71,17 @@
                  <form name="formplan" ng-submit="formplan.$valid">
                    <fieldset class="form-group">
                      <label for="codigocomprobante">{{'CODIGO' | translate}}:</label>
-                     <input type="text" class="form-control" id="codigo_comprobante_nuevo" placeholder="Código del comprobante" ng-model="crearTipoComprobante.CodigoNuevo" required>
+                     <input type="text" class="form-control" id="codigo_comprobante_nuevo" placeholder="{{'CODIGO_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.CodigoNuevo" required>
                    </fieldset>
 
                    <fieldset class="form-group">
                      <label for="nombrecomprobante">{{'NOMBRE' | translate}}:</label>
-                     <input type="text" class="form-control" id="nombre_comprobante_nuevo" placeholder="Nombre del comprobante" ng-model="crearTipoComprobante.NombreNuevo" required>
+                     <input type="text" class="form-control" id="nombre_comprobante_nuevo" placeholder="{{'NOMBRE_COMPROBANTE' | translate}}" ng-model="crearTipoComprobante.NombreNuevo" required>
                    </fieldset>
 
                    <fieldset class="form-group">
                      <label for="descripcioncomprobante">{{'DESCRIPCION' | translate}}:</label>
-                     <input type="text" class="form-control" id="descripcion_comprobante_nuevo" placeholder="Descripción del comprobante" ng-model="crearTipoComprobante.DescripcionNuevo" required>
+                     <input type="text" class="form-control" id="descripcion_comprobante_nuevo" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.DescripcionNuevo" required>
                    </fieldset>
 
                    <fieldset class="form-group">
@@ -122,7 +122,7 @@
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
 
         <div class="panel-footer">
-            <div align="center"> <button ng-click="crearTipoComprobante.abrirModalCreacion()" class="btn btn-info btn-outline">{{ 'BTN.CREAR' | translate }}</button></div>
+            <div align="center"> <button ng-click="crearTipoComprobante.abrirModalCreacion()" class="btn btn-info btn-outline">{{ 'BTN.CREAR_TIPO_COMPROBANTE' | translate }}</button></div>
         </div>
     </div>
 </div>
