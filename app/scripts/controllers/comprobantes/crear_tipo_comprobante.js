@@ -140,7 +140,7 @@ angular.module('financieraClienteApp')
       ctrl.entidad_edicion = row.entity.Entidad
 
       swal({
-          html: $translate.instant('CONFIRMACION_EDICION_COMPROBANTE') +
+          html: $translate.instant('CONFIRMACION_ACTIVO_COMPROBANTE') +
               "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
               "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
               "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -150,51 +150,48 @@ angular.module('financieraClienteApp')
           cancelButtonColor: "#C9302C",
           confirmButtonText: $translate.instant('CONFIRMAR'),
           cancelButtonText: $translate.instant('CANCELAR'),
-      }).then(function() {
 
-        var comprobante_activar = {
-          Id: ctrl.id_edicion,
-          Nombre : ctrl.nombre_comprobante_edicion,
-          Descripcion:   ctrl.descripcion_comprobante_edicion,
-          CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
-          Activo: ctrl.activo_edicion,
-          UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
-          Entidad: parseInt(ctrl.entidad_edicion)
-        };
+      }).then(function(inputValue) {
+        if(inputValue.value === true){
+          var comprobante_activar = {
+            Id: ctrl.id_edicion,
+            Nombre : ctrl.nombre_comprobante_edicion,
+            Descripcion:   ctrl.descripcion_comprobante_edicion,
+            CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
+            Activo: ctrl.activo_edicion,
+            UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
+            Entidad: parseInt(ctrl.entidad_edicion)
+          };
 
-          financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
+            financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
 
-              if (response.data == "OK") {
-                  swal({
-                      html: "Actualizado correctamente",
-                      type: "success",
-                      showCancelButton: false,
-                      confirmButtonColor: "#449D44",
-                      confirmButtonText: $translate.instant('VOLVER'),
-                  }).then(function() {
-                      $('#modal_edicion').modal('hide');
-                      $window.location.reload()
-                  })
-              } else {
-                  swal({
-                      html: "Error al actualizar",
-                      type: "error",
-                      showCancelButton: false,
-                      confirmButtonColor: "#449D44",
-                      confirmButtonText: $translate.instant('VOLVER'),
-                  }).then(function() {
-                      $('#modal_edicion').modal('hide');
-                      $window.location.reload()
-                  })
-              }
-          });
+                if (response.data == "OK") {
+                    swal({
+                        html: "Actualizado correctamente",
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#449D44",
+                        confirmButtonText: $translate.instant('VOLVER'),
+                    }).then(function() {
+                        $('#modal_edicion').modal('hide');
+                        $window.location.reload()
+                    })
+                } else {
+                    swal({
+                        html: "Error al actualizar",
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#449D44",
+                        confirmButtonText: $translate.instant('VOLVER'),
+                    }).then(function() {
+                        $('#modal_edicion').modal('hide');
+                        $window.location.reload()
+                    })
+                }
+            });
+        }else{
 
-      }, function(dismiss) {
-          if (dismiss === 'cancel') {
-
-              alert("")
-              // $window.location.reload()
-          }
+        }
       })
 
    };
@@ -207,10 +204,10 @@ angular.module('financieraClienteApp')
      ctrl.activo_edicion = Boolean(false)
      ctrl.unidad_ejecutora_edicion = row.entity.UnidadEjecutora
      ctrl.entidad_edicion = row.entity.Entidad
-     console.log("hola"+ctrl.activo_edicion)
+
 
      swal({
-         html: $translate.instant('CONFIRMACION_EDICION') +
+         html: $translate.instant('CONFIRMACION_INACTIVO_COMPROBANTE') +
              "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
              "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
              "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -220,8 +217,8 @@ angular.module('financieraClienteApp')
          cancelButtonColor: "#C9302C",
          confirmButtonText: $translate.instant('CONFIRMAR'),
          cancelButtonText: $translate.instant('CANCELAR'),
-     }).then(function() {
-
+     }).then(function(inputValue) {
+       if(inputValue.value === true){
        var comprobante_activar = {
          Id: ctrl.id_edicion,
          Nombre : ctrl.nombre_comprobante_edicion,
@@ -260,12 +257,9 @@ angular.module('financieraClienteApp')
              }
          });
 
-     }, function(dismiss) {
-         if (dismiss === 'cancel') {
+       }else{
 
-             $('#modal_edicion').modal('hide');
-             // $window.location.reload()
-         }
+       }
      })
 
   };
@@ -277,7 +271,7 @@ angular.module('financieraClienteApp')
             var objeto_entidad_edicion = JSON.parse(ctrl.entidad_edicion);
 
             swal({
-                html: $translate.instant('CONFIRMACION_EDICION') +
+                html: $translate.instant('CONFIRMACION_EDICION_COMPROBANTE') +
                     "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
                     "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
                     "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -287,8 +281,8 @@ angular.module('financieraClienteApp')
                 cancelButtonColor: "#C9302C",
                 confirmButtonText: $translate.instant('CONFIRMAR'),
                 cancelButtonText: $translate.instant('CANCELAR'),
-            }).then(function() {
-
+            }).then(function(inputValue) {
+                if(inputValue.value === true){
               var comprobante_edicion = {
                 Id: ctrl.id_edicion,
                 Nombre : ctrl.nombre_comprobante_edicion,
@@ -325,13 +319,9 @@ angular.module('financieraClienteApp')
                         })
                     }
                 });
-
-            }, function(dismiss) {
-                if (dismiss === 'cancel') {
-
-                    $('#modal_edicion').modal('hide');
-                    // $window.location.reload()
-                }
+             }else{
+                   $('#modal_edicion').modal('hide');
+             }
             })
         } else {
             swal({
