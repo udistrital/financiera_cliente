@@ -495,6 +495,11 @@ angular
               controller: 'IngresosIngresoRegistrogCtrl',
               controllerAs: 'ingresoRegistroG'
             })
+            .when('/inversiones/acta_compra', {
+              templateUrl: 'views/inversiones/acta_compra.html',
+              controller: 'InversionesActaCompraCtrl',
+              controllerAs: 'inversiones/actaCompra'
+            })
             .otherwise({
                 redirectTo: '/'
             });
