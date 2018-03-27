@@ -29,6 +29,7 @@
                      <input type="text" class="form-control" id="descripcion_comprobante_edicion" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.descripcion_comprobante_edicion" required>
                    </fieldset>
 
+
                    <fieldset class="form-group">
                      <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
                      <select class="form-control" id="unidad_ejecutora_edicion" ng-model="crearTipoComprobante.unidad_ejecutora_edicion" required>
@@ -85,6 +86,14 @@
                    </fieldset>
 
                    <fieldset class="form-group">
+                     <label for="tipomovimientoanuevo">{{'TIPO_MOVIMIENTO' | translate}}:</label>
+                     <select class="form-control" id="tipo_movimiento_nuevo" ng-model="crearTipoComprobante.selectedTipoMovimiento" required>
+                       <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                        <option ng-repeat="tmovimiento in crearTipoComprobante.TipoMovimientoComprobante"  value="{{tmovimiento}}">{{tmovimiento.Nombre}}</option>
+                     </select>
+                   </fieldset>
+
+                   <fieldset class="form-group">
                      <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
                      <select class="form-control" id="unidad_ejecutora_nuevo" ng-model="crearTipoComprobante.UnidadEjecutoraNuevo" required>
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
@@ -102,7 +111,7 @@
                      </select>
                    </fieldset>
 
-                   <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.crearNuevoComprobante()'>
+                   <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.crearNuevoTipoComprobante()'>
 
                  </form>
                </div>
