@@ -15,7 +15,7 @@
 
 
   <div id="modalformP" class="modal fade" role="dialog">
-    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+    <div class="modal-content col-md-12 col-md-offset-0" style="margin-top: 5%">
       <div class="modal-header">
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
       </div>
@@ -25,15 +25,20 @@
             <h3 class="panel-title">{{ 'CONTROL_SALDOS_INICIALES' | translate }}</h3>
           </div>
           <div class="panel-body">
-            <div ng-if="saldosIniciales.plan_maestro !=undefined">
-              <plan-cuentas filtro="saldosIniciales.filtro_padre" seleccion="saldosIniciales.padre" recargar="saldosIniciales.recargar_arbol" planid="saldosIniciales.plan_maestro.Id" rdesc btnselnom="btneditar" />
+            <div class="col-md-8" ng-if="saldosIniciales.plan_maestro !=undefined">
+              <plan-cuentas filtro="saldosIniciales.filtro_padre" seleccion="saldosIniciales.padre" recargar="saldosIniciales.recargar_arbol" planid="saldosIniciales.plan_maestro.Id" rdesc >
             </div>
             <form class="row" name="formsaldos" ng-submit="formsaldos.$valid && saldosIniciales.crear_saldo()">
+              <div class="col-md-4" style="margin-top: 5%">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="val_base_retencion" class="col-sm-2 control-label ng-binding">{{ 'SALDO' | translate }}*:</label>
                   <div class="col-sm-4">
                     <input class="form-control input_right" ng-model="saldosIniciales.valor_inicial" ui-money-mask="0" ng-required="true"></input>
+                  </div>
+                  <label for="val_base_retencion" class="col-sm-2 control-label ng-binding">{{ 'CUENTA_CONTABLE' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="saldosIniciales.padre.Codigo" ng-required="true" disabled></input>
                   </div>
                 </fieldset>
               </div>
@@ -47,22 +52,22 @@
                 </style>
                 <fieldset class="form-group col-md-4">
                   <label>{{ 'VIGENCIA' | translate }}*:</label>
-                  <select class="form-control" ng-model="saldosIniciales.nuevo_calendario.Vigencia" ng-options="v as v for v in saldosIniciales.vigencias" required>
+                  <select class="form-control" ng-model="saldosIniciales.nueva_fecha.Vigencia" ng-options="v as v for v in saldosIniciales.vigencias" required>
                     <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
                   </select>
                 </fieldset>
 
-                <fieldset class="form-group col-md-4">
+                <fieldset class="form-group col-md-4" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
                   <label>{{ 'FECHA_INICIO' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
-                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nuevo_calendario.FechaInicio"  md-min-date="saldosIniciales.fechamin" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nueva_fecha.FechaInicio"  md-min-date="saldosIniciales.fechamin" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
                   </div>
                 </fieldset>
 
-                <fieldset class="form-group col-md-4">
+                <fieldset class="form-group col-md-4" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
                   <label>{{ 'FECHA_FIN' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
-                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nuevo_calendario.FechaFin" md-min-date="saldosIniciales.nuevo_calendario.FechaInicio" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
+                    <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nueva_fecha.FechaFin" md-min-date="saldosIniciales.nueva_fecha.FechaInicio" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
                   </div>
                 </fieldset>
               </div>
@@ -79,8 +84,8 @@
 
               </div>
 
-              <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
-
+              <center><button type="submit" ng-click="saldosIniciales.registrar_saldo()" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+            </div>
             </form>
           </div>
         </div>

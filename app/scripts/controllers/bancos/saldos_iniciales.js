@@ -10,8 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
         var self = this;
-        self.nuevo_saldo = {};
-        $scope.btneditar=$translate.instant('BTN.EDITAR');
+        self.nueva_fecha = {};
         self.cargar_plan_maestro = function() {
           financieraRequest.get("plan_cuentas", $.param({
             query: "PlanMaestro:" + true
@@ -31,7 +30,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("saldosIniciales.padre", function(){
             if (self.padre !== undefined){
-          $location.path('plan_cuentas/editar_cuenta/'+self.padre.Codigo);
+          console.log(self.padre.Codigo);
           }       
         },true);
         /**
@@ -53,6 +52,14 @@ angular.module('financieraClienteApp')
                 }
             });
         };
+
+        self.registrar_saldo = function() {
+            console.log("Cuenta:", self.padre.Codigo);
+            console.log("Saldo:", self.valor_inicial);
+            console.log("Vigencia", self.nueva_fecha.Vigencia );
+            console.log("FechaInicio", self.nueva_fecha.FechaInicio);
+            console.log("FechaFin", self.nueva_fecha.FechaFin);
+        }
 
         self.cargar_vigencia();
 
@@ -194,9 +201,9 @@ angular.module('financieraClienteApp')
          * ajustando el formato de las fechas programadas del calendario
          */
         self.modo_editar = function(calendario) {
-            self.nuevo_saldo = angular.copy(calendario);
-            self.nuevo_saldo.FechaInicio = new Date(self.nuevo_saldo.FechaInicio);
-            self.nuevo_saldo.FechaFin = new Date(self.nuevo_saldo.FechaFin);
+            self.nueva_fecha = angular.copy(calendario);
+            self.nueva_fecha.FechaInicio = new Date(self.nueva_fecha.FechaInicio);
+            self.nueva_fecha.FechaFin = new Date(self.nueva_fecha.FechaFin);
         };
 
         /**
@@ -209,7 +216,7 @@ angular.module('financieraClienteApp')
          */
         self.crear_calendario = function() {
             if ($scope.editar === true) {
-                financieraRequest.put('calendario_tributario', self.nuevo_saldo.Id, self.nuevo_saldo).then(function(response) {
+                financieraRequest.put('calendario_tributario', self.nueva_fecha.Id, self.nueva_fecha).then(function(response) {
                     console.log(response);
                     if (self.vigencia_saldos === null) {
                         self.cargar_calendarios_full();
@@ -219,11 +226,11 @@ angular.module('financieraClienteApp')
                 });
             } else {
                 var nuevo = {
-                    Vigencia: self.nuevo_saldo.Vigencia,
+                    Vigencia: self.nueva_fecha.Vigencia,
                     Entidad: { Id: 1 },
-                    Descripcion: self.nuevo_saldo.Descripcion,
-                    FechaInicio: self.nuevo_saldo.FechaInicio,
-                    FechaFin: self.nuevo_saldo.FechaFin,
+                    Descripcion: self.nueva_fecha.Descripcion,
+                    FechaInicio: self.nueva_fecha.FechaInicio,
+                    FechaFin: self.nueva_fecha.FechaFin,
                     EstadoCalendario: { Id: 1 },
                     Responsable: 546546556
                 };
@@ -246,18 +253,18 @@ angular.module('financieraClienteApp')
          * @description
          * Valida en base a la vigencia seleccionada el rango de la fecha inicio y la fecha fin
          */
-        $scope.$watch('saldosIniciales.nuevo_saldo.Vigencia', function() {
-            if (self.nuevo_saldo.FechaInicio !== undefined && self.nuevo_saldo.Vigencia !== self.nuevo_saldo.FechaInicio.getFullYear()) {
+        $scope.$watch('saldosIniciales.nueva_fecha.Vigencia', function() {
+            if (self.nueva_fecha.FechaInicio !== undefined) {
                 console.log("reset fecha inicio");
-                self.nuevo_saldo.FechaInicio = undefined;
-                self.nuevo_saldo.FechaFin = undefined;
+                self.nueva_fecha.FechaInicio = undefined;
+                self.nueva_fecha.FechaFin = undefined;
             }
             self.fechamin = new Date(
-                self.nuevo_saldo.Vigencia,
+                self.nueva_fecha.Vigencia,
                 0, 1
             );
             self.fechamax = new Date(
-                self.nuevo_saldo.Vigencia,
+                self.nueva_fecha.Vigencia,
                 12, 0
             );
         }, true);
@@ -270,9 +277,9 @@ angular.module('financieraClienteApp')
          * @description
          * Valida en base a la fecha inicial registrada el rango minimo de la fecha fin
          */
-        $scope.$watch('saldosIniciales.nuevo_saldo.FechaInicio', function() {
-            if (self.nuevo_saldo.FechaInicio >= self.nuevo_saldo.FechaFin || self.nuevo_saldo.FechaInicio === undefined || self.nuevo_saldo.Vigencia !== self.nuevo_saldo.FechaFin.getFullYear()) {
-                self.nuevo_saldo.FechaFin = undefined;
+        $scope.$watch('saldosIniciales.nueva_fecha.FechaInicio', function() {
+            if (self.nueva_fecha.FechaInicio >= self.nueva_fecha.FechaFin || self.nueva_fecha.FechaInicio === undefined ) {
+                self.nueva_fecha.FechaFin = undefined;
             }
         }, true);
 
@@ -286,7 +293,7 @@ angular.module('financieraClienteApp')
          */
         $scope.$watch('editar', function() {
             if ($scope.editar === false) {
-                self.nuevo_saldo = {};
+                self.nueva_fecha = {};
             }
         });
 
