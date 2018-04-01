@@ -33,6 +33,17 @@ angular.module('financieraClienteApp')
           console.log(self.padre.Codigo);
           }       
         },true);
+
+        $scope.$watch('saldosIniciales.registroExitoso',function (){
+            if (self.registroExitoso !== undefined){
+             $location.path('/bancos/saldos_iniciales');
+              swal(
+                'Registro Existoso',
+                'El registro del saldo inicial por un valor $' + self.valor_inicial + ' fue creado exitosamente en la cuenta '+ self.padre.Codigo,
+                'success'
+              );                  
+            }              
+         });        
         /**
          * @ngdoc function
          * @name financieraClienteApp.controller:saldosInicialesCtrl#cargar_vigencia
@@ -54,13 +65,26 @@ angular.module('financieraClienteApp')
         };
 
         self.registrar_saldo = function() {
+            $('#modalformP').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();            
             console.log("Cuenta:", self.padre.Codigo);
             console.log("Saldo:", self.valor_inicial);
             console.log("Vigencia", self.nueva_fecha.Vigencia );
             console.log("FechaInicio", self.nueva_fecha.FechaInicio);
             console.log("FechaFin", self.nueva_fecha.FechaFin);
             console.log("Obj Seleccionado", self.padre);
+            self.registroExitoso = true;
+        /*
+        TODO: - generar y/o conectar al servicio que registre la transacción del movimiento
+              - limpiar variables
+              - generar sweet alert
+              - redireccionar
+
+        */
+
         }
+
 
         self.cargar_vigencia();
 
@@ -122,12 +146,6 @@ angular.module('financieraClienteApp')
                     displayName: $translate.instant('CUENTA_CONTABLE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '14%'
-                },
-                {
-                    field: 'EstadoSaldo.Nombre',
-                    displayName: $translate.instant('ESTADO'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '7%'
                 },
                 {
                     name: $translate.instant('OPCIONES'),
