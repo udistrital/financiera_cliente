@@ -50,26 +50,27 @@
                     z-index: 1200
                   }
                 </style>
-                <fieldset class="form-group col-md-4">
+                <fieldset class="form-group col-md-6">
                   <label>{{ 'VIGENCIA' | translate }}*:</label>
                   <select class="form-control" ng-model="saldosIniciales.nueva_fecha.Vigencia" ng-options="v as v for v in saldosIniciales.vigencias" required>
                     <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
                   </select>
                 </fieldset>
-
-                <fieldset class="form-group col-md-4" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
+              </div>
+              <div class="col-md-12">
+                <fieldset class="form-group col-md-6" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
                   <label>{{ 'FECHA_INICIO' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
                     <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nueva_fecha.FechaInicio"  md-min-date="saldosIniciales.fechamin" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
                   </div>
                 </fieldset>
 
-                <fieldset class="form-group col-md-4" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
+                <fieldset class="form-group col-md-6" ng-show="saldosIniciales.nueva_fecha.Vigencia!=undefined">
                   <label>{{ 'FECHA_FIN' | translate }}*:</label>
                   <div class="input-group date" data-provide="datepicker">
                     <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nueva_fecha.FechaFin" md-min-date="saldosIniciales.nueva_fecha.FechaInicio" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
                   </div>
-                </fieldset>
+                </fieldset>                
               </div>
 
               <div class="col-md-12">

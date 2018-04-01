@@ -59,6 +59,7 @@ angular.module('financieraClienteApp')
             console.log("Vigencia", self.nueva_fecha.Vigencia );
             console.log("FechaInicio", self.nueva_fecha.FechaInicio);
             console.log("FechaFin", self.nueva_fecha.FechaFin);
+            console.log("Obj Seleccionado", self.padre);
         }
 
         self.cargar_vigencia();
