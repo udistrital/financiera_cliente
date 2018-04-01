@@ -125,10 +125,8 @@
                 <label>{{'TIPO_ANULACION' | translate}}</label>
               </div>
               <div class="col-md-9">
-                <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="cdpAprobacionAnulacion.anulacion.TipoAnulacion" disabled="true">
-                    <option value="P">{{'ANULACION_PARCIAL' | translate}}</option>
-                  <option value="T">{{'ANULACION_TOTAL' | translate}}</option>
-               </select>
+                <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="cdpAprobacionAnulacion.anulacion.TipoAnulacion.Nombre"
+                      disabled="true"></input>
               </div>
             </div>
             <br>

@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
         {field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.NumeroRegistroPresupuestal',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('RP_NUMERO'),headerCellClass: 'text-info' },
         {field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Vigencia',   displayName: $translate.instant('VIGENCIA'), cellClass: 'input_center',headerCellClass: 'text-info'},
         {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',headerCellClass: 'text-info'},
-        {field: 'TipoAnulacion',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('TIPO'),headerCellClass: 'text-info' },
+        {field: 'TipoAnulacion.Nombre',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('TIPO'),headerCellClass: 'text-info' },
         {field: 'EstadoAnulacion.Nombre', displayName : $translate.instant('ESTADO'),headerCellClass: 'text-info'},
         {field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre' , displayName : $translate.instant('DEPENDENCIA_SOLICITANTE'),headerCellClass: 'text-info'},
         {
@@ -106,7 +106,7 @@ angular.module('financieraClienteApp')
 
           agoraRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
 
-            data.Beneficiario = response.data;
+            data.BeneficiarioInfo = response.data;
 
           });
         });
@@ -124,12 +124,9 @@ angular.module('financieraClienteApp')
               });
               financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function (response) {
                 var solicitud = response.data
-                angular.forEach(solicitud, function (data) {
-                  self.Necesidad = data.SolicitudDisponibilidad.Necesidad;
+                
+                  self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
                   console.log(self.Necesidad);
-
-
-                });
 
               });
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
