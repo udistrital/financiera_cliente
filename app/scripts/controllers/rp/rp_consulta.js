@@ -154,8 +154,19 @@ angular.module('financieraClienteApp')
       self.alerta = "";
     };
 
+    self.cargarTipoAnulacion = function(){
+            financieraRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
+                    .then(function(response) { //error con el success
+                        self.tiposAnulacion = response.data;
+                    });
+        };
+
     self.verRp = function (row, anular) {
+      self.detalle = [];
       self.anular = anular;
+      if (self.anular){
+        self.cargarTipoAnulacion();
+      }
       $("#myModal").modal();
       $scope.apropiacion = undefined;
       $scope.apropiaciones = [];
@@ -164,14 +175,6 @@ angular.module('financieraClienteApp')
         self.detalle = data;
         console.log("entt");
         console.log(row.entity);
-        angular.forEach(self.detalle, function (data) {
-
-          administrativaRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
-
-            data.Beneficiario = response.data;
-
-          });
-        });
         angular.forEach(self.detalle, function (data) {
           
             self.gridOptions_rubros.data = data.RegistroPresupuestalDisponibilidadApropiacion;
@@ -201,16 +204,23 @@ angular.module('financieraClienteApp')
           
 
         });
+        angular.forEach(self.detalle, function (data) {
+          administrativaRequest.get('informacion_proveedor/' + data.Beneficiario, '').then(function (response) {
+
+            data.BeneficiarioInfo = response.data;
+
+          });
+        });
       
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
         swal("", $translate.instant("E_A02") , "error")
-      }else if (self.tipoAnulacion == undefined || self.tipoAnulacion ===""|| self.tipoAnulacion == null){
+      }else if (self.tipoAnulacion == undefined || self.tipoAnulacion == null){
         swal("", $translate.instant("E_A03"), "error")
-      }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion === "P")){
+      }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion.Id === 1)){
         swal("", $translate.instant("E_A04"), "error")
-      }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion === "P")){
+      }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion.Id === 1)){
        swal("", $translate.instant("E_A06"), "error")
       }else if(parseFloat(self.Valor) <= 0){
         swal("", $translate.instant("E_A07"), "error")
@@ -224,9 +234,9 @@ angular.module('financieraClienteApp')
           EstadoAnulacion : {Id:1},
           Expidio: 1234567890
         };
-        if (self.tipoAnulacion === "T"){
+        if (self.tipoAnulacion.Id === 2 || self.tipoAnulacion.Id === 3){
           rp_apropiacion = self.rubros_afectados;
-        }else if (self.tipoAnulacion === "P"){
+        }else if (self.tipoAnulacion.Id === 1){
           rp_apropiacion[0] = self.Rubro_sel;
           valor = parseFloat(self.Valor);
         }

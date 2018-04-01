@@ -66,15 +66,15 @@
                         </tr>
                         <tr>
                             <th>{{'BENEFECIARIO' | translate}}: </th>
-                            <td>{{item.Beneficiario.NomProveedor}}</td>
+                            <td>{{item.BeneficiarioInfo.NomProveedor}}</td>
                         </tr>
                         <tr>
                             <th>{{'TIPO_PERSONA' | translate}}: </th>
-                            <td>{{item.Beneficiario.Tipopersona}}</td>
+                            <td>{{item.BeneficiarioInfo.Tipopersona}}</td>
                         </tr>
                         <tr>
                             <th>{{'NO_DOCUMENTO' | translate}}: </th>
-                            <td>{{item.Beneficiario.NumDocumento}}</td>
+                            <td>{{item.BeneficiarioInfo.NumDocumento}}</td>
                         </tr>
                         <tr>
                             <th>{{'TIPO_COMPROMISO' | translate}}: </th>
@@ -119,15 +119,13 @@
                                         <label>{{'TIPO_ANULACION' | translate}}</label>
                                     </div>
                                     <div class="col-md-8">
-                                        <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpConsulta.tipoAnulacion">
-                      <option value="P">Parcial</option>
-                      <option value="T">Total</option>
-                   </select>
+                                       <select class="form-control" ng-model="rpConsulta.tipoAnulacion" ng-options="o as o.Nombre for o in rpConsulta.tiposAnulacion">
+                                        </select>
                                     </div>
                                 </div>
                                 <br>
                                 <!-- Text input-->
-                                <div ng-hide="rpConsulta.tipoAnulacion == 'T'" class="row">
+                                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
                                     <div class="col-md-4 ">
                                         <label>{{'SELECCION_RUBRO' | translate}}</label>
                                     </div>
@@ -137,7 +135,7 @@
                                     </div>
                                 </div>
                                 <br>
-                                <div ng-hide="rpConsulta.tipoAnulacion == 'T' " class="row">
+                                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
                                     <div class="col-md-4">
                                         <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
                                     </div>
