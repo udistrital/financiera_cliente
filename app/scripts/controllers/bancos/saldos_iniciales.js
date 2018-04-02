@@ -80,7 +80,6 @@ angular.module('financieraClienteApp')
             }              
          });        
 
-
         //Se definen la opciones para el ui-grid
         self.gridOptions = {
             paginationPageSizes: [5, 10, 15, 20, 50],
@@ -113,7 +112,7 @@ angular.module('financieraClienteApp')
                     displayName: $translate.instant('CUENTA_CONTABLE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '10%'
-                },,                
+                },                
                 {
                     field: 'CuentaContable.Nombre',
                     displayName: $translate.instant('NOMBRE'),
@@ -185,7 +184,6 @@ angular.module('financieraClienteApp')
                     self.gridOptions.data = [];
                 } else {
                     self.gridOptions.data = response.data;
-                    console.log(self.gridOptions.data);
                 }
             });
         };
