@@ -56,6 +56,10 @@ angular.module('financieraClienteApp')
       ctrl.TipoComprobantes.data = response.data;
     });
 
+    financieraRequest.get('tipo_movimiento_comprobante','').then(function(response) {
+      ctrl.TipoMovimientoComprobante = response.data;
+    });
+
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
 
@@ -80,8 +84,8 @@ angular.module('financieraClienteApp')
       $('#modal_creacion').modal('show');
     };
 
-    ctrl.crearNuevoComprobante = function (){
-      var nuevo_comprobante = {
+    ctrl.crearNuevoTipoComprobante = function (){
+      var nuevo_tipo_comprobante = {
         Nombre : ctrl.NombreNuevo,
         Descripcion: ctrl.DescripcionNuevo,
         CodigoAbreviacion: ctrl.CodigoNuevo,
@@ -90,22 +94,12 @@ angular.module('financieraClienteApp')
         Entidad: parseInt(ctrl.EntidadNuevo)
       };
 
-      financieraRequest.post('tipo_comprobante', nuevo_comprobante).then(function(response) {
-            console.log(response.data)
+      financieraRequest.post('tipo_comprobante', nuevo_tipo_comprobante).then(function(response) {
             if (typeof(response.data) == "object") {
-              swal({
-                  html: $translate.instant('ALERTA_CREACION_COM_CORRECTA'),
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
-                  $('#modal_edicion').modal('hide');
-                  $window.location.reload()
-              })
+              ctrl.Homologar(response.data.Id,)
           } else {
               swal({
-                  html: $translate.instant('ALERTA_CREACION_COM_INCORRECTA'),
+                  html: $translate.instant('ALERTA_CREACION_TIPOCOM_INCORRECTA'),
                   type: "error",
                   showCancelButton: false,
                   confirmButtonColor: "#449D44",
@@ -116,6 +110,54 @@ angular.module('financieraClienteApp')
               })
           }
       });
+    };
+
+    ctrl.Homologar = function(id){
+      var objeto_tipo_movimiento = JSON.parse(ctrl.selectedTipoMovimiento);
+
+      var tipo_comprobante = {
+          Id: id
+      };
+
+      var tipo_movimiento = {
+          Id: objeto_tipo_movimiento.Id
+      };
+
+      var homologacion = {
+        TipoComprobante : tipo_comprobante,
+        TipoMovimientoComprobante : tipo_movimiento
+      }
+
+      financieraRequest.post('homologacion_comprobantes', homologacion).then(function(response) {
+            console.log(response.data)
+            if (typeof(response.data) == "object") {
+              swal({
+                  html: $translate.instant('ALERTA_CREACION_TIPOCOM_CORRECTA'),
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonColor: "#449D44",
+                  confirmButtonText: $translate.instant('VOLVER'),
+              }).then(function() {
+                  $('#modal_edicion').modal('hide');
+                  $window.location.reload()
+              })
+
+
+
+          } else {
+            swal({
+                html: $translate.instant('ALERTA_CREACION_TIPOCOM_INCORRECTA'),
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#449D44",
+                confirmButtonText: $translate.instant('VOLVER'),
+            }).then(function() {
+                $('#modal_creacion').modal('hide');
+                $window.location.reload()
+            })
+          }
+      });
+
     };
 
     $scope.llenar_modal = function(row) {
@@ -140,7 +182,7 @@ angular.module('financieraClienteApp')
       ctrl.entidad_edicion = row.entity.Entidad
 
       swal({
-          html: $translate.instant('CONFIRMACION_EDICION_COMPROBANTE') +
+          html: $translate.instant('CONFIRMACION_ACTIVO_TIPO_COMPROBANTE') +
               "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
               "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
               "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -150,51 +192,48 @@ angular.module('financieraClienteApp')
           cancelButtonColor: "#C9302C",
           confirmButtonText: $translate.instant('CONFIRMAR'),
           cancelButtonText: $translate.instant('CANCELAR'),
-      }).then(function() {
 
-        var comprobante_activar = {
-          Id: ctrl.id_edicion,
-          Nombre : ctrl.nombre_comprobante_edicion,
-          Descripcion:   ctrl.descripcion_comprobante_edicion,
-          CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
-          Activo: ctrl.activo_edicion,
-          UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
-          Entidad: parseInt(ctrl.entidad_edicion)
-        };
+      }).then(function(inputValue) {
+        if(inputValue.value === true){
+          var comprobante_activar = {
+            Id: ctrl.id_edicion,
+            Nombre : ctrl.nombre_comprobante_edicion,
+            Descripcion:   ctrl.descripcion_comprobante_edicion,
+            CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
+            Activo: ctrl.activo_edicion,
+            UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
+            Entidad: parseInt(ctrl.entidad_edicion)
+          };
 
-          financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
+            financieraRequest.put('tipo_comprobante', comprobante_activar.Id, comprobante_activar).then(function(response) {
 
-              if (response.data == "OK") {
-                  swal({
-                      html: "Actualizado correctamente",
-                      type: "success",
-                      showCancelButton: false,
-                      confirmButtonColor: "#449D44",
-                      confirmButtonText: $translate.instant('VOLVER'),
-                  }).then(function() {
-                      $('#modal_edicion').modal('hide');
-                      $window.location.reload()
-                  })
-              } else {
-                  swal({
-                      html: "Error al actualizar",
-                      type: "error",
-                      showCancelButton: false,
-                      confirmButtonColor: "#449D44",
-                      confirmButtonText: $translate.instant('VOLVER'),
-                  }).then(function() {
-                      $('#modal_edicion').modal('hide');
-                      $window.location.reload()
-                  })
-              }
-          });
+                if (response.data == "OK") {
+                    swal({
+                        html:$translate.instant('ACTUALIZADO_CORRECTAMENTE'),
+                        type: "success",
+                        showCancelButton: false,
+                        confirmButtonColor: "#449D44",
+                        confirmButtonText: $translate.instant('VOLVER'),
+                    }).then(function() {
+                        $('#modal_edicion').modal('hide');
+                        $window.location.reload()
+                    })
+                } else {
+                    swal({
+                        html: $translate.instant('ERROR_ACTUALIZAR'),
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: "#449D44",
+                        confirmButtonText: $translate.instant('VOLVER'),
+                    }).then(function() {
+                        $('#modal_edicion').modal('hide');
+                        $window.location.reload()
+                    })
+                }
+            });
+        }else{
 
-      }, function(dismiss) {
-          if (dismiss === 'cancel') {
-
-              alert("")
-              // $window.location.reload()
-          }
+        }
       })
 
    };
@@ -207,10 +246,9 @@ angular.module('financieraClienteApp')
      ctrl.activo_edicion = Boolean(false)
      ctrl.unidad_ejecutora_edicion = row.entity.UnidadEjecutora
      ctrl.entidad_edicion = row.entity.Entidad
-     console.log("hola"+ctrl.activo_edicion)
 
      swal({
-         html: $translate.instant('CONFIRMACION_EDICION') +
+         html: $translate.instant('CONFIRMACION_INACTIVO_TIPO_COMPROBANTE') +
              "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
              "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
              "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -220,8 +258,8 @@ angular.module('financieraClienteApp')
          cancelButtonColor: "#C9302C",
          confirmButtonText: $translate.instant('CONFIRMAR'),
          cancelButtonText: $translate.instant('CANCELAR'),
-     }).then(function() {
-
+     }).then(function(inputValue) {
+       if(inputValue.value === true){
        var comprobante_activar = {
          Id: ctrl.id_edicion,
          Nombre : ctrl.nombre_comprobante_edicion,
@@ -237,7 +275,7 @@ angular.module('financieraClienteApp')
 
              if (response.data == "OK") {
                  swal({
-                     html: "Actualizado correctamente",
+                     html: $translate.instant('ACTUALIZADO_CORRECTAMENTE'),
                      type: "success",
                      showCancelButton: false,
                      confirmButtonColor: "#449D44",
@@ -248,7 +286,7 @@ angular.module('financieraClienteApp')
                  })
              } else {
                  swal({
-                     html: "Error al actualizar",
+                     html: $translate.instant('ERROR_ACTUALIZAR'),
                      type: "error",
                      showCancelButton: false,
                      confirmButtonColor: "#449D44",
@@ -260,12 +298,9 @@ angular.module('financieraClienteApp')
              }
          });
 
-     }, function(dismiss) {
-         if (dismiss === 'cancel') {
+       }else{
 
-             $('#modal_edicion').modal('hide');
-             // $window.location.reload()
-         }
+       }
      })
 
   };
@@ -277,7 +312,7 @@ angular.module('financieraClienteApp')
             var objeto_entidad_edicion = JSON.parse(ctrl.entidad_edicion);
 
             swal({
-                html: $translate.instant('CONFIRMACION_EDICION') +
+                html: $translate.instant('CONFIRMACION_EDICION_TIPO_COMPROBANTE') +
                     "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
                     "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
                     "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -287,8 +322,8 @@ angular.module('financieraClienteApp')
                 cancelButtonColor: "#C9302C",
                 confirmButtonText: $translate.instant('CONFIRMAR'),
                 cancelButtonText: $translate.instant('CANCELAR'),
-            }).then(function() {
-
+            }).then(function(inputValue) {
+                if(inputValue.value === true){
               var comprobante_edicion = {
                 Id: ctrl.id_edicion,
                 Nombre : ctrl.nombre_comprobante_edicion,
@@ -303,7 +338,7 @@ angular.module('financieraClienteApp')
 
                     if (response.data == "OK") {
                         swal({
-                            html: "Actualizado correctamente",
+                            html: $translate.instant('ACTUALIZADO_CORRECTAMENTE'),
                             type: "success",
                             showCancelButton: false,
                             confirmButtonColor: "#449D44",
@@ -314,7 +349,7 @@ angular.module('financieraClienteApp')
                         })
                     } else {
                         swal({
-                            html: "Error al actualizar",
+                            html: $translate.instant('ERROR_ACTUALIZAR'),
                             type: "error",
                             showCancelButton: false,
                             confirmButtonColor: "#449D44",
@@ -325,17 +360,13 @@ angular.module('financieraClienteApp')
                         })
                     }
                 });
-
-            }, function(dismiss) {
-                if (dismiss === 'cancel') {
-
-                    $('#modal_edicion').modal('hide');
-                    // $window.location.reload()
-                }
+             }else{
+                   $('#modal_edicion').modal('hide');
+             }
             })
         } else {
             swal({
-                html: "Llenar todos los campos",
+                html: $translate.instant('ERROR_LLENAR'),
                 type: "error",
                 showCancelButton: false,
                 confirmButtonColor: "#449D44",

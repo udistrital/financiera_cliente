@@ -17,8 +17,8 @@
                 <label>{{'REDONDEO' | translate }}</label>
                 <select class="form-control" ng-model="crearComprobante.redondeo" required>
                   <option value="">{{'SELECCIONE' | translate }}</option>
-                  <option>{{'SI'|translate}} </option>
-                  <option>{{'NO'|translate}} </option>
+                  <option value="true">{{'SI'|translate}}  </option>
+                  <option value="false">{{'NO'|translate}} </option>
                 </select>
               </div>
             </div>
@@ -27,7 +27,7 @@
         <legend class="text-primary" align="center">{{'TIPOS_COMPROBANTE' | translate }}</legend>
         <div class="row">
             <div class="col-md-12">
-              <div ui-grid="crearComprobante.TipoComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+              <div ui-grid="crearComprobante.TipoComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
             </div>
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
