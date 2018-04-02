@@ -35,19 +35,23 @@
             </tr>
             <tr>
               <th>{{'BENEFECIARIO' | translate}}: </th>
-              <td>{{item.Beneficiario.NomProveedor}}</td>
+              <td>{{item.BeneficiarioInfo.NomProveedor}}</td>
             </tr>
             <tr>
               <th>{{'TIPO_PERSONA' | translate}}: </th>
-              <td>{{item.Beneficiario.Tipopersona}}</td>
+              <td>{{item.BeneficiarioInfo.Tipopersona}}</td>
             </tr>
             <tr>
               <th>{{'NO_DOCUMENTO' | translate}}: </th>
-              <td>{{item.Beneficiario.NumDocumento}}</td>
+              <td>{{item.BeneficiarioInfo.NumDocumento}}</td>
             </tr>
             <tr>
-              <th>{{'COMPROMISO' | translate}}: </th>
-              <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+              <th>{{'TIPO_COMPROMISO' | translate}}: </th>
+              <td>{{item.TipoCompromiso.Id+" / "+item.TipoCompromiso.Objeto}}</td>
+            </tr>
+            <tr>
+              <th>{{'COMPROMISO_NO' | translate}}: </th>
+              <td>{{item.NumeroCompromiso}}</td>
             </tr>
             <tr>
               <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
@@ -119,11 +123,8 @@
                     <label>{{'TIPO_ANULACION' | translate}}</label>
                   </div>
                   <div class="col-md-9">
-                    <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpAprobacionAnulacion.anulacion.TipoAnulacion"
-                      disabled="true">
-                      <option value="P">Parcial</option>
-                      <option value="T">Total</option>
-                   </select>
+                   <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.TipoAnulacion.Nombre"
+                      disabled="true"></input>
                   </div>
                 </div>
                 <br>
