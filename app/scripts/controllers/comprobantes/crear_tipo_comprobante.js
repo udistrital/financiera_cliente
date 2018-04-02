@@ -56,6 +56,10 @@ angular.module('financieraClienteApp')
       ctrl.TipoComprobantes.data = response.data;
     });
 
+    financieraRequest.get('tipo_movimiento_comprobante','').then(function(response) {
+      ctrl.TipoMovimientoComprobante = response.data;
+    });
+
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
 
@@ -80,8 +84,8 @@ angular.module('financieraClienteApp')
       $('#modal_creacion').modal('show');
     };
 
-    ctrl.crearNuevoComprobante = function (){
-      var nuevo_comprobante = {
+    ctrl.crearNuevoTipoComprobante = function (){
+      var nuevo_tipo_comprobante = {
         Nombre : ctrl.NombreNuevo,
         Descripcion: ctrl.DescripcionNuevo,
         CodigoAbreviacion: ctrl.CodigoNuevo,
@@ -90,22 +94,12 @@ angular.module('financieraClienteApp')
         Entidad: parseInt(ctrl.EntidadNuevo)
       };
 
-      financieraRequest.post('tipo_comprobante', nuevo_comprobante).then(function(response) {
-            console.log(response.data)
+      financieraRequest.post('tipo_comprobante', nuevo_tipo_comprobante).then(function(response) {
             if (typeof(response.data) == "object") {
-              swal({
-                  html: $translate.instant('ALERTA_CREACION_COM_CORRECTA'),
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
-                  $('#modal_edicion').modal('hide');
-                  $window.location.reload()
-              })
+              ctrl.Homologar(response.data.Id,)
           } else {
               swal({
-                  html: $translate.instant('ALERTA_CREACION_COM_INCORRECTA'),
+                  html: $translate.instant('ALERTA_CREACION_TIPOCOM_INCORRECTA'),
                   type: "error",
                   showCancelButton: false,
                   confirmButtonColor: "#449D44",
@@ -116,6 +110,54 @@ angular.module('financieraClienteApp')
               })
           }
       });
+    };
+
+    ctrl.Homologar = function(id){
+      var objeto_tipo_movimiento = JSON.parse(ctrl.selectedTipoMovimiento);
+
+      var tipo_comprobante = {
+          Id: id
+      };
+
+      var tipo_movimiento = {
+          Id: objeto_tipo_movimiento.Id
+      };
+
+      var homologacion = {
+        TipoComprobante : tipo_comprobante,
+        TipoMovimientoComprobante : tipo_movimiento
+      }
+
+      financieraRequest.post('homologacion_comprobantes', homologacion).then(function(response) {
+            console.log(response.data)
+            if (typeof(response.data) == "object") {
+              swal({
+                  html: $translate.instant('ALERTA_CREACION_TIPOCOM_CORRECTA'),
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonColor: "#449D44",
+                  confirmButtonText: $translate.instant('VOLVER'),
+              }).then(function() {
+                  $('#modal_edicion').modal('hide');
+                  $window.location.reload()
+              })
+
+
+
+          } else {
+            swal({
+                html: $translate.instant('ALERTA_CREACION_TIPOCOM_INCORRECTA'),
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#449D44",
+                confirmButtonText: $translate.instant('VOLVER'),
+            }).then(function() {
+                $('#modal_creacion').modal('hide');
+                $window.location.reload()
+            })
+          }
+      });
+
     };
 
     $scope.llenar_modal = function(row) {
@@ -140,7 +182,7 @@ angular.module('financieraClienteApp')
       ctrl.entidad_edicion = row.entity.Entidad
 
       swal({
-          html: $translate.instant('CONFIRMACION_ACTIVO_COMPROBANTE') +
+          html: $translate.instant('CONFIRMACION_ACTIVO_TIPO_COMPROBANTE') +
               "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
               "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
               "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -167,7 +209,7 @@ angular.module('financieraClienteApp')
 
                 if (response.data == "OK") {
                     swal({
-                        html: "Actualizado correctamente",
+                        html:$translate.instant('ACTUALIZADO_CORRECTAMENTE'),
                         type: "success",
                         showCancelButton: false,
                         confirmButtonColor: "#449D44",
@@ -178,7 +220,7 @@ angular.module('financieraClienteApp')
                     })
                 } else {
                     swal({
-                        html: "Error al actualizar",
+                        html: $translate.instant('ERROR_ACTUALIZAR'),
                         type: "error",
                         showCancelButton: false,
                         confirmButtonColor: "#449D44",
@@ -207,7 +249,7 @@ angular.module('financieraClienteApp')
 
 
      swal({
-         html: $translate.instant('CONFIRMACION_INACTIVO_COMPROBANTE') +
+         html: $translate.instant('CONFIRMACION_INACTIVO_TIPO_COMPROBANTE') +
              "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
              "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
              "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -234,7 +276,7 @@ angular.module('financieraClienteApp')
 
              if (response.data == "OK") {
                  swal({
-                     html: "Actualizado correctamente",
+                     html: $translate.instant('ACTUALIZADO_CORRECTAMENTE'),
                      type: "success",
                      showCancelButton: false,
                      confirmButtonColor: "#449D44",
@@ -245,7 +287,7 @@ angular.module('financieraClienteApp')
                  })
              } else {
                  swal({
-                     html: "Error al actualizar",
+                     html: $translate.instant('ERROR_ACTUALIZAR'),
                      type: "error",
                      showCancelButton: false,
                      confirmButtonColor: "#449D44",
@@ -271,7 +313,7 @@ angular.module('financieraClienteApp')
             var objeto_entidad_edicion = JSON.parse(ctrl.entidad_edicion);
 
             swal({
-                html: $translate.instant('CONFIRMACION_EDICION_COMPROBANTE') +
+                html: $translate.instant('CONFIRMACION_EDICION_TIPO_COMPROBANTE') +
                     "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +
                     "<br><b>" + $translate.instant('DESCRIPCION') + ":</b> " + ctrl.descripcion_comprobante_edicion +
                     "<br><b>" + $translate.instant('CODIGO') + ":</b> " + ctrl.codigo_comprobante_edicion + "?",
@@ -297,7 +339,7 @@ angular.module('financieraClienteApp')
 
                     if (response.data == "OK") {
                         swal({
-                            html: "Actualizado correctamente",
+                            html: $translate.instant('ACTUALIZADO_CORRECTAMENTE'),
                             type: "success",
                             showCancelButton: false,
                             confirmButtonColor: "#449D44",
@@ -308,7 +350,7 @@ angular.module('financieraClienteApp')
                         })
                     } else {
                         swal({
-                            html: "Error al actualizar",
+                            html: $translate.instant('ERROR_ACTUALIZAR'),
                             type: "error",
                             showCancelButton: false,
                             confirmButtonColor: "#449D44",
@@ -325,7 +367,7 @@ angular.module('financieraClienteApp')
             })
         } else {
             swal({
-                html: "Llenar todos los campos",
+                html: $translate.instant('ERROR_LLENAR'),
                 type: "error",
                 showCancelButton: false,
                 confirmButtonColor: "#449D44",
