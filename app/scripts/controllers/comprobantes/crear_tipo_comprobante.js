@@ -247,7 +247,6 @@ angular.module('financieraClienteApp')
      ctrl.unidad_ejecutora_edicion = row.entity.UnidadEjecutora
      ctrl.entidad_edicion = row.entity.Entidad
 
-
      swal({
          html: $translate.instant('CONFIRMACION_INACTIVO_TIPO_COMPROBANTE') +
              "<br><b>" + $translate.instant('NOMBRE') + ":</b> " + ctrl.nombre_comprobante_edicion +

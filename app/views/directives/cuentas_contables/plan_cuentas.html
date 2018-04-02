@@ -27,16 +27,16 @@
         <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" ng-click="ver_cuentaid=cuentasel.Codigo" data-toggle="modal" data-target="#modalCuentas{{d_planCuentas.plan.Id}}">{{"BTN.VER" | translate}}</button>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-3" >
         <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_planCuentas.seleccionar_cuenta(cuentasel)" >{{btnsel}}</button>
       </div>
     </div>
 
-  </div>
-
   <div ng-show="seleccion!=undefined || cuentasel!=undefined;">
     <center><button type="button"  class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
+  </div>
+
 
   <div id="modalCuentas{{d_planCuentas.plan.Id}}" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">

@@ -103,6 +103,4 @@ angular.module('financieraClienteApp')
 
     };
 
-
-
     });
