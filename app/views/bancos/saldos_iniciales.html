@@ -3,6 +3,14 @@
     <h3 class="page-header">
         {{"CONTROL_SALDOS_INICIALES" | translate}}
     </h3></center>
+    <div class="row">
+      <div class="col-md-12">
+        <label>{{ 'VIGENCIA' | translate }}:</label>        
+        <select class="form-control form-control-inline" ng-model="saldosIniciales.vigencia_saldos" ng-options="v as v for v in saldosIniciales.vigencias track by v" >
+          <option value="">{{"TODOS" | translate}}</option>
+        </select>
+      </div>      
+    </div>
   <div class="panel-body">
     <div class="mi-grid" id="mi-grid"  ui-grid="saldosIniciales.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
     <br>
@@ -28,7 +36,7 @@
             <div class="col-md-8" ng-if="saldosIniciales.plan_maestro !=undefined">
               <plan-cuentas filtro="saldosIniciales.filtro_padre" seleccion="saldosIniciales.padre" recargar="saldosIniciales.recargar_arbol" planid="saldosIniciales.plan_maestro.Id" rdesc >
             </div>
-            <form class="row" name="formsaldos" ng-submit="formsaldos.$valid && saldosIniciales.crear_saldo()">
+            <form class="row" name="formsaldos" ng-if="saldosIniciales.Modificable==false" ng-submit="formsaldos.$valid && saldosIniciales.crear_saldo()">
               <div class="col-md-4" style="margin-top: 5%">
               <div class="col-md-12">
                 <fieldset class="form-group">
@@ -85,7 +93,7 @@
 
               </div>
 
-              <center><button type="submit" ng-click="saldosIniciales.registrar_saldo()" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+              <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
             </div>
             </form>
           </div>
