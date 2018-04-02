@@ -96,7 +96,7 @@ angular.module('financieraClienteApp')
 
       financieraRequest.post('tipo_comprobante', nuevo_tipo_comprobante).then(function(response) {
             if (typeof(response.data) == "object") {
-              ctrl.Homologar(response.data.Id,)
+              ctrl.Homologar(response.data.Id)
           } else {
               swal({
                   html: $translate.instant('ALERTA_CREACION_TIPOCOM_INCORRECTA'),
