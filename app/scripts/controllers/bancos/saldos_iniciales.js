@@ -1,14 +1,14 @@
 'use strict';
 
 /**
- * @ngdoc function
- * @name financieraClienteApp.controller:BancosBancosSaldosInicialesCtrl
+ * @ngdoc controller
+ * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl
  * @description
- * # BancosBancosSaldosInicialesCtrl
+ * # BancosSaldosInicialesCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('BancosBancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
+  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
         var self = this;
         self.nueva_fecha = {};
 
