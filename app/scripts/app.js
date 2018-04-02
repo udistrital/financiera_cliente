@@ -498,7 +498,12 @@ angular
             .when('/inversiones/acta_compra', {
               templateUrl: 'views/inversiones/acta_compra.html',
               controller: 'InversionesActaCompraCtrl',
-              controllerAs: 'inversiones/actaCompra'
+              controllerAs: 'actaComprainv'
+            })
+            .when('/inversiones/consulta', {
+              templateUrl: 'views/inversiones/consulta.html',
+              controller: 'InversionesConsultaCtrl',
+              controllerAs: 'consultaInv'
             })
             .otherwise({
                 redirectTo: '/'
