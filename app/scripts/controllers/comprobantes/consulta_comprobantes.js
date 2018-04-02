@@ -17,7 +17,6 @@ angular.module('financieraClienteApp')
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "ver", clase_css: "fa fa-search fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.CONSULTAR_MOVIMIENTO'), operacion: 'consultar_movimiento', estado: true },
-
     ];
 
     ctrl.Comprobantes = {
@@ -63,8 +62,6 @@ angular.module('financieraClienteApp')
 
         });
 
-
-
         $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
             switch (operacion) {
@@ -93,7 +90,6 @@ angular.module('financieraClienteApp')
 
           });
         };
-
 
 
         ctrl.crearComprobante = function(){
