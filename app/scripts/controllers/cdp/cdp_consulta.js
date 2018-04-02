@@ -92,6 +92,9 @@ angular.module('financieraClienteApp')
 
         self.verDisponibilidad = function(row, anular) {
             self.anular = anular;
+            if (self.anular){
+                self.cargarTipoAnulacion();
+            }
             $("#myModal").modal();
             $scope.apropiacion = undefined;
             $scope.apropiaciones = [];
@@ -138,6 +141,13 @@ angular.module('financieraClienteApp')
             self.alerta = "";
         };
 
+        self.cargarTipoAnulacion = function(){
+            financieraRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
+                    .then(function(response) { //error con el success
+                        self.tiposAnulacion = response.data;
+                    });
+        };
+
         self.anularDisponibilidad = function() {
             if (self.motivo == undefined || self.motivo === "" || self.motivo == null) {
                 swal("", $translate.instant("E_A02"), "error")
@@ -159,9 +169,9 @@ angular.module('financieraClienteApp')
                     EstadoAnulacion: { Id: 1 },
                     Expidio: 1234567890
                 };
-                if (self.tipoAnulacion === "T") {
+                if (self.tipoAnulacion.Id === 2 || self.tipoAnulacion.Id === 3) {
                     disponibilidad_apropiacion = self.rubros_afectados;
-                } else if (self.tipoAnulacion === "P") {
+                } else if (self.tipoAnulacion.Id === 1) {
                     disponibilidad_apropiacion[0] = self.Rubro_sel;
                     valor = parseFloat(self.Valor);
                 }
