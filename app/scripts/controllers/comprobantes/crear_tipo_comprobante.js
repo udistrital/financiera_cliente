@@ -193,8 +193,8 @@ angular.module('financieraClienteApp')
           confirmButtonText: $translate.instant('CONFIRMAR'),
           cancelButtonText: $translate.instant('CANCELAR'),
 
-      }).then(function(inputValue) {
-        if(inputValue.value === true){
+      }).then(function() {
+
           var comprobante_activar = {
             Id: ctrl.id_edicion,
             Nombre : ctrl.nombre_comprobante_edicion,
@@ -231,9 +231,7 @@ angular.module('financieraClienteApp')
                     })
                 }
             });
-        }else{
 
-        }
       })
 
    };
@@ -258,8 +256,8 @@ angular.module('financieraClienteApp')
          cancelButtonColor: "#C9302C",
          confirmButtonText: $translate.instant('CONFIRMAR'),
          cancelButtonText: $translate.instant('CANCELAR'),
-     }).then(function(inputValue) {
-       if(inputValue.value === true){
+     }).then(function() {
+
        var comprobante_activar = {
          Id: ctrl.id_edicion,
          Nombre : ctrl.nombre_comprobante_edicion,
@@ -298,9 +296,6 @@ angular.module('financieraClienteApp')
              }
          });
 
-       }else{
-
-       }
      })
 
   };
@@ -322,8 +317,8 @@ angular.module('financieraClienteApp')
                 cancelButtonColor: "#C9302C",
                 confirmButtonText: $translate.instant('CONFIRMAR'),
                 cancelButtonText: $translate.instant('CANCELAR'),
-            }).then(function(inputValue) {
-                if(inputValue.value === true){
+            }).then(function() {
+
               var comprobante_edicion = {
                 Id: ctrl.id_edicion,
                 Nombre : ctrl.nombre_comprobante_edicion,
@@ -360,9 +355,7 @@ angular.module('financieraClienteApp')
                         })
                     }
                 });
-             }else{
-                   $('#modal_edicion').modal('hide');
-             }
+            
             })
         } else {
             swal({
