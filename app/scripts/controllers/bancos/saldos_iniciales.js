@@ -71,10 +71,11 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('saldosIniciales.registroExitoso',function (){
             if (self.registroExitoso !== undefined){
+                self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
              $location.path('/bancos/saldos_iniciales');
               swal(
                 'Registro Existoso',
-                'El registro del saldo inicial por un valor $' + self.valor_inicial + ' fue creado exitosamente en la cuenta '+ self.padre.Codigo + ' ' + self.padre.Nombre,
+                'El registro del saldo inicial por un valor ' + self.valor_inicial + ' fue creado exitosamente en la cuenta contable: '+ self.padre.Codigo + ', para la cuenta bancaria: ' + self.padre.Nombre,
                 'success'
               );
             }
@@ -123,6 +124,8 @@ angular.module('financieraClienteApp')
                     field: 'Saldo',
                     displayName: $translate.instant('SALDO'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                    cellClass: 'input_right',
+                    cellFilter: 'currency',
                     width: '30%'
                 },
                 {
