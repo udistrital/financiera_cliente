@@ -1,5 +1,6 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'INVERSIONES' | translate }}</h2>
+
 <div class="panel-body" >
   <legend class="text-primary" ng-click="actaComprainv.infTitulo=!actaComprainv.infTitulo">
     Titulo
@@ -7,114 +8,141 @@
     <span class="fa fa-minus pull-right" ng-show="actaComprainv.infTitulo"></span>
   </legend class="text-primary">
   <div ng-show="actaComprainv.infTitulo">
-    <div class="form-horizontal">
-      <div class="form-group">
-        <label for="vendedor" class="col-sm-2 control-label">Vendedor</label>
-        <div class="col-sm-4">
-          <select ng-model="" ng-options="i.Nombre for i in actaComprainv.vendedores" class="form-control" id="vendedor" required>
-            <option value="">Seleccionar Vendedor</option>
-          </select>
-        </div>
-        <label for="emisor" class="col-sm-2 control-label">Emisor</label>
-        <div class="col-sm-4">
-          <select ng-model="" ng-options="i.Nombre for i in actaComprainv.emisores" class="form-control" id="emisores" required>
-            <option value="">Seleccionar Emisor</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label col-sm-2">Tipo</label>
-        <div class="col-sm-4">
-          <select ng-model="" ng-options="i.Nombre for i in actaComprainv.tipo" class="form-control" id="tipo" required>
-            <option value="">Seleccionar Tipo</option>
-          </select>
-        </div>
-        <label for="noperacion" class="col-sm-2 control-label">Num. Operación</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control input_left" ng-model="" placeholder="Número operación" ui-number-mask="0" required/>
-        </div>
-      </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
+
       <div class="panel panel-default">
         <div class="panel-body">
-      <div class="form-horizontal">
-      <div class="form-group">
-        <label class="control-label col-sm-2">TRM</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control input_left" ng-model="" placeholder="TRM" ui-number-mask="0" required/>
+
+          <div class="col-md-6">
+
+            <div class="form-group">
+              <label for="vendedor" class="control-label">Vendedor</label>
+              <select ng-model="" ng-options="i.Nombre for i in actaComprainv.vendedores" class="form-control" id="vendedor" required>
+                <option value="">Seleccionar Vendedor</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <label class="control-label">Tipo</label>
+              <select ng-model="" ng-options="i.Nombre for i in actaComprainv.tipo" class="form-control" id="tipo" required>
+                <option value="">Seleccionar Tipo</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>TRM</label>
+              <input type="text" class="form-control input_left" ng-model="" placeholder="TRM" ui-number-mask="0" required/>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Valor Nom. Saldo</label>
+              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo" ui-number-mask="0" required/>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Valor actual</label>
+            <input type="text" class="form-control input_left" ng-model="" placeholder="Valor actual" ui-number-mask="0" required/>
         </div>
 
-        <label class="control-label col-sm-2">Tasa Nominal</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control input_left" ng-model="" placeholder="Tasa Nominal" ui-number-mask="0" required/>
-        </div>
-    </div>
-    <div class="form-group">
-    <label class="control-label col-sm-4">Valor Nom. Saldo</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo" ui-number-mask="0" required/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-4">Valor Nom. Saldo Mon. Nal.</label>
-    <div class="col-sm-8">
-      <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo Mon. Nal." ui-number-mask="0" required/>
-    </div>
-  </div>
-  <div class="form-group">
-    <label class="control-label col-sm-2">Valor actual</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control input_left" ng-model="" placeholder="Valor actual" ui-number-mask="0" required/>
-    </div>
-    <label class="control-label col-sm-2">Valor neto girar</label>
-    <div class="col-sm-4">
-      <input type="text" class="form-control input_left" ng-model="" placeholder="Valor neto a girar" ui-number-mask="0" required/>
-    </div>
-</div>
-  </div>
-  </div>
-</div>
-<div class="form-group">
-  <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-  <br>
-  <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistroG.observaciones">
-        </textarea>
-</div>
-</div>
-<div class="col-md-6">
-  <div class="form-group">
-    <arbol-conceptos filtro="actaComprainv.filtro_ingresos" seleccion="actaComprainv.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
-  </div>
-</div>
+          <div class="form-group">
+            <label class="control-label" for="fechaCompra">Fecha compra</label>
+            <br>
+            <md-datepicker ng-model="actaComprainv.fechaCompra" md-placeholder="Fecha compra"></md-datepicker>
+          </div>
 
-<div class="col-md-12">
-  <div class="row" ng-show="actaComprainv.concepto[0]">
-    <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
-    <div class="panel-default panel-body">
-      <div class="panel panel-heading">
-        <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
+          <div class="form-group">
+            <label class="control-label" for="fechaVencimiento">Fecha vencimiento</label>
+            <br>
+            <md-datepicker ng-model="actaComprainv.fechaVencimiento" md-placeholder="Fecha vencimiento"></md-datepicker>
+          </div>
+
+        </div>
+
+          <div class="col-md-6">
+
+
+            <div class="form-group">
+              <label for="emisor" class="control-label">Emisor</label>
+              <select ng-model="" ng-options="i.Nombre for i in actaComprainv.emisores" class="form-control" id="emisores" required>
+                <option value="">Seleccionar Emisor</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="noperacion" class="control-label">Num. Operación</label>
+                <input type="text" class="form-control input_left" ng-model="" placeholder="Número operación" ui-number-mask="0" required/>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label">Tasa Nominal</label>
+              <input type="text" class="form-control input_left" ng-model="" placeholder="Tasa Nominal" ui-number-mask="0" required/>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Valor Nom. Saldo Mon. Nal.</label>
+              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo Mon. Nal." ui-number-mask="0" required/>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Valor neto girar</label>
+              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor neto a girar" ui-number-mask="0" required/>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="fechaRedencion">Fecha redención</label>
+              <br>
+              <md-datepicker ng-model="actaComprainv.fechaRedencion" md-placeholder="Fecha redención"></md-datepicker>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="fechaEmision">Fecha emisión</label>
+              <br>
+              <md-datepicker ng-model="actaComprainv.fechaEmision" md-placeholder="Fecha emisión"></md-datepicker>
+            </div>
+
+          </div>
+
+          <div class="col-md-12">
+            <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
+            <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistroG.observaciones"></textarea>
+          </div>
+
+        </div>
       </div>
-      <ul class="list-unstyled">
-        <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistroG.concepto[0].Rubro.Codigo+" / "+ingresoRegistroG.concepto[0].Rubro.Nombre}}
-          <ul>
-            <li>
-              <div class="col-md-4" style="width:148px">
-                <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
-              </div>
-              <div class="col-md-4" style="width:200px">
-                <input class="form-control" id="total" type="text" ng-model="actaComprainv.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
-              </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="form-group">
+        <arbol-conceptos filtro="actaComprainv.filtro_ingresos" seleccion="actaComprainv.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="row" ng-show="actaComprainv.concepto[0]">
+        <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
+        <div class="panel-default panel-body">
+          <div class="panel panel-heading">
+            <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
+          </div>
+          <ul class="list-unstyled">
+            <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistroG.concepto[0].Rubro.Codigo+" / "+ingresoRegistroG.concepto[0].Rubro.Nombre}}
+              <ul>
+                <li>
+                  <div class="col-md-4" style="width:148px">
+                    <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
+                  </div>
+                  <div class="col-md-4" style="width:200px">
+                    <input class="form-control" id="total" type="text" ng-model="actaComprainv.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
-  </div>
+
+</div>
 </div>
 
-  </div>
-  </div>
-</div>
   <div class="panel-body" ng-show="actaComprainv.concepto[0]">
     <legend class="text-primary" ng-click="c=!c">
       {{'CUENTAS_CONTABLES' | translate}}
@@ -148,31 +176,28 @@
       <span class="fa fa-minus pull-right" ng-show="d"></span>
     </legend class="text-primary">
     <div class="panel-body row" ng-show="d">
-      <div class="form-horizontal">
+      <div class="col-md-3">
         <div class="form-group">
-          <label class="control-label col-sm-2">Valor recompra</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control input_left" ng-model="" placeholder="Valor recompra" ui-number-mask="0" required/>
-          </div>
-          <label class="control-label col-sm-2" for="fechaVenta">Fecha de venta</label>
-          <div class="col-sm-4">
-          <md-datepicker ng-model="actaComprainv.fechaVenta" md-placeholder="fecha de venta"></md-datepicker>
-        </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label col-sm-2" for="fechaPacto">Fecha pacto</label>
-          <div class="col-sm-4">
-          <md-datepicker ng-model="actaComprainv.fechaPacto" md-placeholder="Fecha pacto"></md-datepicker>
-        </div>
-
-          <label for="comprador" class="col-sm-2 control-label">Comprador</label>
-          <div class="col-sm-4">
-            <select ng-model="" ng-options="i.Nombre for i in actaComprainv.comprador" class="form-control" id="vendedor" required>
-              <option value="">Seleccionar comprador</option>
-            </select>
-          </div>
+          <label class="control-label">Valor recompra</label>
+          <input type="text" class="form-control" ng-model="" placeholder="Valor recompra" ui-number-mask="0" required/>
         </div>
       </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="comprador" class="control-label">Comprador</label>
+          <select ng-model="" ng-options="i.Nombre for i in actaComprainv.comprador" class="form-control" id="vendedor" required>
+            <option value="">Seleccionar comprador</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label col-sm-4 pull-left" for="fechaVenta">Fecha venta</label>
+          <md-datepicker ng-model="actaComprainv.fechaVenta" md-placeholder="Fecha venta"></md-datepicker>
+        </div>
+          <label class="control-label col-sm-4" for="fechaPacto">Fecha pacto</label>
+          <md-datepicker ng-model="actaComprainv.fechaPacto" md-placeholder="Fecha pacto"></md-datepicker>
+      </div>
+    </div>
     </div>
   </div>
-<div>
