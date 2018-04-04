@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
     .controller('CdpCdpAprobacionAnulacionCtrl', function($scope, $translate, financieraRequest, financieraMidRequest, agoraRequest) {
         var self = this;
         self.offset = 0;
+         self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
         self.UnidadEjecutora = 1 ;
         self.rubros_afectados = [];
         self.gridOptions = {
@@ -90,7 +91,7 @@ angular.module('financieraClienteApp')
         self.gridOptions.multiSelect = false;
         self.actualizarLista = function(offset, query) {
             if(query !== ""){
-              query = query + ",Vigencia:"+ self.Vigencia;
+              query = query + ",AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
             }else{
               query = "&query=AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
             }
@@ -103,7 +104,6 @@ angular.module('financieraClienteApp')
                     angular.forEach(self.gridOptions.data, function(data) {
                     financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
                         data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
-                        console.log("Data: ", response.data);
                     });
                 });
                 }
@@ -126,6 +126,7 @@ angular.module('financieraClienteApp')
         };
 
         self.gridOptions.onRegisterApi = function(gridApi) {
+            self.gridApi = gridApi;
             gridApi.core.on.filterChanged($scope, function() {
                 var grid = this.grid;
                 var query = '';
@@ -374,11 +375,33 @@ angular.module('financieraClienteApp')
             });
         };
 
+        self.verFenecidos = function() {
+            self.gridApi.grid.columns[4].filters[0] = {
+                term: "Fenecido"
+            };
+            self.customfilter = '&query=TipoAnulacion.Nombre__in:Fenecido';
+        };
+
+        self.verAnulaciones = function() {
+            self.gridApi.grid.columns[4].filters[0] = {
+                term: ""
+            };
+            self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
+            financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                .then(function(response) { //error con el success
+                    self.gridOptions.totalItems = response.data;
+                    self.actualizarLista(self.offset, self.customfilter);
+                });
+        };
+
+
+
         $scope.$watch("cdpAprobacionAnulacion.Vigencia", function() {
             financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.gridOptions.totalItems = response.data;
-                        self.actualizarLista(self.offset, '');
+                        self.actualizarLista(self.offset, self.customfilter);
+                        self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
                     });
             /*if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
                 //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
