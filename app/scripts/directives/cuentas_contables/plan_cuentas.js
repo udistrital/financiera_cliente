@@ -83,7 +83,15 @@ angular.module('financieraClienteApp')
             financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
               $scope.arbol = [];
               if (response.data !== null) {
-                $scope.arbol = response.data;
+                if ($scope.filtro!== undefined) {
+                  self.cuentaPadre = $scope.filtro.CuentaPadre.Id;
+                  self.cuentaHijo = $scope.filtro.CuentaHijo.Id;
+                  var posP = response.data.map(function(d) { return d['Id']; }).indexOf(self.cuentaPadre);                  
+                  var posH = response.data[posP].Hijos.map(function(d) { return d['Id']; }).indexOf(self.cuentaHijo);
+                  $scope.arbol = response.data[posP].Hijos[posH];
+                } else {
+                  $scope.arbol = response.data;
+                }
               }
               $scope.load=false;
             });
