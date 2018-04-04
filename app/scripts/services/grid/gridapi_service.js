@@ -7,7 +7,14 @@
  * # grid/gridapiService
  * Service in the financieraClienteApp.
  */
-angular.module('financieraClienteApp')
+angular.module('gridApiService',[])
+/**
+     * @ngdoc service
+     * @name gridApiService.service:gridApiService
+     * @description
+     * # gridApiService
+     * Fabrica sobre la cual se consumen los servicios para paginado externo en uigrid
+     */
     .factory('gridApiService', function() {
         //var path = CONF.GENERAL.ACADEMICA_SERVICE;
         // Public API here
