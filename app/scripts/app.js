@@ -61,7 +61,8 @@ angular
         'configuracionService',
         "wso2Service",
         "requestService",
-        "ingresoDocServ"
+        "ingresoDocServ",
+        "gridApiService"
     ])
 
 .run(function(amMoment) {
