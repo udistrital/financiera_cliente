@@ -75,7 +75,7 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                         FechaFin: ctrl.fechaFin,
                         Observaciones: ctrl.observaciones,
                         UnidadEjecutora: ctrl.unidadejecutora,
-                        aportante: Number(ctrl.aportanteSelec.Id), 
+                        aportante: Number(ctrl.aportanteSelec.Id),
                         NumCuenta: ctrl.numeroCuenta.toString()
                     },
                     DocumentoGenerador:{
@@ -114,4 +114,10 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
         };
 
 
-  });
+  }).filter('capitalize', function() {
+  return function(input, scope) {
+    if (input!=null)
+    input = input.toLowerCase();
+    return input.substring(0,1).toUpperCase()+input.substring(1);
+  }
+});

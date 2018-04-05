@@ -41,39 +41,55 @@ angular.module('financieraClienteApp')
     };
 
 
-      ctrl.gridInversiones.columnDefs = [
-        {
-          displayName: 'Vendedor',
-          width: '7%',
-          cellClass: 'input_center'
-        },
-        {
-          displayName: 'Fecha compra',
-          cellClass: 'input_center',
-          cellFilter: "date:'yyyy-MM-dd'",
-          width: '8%',
-        },
-        {
-          displayName: $translate.instant('Valor'),
-          width: '7%',
-          cellClass: 'input_center'
-        },
-        {
-          width: '5%',
-          displayName: 'Comprador'
-        },
-        {
-          width: '7%',
-          displayName: $translate.instant('ESTADO'),
-          filter: {
-            type: uiGridConstants.filter.SELECT,
-            selectOptions: $scope.estado_select
-          }
-        }
-      ];
+      ctrl.cargarEstados = function() {
+          financieraRequest.get("estado_inversion", $.param({
+                  sortby: "NumeroOrden",
+                  limit: -1,
+                  order: "asc"
+              }))
+              .then(function(response) {
+                  $scope.estados = [];
+                  $scope.aristas = [];
+                  ctrl.estados = response.data;
+                  angular.forEach(ctrl.estados, function(estado) {
+                      $scope.estados.push({
+                          id: estado.NumeroOrden,
+                          label: estado.Nombre
+                      });
+                      $scope.estado_select.push({
+                          value: estado.Nombre,
+                          label: estado.Nombre,
+                          estado: estado
+                      });
+                  });
+                  $scope.aristas = [{
+                          from: 1,
+                          to: 2
+                      },
+                      {
+                          from: 1,
+                          to: 3
+                      },
+                      {
+                          from: 2,
+                          to: 4
+                      },
+                      {
+                          from: 2,
+                          to: 5
+                      },
+                      {
+                          from: 4,
+                          to: 6
+                      },
+                      {
+                          from: 4,
+                          to: 7
+                      }
+                  ];
+              });
+      };
 
-
-
-
+      ctrl.cargarEstados();
 
   });
