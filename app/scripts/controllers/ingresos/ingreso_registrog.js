@@ -92,7 +92,7 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                 ctrl.ingreso.Movimientos = ctrl.movs;
                 console.log(ctrl.ingreso);
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
-                    if (response.data.Type !== undefined) {
+                    if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
