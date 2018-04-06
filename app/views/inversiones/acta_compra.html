@@ -17,7 +17,7 @@
 
             <div class="form-group">
               <label for="vendedor" class="control-label">Vendedor</label>
-              <select ng-model="" ng-options="i.Nombre for i in actaComprainv.vendedores" class="form-control" id="vendedor" required>
+              <select ng-model="actaComprainv.vendedor" ng-options="i.Nombre for i in actaComprainv.vendedores" class="form-control" id="vendedor" required>
                 <option value="">Seleccionar Vendedor</option>
               </select>
             </div>
@@ -32,17 +32,17 @@
 
             <div class="form-group">
               <label>TRM</label>
-              <input type="text" class="form-control input_left" ng-model="" placeholder="TRM" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.trm" placeholder="TRM" ui-number-mask="0" required/>
             </div>
 
             <div class="form-group">
               <label class="control-label">Valor Nom. Saldo</label>
-              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldo" placeholder="Valor Nom. Saldo" ui-number-mask="0" required/>
           </div>
 
           <div class="form-group">
             <label class="control-label">Valor actual</label>
-            <input type="text" class="form-control input_left" ng-model="" placeholder="Valor actual" ui-number-mask="0" required/>
+            <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorActual" placeholder="Valor actual" ui-number-mask="0" required/>
         </div>
 
           <div class="form-group">
@@ -64,27 +64,27 @@
 
             <div class="form-group">
               <label for="emisor" class="control-label">Emisor</label>
-              <select ng-model="" ng-options="i.Nombre for i in actaComprainv.emisores" class="form-control" id="emisores" required>
+              <select ng-model="actaComprainv.emisor" ng-options="i.Nombre for i in actaComprainv.emisores" class="form-control" id="emisores" required>
                 <option value="">Seleccionar Emisor</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="noperacion" class="control-label">Num. Operación</label>
-                <input type="text" class="form-control input_left" ng-model="" placeholder="Número operación" ui-number-mask="0" required/>
+                <input type="text" class="form-control input_left" ng-model="actaComprainv.NumOperacion" placeholder="Número operación" ui-number-mask="0" required/>
             </div>
 
             <div class="form-group">
               <label class="control-label">Tasa Nominal</label>
-              <input type="text" class="form-control input_left" ng-model="" placeholder="Tasa Nominal" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.tasaNominal" placeholder="Tasa Nominal" ui-number-mask="0" required/>
             </div>
             <div class="form-group">
               <label class="control-label">Valor Nom. Saldo Mon. Nal.</label>
-              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor Nom. Saldo Mon. Nal." ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldoMonNal" placeholder="Valor Nom. Saldo Mon. Nal." ui-number-mask="0" required/>
             </div>
             <div class="form-group">
               <label class="control-label">Valor neto girar</label>
-              <input type="text" class="form-control input_left" ng-model="" placeholder="Valor neto a girar" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="actaCompraInv.ValorNetoGirar" placeholder="Valor neto a girar" ui-number-mask="0" required/>
             </div>
             <div class="form-group">
               <label class="control-label" for="fechaRedencion">Fecha redención</label>
@@ -179,13 +179,13 @@
       <div class="col-md-3">
         <div class="form-group">
           <label class="control-label">Valor recompra</label>
-          <input type="text" class="form-control" ng-model="" placeholder="Valor recompra" ui-number-mask="0" required/>
+          <input type="text" class="form-control" ng-model="actaComprainv.valorRecompra" placeholder="Valor recompra" ui-number-mask="0" required/>
         </div>
       </div>
       <div class="col-md-3">
         <div class="form-group">
           <label for="comprador" class="control-label">Comprador</label>
-          <select ng-model="" ng-options="i.Nombre for i in actaComprainv.comprador" class="form-control" id="vendedor" required>
+          <select ng-model="actaComprainv.comprador" ng-options="i.Nombre for i in actaComprainv.comprador" class="form-control" id="vendedor" required>
             <option value="">Seleccionar comprador</option>
           </select>
         </div>
@@ -200,4 +200,11 @@
       </div>
     </div>
     </div>
+
+    <div class="panel-footer">
+      <div align="center">
+        <button  class="btn btn-outline btn-info" ng-click="actaComprainv.registrarInversion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+      </div>
+    </div>
+
   </div>
