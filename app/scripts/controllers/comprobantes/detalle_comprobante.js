@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .controller('DetalleComprobanteCtrl', function ($localStorage, $scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
     ctrl.comprobante = $localStorage.comprobante;
-  
+
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
       { clase_color: "borrar", clase_css: "fa fa-times-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'inactive', estado: true }
@@ -28,11 +28,13 @@ angular.module('financieraClienteApp')
         columnDefs: [
             { field: 'Id', visible: false },
             { field: 'Secuencia',displayName: $translate.instant('SECUENCIA'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'CuentaContable',displayName: $translate.instant('CUENTA_CONTABLE'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'MovimientoContable.CuentaContable.Nombre',displayName: $translate.instant('CUENTA_CONTABLE'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'MovimientoContable.CuentaContable.Naturaleza',displayName: $translate.instant('TIPO_CUENTA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'MovimientoContable.Debito', visible: false },
+            { field: 'MovimientoContable.Credito', visible: false },
             { field: 'CentroCosto',displayName: $translate.instant('CENTRO_COSTO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'SubcentroCosto',displayName: $translate.instant('SUBCENTRO_COSTO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Tercero',displayName: $translate.instant('INFORMACION_TERCERO'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'CuentaContable.Tipo',displayName: $translate.instant('TIPO_CUENTA'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Valor',displayName: $translate.instant('VALOR'), cellClass: 'input_center', cellFilter: 'currency',headerCellClass: 'text-info' },
             {
                 field: 'Opciones',
@@ -44,8 +46,20 @@ angular.module('financieraClienteApp')
 
     };
 
+    ctrl.RegistroComprobantes.onRegisterApi = function(gridApi) {
+        ctrl.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            ctrl.debito_row = row.entity.MovimientoContable.Debito;
+            ctrl.credito_row = row.entity.MovimientoContable.Credito;
+            ctrl.diferencia_row = parseInt(ctrl.debito_row) - parseInt(ctrl.credito_row)
+        });
+    };
+
+          ctrl.RegistroComprobantes.multiSelect = false;
+
         financieraRequest.get('registro_comprobantes','limit=-1?query=Comprobante:'+ctrl.comprobante.Id).then(function(response) {
           ctrl.RegistroComprobantes.data = response.data;
+
         });
 
         $scope.loadrow = function(row, operacion) {
