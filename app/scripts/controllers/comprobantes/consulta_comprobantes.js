@@ -35,6 +35,7 @@ angular.module('financieraClienteApp')
             { field: 'FechaRegistro',displayName: $translate.instant('FECHA_REGISTRO'),cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span>', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.CodigoAbreviacion',displayName: $translate.instant('TIPO_COMPROBANTE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.Nombre',visible:false},
+            { field: 'Observaciones',visible:false},
             { field: 'TipoComprobante.Descripcion',displayName: $translate.instant('DESCRIPCION'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'EstadoComprobante.Nombre',displayName: $translate.instant('ESTADO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             {
@@ -107,6 +108,7 @@ angular.module('financieraClienteApp')
           ctrl.comprobante.CodigoAbreviacion = row.entity.TipoComprobante.CodigoAbreviacion;
           ctrl.comprobante.Nombre = row.entity.TipoComprobante.Nombre;
           ctrl.comprobante.Secuencia = row.entity.Secuencia;
+          ctrl.comprobante.Observaciones = row.entity.Observaciones;
           $localStorage.comprobante = ctrl.comprobante;
 
           $location.path('/comprobantes/detalle_comprobante');
