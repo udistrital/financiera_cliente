@@ -17,7 +17,7 @@
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
         </div>
         <br>
         <div class="row">
@@ -35,7 +35,7 @@
                           <label>{{ 'DEBITO' | translate }}</label>
                         </div>
                         <div class="col-md-8">
-                          <span class="form-control right-letters"> {{50000 | currency}}</span>
+                          <span class="form-control right-letters"> {{detalleComprobante.debito_row | currency}}</span>
                         </div>
                     </div>
                     <br>
@@ -44,7 +44,7 @@
                           <label>{{ 'CREDITO' | translate }}</label>
                         </div>
                         <div class="col-md-8">
-                          <span class="form-control right-letters"> {{50000 | currency}}</span>
+                          <span class="form-control right-letters"> {{detalleComprobante.credito_row | currency}}</span>
                         </div>
                     </div>
                     <br>
