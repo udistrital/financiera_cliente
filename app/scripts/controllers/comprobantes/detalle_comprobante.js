@@ -11,6 +11,9 @@ angular.module('financieraClienteApp')
   .controller('DetalleComprobanteCtrl', function ($localStorage, $scope, $translate,financieraMidRequest,financieraRequest) {
   	var ctrl = this;
     ctrl.comprobante = $localStorage.comprobante;
+    ctrl.observaciones = ctrl.comprobante.Observaciones;
+    var valor_total_debito = 0;
+    var valor_total_credito = 0;
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -28,6 +31,7 @@ angular.module('financieraClienteApp')
         columnDefs: [
             { field: 'Id', visible: false },
             { field: 'Secuencia',displayName: $translate.instant('SECUENCIA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'MovimientoContable.CuentaContable.Codigo',displayName: $translate.instant('CODIGO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'MovimientoContable.CuentaContable.Nombre',displayName: $translate.instant('CUENTA_CONTABLE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'MovimientoContable.CuentaContable.Naturaleza',displayName: $translate.instant('TIPO_CUENTA'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'MovimientoContable.Debito', visible: false },
@@ -49,9 +53,7 @@ angular.module('financieraClienteApp')
     ctrl.RegistroComprobantes.onRegisterApi = function(gridApi) {
         ctrl.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            ctrl.debito_row = row.entity.MovimientoContable.Debito;
-            ctrl.credito_row = row.entity.MovimientoContable.Credito;
-            ctrl.diferencia_row = parseInt(ctrl.debito_row) - parseInt(ctrl.credito_row)
+
         });
     };
 
@@ -60,6 +62,22 @@ angular.module('financieraClienteApp')
         financieraRequest.get('registro_comprobantes','limit=-1?query=Comprobante:'+ctrl.comprobante.Id).then(function(response) {
           ctrl.RegistroComprobantes.data = response.data;
 
+            for (var i = 0; i < response.data.length; i++) {
+
+              if (response.data[i].MovimientoContable.CuentaContable.Naturaleza === "debito"){
+                  valor_total_debito =  valor_total_debito + response.data[i].Valor
+              }
+
+              if (response.data[i].MovimientoContable.CuentaContable.Naturaleza === "credito"){
+                  valor_total_credito =  valor_total_credito + response.data[i].Valor
+              }
+            }
+
+
+            ctrl.debito_row = valor_total_debito;
+            ctrl.credito_row = valor_total_credito;
+
+            ctrl.diferencia_row = parseInt(ctrl.debito_row) - parseInt(ctrl.credito_row)
         });
 
         $scope.loadrow = function(row, operacion) {
