@@ -17,7 +17,7 @@
 
             <div class="form-group">
               <label for="vendedor" class="control-label">Vendedor</label>
-              <select ng-model="actaComprainv.vendedor" ng-options="i.Nombre for i in actaComprainv.vendedores" class="form-control" id="vendedor" required>
+              <select ng-model="actaComprainv.vendedor" ng-options="i.NomProveedor for i in actaComprainv.terceros" class="form-control" id="vendedor" required>
                 <option value="">Seleccionar Vendedor</option>
               </select>
             </div>
@@ -57,6 +57,11 @@
             <md-datepicker ng-model="actaComprainv.fechaVencimiento" md-placeholder="Fecha vencimiento"></md-datepicker>
           </div>
 
+          <div class="form-group">
+            <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+            <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras">
+                          </select>
+          </div>
         </div>
 
           <div class="col-md-6">
@@ -64,7 +69,7 @@
 
             <div class="form-group">
               <label for="emisor" class="control-label">Emisor</label>
-              <select ng-model="actaComprainv.emisor" ng-options="i.Nombre for i in actaComprainv.emisores" class="form-control" id="emisores" required>
+              <select ng-model="actaComprainv.emisor" ng-options="i.NomProveedor for i in actaComprainv.terceros" class="form-control" required>
                 <option value="">Seleccionar Emisor</option>
               </select>
             </div>
@@ -97,7 +102,6 @@
               <br>
               <md-datepicker ng-model="actaComprainv.fechaEmision" md-placeholder="Fecha emisión"></md-datepicker>
             </div>
-
           </div>
 
           <div class="col-md-12">
@@ -185,7 +189,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="comprador" class="control-label">Comprador</label>
-          <select ng-model="actaComprainv.comprador" ng-options="i.Nombre for i in actaComprainv.comprador" class="form-control" id="vendedor" required>
+          <select ng-model="actaComprainv.comprador" ng-options="i.NomProveedor for i in actaComprainv.terceros" class="form-control" required>
             <option value="">Seleccionar comprador</option>
           </select>
         </div>

@@ -23,23 +23,118 @@ angular.module('financieraClienteApp')
       'Id': 1
     }
 
-    ctrl.gridInversiones = {
-      enableRowSelection: true,
-      enableSelectAll: true,
-      selectionRowHeaderWidth: 35,
-      multiSelect: true,
-      enableRowHeaderSelection: true,
-      showColumnFooter: true,
-      paginationPageSizes: [10, 50, 100],
-      paginationPageSize: null,
+    $scope.botones = [
+        //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+        { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+        //{ clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('LEGALIZAR'), operacion: 'legalizar', estado: true }
 
+    ];
+
+    ctrl.gridInversiones = {
+      paginationPageSizes: [5, 15, 20],
+      paginationPageSize: 5,
       enableFiltering: true,
-      enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
-      minRowsToShow: 10,
-      useExternalPagination: false
+      enableSorting: true,
+      enableRowSelection: true,
+      enableRowHeaderSelection: false,
+      columnDefs: [{
+              field: 'Id',
+              displayName: 'Consecutivo',
+              width: '5%',
+          },
+          {
+              field: 'Vendedor',
+              displayName: 'Vendedor',
+              width: '10%',
+          },
+          {
+              field: 'Emisor',
+              displayName: 'Emisor',
+              width: '15%',
+          },
+          {
+              field: 'NumOperacion',
+              displayName: 'Numero Operación',
+              width: '10%'
+          },
+          {
+              field: 'Trm',
+              displayName: 'TRM',
+              width: '14%'
+          },
+          {
+              field: 'TasaNominal',
+              displayName: 'Tasa Nominal',
+              width: '14%'
+          },
+          {
+              field: 'ValorNomSaldo',
+              displayName: 'Valor Nom. Saldo',
+              width: '8%',
+          },
+          {
+              field: 'ValorNomSaldoMonNal',
+              displayName: 'Valor Nom. Saldo Mon. Nal',
+              width: '8%',
+          },
+          {
+              field: 'ValorActual',
+              displayName: 'Valor Actual',
+              width: '8%',
+          },
+          {
+              field: 'ValorNetoGirar',
+              displayName: 'Valor Neto Girar',
+              width: '8%',
+          },
+          {
+              field: 'FechaCompra',
+              displayName: 'Fecha Compra',
+              width: '8%',
+          },
+          {
+              field: 'FechaRedencion',
+              displayName: 'Fecha Redencion',
+              width: '8%',
+          },
+          {
+              field: 'FechaVencimiento',
+              displayName: 'Fecha Vencimiento',
+              width: '8%',
+          },
+          {
+              field: 'Comprador',
+              displayName: 'Comprador',
+              width: '8%',
+          },
+          {
+              field: 'ValorRecompra',
+              displayName: 'Valor Recompra',
+              width: '8%',
+          },
+          {
+              field: 'FechaPacto',
+              displayName: 'Fecha Pacto',
+              width: '8%',
+          },
+          {
+              name: $translate.instant('OPCIONES'),
+              width: '8%',
+              cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
+          }
+      ]
     };
 
+    ctrl.getInversiones = function() {
+        financieraRequest.get("inversion", $.param({
+                limit: -1,
+                sortby: "Id",
+                order: "asc"
+            })).then(function(response) {
+              ctrl.gridInversiones.data = response.data;
+            });
+
+          };
 
       ctrl.cargarEstados = function() {
           financieraRequest.get("estado_inversion", $.param({
@@ -53,7 +148,7 @@ angular.module('financieraClienteApp')
                   ctrl.estados = response.data;
                   angular.forEach(ctrl.estados, function(estado) {
                       $scope.estados.push({
-                          id: estado.NumeroOrden,
+                          id: estado.Id,
                           label: estado.Nombre
                       });
                       $scope.estado_select.push({
@@ -90,6 +185,25 @@ angular.module('financieraClienteApp')
               });
       };
 
+
+      ctrl.getInversiones();
       ctrl.cargarEstados();
+
+      $scope.loadrow = function(row, operacion) {
+          $scope.solicitud = row.entity;
+
+          switch (operacion) {
+              case "proceso":
+              console.log($scope.solicitud);
+                  $scope.estado = [{Id:	1,
+                                    Nombre:	"Elaborado",
+                                    Descripcion:	"Creación orden de compra inversión",
+                                    Activo:	true,
+                                    CodigoAbreviacion:	"EL",
+                                    NumeroOrden:	1}];
+                  break;
+              default:
+          }
+      };
 
   });

@@ -25,11 +25,31 @@ angular.module('financieraClienteApp')
                 }
             }, true);
 
-    ctrl.registrarInversion = function() { 
+            ctrl.cargarUnidadesEjecutoras = function() {
+                      financieraRequest.get('unidad_ejecutora', $.param({
+                          limit: -1
+                      })).then(function(response) {
+                          ctrl.unidadesejecutoras = response.data;
+                      });
+                  };
+
+            ctrl.cargarTerceros = function(){
+
+                  administrativaRequest.get("informacion_persona_juridica", $.param({
+                     	fields: "Id,DigitoVerificacion,NomProveedor",
+                      limit: -1
+                    })).then(function(response) {
+                      ctrl.terceros = response.data;
+                    });
+                }
+            ctrl.cargarUnidadesEjecutoras();
+            ctrl.cargarTerceros();
+
+    ctrl.registrarInversion = function() {
         ctrl.inversion = {
           Inversion:{
-            Vendedor:ctrl.vendedor,
-            Emisor:ctrl.emisor,
+            Vendedor:ctrl.vendedor.Id,
+            Emisor:ctrl.emisor.Id,
             NumOperacion:ctrl.NumOperacion,
             Trm:ctrl.trm,
             TasaNominal:ctrl.tasaNominal,
@@ -41,7 +61,7 @@ angular.module('financieraClienteApp')
             FechaRedencion:ctrl.fechaRedencion,
             FechaVencimiento:ctrl.fechaVencimiento,
             FechaEmision:ctrl.fechaEmision,
-            Comprador:ctrl.comprador,
+            Comprador:ctrl.comprador.Id,
             ValorRecompra:ctrl.valorRecompra,
             FechaVenta:ctrl.fechaVenta,
             FechaPacto:ctrl.fechaPacto,
@@ -50,8 +70,8 @@ angular.module('financieraClienteApp')
           tipoInversion:1,
           usuario:"admin"
         };
-        console.log(ctrl.ingreso);
-        financieraRequest.post('InversionesActaInversion/CreateInversion', ctrl.inversion).then(function(response) {
+        console.log(ctrl.inversion);
+        financieraRequest.post('inversiones_acta_inversion/CreateInversion', ctrl.inversion).then(function(response) {
           if(response.data.Type != undefined){
             if(response.data.Type === "error"){
                 swal('',$translate.instant(response.data.code),response.data.type);
