@@ -56,8 +56,8 @@ angular.module('financieraClienteApp')
       ctrl.TipoComprobantes.data = response.data;
     });
 
-    financieraRequest.get('tipo_movimiento_comprobante','').then(function(response) {
-      ctrl.TipoMovimientoComprobante = response.data;
+    financieraRequest.get('tipo_documento_afectante','').then(function(response) {
+      ctrl.TipoDocumentoAfectante = response.data;
     });
 
     $scope.loadrow = function(row, operacion) {
@@ -113,7 +113,7 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.Homologar = function(id){
-      var objeto_tipo_movimiento = JSON.parse(ctrl.selectedTipoMovimiento);
+      var objeto_tipo_movimiento = JSON.parse(ctrl.selectedTipoDocumentoAfectante);
 
       var tipo_comprobante = {
           Id: id
@@ -125,7 +125,7 @@ angular.module('financieraClienteApp')
 
       var homologacion = {
         TipoComprobante : tipo_comprobante,
-        TipoMovimientoComprobante : tipo_movimiento
+        TipoDocumentoAfectante : tipo_movimiento
       }
 
       financieraRequest.post('homologacion_comprobantes', homologacion).then(function(response) {
@@ -355,7 +355,7 @@ angular.module('financieraClienteApp')
                         })
                     }
                 });
-            
+
             })
         } else {
             swal({

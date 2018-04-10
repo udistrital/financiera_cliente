@@ -85,10 +85,10 @@
                    </fieldset>
 
                    <fieldset class="form-group">
-                     <label for="tipomovimientoanuevo">{{'TIPO_MOVIMIENTO' | translate}}:</label>
-                     <select class="form-control" id="tipo_movimiento_nuevo" ng-model="crearTipoComprobante.selectedTipoMovimiento" required>
+                     <label for="TipoDocumentoAfectanteanuevo">{{'TIPO_MOVIMIENTO' | translate}}:</label>
+                     <select class="form-control" id="tipo_movimiento_nuevo" ng-model="crearTipoComprobante.selectedTipoDocumentoAfectante" required>
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                        <option ng-repeat="tmovimiento in crearTipoComprobante.TipoMovimientoComprobante"  value="{{tmovimiento}}">{{tmovimiento.Nombre}}</option>
+                        <option ng-repeat="tmovimiento in crearTipoComprobante.TipoDocumentoAfectante"  value="{{tmovimiento}}">{{tmovimiento.Nombre}}</option>
                      </select>
                    </fieldset>
 
