@@ -131,6 +131,22 @@ angular.module('financieraClienteApp')
                 sortby: "Id",
                 order: "asc"
             })).then(function(response) {
+              angular.forEach(response.data, function(rowData) {
+                var est = [];
+                financieraRequest.get("inversion_estado_inversion", $.param({
+                        query: "Inversion:" + rowData.Id + ",Activo:true",
+                        fields: "Estado",
+                        sortby: "FechaRegistro",
+                        limit: -1,
+                        order: "asc"
+                    }))
+                    .then(function(estado) {
+                      angular.forEach(estado.data, function(rowData) {
+                        est.push(rowData.Estado);
+                      });
+                      rowData.Estado = est;
+                    });
+              });
               ctrl.gridInversiones.data = response.data;
             });
 
@@ -195,15 +211,15 @@ angular.module('financieraClienteApp')
           switch (operacion) {
               case "proceso":
               console.log($scope.solicitud);
-                  $scope.estado = [{Id:	1,
-                                    Nombre:	"Elaborado",
-                                    Descripcion:	"Creación orden de compra inversión",
-                                    Activo:	true,
-                                    CodigoAbreviacion:	"EL",
-                                    NumeroOrden:	1}];
+                  $scope.estado = $scope.solicitud.Estado ;
                   break;
               default:
           }
+      };
+
+      $scope.funcion = function() {
+          $scope.estadoclick = $localStorage.nodeclick;
+          console.log($scope.estadoclick);
       };
 
   });
