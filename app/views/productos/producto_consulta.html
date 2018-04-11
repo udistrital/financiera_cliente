@@ -1,0 +1,57 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'LISTA_PRODUCTOS' | translate}}</h2>
+    <div class="panel-body">
+        <div ui-grid="productoConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+        <div class="text-center">
+            <button class="btn btn-info btn-outline">{{'REGISTRAR_PRODUCTO' | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+    <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+             <div class="panel-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="page-header">{{'DETALLE_PRODUCTO' | translate}}</h3>
+                    </div>
+                        <table class="table text-justify">
+                            <tr>
+                                <th>
+                                    {{'NOMBRE' | translate}}: 
+                                </th>
+                                <td>
+                                    {{productoConsulta.data.Nombre}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{'DESCRIPCION' | translate}}: 
+                                </th>
+                                <td>
+                                    {{productoConsulta.data.Descripcion}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{'FECHA_REGISTRO' | translate}}: 
+                                </th>
+                                <td>
+                                    {{productoConsulta.data.FechaRegistro}}
+                                </td>
+                            </tr>
+                        </table>
+                        <hr>
+                        <h4>{{'RUBROS' | translate}}</h4>
+                    
+                            <div ui-grid="productoConsulta.gridOptionsProductoRubro" ui-grid-pagination ui-grid-auto-resize class="col-md-10 col-md-offset-1"></div>
+                            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
