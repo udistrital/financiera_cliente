@@ -100,7 +100,6 @@ angular.module('financieraClienteApp')
 
               network.on('click', $scope.clicknode);
               angular.forEach($scope.node,function(fatherNode){
-                console.log("NodoPadre");
               console.log(fatherNode);
               $scope.childrens = network.getConnectedNodes(fatherNode.Id, 'to');
               angular.forEach($scope.childrens, function(node) {

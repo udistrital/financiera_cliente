@@ -46,6 +46,12 @@ angular.module('financieraClienteApp')
             ctrl.cargarTerceros();
 
     ctrl.registrarInversion = function() {
+
+      if (ctrl.concepto == null) {
+          swal("", $translate.instant('SELECCIONAR_CONCEPTO_INGRESO'), "error");
+          return;
+      }
+
         ctrl.inversion = {
           Inversion:{
             Vendedor:ctrl.vendedor.Id,
@@ -67,10 +73,25 @@ angular.module('financieraClienteApp')
             FechaPacto:ctrl.fechaPacto,
             Observaciones:ctrl.observaciones
           },
+          EstadoInversion:{
+            Estado:{id:1},
+            Activo:true
+          },
+          TotalInversion: ctrl.total,
+          Concepto: ctrl.concepto[0],
           tipoInversion:1,
           usuario:"admin"
         };
+ 
+
+        angular.forEach(ctrl.movs, function(data) {
+            delete data.Id;
+        });
+
+        ctrl.inversion.Movimientos = ctrl.movs;
+
         console.log(ctrl.inversion);
+
         financieraRequest.post('inversiones_acta_inversion/CreateInversion', ctrl.inversion).then(function(response) {
           if(response.data.Type != undefined){
             if(response.data.Type === "error"){
@@ -83,5 +104,17 @@ angular.module('financieraClienteApp')
           }
         })
     };
+
+    $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {
+        if (!angular.isUndefined(newValue)) {
+            financieraRequest.get('concepto', $.param({
+                query: "Id:" + newValue.Id,
+                fields: "Rubro",
+                limit: -1
+            })).then(function(response) {
+                $scope.actaComprainv.concepto[0].Rubro = response.data[0].Rubro;
+            });
+        }
+    }, true);
 
   });
