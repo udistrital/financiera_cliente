@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
   .controller('ProductosProductoConsultaCtrl', function ($scope,$translate) {
     var self = this;
+    	self.prRegistrar = {};
+    	self.prRegistrar.rubrosRelacionados = [];
         self.offset = 0;
         $scope.botones = [{
                 clase_color: "ver",
@@ -123,4 +125,25 @@ angular.module('financieraClienteApp')
         	self.gridOptionsProductoRubro.data = self.data.ProductoRubro
         	$("#myModal").modal();
         };
+
+        self.limpiar = function(){
+        	self.data = {};
+        	self.prRegistrar = {};
+
+        	self.prRegistrar.rubrosRelacionados = [];
+        };
+
+        $scope.$watch("productoConsulta.rubroSel", function() {
+         
+          if (self.rubroSel != undefined && self.rubroSel != null){
+          	if (self.prRegistrar.rubrosRelacionados.indexOf(self.rubroSel) == -1){
+          	self.prRegistrar.rubrosRelacionados.push(self.rubroSel);
+
+          	}
+
+          }
+             
+             
+           
+        }, true);
   });

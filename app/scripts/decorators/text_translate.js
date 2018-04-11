@@ -601,6 +601,7 @@ var text_es = {
     VALOR_CONTRATACION: "Valor De La Contratación",
     VALOR_CRP: "Valor CRP",
     VALOR_DISPONIBLE: "Valor Disponible",
+    VALOR_DISTRIBUCION: "Valor Distribución",
     VALOR_FUENTE: "Valor Fuente Financiamiento",
     VALOR_PAGO: "Valor Pago",
     VALOR_RUBRO: "Valor Rubro",

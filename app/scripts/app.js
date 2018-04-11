@@ -511,6 +511,11 @@ angular
               controller: 'ProductosProductoConsultaCtrl',
               controllerAs: 'productoConsulta'
             })
+            .when('/productos/producto_registro', {
+              templateUrl: 'views/productos/producto_registro.html',
+              controller: 'ProductosProductoRegistroCtrl',
+              controllerAs: 'productoRegistro'
+            })
             .otherwise({
                 redirectTo: '/'
             });
