@@ -506,6 +506,11 @@ angular
               controller: 'IngresosIngresoRegistrogCtrl',
               controllerAs: 'ingresoRegistroG'
             })
+            .when('/productos/producto_consulta', {
+              templateUrl: 'views/productos/producto_consulta.html',
+              controller: 'ProductosProductoConsultaCtrl',
+              controllerAs: 'productoConsulta'
+            })
             .otherwise({
                 redirectTo: '/'
             });
