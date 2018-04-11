@@ -22,7 +22,7 @@ angular.module('financieraClienteApp')
     ctrl.Comprobantes = {
         enableFiltering: true,
         enableSorting: true,
-        enableRowSelection: true,
+        enableRowSelection: false,
         enableRowHeaderSelection: false,
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 10,
