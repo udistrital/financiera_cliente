@@ -220,6 +220,25 @@ angular.module('financieraClienteApp')
       $scope.funcion = function() {
           $scope.estadoclick = $localStorage.nodeclick;
           console.log($scope.estadoclick);
+          ctrl.Request = {
+            Estado:$scope.estadoclick,
+            EstadoPadre:$scope.solicitud.Estado[0],
+            Inversion:{
+              Id:$scope.solicitud.Id
+            }
+          };
+            console.log(ctrl.Request);
+            financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
+              if(response.data.Type != undefined){
+                if(response.data.Type === "error"){
+                    swal('',$translate.instant(response.data.Code),response.data.Type);
+                }else{
+                  swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                    $window.location.reload();
+                  })
+                }
+              }
+            });
       };
 
   });
