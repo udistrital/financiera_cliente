@@ -1,7 +1,7 @@
 <div class="panel panel-primary panel-body">
   <div class="panel-body">
     <legend class="text-primary" ng-click="d=!d">
-      Datos {{valorDescIng | lowercase}}
+      Datos {{valorDescIng | capitalize}}
       <span class="fa fa-plus pull-right" ng-show="!d"></span>
       <span class="fa fa-minus pull-right" ng-show="d"></span>
     </legend>
@@ -14,9 +14,9 @@
                         </select>
         </div>
         <div class="form-group">
-          <label for="numeroCuenta">{{'ŃUMERO_CUENTA'|translate}}</label>
+          <label for="numeroCuenta">{{'NUMERO_CUENTA'|translate}}</label>
           <br>
-          <input class="form-control" ng-model="ingresoRegistroG.numeroCuenta" placeholder="{{'ŃUMERO_CUENTA'|translate}}" ng-required="true" ui-number-mask="0" ui-hide-group-sep>
+          <input class="form-control" ng-model="ingresoRegistroG.numeroCuenta" placeholder="{{'NUMERO_CUENTA'|translate}}" ng-required="true" ui-number-mask="0" ui-hide-group-sep>
           </input>
           </select>
         </div>
@@ -131,6 +131,6 @@
     </div>
   </div>
   <div class="form-group text-center">
-    <button ng-disabled="ingresoRegistroG.registrar" class="btn btn-outline btn-success" ng-click="ingresoRegistroG.registrarIngreso()"> Registrar </button>
+    <button ng-disabled="ingresoRegistroG.registrar" class="btn btn-outline btn-success" ng-click="ingresoRegistroG.registrarIngreso()"> {{ 'BTN.REGISTRAR' | translate }} </button>
   </div>
 </div>
