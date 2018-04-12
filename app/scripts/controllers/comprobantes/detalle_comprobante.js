@@ -12,6 +12,9 @@ angular.module('financieraClienteApp')
   	var ctrl = this;
     ctrl.comprobante = $localStorage.comprobante;
     ctrl.observaciones = ctrl.comprobante.Observaciones;
+    ctrl.mostrarRegistros = false;
+    console.log("id comprobante registreichon")
+    console.log(ctrl.comprobante.Id)
     var valor_total_debito = 0;
     var valor_total_credito = 0;
 
@@ -23,11 +26,10 @@ angular.module('financieraClienteApp')
     ctrl.RegistroComprobantes = {
         enableFiltering: true,
         enableSorting: true,
-        enableRowSelection: true,
+        enableRowSelection: false,
         enableRowHeaderSelection: false,
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 10,
-        useExternalPagination: true,
         columnDefs: [
             { field: 'Id', visible: false },
             { field: 'Secuencia',displayName: $translate.instant('SECUENCIA'), cellClass: 'input_center', headerCellClass: 'text-info', width: '5%' },
@@ -38,7 +40,7 @@ angular.module('financieraClienteApp')
             { field: 'MovimientoContable.Credito', visible: false },
             { field: 'CentroCosto',displayName: $translate.instant('CENTRO_COSTO'), cellClass: 'input_center',cellFilter: "filtro_null:row.entity", headerCellClass: 'text-info', width: '10%' },
             { field: 'SubcentroCosto',displayName: $translate.instant('SUBCENTRO_COSTO'), cellClass: 'input_center', cellFilter: "filtro_null:row.entity",headerCellClass: 'text-info', width: '10%' },
-            { field: 'Tercero',displayName: $translate.instant('INFORMACION_TERCERO'), cellClass: 'input_center',cellFilter: "filtro_null:row.entity", headerCellClass: 'text-info', width: '10%' },
+            { field: 'Tercero',displayName: $translate.instant('INFORMACION_TERCERO'), cellClass: 'input_center',headerCellClass: 'text-info', width: '10%' },
             { field: 'Valor',displayName: $translate.instant('VALOR'), cellClass: 'input_right', cellFilter: 'currency',headerCellClass: 'text-info', width: '15%'},
             {
                 field: 'Opciones',
@@ -60,7 +62,14 @@ angular.module('financieraClienteApp')
 
           ctrl.RegistroComprobantes.multiSelect = false;
 
-        financieraRequest.get('registro_comprobantes','limit=-1?query=Comprobante:'+ctrl.comprobante.Id).then(function(response) {
+        financieraRequest.get('registro_comprobantes','limit=-1&query=Comprobante:'+ctrl.comprobante.Id).then(function(response) {
+        ctrl.mostrarRegistros = true;
+        if(response.data === null){
+          ctrl.hayRegistros = false;
+          ctrl.RegistroComprobantes.data = [];
+        }
+        else{
+          ctrl.hayRegistros = true;
           ctrl.RegistroComprobantes.data = response.data;
 
             for (var i = 0; i < response.data.length; i++) {
@@ -79,6 +88,9 @@ angular.module('financieraClienteApp')
             ctrl.credito_row = valor_total_credito;
 
             ctrl.diferencia_row = parseInt(ctrl.debito_row) - parseInt(ctrl.credito_row)
+
+          }
+
         });
 
         $scope.loadrow = function(row, operacion) {
@@ -138,6 +150,7 @@ angular.module('financieraClienteApp')
                 if (entity.Tercero === 0) {
                     output =  "N/A";
                 }
+
 
                 return output;
             };
