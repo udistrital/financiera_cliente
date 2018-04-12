@@ -510,6 +510,11 @@ angular
               controller: 'InversionesCreacionreinversionCtrl',
               controllerAs: 'creacionReinversion'
             })
+            .when('/inversiones/creacion_cancelacion', {
+              templateUrl: 'views/inversiones/creacion_cancelacion.html',
+              controller: 'InversionesCreacionCancelacionCtrl',
+              controllerAs: 'creacionCancelacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });

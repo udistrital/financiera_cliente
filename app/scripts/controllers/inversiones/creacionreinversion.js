@@ -15,15 +15,14 @@ angular.module('financieraClienteApp')
       ctrl.infoPadre = ingresoDoc.get();
       ctrl.filtro_ingresos = "Ingreso";
       ctrl.concepto = [];
-
-      $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {
+      $scope.$watch('creacionReinversion.concepto[0]', function(oldValue, newValue) {
                   if (!angular.isUndefined(newValue)) {
                       financieraRequest.get('concepto', $.param({
                           query: "Id:" + newValue.Id,
                           fields: "Rubro",
                           limit: -1
                       })).then(function(response) {
-                          $scope.actaComprainv.concepto[0].Rubro = response.data[0].Rubro;
+                          $scope.creacionReinversion.concepto[0].Rubro = response.data[0].Rubro;
                       });
                   }
               }, true);
@@ -62,18 +61,9 @@ angular.module('financieraClienteApp')
               NumOperacion:ctrl.NumOperacion,
               Trm:ctrl.trm,
               TasaNominal:ctrl.tasaNominal,
-              ValorNomSaldo:ctrl.ValorNomSaldo,
-              ValorNomSaldoMonNal:ctrl.ValorNomSaldoMonNal,
+              ValorNomSaldo:ctrl.ValorReinversion,
               ValorActual:ctrl.ValorActual,
-              ValorNetoGirar:ctrl.ValorNetoGirar,
-              FechaCompra:ctrl.fechaCompra,
-              FechaRedencion:ctrl.fechaRedencion,
-              FechaVencimiento:ctrl.fechaVencimiento,
-              FechaEmision:ctrl.fechaEmision,
-              Comprador:ctrl.comprador.Id,
-              ValorRecompra:ctrl.valorRecompra,
-              FechaVenta:ctrl.fechaVenta,
-              FechaPacto:ctrl.fechaPacto,
+              ValorCompra:ctrl.ValorNetoGirar,
               Observaciones:ctrl.observaciones
             },
             EstadoInversion:{
@@ -82,7 +72,7 @@ angular.module('financieraClienteApp')
             },
             TotalInversion: ctrl.total,
             Concepto: ctrl.concepto[0],
-            tipoInversion:1,
+            tipoInversion:2,
             actapadre:{Id:ctrl.infoPadre.Inversion.Id,
                         valorInversion:ctrl.infoPadre.Inversion.ValorTotal
             },
@@ -96,8 +86,6 @@ angular.module('financieraClienteApp')
 
           ctrl.inversion.Movimientos = ctrl.movs;
 
-          console.log(ctrl.inversion);
-
           financieraRequest.post('inversiones_acta_inversion/CreateInversion', ctrl.inversion).then(function(response) {
             if(response.data.Type != undefined){
               if(response.data.Type === "error"){
@@ -106,7 +94,19 @@ angular.module('financieraClienteApp')
                 var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
                 templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
                 swal('',templateAlert,response.data.Type).then(function(){
+
+                  financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.infoPadre).then(function(response) {
+                    if(response.data.Type != undefined){
+                      if(response.data.Type === "error"){
+                          swal('',$translate.instant(response.data.Code),response.data.Type);
+                        }else{
+                          swal('',$translate.instant(response.data.Code),response.data.Type);
+                        }
+                      }
+                    });
+                  $scope.$apply(function(){
                     $location.path('/inversiones/consulta');
+                  })
                 })
               }
             }

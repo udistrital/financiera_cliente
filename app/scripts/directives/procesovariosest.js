@@ -25,12 +25,17 @@ angular.module('financieraClienteApp')
 
       },
       controller: function($scope, $localStorage) {
+        $scope.allchildrens = [];
 
           $scope.clicknode = function(params) {
               var data = {
                   Estado: { Id: this.getNodeAt(params.pointer.DOM) }
               };
-              if ($scope.childrens.indexOf(data.Estado.Id) !== -1) {
+              console.log("click en");
+              console.log(data);
+              console.log($scope.childrens);
+              console.log($scope.allchildrens);
+              if ($scope.allchildrens.indexOf(data.Estado.Id) !== -1) {
                   $scope.nodeclick = data.Estado;
                   $localStorage.nodeclick = data.Estado;
                   $scope.eventclick();
@@ -103,6 +108,7 @@ angular.module('financieraClienteApp')
               console.log(fatherNode);
               $scope.childrens = network.getConnectedNodes(fatherNode.Id, 'to');
               angular.forEach($scope.childrens, function(node) {
+                $scope.allchildrens.push(node);
                   var clickedNode = nodes.get(node);
                   clickedNode.color = {
                       background: '#31708F',

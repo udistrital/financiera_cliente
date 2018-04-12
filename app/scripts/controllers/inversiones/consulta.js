@@ -211,7 +211,6 @@ angular.module('financieraClienteApp')
 
           switch (operacion) {
               case "proceso":
-                  console.log($scope.solicitud);
                   $scope.estado = $scope.solicitud.Estado ;
                   break;
               default:
@@ -226,13 +225,12 @@ angular.module('financieraClienteApp')
             EstadoPadre:$scope.solicitud.Estado[0],
             Inversion:{
               Id:$scope.solicitud.Id,
-              ValorTotal:$scope.solicitud.ValorNetoGirar
+              ValorNetoGirar:$scope.solicitud.ValorNetoGirar
             }
           };
+          console.log($scope.estadoclick)
           if($scope.estadoclick.Id >= 6){
-
           ingresoDoc.set(ctrl.Request);
-
           switch ($scope.estadoclick.Id) {
             case (6):
               $scope.$apply(function(){
