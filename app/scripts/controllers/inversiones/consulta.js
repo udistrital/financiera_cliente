@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window) {
+  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window,ingresoDoc) {
 
    var ctrl = this;
 
@@ -205,40 +205,58 @@ angular.module('financieraClienteApp')
       ctrl.getInversiones();
       ctrl.cargarEstados();
 
+
       $scope.loadrow = function(row, operacion) {
           $scope.solicitud = row.entity;
 
           switch (operacion) {
               case "proceso":
-              console.log($scope.solicitud);
+                  console.log($scope.solicitud);
                   $scope.estado = $scope.solicitud.Estado ;
                   break;
               default:
           }
       };
 
+
       $scope.funcion = function() {
           $scope.estadoclick = $localStorage.nodeclick;
-          console.log($scope.estadoclick);
           ctrl.Request = {
             Estado:$scope.estadoclick,
             EstadoPadre:$scope.solicitud.Estado[0],
             Inversion:{
-              Id:$scope.solicitud.Id
+              Id:$scope.solicitud.Id,
+              ValorTotal:$scope.solicitud.ValorNetoGirar
             }
           };
-            console.log(ctrl.Request);
-            financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
-              if(response.data.Type != undefined){
-                if(response.data.Type === "error"){
-                    swal('',$translate.instant(response.data.Code),response.data.Type);
-                }else{
-                  swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                    $window.location.reload();
-                  })
-                }
-              }
-            });
-      };
+          if($scope.estadoclick.Id >= 6){
 
+          ingresoDoc.set(ctrl.Request);
+
+          switch ($scope.estadoclick.Id) {
+            case (6):
+              $scope.$apply(function(){
+                $location.path('inversiones/creacionReinversion');
+              });
+              break;
+            case (7):
+              $scope.$apply(function(){
+                $location.path('inversiones/creacionReinversion');
+              });
+            break;
+          }
+          }else{
+                financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
+                  if(response.data.Type != undefined){
+                    if(response.data.Type === "error"){
+                        swal('',$translate.instant(response.data.Code),response.data.Type);
+                      }else{
+                        swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                          $window.location.reload();
+                        })
+                      }
+                    }
+                  });
+                };
+    }
   });
