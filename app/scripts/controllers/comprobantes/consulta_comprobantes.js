@@ -35,7 +35,8 @@ angular.module('financieraClienteApp')
             { field: 'FechaRegistro',displayName: $translate.instant('FECHA_REGISTRO'),cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span>', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.CodigoAbreviacion',displayName: $translate.instant('TIPO_COMPROBANTE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.Nombre',visible:false},
-            { field: 'TipoComprobante.UnidadEjecutora', displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'UnidadEjecutora', displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'TipoComprobante.UnidadEjecutora', visible:false },
             { field: 'Observaciones',visible:false},
             { field: 'TipoComprobante.Descripcion',displayName: $translate.instant('DESCRIPCION'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'EstadoComprobante.Nombre',displayName: $translate.instant('ESTADO'), cellClass: 'input_center', headerCellClass: 'text-info' },
@@ -86,9 +87,14 @@ angular.module('financieraClienteApp')
               ctrl.Comprobantes.data = [];
             }else{
               ctrl.hayComprobante = true;
+
+              angular.forEach(response.data, function(data){
+                financieraRequest.get('unidad_ejecutora','limit=-1&query=Id:'+data.TipoComprobante.UnidadEjecutora).then(function(response) {
+                  data.UnidadEjecutora = response.data[0].Nombre
+                });
+              });
               ctrl.Comprobantes.data = response.data;
             }
-
 
           });
         };
