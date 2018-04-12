@@ -177,7 +177,7 @@ var text_es = {
     E_04566: "No es posible modificar el registro debido a que este ha sido usado en otras transacciones",
     E_0471: "No es posible realizar actualización debido al estado del registro",
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",
-    E_23503: "No se puede realizar la operacion Solicitada",
+    E_23503: "No se puede realizar la operación Solicitada",
     E_23505: "Ya existe un registro con uno de los parámetros únicos ingresados",
     E_25P02: "Operación No Permitida. ",
     E_901: "No se ha podido validar los requisitos",
