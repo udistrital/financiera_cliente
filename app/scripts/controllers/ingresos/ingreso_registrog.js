@@ -19,7 +19,7 @@ angular.module('financieraClienteApp')
 
     ctrl.FormaIngreso = ingresoDoc.get();
 
-    console.log(ctrl.FormaIngreso);
+    ctrl.filtro_ingresos = "Ingreso";
 
     ctrl.cargarAportantes = function(){
 
@@ -61,8 +61,6 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                     fields: "Rubro",
                     limit: -1
                 })).then(function(response) {
-                    console.log(newValue);
-                    console.log(response.data[0].Rubro);
                     $scope.ingresoRegistroG.concepto[0].Rubro = response.data[0].Rubro;
                 });
             }
@@ -77,7 +75,7 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                         FechaFin: ctrl.fechaFin,
                         Observaciones: ctrl.observaciones,
                         UnidadEjecutora: ctrl.unidadejecutora,
-                        aportante: Number(ctrl.aportanteSelec.Id), 
+                        aportante: Number(ctrl.aportanteSelec.Id),
                         NumCuenta: ctrl.numeroCuenta.toString()
                     },
                     DocumentoGenerador:{
@@ -94,7 +92,7 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                 ctrl.ingreso.Movimientos = ctrl.movs;
                 console.log(ctrl.ingreso);
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
-                    if (response.data.Type !== undefined) {
+                    if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
@@ -116,4 +114,10 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
         };
 
 
-  });
+  }).filter('capitalize', function() {
+  return function(input, scope) {
+    if (input!=null)
+    input = input.toLowerCase();
+    return input.substring(0,1).toUpperCase()+input.substring(1);
+  }
+});
