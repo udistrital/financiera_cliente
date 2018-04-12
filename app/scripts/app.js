@@ -61,7 +61,8 @@ angular
         'configuracionService',
         "wso2Service",
         "requestService",
-        "ingresoDocServ"
+        "ingresoDocServ",
+        "gridApiService"
     ])
 
 .run(function(amMoment) {
@@ -485,11 +486,21 @@ angular
               controller: 'CrearComprobanteCtrl',
               controllerAs: 'crearComprobante'
             })
+            .when('/comprobantes/crear_tipo_comprobante', {
+              templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
+              controller: 'CrearTipoComprobanteCtrl',
+              controllerAs: 'crearTipoComprobante'
+            })
             .when('/pac/cierre_periodo', {
               templateUrl: 'views/pac/cierre_periodo.html',
               controller: 'PacCierrePeriodoCtrl',
               controllerAs: 'cierrePeriodo'
-          })
+            })
+            .when('/bancos/saldos_iniciales', {
+              templateUrl: 'views/bancos/saldos_iniciales.html',
+              controller: 'BancosSaldosInicialesCtrl',
+              controllerAs: 'saldosIniciales'
+            })
             .when('/ingresos/ingreso_registroG/:tipoIngreso', {
               templateUrl: 'views/ingresos/ingreso_registrog.html',
               controller: 'IngresosIngresoRegistrogCtrl',

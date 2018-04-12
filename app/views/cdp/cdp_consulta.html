@@ -25,6 +25,12 @@
                             <br>
                             <a type="button" name="button" ng-click="cdpConsulta.filtrarListaCdp()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
                         </div>
+                        <hr>
+                        <div class="col-md-4 col-md-offset-1">
+                        <br>
+                            <a id="btnFenecidos" name="btnFenecidos"  ng-click="cdpConsulta.verReservas()">{{'VER_RESERVAS' | translate}}</a>
+                          
+                        </div>
                     </div>
                     <br>
                 </div>
@@ -134,14 +140,12 @@
                                             <label>{{'TIPO_ANULACION' | translate}}</label>
                                         </div>
                                         <div class="col-md-9">
-                                            <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="cdpConsulta.tipoAnulacion">
-                    <option value="P">{{'ANULACION_PARCIAL' | translate}}</option>
-                  <option value="T">{{'ANULACION_TOTAL' | translate}}</option>
-               </select>
+                                            <select class="form-control" ng-model="cdpConsulta.tipoAnulacion" ng-options="o as o.Nombre for o in cdpConsulta.tiposAnulacion">
+                                            </select>
                                         </div>
                                     </div>
                                     <br>
-                                    <div ng-hide="cdpConsulta.tipoAnulacion == 'T'" class="row">
+                                    <div ng-hide="cdpConsulta.tipoAnulacion.Id == 2 || cdpConsulta.tipoAnulacion.Id == 3" class="row">
                                         <div class="col-md-3 ">
                                             <label>{{'SELECCION_RUBRO' | translate}}</label>
                                         </div>
@@ -151,7 +155,7 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <div ng-hide="cdpConsulta.tipoAnulacion == 'T' " class="row">
+                                    <div ng-hide="cdpConsulta.tipoAnulacion.Id == 2 || cdpConsulta.tipoAnulacion.Id == 3" class="row">
                                         <div class="col-md-3">
                                             <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
                                         </div>
