@@ -1,30 +1,30 @@
 <div class="panel panel-primary panel-body">
-    <h2 class="page-header" align="center">DETALLE DE COMPROBANTE</h2>
+    <h2 class="page-header" align="center">{{'DETALLE_COMPROBANTE' | translate}}</h2>
     <div class="panel-body">
         <!-- ui-grid-selection -->
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div align="center" class="panel panel-default">
-                    Tipo: {{detalleComprobante.comprobante.CodigoAbreviacion}}
+                    {{'TIPO'| translate}}: {{detalleComprobante.comprobante.CodigoAbreviacion}}
                     <br>
-                    Nombre: {{detalleComprobante.comprobante.Nombre}}
+                    {{'NOMBRE'| translate}}: {{detalleComprobante.comprobante.Nombre}}
                     <br>
-                    Número: {{detalleComprobante.comprobante.Secuencia}}
+                    {{'NUMERO'| translate}}: {{detalleComprobante.comprobante.Secuencia}}
                     <br>
-                    Fecha: {{detalleComprobante.comprobante.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}
+                    {{'FECHA'| translate}}: {{detalleComprobante.comprobante.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}
                 </div>
             </div>
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
         </div>
         <br>
         <div class="row">
             <div class="col-md-3 col-md-offset-2">
                 <div class="panel">
                     <label align="center">{{'OBSERVACIONES' | translate }}</label>
-                    <textarea type="text" class="form-control" rows="8" ng-model="detalleComprobante.Observaciones"></textarea>
+                    <textarea type="text" class="form-control" rows="8" ng-model="detalleComprobante.observaciones"></textarea>
                 </div>
             </div>
             <br>
@@ -35,7 +35,7 @@
                           <label>{{ 'DEBITO' | translate }}</label>
                         </div>
                         <div class="col-md-8">
-                          <span class="form-control right-letters"> {{50000 | currency}}</span>
+                          <span class="form-control right-letters"> {{detalleComprobante.debito_row | currency}}</span>
                         </div>
                     </div>
                     <br>
@@ -44,7 +44,7 @@
                           <label>{{ 'CREDITO' | translate }}</label>
                         </div>
                         <div class="col-md-8">
-                          <span class="form-control right-letters"> {{50000 | currency}}</span>
+                          <span class="form-control right-letters"> {{detalleComprobante.credito_row | currency}}</span>
                         </div>
                     </div>
                     <br>
@@ -53,7 +53,7 @@
                           <label>{{ 'DIFERENCIA' | translate }}</label>
                         </div>
                         <div class="col-md-8">
-                          <span class="form-control right-letters"> {{0 | currency}} </span>
+                          <span class="form-control right-letters"> {{detalleComprobante.diferencia_row| currency}} </span>
                         </div>
                     </div>
                 </div>
