@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesActaCompraCtrl', function ($scope,$translate,administrativaRequest,financieraRequest) {
+  .controller('InversionesActaCompraCtrl', function ($scope,$translate,administrativaRequest,financieraRequest,$location) {
     var ctrl = this;
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
@@ -82,7 +82,7 @@ angular.module('financieraClienteApp')
           tipoInversion:1,
           usuario:"admin"
         };
- 
+
 
         angular.forEach(ctrl.movs, function(data) {
             delete data.Id;
@@ -95,11 +95,13 @@ angular.module('financieraClienteApp')
         financieraRequest.post('inversiones_acta_inversion/CreateInversion', ctrl.inversion).then(function(response) {
           if(response.data.Type != undefined){
             if(response.data.Type === "error"){
-                swal('',$translate.instant(response.data.code),response.data.type);
+                swal('',$translate.instant(response.data.Code),response.data.Type);
             }else{
-              var templateAlert = "<table class='table table-bordered'><th><th>" + $translate.instant('CONSECUTIVO') + "</th>";
+              var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
               templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
-              swal('',templateAlert,response.data.type);
+              swal('',templateAlert,response.data.Type).then(function(){
+                  $location.path('/inversiones/consulta');
+              })
             }
           }
         })

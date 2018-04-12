@@ -505,6 +505,11 @@ angular
               controller: 'InversionesConsultaCtrl',
               controllerAs: 'consultaInv'
             })
+            .when('/inversiones/creacionReinversion', {
+              templateUrl: 'views/inversiones/creacionreinversion.html',
+              controller: 'InversionesCreacionreinversionCtrl',
+              controllerAs: 'creacionReinversion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
