@@ -189,10 +189,10 @@ angular.module('financieraClienteApp')
                             { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
                             { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
                             { name: 'codigo_banco', displayName: 'Codigo del Banco', headerCellClass: 'text-info' },
                             { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
-                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
+                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
                         var inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
                         var fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
@@ -225,6 +225,7 @@ angular.module('financieraClienteApp')
                         });
 
                         break;
+
                     case "CODIGO DE BARRAS":
                         ctrl.gridOptions.columnDefs = [
                             { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
@@ -233,10 +234,10 @@ angular.module('financieraClienteApp')
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
                             { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
                             { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
-                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
+                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
                         var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
                         var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
