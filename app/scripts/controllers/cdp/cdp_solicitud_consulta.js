@@ -198,10 +198,27 @@ angular.module('financieraClienteApp')
               if (response.data[0].Type === "error"){
                 swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
               }else{
-                swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
+                var data = response.data[0];
+                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('VIGENCIA') + "</th>";      
+                templateAlert = templateAlert + "<tr class='success'><td>" + self.data.SolicitudDisponibilidad.Numero + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.NumeroDisponibilidad + "</td>"+ "<td>" + data.Body.Vigencia + "</td>" ;                         
+                templateAlert = templateAlert + "</table>";
+
+                swal({
+                  title: '',
+                  type: response.data[0].Type,
+                  width: 800,
+                  html: templateAlert,
+                  showCloseButton: true,
+                  confirmButtonText: 'Cerrar'
+                }).then(function(){
                   $("#myModal").modal('hide');
                   self.cragarDatos(0,'');
                 });
+
+                // swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
+                //   $("#myModal").modal('hide');
+                //   self.cragarDatos(0,'');
+                // });
               }
 
             }
