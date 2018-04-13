@@ -541,7 +541,7 @@ var text_es = {
     S_588: "El registro se actualizó exitosamente",
     S_900: "Se verificaron los requisitos exitosamente",
     S_A01: "Se Rechazo la Solicitud ",
-    S_CDP001: "CDP Expedido con el consecutivo:",
+    S_CDP001: "CDP Expedido",
     S_A12: "Operación para Anulación correctamente realizada para la solicitud",
     S_M001: "Indique una justificación por el rechazo",
     SM002: "Por favor indica una justificación!",
