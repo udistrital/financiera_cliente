@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location,financieraRequest, wso2Request, oikosRequest, $translate, $filter,ingresoDoc) {
         var ctrl = this;
         //prueba de codigos de facultad
         $scope.load = true;
@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
         ctrl.fechaFin = new Date();
         ctrl.filtro_ingresos = "Ingresos";
         $scope.datos = false;
+        $scope.otro = false;
         ctrl.homologacion_facultad = [{
             old: 33,
             new: 14 //FACULTAD ING
@@ -80,6 +81,16 @@ angular.module('financieraClienteApp')
             });
         };
 
+        $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
+
+            if (angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre)){
+                $scope.otro = false;
+            }else{
+                $scope.otro = true;
+            }
+
+        }, true);
+
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
             if (!angular.isUndefined(newValue)) {
@@ -127,7 +138,7 @@ angular.module('financieraClienteApp')
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
                             var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
-                            
+
                             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" ;
 
                             swal('', templateAlert, response.data.Type);
@@ -146,6 +157,16 @@ angular.module('financieraClienteApp')
 
         };
 
+        ctrl.ejecutarIngresos = function(){
+            if($scope.otro){
+                ingresoDoc.set(ctrl.tipoIngresoSelec);
+                $location.path('/ingresos/ingreso_registroG/'+ctrl.tipoIngresoSelec.Nombre);
+            }else{
+
+                ctrl.consultarPagos();
+            }
+
+        }
         ctrl.consultarPagos = function() {
             $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {

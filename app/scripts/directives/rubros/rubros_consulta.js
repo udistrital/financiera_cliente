@@ -133,7 +133,7 @@ angular.module('financieraClienteApp')
          */
         $scope.$watch("filtro", function() {
           
-          if (self.expandedNodes.length === 0){
+          /*if (self.expandedNodes.length === 0){
             self.expandAllNodes($scope.arbol);
           }
           
@@ -141,7 +141,7 @@ angular.module('financieraClienteApp')
                 
               }else{
                 self.expandedNodes.length = 0;
-              }
+              }*/
              
              
            

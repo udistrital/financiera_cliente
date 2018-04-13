@@ -408,4 +408,11 @@ angular.module('financieraClienteApp')
       });
     };
 
+     self.verReservas = function() {
+            financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+                .then(function(response) {
+                    self.Vigencia = parseInt(response.data)-1;
+                });
+        };
+
   });
