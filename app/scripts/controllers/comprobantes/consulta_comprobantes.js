@@ -22,19 +22,22 @@ angular.module('financieraClienteApp')
     ctrl.Comprobantes = {
         enableFiltering: true,
         enableSorting: true,
-        enableRowSelection: true,
+        enableRowSelection: false,
         enableRowHeaderSelection: false,
         paginationPageSizes: [25, 50, 75],
         paginationPageSize: 10,
         useExternalPagination: true,
         columnDefs: [
             { field: 'Id', visible: false },
-            { field: 'Secuencia', visible: false },
+            { field: 'Secuencia', displayName: $translate.instant('SECUENCIA'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Ano',displayName: $translate.instant('ANO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Mes',displayName: $translate.instant('MES'), cellClass: 'input_center', headerCellClass: 'text-info',  cellFilter: 'filtro_nombres_meses:row.entity'},
             { field: 'FechaRegistro',displayName: $translate.instant('FECHA_REGISTRO'),cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"+0900"}}</span>', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.CodigoAbreviacion',displayName: $translate.instant('TIPO_COMPROBANTE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'TipoComprobante.Nombre',visible:false},
+            { field: 'UnidadEjecutora', displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'TipoComprobante.UnidadEjecutora', visible:false },
+            { field: 'Observaciones',visible:false},
             { field: 'TipoComprobante.Descripcion',displayName: $translate.instant('DESCRIPCION'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'EstadoComprobante.Nombre',displayName: $translate.instant('ESTADO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             {
@@ -84,9 +87,14 @@ angular.module('financieraClienteApp')
               ctrl.Comprobantes.data = [];
             }else{
               ctrl.hayComprobante = true;
+
+              angular.forEach(response.data, function(data){
+                financieraRequest.get('unidad_ejecutora','limit=-1&query=Id:'+data.TipoComprobante.UnidadEjecutora).then(function(response) {
+                  data.UnidadEjecutora = response.data[0].Nombre
+                });
+              });
               ctrl.Comprobantes.data = response.data;
             }
-
 
           });
         };
@@ -107,6 +115,7 @@ angular.module('financieraClienteApp')
           ctrl.comprobante.CodigoAbreviacion = row.entity.TipoComprobante.CodigoAbreviacion;
           ctrl.comprobante.Nombre = row.entity.TipoComprobante.Nombre;
           ctrl.comprobante.Secuencia = row.entity.Secuencia;
+          ctrl.comprobante.Observaciones = row.entity.Observaciones;
           $localStorage.comprobante = ctrl.comprobante;
 
           $location.path('/comprobantes/detalle_comprobante');
