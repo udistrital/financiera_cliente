@@ -55,6 +55,86 @@
       </div>
     </div>
   </div>
+  <div id="modalEndosar" class="modal fade">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+
+      <div class="modal-body">
+        <legend>{{"ENDOSAR_A_TERCERO" | translate}}</legend>
+        <div>
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NO_CRP' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.NumeroRegistroPresupuestal}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'VIGENCIA' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.Vigencia}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'RESPONSABLE' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.Responsable}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'ESTADO' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.Estado.Nombre}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'COMPROMISO' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control"> {{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Nombre}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+            <div class="col-sm-4">
+              <textarea class="form-control" rows="2" readonly> {{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Descripcion}} </textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'VALOR_CRP' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control input_right">{{d_rpPorProveedorListar.valor_total_rp | currency}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NO_CDP' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'ESTADO' | translate}} {{'CDP' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{outputrpselect.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label col-sm-2">{{'NECESIDAD_NO' | translate}}</label>
+            <div class="col-sm-4">
+              <span class="form-control">{{d_rpPorProveedorListar.necesidadInfo.SolicitudDisponibilidad.Necesidad.Numero}}</span>
+            </div>
+            <label class="control-label col-sm-2">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
+            <div class="col-sm-4">
+              <textarea class="form-control" rows="2" readonly> {{d_rpPorProveedorListar.necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+        </div>
+
+        <div class="form-group">
+          <center><button type="button" class="btn btn-success btn-outline" name="button" data-dismiss="modal">{{"FINALIZAR" | translate}}</button></center>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div class="panel-footer" align="center">
