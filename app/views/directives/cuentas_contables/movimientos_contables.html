@@ -55,6 +55,56 @@
       </div>
     </div>
   </div>
+  <div id="modalEndosar" class="modal fade">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 15%">
+
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+
+      <div class="modal-body">
+        <legend>{{"ENDOSAR_A_TERCERO" | translate}}</legend>
+        <div class="panel panel-default panel-body">
+            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.crear_nuevo()" focus-on-field validate>
+
+              <div class="col-md-12">
+                <fieldset class="form-group">
+                  <label for="val_endoso_op" class="col-sm-2 control-label ng-binding">{{ 'VALOR' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.valorInicial" ui-money-mask="0" ng-required="true"></input>
+                  </div>
+                  <label for="val_endoso_max" class="col-sm-2 control-label ng-binding">{{ 'VALOR_MAXIMO' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.valorMaximo" ui-money-mask="0" ng-required="true" disabled></input>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-12">
+                <fieldset class="form-group">
+                  <label for="val_endoso_op" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.documento" ng-required="true" disabled ></input>
+                  </div>
+                  <label for="val_endoso_max" class="col-sm-2 control-label ng-binding">{{ 'NOMBRE' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.documento.Nombre" ui-money-mask="0" ng-required="true" disabled></input>
+                  </div>
+                </fieldset>
+                <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+                <div class="col-sm-4">
+                  <select ng-model="outputformapago" ng-options="i.Nombre for i in d_movimientosContables.formaPagos" class="form-control" required>
+                    <option value="">Seleccionar Forma de Pago</option>
+                  </select>
+                </div>                
+              </div>
+
+            </form>
+        </div>
+
+        <div class="form-group">
+          <center><button type="button" class="btn btn-info btn-outline" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
   <div class="panel-footer" align="center">
