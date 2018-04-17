@@ -329,6 +329,8 @@ angular.module('financieraClienteApp')
                             width: '10%',
                             enableCellEdit: false,
                             cellTemplate: '<center>' +
+                                '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="borrar" data-toggle="modal" data-target="#modalEndosar" ng-click="grid.appScope.d_movimientosContables.agregar_Endoso(row.entity)">' +
+                                '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +
                                 '<a href="" class="borrar" data-toggle="modal" data-target="#modalverplan" ng-click="grid.appScope.d_movimientosContables.quitar_descuento(row.entity)">' +
                                 '<i class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}"></i></a> ' +
                                 '</center>'
@@ -353,9 +355,15 @@ angular.module('financieraClienteApp')
 
                 self.agregar_descuento = function(item) {
                     if (item != undefined) {
-                        //console.log(item);
+                        console.log(item.TipoCuentaEspecial.Id);
                         item.Concepto = self.concepto_movs;
                         if (item.TipoCuentaEspecial.Nombre === "Impuesto") {
+                            console.log("porceentaje" + item.Porcentaje);
+                            item.Credito = Math.round(item.Porcentaje * $scope.monto);
+                            console.log(item.Credito);
+                        }
+                        if (item.TipoCuentaEspecial.Nombre === "Endoso") {
+                            self.Endosar ="Endoso";
                             console.log("porceentaje" + item.Porcentaje);
                             item.Credito = Math.round(item.Porcentaje * $scope.monto);
                             console.log(item.Credito);
