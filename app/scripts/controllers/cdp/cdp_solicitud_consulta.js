@@ -200,7 +200,7 @@ angular.module('financieraClienteApp')
               }else{
                 var data = response.data[0];
                 var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('VIGENCIA') + "</th>";      
-                templateAlert = templateAlert + "<tr class='success'><td>" + self.data.SolicitudDisponibilidad.Numero + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.NumeroDisponibilidad + "</td>"+ "<td>" + data.Body.Vigencia + "</td>" ;                         
+                templateAlert = templateAlert + "<tr class='success'><td>" + self.data.SolicitudDisponibilidad.Numero + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.NumeroDisponibilidad + "</td>"+ "<td>" + data.Body.Vigencia + "</td>" + "</tr>" ;                         
                 templateAlert = templateAlert + "</table>";
 
                 swal({

@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ProductosProductoConsultaCtrl', function ($scope,$translate) {
+  .controller('ProductosProductoConsultaCtrl', function ($scope,$translate,financieraRequest, gridApiService) {
     var self = this;
+        self.offset = 0;
     	self.prRegistrar = {};
-    	self.prRegistrar.rubrosRelacionados = [];
+    	self.prRegistrar.ProductoRubro = [];
         self.offset = 0;
         $scope.botones = [{
                 clase_color: "ver",
@@ -55,7 +56,11 @@ angular.module('financieraClienteApp')
                 width: '8%',
                  headerCellClass: 'text-info',
                 cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>'
-            }]
+            }],
+            onRegisterApi: function(gridApi) {
+                self.gridApi = gridApi;
+                self.gridApi = gridApiService.pagination(self.gridApi, self.actualizarLista, $scope);
+            }
 
         };
 
@@ -99,16 +104,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        var testData = {
-        	Id: 1,
-        	Nombre: "Producto 1",
-        	Descripcion: "Producto prueba",
-        	FechaRegistro: "2018-01-01",
-        	ProductoRubro: [{Id:1, Rubro:{Id:1, Codigo:"111-111-111-111",Nombre:"Rubro Prueba"}, ValorDistribucion:0.12, FechaAsignacion: "2018-01-01" }],
-        };
-        var restServicePetitionResul = [];
-        restServicePetitionResul.push(testData);
-        self.gridOptions.data = restServicePetitionResul;
+        
 
 
         $scope.loadrow = function(row, operacion) {
@@ -130,14 +126,52 @@ angular.module('financieraClienteApp')
         	self.data = {};
         	self.prRegistrar = {};
 
-        	self.prRegistrar.rubrosRelacionados = [];
+        	self.prRegistrar.ProductoRubro = [];
+        };
+
+
+        self.actualizarLista = function(offset,query){
+            financieraRequest.get('producto/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+                if (response.data === null) {
+                    self.gridOptions.data = [];
+                } else {
+                    self.gridOptions.data = response.data;
+                }
+            });
+        };
+
+        self.gridOptions.totalItems = 500;
+        self.actualizarLista(self.offset, '');
+
+        self.registrarProducto = function(){
+            financieraRequest.post('producto/', self.prRegistrar).then(function(response) {
+                console.log(response.data);
+                if (response.data.Type === "error"){
+                    swal('',$translate.instant(response.data.Code),response.data.Type);
+                }else{
+                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DETALLE') + "</th>";      
+                    templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Nombre + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>"+"</tr>";
+                    templateAlert = templateAlert + "</table>";
+                    swal({
+                      title: '',
+                      type: response.data.Type,
+                      width: 800,
+                      html: templateAlert,
+                      showCloseButton: true,
+                      confirmButtonText: 'Cerrar'
+                    }).then(function(){
+                      $("#modalRegistroPr").modal('hide');
+                      self.actualizarLista(0,'');
+                    });
+                }
+            });
         };
 
         $scope.$watch("productoConsulta.rubroSel", function() {
          
           if (self.rubroSel != undefined && self.rubroSel != null){
-          	if (self.prRegistrar.rubrosRelacionados.indexOf(self.rubroSel) == -1){
-          	self.prRegistrar.rubrosRelacionados.push(self.rubroSel);
+          	if (self.prRegistrar.ProductoRubro.indexOf(self.rubroSel) == -1){
+          	self.prRegistrar.ProductoRubro.push({Rubro: self.rubroSel});
 
           	}
 
