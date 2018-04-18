@@ -139,9 +139,10 @@ angular.module('financieraClienteApp')
                 }
             });
         };
-
-        self.gridOptions.totalItems = 500;
-        self.actualizarLista(self.offset, '');
+        financieraRequest.get("producto/TotalProductos",'').then(function(response){
+            self.gridOptions.totalItems = response.data;
+            self.actualizarLista(self.offset, '');
+        });
 
         self.registrarProducto = function(){
             financieraRequest.post('producto/', self.prRegistrar).then(function(response) {
