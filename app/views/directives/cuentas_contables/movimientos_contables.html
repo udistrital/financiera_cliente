@@ -79,16 +79,16 @@
               </div>
               <div class="col-md-12">
                 <fieldset class="form-group">
-                  <label for="val_endoso_op" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
+                  <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
                   <div class="col-sm-4">
                     <input class="form-control input_right" ng-model="d_movimientosContables.documento" ng-required="true" disabled ></input>
                   </div>
-                  <label for="val_endoso_max" class="col-sm-2 control-label ng-binding">{{ 'NOMBRE' | translate }}:</label>
+                  <label for="nombre_tercero" class="col-sm-2 control-label ng-binding">{{ 'NOMBRE' | translate }}:</label>
                   <div class="col-sm-4">
                     <input class="form-control input_right" ng-model="d_movimientosContables.documento.Nombre" ui-money-mask="0" ng-required="true" disabled></input>
                   </div>
                 </fieldset>
-                <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
+                <label for="forma_pago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
                 <div class="col-sm-4">
                   <select ng-model="outputformapago" ng-options="i.Nombre for i in d_movimientosContables.formaPagos" class="form-control" required>
                     <option value="">Seleccionar Forma de Pago</option>

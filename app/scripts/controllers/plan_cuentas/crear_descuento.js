@@ -133,7 +133,6 @@ angular.module('financieraClienteApp')
           }
           if (self.tipo_cuenta.Nombre === "Endoso") {
             nuevo.Porcentaje = self.porcentaje;
-            nuevo.Deducible = self.deducible;
           }
           self.descuento_nuevo = nuevo;
           financieraRequest.post("cuenta_especial", nuevo).then(function(response) {
