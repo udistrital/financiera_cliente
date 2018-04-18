@@ -26,6 +26,14 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.OrdenPago.UnidadEjecutora = response.data[0];
     });
+
+    $scope.$watch("OrdenPago.ValorBase",function(newValue) {
+      if (!angular.isUndefined(self.OrdenPago.ValorBase)) {
+      self.OrdenPago.ValorBase = $scope.OrdenPago.ValorBase;
+      console.log("Cambio efectuado");
+      }
+    });
+
     // functions
     self.estructurarDatosParaRegistro = function(pConceptos) {
       self.ConceptoOrdenPago = [];
