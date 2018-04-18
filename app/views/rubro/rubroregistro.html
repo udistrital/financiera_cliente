@@ -61,7 +61,7 @@
             <label for="input_tipo_plan" class="col-form-label">{{ 'UNIDAD_EJECUTORA' | translate }}</label>
           </div>
           <div class="col-md-7">
-            <textarea class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.UnidadEjecutora" ></textarea>
+            <input class="form-control" name="input_tipo_plan" ng-model="rubroRegistro.padre.UnidadEjecutora" ></input>
           </div>
         </div>
         <br>
@@ -75,7 +75,38 @@
             </select>
           </div>
         </div> -->
+        <div class="row">
+          <div class="col-md-4">
+            <label for="check_productos" class="col-form-label">{{ 'PRODUCTOS' | translate }}</label>
+          </div>
+          <div class="col-md-7">
+              <input type="checkbox" class="form-check-input" id="check_productos" ng-model="rubroRegistro.chkProducto">
+          </div>
+          <br>
+        </div>
         <br>
+        <div class="row" ng-if="rubroRegistro.chkProducto">
+          <hr>
+          <h4 class="text-center text-info">{{ 'LISTA_PRODUCTOS' | translate }}</h4>
+          <br>
+          <div ui-grid="rubroRegistro.gridOptionsProductos" ui-grid-pagination ui-grid-selection ui-grid-cellnav class="myGrid"></div>
+          <br>
+          <h4 class="text-center text-info" ng-if="rubroRegistro.ProdutoRubro[0]">{{ 'PRODUCTOS_SELECCIONADOS' | translate }}</h4>
+          <br>
+          <div ng-repeat="rbRel in rubroRegistro.ProdutoRubro">
+              <div class="col-md-4">
+                <b> {{rbRel.Producto.Nombre}} </b>
+              </div>
+              <div class="col-md-4">
+                 <label class="control-label" for="txtValor">{{'VALOR_DISTRIBUCION' | translate}} (%)</label>
+              </div>
+              <div class="col-md-4">
+                <input class="number" id="txtMotivo" name="txtMotivo" ng-model="rbRel.ValorDistribucion"></input>
+              </div>
+              <br>
+              <hr>
+          </div>
+        </div>
         <div class="col-md-6 col-md-offset-6">
           <div class="col-md-6">
             <button ng-click='rubroRegistro.quitar_padre()' class="btn btn-outline btn-warning btn-md btn-block">{{ 'BTN.LIMPIAR' | translate }}</button>
