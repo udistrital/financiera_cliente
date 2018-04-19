@@ -75,7 +75,7 @@
             </select>
           </div>
         </div> -->
-        <div class="row">
+        <div class="row" ng-if="rubroRegistro.padre.Codigo">
           <div class="col-md-4">
             <label for="check_productos" class="col-form-label">{{ 'PRODUCTOS' | translate }}</label>
           </div>
@@ -101,7 +101,7 @@
                  <label class="control-label" for="txtValor">{{'VALOR_DISTRIBUCION' | translate}} (%)</label>
               </div>
               <div class="col-md-4">
-                <input class="number" id="txtMotivo" name="txtMotivo" ng-model="rbRel.ValorDistribucion"></input>
+                <input class="number" id="txtMotivo" name="txtMotivo" ng-model="rbRel.ValorDistribucion" ng-maxlength="3"></input>
               </div>
               <br>
               <hr>

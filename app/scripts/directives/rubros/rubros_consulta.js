@@ -51,6 +51,45 @@ angular.module('financieraClienteApp')
           }
         };
 
+        self.gridOptions = {
+          enableFiltering: true,
+          enableSorting: true,
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 10,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+          }, {
+              field: 'Producto.Nombre',
+              cellClass: 'input_center',
+              displayName: $translate.instant('PRODUCTO'),
+              headerCellClass: 'text-info',
+              enableFiltering: true
+          }, {
+              field: 'ValorDistribucion',
+              displayName: $translate.instant('VALOR_DISTRIBUCION'),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info'
+          }, {
+              field: 'Activo',
+              displayName: $translate.instant("ACTIVO"),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info'
+          },{
+              name: $translate.instant('OPCIONES'),
+              enableFiltering: false,
+              width: '8%',
+               headerCellClass: 'text-info',
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>'
+          }],
+          onRegisterApi: function(gridApi) {
+              self.gridApi = gridApi;
+          }
+
+      };
+
         /**
          * @ngdoc function
          * @name financieraClienteApp.directive:rubrosConsulta#cargar_arbol
@@ -75,7 +114,13 @@ angular.module('financieraClienteApp')
           
           switch (operacion) {
               case "ver":
-                  $scope.data = nodo;
+              self.gridOptions.data = [];
+                  financieraRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
+                    if(response.data != null){
+                      $scope.data = response.data[0];
+                      self.gridOptions.data = $scope.data.ProductoRubro;
+                    }
+                  });
                   $("#myModal").modal();
                   break;
               case "add":
