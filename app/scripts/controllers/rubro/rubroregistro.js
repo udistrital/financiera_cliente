@@ -150,6 +150,9 @@ angular.module('financieraClienteApp')
           var Pr = null;
           if (self.chkProducto){
             Pr = self.ProdutoRubro;
+            angular.forEach(Pr, function (data) {
+              data.ValorDistribucion = parseInt(data.ValorDistribucion);
+            });
           }
           
           var rubro_hijo = {
