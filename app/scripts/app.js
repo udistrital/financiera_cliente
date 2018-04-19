@@ -526,6 +526,16 @@ angular
               controller: 'InversionesCreacionCancelacionCtrl',
               controllerAs: 'creacionCancelacion'
             })
+            .when('/devoluciones/orden', {
+              templateUrl: 'views/devoluciones/orden.html',
+              controller: 'DevolucionesOrdenCtrl',
+              controllerAs: 'ordendevolucion'
+            })
+            .when('/devoluciones/relacion', {
+              templateUrl: 'views/devoluciones/relacion.html',
+              controller: 'DevolucionesRelacionCtrl',
+              controllerAs: 'devolucionesrelacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
