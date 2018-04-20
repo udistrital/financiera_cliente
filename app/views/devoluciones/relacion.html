@@ -11,12 +11,12 @@
     </div>
   </div>
   <div class="panel-body" >
-    <legend class="text-primary" ng-click="devolucionesrelacion.infDevol=!devolucionesrelacion.infDevol">
+    <legend class="text-primary" ng-click="devolucionesrelacion.infRela=!devolucionesrelacion.infRela">
       {{ 'INFORMACION_RELACION' | translate }}
-      <span class="fa fa-plus pull-right" ng-show="!devolucionesrelacion.infDevol"></span>
-      <span class="fa fa-minus pull-right" ng-show="devolucionesrelacion.infDevol"></span>
+      <span class="fa fa-plus pull-right" ng-show="!devolucionesrelacion.infRela"></span>
+      <span class="fa fa-minus pull-right" ng-show="devolucionesrelacion.infRela"></span>
     </legend class="text-primary">
-
+  <div ng-show = "devolucionesrelacion.infRela">
     <div class = "col-md-4">
       <div class="form-group">
         <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
@@ -47,5 +47,5 @@
     </div>
 
   </div>
-
+</div>
 </div>
