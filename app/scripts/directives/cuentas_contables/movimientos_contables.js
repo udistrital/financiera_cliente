@@ -29,6 +29,7 @@ angular.module('financieraClienteApp')
                 editable: '@?',
                 impydesc: '@?',
                 monto: '=?',
+                outputvalorbruto: '=?',
                 validatemov: '=?'
             },
             templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
@@ -364,7 +365,10 @@ angular.module('financieraClienteApp')
                         }
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
                             self.Endosar ="Endoso";
-                            console.log("porceentaje" + item.Porcentaje);
+                            console.log("Porcentaje", item.Porcentaje);
+                            console.log("valorbruto", $scope.outputvalorbruto);
+                            self.valorMaximo = self.calcular_endoso(item,$scope.outputvalorbruto);
+                            console.log("valorMaximo", self.valorMaximo);
                             item.Credito = Math.round(item.Porcentaje * $scope.monto);
                             console.log(item.Credito);
                         }
@@ -376,6 +380,14 @@ angular.module('financieraClienteApp')
                         }
                     }
                 };
+
+                self.calcular_endoso = function (item, valorbruto){
+
+
+                    return item.Porcentaje * valorbruto / 100 ;
+
+
+                }
 
                 /*self.agregar_desc_mov=function(){
                     for (var i = 0; i < self.gridOptionsDescuentos.data.length; i++) {
@@ -504,6 +516,18 @@ angular.module('financieraClienteApp')
                     }
 
                 }, true);
+                /**
+                 * @ngdoc event
+                 * @name financieraClienteApp.directive:movimientosContables#watch_on_outputvalorbruto
+                 * @eventOf financieraClienteApp.directive:movimientosContables
+                 * @param {string|int} outputvalorbruto variable que activa el evento
+                 * @description Si la variable outputvalorbruto cambia el evento se activa guardando variable en directiva
+                 */
+                $scope.$watch('outputvalorbruto', function() {
+                    if (!angular.isUndefined($scope.outputvalorbruto) && $scope.outputvalorbruto > 0) {
+                        self.valorMaximo = self.calcular_endoso($scope.cuen,$scope.outputvalorbruto);
+                    }
+                });
             },
             controllerAs: 'd_movimientosContables'
         };
