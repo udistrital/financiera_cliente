@@ -536,6 +536,16 @@ angular
               controller: 'DevolucionesRelacionCtrl',
               controllerAs: 'devolucionesrelacion'
             })
+            .when('/devoluciones/consulta_relacion', {
+              templateUrl: 'views/devoluciones/consulta_relacion.html',
+              controller: 'DevolucionesConsultaRelacionCtrl',
+              controllerAs: 'devolucionesconsultaRelacion'
+            })
+            .when('/devoluciones/no_tributaria', {
+              templateUrl: 'views/devoluciones/no_tributaria.html',
+              controller: 'DevolucionesNoTributariaCtrl',
+              controllerAs: 'devolucionesnoTributaria'
+            })
             .otherwise({
                 redirectTo: '/'
             });
