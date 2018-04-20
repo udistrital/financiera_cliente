@@ -37,7 +37,38 @@
             <td>{{data.Descripcion}}</td>
           </tr>
         </table>
-        <div ng-if="d_rubrosConsulta.gridOptions.data.length > 0 " ui-grid="d_rubrosConsulta.gridOptions" ui-grid-pagination ui-grid-auto-resize class="col-md-10 col-md-offset-1"></div>
+        <div ng-if="d_rubrosConsulta.gridOptions.data.length > 0 && !d_rubrosConsulta.editar" ui-grid="d_rubrosConsulta.gridOptions" ui-grid-pagination ui-grid-auto-resize class="col-md-10 col-md-offset-1"></div>
+        
+        <div ng-if="d_rubrosConsulta.padre == false && d_rubrosConsulta.editar" >
+          <div class="col-md-5">
+              <h4 class="text-center text-info">{{ 'LISTA_PRODUCTOS' | translate }}</h4>
+            <br>
+            <div ui-grid="d_rubrosConsulta.gridOptionsProductos" ui-grid-pagination ui-grid-selection ui-grid-cellnav class="myGrid"></div>
+            <br>
+            <h4 class="text-center text-info" ng-if="d_rubrosConsulta.ProdutoRubro[0]">{{ 'PRODUCTOS_SELECCIONADOS' | translate }}</h4>
+            <br>
+            <div ng-repeat="rbRel in d_rubrosConsulta.ProdutoRubro">
+                <div class="col-md-4">
+                  <b> {{rbRel.Producto.Nombre}} </b>
+                </div>
+                <div class="col-md-4">
+                  <label class="control-label" for="txtValor">{{'VALOR_DISTRIBUCION' | translate}} (%)</label>
+                </div>
+                <div class="col-md-4">
+                  <input class="number" id="txtMotivo" name="txtMotivo" ng-model="rbRel.ValorDistribucion" ng-maxlength="3"></input>
+                </div>
+                <br>
+                <hr>
+            </div>
+            <button ng-if="d_rubrosConsulta.ProdutoRubro.length > 0" ng-click='d_rubrosConsulta.AgregarProducto()' class="btn btn-outline btn-primary btn-md btn-block">{{ 'BTN.REGISTRAR' | translate }}</button>
+          </div>
+          <div class="col-md-6">
+              <h4 class="text-center text-info">{{ 'LISTA_PRODUCTOS' | translate }}</h4>
+              <br>
+              <div ui-grid="d_rubrosConsulta.gridOptions" ui-grid-pagination ui-grid-auto-resize ></div>
+          </div>
+        </div>
+     
       </div>
     </div>
   </div>

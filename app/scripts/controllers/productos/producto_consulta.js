@@ -49,7 +49,8 @@ angular.module('financieraClienteApp')
                 field: 'FechaRegistro',
                 displayName: $translate.instant("FECHA_REGISTRO"),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info'
+                headerCellClass: 'text-info',
+                cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
             },{
                 name: $translate.instant('OPCIONES'),
                 enableFiltering: false,
