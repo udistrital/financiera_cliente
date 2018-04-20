@@ -88,7 +88,7 @@
                     <br>
                     <hr> 
                     <br>
-                    <h4 class="text-center text-default">{{'RUBROS' | translate}}</h4>
+                    <!--h4 class="text-center text-default">{{'RUBROS' | translate}}</h4>
                     <div class="col-md-5">
                         
                         <rubros-consulta botones="productoConsulta.botones" recargar="productoConsulta.recarga_arbol" ramasel="false" rubrosel="productoConsulta.rubroSel" filtro="'3-3-'"></rubros-consulta> 
@@ -115,11 +115,12 @@
                             
                         </div>
                         <br>
+                        <pre class="col-md-10">{{productoConsulta.prRegistrar | json}}</pre-->
                         <div class="col-md-12 text-center">
                             <button class="btn btn-outline btn-success" ng-click="productoConsulta.registrarProducto()">{{'REGISTRAR' | translate}}</button>
                         </div>
 
-                    <pre class="col-md-10">{{productoConsulta.prRegistrar | json}}</pre>
+                    
                 
             </div>
         </div>
