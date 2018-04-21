@@ -26,9 +26,10 @@ angular.module('financieraClienteApp')
             { field: 'CodigoAbreviacion',displayName: $translate.instant('CODIGO'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Nombre',displayName: $translate.instant('NOMBRE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Descripcion',displayName: $translate.instant('DESCRIPCION'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'UnidadEjecutora',displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'Entidad',displayName: $translate.instant('ENTIDAD'), cellClass: 'input_center', headerCellClass: 'text-info' },
-
+            { field: 'UnidadEjecutora',visible:false},
+            { field: 'UnidadEjecutoraNombre',displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'Entidad', visible:false },
+            { field: 'EntidadNombre',displayName: $translate.instant('ENTIDAD'), cellClass: 'input_center', headerCellClass: 'text-info' },
             ]
     };
 
@@ -43,7 +44,22 @@ angular.module('financieraClienteApp')
     ctrl.TipoComprobantes.multiSelect = false;
 
     financieraRequest.get('tipo_comprobante','').then(function(response) {
-      ctrl.TipoComprobantes.data = response.data;
+
+
+      angular.forEach(response.data, function(data){
+        financieraRequest.get('unidad_ejecutora','limit=-1&query=Id:'+data.UnidadEjecutora).then(function(response) {
+          data.UnidadEjecutoraNombre = response.data[0].Nombre
+        });
+      });
+
+      angular.forEach(response.data, function(data){
+        financieraRequest.get('entidad','limit=-1&query=Id:'+data.Entidad).then(function(response) {
+          data.EntidadNombre = response.data[0].Nombre
+        });
+      });
+
+        ctrl.TipoComprobantes.data = response.data;
+
     });
 
     ctrl.crearComprobante = function (){

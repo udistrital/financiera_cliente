@@ -183,9 +183,11 @@ angular.module('financieraClienteApp')
     self.cargar_plan_maestro();
 
     $scope.$watch('crearConcepto.tipo_concepto', function() {
-      $scope.filtro_padre = self.tipo_concepto.Nombre;
-      self.padre = undefined;
-      $scope.nodo = undefined;
+      if(self.tipo_concepto !== undefined){
+        $scope.filtro_padre = self.tipo_concepto.Nombre;
+        self.padre = undefined;
+        $scope.nodo = undefined;
+      }
     }, true);
 
     $scope.$watch('crearConcepto.cuenta_contable', function() {

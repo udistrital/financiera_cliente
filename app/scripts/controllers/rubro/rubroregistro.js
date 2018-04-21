@@ -14,11 +14,14 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest,$translate) {
+  .controller('RubroRubroRegistroCtrl', function (financieraRequest,$translate,gridApiService,$scope) {
     var self = this;
+    self.ProdutoRubro = [];
     self.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
+      { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+      
     ];
     
     financieraRequest.get('entidad','limit=0').then(function (response) {
@@ -32,8 +35,82 @@ angular.module('financieraClienteApp')
       self.codigo_hijo = '';
       self.descripcion_hijo='';
       self.selectEntidad=null;
-
+      self.ProdutoRubro = [];
+      self.gridApi.selection.clearSelectedRows();
     };
+
+    self.gridOptionsProductos = {
+            enableFiltering: true,
+            enableSorting: true,
+            enableRowSelection: true,
+            enableRowHeaderSelection: true,
+            paginationPageSizes: [25, 50, 75],
+            paginationPageSize: 5,
+            useExternalPagination: false,
+            columnDefs: [{
+                field: 'Id',
+                visible: false
+            }, {
+                field: 'Nombre',
+                cellClass: 'input_center',
+                displayName: $translate.instant('NOMBRE'),
+                headerCellClass: 'text-info',
+                enableFiltering: true ,
+                width: '35%'
+            }, {
+                field: 'Descripcion',
+                displayName: $translate.instant('DESCRIPCION'),
+                cellClass: 'input_center',
+                headerCellClass: 'text-info'
+            }],
+            onRegisterApi: function(gridApi) {
+                self.gridApi = gridApi;
+                //self.gridApi = gridApiService.pagination(self.gridApi, self.actualizarListaProductos, $scope);
+                self.gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                  var productos = [];
+                  angular.forEach(self.gridApi.selection.getSelectedRows(), function(data) {
+                    productos.push({Producto: data, ValorDistribucion: 100/self.gridApi.selection.getSelectedRows().length});
+                  });
+                  self.ProdutoRubro = productos;
+                  console.log(self.ProdutoRubro);
+                });
+           
+                self.gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
+                  var productos = [];
+                  angular.forEach(self.gridApi.selection.getSelectedRows(), function(data) {
+                    productos.push({Producto: data});
+                  });
+                  self.ProdutoRubro = productos;
+                });
+            }
+
+        };
+
+        self.actualizarListaProductos = function(offset,query){
+            financieraRequest.get('producto/', query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+                if (response.data === null) {
+                    self.gridOptionsProductos.data = [];
+                } else {
+                    self.gridOptionsProductos.data = response.data;
+                }
+            });
+        };
+        financieraRequest.get("producto/TotalProductos",'').then(function(response){
+            self.gridOptionsProductos.totalItems = response.data;
+            self.actualizarListaProductos(self.offset, '');
+        });
+      self.isDistr = function(){
+        var distr = 0;
+        var res = false;
+        angular.forEach(self.ProdutoRubro, function(data) {
+         distr = distr + parseInt(data.ValorDistribucion);
+        });
+        if (distr === 100){
+          res = true
+        }
+        console.log("D ", distr);
+        return res;
+      };
 
       /**
      * @ngdoc function
@@ -49,6 +126,10 @@ angular.module('financieraClienteApp')
           swal("", $translate.instant("E_RB001"),"error");
         }else if (self.descripcion_hijo === '' || self.descripcion_hijo === undefined){
           swal("", $translate.instant("E_RB002"),"error");
+        }else if (self.chkProducto && self.ProdutoRubro.length === 0){
+          swal("", $translate.instant("E_RB005"),"error");
+        }else if(self.chkProducto && !self.isDistr()){
+          swal("", $translate.instant("E_RB006"),"error");
         }/*else if (self.selectEntidad === null){
           swal("", $translate.instant("E_RB004"),"error");
         }*/
@@ -68,6 +149,13 @@ angular.module('financieraClienteApp')
                 };
   
           }
+          var Pr = null;
+          if (self.chkProducto){
+            Pr = self.ProdutoRubro;
+            angular.forEach(Pr, function (data) {
+              data.ValorDistribucion = parseInt(data.ValorDistribucion);
+            });
+          }
           
           var rubro_hijo = {
                 Vigencia: 0,
@@ -76,7 +164,8 @@ angular.module('financieraClienteApp')
                 Codigo: codigo_rubro,
                 Descripcion: self.descripcion_hijo,
                 UnidadEjecutora: parseInt(self.padre.UnidadEjecutora),
-                Estado: 1
+                Estado: 1,
+                ProductoRubro: Pr
             };
             console.log(rubro_hijo);
            if(self.padre.Codigo != undefined){
