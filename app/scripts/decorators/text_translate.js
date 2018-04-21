@@ -325,6 +325,7 @@ var text_es = {
     LISTA_COMPROBANTES: "Lista de Comprobantes",
     LISTA_REQUISITOS_AVANCE: "listado de Requisitos de Avance",
     LISTA_PRODUCTOS: "Listado de Productos",
+    LISTA_PRODUCTOS_ASOCIADOS: "Lista Productos Asociados Al Rubro", 
     LISTA_RP: "Lista de Registros Presupuestales",
     LISTA_RP_ANULACION: "Lista de Solicitudes de Anulación de Registros Presupuestales ",
     LISTA_SOLICITUD_ANULACION_CDP: "Lista de Solicitudes de Anulación de Disponibilidad",
