@@ -92,7 +92,8 @@ angular.module('financieraClienteApp')
               field: 'Activo',
               displayName: $translate.instant("ACTIVO"),
               cellClass: 'input_center',
-              headerCellClass: 'text-info'
+              headerCellClass: 'text-info',
+              cellTemplate: '<span ng-if="row.entity.Activo">Si</span><span ng-if="!row.entity.Activo">No</span>'
           },{
               name: $translate.instant('OPCIONES'),
               enableFiltering: false,
