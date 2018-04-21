@@ -516,6 +516,26 @@ angular
               controller: 'ProductosProductoRegistroCtrl',
               controllerAs: 'productoRegistro'
             })
+            .when('/inversiones/acta_compra', {
+              templateUrl: 'views/inversiones/acta_compra.html',
+              controller: 'InversionesActaCompraCtrl',
+              controllerAs: 'actaComprainv'
+            })
+            .when('/inversiones/consulta', {
+              templateUrl: 'views/inversiones/consulta.html',
+              controller: 'InversionesConsultaCtrl',
+              controllerAs: 'consultaInv'
+            })
+            .when('/inversiones/creacionReinversion', {
+              templateUrl: 'views/inversiones/creacionreinversion.html',
+              controller: 'InversionesCreacionreinversionCtrl',
+              controllerAs: 'creacionReinversion'
+            })
+            .when('/inversiones/creacion_cancelacion', {
+              templateUrl: 'views/inversiones/creacion_cancelacion.html',
+              controller: 'InversionesCreacionCancelacionCtrl',
+              controllerAs: 'creacionCancelacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
