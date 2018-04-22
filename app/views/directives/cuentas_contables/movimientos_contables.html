@@ -63,7 +63,7 @@
       <div class="modal-body">
         <legend>{{"ENDOSAR_A_TERCERO" | translate}}</legend>
         <div class="panel panel-default panel-body">
-            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.crear_nuevo()" focus-on-field validate>
+            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_endoso()" focus-on-field validate>
 
               <div class="col-md-12">
                 <fieldset class="form-group">
@@ -81,11 +81,23 @@
                 <fieldset class="form-group">
                   <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.documento" ng-required="true" disabled ></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.tercero.NumDocumento" ng-required="true" disabled ></input>
                   </div>
                   <label for="nombre_tercero" class="col-sm-2 control-label ng-binding">{{ 'NOMBRE' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.documento.Nombre" ui-money-mask="0" ng-required="true" disabled></input>
+                    <input class="form-control" ng-model="d_movimientosContables.tercero.NomProveedor" ng-required="true" disabled></input>
+                  </div>
+                </fieldset>             
+              </div>
+              <div class="col-md-12">
+                <fieldset class="form-group">
+                  <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'CUENTA_BANCARIA' | translate }}*:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.cuentaTercero.NumeroCuenta" ng-required="true" disabled ></input>
+                  </div>
+                  <label for="nombre_tercero" class="col-sm-2 control-label ng-binding">{{ 'BANCO' | translate }}/{{ 'SUCURSAL' | translate }}:</label>
+                  <div class="col-sm-4">
+                    <input class="form-control" ng-model="d_movimientosContables.cuentaTercero.Nombre" ng-required="true" disabled></input>
                   </div>
                 </fieldset>
                 <label for="forma_pago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
@@ -95,12 +107,10 @@
                   </select>
                 </div>                
               </div>
-
+              <div class="form-group">
+                <center><button ng-click="d_movimientosContables.asignar_endoso()" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
+              </div>
             </form>
-        </div>
-
-        <div class="form-group">
-          <center><button type="button" class="btn btn-info btn-outline" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
         </div>
       </div>
     </div>
