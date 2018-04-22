@@ -362,9 +362,7 @@ angular.module('financieraClienteApp')
                 self.agregar_descuento = function(item) {
                     if (item != undefined) {
                         console.log(item.TipoCuentaEspecial.Id);
-                        console.log(item);
-                        self.tercero = item.proveedor;
-                        self.cuentaTercero = item.CuentaContable.CuentaBancaria;   
+                        console.log(item);   
                         item.Concepto = self.concepto_movs;
                         if (item.TipoCuentaEspecial.Nombre === "Impuesto") {
                             console.log("porceentaje" + item.Porcentaje);
@@ -372,6 +370,9 @@ angular.module('financieraClienteApp')
                             console.log(item.Credito);
                         }
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
+                            self.itemActual = item;
+                            self.tercero = item.proveedor;
+                            self.cuentaTercero = item.CuentaContable.CuentaBancaria;                            
                             self.Endosar ="Endoso";
                             console.log("Porcentaje", item.Porcentaje);
                             console.log("valorbruto", $scope.outputvalorbruto);
@@ -389,17 +390,14 @@ angular.module('financieraClienteApp')
                     }
                 };
                 self.asignar_endoso = function(){
-                    console.log(self.gridOptionsDescuentos.data[0].Credito);
-                    self.gridOptionsDescuentos.data[0].Credito = self.valorInicial;
-                    console.log(self.gridOptionsDescuentos.data[0].Credito);
-
+                    var pos = self.gridOptionsDescuentos.data.indexOf(self.itemActual);
+                    self.gridOptionsDescuentos.data[pos].Credito = self.valorInicial;
                 }
                 self.calcular_endoso = function (item, valorbruto){
-
-
                     return item.Porcentaje * valorbruto / 100 ;
-
-
+                }
+                self.validar_endoso = function () {
+                    return (self.valorInicial > 0) && (self.valorInicial <= self.valorMaximo) ;
                 }
 
                 /*self.agregar_desc_mov=function(){

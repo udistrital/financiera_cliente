@@ -107,9 +107,13 @@
                   </select>
                 </div>                
               </div>
-              <div class="form-group">
+              <br/>
+              <div class="form-group" ng-if="d_movimientosContables.validar_endoso()">
                 <center><button ng-click="d_movimientosContables.asignar_endoso()" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
               </div>
+              <div ng-messages="end_form.d_movimientosContables.valorInicial.$error" style="color:maroon" role="alert" ng-show="!d_movimientosContables.validar_endoso()">
+                <div ng-message="required">{{"VALOR_SUPERADO" | translate}}</div>
+              </div>              
             </form>
         </div>
       </div>
