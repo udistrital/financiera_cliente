@@ -141,7 +141,7 @@
                     <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                   </div>
                   <div class="col-md-4" style="width:200px">
-                    <input class="form-control" id="total" type="text" ng-model="actaComprainv.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                    <span class="form-control" style="height:25px">{{actaComprainv.ValorNetoGirar|currency}}</span>
                   </div>
                 </li>
               </ul>
@@ -171,7 +171,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in actaComprainv.concepto" ng-show="actaComprainv.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="actaComprainv.movs" monto="actaComprainv.total" editable validatemov="c.validado">
+              <movimientos-contables conceptoid="c.Id" movimientos="actaComprainv.movs" monto="actaComprainv.ValorNetoGirar" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>

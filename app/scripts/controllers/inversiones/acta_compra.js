@@ -185,7 +185,7 @@ angular.module('financieraClienteApp')
             Estado:{id:1},
             Activo:true
           },
-          TotalInversion: ctrl.total,
+          TotalInversion: ctrl.ValorNetoGirar,
           Concepto: ctrl.concepto[0],
           tipoInversion:1,
           usuario:32132222
