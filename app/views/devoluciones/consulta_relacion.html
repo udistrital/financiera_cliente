@@ -1,0 +1,12 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header text-center">{{'CONSULTA_RELACIONES_DEVOL'|translate}}</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{'SELECCIONAR'|translate}} {{'RELACION_DEVOLUCION'|translate}}</h3>
+        </div>
+        <div ui-grid="devolucionesconsultaRelacion.gridOrdenes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
+    <div>
+        <procesol edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></procesol>
+    </div>
+</div>

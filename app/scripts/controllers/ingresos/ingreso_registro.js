@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, financieraRequest, wso2Request, oikosRequest, $translate, $filter) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location,financieraRequest, wso2Request, oikosRequest, $translate, $filter,ingresoDoc) {
         var ctrl = this;
         //prueba de codigos de facultad
         $scope.load = true;
@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
         ctrl.fechaFin = new Date();
         ctrl.filtro_ingresos = "Ingresos";
         $scope.datos = false;
+        $scope.otro = false;
         ctrl.homologacion_facultad = [{
             old: 33,
             new: 14 //FACULTAD ING
@@ -80,6 +81,16 @@ angular.module('financieraClienteApp')
             });
         };
 
+        $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
+
+            if (angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre)){
+                $scope.otro = false;
+            }else{
+                $scope.otro = true;
+            }
+
+        }, true);
+
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
             if (!angular.isUndefined(newValue)) {
@@ -122,11 +133,15 @@ angular.module('financieraClienteApp')
                 ctrl.ingreso.Movimientos = ctrl.movs;
                 console.log(ctrl.ingreso);
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
-                    if (response.data.Type !== undefined) {
+                    if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                         } else {
-                            swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type);
+                            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
+
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" ;
+
+                            swal('', templateAlert, response.data.Type);
                         }
 
                     }
@@ -142,6 +157,16 @@ angular.module('financieraClienteApp')
 
         };
 
+        ctrl.ejecutarIngresos = function(){
+            if($scope.otro){
+                ingresoDoc.set(ctrl.tipoIngresoSelec);
+                $location.path('/ingresos/ingreso_registroG/'+ctrl.tipoIngresoSelec.Nombre);
+            }else{
+
+                ctrl.consultarPagos();
+            }
+
+        }
         ctrl.consultarPagos = function() {
             $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {
@@ -164,10 +189,10 @@ angular.module('financieraClienteApp')
                             { name: 'identificacion', displayName: 'Identificación', headerCellClass: 'text-info' },
                             { name: 'fecha', displayName: 'Fecha', headerCellClass: 'text-info' },
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
-                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency' },
+                            { name: 'valor', displayName: 'Valor', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
                             { name: 'codigo_banco', displayName: 'Codigo del Banco', headerCellClass: 'text-info' },
                             { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
-                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
+                            { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
                         var inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
                         var fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
@@ -200,6 +225,7 @@ angular.module('financieraClienteApp')
                         });
 
                         break;
+
                     case "CODIGO DE BARRAS":
                         ctrl.gridOptions.columnDefs = [
                             { name: 'ano', displayName: 'Vigencia', headerCellClass: 'text-info' },
@@ -208,10 +234,10 @@ angular.module('financieraClienteApp')
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
                             { name: 'numero_cuenta', displayName: 'N° Cuenta', headerCellClass: 'text-info' },
                             { name: 'tipo_recibo', displayName: 'Tipo Recibo', headerCellClass: 'text-info' },
-                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
-                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
+                            { name: 'pago_reportado', displayName: 'Pago Reportado', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'matricula', displayName: 'Pago Matricula', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
+                            { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
                         var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
                         var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");

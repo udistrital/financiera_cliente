@@ -48,8 +48,8 @@ var conf_presentacion = {
     ARKA_SERVICE: "http://10.20.0.254/arka_api_crud/v1/",
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
-    FINANCIERA_MID_SERVICE: "http://10.20.0.210/financiera_mid_api/v1/",
-    FINANCIERA_SERVICE: "http://10.20.0.210/financiera_api/v1/",
+    FINANCIERA_MID_SERVICE: "http://10.20.0.254/financiera_mid_api/v1/",
+    FINANCIERA_SERVICE: "http://10.20.0.254/financiera_api/v1/",
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
@@ -88,6 +88,7 @@ var conf_pruebas = {
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
+    SPAGOBI_SERVICE: "https://intelligentia.udistrital.edu.co:8443/SpagoBI/restful-services/1.0/",
     TOKEN: {
         AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",

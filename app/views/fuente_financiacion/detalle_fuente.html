@@ -1,1 +1,85 @@
+<div class="panel panel-primary panel-body">
 
+  <h2 class="page-header text-center">{{ 'TITULO_FUENTES_DETALLE' | translate }}</h2>
+
+  <div class="col-md-10 col-md-offset-1">
+    <div class="panel panel-default">
+      <div class="panel-body">
+
+        <div class="col-md-2 col-md-offset-2">
+          <label for="FUENTE" class="col-form-label">{{ 'VIGENCIA' | translate }}: </label>
+          <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="detalleFuente.Vigencia" ng-change="detalleFuente.consulta_fuente_vigencia()">
+             <option ng-repeat="option in detalleFuente.years" value="{{option}}">{{option}}</option>
+            </select>
+        </div>
+
+        <div class="col-md-5" ng-show="detalleFuente.Vigencia">
+          <label for="FUENTE">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
+          <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="detalleFuente.fuente " ng-change="detalleFuente.cambiar_rubro()" data-live-search="true">
+           <option ng-repeat="n in detalleFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body" ng-show="detalleFuente.fuente">
+    <div class="col-md-12">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
+        </div>
+        <div class="panel-body">
+          <div class="col-md-10 col-md-offset-1">
+            <table class="table">
+              <tr>
+                <th>{{'CODIGO' | translate}}: </th>
+                <td>{{detalleFuente.fuente_seleccionada.Codigo }}</td>
+              </tr>
+              <tr>
+                <th>{{ 'NOMBRE' | translate }}: </th>
+                <td>{{detalleFuente.fuente_seleccionada.Nombre}}</td>
+              </tr>
+              <tr>
+                <th>{{ 'TIPO' | translate }}: </th>
+                <td>{{ detalleFuente.fuente_seleccionada.TipoFuenteFinanciamiento.Nombre }}</td>
+              </tr>
+              <tr>
+                <th>{{ 'VALOR' | translate }}: </th>
+                <td>{{ detalleFuente.valor_total | currency}}</td>
+              </tr>
+              <tr>
+                <th>{{ 'VALOR_CDP' | translate }}: </th>
+                <td>{{ detalleFuente.valor_cdp | currency}}</td>
+              </tr>
+              <tr>
+                <th>{{ 'VALOR_DISPONIBLE' | translate }}: </th>
+                <td>{{ detalleFuente.valor_disponible | currency}}</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="panel-body">
+          </div>
+
+          <h4 class="text-info">{{'CDP' | translate}}</h4>
+
+          <div class="modal-body">
+            <div ui-grid="detalleFuente.gridOptionCDP" ui-grid-auto-resize class="grid"></div>
+          </div>
+          <hr>
+          <h4 class="text-info">{{'CRP' | translate}}</h4>
+          <div class="modal-body">
+            <div ui-grid="detalleFuente.gridOptionCRP" ui-grid-auto-resize class="grid"></div>
+          </div>
+          <hr>
+          <h4 class="text-info">{{'OP' | translate}}</h4>
+          <div class="modal-body">
+            <div ui-grid="detalleFuente.gridOptionOP" ui-grid-auto-resize class="grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

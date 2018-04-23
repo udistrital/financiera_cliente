@@ -1,0 +1,37 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'LISTA_COMPROBANTES' | translate}}</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-md-offset-4">
+                            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+                            <br>
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaComprobantes.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                          <option ng-repeat="option in consultaComprobantes.years" value="{{option}}">{{option}}</option>
+                    </select>
+                        </div>
+
+                        <div class="col-md-1">
+                            <br>
+                            <a type="button" name="button" ng-click="consultaComprobantes.ListarComprobantes()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div ng-show="consultaComprobantes.mostrarComprobantes"  >
+            <div ui-grid="consultaComprobantes.Comprobantes"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+                <div class="watermark" ng-show="!consultaComprobantes.hayComprobante">{{'ALERTA_NO_COMPROBANTES'| translate}}</div>
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="consultaComprobantes.crearComprobante()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+        </div>
+    </div>
+</div>

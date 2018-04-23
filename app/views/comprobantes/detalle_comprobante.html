@@ -1,0 +1,70 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header" align="center">{{'DETALLE_COMPROBANTE' | translate}}</h2>
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div align="center" class="panel panel-default">
+                    {{'TIPO'| translate}}: {{detalleComprobante.comprobante.CodigoAbreviacion}}
+                    <br>
+                    {{'NOMBRE'| translate}}: {{detalleComprobante.comprobante.Nombre}}
+                    <br>
+                    {{'NUMERO'| translate}}: {{detalleComprobante.comprobante.Secuencia}}
+                    <br>
+                    {{'FECHA'| translate}}: {{detalleComprobante.comprobante.FechaRegistro | date:"yyyy-MM-dd":"+0900"}}
+                </div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div ng-show="detalleComprobante.mostrarRegistros"  >
+            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="miGrid">
+              <div class="watermark" ng-show="!detalleComprobante.hayRegistros">{{'ALERTA_NO_REGISTROS'| translate}}</div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <div class="panel">
+                    <label align="center">{{'OBSERVACIONES' | translate }}</label>
+                    <textarea type="text" class="form-control" rows="8" ng-model="detalleComprobante.observaciones"></textarea>
+                </div>
+            </div>
+            <br>
+            <div class="col-md-4">
+                <div class="panel">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>{{ 'DEBITO' | translate }}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <span class="form-control right-letters"> {{detalleComprobante.debito_row | currency}}</span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>{{ 'CREDITO' | translate }}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <span class="form-control right-letters"> {{detalleComprobante.credito_row | currency}}</span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>{{ 'DIFERENCIA' | translate }}</label>
+                        </div>
+                        <div class="col-md-8">
+                          <span class="form-control right-letters"> {{detalleComprobante.diferencia_row| currency}} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+          <!--ESTO DEBE IR EN NG SHOW NG IF -->
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="detalleComprobante.crearRegistro()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+        </div>
+
+    </div>
+</div>

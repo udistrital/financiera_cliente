@@ -32,8 +32,16 @@ angular.module('financieraClienteApp')
         botones: '=?',
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
-      controller: function($scope, $translate,$interval) {
+      controller: function($scope, $translate) {
         var self = this;
+        self.editar= false;
+        self.padre = false;
+        $scope.botonesProductos = [];
+        self.ProdutoRubro = [];
+        self.botonesEditar = [
+          { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+          { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
+        ];
         self.UnidadEjecutora = 1;
         self.treeOptions = {
           nodeChildren: "Hijos",
@@ -50,6 +58,121 @@ angular.module('financieraClienteApp')
             labelSelected: "a8"
           }
         };
+        var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD * 100}}%</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';
+        self.gridOptions = {
+          enableFiltering: true,
+          enableSorting: true,
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 10,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+          }, {
+              field: 'Producto.Nombre',
+              cellClass: 'input_center',
+              displayName: $translate.instant('PRODUCTO'),
+              headerCellClass: 'text-info',
+              enableFiltering: true
+          }, {
+              field: 'ValorDistribucion',
+              displayName: $translate.instant('VALOR_DISTRIBUCION'),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info',
+              cellTemplate: tmpl
+          }, {
+            field: 'FechaRegistro',
+            displayName: $translate.instant("FECHA_REGISTRO"),
+            cellClass: 'input_center',
+            headerCellClass: 'text-info',
+            cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
+        },
+        {
+              field: 'Activo',
+              displayName: $translate.instant("ACTIVO"),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info',
+              cellTemplate: '<span ng-if="row.entity.Activo">Si</span><span ng-if="!row.entity.Activo">No</span>'
+          },{
+              name: $translate.instant('OPCIONES'),
+              enableFiltering: false,
+              width: '8%',
+               headerCellClass: 'text-info',
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botonesProductos" fila="row"></btn-registro></center>'
+          }],
+          onRegisterApi: function(gridApi) {
+              self.gridApi = gridApi;
+          }
+
+      };
+
+      self.gridOptionsProductos = {
+        enableFiltering: true,
+        enableSorting: true,
+        enableRowSelection: true,
+        enableRowHeaderSelection: true,
+        paginationPageSizes: [25, 50, 75],
+        paginationPageSize: 5,
+        useExternalPagination: false,
+        multiSelect: false,
+        columnDefs: [{
+            field: 'Id',
+            visible: false
+        }, {
+            field: 'Nombre',
+            cellClass: 'input_center',
+            displayName: $translate.instant('NOMBRE'),
+            headerCellClass: 'text-info',
+            enableFiltering: true ,
+            width: '35%'
+        }, {
+            field: 'Descripcion',
+            displayName: $translate.instant('DESCRIPCION'),
+            cellClass: 'input_center',
+            headerCellClass: 'text-info'
+        }],
+        onRegisterApi: function(gridApi) {
+            self.gridApiP = gridApi;
+            //self.gridApi = gridApiService.pagination(self.gridApi, self.actualizarListaProductos, $scope);
+            self.gridApiP.selection.on.rowSelectionChanged($scope,function(row){
+              var productos = [];
+              angular.forEach(self.gridApiP.selection.getSelectedRows(), function(data) {
+                var distrAct = 0;
+                angular.forEach(self.gridOptions.data, function(data){
+                  distrAct = distrAct + parseFloat(data.ValorDistribucion);
+                });
+                console.log(distrAct);
+                productos.push({Producto: data, ValorDistribucion: Math.floor((1-distrAct)*100)/self.gridApiP.selection.getSelectedRows().length});
+              });
+              self.ProdutoRubro = productos;
+              console.log(self.ProdutoRubro);
+            });
+       
+            self.gridApiP.selection.on.rowSelectionChangedBatch($scope,function(rows){
+              var productos = [];
+              angular.forEach(self.gridApiP.selection.getSelectedRows(), function(data) {
+                productos.push({Producto: data});
+              });
+              self.ProdutoRubro = productos;
+            });
+        }
+
+    };
+
+          self.actualizarListaProductos = function(offset,query){
+            financieraRequest.get('producto/', query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+                if (response.data === null) {
+                    self.gridOptionsProductos.data = [];
+                } else {
+                    self.gridOptionsProductos.data = response.data;
+                }
+            });
+          };
+          financieraRequest.get("producto/TotalProductos",'').then(function(response){
+            self.gridOptionsProductos.totalItems = response.data;
+            self.actualizarListaProductos(self.offset, '');
+          });
 
         /**
          * @ngdoc function
@@ -69,18 +192,197 @@ angular.module('financieraClienteApp')
           });
 
         };
+        
+
+        $scope.loadrow = function(fila, operacion){
+          
+          switch (operacion) {
+            case "delete":
+            fila.entity.Activo = false;
+            financieraRequest.put("producto_rubro",fila.entity.Id,fila.entity).then(function (response){
+              console.log(response.data);
+              if (response.data === "OK"){
+                swal('',$translate.instant("S_542"),"success");
+                
+              }else{
+                swal('',$translate.instant("E_23503"),"error");
+              }
+
+              financieraRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
+                if(response.data != null){
+                  $scope.data = response.data[0];
+                  financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
+                    if (response.data !== null){
+                      self.gridOptions.data = response.data;
+                    }else{
+                      self.gridOptions.data = [];
+                    }
+                  });
+                  
+                  console.log(response.data);
+                }else{
+                  
+                }
+              });
+            });
+            break;
+            case "edit":
+              var index = self.gridOptions.data.indexOf(fila.entity);
+              //Permite que la fila del index, sea editable
+              if (!self.gridOptions.data[index].editable){
+                self.gridOptions.data[index].editable = !self.gridOptions.data[index].editable;
+              }else{
+                self.gridOptions.data[index].editable = !self.gridOptions.data[index].editable;
+                var jsonActualizado = fila.entity;
+              jsonActualizado.ValorDistribucion = parseFloat(jsonActualizado.ValorDistribucion);
+              console.log(jsonActualizado);
+             
+                financieraRequest.post("producto_rubro/SetVariacionProducto",jsonActualizado).then(function (response) {
+                  if (response.data.Type === "error"){
+                    swal('',$translate.instant(response.data.Code),response.data.Type);
+                  }else{
+                    var data = response.data;
+                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";      
+                    templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;  
+                    templateAlert = templateAlert + "</table>";
+
+                    swal({
+                      title: '',
+                      type: response.data.Type,
+                      width: 800,
+                      html: templateAlert,
+                      showCloseButton: true,
+                      confirmButtonText: 'Cerrar'
+                    }).then(function(){
+                      
+                      financieraRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
+                        if(response.data != null){
+                          $scope.data = response.data[0];
+                          financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
+                            if (response.data !== null){
+                              self.gridOptions.data = response.data;
+                            }else{
+                              self.gridOptions.data = [];
+                            }
+                          });
+                          
+                          console.log(response.data);
+                        }else{
+                          
+                        }
+                      });
+                      
+                    });                       
+                  }
+                });
+                
+              }
+              
+              
+              break;
+          
+            default:
+              break;
+          }
+        };
+
+        self.AgregarProducto = function () {
+              var Pr = null;
+              Pr = self.ProdutoRubro;
+              angular.forEach(Pr, function (data) {
+                data.ValorDistribucion = parseInt(data.ValorDistribucion);
+                data.Rubro = $scope.data;
+              });
+              financieraRequest.post("producto_rubro/AddProductoRubrotr", Pr[0]).then(function(response){
+                if (response.data.Type === "error"){
+                  swal('',$translate.instant(response.data.Code),response.data.Type);
+                }else{
+                  var data = response.data;
+                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";      
+                  templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;  
+                  templateAlert = templateAlert + "</table>";
+
+                  swal({
+                    title: '',
+                    type: response.data.Type,
+                    width: 800,
+                    html: templateAlert,
+                    showCloseButton: true,
+                    confirmButtonText: 'Cerrar'
+                  }).then(function(){
+                    
+                    financieraRequest.get("rubro",'query=Id:'+$scope.data.Id).then(function(response){
+                      if(response.data != null){
+                        $scope.data = response.data[0];
+                        financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+$scope.data.Id+"&sortby=Activo&order=desc").then(function (response) {
+                          if (response.data !== null){
+                            self.gridOptions.data = response.data;
+                          }else{
+                            self.gridOptions.data = [];
+                          }
+                        });
+                        
+                        console.log(response.data);
+                      }else{
+                        
+                      }
+                    });
+                    
+                  });                       
+                }
+              });
+          
+        };
 
         self.arbol_operacion = function(nodo, operacion){
           self.operacion = operacion;
           
           switch (operacion) {
               case "ver":
-                  $scope.data = nodo;
+              self.editar=false;
+              $scope.botonesProductos = [];
+              self.gridOptions.data = [];
+                  financieraRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
+                    if(response.data != null){
+                      $scope.data = response.data[0];
+                      financieraRequest.get("producto_rubro", "query=Rubro.Id:"+nodo.Id+"&sortby=Activo&order=desc").then(function (response) {
+                        if (response.data !== null){
+                          self.gridOptions.data = response.data;
+                        }
+                      });
+                      
+                      console.log(response.data);
+                    }
+                  });
                   $("#myModal").modal();
                   break;
               case "add":
                   break;
               case "edit":
+                  self.editar = true;
+                  if (nodo.Hijos == null){
+                    self.padre = false;
+                    
+                  }else{
+                    self.padre = true;
+                  }
+                  self.gridOptions.data = [];
+                  self.ProdutoRubro = [];
+                  financieraRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
+                    if(response.data != null){
+                      $scope.data = response.data[0];
+                      financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+nodo.Id).then(function (response) {
+                        if (response.data !== null){
+                          self.gridOptions.data = response.data;
+                        }
+                      });
+                      
+                      console.log(response.data);
+                    }
+                  });
+                  $scope.botonesProductos = self.botonesEditar;
+
+                  $("#myModal").modal();
                   break;
               case "delete":
                   
@@ -133,7 +435,7 @@ angular.module('financieraClienteApp')
          */
         $scope.$watch("filtro", function() {
           
-          if (self.expandedNodes.length === 0){
+          /*if (self.expandedNodes.length === 0){
             self.expandAllNodes($scope.arbol);
           }
           
@@ -141,15 +443,15 @@ angular.module('financieraClienteApp')
                 
               }else{
                 self.expandedNodes.length = 0;
-              }
+              }*/
              
              
            
         }, true);
 
-        $interval(function() {
+        /*$interval(function() {
           self.cargar_arbol();// your code
-       }, 5000);
+       }, 5000);*/
         
         /**
          * @ngdoc event

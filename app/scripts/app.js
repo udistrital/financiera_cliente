@@ -21,6 +21,7 @@ angular
         'afOAuth2',
         'treeControl',
         'ngMaterial',
+        //'material.svgAssetsCache',
         'ui.grid',
         'ui.grid.edit',
         'ui.grid.rowEdit',
@@ -41,6 +42,7 @@ angular
         'ui.grid.pinning',
         'ui.select',
         'ui.knob',
+        //'kendo.directives',
         // Servicios
         'academicaService',
         'financieraService',
@@ -58,7 +60,9 @@ angular
         'arkaService',
         'configuracionService',
         "wso2Service",
-        "requestService"
+        "requestService",
+        "ingresoDocServ",
+        "gridApiService"
     ])
 
 .run(function(amMoment) {
@@ -446,6 +450,101 @@ angular
               templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
               controller: 'RubroModificacionSolicitudConsultaCtrl',
               controllerAs: 'modificacionSolicitudConsulta'
+            })
+            .when('/reportes/reportes', {
+              templateUrl: 'views/reportes/reportes.html',
+              controller: 'ReportesReportesCtrl',
+              controllerAs: 'reportes'
+            })
+            .when('/reportes/presupuesto/listado_apropiaciones', {
+              templateUrl: 'views/reportes/presupuesto/listado_apropiaciones.html',
+              controller: 'ReporteListadoApropiacionesCtrl',
+              controllerAs: 'listadoApropiaciones'
+            })
+            .when('/reportes/presupuesto/c_d_p', {
+              templateUrl: 'views/reportes/presupuesto/c_d_p.html',
+              controller: 'ReportesPresupuestoCDPCtrl',
+              controllerAs: 'cDP'
+            })
+            .when('/reportes/presupuesto/r_p', {
+              templateUrl: 'views/reportes/presupuesto/r_p.html',
+              controller: 'ReportesPresupuestoRPCtrl',
+              controllerAs: 'rP'
+            })
+            .when('/comprobantes/consulta_comprobantes', {
+              templateUrl: 'views/comprobantes/consulta_comprobantes.html',
+              controller: 'ConsultaComprobantesCtrl',
+              controllerAs: 'consultaComprobantes'
+            })
+            .when('/comprobantes/detalle_comprobante', {
+              templateUrl: 'views/comprobantes/detalle_comprobante.html',
+              controller: 'DetalleComprobanteCtrl',
+              controllerAs: 'detalleComprobante'
+            })
+            .when('/comprobantes/crear_comprobante', {
+              templateUrl: 'views/comprobantes/crear_comprobante.html',
+              controller: 'CrearComprobanteCtrl',
+              controllerAs: 'crearComprobante'
+            })
+            .when('/comprobantes/crear_tipo_comprobante', {
+              templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
+              controller: 'CrearTipoComprobanteCtrl',
+              controllerAs: 'crearTipoComprobante'
+            })
+            .when('/pac/cierre_periodo', {
+              templateUrl: 'views/pac/cierre_periodo.html',
+              controller: 'PacCierrePeriodoCtrl',
+              controllerAs: 'cierrePeriodo'
+            })
+            .when('/bancos/saldos_iniciales', {
+              templateUrl: 'views/bancos/saldos_iniciales.html',
+              controller: 'BancosSaldosInicialesCtrl',
+              controllerAs: 'saldosIniciales'
+            })
+            .when('/ingresos/ingreso_registroG/:tipoIngreso', {
+              templateUrl: 'views/ingresos/ingreso_registrog.html',
+              controller: 'IngresosIngresoRegistrogCtrl',
+              controllerAs: 'ingresoRegistroG'
+            })
+            .when('/productos/producto_consulta', {
+              templateUrl: 'views/productos/producto_consulta.html',
+              controller: 'ProductosProductoConsultaCtrl',
+              controllerAs: 'productoConsulta'
+            })
+            .when('/productos/producto_registro', {
+              templateUrl: 'views/productos/producto_registro.html',
+              controller: 'ProductosProductoRegistroCtrl',
+              controllerAs: 'productoRegistro'
+            })
+            .when('/inversiones/acta_compra', {
+              templateUrl: 'views/inversiones/acta_compra.html',
+              controller: 'InversionesActaCompraCtrl',
+              controllerAs: 'actaComprainv'
+            })
+            .when('/inversiones/consulta', {
+              templateUrl: 'views/inversiones/consulta.html',
+              controller: 'InversionesConsultaCtrl',
+              controllerAs: 'consultaInv'
+            })
+            .when('/devoluciones/orden', {
+              templateUrl: 'views/devoluciones/orden.html',
+              controller: 'DevolucionesOrdenCtrl',
+              controllerAs: 'ordendevolucion'
+            })
+            .when('/devoluciones/relacion', {
+              templateUrl: 'views/devoluciones/relacion.html',
+              controller: 'DevolucionesRelacionCtrl',
+              controllerAs: 'devolucionesrelacion'
+            })
+            .when('/devoluciones/consulta_relacion', {
+              templateUrl: 'views/devoluciones/consulta_relacion.html',
+              controller: 'DevolucionesConsultaRelacionCtrl',
+              controllerAs: 'devolucionesconsultaRelacion'
+            })
+            .when('/devoluciones/no_tributaria', {
+              templateUrl: 'views/devoluciones/no_tributaria.html',
+              controller: 'DevolucionesNoTributariaCtrl',
+              controllerAs: 'devolucionesnoTributaria'
             })
             .otherwise({
                 redirectTo: '/'
