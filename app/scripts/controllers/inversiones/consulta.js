@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window,ingresoDoc) {
+  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window,ingresoDoc,coreRequest,administrativaRequest) {
 
    var ctrl = this;
 
@@ -43,79 +43,95 @@ angular.module('financieraClienteApp')
               width: '5%',
           },
           {
-              field: 'Vendedor',
+              field: 'Vendedor.NombreBanco',
               displayName: 'Vendedor',
               width: '10%',
           },
           {
-              field: 'Emisor',
+              field: 'Emisor.NombreBanco',
               displayName: 'Emisor',
-              width: '15%',
+              width: '10%',
           },
           {
-              field: 'NumOperacion',
+              field: 'NumeroTransaccion',
               displayName: 'Numero Operación',
-              width: '10%'
+              width: '8%'
           },
           {
               field: 'Trm',
               displayName: 'TRM',
-              width: '14%'
+              cellFilter: 'currency',
+              cellClass: 'input_right',
+              width: '8%'
           },
           {
               field: 'TasaNominal',
               displayName: 'Tasa Nominal',
-              width: '14%'
+              width: '8%'
           },
           {
-              field: 'ValorNomSaldo',
+              field: 'ValorNominalSaldo',
               displayName: 'Valor Nom. Saldo',
+              cellFilter: 'currency',
+              cellClass: 'input_right',
               width: '8%',
           },
           {
               field: 'ValorNomSaldoMonNal',
               displayName: 'Valor Nom. Saldo Mon. Nal',
+              cellFilter: 'currency',
+              cellClass: 'input_right',
               width: '8%',
           },
           {
               field: 'ValorActual',
               displayName: 'Valor Actual',
+              cellFilter: 'currency',
+              cellClass: 'input_right',
               width: '8%',
           },
           {
               field: 'ValorNetoGirar',
               displayName: 'Valor Neto Girar',
+              cellFilter: 'currency',
+              cellClass: 'input_right',
               width: '8%',
           },
           {
               field: 'FechaCompra',
               displayName: 'Fecha Compra',
-              width: '8%',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
           },
           {
               field: 'FechaRedencion',
               displayName: 'Fecha Redencion',
-              width: '8%',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
           },
           {
               field: 'FechaVencimiento',
               displayName: 'Fecha Vencimiento',
-              width: '8%',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
           },
           {
-              field: 'Comprador',
+              field: 'Comprador.NomProveedor',
               displayName: 'Comprador',
               width: '8%',
           },
           {
               field: 'ValorRecompra',
               displayName: 'Valor Recompra',
+              cellFilter: 'currency',
+              cellClass: 'input_right',
               width: '8%',
           },
           {
               field: 'FechaPacto',
               displayName: 'Fecha Pacto',
-              width: '8%',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
           },
           {
               name: $translate.instant('OPCIONES'),
@@ -146,7 +162,30 @@ angular.module('financieraClienteApp')
                       });
                       rowData.Estado = est;
                     });
+
+                    coreRequest.get("banco", $.param({
+                        query: "Id:" + rowData.Vendedor,
+                        limit: -1
+                      })).then(function(response) {
+                        rowData.Vendedor = response.data[0];
+                      });
+
+                      coreRequest.get("banco", $.param({
+                          query: "Id:" + rowData.Emisor,
+                          limit: -1
+                        })).then(function(response) {
+                          rowData.Emisor = response.data[0];
+                        });
+
+                        administrativaRequest.get("informacion_persona_juridica", $.param({
+                           	query: "Id:" + rowData.Comprador,
+                            limit: -1
+                          })).then(function(response) {
+                            rowData.Comprador = response.data[0];
+                          });
+
               });
+
               ctrl.gridInversiones.data = response.data;
             });
 
@@ -224,25 +263,15 @@ angular.module('financieraClienteApp')
             Estado:$scope.estadoclick,
             EstadoPadre:$scope.solicitud.Estado[0],
             Inversion:{
-              Id:$scope.solicitud.Id,
-              ValorNetoGirar:$scope.solicitud.ValorNetoGirar
-            }
+              Id:$scope.solicitud.Id
+            },
+            Usuario:"212121"
           };
-          console.log($scope.estadoclick)
-          if($scope.estadoclick.Id >= 6){
+          if($scope.estadoclick.Id === 6){
           ingresoDoc.set(ctrl.Request);
-          switch ($scope.estadoclick.Id) {
-            case (6):
-              $scope.$apply(function(){
-                $location.path('inversiones/creacionReinversion');
-              });
-              break;
-            case (7):
-              $scope.$apply(function(){
-                $location.path('inversiones/creacionReinversion');
-              });
-            break;
-          }
+          $scope.$apply(function(){
+            $location.path('/inversiones/acta_compra');
+          });
           }else{
                 financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
                   if(response.data.Type != undefined){

@@ -526,20 +526,27 @@ angular
               controller: 'InversionesConsultaCtrl',
               controllerAs: 'consultaInv'
             })
-            .when('/inversiones/creacionReinversion', {
-              templateUrl: 'views/inversiones/creacionreinversion.html',
-              controller: 'InversionesCreacionreinversionCtrl',
-              controllerAs: 'creacionReinversion'
+            .when('/devoluciones/orden', {
+              templateUrl: 'views/devoluciones/orden.html',
+              controller: 'DevolucionesOrdenCtrl',
+              controllerAs: 'ordendevolucion'
             })
-            .when('/inversiones/creacion_cancelacion', {
-              templateUrl: 'views/inversiones/creacion_cancelacion.html',
-              controller: 'InversionesCreacionCancelacionCtrl',
-              controllerAs: 'creacionCancelacion'
+            .when('/devoluciones/relacion', {
+              templateUrl: 'views/devoluciones/relacion.html',
+              controller: 'DevolucionesRelacionCtrl',
+              controllerAs: 'devolucionesrelacion'
+            })
+            .when('/devoluciones/consulta_relacion', {
+              templateUrl: 'views/devoluciones/consulta_relacion.html',
+              controller: 'DevolucionesConsultaRelacionCtrl',
+              controllerAs: 'devolucionesconsultaRelacion'
+            })
+            .when('/devoluciones/no_tributaria', {
+              templateUrl: 'views/devoluciones/no_tributaria.html',
+              controller: 'DevolucionesNoTributariaCtrl',
+              controllerAs: 'devolucionesnoTributaria'
             })
             .otherwise({
                 redirectTo: '/'
             });
-
-
-
     }]);
