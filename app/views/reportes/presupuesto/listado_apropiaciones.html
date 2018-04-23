@@ -1,0 +1,31 @@
+<br>
+<div class="panel panel-default">
+    <div class="panel-body">
+      <h2 class="page-header text-center">{{"REPORTES.LISTADO_APROPIACIONES" | translate}}</h2>
+
+      <form>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">{{"UNIDAD_EJECUTORA" | translate}}</label>
+          <div class="col-sm-4">
+            <select class="form-control form-control-sm" ng-model="listadoApropiaciones.unidadEjecutora"
+              ng-options="u.Nombre for u in listadoApropiaciones.unidadesEjecutoras">
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">{{"VIGENCIA" | translate}}</label>
+          <div class="col-sm-4">
+            <select class="form-control form-control-sm" ng-model="listadoApropiaciones.vigencia"
+              ng-options="v for v in listadoApropiaciones.vigencias">
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-click="listadoApropiaciones.buscarApropiaciones()">
+          {{"BTN.CONSULTAR" | translate}}
+        </button>
+      </form>
+
+    </div>
+</div>

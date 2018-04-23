@@ -107,6 +107,10 @@
     height: auto !important;
 }
 
+.no-height {
+  height: 300px;
+}
+
 .ui-grid-pager-panel {
     position: relative !important;
     left: 0 !important;
@@ -141,7 +145,32 @@ md-checkbox.md-checked.blue .md-icon {
     text-align: center;
 }
 
+.right-letters {
+  text-align: right;
+}
+
 sencillo {
     padding: 0;
     margin: 0;
+}
+.ui-grid-number-cellT {
+    text-align: right;
+    font-weight: bold;
+    background-color: lightblue!important;
+}
+.ui-grid-desc-cellT {
+    font-weight: bold;
+    background-color: lightblue!important;
+}
+
+.watermark {
+    border: 1px blue solid;
+    position: static;
+    top: 89%;
+    transform: translateY(-80%);
+    opacity: 0.25;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+    font-size: 3em;
 }

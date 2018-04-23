@@ -1,13 +1,45 @@
 <div class="col-centered">
-  <div class="panel panel-default">
+  <div class="panel panel-default" >
     <h2 class="page-header" align="center">{{'LISTA_RP_ANULACION' | translate}}</h2>
     <div class="panel-body">
       <!-- ui-grid-selection -->
-      <div ui-grid="rpAprobacionAnulacion.gridOptions" class="myGrid"></div>
+      <div class="panel panel-primary panel-body">
+    <div class="panel-body">
+        <!-- ui-grid-selection -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="col-md-4 col-md-offset-1">
+                            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+                            <br>
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpAprobacionAnulacion.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                          <option ng-repeat="option in rpAprobacionAnulacion.years" value="{{option}}">{{option}}</option>
+                    </select>
+                        </div>
+                        <div class="col-md-4 col-md-offset-3">
+                        <br>
+                <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpAprobacionAnulacion.verFenecidos()">{{'VER_FENECIDOS' | translate}}</a>
+                <br>
+                <br>
+                <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpAprobacionAnulacion.verAnulaciones()">{{'VER_ANULACIONES' | translate}}</a>
+                          
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
+        <div >
+            <div ui-grid="rpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid"></div>
+        </div>
+    </div>
+</div>
+      
     </div>
   </div>
 </div>
-
 <div id="myModal" class="modal fade col-md-12" role="dialog">
   <div class="modal-content col-md-offset-1 col-md-10">
     <div class="modal-header">
@@ -35,19 +67,23 @@
             </tr>
             <tr>
               <th>{{'BENEFECIARIO' | translate}}: </th>
-              <td>{{item.Beneficiario.NomProveedor}}</td>
+              <td>{{item.BeneficiarioInfo.NomProveedor}}</td>
             </tr>
             <tr>
               <th>{{'TIPO_PERSONA' | translate}}: </th>
-              <td>{{item.Beneficiario.Tipopersona}}</td>
+              <td>{{item.BeneficiarioInfo.Tipopersona}}</td>
             </tr>
             <tr>
               <th>{{'NO_DOCUMENTO' | translate}}: </th>
-              <td>{{item.Beneficiario.NumDocumento}}</td>
+              <td>{{item.BeneficiarioInfo.NumDocumento}}</td>
             </tr>
             <tr>
-              <th>{{'COMPROMISO' | translate}}: </th>
-              <td>{{item.Compromiso.Id+" / "+item.Compromiso.Objeto}}</td>
+              <th>{{'TIPO_COMPROMISO' | translate}}: </th>
+              <td>{{item.TipoCompromiso.Id+" / "+item.TipoCompromiso.Objeto}}</td>
+            </tr>
+            <tr>
+              <th>{{'COMPROMISO_NO' | translate}}: </th>
+              <td>{{item.NumeroCompromiso}}</td>
             </tr>
             <tr>
               <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
@@ -119,11 +155,8 @@
                     <label>{{'TIPO_ANULACION' | translate}}</label>
                   </div>
                   <div class="col-md-9">
-                    <select id="slcTipoAnulacion" name="slcTipoAnulacion" class="form-control" ng-model="rpAprobacionAnulacion.anulacion.TipoAnulacion"
-                      disabled="true">
-                      <option value="P">Parcial</option>
-                      <option value="T">Total</option>
-                   </select>
+                   <input class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpAprobacionAnulacion.anulacion.TipoAnulacion.Nombre"
+                      disabled="true"></input>
                   </div>
                 </div>
                 <br>

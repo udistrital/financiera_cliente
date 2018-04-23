@@ -1,0 +1,73 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header" align="center">{{'CIERRE_PERIODO_PAC'|translate}}</h2>
+      <div class="panel-body">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                      <div class="panel-body">
+                            
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                      <label>{{'VIGENCIA'| translate}}</label>
+                                      <select class="form-control" ng-model="cierrePeriodo.vigencia" ng-options="v as v for v in cierrePeriodo.vigencias">
+                                      <option value="" selected disabled class="text-muted">--{{"SELECCIONAR_VIGENCIA" | translate}}--</option>
+                                      </select>
+                                </div>
+                        
+
+                                <div class="col-sm-3">
+                                    <label>{{'MES' | translate}}</label>
+                                    <select ng-model="mes" class="form-control">
+                                        <option value="" selected disabled class="text-muted">--{{'SELECT_MES' | translate }}--</option>
+                                        <option value="1"> {{'MES_ENERO' | translate }} </option>
+                                        <option value="2"> {{'MES_FEBRERO' | translate }} </option>
+                                        <option value="3"> {{'MES_MARZO' | translate }} </option>
+                                        <option value="4"> {{'MES_ABRIL' | translate }} </option>
+                                        <option value="5"> {{'MES_MAYO' | translate }} </option>
+                                        <option value="6"> {{'MES_JUNION' | translate }} </option>
+                                        <option value="7"> {{'MES_JULIO' | translate }} </option>
+                                        <option value="8"> {{'MES_AGOSTO' | translate }} </option>
+                                        <option value="9"> {{'MES_SEPTIEMBRE' | translate }} </option>
+                                        <option value="10"> {{'MES_OCTUBRE' | translate }} </option>
+                                        <option value="11"> {{'MES_NOBIEMBRE' | translate }} </option>
+                                        <option value="12"> {{'MES_DICIEMBRE' | translate }} </option>
+                                    </select>
+                                </div>
+
+
+                        
+                                <div class="col-md-2">
+                                    
+                                    <label></label>                                                                                                                   
+                                    <center>
+                                      <a type="button" name="button" ng-click="cierrePeriodo.generarCierre()" class="fa fa-check btn btn-info btn-outline" aria-hidden="true"></a>
+                                    </center>
+                                    
+                                
+                                </div>
+                            
+                            </div>
+                  
+                      </div>
+            </div>
+              </div>
+        </div>
+
+    <div ng-if="!ingresos">
+        <loadingcircle load="load"></loadingcircle>
+    </div>
+
+    <div class="panel panel-primary panel-body" ng-show="ingresos">
+      <div class="panel-body">
+        <legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
+          CIERRE
+          <span class="fa fa-plus pull-right" ng-show="b"></span>
+          <span class="fa fa-minus pull-right" ng-show="!b"></span>
+        </legend>
+        <div ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-exporter></div>
+      </div>
+      <div class="form-group text-center">
+        <a type="button" class="btn btn-outline btn-success" ng-click="cierrePeriodo.guardarCierre()">Realizar Cierre</a>
+     </div>
+    </div>
+</div>

@@ -33,8 +33,8 @@ angular.module('financieraClienteApp')
             new: 66 //TECNOLOGICA
         }];
         $scope.botones = [
-            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-            { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+            //{ clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('PROCESO'), operacion: 'proceso', estado: true }
         ];
 
 
@@ -95,7 +95,7 @@ angular.module('financieraClienteApp')
                 headerCellClass: 'text-info'
             },
             {
-                field: 'EstadoIngreso.Nombre',
+                field: 'IngresoEstadoIngreso[0].EstadoIngreso.Nombre',
                 displayName: $translate.instant("ESTADO"),
                 headerCellClass: 'text-info'
             },
@@ -290,19 +290,49 @@ angular.module('financieraClienteApp')
             $("#myModal").modal();
         };
 
-        ctrl.Aprobar = function() {
+        ctrl.AprobacionContable = function() {
             var aprobardata = {};
             aprobardata.Ingreso = ctrl.ingresoSel;
             aprobardata.Movimientos = $scope.movimientos;
             console.log(aprobardata);
             console.log(aprobardata.Ingreso);
-            financieraRequest.post('ingreso/AprobarIngreso', aprobardata).then(function(response) {
+            financieraRequest.post('ingreso/AprobacionContableIngreso', aprobardata).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
                     } else {
-                        swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
+                        var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('ESTADO') + "</th>";
+                            
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>";
+                            swal('', templateAlert, response.data.Type);
+                        swal('', templateAlert, response.data.Type).then(function() {
+                            $("#myModal").modal('hide');
+                            ctrl.cargarIngresos();
+                        });
+                    }
+
+                }
+            });
+        };
+
+        ctrl.AprobacionPresupuestal = function() {
+            var aprobardata = {};
+            aprobardata.Ingreso = ctrl.ingresoSel;
+            aprobardata.Movimientos = $scope.movimientos;
+            console.log(aprobardata);
+            console.log(aprobardata.Ingreso);
+            financieraRequest.post('ingreso/AprobacionPresupuestalIngreso', aprobardata).then(function(response) {
+                console.log(response.data);
+                if (response.data.Type !== undefined) {
+                    if (response.data.Type === "error") {
+                        swal('', $translate.instant(response.data.Code), response.data.Type);
+                    } else {
+                        var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('ESTADO') + "</th>";
+                            
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>";
+                            swal('', templateAlert, response.data.Type);
+                        swal('', templateAlert, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
                             ctrl.cargarIngresos();
                         });
@@ -313,7 +343,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        ctrl.Rechazar = function() {
+        ctrl.RechazoContable = function() {
             $("#myModal").modal('hide');
             swal({
                 title: 'Indica una justificación por el rechazo',
@@ -331,8 +361,46 @@ angular.module('financieraClienteApp')
             }).then(function(text) {
                 console.log(text);
                 console.log(ctrl.ingresoSel);
-                ctrl.ingresoSel.MotivoRechazo = text;
-                financieraRequest.post('ingreso/RechazarIngreso', ctrl.ingresoSel).then(function(response) {
+                ctrl.ingresoSel.MotivoRechazo = text.value;
+                financieraRequest.post('ingreso/RechazoContableIngreso', ctrl.ingresoSel).then(function(response) {
+                    console.log(response.data);
+                    if (response.data.Type !== undefined) {
+                        if (response.data.Type === "error") {
+                            swal('', $translate.instant(response.data.Code), response.data.Type);
+                            ctrl.cargarIngresos();
+                        } else {
+                            swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
+                                ctrl.cargarIngresos();
+                            });
+                        }
+
+                    }
+
+                });
+
+            });
+        };
+
+        ctrl.RechazoPresupuestal = function() {
+            $("#myModal").modal('hide');
+            swal({
+                title: 'Indica una justificación por el rechazo',
+                input: 'textarea',
+                showCancelButton: true,
+                inputValidator: function(value) {
+                    return new Promise(function(resolve, reject) {
+                        if (value) {
+                            resolve();
+                        } else {
+                            reject('Por favor indica una justificación!');
+                        }
+                    });
+                }
+            }).then(function(text) {
+                console.log(text);
+                console.log(ctrl.ingresoSel);
+                ctrl.ingresoSel.MotivoRechazo = text.value;
+                financieraRequest.post('ingreso/RechazoPresupuestalIngreso', ctrl.ingresoSel).then(function(response) {
                     console.log(response.data);
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {

@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="bower_components/angular-ui-grid/ui-grid.css" />
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
     <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
-    <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css" />
     <link rel="stylesheet" href="bower_components/sweetalert2/dist/sweetalert2.css" />
     <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.css" />
     <link rel="stylesheet" href="bower_components/font-awesome-animation/dist/font-awesome-animation.min.css" />
@@ -30,11 +29,11 @@
     <link rel="stylesheet" href="styles/oas-style.css">
     <link rel="stylesheet" href="styles/kronos.css">
     <link rel="stylesheet" href="styles/kronos_style.css">
+
     <!-- endbuild -->
     <!--link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/oas-style.css"-->
     <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/sb-admin-2.css">
     <link rel="stylesheet" href="https://s3.amazonaws.com/assets-oas/table-demo.css">
-
 </head>
 
 <body ng-app="financieraClienteApp">
@@ -88,7 +87,6 @@
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
     <script src="bower_components/sweetalert2/dist/sweetalert2.js"></script>
     <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
@@ -99,7 +97,6 @@
     <script src="bower_components/ng-knob/dist/ng-knob.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
-
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
@@ -114,6 +111,7 @@
 <script src="scripts/directives/conceptos/arbol_conceptos.js"></script>
 <script src="scripts/controllers/conceptos/crear_concepto.js"></script>
 <script src="scripts/services/financiera_service.js"></script>
+<script src="scripts/services/ingreso_doc.js"></script>
 <script src="scripts/services/notificacion.js"></script>
 <script src="scripts/controllers/notificaciones.js"></script>
 <script src="scripts/controllers/iva/iva.js"></script>
@@ -215,7 +213,7 @@
 <script src="scripts/controllers/tesoreria/avances/solicitud/solicitud_avance.js"></script>
 <script src="scripts/services/models_service.js"></script>
 
-
+<script src="scripts/controllers/pac/cierre_periodo.js"></script>
 <script src="scripts/controllers/pac/reporte_pac.js"></script>
 
 <script src="scripts/controllers/bancos/gestion_bancos.js"></script>
@@ -235,6 +233,7 @@
 <script src="scripts/directives/usuario/acciones_registro.js"></script>
 <script src="scripts/services/configuracion_service.js"></script>
 <script src="scripts/directives/proceso.js"></script>
+<script src="scripts/directives/procesovariosest.js"></script>
 <script src="scripts/directives/rubros/rubros_consulta.js"></script>
 <script src="scripts/directives/apropiacion/apropiacion_consulta.js"></script>
 <script src="scripts/services/academica_service.js"></script>
@@ -260,6 +259,10 @@
 <script src="scripts/services/request_service.js"></script>
 <script src="scripts/services/administrativa_pruebas_service.js"></script>
 
+<script src="scripts/services/intelligentia_service.js"></script>
+<script src="scripts/controllers/reportes/sbisdk-all-production.js"></script>
+<script src="scripts/directives/reportes/reportes-spago.js"></script>
+<script src="scripts/controllers/reportes/reportes.js"></script>
 <script src="scripts/directives/orden_pago/detalle_para_op_masivo.js"></script>
 <script src="scripts/controllers/plan_cuentas/editar_cuenta.js"></script>
 <script src="scripts/controllers/homologacion_concepto/homologacion_concepto_ver_todas.js"></script>
@@ -272,9 +275,34 @@
 <script src="scripts/controllers/homologacion_concepto/homologacion_concepto_actualizar.js"></script>
 <script src="scripts/controllers/orden_pago/giros/giros_crear.js"></script>
 <script src="scripts/controllers/orden_pago/giros/giros_ver_por_id.js"></script>
+<script src="scripts/controllers/reportes/presupuesto/listado_apropiaciones.js"></script>
+
+<script src="scripts/services/grid/gridapi_service.js"></script>
+
+<script src="scripts/controllers/bancos/saldos_iniciales.js"></script>
+<script src="scripts/controllers/reportes/presupuesto/c_d_p.js"></script>
+<script src="scripts/controllers/reportes/presupuesto/r_p.js"></script>
+<script src="scripts/controllers/ingresos/ingreso_registrog.js"></script>
+<script src="scripts/controllers/comprobantes/consulta_comprobantes.js"></script>
+<script src="scripts/controllers/comprobantes/detalle_comprobante.js"></script>
+<script src="scripts/controllers/comprobantes/crear_comprobante.js"></script>
+<script src="scripts/controllers/comprobantes/crear_tipo_comprobante.js"></script>
+<script src="scripts/services/ingreso_doc.js"></script>
+<script src="scripts/controllers/productos/producto_consulta.js"></script>
+<script src="scripts/controllers/productos/producto_registro.js"></script>
+<script src="scripts/controllers/inversiones/acta_compra.js"></script>
+<script src="scripts/controllers/inversiones/consulta.js"></script>
+
+
+
+<script src="scripts/controllers/devoluciones/orden.js"></script>
+<script src="scripts/controllers/devoluciones/relacion.js"></script>
+<script src="scripts/controllers/devoluciones/consulta_relacion.js"></script>
+<script src="scripts/controllers/devoluciones/no_tributaria.js"></script>
 <!-- endbuild -->
 
 <script src="https://use.fontawesome.com/64b53ddd5b.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+<script src="http://cdn.kendostatic.com/2014.2.716/js/kendo.ui.core.min.js"></script>
 
 </html>
