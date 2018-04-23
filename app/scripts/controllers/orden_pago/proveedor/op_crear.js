@@ -26,6 +26,8 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.OrdenPago.UnidadEjecutora = response.data[0];
     });
+
+
     // functions
     self.estructurarDatosParaRegistro = function(pConceptos) {
       self.ConceptoOrdenPago = [];

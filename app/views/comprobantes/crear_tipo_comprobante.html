@@ -29,23 +29,22 @@
                      <input type="text" class="form-control" id="descripcion_comprobante_edicion" placeholder="{{'DESCRIPCION' | translate }}" ng-model="crearTipoComprobante.descripcion_comprobante_edicion" required>
                    </fieldset>
 
-                   <fieldset class="form-group">
-                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
-                     <select class="form-control" id="unidad_ejecutora_edicion" ng-model="crearTipoComprobante.unidad_ejecutora_edicion" required>
+                  <fieldset class="form-group">
+                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
+                     <select class="form-control" id="entidad_edicion" ng-model="crearTipoComprobante.EntidadNuevo" required ng-change="crearTipoComprobante.entidad_elegida()">
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                       <option> 1 </option>
-                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                       <option ng-repeat="entidad in crearTipoComprobante.Entidad"  value="{{entidad}}">{{entidad.Nombre}}</option>
                      </select>
                    </fieldset>
 
                    <fieldset class="form-group">
-                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
-                     <select class="form-control" id="entidad_edicion" ng-model="crearTipoComprobante.entidad_edicion" required>
+                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
+                     <select class="form-control" id="unidad_ejecutora_edicion" ng-model="crearTipoComprobante.UnidadEjecutoraNuevo" required>
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                       <option> 1 </option>
-                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                       <option ng-repeat="ue in crearTipoComprobante.UnidadEjecutora"  value="{{ue}}">{{ue.Nombre}}</option> -->
                      </select>
                    </fieldset>
+
 
                    <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.actualizarComprobante()'>
 
@@ -93,22 +92,22 @@
                    </fieldset>
 
                    <fieldset class="form-group">
-                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
-                     <select class="form-control" id="unidad_ejecutora_nuevo" ng-model="crearTipoComprobante.UnidadEjecutoraNuevo" required>
+                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
+                     <select class="form-control" id="entidad_nuevo" ng-model="crearTipoComprobante.EntidadNuevo" required ng-change="crearTipoComprobante.entidad_elegida()">
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                       <option> 1 </option>
-                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                       <option ng-repeat="entidad in crearTipoComprobante.Entidad"  value="{{entidad}}">{{entidad.Nombre}}</option>
                      </select>
                    </fieldset>
 
                    <fieldset class="form-group">
-                     <label for="entidadnuevo">{{'ENTIDAD' | translate}}:</label>
-                     <select class="form-control" id="entidad_nuevo" ng-model="crearTipoComprobante.EntidadNuevo" required>
+                     <label for="unidadejecutoranuevo">{{'UNIDAD_EJECUTORA' | translate}}:</label>
+                     <select class="form-control" id="unidad_ejecutora_nuevo" ng-model="crearTipoComprobante.UnidadEjecutoraNuevo" required>
                        <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                       <option> 1 </option>
-                       <!-- <option ng-repeat="tnaturaleza in conceptosConsulta.NaturalezaConcepto"  value="{{tnaturaleza}}">{{tnaturaleza.Descripcion}}</option> -->
+                       <option ng-repeat="ue in crearTipoComprobante.UnidadEjecutora"  value="{{ue}}">{{ue.Nombre}}</option> -->
                      </select>
                    </fieldset>
+
+
                    <input type="submit" class="form-control btn btn-success" value="{{'CONFIRMAR' | translate}}" ng-click='crearTipoComprobante.crearNuevoTipoComprobante()'>
 
                  </form>
