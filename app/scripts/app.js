@@ -516,16 +516,6 @@ angular
               controller: 'InversionesConsultaCtrl',
               controllerAs: 'consultaInv'
             })
-            .when('/inversiones/creacionReinversion', {
-              templateUrl: 'views/inversiones/creacionreinversion.html',
-              controller: 'InversionesCreacionreinversionCtrl',
-              controllerAs: 'creacionReinversion'
-            })
-            .when('/inversiones/creacion_cancelacion', {
-              templateUrl: 'views/inversiones/creacion_cancelacion.html',
-              controller: 'InversionesCreacionCancelacionCtrl',
-              controllerAs: 'creacionCancelacion'
-            })
             .when('/devoluciones/orden', {
               templateUrl: 'views/devoluciones/orden.html',
               controller: 'DevolucionesOrdenCtrl',
