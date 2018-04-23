@@ -167,7 +167,7 @@ sencillo {
     border: 1px blue solid;
     position: static;
     top: 89%;
-    transform: translateY(-50%);
+    transform: translateY(-80%);
     opacity: 0.25;
     width: 100%;
     text-align: center;

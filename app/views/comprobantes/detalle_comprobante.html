@@ -16,8 +16,10 @@
             </div>
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
-        <div >
-            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
+        <div ng-show="detalleComprobante.mostrarRegistros"  >
+            <div ui-grid="detalleComprobante.RegistroComprobantes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="miGrid">
+              <div class="watermark" ng-show="!detalleComprobante.hayRegistros">{{'ALERTA_NO_REGISTROS'| translate}}</div>
+            </div>
         </div>
         <br>
         <div class="row">

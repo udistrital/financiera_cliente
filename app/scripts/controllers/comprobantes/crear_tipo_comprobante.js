@@ -37,8 +37,10 @@ angular.module('financieraClienteApp')
             { field: 'Nombre',displayName: $translate.instant('NOMBRE'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Descripcion',displayName: $translate.instant('DESCRIPCION'), cellClass: 'input_center', headerCellClass: 'text-info' },
             { field: 'Activo',displayName: $translate.instant('ESTADO'), cellClass: 'input_center', headerCellClass: 'text-info',cellFilter: "filtro_estado_comprobante:row.entity" },
-            { field: 'UnidadEjecutora',displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
-            { field: 'Entidad',displayName: $translate.instant('ENTIDAD'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'UnidadEjecutora', visible:false},
+            { field: 'UnidadEjecutoraNombre',displayName: $translate.instant('UNIDAD_EJECUTORA'), cellClass: 'input_center', headerCellClass: 'text-info' },
+            { field: 'Entidad', visible:false },
+            { field: 'EntidadNombre',displayName: $translate.instant('ENTIDAD'), cellClass: 'input_center', headerCellClass: 'text-info' },
             {
                 field: 'Acciones',
                 cellClass: 'input_center',
@@ -53,11 +55,27 @@ angular.module('financieraClienteApp')
     ctrl.TipoComprobantes.multiSelect = false;
 
     financieraRequest.get('tipo_comprobante','').then(function(response) {
+      angular.forEach(response.data, function(data){
+        financieraRequest.get('unidad_ejecutora','limit=-1&query=Id:'+data.UnidadEjecutora).then(function(response) {
+          data.UnidadEjecutoraNombre = response.data[0].Nombre
+        });
+      });
+
+      angular.forEach(response.data, function(data){
+        financieraRequest.get('entidad','limit=-1&query=Id:'+data.Entidad).then(function(response) {
+          data.EntidadNombre = response.data[0].Nombre
+        });
+      });
+
       ctrl.TipoComprobantes.data = response.data;
     });
 
     financieraRequest.get('tipo_documento_afectante','').then(function(response) {
       ctrl.TipoDocumentoAfectante = response.data;
+    });
+
+    financieraRequest.get('entidad','').then(function(response) {
+      ctrl.Entidad = response.data;
     });
 
     $scope.loadrow = function(row, operacion) {
@@ -84,14 +102,27 @@ angular.module('financieraClienteApp')
       $('#modal_creacion').modal('show');
     };
 
+    ctrl.entidad_elegida = function (){
+      var objeto_entidad = JSON.parse(ctrl.EntidadNuevo);
+
+      financieraRequest.get('unidad_ejecutora','limit=-1&query=Entidad.Id:'+objeto_entidad.Id).then(function(response) {
+        ctrl.UnidadEjecutora = response.data;
+
+      });
+    };
+
     ctrl.crearNuevoTipoComprobante = function (){
+
+      var objeto_ue = JSON.parse(ctrl.UnidadEjecutoraNuevo);
+      var objeto_entidad = JSON.parse(ctrl.EntidadNuevo);
+
       var nuevo_tipo_comprobante = {
         Nombre : ctrl.NombreNuevo,
         Descripcion: ctrl.DescripcionNuevo,
         CodigoAbreviacion: ctrl.CodigoNuevo,
         Activo:  Boolean("true"),
-        UnidadEjecutora: parseInt(ctrl.UnidadEjecutoraNuevo),
-        Entidad: parseInt(ctrl.EntidadNuevo)
+        UnidadEjecutora: parseInt(objeto_ue.Id),
+        Entidad: parseInt(objeto_entidad.Id)
       };
 
       financieraRequest.post('tipo_comprobante', nuevo_tipo_comprobante).then(function(response) {
@@ -302,9 +333,9 @@ angular.module('financieraClienteApp')
 
     ctrl.actualizarComprobante = function(row) {
 
-        if (ctrl.nombre_comprobante_edicion && ctrl.descripcion_comprobante_edicion && ctrl.codigo_comprobante_edicion && ctrl.unidad_ejecutora_edicion && ctrl.entidad_edicion) {
-            var objeto_unidad_ejecutora = JSON.parse(ctrl.unidad_ejecutora_edicion);
-            var objeto_entidad_edicion = JSON.parse(ctrl.entidad_edicion);
+        if (ctrl.nombre_comprobante_edicion && ctrl.descripcion_comprobante_edicion && ctrl.codigo_comprobante_edicion && ctrl.UnidadEjecutoraNuevo && ctrl.EntidadNuevo) {
+            var objeto_unidad_ejecutora = JSON.parse(ctrl.UnidadEjecutoraNuevo);
+            var objeto_entidad_edicion = JSON.parse(ctrl.EntidadNuevo);
 
             swal({
                 html: $translate.instant('CONFIRMACION_EDICION_TIPO_COMPROBANTE') +
@@ -325,8 +356,8 @@ angular.module('financieraClienteApp')
                 Descripcion:   ctrl.descripcion_comprobante_edicion,
                 CodigoAbreviacion:  ctrl.codigo_comprobante_edicion,
                 Activo: ctrl.activo_edicion,
-                UnidadEjecutora : parseInt(ctrl.unidad_ejecutora_edicion),
-                Entidad: parseInt(ctrl.entidad_edicion)
+                UnidadEjecutora : parseInt(objeto_unidad_ejecutora.Id),
+                Entidad: parseInt(objeto_entidad_edicion.Id)
               };
 
                 financieraRequest.put('tipo_comprobante', comprobante_edicion.Id, comprobante_edicion).then(function(response) {

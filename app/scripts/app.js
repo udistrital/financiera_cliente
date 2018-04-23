@@ -506,6 +506,16 @@ angular
               controller: 'IngresosIngresoRegistrogCtrl',
               controllerAs: 'ingresoRegistroG'
             })
+            .when('/productos/producto_consulta', {
+              templateUrl: 'views/productos/producto_consulta.html',
+              controller: 'ProductosProductoConsultaCtrl',
+              controllerAs: 'productoConsulta'
+            })
+            .when('/productos/producto_registro', {
+              templateUrl: 'views/productos/producto_registro.html',
+              controller: 'ProductosProductoRegistroCtrl',
+              controllerAs: 'productoRegistro'
+            })
             .when('/inversiones/acta_compra', {
               templateUrl: 'views/inversiones/acta_compra.html',
               controller: 'InversionesActaCompraCtrl',
@@ -539,7 +549,4 @@ angular
             .otherwise({
                 redirectTo: '/'
             });
-
-
-
     }]);
