@@ -277,17 +277,19 @@ angular.module('financieraClienteApp')
 
     self.tabla_rubros = [];
     self.generar_tabla_rubros = function() {
+
       self.tabla_rubros = [];
       for (var i = 0; i < self.rubros_seleccionados.length; i++) {
         for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+          var data;
           if (j == 0) {
-            var data = {
+            data = {
               Rubro: self.rubros_seleccionados[i].Rubro.Codigo + " : " + self.rubros_seleccionados[i].Rubro.Nombre,
               Dependencia: self.rubros_seleccionados[i].seleccionado[j].NomDependencia,
               Valor: self.rubros_seleccionados[i].seleccionado[j].Valor
             }
           } else {
-            var data = {
+            data = {
               Rubro: "",
               Dependencia: self.rubros_seleccionados[i].seleccionado[j].NomDependencia,
               Valor: self.rubros_seleccionados[i].seleccionado[j].Valor
@@ -332,9 +334,9 @@ angular.module('financieraClienteApp')
           }
         }
         if (self.fuente_financiamiento) {
-          for (var i = 0; i < self.fuente_financiamiento.length; i++) {
-            if (self.fuente_financiamiento[i].Codigo == self.nueva_fuente.Codigo) {
-              swal($translate.instant('ERROR'), $translate.instant('FUENTE_FINANCIAMIENTO_EXISTE') + " " + $translate.instant('CODIGO') + " : " + self.fuente_financiamiento[i].Codigo + " " + $translate.instant('Nombre') + " : " + self.fuente_financiamiento[i].Nombre, "error");
+          for (var k = 0; k < self.fuente_financiamiento.length; k++) {
+            if (self.fuente_financiamiento[k].Codigo == self.nueva_fuente.Codigo) {
+              swal($translate.instant('ERROR'), $translate.instant('FUENTE_FINANCIAMIENTO_EXISTE') + " " + $translate.instant('CODIGO') + " : " + self.fuente_financiamiento[k].Codigo + " " + $translate.instant('Nombre') + " : " + self.fuente_financiamiento[k].Nombre, "error");
               self.registrar = false;
             }
           }
@@ -346,9 +348,9 @@ angular.module('financieraClienteApp')
           }
         }
       }
-      for (var i = 0; i < self.tipo_documento.length; i++) {
-        if (self.tipo_documento[i].Id == self.nueva_fuente_apropiacion.tipo_documento) {
-          self.nombre_tipo_documento = self.tipo_documento[i].Nombre;
+      for (var l = 0; l < self.tipo_documento.length; l++) {
+        if (self.tipo_documento[l].Id == self.nueva_fuente_apropiacion.tipo_documento) {
+          self.nombre_tipo_documento = self.tipo_documento[l].Nombre;
         }
       }
     };

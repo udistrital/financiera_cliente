@@ -78,7 +78,7 @@ angular.module('financieraClienteApp')
                     }
                 });
                 self.offset = (newPage - 1) * pageSize;
-                self.cragarDatos(self.offset,query);   
+                self.cragarDatos(self.offset,query);
             });
             self.gridOptions.totalItems = 50000;
 };
@@ -95,10 +95,10 @@ angular.module('financieraClienteApp')
       self.years = range;
       self.Vigencia = self.vigenciaActual;
       self.gridOptions.totalItems = 5000;
-      self.cragarDatos(0,'');   
+      self.cragarDatos(0,'');
     });
-   
-    
+
+
     $scope.loadrow = function(row, operacion) {
       self.operacion = operacion;
       switch (operacion) {
@@ -110,16 +110,20 @@ angular.module('financieraClienteApp')
             self.data = row.entity;
             console.log(self.data);
           argoRequest.get('fuente_financiacion_rubro_necesidad','query=Necesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
-  
+
             angular.forEach(response.data, function(data){
               if($scope.apropiaciones.indexOf(data.Apropiacion) !== -1) {
-  
+
               }else{
                 $scope.apropiaciones.push(data.Apropiacion);
               }
               });
           });
               break;
+
+          case "otro":
+
+          break;    
           default:
       }
   };
@@ -128,7 +132,7 @@ angular.module('financieraClienteApp')
     self.cragarDatos = function(offset,query){
       var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
-      var query = '';
+
       if (inicio !== undefined && fin !== undefined) {
         financieraMidRequest.cancel();
         financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
@@ -142,8 +146,8 @@ angular.module('financieraClienteApp')
         }else{
           self.gridOptions.data = response.data;
         }
-  
-  
+
+
         });
       }else{
         financieraMidRequest.cancel();
@@ -156,13 +160,13 @@ angular.module('financieraClienteApp')
         }else{
           self.gridOptions.data = response.data;
         }
-        
-  
-  
+
+
+
         });
       }
-          
-    	
+
+
     };
 
     //-------------------------------
@@ -177,8 +181,8 @@ angular.module('financieraClienteApp')
         })).then(function(response) {
         self.gridOptions.data.length = 0;
         self.gridOptions.data = response.data;
-  
-  
+
+
       });
       };
     //----------------------------
@@ -199,8 +203,8 @@ angular.module('financieraClienteApp')
                 swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
               }else{
                 var data = response.data[0];
-                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('VIGENCIA') + "</th>";      
-                templateAlert = templateAlert + "<tr class='success'><td>" + self.data.SolicitudDisponibilidad.Numero + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.NumeroDisponibilidad + "</td>"+ "<td>" + data.Body.Vigencia + "</td>" + "</tr>" ;                         
+                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('DETALLE') + "</th>"+ "</th><th>" + $translate.instant('NO_CDP') + "</th>"+ "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
+                templateAlert = templateAlert + "<tr class='success'><td>" + self.data.SolicitudDisponibilidad.Numero + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>"+ "<td>" + data.Body.NumeroDisponibilidad + "</td>"+ "<td>" + data.Body.Vigencia + "</td>" + "</tr>" ;
                 templateAlert = templateAlert + "</table>";
 
                 swal({
@@ -226,7 +230,7 @@ angular.module('financieraClienteApp')
           });
     };
     self.gridOptions.multiSelect = false;
-  
+
      //-----------------------------
 
      self.Rechazar = function (){
@@ -260,7 +264,7 @@ angular.module('financieraClienteApp')
                } else {
                  swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
 
-                     
+
                  });
                }
 
@@ -272,10 +276,10 @@ angular.module('financieraClienteApp')
      };
 
      $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
-      
-       
+
+
         self.cragarDatos(0,'');
-    
+
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");

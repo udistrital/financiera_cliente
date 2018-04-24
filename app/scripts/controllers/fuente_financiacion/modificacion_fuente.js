@@ -209,14 +209,14 @@ angular.module('financieraClienteApp')
       self.valor_dependencia = 0;
       self.valor_gastado = 0;
       self.valor_disponible = 0;
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-        for (var j = 0; j < self.movimiento_fuente_financiamiento_apropiacion_serv.length; j++) {
-          if (self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.Apropiacion.Id == self.adicion_rubro && self.fuentes_seleccionadas[i].Id == self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id) {
-            self.valor_rubro = self.valor_rubro + self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
-            self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
-            self.valor_gastado = self.movimiento_fuente_financiamiento_apropiacion_serv[j].ValorGastado;
-            self.valor_disponible = self.movimiento_fuente_financiamiento_apropiacion_serv[j].ValorDisponible;
-            self.agregar_dependencia_general(self.fuentes_seleccionadas, self.fuentes_seleccionadas[i].Id, self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.Dependencia, self.valor_dependencia, self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.Apropiacion.Id, self.valor_gastado, self.valor_disponible);
+      for (var k = 0; k < self.fuentes_seleccionadas.length; k++) {
+        for (var l = 0; l < self.movimiento_fuente_financiamiento_apropiacion_serv.length; l++) {
+          if (self.movimiento_fuente_financiamiento_apropiacion_serv[l].FuenteFinanciamientoApropiacion.Apropiacion.Id == self.adicion_rubro && self.fuentes_seleccionadas[k].Id == self.movimiento_fuente_financiamiento_apropiacion_serv[l].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id) {
+            self.valor_rubro = self.valor_rubro + self.movimiento_fuente_financiamiento_apropiacion_serv[l].Valor;
+            self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion_serv[l].Valor;
+            self.valor_gastado = self.movimiento_fuente_financiamiento_apropiacion_serv[l].ValorGastado;
+            self.valor_disponible = self.movimiento_fuente_financiamiento_apropiacion_serv[l].ValorDisponible;
+            self.agregar_dependencia_general(self.fuentes_seleccionadas, self.fuentes_seleccionadas[k].Id, self.movimiento_fuente_financiamiento_apropiacion_serv[l].FuenteFinanciamientoApropiacion.Dependencia, self.valor_dependencia, self.movimiento_fuente_financiamiento_apropiacion_serv[l].FuenteFinanciamientoApropiacion.Apropiacion.Id, self.valor_gastado, self.valor_disponible);
           }
         }
       }

@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
             if(success === true) {
               execTest();
             } else {
-              alert('ERROR: Usuario o contraseña incorrectos');
+              
             }
           }
 
