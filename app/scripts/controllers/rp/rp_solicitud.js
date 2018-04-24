@@ -91,7 +91,7 @@ angular.module('financieraClienteApp')
       for (var i = 0; i < self.rubros.length; i++) {
         var saldo = self.DescripcionRubro(rubros[i].Id);
         rubros[i].saldo = saldo;
-        alert(saldo);
+  
       }
     }
 

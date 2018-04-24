@@ -110,7 +110,7 @@ angular.module('financieraClienteApp')
 
                     console.log($scope.apropiaciones);
                     console.log(self.cdp.Id);
-                    var saldo;
+                  
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                         Apropiacion: data.Apropiacion
@@ -296,15 +296,15 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                        
+
                     }
                 });
                 self.actualizarLista(self.offset, query);
             });
             gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
-                
+
                 //self.gridOptions.data = {};
-                
+
                 var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
                 var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
                 var query = '';
@@ -316,7 +316,7 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                       
+
                     }
                 });
                 self.offset = (newPage - 1) * pageSize;

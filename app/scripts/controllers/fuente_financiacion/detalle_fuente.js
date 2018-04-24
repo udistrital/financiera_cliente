@@ -296,7 +296,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
       self.fuente_op = response.data.OrdenPago;
       self.gridOptionOP.data = self.fuente_op;
-      
+
     });
 
     for (var i = 0; i < self.fuente_financiamiento.length; i++) {
@@ -304,8 +304,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
         self.fuente_seleccionada = self.fuente_financiamiento[i];
       }
     }
-    for (var i = 0; i < self.fuente_cdp.length; i++) {
-      self.fuente_cdp[i]
+    for (var j = 0; j < self.fuente_cdp.length; j++) {
+      self.fuente_cdp[j]
     }
     self.actualizar();
   };

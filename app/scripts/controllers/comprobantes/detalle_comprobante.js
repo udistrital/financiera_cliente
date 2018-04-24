@@ -110,7 +110,7 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.crearRegistro = function(){
-          alert("Creacion registro")
+          
         };
 
     }).filter('filtro_naturaleza_cuenta', function($filter,$translate) {
