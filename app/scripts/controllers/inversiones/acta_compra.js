@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
+    ctrl.Request={};
 
     $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {
                 if (!angular.isUndefined(newValue)) {
@@ -80,14 +81,12 @@ angular.module('financieraClienteApp')
     ctrl.cargarInfoPadre = function(){
       ctrl.infoPadre = ingresoDoc.get();
       if (ctrl.infoPadre.Inversion != undefined) {
-          console.log("carga info padre");
         financieraRequest.get("inversion", $.param({
                 query:"Id:" + ctrl.infoPadre.Inversion.Id,
                 limit: -1,
                 sortby: "Id",
                 order: "asc"
             })).then(function(response) {
-              console.log(response);
               ctrl.NumOperacion = response.data[0].NumeroTransaccion;
               ctrl.trm = response.data[0].Trm;
               ctrl.tasaNominal=response.data[0].TasaNominal;
@@ -104,42 +103,11 @@ angular.module('financieraClienteApp')
               ctrl.fechaPacto = new Date(response.data[0].FechaPacto);
               ctrl.observaciones = response.data[0].Observaciones;
               ctrl.vigencia = response.data[0].Vigencia;
-
-              coreRequest.get("banco", $.param({
-                  query: "Id:" + response.data[0].Vendedor,
-                  limit: -1
-                })).then(function(response) {
-                  ctrl.vendedor = response.data[0];
-                });
-
-              coreRequest.get("banco", $.param({
-                    query: "Id:" + response.data[0].Emisor,
-                    limit: -1
-                  })).then(function(response) {
-                    ctrl.emisor=response.data[0];
-                  });
-
-                  administrativaRequest.get("informacion_persona_juridica", $.param({
-                      query: "Id:" + response.data[0].Comprador,
-                      limit: -1
-                    })).then(function(response) {
-                      ctrl.comprador = response.data[0];
-                    });
-
-                    financieraRequest.get('unidad_ejecutora', $.param({
-                        query:"Id:"+response.data[0].UnidadEjecutora.Id,
-                        limit: -1
-                    })).then(function(response) {
-                        ctrl.unidadejecutora = response.data[0];
-                    });
-
-                    financieraRequest.get("titulo_inversion", $.param({
-                      query:"Id:" + response.data[0].TituloInversion.Id,
-                        limit: -1
-                      })).then(function(response) {
-                        ctrl.tipo = response.data[0];
-                      });
-
+              ctrl.unidadejecutora = response.data[0].UnidadEjecutora;
+              ctrl.comprador = {Id:response.data[0].Comprador};
+              ctrl.tipo = response.data[0].TituloInversion;
+              ctrl.vendedor = {Id:response.data[0].Vendedor}
+              ctrl.emisor = {Id:response.data[0].Emisor}
 
             });
 
@@ -191,7 +159,7 @@ angular.module('financieraClienteApp')
           usuario:32132222
         };
 
-        if (ctrl.infoPadre.Inversion.Id != undefined) {
+        if (ctrl.infoPadre.Inversion != undefined) {
           ctrl.inversion.actapadre={Id:ctrl.infoPadre.Inversion.Id};
         }
         angular.forEach(ctrl.movs, function(data) {
@@ -210,15 +178,23 @@ angular.module('financieraClienteApp')
 
               var tipoAlerta = response.data.Type;
 
-              if (ctrl.infoPadre.Inversion.Id != undefined) {
+              if (ctrl.infoPadre.Inversion != undefined) {
                 financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.infoPadre).then(function(response) {
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
                         swal('',$translate.instant(response.data.Code),response.data.Type);
                       }else{
-                        swal('',$translate.instant(response.data.Code),response.data.Type);
+                        swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                          swal('',templateAlert,tipoAlerta).then(function(){
+                            $scope.$apply(function(){
+                              $location.path('/inversiones/consulta');
+                            })
+                          });
+                        });
                       }
                     }
+                  }).finally(function(){
+                    ingresoDoc.set(ctrl.Request);
                   });
               }
 
@@ -226,7 +202,7 @@ angular.module('financieraClienteApp')
                 $scope.$apply(function(){
                   $location.path('/inversiones/consulta');
                 })
-              })
+              });
             }
           }
         })
