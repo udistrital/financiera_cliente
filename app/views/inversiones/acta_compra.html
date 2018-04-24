@@ -17,7 +17,7 @@
 
             <div class="form-group">
               <label for="vendedor" class="control-label">{{'VENDEDOR'|translate}}</label>
-              <select ng-model="actaComprainv.vendedor" ng-options="i.NombreBanco for i in actaComprainv.bancos" class="form-control" id="vendedor" required>
+              <select ng-model="actaComprainv.vendedor" ng-options="i.NombreBanco for i in actaComprainv.bancos track by i.Id" class="form-control" id="vendedor" required>
                 <option value="">{{'SELECCIONAR'|translate}} {{'VENDEDOR'|translate}}</option>
               </select>
             </div>
@@ -25,7 +25,7 @@
 
             <div class="form-group">
               <label class="control-label">{{'TIPO'|translate}}</label>
-              <select ng-model="actaComprainv.tipo" ng-options="i.Nombre for i in actaComprainv.titulos" class="form-control" id="tipo" required>
+              <select ng-model="actaComprainv.tipo" ng-options="i.Nombre for i in actaComprainv.titulos track by i.Id" class="form-control" id="tipo" required>
                 <option value="">{{'SELECCIONAR'|translate}} {{'TIPO'|translate}}</option>
               </select>
             </div>
@@ -59,7 +59,7 @@
 
           <div class="form-group">
             <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-            <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras">
+            <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras track by op.Id">
                           </select>
           </div>
         </div>
@@ -69,7 +69,7 @@
 
             <div class="form-group">
               <label for="emisor" class="control-label">{{'EMISOR'|translate}}</label>
-              <select ng-model="actaComprainv.emisor" ng-options="i.NombreBanco for i in actaComprainv.bancos" class="form-control" required>
+              <select ng-model="actaComprainv.emisor" ng-options="i.NombreBanco for i in actaComprainv.bancos track by i.Id" class="form-control" required>
                 <option value="">{{'SELECCIONAR'|translate}} {{'EMISOR'|translate}}</option>
               </select>
             </div>
@@ -196,7 +196,7 @@
       <div class="col-md-3">
         <div class="form-group">
           <label for="comprador" class="control-label">{{'COMPRADOR'|translate}}</label>
-          <select ng-model="actaComprainv.comprador" ng-options="i.NomProveedor for i in actaComprainv.terceros" class="form-control" required>
+          <select ng-model="actaComprainv.comprador" ng-options="i.NomProveedor for i in actaComprainv.terceros track by i.Id" class="form-control" required>
             <option value="">{{'SELECCIONAR'|translate}} {{'COMPRADOR'|translate}}</option>
           </select>
         </div>
