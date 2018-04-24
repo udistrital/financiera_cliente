@@ -31,10 +31,6 @@ angular.module('financieraClienteApp')
               var data = {
                   Estado: { Id: this.getNodeAt(params.pointer.DOM) }
               };
-              console.log("click en");
-              console.log(data);
-              console.log($scope.childrens);
-              console.log($scope.allchildrens);
               if ($scope.allchildrens.indexOf(data.Estado.Id) !== -1) {
                   $scope.nodeclick = data.Estado;
                   $localStorage.nodeclick = data.Estado;

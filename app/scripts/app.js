@@ -546,6 +546,11 @@ angular
               controller: 'DevolucionesNoTributariaCtrl',
               controllerAs: 'devolucionesnoTributaria'
             })
+            .when('/inversiones/consulta_titulos', {
+              templateUrl: 'views/inversiones/consulta_titulos.html',
+              controller: 'InversionesConsultaTitulosCtrl',
+              controllerAs: 'invconsultaTitulos'
+            })
             .otherwise({
                 redirectTo: '/'
             });
