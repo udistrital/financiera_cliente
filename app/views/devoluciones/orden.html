@@ -16,7 +16,7 @@
             <div class="col-md-6">
               <div class="form-group">
               <label for="tipodoc" class="control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
-              <select ng-model="ordendevolucion.tipoDocSoli" ng-options="i.TipoDocSol for i in ordendevolucion.tiposdoc" class="form-control" id="tipoDocSoli" required>
+              <select ng-model="ordendevolucion.tipoDocSoli" ng-options="i.ValorParametro for i in ordendevolucion.tiposdoc" class="form-control" id="tipoDocSoli" required>
                 <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
               </select>
             </div>
@@ -24,7 +24,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                <input type="text" class="form-control input_left" ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                <input type="text" class="form-control input_left" ng-blur="ordendevolucion.consultaPagos()" ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
               </div>
             </div>
             <div class="col-md-12">
@@ -44,7 +44,7 @@
             <div class="col-md-6">
               <div class="form-group">
               <label for="tipodoc" class="control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
-              <select ng-model="ordendevolucion.tipoDocSoli" ng-options="i.TipoDocSol for i in ordendevolucion.tiposdoc" class="form-control" id="tipoDocSoli" required>
+              <select ng-model="ordendevolucion.tipoDocSoli" ng-options="i.ValorParametro for i in ordendevolucion.tiposdoc" class="form-control" required>
                 <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
               </select>
             </div>
