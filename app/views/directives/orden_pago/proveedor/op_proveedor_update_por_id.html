@@ -177,7 +177,7 @@
       <!-- Tab panes -->
       <div class="tab-content">
         <div class="tab-pane fade in active" ng-repeat="c in d_opProveedorUpdatePorId.Conceptos" ng-show="d_opProveedorUpdatePorId.selected==c.Id">
-          <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc>
+          <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" outputvalorbruto="d_opProveedorUpdatePorId.NewOrdenPago.ValorBase" impydesc>
           </movimientos-contables>
         </div>
       </div>
