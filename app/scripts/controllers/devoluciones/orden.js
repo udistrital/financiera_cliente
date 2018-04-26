@@ -46,29 +46,11 @@ angular.module('financieraClienteApp')
            value: "1018453423"
        }
      ];
-     var parametros2 = [{
-         name: "tipo_recibo",
-         value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
-     }, {
-         name: "facultad",
-         value: 33
-     }, {
-         name: "fecha_inicio",
-         value: "24-04-18"
-     }, {
-         name: "fecha_fin",
-         value: "25-04-18"
-     }];
-
-     wso2Request.get("academicaProxyService", parametros2).then(function(response) {
-        console.log(response);
-     });
-
-        wso2Request.get("servicios_academicos", parametros).then(function(response) {
-          console.log(response);
+        wso2Request.get("academicaProxy", parametros).then(function(response) {
+          console.log(response.data.pagosCollection);
         });
 
-
+        ctrl.consultaPag = false;
      }
 
    };
