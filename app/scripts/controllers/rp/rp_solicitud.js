@@ -10,6 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('RpSolicitudCtrl', function($window,rp,administrativaRequest,$scope,financieraRequest,$routeParams) {
     var self = this;
+    var i;
     //self.solicitudPersonas=solicitudPersonas;
     self.Contrato = $routeParams.contrato;
     self.Vigencia = $routeParams.vigencia;
@@ -88,10 +89,10 @@ angular.module('financieraClienteApp')
       };
     };
     if (self.cdp.Id != null) {
-      for (var i = 0; i < self.rubros.length; i++) {
+      for (i = 0; i < self.rubros.length; i++) {
         var saldo = self.DescripcionRubro(rubros[i].Id);
         rubros[i].saldo = saldo;
-  
+
       }
     }
 
@@ -99,7 +100,7 @@ angular.module('financieraClienteApp')
       var rubro_seleccionado = self.DescripcionRubro(id);
       if(rubro_seleccionado!=undefined){
         self.rubros_seleccionados.push(rubro_seleccionado);
-        for (var i = 0; i < self.rubros.length; i++) {
+        for (i = 0; i < self.rubros.length; i++) {
 
           if (self.rubros[i].Id == id) {
             self.rubros_select.push(rubro_seleccionado);
@@ -113,7 +114,7 @@ angular.module('financieraClienteApp')
 
     self.quitarRubro = function(id) {
 
-      for (var i = 0; i < self.rubros_select.length; i++) {
+      for (i = 0; i < self.rubros_select.length; i++) {
         console.log(self.rubros_select[i]);
         console.log(id);
         if (self.rubros_select[i].Id == id) {
@@ -122,7 +123,7 @@ angular.module('financieraClienteApp')
           self.rubros_select.splice(i, 1)
         }
       }
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
 
         if (self.rubros_seleccionados[i].Id == id) {
           self.rubros_seleccionados.splice(i, 1)
@@ -132,7 +133,7 @@ angular.module('financieraClienteApp')
 
     self.DescripcionRubro = function(id) {
       var rubro;
-      for (var i = 0; i < self.rubros.length; i++) {
+      for (i = 0; i < self.rubros.length; i++) {
 
         if (self.rubros[i].Id == id) {
           rubro = self.rubros[i];
@@ -143,7 +144,7 @@ angular.module('financieraClienteApp')
 
     $scope.saldosValor = function() {
       $scope.banderaRubro = true;
-      var i=0;
+      i=0;
       angular.forEach(self.rubros_seleccionados, function(v) {
         i=+1;
         console.log(i);
@@ -180,7 +181,7 @@ angular.module('financieraClienteApp')
       }
       else {
 
-        for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+        for (i = 0; i < self.rubros_seleccionados.length; i++) {
           self.rubros_seleccionados[i].ValorAsignado = parseFloat(self.rubros_seleccionados[i].ValorAsignado);
         }
 
@@ -195,7 +196,7 @@ angular.module('financieraClienteApp')
         }
 
           administrativaRequest.post('solicitud_rp', SolicitudRp).then(function(response) {
-            for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+            for (i = 0; i < self.rubros_seleccionados.length; i++) {
               var Disponibilidad_apropiacion_solicitud_rp = {
                 DisponibilidadApropiacion: self.rubros_seleccionados[i].Id,
                 SolicitudRp: response.data.Id,

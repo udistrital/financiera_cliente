@@ -138,6 +138,7 @@ angular.module('financieraClienteApp')
             var fin = data.FechaFin;
             var tipo_recibo = data.FormaIngreso.Nombre.toUpperCase();
             var codigo_facultad = data.Facultad;
+            var parametros;
 
             ctrl.rta = null;
             ctrl.pagos = null;
@@ -154,9 +155,9 @@ angular.module('financieraClienteApp')
                         { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
                         { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency' }
                     ];
-                    var inicio = $filter('date')(inicio, "yyyy-MM-dd");
-                    var fin = $filter('date')(fin, "yyyy-MM-dd");
-                    var parametros = [{
+                    inicio = $filter('date')(inicio, "yyyy-MM-dd");
+                    fin = $filter('date')(fin, "yyyy-MM-dd");
+                    parametros = [{
                         name: "tipo_recibo",
                         value: "ingresos_admisiones"
                     }, {
@@ -198,9 +199,9 @@ angular.module('financieraClienteApp')
                         { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency' },
                         { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency' }
                     ];
-                    var inicio = $filter('date')(inicio, "dd-MM-yy");
-                    var fin = $filter('date')(fin, "dd-MM-yy");
-                    var parametros = [{
+                    inicio = $filter('date')(inicio, "dd-MM-yy");
+                    fin = $filter('date')(fin, "dd-MM-yy");
+                    parametros = [{
                         name: "tipo_recibo",
                         value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
                     }, {
@@ -230,6 +231,7 @@ angular.module('financieraClienteApp')
                             $scope.datos = false;
                         }
                     });
+                    break;
                 default:
                     break;
             }
@@ -303,7 +305,7 @@ angular.module('financieraClienteApp')
                         swal('', $translate.instant(response.data.Code), response.data.Type);
                     } else {
                         var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('ESTADO') + "</th>";
-                            
+
                             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>";
                             swal('', templateAlert, response.data.Type);
                         swal('', templateAlert, response.data.Type).then(function() {
@@ -329,7 +331,7 @@ angular.module('financieraClienteApp')
                         swal('', $translate.instant(response.data.Code), response.data.Type);
                     } else {
                         var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('ESTADO') + "</th>";
-                            
+
                             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>";
                             swal('', templateAlert, response.data.Type);
                         swal('', templateAlert, response.data.Type).then(function() {

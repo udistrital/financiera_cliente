@@ -61,7 +61,7 @@ angular.module('financieraClienteApp')
                 });
             });
 
-            
+
 
     self.cargarDatos = function(offset,query){
       if (query === ''){
@@ -77,8 +77,8 @@ angular.module('financieraClienteApp')
             self.gridOptions.data = response.data;
         }
     });
-          
-    	
+
+
     };
 
     self.gridOptions.onRegisterApi = function(gridApi) {
@@ -95,9 +95,9 @@ angular.module('financieraClienteApp')
           self.cargarDatos(self.offset, query);
       });
       gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
-          
+
           //self.gridOptions.data = {};
-          
+
           // var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
           // var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
           // var query = '';
@@ -105,11 +105,12 @@ angular.module('financieraClienteApp')
           //     query = '&rangoinicio=' + inicio + "&rangofin=" + fin;
           // }
           var grid = this.grid;
+          var query = '';
           angular.forEach(grid.columns, function(value, key) {
               if (value.filters[0].term) {
                   var formtstr = value.colDef.name.replace('[0]','');
                   query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                 
+
               }
           });
           self.offset = (newPage - 1) * pageSize;
@@ -118,10 +119,10 @@ angular.module('financieraClienteApp')
   };
 
     $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
-      
-       
+
+
         //self.cragarDatos(0,'');
-    
+
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");
@@ -146,6 +147,8 @@ angular.module('financieraClienteApp')
           		$("#myModal").modal();
           		self.data = row.entity;
             	break;
+          case "otro":
+              break;      
           default:
       }
   };
@@ -169,7 +172,7 @@ angular.module('financieraClienteApp')
 
           });
           templateAlert = templateAlert + "</table>";
-          
+
           swal({
             title: '',
             type: self.alerta[0].Type,
@@ -178,11 +181,11 @@ angular.module('financieraClienteApp')
             showCloseButton: true,
             confirmButtonText: 'Cerrar'
           }).then(function(){
-            
-          });
-          
 
-            
+          });
+
+
+
             self.data = null;
             self.cargarDatos(-1,'');
             $("#myModal").modal('hide');
@@ -204,7 +207,7 @@ angular.module('financieraClienteApp')
                                 self.data = null;
                                 self.cargarDatos(-1,'');
                                 $("#myModal").modal('hide');
-                                
+
                             });
                         }
 
@@ -213,14 +216,14 @@ angular.module('financieraClienteApp')
   };
 
   $scope.$watch("modificacionSolicitudConsulta.Vigencia", function() {
-      
-       
+
+
     financieraRequest.get("movimiento_apropiacion/TotalMovimientosApropiacion/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.gridOptions.totalItems = response.data;
       self.cargarDatos(self.offset, '');
     });
-    
+
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");

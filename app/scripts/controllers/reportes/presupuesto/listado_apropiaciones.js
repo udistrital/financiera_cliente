@@ -10,7 +10,6 @@
 angular.module('financieraClienteApp')
 .controller('ReporteListadoApropiacionesCtrl', function (financieraRequest, $filter, uiGridConstants, $http, $q) {
   var ctrl = this;
-  var rubros = [];
   var escudoUd64;
 
   ctrl.gridOptions = {
@@ -95,6 +94,7 @@ angular.module('financieraClienteApp')
     }
   }
 
+  /*
   function getHijosRubros(idRubro) {
     var defered = $q.defer();
     var promise = defered.promise;
@@ -109,6 +109,7 @@ angular.module('financieraClienteApp')
       defered.reject(err);
     });
   }
+  */
 
   function getFechaActual() {
     var defered = $q.defer();
@@ -124,15 +125,16 @@ angular.module('financieraClienteApp')
 
   ctrl.buscarApropiaciones = function() {
     reporte.content = [];
+    var apropiaciones = [];
     financieraRequest.get('entidad').then(function(response) {
       ctrl.entidad = response.data[0];
     });
 
-    var apropiaciones = [];
+
     financieraRequest.get('apropiacion/ArbolApropiaciones/'+ctrl.vigencia)
       .then(function(response) {
       var arbolApropiaciones = response.data;
-      var apropiaciones = arbolRubrosRecursivo(arbolApropiaciones,[]);
+      apropiaciones = arbolRubrosRecursivo(arbolApropiaciones,[]);
 
       getFechaActual()
         .then(function(data) {

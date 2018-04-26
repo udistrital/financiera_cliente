@@ -106,7 +106,7 @@ angular.module('financieraClienteApp')
     self.actualizar_solicitudes = function(offset,query) {
       var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
-      
+
       if (inicio !== undefined && fin !== undefined){
         financieraMidRequest.cancel();
         financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
@@ -120,7 +120,7 @@ angular.module('financieraClienteApp')
 
           self.gridOptions.data = [];
         }else{
-          
+
           self.gridOptions.data = response.data;
         }
         console.log(response.data);
@@ -143,14 +143,14 @@ angular.module('financieraClienteApp')
 
       });
       }
-      
+
     };
 
     self.limpiar_alertas = function() {
       self.alerta_registro_cdp = "";
     };
     //self.gridOptions.multiSelect = false;
-    
+
     self.gridOptions.onRegisterApi = function(gridApi) {
             self.gridApi = gridApi;
             self.gridApi.core.on.filterChanged($scope, function() {
@@ -304,7 +304,7 @@ angular.module('financieraClienteApp')
             showCloseButton: true,
             confirmButtonText: 'Cerrar'
           }).then(function(){
-            
+
             $("#myModal").modal('hide');
             //self.actualizar_solicitudes(0,'');
           });
@@ -379,9 +379,6 @@ angular.module('financieraClienteApp')
     self.RegistrarMasivo = function() {
       var dataCargueMasivo = [];
 
-      var estado = {
-        Id: 1
-      };
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {
         financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
@@ -459,10 +456,10 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch("rpSolicitudConsulta.Vigencia", function() {
-      
-       
+
+
         self.actualizar_solicitudes(0,'');
-    
+
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");
