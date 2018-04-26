@@ -105,7 +105,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        
+
 
 
         $scope.loadrow = function(row, operacion) {
@@ -113,6 +113,8 @@ angular.module('financieraClienteApp')
                 case "ver":
                     self.verProducto(row.entity);
                     break;
+                case "otro":
+                    break;    
             }
         };
 
@@ -151,7 +153,7 @@ angular.module('financieraClienteApp')
                 if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                 }else{
-                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DETALLE') + "</th>";      
+                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
                     templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Nombre + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td>"+"</tr>";
                     templateAlert = templateAlert + "</table>";
                     swal({
@@ -170,7 +172,7 @@ angular.module('financieraClienteApp')
         };
 
         $scope.$watch("productoConsulta.rubroSel", function() {
-         
+
           if (self.rubroSel != undefined && self.rubroSel != null){
           	if (self.prRegistrar.ProductoRubro.indexOf(self.rubroSel) == -1){
           	self.prRegistrar.ProductoRubro.push({Rubro: self.rubroSel});
@@ -178,8 +180,8 @@ angular.module('financieraClienteApp')
           	}
 
           }
-             
-             
-           
+
+
+
         }, true);
   });

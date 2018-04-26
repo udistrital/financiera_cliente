@@ -252,6 +252,9 @@ angular.module('financieraClienteApp')
               case "proceso":
                   $scope.estado = $scope.solicitud.Estado ;
                   break;
+              case "otro":
+
+                  break;
               default:
           }
       };
@@ -284,6 +287,6 @@ angular.module('financieraClienteApp')
                       }
                     }
                   });
-                };
+                }
     }
   });
