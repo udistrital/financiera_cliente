@@ -268,7 +268,7 @@ angular.module('financieraClienteApp')
             Inversion:{
               Id:$scope.solicitud.Id
             },
-            Usuario:"212121"
+            Usuario:212121
           };
           if($scope.estadoclick.Id === 6){
           ingresoDoc.set(ctrl.Request);
@@ -280,6 +280,7 @@ angular.module('financieraClienteApp')
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
                         swal('',$translate.instant(response.data.Code),response.data.Type);
+                        console.log(response.data);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
                           $window.location.reload();
