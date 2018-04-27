@@ -41,6 +41,7 @@ angular.module('financieraClienteApp')
     // Funciones
     // ***************
     self.camposObligatorios = function() {
+      var respuesta;
       self.MensajesAlerta = '';
       if (Object.keys(self.Necesidad).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_OP_PLANTA_DEBE_NECESIDAD') + "</li>"
@@ -56,10 +57,12 @@ angular.module('financieraClienteApp')
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
-        return true;
+        respuesta =  true;
       } else {
-        return false;
+        respuesta =  false;
       }
+
+      return respuesta;
     }
     //
     self.addOpPlantaCrear = function() {

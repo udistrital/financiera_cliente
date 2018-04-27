@@ -81,7 +81,7 @@ angular.module('financieraClienteApp')
                             }
                         };
                         return true;
-                    } else {}
+                    } 
                 }
             },
             logout: function() {

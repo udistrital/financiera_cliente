@@ -36,11 +36,14 @@ angular.module('financieraClienteApp')
          type:'number',             cellFilter: 'currency'}
       ],
       isRowSelectable : function(row){
+        var respuesta;
         if(row.entity.Estado.Nombre == 'Aprobado'){
-          return false;
+          respuesta =  false;
         } else {
-          return true;
+          respuesta =  true;
         }
+
+        return respuesta;
       },
       onRegisterApi : function( gridApi ) {
         self.gridApi = gridApi;

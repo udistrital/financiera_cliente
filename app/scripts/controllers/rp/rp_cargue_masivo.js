@@ -81,8 +81,14 @@ angular.module('financieraClienteApp')
 
     };
     self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
-      if (!row.entity.Masivo) return false;
-      else return true;
+      var respuesta;
+      if (!row.entity.Masivo) {
+          respuesta = false;
+      }
+      else {
+          respuesta = true;
+      }
+      return respuesta;
     };
 
     financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
@@ -217,7 +223,7 @@ angular.module('financieraClienteApp')
     self.RegistrarMasivo = function() {
       var dataCargueMasivo = [];
       self.cargandoMasivo = true;
-    
+
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {
         financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {

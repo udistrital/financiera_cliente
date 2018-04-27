@@ -106,15 +106,18 @@ angular.module('financieraClienteApp')
                             width: '15%',
                             enableCellEdit: true,
                             cellEditableCondition: function($scope) {
+                               var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
-                                    return true;
+                                    respuesta =  true;
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
-                                        return false;
+                                        respuesta =  false;
                                     } else {
-                                        return true;
+                                        respuesta =  true;
                                     }
                                 }
+
+                                return respuesta;
                             },
                             type: 'number',
                             cellFilter: 'number',
@@ -132,15 +135,17 @@ angular.module('financieraClienteApp')
                             cellFilter: 'number',
                             enableCellEdit: true,
                             cellEditableCondition: function($scope) {
+                               var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
-                                    return true;
+                                    respuesta = true;
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
-                                        return false;
+                                      respuesta =  false;
                                     } else {
-                                        return true;
+                                    respuesta =  true;
                                     }
                                 }
+                                return respuesta;
                             },
                             cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             aggregationType: uiGridConstants.aggregationTypes.sum,
@@ -280,15 +285,18 @@ angular.module('financieraClienteApp')
                             width: '15%',
                             enableCellEdit: true,
                             cellEditableCondition: function($scope) {
+                               var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
-                                    return true;
+                                    respuesta = true;
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
-                                        return false;
+                                        respuesta = false;
                                     } else {
-                                        return true;
+                                        respuesta = true;
                                     }
                                 }
+
+                                return respuesta;
                             },
                             type: 'number',
                             cellFilter: 'number',
@@ -306,15 +314,17 @@ angular.module('financieraClienteApp')
                             cellFilter: 'number',
                             enableCellEdit: true,
                             cellEditableCondition: function($scope) {
+                                var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
-                                    return true;
+                                    respuesta = true;
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
-                                        return false;
+                                        respuesta = false;
                                     } else {
-                                        return true;
+                                        respuesta = true;
                                     }
                                 }
+                                return respuesta;
                             },
                             cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             aggregationType: uiGridConstants.aggregationTypes.sum,
@@ -368,7 +378,7 @@ angular.module('financieraClienteApp')
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
                             self.itemActual = item;
                             self.tercero = item.proveedor;
-                            self.cuentaTercero = item.CuentaContable.CuentaBancaria;                            
+                            self.cuentaTercero = item.CuentaContable.CuentaBancaria;
                             self.Endosar ="Endoso";
                             self.valorMaximo = self.calcular_endoso(item,$scope.outputvalorbruto);
                         }
