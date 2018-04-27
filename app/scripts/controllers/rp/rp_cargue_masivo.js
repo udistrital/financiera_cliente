@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .controller('RpRpCargueMasivoCtrl', function ($scope, $filter, $translate, $window,$q, financieraMidRequest, argoRequest,agoraRequest, financieraRequest, oikosRequest) {
     var self = this;
     self.aprovarMasivo = false;
-    
+
     self.gridOptions = {
       enableRowSelection: true,
       enableRowHeaderSelection: true,
@@ -105,7 +105,6 @@ angular.module('financieraClienteApp')
       self.cargandoMasivo = true;
     	var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
       	var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
-      	var query = '';
       	if (inicio !== undefined && fin !== undefined){
         financieraMidRequest.get('registro_presupuestal/SolicitudesRpByDependencia/'+self.Vigencia, $.param({
           UnidadEjecutora: self.UnidadEjecutora,
@@ -119,7 +118,7 @@ angular.module('financieraClienteApp')
 
           self.gridOptions.data = undefined;
         }else{
-          
+
           self.gridOptions.data = response.data.InformacionRp;
         }
         console.log(response.data);
@@ -218,9 +217,7 @@ angular.module('financieraClienteApp')
     self.RegistrarMasivo = function() {
       var dataCargueMasivo = [];
       self.cargandoMasivo = true;
-      var estado = {
-        Id: 1
-      };
+    
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {
         financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
@@ -236,7 +233,7 @@ angular.module('financieraClienteApp')
 
           });
           templateAlert = templateAlert + "</table>";
-          
+
           swal({
             title: '',
             type: self.alerta_registro_rp[0].Type,
@@ -285,7 +282,7 @@ angular.module('financieraClienteApp')
     };
 
      $scope.$watch("rpCargueMasivo.Vigencia", function() {
-      
+
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
         console.log("reset fecha inicio");
@@ -312,7 +309,7 @@ angular.module('financieraClienteApp')
         self.Dependencias = response.data;
       });
        }
-      
+
     }, true);
 
   });

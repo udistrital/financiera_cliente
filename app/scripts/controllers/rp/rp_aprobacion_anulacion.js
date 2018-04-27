@@ -23,13 +23,11 @@ angular.module('financieraClienteApp')
             useExternalPagination: true,
             columnDefs: [{
                 field: 'Consecutivo',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.NumeroRegistroPresupuestal',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('REGISTRO_PRESUPUESTAL_NO'),
                 headerCellClass: 'text-info'
@@ -46,17 +44,18 @@ angular.module('financieraClienteApp')
                 headerCellClass: 'text-info'
             }, {
                 field: 'TipoAnulacion.Nombre',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('TIPO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'EstadoAnulacion.Nombre',
+                cellClass: 'input_center',
                 displayName: $translate.instant('ESTADO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre',
                 displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+                cellClass: 'input_center',
                 headerCellClass: 'text-info'
             }, {
                 field: 'Opciones',

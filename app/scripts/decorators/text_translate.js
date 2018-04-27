@@ -969,7 +969,7 @@ function ordenar(p_objeto) {
 
 function comparar(p_objeto1, p_objeto2) {
     for (var key in p_objeto1) {
-        var esta_key = false;
+        
         if (p_objeto1.hasOwnProperty(key)) {
             console.log(key);
             //correr dos

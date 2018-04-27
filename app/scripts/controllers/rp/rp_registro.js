@@ -11,6 +11,8 @@ angular.module('financieraClienteApp')
   .controller('RpRpRegistroCtrl', function ($scope,financieraRequest,financieraMidRequest) {
 
     var self = this;
+    var i;
+
     self.alertas = false;
     self.alerta = "";
     self.valor_rp = "";
@@ -64,17 +66,17 @@ angular.module('financieraClienteApp')
       };
     };
     if (self.cdp.Id != null){
-      for (var i = 0 ; i < self.rubros.length ; i++){
+      for (i = 0 ; i < self.rubros.length ; i++){
         var saldo = self.DescripcionRubro(rubros[i].Id);
         rubros[i].saldo = saldo;
-        alert(saldo);
+
       }
     }
 
     self.agregarRubro = function (id) {
       var rubro_seleccionado = self.DescripcionRubro(id);
       self.rubros_seleccionados.push(rubro_seleccionado);
-      for (var i = 0 ; i < self.rubros.length ; i++){
+      for (i = 0 ; i < self.rubros.length ; i++){
 
         if(self.rubros[i].Id == id){
           self.rubros_select.push(rubro_seleccionado);
@@ -85,7 +87,7 @@ angular.module('financieraClienteApp')
 
     self.quitarRubro = function (id){
 
-      for (var i = 0 ; i < self.rubros_select.length ; i++){
+      for (i = 0 ; i < self.rubros_select.length ; i++){
         console.log(self.rubros_select[i]);
         console.log(id);
         if(self.rubros_select[i].Id == id){
@@ -94,7 +96,7 @@ angular.module('financieraClienteApp')
           self.rubros_select.splice(i, 1)
         }
       }
-      for (var i = 0 ; i < self.rubros_seleccionados.length ; i++){
+      for (i = 0 ; i < self.rubros_seleccionados.length ; i++){
 
         if(self.rubros_seleccionados[i].Id == id){
           self.rubros_seleccionados.splice(i, 1)
@@ -104,7 +106,7 @@ angular.module('financieraClienteApp')
 
     self.DescripcionRubro = function(id){
       var rubro;
-      for (var i = 0 ; i < self.rubros.length ; i++){
+      for (i = 0 ; i < self.rubros.length ; i++){
 
         if(self.rubros[i].Id == id){
           rubro = self.rubros[i];
@@ -141,7 +143,7 @@ angular.module('financieraClienteApp')
           Compromiso: $scope.compromiso
         };
         console.log(self.rp);
-        for (var i = 0 ; i < self.rubros_seleccionados.length ; i++){
+        for (i = 0 ; i < self.rubros_seleccionados.length ; i++){
           self.rubros_seleccionados[i].ValorAsignado = parseFloat(self.rubros_seleccionados[i].ValorAsignado);
         }
 
