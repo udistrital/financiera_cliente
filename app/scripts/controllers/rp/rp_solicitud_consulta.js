@@ -193,8 +193,13 @@ angular.module('financieraClienteApp')
 };
 
     self.gridOptions.isRowSelectable = function (row) { //comprobar si la solicitud es de cargue masivo o no
-      if (!row.entity.Masivo) return false;
-      else return true;
+      var respuesta;
+      if (!row.entity.Masivo) {
+        respuesta = false;
+      }else {
+        respuesta = true;
+      }
+      return respuesta;
     }
 
     /**
@@ -271,9 +276,6 @@ angular.module('financieraClienteApp')
         };
         console.log("data enviada:");
         console.log(rp);
-        var rubros = [];
-
-
 
         var dataRegistros = [];
         var registro = {

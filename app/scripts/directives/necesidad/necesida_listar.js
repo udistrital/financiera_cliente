@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
                   })).then(function(response) {
                   $scope.outputnecesidadprocesoexterno = response.data[0];
                 });
-              };
+              }
             });
           }
         };
