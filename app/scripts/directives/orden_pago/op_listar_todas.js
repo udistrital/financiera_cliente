@@ -123,20 +123,22 @@ angular.module('financieraClienteApp')
                 ];
                 // OP Proveedores
                 self.op_detalle = function(row) {
+                    var path;
                     if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'SEGURIDAD SOCIAL') {
-                        var path = "/orden_pago/seguridad_social/ver/";
+                        path = "/orden_pago/seguridad_social/ver/";
                         $location.url(path + row.entity.Id);
                     }
                     if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
-                        var path = "/orden_pago/proveedor/ver/";
+                        path = "/orden_pago/proveedor/ver/";
                         $location.url(path + row.entity.Id);
                     }
                     if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PLAN') {
-                        var path = "/orden_pago/planta/ver/";
+                        path = "/orden_pago/planta/ver/";
                         $location.url(path + row.entity.Id);
                     }
                 }
                 self.op_editar = function(row) {
+
                         if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
                             var path_update = "/orden_pago/proveedor/actualizar/";
                             $location.url(path_update + row.entity.Id);

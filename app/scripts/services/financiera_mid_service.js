@@ -21,7 +21,7 @@ angular.module('financieraMidService', [])
         // Service logic
         var path = CONF.GENERAL.FINANCIERA_MID_SERVICE;
         var cancelSearch ; //defer object
-        var promise;
+      
         // Public API here
         return {
             /**
