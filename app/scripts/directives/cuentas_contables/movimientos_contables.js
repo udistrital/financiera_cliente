@@ -361,25 +361,16 @@ angular.module('financieraClienteApp')
 
                 self.agregar_descuento = function(item) {
                     if (item != undefined) {
-                        console.log(item.TipoCuentaEspecial.Id);
-                        console.log(item);   
                         item.Concepto = self.concepto_movs;
                         if (item.TipoCuentaEspecial.Nombre === "Impuesto") {
-                            console.log("porceentaje" + item.Porcentaje);
                             item.Credito = Math.round(item.Porcentaje * $scope.monto);
-                            console.log(item.Credito);
                         }
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
                             self.itemActual = item;
                             self.tercero = item.proveedor;
                             self.cuentaTercero = item.CuentaContable.CuentaBancaria;                            
                             self.Endosar ="Endoso";
-                            console.log("Porcentaje", item.Porcentaje);
-                            console.log("valorbruto", $scope.outputvalorbruto);
                             self.valorMaximo = self.calcular_endoso(item,$scope.outputvalorbruto);
-                            console.log("valorMaximo", self.valorMaximo);
-                            item.Credito = Math.round(item.Porcentaje * $scope.monto);
-                            console.log(item.Credito);
                         }
                         item.CuentaEspecial = { Id: item.Id };
                         if (self.gridOptionsDescuentos.data.indexOf(item) < 0) {

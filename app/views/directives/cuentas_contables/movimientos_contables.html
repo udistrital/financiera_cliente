@@ -64,7 +64,7 @@
         <legend>{{"ENDOSAR_A_TERCERO" | translate}}</legend>
         <div class="panel panel-default panel-body">
             <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_endoso()" focus-on-field validate>
-
+              <div class="row">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="val_endoso_op" class="col-sm-2 control-label ng-binding">{{ 'VALOR' | translate }}*:</label>
@@ -77,6 +77,8 @@
                   </div>
                 </fieldset>
               </div>
+              </div>
+              <div class="row">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
@@ -89,6 +91,8 @@
                   </div>
                 </fieldset>             
               </div>
+              </div>
+              <div class="row">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'CUENTA_BANCARIA' | translate }}*:</label>
@@ -107,13 +111,18 @@
                   </select>
                 </div>                
               </div>
-              <br/>
-              <div class="form-group" ng-if="d_movimientosContables.validar_endoso()">
+              </div>
+              <br>
+              <div class="row">
+               <div class="form-group" ng-if="d_movimientosContables.validar_endoso()">
                 <center><button ng-click="d_movimientosContables.asignar_endoso()" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
               </div>
-              <div ng-messages="end_form.d_movimientosContables.valorInicial.$error" style="color:maroon" role="alert" ng-show="!d_movimientosContables.validar_endoso()">
-                <div ng-message="required">{{"VALOR_SUPERADO" | translate}}</div>
-              </div>              
+              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_endoso()">
+               {{'E_EDO001' | translate}}
+             </div>                
+              </div>
+
+            
             </form>
         </div>
       </div>
