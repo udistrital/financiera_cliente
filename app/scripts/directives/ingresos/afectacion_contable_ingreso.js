@@ -43,6 +43,7 @@ angular.module('financieraClienteApp')
                     }
                 };
                 $scope.$watch('id', function() {
+                    var index;
                     if (!angular.isUndefined($scope.id)) {
                         self.movimientosregistrados = [];
                         financieraRequest.get('movimiento_contable', $.param({
@@ -61,7 +62,7 @@ angular.module('financieraClienteApp')
                                     aux.Cuentas.push(data.CuentaContable);
                                     self.movimientosregistrados.push(aux);
                                 } else {
-                                    var index = self.movimientosregistrados.indexOf(data.Concepto.Id, 'Id');
+                                    index = self.movimientosregistrados.indexOf(data.Concepto.Id, 'Id');
                                     var cuentas = angular.copy(self.movimientosregistrados[index].Cuentas);
                                     if (cuentas.indexOf(data.CuentaContable.Id, 'Id') < 0) {
                                         data.CuentaContable.Debito = data.Debito;
@@ -69,7 +70,7 @@ angular.module('financieraClienteApp')
                                         cuentas.push(data.CuentaContable);
                                         self.movimientosregistrados[index].Cuentas = angular.copy(cuentas);
                                     } else {
-                                        var index = cuentas.indexOf(data.CuentaContable.Id, 'Id');
+                                        index = cuentas.indexOf(data.CuentaContable.Id, 'Id');
                                         cuentas[index].Debito = cuentas[index].Debito + data.Debito;
                                         cuentas[index].Credito = cuentas[index].Credito + data.Credito;
                                         self.movimientosregistrados[index].Cuentas = angular.copy(cuentas);
