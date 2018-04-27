@@ -21,9 +21,9 @@ angular.module('financieraClienteApp')
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-      
+
     ];
-    
+
     financieraRequest.get('entidad','limit=0').then(function (response) {
       self.entidadOptions = response.data;
       });
@@ -74,7 +74,7 @@ angular.module('financieraClienteApp')
                   self.ProdutoRubro = productos;
                   console.log(self.ProdutoRubro);
                 });
-           
+
                 self.gridApi.selection.on.rowSelectionChangedBatch($scope,function(rows){
                   var productos = [];
                   angular.forEach(self.gridApi.selection.getSelectedRows(), function(data) {
@@ -135,19 +135,18 @@ angular.module('financieraClienteApp')
         }*/
         else{
           var codigo_rubro = "";
-          var id_hijo = 0;
           var rubro_padre;
-  
-  
+
+
           if( self.padre.Codigo === undefined){
             codigo_rubro = codigo_rubro + self.codigo_hijo;
           }else{
             codigo_rubro = codigo_rubro + self.padre.Codigo + "-" + self.codigo_hijo;
-  
+
               rubro_padre= {
                     Id : parseInt(self.padre.Id)
                 };
-  
+
           }
           var Pr = null;
           if (self.chkProducto){
@@ -156,7 +155,7 @@ angular.module('financieraClienteApp')
               data.ValorDistribucion = parseInt(data.ValorDistribucion);
             });
           }
-          
+
           var rubro_hijo = {
                 Vigencia: 0,
                 Entidad: 1,
@@ -184,11 +183,11 @@ angular.module('financieraClienteApp')
                     self.filtro_rubro = ""+response.data.Body.RubroHijo.Descripcion;
                     self.recarga_arbol = !self.recarga_arbol;
                   }
-    
+
                 }
                 console.log(response.data);
-                   });;
-  
+                   });
+
            }else{
              console.log(rubro_hijo);
               financieraRequest.post("rubro", rubro_hijo).then(function(response) {
@@ -200,13 +199,13 @@ angular.module('financieraClienteApp')
                     self.filtro_rubro = ""+response.data.Body.Descripcion;
                     self.recarga_arbol = !self.recarga_arbol;
                   }
-                  
+
                 }
               console.log(response.data);
-            });;
+            });
            }
         }
-        
+
 
         };
   });

@@ -113,7 +113,7 @@ angular.module('financieraClienteApp')
         })).then(function(response) {
           if (response.data == null) {
             financieraRequest.get('nivel_clasificacion/primer_nivel', "").then(function(response) {
-              alert("El nivel de clasificación siguiente no existe");
+              
               self.nivel = response.data;
               self.nueva_cuenta.NivelClasificacion = response.data;
               self.padre = {};

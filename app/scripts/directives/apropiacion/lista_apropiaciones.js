@@ -97,7 +97,7 @@ angular.module('financieraClienteApp')
         }
 
         financieraRequest.get('apropiacion', 'limit=0&query=Vigencia:' + $scope.vigencia + ",Rubro.Codigo__startswith:" + $scope.tipo).then(function(response) {
-
+          var i;
           self.gridOptions.data = response.data.sort(function(a, b) {
             if (a.Rubro.Codigo < b.Rubro.Codigo) return -1;
             if (a.Rubro.Codigo > b.Rubro.Codigo) return 1;
@@ -105,25 +105,26 @@ angular.module('financieraClienteApp')
           });
           self.max_level = 0;
           var level = 0;
-          for (var i = 0; i < self.gridOptions.data.length; i++) {
+          for (i = 0; i < self.gridOptions.data.length; i++) {
             level = (self.gridOptions.data[i].Rubro.Codigo.match(/-/g) || []).length;
             if (level > self.max_level) {
               self.max_level = level;
-            };
-          };
+            }
+          }
 
-          for (var i = 0; i < self.gridOptions.data.length; i++) {
+          for (i = 0; i < self.gridOptions.data.length; i++) {
             level = (self.gridOptions.data[i].Rubro.Codigo.match(/-/g) || []).length;
             //console.log(level);
             if (level < self.max_level) {
               self.gridOptions.data[i].$$treeLevel = level;
-            };
-          };
+            }
+          }
           self.cargarSaldos();
         });
 
         //self.gridApi.core.refresh();
         self.actualiza_rubros = function() {
+          var i;
           financieraRequest.get('apropiacion', 'limit=0&query=Vigencia:' + $scope.vigencia + ",Rubro.Codigo__startswith:" + $scope.tipo).then(function(response) {
             self.gridOptions.data = response.data.sort(function(a, b) {
               if (a.Rubro.Codigo < b.Rubro.Codigo) return -1;
@@ -132,20 +133,20 @@ angular.module('financieraClienteApp')
             });
             self.max_level = 0;
             var level = 0;
-            for (var i = 0; i < self.gridOptions.data.length; i++) {
+            for (i = 0; i < self.gridOptions.data.length; i++) {
               level = (self.gridOptions.data[i].Rubro.Codigo.match(/-/g) || []).length;
               if (level > self.max_level) {
                 self.max_level = level;
-              };
-            };
+              }
+            }
 
-            for (var i = 0; i < self.gridOptions.data.length; i++) {
+            for (i = 0; i < self.gridOptions.data.length; i++) {
               level = (self.gridOptions.data[i].Rubro.Codigo.match(/-/g) || []).length;
               //console.log(level);
               if (level < self.max_level) {
                 self.gridOptions.data[i].$$treeLevel = level;
-              };
-            };
+              }
+            }
 
           });
         };

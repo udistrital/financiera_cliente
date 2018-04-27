@@ -147,6 +147,7 @@ angular.module('financieraClienteApp')
        return promise;
     }
 
+/*
     function asynMovFuenteFinanApropiacion() {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -168,7 +169,7 @@ angular.module('financieraClienteApp')
       });
       return promise;
     }
-
+*/
     function asynEntidad() {
       var defered = $q.defer();
       var promise = defered.promise;
@@ -197,6 +198,7 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.generarReporte = function() {
+      var valorDisponible;
       asynEntidad()
         .then(function(data) {
           entidad = data;
@@ -229,9 +231,9 @@ angular.module('financieraClienteApp')
                     }
 
                     if (datosCrp.NumeroRegistroPresupuestal === 1) {
-                      var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor;
+                      valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor;
                     } else {
-                      var valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor);
+                      valorDisponible = datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Valor - (totalCrp + datosCrp.RegistroPresupuestalDisponibilidadApropiacion[0].Valor);
                     }
 
                     asynProvedor(datosCrp.Beneficiario)

@@ -24,13 +24,11 @@ angular.module('financieraClienteApp')
             useExternalPagination: true,
             columnDefs: [{
                 field: 'Consecutivo',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('CDP_NUMERO'),
                 headerCellClass: 'text-info'
@@ -47,16 +45,17 @@ angular.module('financieraClienteApp')
                 headerCellClass: 'text-info'
             }, {
                 field: 'TipoAnulacion.Nombre',
-                cellClass: 'alignleft',
                 cellClass: 'input_center',
                 displayName: $translate.instant('TIPO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'EstadoAnulacion.Nombre',
+                cellClass: 'input_center',
                 displayName: $translate.instant('ESTADO'),
                 headerCellClass: 'text-info'
             }, {
                 field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre',
+                cellClass: 'input_center',
                 displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
                 headerCellClass: 'text-info'
             }, {
@@ -134,24 +133,24 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                        
+
                     }
                 });
                 self.actualizarLista(self.offset, query);
             });
             gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
-                
+
                 //self.gridOptions.data = {};
-                
-                
+
+
                 var query = '';
-                
+
                 var grid = this.grid;
                 angular.forEach(grid.columns, function(value, key) {
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                       
+
                     }
                 });
                 self.offset = (newPage - 1) * pageSize;
@@ -220,7 +219,7 @@ angular.module('financieraClienteApp')
 
                     console.log($scope.apropiaciones);
                     console.log(self.cdp.Id);
-                    var saldo;
+
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                         Apropiacion: data.Apropiacion

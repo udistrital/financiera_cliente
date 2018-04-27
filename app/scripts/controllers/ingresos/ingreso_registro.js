@@ -168,6 +168,10 @@ angular.module('financieraClienteApp')
 
         }
         ctrl.consultarPagos = function() {
+            var inicio;
+            var fin;
+            var parametros;
+
             $scope.datos = false;
             if (ctrl.tipoIngresoSelec == null) {
                 swal("", $translate.instant('SELECCIONAR_FORMA_INGRESO'), "error");
@@ -194,9 +198,9 @@ angular.module('financieraClienteApp')
                             { name: 'oficina_banco', displayName: 'Oficina del Banco', headerCellClass: 'text-info' },
                             { name: 'referencia_pago', displayName: 'Referencia del Pago', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
-                        var inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
-                        var fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
-                        var parametros = [{
+                        inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
+                        fin = $filter('date')(ctrl.fechaFin, "yyyy-MM-dd");
+                        parametros = [{
                             name: "tipo_recibo",
                             value: "ingresos_admisiones"
                         }, {
@@ -239,9 +243,10 @@ angular.module('financieraClienteApp')
                             { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
                             { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
-                        var inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
-                        var fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
-                        var parametros = [{
+                        
+                        inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
+                        fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
+                        parametros = [{
                             name: "tipo_recibo",
                             value: "ingresos_concepto/CODIGO%20DE%20BARRAS"
                         }, {
@@ -271,6 +276,7 @@ angular.module('financieraClienteApp')
                                 $scope.datos = false;
                             }
                         });
+                      break;
                     default:
                         break;
                 }
