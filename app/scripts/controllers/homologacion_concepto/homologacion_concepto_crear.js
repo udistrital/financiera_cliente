@@ -168,6 +168,7 @@ angular.module('financieraClienteApp')
     });
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
+      var respuesta;
       self.MensajesAlerta = '';
       if (self.HomologacionConcepto.NominaTitan == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
@@ -191,17 +192,20 @@ angular.module('financieraClienteApp')
       }
       // Operar
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
-        return true;
+        respuesta =  true;
       } else {
-        return false;
+        respuesta =  false;
       }
+      return respuesta;
     }
     self.checkVigencia = function(p_vigencia) {
+      var respuesta;
       if (p_vigencia.length != 4) {
-        return false;
+        respuesta =  false;
       } else {
-        return true;
+        respuesta =  true;
       }
+      return respuesta;
     }
     // Registra
     self.registrarHomologacion = function() {

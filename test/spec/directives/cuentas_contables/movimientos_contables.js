@@ -17,7 +17,7 @@ describe('Directive: movimientosContables', function () {
   }));
 
   it('should make hidden element visible', inject(function () {
-    var conceptoid=1;
+
     controller=element.controller('movimientosContables',{
       $scope: scopectrl
       // place here mocked dependencies

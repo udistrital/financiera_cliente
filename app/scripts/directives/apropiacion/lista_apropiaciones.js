@@ -167,11 +167,14 @@ angular.module('financieraClienteApp')
         };
 
         self.gridOptions.isRowSelectable = function(row) {
+          var respuesta;
           if (row.treeNode.children.length > 0 && $scope.selhijos==true) {
-            return false;
+            respuesta =  false;
           } else {
-            return true;
+            respuesta =  true;
           }
+
+          return respuesta;
         };
 
 
