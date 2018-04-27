@@ -202,17 +202,21 @@ angular.module('financieraClienteApp')
         }, true)
         // Funcion encargada de validar la obligatoriedad de los campos
         self.camposObligatorios = function() {
+          var respuesta;
           self.MensajesAlerta = '';
           if (self.giro.CuentaBancaria == undefined) {
             self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
           }
           // Operar
           if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
-            return true;
+            respuesta =  true;
           } else {
-            return false;
+            respuesta =  false;
           }
+
+          return respuesta;
         }
+
         self.confirmar = function() {
           if (self.camposObligatorios()) {
             self.dataGiroSend = {};

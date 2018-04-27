@@ -148,7 +148,7 @@ angular.module('financieraClienteApp')
               self.ProdutoRubro = productos;
               console.log(self.ProdutoRubro);
             });
-       
+
             self.gridApiP.selection.on.rowSelectionChangedBatch($scope,function(rows){
               var productos = [];
               angular.forEach(self.gridApiP.selection.getSelectedRows(), function(data) {
@@ -192,10 +192,10 @@ angular.module('financieraClienteApp')
           });
 
         };
-        
+
 
         $scope.loadrow = function(fila, operacion){
-          
+
           switch (operacion) {
             case "delete":
             fila.entity.Activo = false;
@@ -203,7 +203,7 @@ angular.module('financieraClienteApp')
               console.log(response.data);
               if (response.data === "OK"){
                 swal('',$translate.instant("S_542"),"success");
-                
+
               }else{
                 swal('',$translate.instant("E_23503"),"error");
               }
@@ -218,10 +218,8 @@ angular.module('financieraClienteApp')
                       self.gridOptions.data = [];
                     }
                   });
-                  
+
                   console.log(response.data);
-                }else{
-                  
                 }
               });
             });
@@ -236,14 +234,14 @@ angular.module('financieraClienteApp')
                 var jsonActualizado = fila.entity;
               jsonActualizado.ValorDistribucion = parseFloat(jsonActualizado.ValorDistribucion);
               console.log(jsonActualizado);
-             
+
                 financieraRequest.post("producto_rubro/SetVariacionProducto",jsonActualizado).then(function (response) {
                   if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
                     var data = response.data;
-                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";      
-                    templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;  
+                    var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                    templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;
                     templateAlert = templateAlert + "</table>";
 
                     swal({
@@ -254,7 +252,7 @@ angular.module('financieraClienteApp')
                       showCloseButton: true,
                       confirmButtonText: 'Cerrar'
                     }).then(function(){
-                      
+
                       financieraRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
                         if(response.data != null){
                           $scope.data = response.data[0];
@@ -265,22 +263,20 @@ angular.module('financieraClienteApp')
                               self.gridOptions.data = [];
                             }
                           });
-                          
+
                           console.log(response.data);
-                        }else{
-                          
                         }
                       });
-                      
-                    });                       
+
+                    });
                   }
                 });
-                
+
               }
-              
-              
+
+
               break;
-          
+
             default:
               break;
           }
@@ -298,8 +294,8 @@ angular.module('financieraClienteApp')
                   swal('',$translate.instant(response.data.Code),response.data.Type);
                 }else{
                   var data = response.data;
-                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";      
-                  templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;  
+                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('PRODUCTO') + "</th><th>" + $translate.instant('RUBRO') + "</th>"+ "</th><th>" + $translate.instant('VALOR_DISTRIBUCION') + "</th>"+ "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                  templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Producto.Nombre + "</td>" + "<td>" + data.Body.Rubro.Codigo + " / "+ data.Body.Rubro.Nombre + "</td>"+ "<td>" + data.Body.ValorDistribucion + "</td>"+ "<td>" +$translate.instant(data.Code)+ "</td>" + "</tr>" ;
                   templateAlert = templateAlert + "</table>";
 
                   swal({
@@ -310,7 +306,7 @@ angular.module('financieraClienteApp')
                     showCloseButton: true,
                     confirmButtonText: 'Cerrar'
                   }).then(function(){
-                    
+
                     financieraRequest.get("rubro",'query=Id:'+$scope.data.Id).then(function(response){
                       if(response.data != null){
                         $scope.data = response.data[0];
@@ -321,22 +317,20 @@ angular.module('financieraClienteApp')
                             self.gridOptions.data = [];
                           }
                         });
-                        
+
                         console.log(response.data);
-                      }else{
-                        
                       }
                     });
-                    
-                  });                       
+
+                  });
                 }
               });
-          
+
         };
 
         self.arbol_operacion = function(nodo, operacion){
           self.operacion = operacion;
-          
+
           switch (operacion) {
               case "ver":
               self.editar=false;
@@ -350,7 +344,7 @@ angular.module('financieraClienteApp')
                           self.gridOptions.data = response.data;
                         }
                       });
-                      
+
                       console.log(response.data);
                     }
                   });
@@ -362,7 +356,7 @@ angular.module('financieraClienteApp')
                   self.editar = true;
                   if (nodo.Hijos == null){
                     self.padre = false;
-                    
+
                   }else{
                     self.padre = true;
                   }
@@ -376,7 +370,7 @@ angular.module('financieraClienteApp')
                           self.gridOptions.data = response.data;
                         }
                       });
-                      
+
                       console.log(response.data);
                     }
                   });
@@ -385,7 +379,7 @@ angular.module('financieraClienteApp')
                   $("#myModal").modal();
                   break;
               case "delete":
-                  
+
                  if (nodo !== undefined){
                   financieraRequest.delete("rubro",nodo.Id).then(function(response){
                     console.log(response.data);
@@ -425,7 +419,7 @@ angular.module('financieraClienteApp')
           });
 
         };
-        
+
         /**
          * @ngdoc event
          * @name financieraClienteApp.directive:rubrosConsulta#watch_on_filtro
@@ -434,25 +428,25 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-          
+
           /*if (self.expandedNodes.length === 0){
             self.expandAllNodes($scope.arbol);
           }
-          
+
               if ($scope.filtro !== '' && $scope.filtro !== undefined){
-                
+
               }else{
                 self.expandedNodes.length = 0;
               }*/
-             
-             
-           
+
+
+
         }, true);
 
         /*$interval(function() {
           self.cargar_arbol();// your code
        }, 5000);*/
-        
+
         /**
          * @ngdoc event
          * @name financieraClienteApp.directive:rubrosConsulta#watch_on_recargar
@@ -477,21 +471,21 @@ angular.module('financieraClienteApp')
     return {
       require: 'ngModel',
       link: function(s, e, a, c) {
-        
+
         var origDebounce = c.$$debounceViewValueCommit;
         var origCommit = c.$commitViewValue;
-        
+
         c.$$debounceViewValueCommit = function() {
           console.log(c.$debouncing);
           if (!c.$debouncing) {
             s.$apply(function() {
-              c.$debouncing = true;  
-            })          
+              c.$debouncing = true;
+            })
           }
-  
+
           origDebounce.apply(this, arguments);
         }
-        
+
         c.$commitViewValue = function() {
           c.$debouncing = false;
           console.log(c.$debouncing);
