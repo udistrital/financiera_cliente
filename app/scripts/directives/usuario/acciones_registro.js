@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
       },
       templateUrl: 'views/directives/usuario/acciones_registro.html',
       controller: function($scope) {
-        var self = this;    
+         
       },
       controllerAs: 'd_accionesRegistro'
     };

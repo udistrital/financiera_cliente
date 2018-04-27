@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
     //templateUrl: 'views/directives/reportes/reportes-spago.html',
     template: '<div id="frame"></div>',
     controller:function($scope, $localStorage){
-      var ctrl = this;
+
       var sbi = Sbi.sdk;
 
       sbi.services.setBaseUrl({
@@ -51,8 +51,6 @@ angular.module('financieraClienteApp')
           var cb = function (result, args, success) {
             if(success === true) {
               execTest();
-            } else {
-              
             }
           }
 
