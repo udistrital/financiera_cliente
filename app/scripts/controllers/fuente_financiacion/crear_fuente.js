@@ -11,6 +11,9 @@ angular.module('financieraClienteApp')
   .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
 
     var self = this;
+    var i;
+    var j;
+    var k;
 
     financieraRequest.get("orden_pago/FechaActual/2006")
       .then(function(response) {
@@ -35,9 +38,9 @@ angular.module('financieraClienteApp')
       self.movimiento_fuente_financiamiento_apropiacion = response.data;
       self.fuente_financiamiento = [];
       if (self.movimiento_fuente_financiamiento_apropiacion) {
-        for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
+        for (i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
           self.repetido = false;
-          for (var j = 0; j < self.fuente_financiamiento.length; j++) {
+          for (j = 0; j < self.fuente_financiamiento.length; j++) {
             if (self.movimiento_fuente_financiamiento_apropiacion[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.fuente_financiamiento[j].Id) {
               self.repetido = true;
             }
@@ -73,7 +76,7 @@ angular.module('financieraClienteApp')
     financieraRequest.get("tipo_movimiento", 'limit=-1').then(function(response) {
       self.tipo = response.data;
 
-      for (var i = 0; i < self.tipo.length; i++) {
+      for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Nombre == "Registro") {
           self.tipo_movimiento = self.tipo[i].Id;
         }
@@ -157,7 +160,7 @@ angular.module('financieraClienteApp')
 
     self.cambiar_rubro = function() {
 
-      for (var i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
+      for (i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
         if (self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id) {
           if (self.tipo_fuente_financiamiento[i].Nombre == "Inversión") {
             self.inversion = true;
@@ -175,7 +178,7 @@ angular.module('financieraClienteApp')
 
     self.totalmont = function() {
       self.totalMonto = 0;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if (self.rubros_seleccionados[i].ValorAsignado) {
           self.totalMonto = self.totalMonto + self.rubros_seleccionados[i].ValorAsignado;
         }
@@ -185,7 +188,7 @@ angular.module('financieraClienteApp')
 
     self.comprobarRubro = function(id) {
       var repetido = true;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if ((self.rubros_seleccionados[i].Id) == id) {
           repetido = false;
         }
@@ -204,7 +207,7 @@ angular.module('financieraClienteApp')
     };
 
     self.agregar_dependencia = function(id) {
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if (self.rubros_seleccionados[i].Id == id) {
           var data = {
             Rubro: id,
@@ -221,7 +224,7 @@ angular.module('financieraClienteApp')
 
     self.quitarRubro = function(id) {
 
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if (self.rubros_seleccionados[i].Id == id) {
           self.rubros_seleccionados.splice(i, 1)
         }
@@ -230,9 +233,9 @@ angular.module('financieraClienteApp')
 
     self.quitarDependencia = function(rubro, dep) {
 
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if (self.rubros_seleccionados[i].Id == rubro) {
-          for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+          for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
             if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == dep) {
               self.rubros_seleccionados[i].seleccionado.splice(j, 1)
             }
@@ -244,7 +247,7 @@ angular.module('financieraClienteApp')
     self.montoAsignado = function() {
       self.comprobar_valor = true;
       self.totalMonto = 0;
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
         self.total_monto_rubro = 0;
         if (self.movimiento_fuente_financiamiento_apropiacion) {
           for (var h = 0; h < self.movimiento_fuente_financiamiento_apropiacion.length; h++) {
@@ -253,8 +256,8 @@ angular.module('financieraClienteApp')
             }
           }
         }
-        for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-          for (var k = 0; k < self.dependencia.length; k++) {
+        for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+          for (k = 0; k < self.dependencia.length; k++) {
             if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
               self.rubros_seleccionados[i].seleccionado[j].NomDependencia = self.dependencia[k].Nombre;
             }
@@ -278,16 +281,17 @@ angular.module('financieraClienteApp')
     self.tabla_rubros = [];
     self.generar_tabla_rubros = function() {
       self.tabla_rubros = [];
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
+        for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+          var data;
           if (j == 0) {
-            var data = {
+            data = {
               Rubro: self.rubros_seleccionados[i].Rubro.Codigo + " : " + self.rubros_seleccionados[i].Rubro.Nombre,
               Dependencia: self.rubros_seleccionados[i].seleccionado[j].NomDependencia,
               Valor: self.rubros_seleccionados[i].seleccionado[j].Valor
             }
           } else {
-            var data = {
+            data = {
               Rubro: "",
               Dependencia: self.rubros_seleccionados[i].seleccionado[j].NomDependencia,
               Valor: self.rubros_seleccionados[i].seleccionado[j].Valor
@@ -320,8 +324,8 @@ angular.module('financieraClienteApp')
         swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
       } else {
 
-        for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-          for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+        for (i = 0; i < self.rubros_seleccionados.length; i++) {
+          for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
             if (self.rubros_seleccionados[i].seleccionado[j].Valor == 0) {
               swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_DEPENDENCIA'), "error");
               self.registrar = false;
@@ -332,7 +336,7 @@ angular.module('financieraClienteApp')
           }
         }
         if (self.fuente_financiamiento) {
-          for (var i = 0; i < self.fuente_financiamiento.length; i++) {
+          for (i = 0; i < self.fuente_financiamiento.length; i++) {
             if (self.fuente_financiamiento[i].Codigo == self.nueva_fuente.Codigo) {
               swal($translate.instant('ERROR'), $translate.instant('FUENTE_FINANCIAMIENTO_EXISTE') + " " + $translate.instant('CODIGO') + " : " + self.fuente_financiamiento[i].Codigo + " " + $translate.instant('Nombre') + " : " + self.fuente_financiamiento[i].Nombre, "error");
               self.registrar = false;
@@ -346,7 +350,7 @@ angular.module('financieraClienteApp')
           }
         }
       }
-      for (var i = 0; i < self.tipo_documento.length; i++) {
+      for (i = 0; i < self.tipo_documento.length; i++) {
         if (self.tipo_documento[i].Id == self.nueva_fuente_apropiacion.tipo_documento) {
           self.nombre_tipo_documento = self.tipo_documento[i].Nombre;
         }
@@ -409,8 +413,8 @@ angular.module('financieraClienteApp')
 
     self.asignar_rubros = function(id, documento) {
 
-      for (var i = 0; i < self.rubros_seleccionados.length; i++) {
-        for (var j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
+      for (i = 0; i < self.rubros_seleccionados.length; i++) {
+        for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
           self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento);
         }
       }

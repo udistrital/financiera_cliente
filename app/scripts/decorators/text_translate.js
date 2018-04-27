@@ -174,6 +174,7 @@ var text_es = {
     EDITAR_REGISTRO_ESTUDIANTE: "Editar registro de estudiante",
     ENTIDAD: "Entidad",
     EMISOR:"Emisor",
+    ENDOSAR_A_TERCERO: "Endosar a tercero",
     ENTRADA_ALMACEN: "Entrada de Almacén",
     ERROR_ACTUALIZAR: "Error al actualizar",
     ERROR_LLENAR: "Debe llenar todo slos campos",
@@ -198,6 +199,7 @@ var text_es = {
     E_A07: "El valor debe ser mayor a 0",
     E_CDP001: "Expedición de CDP no aprobada, algunos valores superan el saldo de las Apropiaciones.",
     E_CDP002: "No se pudo cargar los rubros de la solicitud",
+    E_EDO001: "Ingrese el valor del endoso que no sobrepase el valor máximo",
     E_MODP001: "Debe seleccionar los rubros y/o llenar los datos requeridos para esta solicitud.",
     E_MODP002: "Todos Los campos son obligatorios para agregar el rubro a la solicitud",
     E_MODP003: "El rubro destino del movimiento no tiene apropiacion para la vigerncia actual.",
@@ -642,6 +644,7 @@ var text_es = {
     VALOR_DISPONIBLE: "Valor Disponible",
     VALOR_DISTRIBUCION: "Valor Distribución",
     VALOR_FUENTE: "Valor Fuente Financiamiento",
+    VALOR_MAXIMO: "Valor Máximo",
     VALOR_PAGO: "Valor Pago",
     VALOR_RUBRO: "Valor Rubro",
     VALOR_TOTAL: "Valor Total",
@@ -773,6 +776,7 @@ var text_en = {
     EDITAR_PLAN_CUENTAS: "Editar plan de Cuentas",
     EDICION_TIPO_COMPROBANTE: "Support Documento Edition",
     ELABORADO_POR: "Elaborated By",
+    ENDOSAR_A_TERCERO: "Endorsement to third",
     ENTIDAD: "Entity",
     ENTRADA_ALMACEN: "Warehouse Entryss",
     ESTADO: "State",
@@ -902,6 +906,7 @@ var text_en = {
     VALOR_BASE_RETENCION: "Base Value Withholding",
     VALOR_BRUTO: "Gross Value",
     VALOR_CRP: "Value CRP",
+    VALOR_MAXIMO: "Maximum Value",
     VALOR_PAGO: "Amount Paid",
     VALOR_SOLICITADO: "Requested Value",
     VAL_NOM_SALDO:"Nominal Value",
@@ -964,7 +969,7 @@ function ordenar(p_objeto) {
 
 function comparar(p_objeto1, p_objeto2) {
     for (var key in p_objeto1) {
-        var esta_key = false;
+        
         if (p_objeto1.hasOwnProperty(key)) {
             console.log(key);
             //correr dos

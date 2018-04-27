@@ -10,6 +10,9 @@
 angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function($window, $timeout, $scope, $translate, financieraMidRequest, financieraRequest, oikosRequest, coreRequest) {
 
   var self = this;
+  var i;
+  var j;
+
   self.unidad_ejecutora = 1;
 
   self.consulta_fuente_vigencia = function() {
@@ -23,10 +26,10 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       if (response.data != null) {
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
       }
-      for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
+      for (i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
         self.repetido = false;
 
-        for (var j = 0; j < self.fuente_financiamiento.length; j++) {
+        for (j = 0; j < self.fuente_financiamiento.length; j++) {
           if (self.movimiento_fuente_financiamiento_apropiacion[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.fuente_financiamiento[j].Id) {
             self.repetido = true;
           }
@@ -250,7 +253,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       self.valor_total = 0;
       self.fuente_financiamiento_apropiacion = response.data;
       if (self.fuente_financiamiento_apropiacion) {
-        for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
+        for (i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
       }
@@ -263,8 +266,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
       self.valor_cdp = 0;
       self.valor_disponible = 0;
 
-      for (var i = 0; i < self.fuente_cdp.length; i++) {
-        for (var j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
+      for (i = 0; i < self.fuente_cdp.length; i++) {
+        for (j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
           self.fuente_cdp[i].DisponibilidadApropiacion[0] = self.fuente_cdp[i].DisponibilidadApropiacion[j];
           self.valor_cdp = self.valor_cdp + self.fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
           self.fuente_cdp_tabla.push(self.fuente_cdp[i]);
@@ -281,8 +284,8 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
       self.fuente_crp = response.data;
 
-      for (var i = 0; i < self.fuente_crp.length; i++) {
-        for (var j = 0; j < self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
+      for (i = 0; i < self.fuente_crp.length; i++) {
+        for (j = 0; j < self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
           self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
           self.fuente_crp_tabla.push(self.fuente_crp[i]);
         }
@@ -296,15 +299,15 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
       self.fuente_op = response.data.OrdenPago;
       self.gridOptionOP.data = self.fuente_op;
-      
+
     });
 
-    for (var i = 0; i < self.fuente_financiamiento.length; i++) {
+    for (i = 0; i < self.fuente_financiamiento.length; i++) {
       if (self.fuente_financiamiento[i].Id == self.fuente) {
         self.fuente_seleccionada = self.fuente_financiamiento[i];
       }
     }
-    for (var i = 0; i < self.fuente_cdp.length; i++) {
+    for (i = 0; i < self.fuente_cdp.length; i++) {
       self.fuente_cdp[i]
     }
     self.actualizar();

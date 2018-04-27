@@ -19,7 +19,7 @@ angular.module('financieraClienteApp')
       enableRowHeaderSelection: false,
       columnDefs : [
         {field: 'Id',             visible : false},
-        {field: 'Vigencia',       cellClass:'alignleft', cellClass: 'input_center', displayName: $translate.instant('VIGENCIA') },
+        {field: 'Vigencia',       cellClass: 'input_center', displayName: $translate.instant('VIGENCIA') },
         {field: 'NumeroDisponibilidad',   displayName: $translate.instant('NO'), cellClass: 'input_center'},
         {field: 'FechaRegistro' , displayName : $translate.instant('FECHA_CREACION'), cellClass: 'input_center',cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'},
         {field: 'Estado.Nombre', displayName : $translate.instant('ESTADO')},
@@ -96,7 +96,7 @@ angular.module('financieraClienteApp')
 
               console.log($scope.apropiaciones);
               console.log(self.cdp.Id);
-              var saldo;
+              
               var rp = {
                 Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                 Apropiacion : data.Apropiacion

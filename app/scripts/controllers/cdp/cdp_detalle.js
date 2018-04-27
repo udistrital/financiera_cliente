@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
         financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+disponibilidad.Id).then(function(response) {
           self.gridOptions.data = response.data;
           angular.forEach(self.gridOptions.data, function(data){
-              var saldo;
+
               var rp = {
                 Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                 Apropiacion : data.Apropiacion
@@ -108,7 +108,7 @@ angular.module('financieraClienteApp')
     financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+disponibilidad.Id).then(function(response) {
       self.gridOptions.data = response.data;
       angular.forEach(self.gridOptions.data, function(data){
-          var saldo;
+          
           var rp = {
             Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
             Apropiacion : data.Apropiacion

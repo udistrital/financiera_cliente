@@ -190,7 +190,7 @@ angular.module('financieraClienteApp')
 
             asynMovFuenteFinanApropiacion()
               .then(function(data) {
-                var valor_total = data;
+
 
                 getFechaActual()
                   .then(function(data) {
@@ -200,7 +200,8 @@ angular.module('financieraClienteApp')
                       var fuente_cdp = response.data;
                       var totalCdp = 0;
                       var fuente_cdp_tabla = [];
-                      var tempCdp;
+                      var valorDisponible;
+
                       for (var i = 0; i < fuente_cdp.length; i++) {
                         if (fuente_cdp[i].Solicitud.SolicitudDisponibilidad.Necesidad.Numero === ctrl.necesidad) {
                           fuente_cdp_tabla = fuente_cdp[i];
@@ -213,9 +214,9 @@ angular.module('financieraClienteApp')
                       }
 
                       if (fuente_cdp_tabla.DisponibilidadApropiacion[0].Disponibilidad.NumeroDisponibilidad === 1) {
-                        var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor;
+                        valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor;
                       } else {
-                        var valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - (totalCdp + fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor);
+                        valorDisponible = fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor - (totalCdp + fuente_cdp_tabla.DisponibilidadApropiacion[0].Valor);
                       }
 
                       construirReporte(fuente_cdp_tabla, totalCdp, valorDisponible, fuente_cdp_tabla.DisponibilidadApropiacion[0].Apropiacion.Valor);

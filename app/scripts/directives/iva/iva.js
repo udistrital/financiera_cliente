@@ -47,10 +47,9 @@ angular.module('financieraClienteApp')
             name: 'Operacion',
              enableFiltering: false,
             cellTemplate:
-            '<center>\
-              <button ng-click="grid.appScope.cargar_ivas(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i></button>\
-              <button ng-click="grid.appScope.get_categoria(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil""></i></button>\
-            </center>'
+            '<center>\<button ng-click="grid.appScope.cargar_ivas(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-eye-open""></i>'+
+            '</button>\<button ng-click="grid.appScope.get_categoria(row)" type="button" class="btn btn-success btn-circle"><i class="glyphicon glyphicon-pencil""></i>'+
+            '</button>\</center>'
           }
         ];
         // grid Iva Categoria

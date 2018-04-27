@@ -11,6 +11,9 @@ angular.module('financieraClienteApp')
   .controller('modificacionFuenteCtrl', function($window, $scope, financieraRequest, financieraMidRequest, $translate, oikosRequest, coreRequest, $timeout) {
 
     var self = this;
+    var i;
+    var j;
+    var k;
 
     financieraRequest.get("orden_pago/FechaActual/2006")
       .then(function(response) {
@@ -30,10 +33,10 @@ angular.module('financieraClienteApp')
         self.movimiento_fuente_financiamiento_apropiacion = response.data;
         self.fuente_financiamiento = [];
         if (self.movimiento_fuente_financiamiento_apropiacion) {
-          for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
+          for (i = 0; i < self.movimiento_fuente_financiamiento_apropiacion.length; i++) {
             self.repetido = false;
 
-            for (var j = 0; j < self.fuente_financiamiento.length; j++) {
+            for (j = 0; j < self.fuente_financiamiento.length; j++) {
               if (self.movimiento_fuente_financiamiento_apropiacion[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.fuente_financiamiento[j].Id) {
                 self.repetido = true;
               }
@@ -75,7 +78,7 @@ angular.module('financieraClienteApp')
     financieraRequest.get("tipo_movimiento", 'limit=-1').then(function(response) {
       self.tipo = response.data;
 
-      for (var i = 0; i < self.tipo.length; i++) {
+      for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Nombre == "Registro") {
           self.tipo.splice(i, 1)
         }
@@ -91,7 +94,7 @@ angular.module('financieraClienteApp')
       self.apropiacion = [];
       self.movimiento_fuente_financiamiento_apropiacion_serv = [];
 
-      for (var i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
+      for (i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
         if (self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id) {
           if (self.tipo_fuente_financiamiento[i].Nombre == "Inversión") {
             self.apropiacion = self.apropiacion1;
@@ -118,7 +121,7 @@ angular.module('financieraClienteApp')
 
       self.traslado = false;
       self.adicion = false;
-      for (var i = 0; i < self.tipo.length; i++) {
+      for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Id == self.tipo_fuente) {
           if (self.tipo[i].Nombre == "Traslado") {
             self.traslado = true;
@@ -166,7 +169,7 @@ angular.module('financieraClienteApp')
 
     self.comprobar_fuente = function(fuente) {
       var repetido = true;
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
         if ((self.fuentes_seleccionadas[i].Id) == fuente.Id) {
           repetido = false;
         }
@@ -190,11 +193,11 @@ angular.module('financieraClienteApp')
 
     self.mostrar_fuentes = function() {
       self.fuentes_seleccionadas = [];
-      for (var i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
+      for (i = 0; i < self.fuente_financiamiento_apropiacion.length; i++) {
         self.codigo_fuente = self.fuente_financiamiento_apropiacion[i].FuenteFinanciamiento;
         if (self.fuente_financiamiento_apropiacion[i].Apropiacion.Id == self.adicion_rubro) {
           var repetido = false;
-          for (var j = 0; j < self.fuentes_seleccionadas.length; j++) {
+          for (j = 0; j < self.fuentes_seleccionadas.length; j++) {
             if (self.fuentes_seleccionadas[j].Id == self.codigo_fuente.Id) {
               repetido = true;
             }
@@ -209,8 +212,8 @@ angular.module('financieraClienteApp')
       self.valor_dependencia = 0;
       self.valor_gastado = 0;
       self.valor_disponible = 0;
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-        for (var j = 0; j < self.movimiento_fuente_financiamiento_apropiacion_serv.length; j++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (j = 0; j < self.movimiento_fuente_financiamiento_apropiacion_serv.length; j++) {
           if (self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.Apropiacion.Id == self.adicion_rubro && self.fuentes_seleccionadas[i].Id == self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id) {
             self.valor_rubro = self.valor_rubro + self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
             self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
@@ -225,11 +228,11 @@ angular.module('financieraClienteApp')
 
     self.mostrar_rubros = function() {
       self.fuentes_traslado = [];
-      for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion_serv.length; i++) {
+      for (i = 0; i < self.movimiento_fuente_financiamiento_apropiacion_serv.length; i++) {
         self.codigo_rubro = self.movimiento_fuente_financiamiento_apropiacion_serv[i].FuenteFinanciamientoApropiacion.Apropiacion;
         if (self.movimiento_fuente_financiamiento_apropiacion_serv[i].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.adicion_fuente) {
           var repetido = false;
-          for (var j = 0; j < self.fuentes_traslado.length; j++) {
+          for (j = 0; j < self.fuentes_traslado.length; j++) {
             if (self.fuentes_traslado[j].Id == self.codigo_rubro.Id) {
               repetido = true;
             }
@@ -244,8 +247,8 @@ angular.module('financieraClienteApp')
       self.valor_dependencia = 0;
       self.valor_gastado = 0;
       self.valor_disponible = 0;
-      for (var i = 0; i < self.fuentes_traslado.length; i++) {
-        for (var j = 0; j < self.movimiento_fuente_financiamiento_apropiacion_serv.length; j++) {
+      for (i = 0; i < self.fuentes_traslado.length; i++) {
+        for (j = 0; j < self.movimiento_fuente_financiamiento_apropiacion_serv.length; j++) {
           if (self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.FuenteFinanciamiento.Id == self.adicion_fuente && self.fuentes_traslado[i].Id == self.movimiento_fuente_financiamiento_apropiacion_serv[j].FuenteFinanciamientoApropiacion.Apropiacion.Id) {
             self.valor_rubro = self.valor_rubro + self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
             self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
@@ -263,7 +266,7 @@ angular.module('financieraClienteApp')
       self.fuentes = fuentes;
 
 
-      for (var i = 0; i < self.fuentes.length; i++) {
+      for (i = 0; i < self.fuentes.length; i++) {
         if (self.fuentes[i].Id == id) {
           self.rep = true;
 
@@ -278,7 +281,7 @@ angular.module('financieraClienteApp')
             NomDependencia: ""
           }
 
-          for (var j = 0; j < self.fuentes[i].seleccionado.length; j++) {
+          for (j = 0; j < self.fuentes[i].seleccionado.length; j++) {
             if (dependencia == self.fuentes[i].seleccionado[j].Dependencia) {
               self.rep = false;
               self.fuentes[i].seleccionado[j].ValorTotal = valor + self.fuentes[i].seleccionado[j].ValorTotal;
@@ -301,7 +304,7 @@ angular.module('financieraClienteApp')
       self.valor_gastado = 0;
       self.valor_disponible = 0;
 
-      for (var i = 0; i < self.movimiento_fuente_financiamiento_apropiacion_serv; i++) {
+      for (i = 0; i < self.movimiento_fuente_financiamiento_apropiacion_serv; i++) {
         if (self.movimiento_fuente_financiamiento_apropiacion_serv[i].FuenteFinanciamientoApropiacion.Dependencia == id) {
           self.valor_dependencia = self.movimiento_fuente_financiamiento_apropiacion_serv[j].Valor;
           self.valor_gastado = self.movimiento_fuente_financiamiento_apropiacion_serv[j].ValorGastado;
@@ -309,7 +312,7 @@ angular.module('financieraClienteApp')
         }
       }
 
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
         if (self.fuentes_seleccionadas[i].Id == id) {
           var data = {
             Apropiacion: self.adicion_rubro,
@@ -328,7 +331,7 @@ angular.module('financieraClienteApp')
     };
 
     self.quitarFuente = function(id) {
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
         if (self.fuentes_seleccionadas[i].Id == id) {
           self.fuentes_seleccionadas.splice(i, 1)
         }
@@ -336,9 +339,9 @@ angular.module('financieraClienteApp')
     };
 
     self.quitarDependencia = function(fuente, dep) {
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
         if (self.fuentes_seleccionadas[i].Id == fuente) {
-          for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+          for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
             if (self.fuentes_seleccionadas[i].seleccionado[j].Dependencia == dep) {
               self.fuentes_seleccionadas[i].seleccionado.splice(j, 1)
             }
@@ -352,9 +355,9 @@ angular.module('financieraClienteApp')
       self.totalMonto = 0;
       self.valorTotal = 0;
       self.valor_total_apropiacion = 0;
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
-          for (var k = 0; k < self.dependencia.length; k++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+          for (k = 0; k < self.dependencia.length; k++) {
             if (self.fuentes_seleccionadas[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
               self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia = self.dependencia[k].Nombre;
             }
@@ -369,7 +372,7 @@ angular.module('financieraClienteApp')
         swal($translate.instant('ERROR'), $translate.instant('MONTO_MAYOR_ADICION'), "error");
       }
 
-      for (var k = 0; k < self.apropiacion.length; k++) {
+      for (k = 0; k < self.apropiacion.length; k++) {
         if (self.apropiacion[k].Id == self.adicion_rubro) {
           self.valor_total_apropiacion = self.apropiacion[k].Valor;
         }
@@ -388,16 +391,17 @@ angular.module('financieraClienteApp')
     self.generar_tabla_fuentes = function() {
 
       self.tabla_fuentes = [];
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+          var data;
           if (j == 0) {
-            var data = {
+            data = {
               Fuente: self.fuentes_seleccionadas[i].Codigo + " : " + self.fuentes_seleccionadas[i].Nombre,
               Dependencia: self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia,
               Valor: self.fuentes_seleccionadas[i].seleccionado[j].Valor
             }
           } else {
-            var data = {
+            data = {
               Fuente: "",
               Dependencia: self.fuentes_seleccionadas[i].seleccionado[j].NomDependencia,
               Valor: self.fuentes_seleccionadas[i].seleccionado[j].Valor
@@ -431,8 +435,8 @@ angular.module('financieraClienteApp')
         swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_FUENTE_FINANCIAMIENTO'), "error");
       } else {
 
-        for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-          for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+        for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
+          for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
             if (self.fuentes_seleccionadas[i].seleccionado[j].Valor == 0) {
               swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_DEPENDENCIA'), "error");
               self.registrar = false;
@@ -449,13 +453,13 @@ angular.module('financieraClienteApp')
           }
         }
       }
-      for (var i = 0; i < self.apropiacion.length; i++) {
+      for (i = 0; i < self.apropiacion.length; i++) {
         if (self.apropiacion[i].Id == self.adicion_rubro) {
           self.Codigo = self.apropiacion[i].Rubro.Codigo;
           self.Nombre = self.apropiacion[i].Rubro.Nombre;
         }
       }
-      for (var i = 0; i < self.tipo_documento.length; i++) {
+      for (i = 0; i < self.tipo_documento.length; i++) {
         if (self.tipo_documento[i].Id == self.nueva_fuente_apropiacion.tipo_documento) {
           self.nombre_tipo_documento = self.tipo_documento[i].Nombre;
         }
@@ -468,10 +472,10 @@ angular.module('financieraClienteApp')
     self.buscar_dependencia = function() {
       self.dependencias_origen = [];
 
-      for (var i = 0; i < self.fuentes_traslado.length; i++) {
+      for (i = 0; i < self.fuentes_traslado.length; i++) {
         if (self.fuentes_traslado[i].Id == self.fuente_origen) {
-          for (var j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
-            for (var k = 0; k < self.dependencia.length; k++) {
+          for (j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
+            for (k = 0; k < self.dependencia.length; k++) {
               if (self.fuentes_traslado[i].seleccionado[j].Dependencia == self.dependencia[k].Id) {
                 var data = {
                   Id: self.fuentes_traslado[i].seleccionado[j].Dependencia,
@@ -511,8 +515,8 @@ angular.module('financieraClienteApp')
       self.total_fuente_destino = 0;
       self.total_destino = 0;
 
-      for (var i = 0; i < self.fuentes_traslado.length; i++) {
-        for (var j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
+      for (i = 0; i < self.fuentes_traslado.length; i++) {
+        for (j = 0; j < self.fuentes_traslado[i].seleccionado.length; j++) {
 
           if (self.fuentes_traslado[i].Id == self.fuente_origen) {
             self.total_fuente_origen = self.total_fuente_origen + parseInt(self.fuentes_traslado[i].seleccionado[j].ValorTotal);
@@ -560,7 +564,7 @@ angular.module('financieraClienteApp')
           self.reglas = self.movimiento_fuente_taslado.Trasladar;
           self.monto_traslado();
 
-          for (var k = 0; k < self.apropiacion.length; k++) {
+          for (k = 0; k < self.apropiacion.length; k++) {
             if (self.apropiacion[k].Id == self.fuente_destino) {
               self.valor_total_apropiacion = self.apropiacion[k].Valor;
             }
@@ -579,7 +583,7 @@ angular.module('financieraClienteApp')
         });
 
       }
-      for (var i = 0; i < self.apropiacion.length; i++) {
+      for (i = 0; i < self.apropiacion.length; i++) {
         if (self.apropiacion[i].Id == self.fuente_origen) {
           self.Codigo = self.apropiacion[i].Rubro.Codigo;
           self.Nombre = self.apropiacion[i].Rubro.Nombre;
@@ -589,14 +593,14 @@ angular.module('financieraClienteApp')
           self.Nombre1 = self.apropiacion[i].Rubro.Nombre;
         }
       }
-      for (var i = 0; i < self.fuente_financiamiento.length; i++) {
+      for (i = 0; i < self.fuente_financiamiento.length; i++) {
         if (self.fuente_financiamiento[i].Id == self.adicion_fuente) {
           self.Codigo_fuente = self.fuente_financiamiento[i].Codigo;
           self.Nombre_fuente = self.fuente_financiamiento[i].Nombre;
           self.descripcion_fuente = self.fuente_financiamiento[i].Descripcion;
         }
       }
-      for (var i = 0; i < self.dependencia.length; i++) {
+      for (i = 0; i < self.dependencia.length; i++) {
         if (self.dependencia[i].Id == self.dependencia_origen) {
           self.nombre_dependencia_origen = self.dependencia[i].Nombre;
         }
@@ -604,7 +608,7 @@ angular.module('financieraClienteApp')
           self.nombre_dependencia_destino = self.dependencia[i].Nombre;
         }
       }
-      for (var i = 0; i < self.tipo_documento.length; i++) {
+      for (i = 0; i < self.tipo_documento.length; i++) {
         if (self.tipo_documento[i].Id == self.nueva_fuente_apropiacion.tipo_documento) {
           self.nombre_tipo_documento = self.tipo_documento[i].Nombre;
         }
@@ -651,8 +655,8 @@ angular.module('financieraClienteApp')
 
     self.asignar_rubros = function(id, documento) {
 
-      for (var i = 0; i < self.fuentes_seleccionadas.length; i++) {
-        for (var j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
+      for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
+        for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
           self.crear_fuente_apropiacion(id, self.fuentes_seleccionadas[i].seleccionado[j].Fuente, self.fuentes_seleccionadas[i].seleccionado[j].Dependencia, self.fuentes_seleccionadas[i].seleccionado[j].Valor, documento);
         }
       }
