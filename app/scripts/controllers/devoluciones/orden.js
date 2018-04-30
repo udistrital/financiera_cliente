@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest) {
    var ctrl = this;
 
    ctrl.cargarTiposDoc = function(){
@@ -47,6 +47,9 @@ angular.module('financieraClienteApp')
        }
      ];
         wso2Request.get("academicaProxy", parametros).then(function(response) {
+          financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(response) {
+            console.log(response);
+          });
           console.log(response.data.pagosCollection);
         });
 
