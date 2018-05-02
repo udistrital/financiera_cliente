@@ -11,6 +11,8 @@ angular.module('financieraClienteApp')
   .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest) {
    var ctrl = this;
 
+   ctrl.concepto = [];
+
    ctrl.cargarTiposDoc = function(){
      console.log("consulta tipo doc");
         agoraRequest.get('parametro_estandar',$.param({
@@ -30,6 +32,19 @@ angular.module('financieraClienteApp')
      }
    },true);
 
+
+   $scope.$watch('ordendevolucion.concepto[0]', function(oldValue, newValue) {
+       if (!angular.isUndefined(newValue)) {
+           financieraRequest.get('concepto', $.param({
+               query: "Id:" + newValue.Id,
+               fields: "Rubro",
+               limit: -1
+           })).then(function(response) {
+               $scope.ordendevolucion.concepto[0].Rubro = response.data[0].Rubro;
+           });
+       }
+   }, true);
+
    ctrl.consultaPagos = function(){
      if (ctrl.consultaPag === true){
        var parametros = [
@@ -47,8 +62,9 @@ angular.module('financieraClienteApp')
        }
      ];
         wso2Request.get("academicaProxy", parametros).then(function(response) {
-          financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(response) {
-            console.log(response);
+          financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(response2) {
+            console.log(response2.data);
+            ctrl.carreras = response2.data.InformacionCarrera;
           });
           console.log(response.data.pagosCollection);
         });

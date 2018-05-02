@@ -119,7 +119,7 @@ angular.module('financieraClienteApp')
       };
         financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
            if (response.data.Type !== undefined) {
-                   swal('', $translate.instant(response.data.Code), response.data.Type); 
+                   swal('', $translate.instant(response.data.Code), response.data.Type);
            }
 
         });
