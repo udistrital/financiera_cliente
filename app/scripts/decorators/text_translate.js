@@ -460,6 +460,7 @@ var text_es = {
     OPM_E003: "No se encontró RP asociado al contrato liquidado",
     OPM_E004: "No se encontró homologación de conceptos",
     PAGO_REPORTADO: "Pago reportado",
+    PAGOS_REALIZADOS: "Pagos Realizados",
     PARA: "Para",
     PLANES_CUENTAS: "Planes de Cuentas",
     PLANTA: "Planta",
@@ -859,6 +860,7 @@ var text_en = {
     ORDEN_PAGO_SELECCIOANR: "Select Payment Order",
     ORDEN_DEVOLUCION: "Devolution Order",
     PLANES_CUENTAS: "Planes de Cuentas",
+    PAGOS_REALIZADOS: "Payment Information",
     PLANTA: "Floor",
     PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
     POR_IVA: "% IVA",
@@ -969,7 +971,7 @@ function ordenar(p_objeto) {
 
 function comparar(p_objeto1, p_objeto2) {
     for (var key in p_objeto1) {
-        
+
         if (p_objeto1.hasOwnProperty(key)) {
             console.log(key);
             //correr dos
