@@ -12,12 +12,12 @@
   </div>
 
   <div>
-    <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalform" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionBancos.gestionar_sucursales()">{{"GESTIONAR_SUCURSALES" | translate}}</button></button>
     </center>
   </div>
 
 
-  <div id="modalform" class="modal fade" role="dialog">
+  <div id="modal_sucursal" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
       <div class="modal-header">
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
@@ -25,68 +25,72 @@
       <div class="modal-body">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ 'BANCO' | translate }}</h3>
+            <h3 class="panel-title">{{ 'SUCURSAL' | translate }}</h3>
           </div>
-          <div class="panel-body">
+          <div ng-show = "gestionBancos.tieneSucursal" div class="panel-body">
 
-            <form class="row" name="formbanco" ng-submit="formbanco.$valid && gestionBancos.agregar_banco(formbanco)">
-              <div class="col-md-12">
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'CODIGO' | translate }}:</label>
-                  <input type="number" class="form-control" placeholder="{{ 'CODIGO' | translate }}" ng-model="gestionBancos.nuevo_banco.Id" required>
-                </fieldset>
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'NIT' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{ 'NIT' | translate }}" ng-model="gestionBancos.nuevo_banco.Nit" required>
-                </fieldset>
-              </div>
 
               <div class="col-md-12">
+
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'NOMBRE' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{ 'NOMBRE' | translate }}" ng-model="gestionBancos.nuevo_banco.NombreBanco" required>
+                  <span class="form-control"> {{gestionBancos.NombreSucursal}}</span>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
-                  <label>{{ 'DENOMINACION' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{ 'DENOMINACION' | translate }}" ng-model="gestionBancos.nuevo_banco.DenominacionBanco">
+                  <label>{{ 'DIRECCION' | translate }}:</label>
+                  <span class="form-control"> {{gestionBancos.Direccion}}</span>
                 </fieldset>
               </div>
-
-              <fieldset class="form-group col-md-12">
-                <label>{{ 'DESCRIPCION' | translate }}:</label>
-                <textarea class="form-control" rows="4" ng-model="gestionBancos.nuevo_banco.Descripcion" placeholder="{{'DESCRIPCION' | translate}}"></textarea>
-              </fieldset>
 
               <div class="col-md-12">
                 <fieldset class="form-group col-md-6">
-                  <label>{{ 'ACH' | translate }}:</label>
-                  <input type="number" class="form-control" placeholder="{{ 'ACH' | translate }}" ng-model="gestionBancos.nuevo_banco.CodigoAch" required>
+                  <label>{{ 'TELEFONO' | translate }}:</label>
+                  <span class="form-control"> {{gestionBancos.Telefono}}</span>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
-                  <label>{{ 'CODIGO_SUPER' | translate }}:</label>
-                  <input type="number" class="form-control" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.CodigoSuperintendencia" required>
+                  <label>{{ 'PAIS' | translate }}:</label>
+                  <span class="form-control"> {{gestionBancos.Paisl}}</span>
                 </fieldset>
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'ACTIVO' | translate }}:</label>
-                  <input type="checkbox" class="checkbox-inline" placeholder="{{ 'CODIGO_SUPER' | translate }}" ng-model="gestionBancos.nuevo_banco.EstadoActivo">
-                </fieldset>
-
               </div>
 
-              <center><button type="submit" class="btn btn-outline btn-primary">{{'BTN.CONFIRMAR' | translate}} </button></center>
+              <fieldset class="form-group col-md-6">
+                <label>{{ 'DEPARTAMENTO' | translate }}:</label>
+                <span class="form-control"> {{gestionBancos.Departamento}}</span>
+             </fieldset>
 
-            </form>
+              <fieldset class="form-group col-md-6">
+                <label>{{ 'CIUDAD' | translate }}:</label>
+                <span class="form-control"> {{gestionBancos.Ciudad}}</span>
+              </fieldset>
+
+              <center><button ng-click="gestionBancos.desvincular_sucursal()" class="btn btn-outline btn-primary">{{'BTN.DESVINCULAR' | translate}} </button></center>
+
+
           </div>
+          <br>
+          <div ng-show = "!gestionBancos.tieneSucursal">
+            <center><button ng-click="gestionBancos.mostrar_sucursales()" class="btn btn-outline btn-primary">{{'BTN.MOSTRAR_SUCURSALES' | translate}} </button></center>
+
+            <div ng-show = "gestionBancos.ver_grid_sucursales">
+              <br>
+              <legend class="text-primary" align="center">{{'SUCURSALES_REGISTRADAS' | translate }}</legend>
+              <div class="row">
+                  <div class="col-md-12">
+                    <div ui-grid="gestionBancos.Sucursales" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
+                  </div>
+              </div>
+              <br>
+              <center><button ng-click="gestionBancos.vincular_sucursal()" class="btn btn-outline btn-primary">{{'BTN.VINCULAR' | translate}} </button></center>
+            </div>
+         </div>
+
         </div>
       </div>
     </div>
 
-  </div>
+  </div>dd
 
 
   <div id="modalbanco" class="modal fade" role="dialog">
