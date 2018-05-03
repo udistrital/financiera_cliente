@@ -196,4 +196,7 @@ angular.module('financieraClienteApp')
       alert("vincular_sucursal")
     };
 
+    ctrl.gestionar_sucursales = function(){
+      alert("gestionar sucursales")
+    };
   });
