@@ -10,7 +10,7 @@
 angular.module('financieraClienteApp')
   .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest) {
    var ctrl = this;
-
+   ctrl.selectedcar = {};
    ctrl.concepto = [];
 
    ctrl.cargarTiposDoc = function(){
@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
        },
        {
            name: "numeroIdentificacion",
-           value: "1018453423"
+           value: "1104704188"
        }
      ];
         wso2Request.get("academicaProxy", parametros).then(function(response) {
@@ -66,12 +66,21 @@ angular.module('financieraClienteApp')
             console.log(response2.data);
             ctrl.carreras = response2.data.InformacionCarrera;
           });
-          console.log(response.data.pagosCollection);
+          //console.log(response.data.pagosCollection);
         });
 
         ctrl.consultaPag = false;
      }
 
    };
+
+   ctrl.setSelectedCar = function(carrera){
+     console.log(carrera);
+     ctrl.selectedcar=carrera;
+     ctrl.pagos=ctrl.selectedcar.InformacionRecibos;
+     console.log("pagos enviar");
+     console.log(ctrl.pagos);
+   }
+
 
   });
