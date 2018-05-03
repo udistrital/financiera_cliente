@@ -141,7 +141,7 @@
 
     <div class="col-md-6">
       <div class="form-group">
-        <arbol-conceptos filtro="actaComprainv.filtro_ingresos" seleccion="ordendevolucion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+        <arbol-conceptos filtro="ordendevolucion.filtro_ingresos" seleccion="ordendevolucion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
       </div>
     </div>
 
@@ -184,14 +184,14 @@
     <div class="col-sm-12">
       <div class="panel-body">
         <ul class="nav nav-tabs">
-          <li ng-class="{active: selected == carrera.Codigo}" ng-repeat="carrera in ordendevolucion.carreras"><a href ng-click="ordendevolucion.selectedCar=carrera.Codigo" data-toggle="tabCarr">
+          <li ng-class="{active: selected == carrera.Codigo}" ng-repeat="carrera in ordendevolucion.carreras"><a href ng-click="ordendevolucion.setSelectedCar(carrera)" data-toggle="tab">
                             <b>  Carrera: [ {{carrera.Cod_Carrera}} ]  {{carrera.Carrera}}</b> Facultad: {{carrera.Facultad}}</a>
           </li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
-          <div class="tab-pane fade in active" ng-repeat="carrera in ordendevolucion.carreras" ng-show="ordendevolucion.selectedCar==carrera.Codigo">
-            <devol-pagos-academica>
+          <div class="tab-pane fade in active" >
+            <devol-pagos-academica inforecibos="ordendevolucion.selectedcar" codigofacultad="ordendevolucion.selectedcar.Codigo">
             </devol-pagos-academica>
           </div>
         </div>
