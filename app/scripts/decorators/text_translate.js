@@ -66,6 +66,7 @@ var text_es = {
     CENTRO_COSTO: "Centro de costos",
     CHEQUE: "Cheque",
     CIERRE_PERIODO_PAC:"CIERRE PERIODO",
+    CIUDAD: "Ciudad",
     CLASIFICACION: "Clasificación",
     CODIGO: "Código",
     CODIGO_ABREVIACION: "Código de Abreviación",
@@ -121,6 +122,7 @@ var text_es = {
     DEBITO: "Débito",
     DEDUCIBLE: "Deducible",
     DENOMINACION: "Denominación",
+    DEPARTAMENTO: "Departamento",
     DEPENDENCIA: "Dependencia",
     DEPENDENCIAS: "Dependecias",
     DEPENDENCIA_DESTINO: "Dependencia Destino",
@@ -460,6 +462,7 @@ var text_es = {
     OPM_E003: "No se encontró RP asociado al contrato liquidado",
     OPM_E004: "No se encontró homologación de conceptos",
     PAGO_REPORTADO: "Pago reportado",
+    PAIS: "País",
     PARA: "Para",
     PLANES_CUENTAS: "Planes de Cuentas",
     PLANTA: "Planta",
@@ -587,6 +590,7 @@ var text_es = {
     S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",
     SMA_001: "Se realizó la solicitud de avance con consecutivo No. ",
     SOPORTE:"Soporte",
+    SUCURSALES_REGISTRADAS: "Sucursales registradas",
     TABLA_INGRESOS_BANCO: "Lista de Consignaciones",
     TASA:"Tasa",
     TELEFONO: "Teléfono",
@@ -674,6 +678,7 @@ var text_es = {
     BTN: {
         ACTUALIZAR: "Actualizar",
         AGREGAR: "Agregar",
+        AGREGAR_CODIGOS: "Agregar códigos",
         ANADIR: "Añadir",
         APROBAR: "Aprobar",
         CREAR: "Crear",
@@ -683,10 +688,12 @@ var text_es = {
         CANCELAR: "Cancelar",
         CONFIGURAR: "Configurar",
         CONFIRMAR: "Confirmar",
+        DESVINCULAR: "Desvincular",
         EDITAR: "Editar",
         GUARDAR: "Guardar",
         INACTIVAR: "Inactivar",
         LIMPIAR: "Limpiar",
+        MOSTRAR_SUCURSALES: "Mostrar sucursales",
         NUEVO: "Nuevo",
         NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
         NUEVO_OP_NOMINA: "Nuevo OP De Nomina",
@@ -701,7 +708,9 @@ var text_es = {
         SOLICITAR_RP: "Solicitar RP",
         SOLICITAR: "Solicitar",
         VER: "Ver",
+        VER_SUCURSAL: "Ver sucursal",
         VERIFICAR: "Verificar Requisitos",
+        VINCULAR: "Vincular",
         CONSULTAR: "Consultar",
         DESCARGAR_PDF: "Descargar PDF"
     },
@@ -736,6 +745,7 @@ var text_en = {
     CARGANDO: "Loading ...",
     CENTRO_COSTO: "Cost Center",
     CIERRE_PERIODO_PAC:"CLOSING",
+    CIUDAD: "City",
     CLASIFICACION: "Classification",
     CODIGO: "Code",
     CODIGO_PADRE: "Father Code",
@@ -760,6 +770,7 @@ var text_en = {
     CUENTAS_CONTABLES: "Accounting Accounts",
     CUENTA_BANCARIA: "Bank Account",
     DEBITO: "Debit",
+    DEPARTAMENTO: "State",
     DESCRIPCION: "Description",
     DESCRIPCION_COMPROMISO: "Description Commitment",
     DESCRIPCION_PLAN: " Descripción del nuevo plan...",
@@ -858,6 +869,7 @@ var text_en = {
     ORDEN_PAGO_ACTUALIZAR: "Update Payment Orders",
     ORDEN_PAGO_SELECCIOANR: "Select Payment Order",
     ORDEN_DEVOLUCION: "Devolution Order",
+    PAIS: "Country",
     PLANES_CUENTAS: "Planes de Cuentas",
     PLANTA: "Floor",
     PLAN_CUENTAS_MAESTRO: "Plan de Cuentas Maestro",
@@ -889,6 +901,7 @@ var text_en = {
     SOPORTE:"Support",
     SUBCENTRO_COSTO: "Cost subcenter",
     SUCURSAL: "Branch Office",
+    SUCURSALES_REGISTRADAS: "Registered Branch Offices",
     TELEFONO: "Phone",
     TASA:"Tasa",
     TIPO: "Type",
@@ -930,13 +943,17 @@ var text_en = {
         CONFIRMAR: "Confirmar",
         CREAR_TIPO_COMPROBANTE: "Create Support Document type",
         CONSULTAR_MOVIMIENTO: "See asociated activity",
+        DESVINCULAR: "Disassociate",
         INACTIVAR: "Inactive",
+        MOSTRAR_SUCURSALES: "See Branch Offices",
         NUEVO: "New",
         QUITAR_RUBRO: "Quitar",
         REGISTRAR: "Registrar",
         SELECCIONAR: "Select",
         SOLICITAR_RP: "Solicitar RP",
         VER: "See",
+        VER_SUCURSAL: "See Branch Office",
+        VINCULAR: "Associate",
         CONSULTAR: "Consult",
         DESCARGAR_PDF: "PDF Download"
     },
@@ -969,7 +986,7 @@ function ordenar(p_objeto) {
 
 function comparar(p_objeto1, p_objeto2) {
     for (var key in p_objeto1) {
-        
+
         if (p_objeto1.hasOwnProperty(key)) {
             console.log(key);
             //correr dos

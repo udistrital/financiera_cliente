@@ -9,13 +9,53 @@
  */
 angular.module('financieraClienteApp')
   .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants) {
-    var self = this;
-    self.nuevo_banco = {};
+    var ctrl = this;
 
-    self.gridOptions = {
+
+    $scope.botones = [
+      { clase_color: "editar", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.AGREGAR_CODIGOS'), operacion: 'agregar_codigos', estado: true },
+        { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
+    ];
+
+
+    ctrl.Sucursales = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
       enableRowSelection: true,
+      enableRowHeaderSelection: false,
+      enableFiltering: true,
+      enableHorizontalScrollbar: 0,
+      enableVerticalScrollbar: 0,
+      useExternalPagination: false,
+      enableSelectAll: false,
+      columnDefs: [{
+          field: 'Id',
+          visible:false,
+
+        },
+        {
+          field: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        }
+      ]
+    };
+
+    ctrl.Sucursales.multiSelect = false;
+    ctrl.Sucursales.modifierKeysToMultiSelect = false;
+    ctrl.Sucursales.enablePaginationControls = true;
+    ctrl.Sucursales.onRegisterApi = function(gridApi) {
+      ctrl.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope, function() {
+       //hacer algo al seleccionar
+      });
+    };
+
+    ctrl.gridOptions = {
+      paginationPageSizes: [5, 10, 15, 20, 50],
+      paginationPageSize: 5,
+      enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
@@ -70,83 +110,90 @@ angular.module('financieraClienteApp')
           width: '8%'
         },
         {
-          name: $translate.instant('OPCIONES'),
-          enableFiltering: false,
-          width: '8%',
-          cellTemplate: '<center>' + '<a href="" class="ver" data-toggle="modal" data-target="#modalbanco" ng-click="grid.appScope.id_banco=row.entity.Id">' +
-            '<i class="fa fa-eye fa-lg" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a href="" class="editar" ng-click="grid.appScope.gestionBancos.modo_editar(row.entity);grid.appScope.editar=true;" data-toggle="modal" data-target="#modalform">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-cog fa-lg" aria-hidden="true"></i></a> ' +
-            '</center>'
+            field: 'Opciones',
+            displayName: $translate.instant('OPCIONES'),
+            cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
+            headerCellClass: 'text-info'
         }
       ]
     };
 
     //opciones extras para el control del grid
-    self.gridOptions.multiSelect = false;
-    self.gridOptions.modifierKeysToMultiSelect = false;
-    self.gridOptions.enablePaginationControls = true;
-    self.gridOptions.onRegisterApi = function(gridApi) {
-      self.gridApi = gridApi;
+    ctrl.gridOptions.multiSelect = false;
+    ctrl.gridOptions.modifierKeysToMultiSelect = false;
+    ctrl.gridOptions.enablePaginationControls = true;
+    ctrl.gridOptions.onRegisterApi = function(gridApi) {
+      ctrl.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
-        self.cuenta = self.gridApi.selection.getSelectedRows()[0];
+        ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
       });
     };
 
-    self.cargar_bancos = function() {
-      coreRequest.get('banco', $.param({
+    coreRequest.get('banco', $.param({
         limit: -1
       })).then(function(response) {
-        self.gridOptions.data = response.data;
+        ctrl.gridOptions.data = response.data;
       });
+
+    $scope.loadrow = function(row, operacion) {
+        ctrl.operacion = operacion;
+        switch (operacion) {
+            case "agregar_codigos":
+                  ctrl.agregar_codigos(row);
+                break;
+            case "ver_sucursal":
+                  ctrl.ver_sucursal(row);
+                break;
+          default:
+        }
     };
 
-    /*self.cargar_sucursales_banco = function(banco) {
+    ctrl.agregar_codigos = function(row){
+      alert("agregar codigos");
+    };
+
+    ctrl.ver_sucursal = function(row){
+
       coreRequest.get('sucursal', $.param({
-        query: "Banco:" + banco.Id,
+        query: "Banco:" + row.entity.Id,
         field: "Id,Nombre",
         limit: -1
       })).then(function(response) {
-        banco.sucursales = response.data;
+        if(response.data == null){
+          ctrl.tieneSucursal = false;
+        }else{
+          ctrl.tieneSucursal = true;
+          ctrl.NombreSucursal = response.data[0].Nombre;
+          console.log("nombre", ctrl.NombreSucursal)
+        }
+
       });
-    };*/
-
-    self.modo_editar = function(banco) {
-      self.nuevo_banco = JSON.parse(JSON.stringify(banco));
+      $("#modal_sucursal").modal("show");
+      //Si tiene, que permita visualizarla en un modal, en este modal, que se permita desvincularla. Si no tiene, que sea un botón que permite agregar, listando las existentes
     };
 
-    self.agregar_banco = function(form) {
-      if ($scope.editar) {
-        coreRequest.put('banco', self.nuevo_banco.Id, self.nuevo_banco).then(function(response) {
-          swal('', $translate.instant(response.data.Code), response.data.Type);
-          self.nuevo_banco = {};
-          self.cargar_bancos();
-          $("#modalform").modal("hide");
-          form.$setPristine();
-          form.$setUntouched();
-        });
-      } else {
-        coreRequest.post('banco', self.nuevo_banco).then(function(response) {
-          swal('', $translate.instant(response.data.Code), response.data.Type);
-          self.nuevo_banco = {};
-          self.cargar_bancos();
-          $("#modalform").modal("hide");
-          form.$setPristine();
-          form.$setUntouched();
-        });
-      }
+    ctrl.desvincular_sucursal = function(){
+      alert("desvinculando sucursal")
     };
 
-    $scope.$watch('editar', function() {
-      console.log($scope.editar);
-      if ($scope.editar === false) {
-        self.nuevo_banco = {};
-      }
-    });
+    ctrl.mostrar_sucursales = function(){
+      ctrl.ver_grid_sucursales = true;
 
-    self.cargar_bancos();
+      coreRequest.get('sucursal', $.param({
+        limit: -1
+      })).then(function(response) {
+        if(response.data == null){
+          alert("no hay")
+        }else{
+          ctrl.Sucursales.data = response.data;
+        }
 
+      });
 
+    };
 
+    ctrl.vincular_sucursal = function(){
+      alert("vincular_sucursal")
+    };
 
   });
