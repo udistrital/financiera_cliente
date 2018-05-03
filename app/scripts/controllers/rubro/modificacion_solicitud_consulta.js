@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,$scope,$translate,$filter) {
+  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,$scope,$translate,$filter,$window) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora = 1;
@@ -79,6 +79,11 @@ angular.module('financieraClienteApp')
     });
 
 
+    };
+    self.verDisponibilidad = function(numero, vigencia){
+      console.log('Numero: ', numero);
+      console.log('Vigencia: ', vigencia);  
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank');    
     };
 
     self.gridOptions.onRegisterApi = function(gridApi) {
