@@ -49,7 +49,7 @@
                 <div align="right">Fecha Movimiento: {{modificacionSolicitudConsulta.data.FechaMovimiento | date:"yyyy-MM-dd":"UTC"}}</div>
             </div>
             <div class="panel-body">
-                <h4 class="text-info">{{'DATOS_SOLICITUD' | translate}}</h4>
+                <h4 class="text-info">{{'DATOS_SOLICITUD_MODIFICACION_PRES' | translate}}</h4>
                 <table class="table">
                     <tr>
                         <th>{{ 'NO' | translate }}: </th>
@@ -85,6 +85,9 @@
                     <label for="TipoMov">{{'TIPO_MODIFICACION' | translate}} : </label>
                     <span name="TipoMov">{{data.TipoMovimientoApropiacion.Nombre}}</span>
                     <br>
+                    <label ng-if="data.Disponibilidad"  for="Disponibilidad">{{'CDP_NUMERO' | translate}} : </label>
+                    <span ng-if="data.Disponibilidad"  name="Disponibilidad"><a ng-click="modificacionSolicitudConsulta.verDisponibilidad(data.Disponibilidad.NumeroDisponibilidad,data.Disponibilidad.Vigencia)">{{data.Disponibilidad.NumeroDisponibilidad}}</a> de {{data.Disponibilidad.Vigencia}}</span>
+                    <br ng-if="data.Disponibilidad" >                 
                     <label for="Valor">{{'VALOR' | translate}} : </label>
                     <span name="Valor">{{data.Valor | currency}}</span>
                     <br>

@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     .factory("disponibilidad", function() {
         return {};
     })
-    .controller('CdpCdpConsultaCtrl', function($filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest) {
+    .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest) {
         var self = this;
         self.offset = 0;
         self.gridOptions = {
@@ -41,7 +41,11 @@ angular.module('financieraClienteApp')
                     headerCellClass: 'text-info',
                     enableFiltering: false
                 }
-            ]
+            ],
+            onRegisterApi: function(gridApi) {
+                self.gridApi = gridApi;
+                
+            }
 
         };
 
@@ -86,6 +90,7 @@ angular.module('financieraClienteApp')
                 } else {
                     console.log(response.data);
                     self.gridOptions.data = response.data;
+                    self.filtroExterno();
                 }
             });
         };
@@ -202,7 +207,21 @@ angular.module('financieraClienteApp')
 
 
         };
+        
+        self.filtroExterno = function () {
+            var filtrVigencia = $location.search().vigencia;
+            var filtrNumero = $location.search().numero;
+            if(filtrNumero !== undefined && filtrVigencia !== undefined){
+                self.Vigencia = parseInt(filtrVigencia)
+                self.gridApi.grid.columns[2].filters[0] = {
+                    term: filtrNumero
+                };
+            }
+            
+        };
 
+        
+        
 
         /*self.gridOptions.onRegisterApi = function(gridApi){
           self.gridApi = gridApi;
@@ -322,6 +341,7 @@ angular.module('financieraClienteApp')
                 self.offset = (newPage - 1) * pageSize;
                 self.actualizarLista(self.offset, query);
             });
+            self.gridApi = gridApi;
         };
         self.gridOptions_rubros.onRegisterApi = function(gridApi) {
             //set gridApi on scope
@@ -331,6 +351,7 @@ angular.module('financieraClienteApp')
                 console.log(row.entity);
                 $scope.apropiacion_id = row.entity.Apropiacion.Id;
             });
+            self.gridApi = gridApi;
         };
 
          self.verReservas = function() {
