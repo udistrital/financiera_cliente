@@ -12,54 +12,101 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           inforecibos: '=?',
+          valorsolicitado:'=?'
         },
 
       templateUrl: 'views/directives/devoluciones/pagos_academica.html',
       controller:function($scope,$attrs){
         var ctrl = this;
+        $scope.botones = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.VER_PAGOS'), operacion: 'ver', estado: true },
+        ];
         ctrl.gridPagos = {
+
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            multiSelect: true,
+            enableRowHeaderSelection: true,
             showColumnFooter: true,
-            enableCellEditOnFocus: true,
-            enableHorizontalScrollbar: 0,
+
+
+            enableHorizontalScrollbar: true,
             enableVerticalScrollbar: 0,
-            enableRowHeaderSelection: false,
+
             enableFiltering: true,
             enableSorting: true,
-            rowEditWaitInterval: -1,
+
+
+            paginationPageSizes: [5, 15, 20],
+            paginationPageSize: 5,
+
+            onRegisterApi: function(gridApi) {
+              ctrl.gridApi = gridApi;
+              gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+
+                if(angular.isUndefined($scope.valorsolicitado)){
+                    $scope.valorsolicitado = 0;
+                }
+                if(row.isSelected){
+                  $scope.valorsolicitado=$scope.valorsolicitado + row.entity.Total;
+                }else{
+                  $scope.valorsolicitado=$scope.valorsolicitado - row.entity.Total;
+                }
+              });
+
+              gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
+                console.log(gridApi.selection.getSelectedRows());
+               $scope.valorsolicitado = 0;
+               gridApi.selection.getSelectedGridRows().forEach(function(row) {
+                 console.log("filas");
+                 console.log(row);
+                 if(row.isSelected){
+                   $scope.valorsolicitado=$scope.valorsolicitado + row.entity.Total;
+                 }else{
+                   $scope.valorsolicitado=$scope.valorsolicitado - row.entity.Total;
+                 }
+                        });
+                console.log($scope.valorsolicitado);
+                });
+            },
+
             columnDefs: [{
                     field: 'Numero_Recibo',
                     displayName: $translate.instant('NUMERO') + " " + $translate.instant('RECIBO'),
                     headerCellClass: 'text-info',
                     enableCellEdit: false,
-                    width: '15%'
+                    width: '20%'
                 },
                 {
                     field: 'Periodo',
                     displayName: $translate.instant('PERIODO'),
                     headerCellClass: 'text-info',
                     enableCellEdit: false,
-                    width: '40%'
+                    width: '10%'
                 },
                 {
                     field: 'Fecha_Extraordinario',
-                    displayName: $translate.instant('FECHA') + $translate.instant('EXTRAORDINARIO'),
+                    displayName: $translate.instant('FECHA') + " "+$translate.instant('EXTRAORDINARIO'),
+                    cellFilter: "date:'yyyy-MM-dd'",
                     headerCellClass: 'text-info',
                     enableCellEdit: false,
-                    width: '15%'
+                    width: '20%'
                 },
                 {
                     field: 'Fecha_Ordinario',
-                    displayName: $translate.instant('FECHA') + $translate.instant('ORDINARIO'),
+                    displayName: $translate.instant('FECHA') + " "+ $translate.instant('ORDINARIO'),
+                    cellFilter: "date:'yyyy-MM-dd'",
                     headerCellClass: 'text-info',
                     enableCellEdit: false,
-                    width: '15%'
+                    width: '20%'
                 },
                 {
                     field: 'Pago',
                     displayName: $translate.instant('PAGO_REPORTADO'),
                     headerCellClass: 'text-info',
                     enableCellEdit: false,
-                    width: '15%'
+                    width: '5%'
                 },
                 {
                     field: 'Total',
@@ -68,26 +115,28 @@ angular.module('financieraClienteApp')
                     width: '15%',
                     headerCellClass: 'text-info',
                     type: 'number',
-                    cellFilter: 'number',
+                    cellFilter: 'currency',
                     enableCellEdit: true,
-                    cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                     aggregationType: uiGridConstants.aggregationTypes.sum,
-                    footerCellTemplate: '<div> Total {{grid.appScope.d_movimientosContables.suma2 | currency}}</div>',
+                    aggregationType: uiGridConstants.aggregationTypes.sum,
+                    footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
                     footerCellClass: 'input_right'
+                },
+                {
+                    name: $translate.instant('OPCIONES'),
+                    width: '8%',
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 },
             ]
         };
 
         ctrl.cargarPagos = function(){
-        console.log("entra a cargar pagos");
-        console.log($scope.inforecibos.InformacionRecibos);
         ctrl.gridPagos.data = $scope.inforecibos.InformacionRecibos;
         };
 
         ctrl.cargarPagos();
 
         $scope.$watch('inforecibos',function(newValue){
-          console.log("entra a watch");
             ctrl.cargarPagos();
         },true)
       },

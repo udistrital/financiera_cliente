@@ -708,7 +708,8 @@ var text_es = {
         VER: "Ver",
         VERIFICAR: "Verificar Requisitos",
         CONSULTAR: "Consultar",
-        DESCARGAR_PDF: "Descargar PDF"
+        DESCARGAR_PDF: "Descargar PDF",
+        VER_PAGOS:"Ver Pagos"
     },
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
@@ -948,7 +949,8 @@ var text_en = {
         SOLICITAR_RP: "Solicitar RP",
         VER: "See",
         CONSULTAR: "Consult",
-        DESCARGAR_PDF: "PDF Download"
+        DESCARGAR_PDF: "PDF Download",
+        VER_PAGOS:"Look Payment"
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Apropiations List",
