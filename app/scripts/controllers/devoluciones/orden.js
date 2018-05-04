@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
      ];
         wso2Request.get("academicaProxy", parametros).then(function(response) {
           financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(response2) {
-            console.log(response2.data);
+            //console.log(response2.data);
             ctrl.carreras = response2.data.InformacionCarrera;
           });
           //console.log(response.data.pagosCollection);
@@ -75,11 +75,7 @@ angular.module('financieraClienteApp')
    };
 
    ctrl.setSelectedCar = function(carrera){
-     console.log(carrera);
      ctrl.selectedcar=carrera;
-     ctrl.pagos=ctrl.selectedcar.InformacionRecibos;
-     console.log("pagos enviar");
-     console.log(ctrl.pagos);
    }
 
 
