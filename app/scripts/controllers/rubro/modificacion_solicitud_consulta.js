@@ -83,7 +83,7 @@ angular.module('financieraClienteApp')
     self.verDisponibilidad = function(numero, vigencia){
       console.log('Numero: ', numero);
       console.log('Vigencia: ', vigencia);  
-      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank');    
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
     };
 
     self.gridOptions.onRegisterApi = function(gridApi) {
