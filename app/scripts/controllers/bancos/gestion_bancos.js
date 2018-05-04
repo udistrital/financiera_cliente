@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants) {
+  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
     var ctrl = this;
 
 
@@ -197,6 +197,8 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.gestionar_sucursales = function(){
-      alert("gestionar sucursales")
+      $location.path('/bancos/gestion_sucursales');
+      $route.reload()
+
     };
   });
