@@ -7,12 +7,11 @@
  * # devoluciones/pagosAcademica
  */
 angular.module('financieraClienteApp')
-  .directive('devolPagosAcademica', function (financieraRequest, uiGridConstants, $translate) {
+  .directive('devolPagosAcademica', function ( uiGridConstants, $translate) {
     return {
       restrict: 'E',
       scope:{
           inforecibos: '=?',
-          codigofacultad:'=?'
         },
 
       templateUrl: 'views/directives/devoluciones/pagos_academica.html',
@@ -80,13 +79,15 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.cargarPagos = function(){
+        console.log("entra a cargar pagos");
         console.log($scope.inforecibos.InformacionRecibos);
         ctrl.gridPagos.data = $scope.inforecibos.InformacionRecibos;
         };
 
         ctrl.cargarPagos();
 
-        $scope.watch('codigofacultad',function(newValue){
+        $scope.$watch('inforecibos',function(newValue){
+          console.log("entra a watch");
             ctrl.cargarPagos();
         },true)
       },
