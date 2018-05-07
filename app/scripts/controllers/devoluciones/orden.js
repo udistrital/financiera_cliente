@@ -12,8 +12,11 @@ angular.module('financieraClienteApp')
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
+   $scope.load = false;
+   ctrl.encontrado = false;
+   ctrl.carreras=[];
 
-   ctrl.consultarFormaPago = function(){
+   ctrl.consultarListas= function(){
      financieraRequest.get('forma_pago',
        $.param({
          limit:'-1'
@@ -36,9 +39,16 @@ angular.module('financieraClienteApp')
          ctrl.anos.push(year - i);
        }
      });
+
+     financieraRequest.get('unidad_ejecutora', $.param({
+         limit: -1
+     })).then(function(response) {
+         ctrl.unidadesejecutoras = response.data;
+     });
   }
 
-  ctrl.consultarFormaPago();
+  ctrl.consultarListas();
+
    ctrl.cargarTiposDoc = function(){
         agoraRequest.get('parametro_estandar',$.param({
           query:"ClaseParametro:Tipo Documento",
@@ -79,18 +89,53 @@ angular.module('financieraClienteApp')
       },
       {
          name: "tipo_identificacion",
-         value: "CC"
+         value: ctrl.tipoDocSoli.Abreviatura
        },
        {
            name: "numeroIdentificacion",
-           value: "1104704188"
+           value: ctrl.numdocSoli
        }
      ];
         wso2Request.get("academicaProxy", parametros).then(function(response) {
-          financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(response2) {
-            console.log(response2.data);
-            ctrl.nombreSolicitante = response2.data.InformacionEstudiante.Nombre;
-            ctrl.carreras = response2.data.InformacionCarrera;
+          financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(dataAcademica) {
+            if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
+              ctrl.nombreSolicitante = dataAcademica.data.InformacionEstudiante.Nombre;
+              ctrl.carreras = dataAcademica.data.InformacionCarrera;
+              ctrl.encontrado = true;
+            }else{
+              agoraRequest.get('informacion_persona_natural',$.param({
+                query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Id: " + ctrl.tipoDocSoli.Id,
+                limit:-1
+              })).then(function(response){
+                if(!angular.isUndefined(response.data) && response.data!=null){
+                    ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                    ctrl.encontrado = true;
+                  }else{
+                    agoraRequest.get('informacion_persona_juridica',$.param({
+                      query:"Id:" + ctrl.numdocSoli,
+                      limit:-1
+                    })).then(function(response){
+                        if(!angular.isUndefined(response.data) && response.data!=null){
+                            ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                            ctrl.encontrado = true;
+                        }else{
+                          agoraRequest.get('supervisor_contrato',$.param({
+                            query:"Documento:" + ctrl.numdocSoli,
+                            limit:-1
+                          })).then(function(response){
+                              if(!angular.isUndefined(response.data) && response.data!=null){
+                                  ctrl.nombreSolicitante = response.data[0].Nombre;
+                                  ctrl.encontrado = true;
+                              }else{
+                                ctrl.encontrado = false;
+                              }
+                            });
+                        }
+                    });
+                  }
+              });
+            }
+
           });
           //console.log(response.data.pagosCollection);
         });
