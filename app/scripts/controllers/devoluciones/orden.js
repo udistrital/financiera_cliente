@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate) {
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
@@ -158,4 +158,45 @@ angular.module('financieraClienteApp')
 
    }
 
-  });
+   ctrl.crearSolicitud = function(){
+     ctrl.SolicitudDevolucion={
+       SolicitudDevolucion:{
+         Beneficiario:{
+           TipoIdentificacion:ctrl.tipoDocBen.Id,
+           Identificacion:ctrl.numdocBeneficiario,
+           Origen:9
+         },
+           Solicitante:{
+             TipoIdentificacion:ctrl.tipoDocSoli.Id,
+             Identificacion:ctrl.numdocSoli,
+             Origen:9
+           },
+           FormaPago:ctrl.formaPago,
+           RazonDevolucion:ctrl.soporte,
+           Vigencia:ctrl.vigencia,
+           UnidadEjecutora:ctrl.unidadejecutora,
+           CuentaDevolucion:{
+             Banco:1,
+             TipoCuenta:1,
+             NumeroCuenta:ctrl.numeroCuenta.toString()
+           },
+           RazonDevolucion:{
+             Id:1
+           },
+           Observaciones:ctrl.observaciones,
+           Soporte:{Id:1},
+           //ctrl.soporte
+         },
+         EstadoDevolucion:{
+             Id:6
+         }
+       };
+       financieraRequest.post('solicitud_devolucion/AddDevolution',ctrl.SolicitudDevolucion).then(function(response) {
+         if(response.data.Type != undefined){
+               swal('',$translate.instant(response.data.Code),response.data.Type);
+          }
+       });
+     }
+
+
+   });
