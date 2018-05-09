@@ -6,7 +6,7 @@
       <span class="fa fa-plus pull-right" ng-show="!devolucionesrelacion.infDevol"></span>
       <span class="fa fa-minus pull-right" ng-show="devolucionesrelacion.infDevol"></span>
     </legend class="text-primary">
-    <div ng-show="devolucionesrelacion.infDevol">
+    <div ng-if="devolucionesrelacion.infDevol">
       <div ui-grid="devolucionesrelacion.gridOrdenes" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
     </div>
   </div>
@@ -42,10 +42,15 @@
 <div class = "col-md-4">
     <div class="form-group">
       <label>{{'VALOR_TOTAL'|translate}}</label>
-      <span class="form-control" />
+      <input type="text" class="form-control input_left" ng-model=devolucionesrelacion.valorTotal ui-number-mask="0" ng-readonly="true"></span>
     </div>
     </div>
 
+  </div>
+</div>
+<div class="panel-footer">
+  <div align="center">
+    <button  class="btn btn-outline btn-info" ng-click="devolucionesrelacion.insertarOrden()"> {{ 'BTN.REGISTRAR' | translate }} </button>
   </div>
 </div>
 </div>
