@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
   .controller('GestionCuentasBancariasCtrl', function(coreRequest, financieraRequest, $scope, $translate, uiGridConstants) {
     var ctrl = this;
 
+    ctrl.formPresente = 'datos_basicos';
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_cuenta_bancaria', estado: true },
@@ -117,8 +118,15 @@ angular.module('financieraClienteApp')
     ctrl.Sucursales.enablePaginationControls = true;
     ctrl.Sucursales.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-       //hacer algo al seleccionar
+      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+
+           if(row.isSelected === false){
+             ctrl.SucursalSeleccionada = undefined;
+           }else{
+             ctrl.SucursalSeleccionada = row.entity;
+           }
+
+
       });
     };
 
@@ -164,8 +172,8 @@ angular.module('financieraClienteApp')
     ctrl.CuentaContable.enablePaginationControls = true;
     ctrl.CuentaContable.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-       //hacer algo al seleccionar
+      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+        ctrl.CuentaContableSeleccionada = row.entity
       });
     };
 
@@ -187,6 +195,7 @@ angular.module('financieraClienteApp')
           default:
         }
     };
+
 
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
       coreRequest.get('sucursal', $.param({
@@ -211,31 +220,66 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_modal_agregar_cuenta_bancaria = function(row){
-
-          coreRequest.get('sucursal', $.param({
-              limit: -1
-            })).then(function(response) {
-              ctrl.Sucursales.data = response.data;
-            });
-
-            financieraRequest.get('tipo_cuenta_bancaria', $.param({
+          financieraRequest.get('tipo_cuenta_bancaria', $.param({
                 limit: -1
               })).then(function(response) {
                 ctrl.TipoCuentaBancaria = response.data;
               });
 
-            financieraRequest.get('cuenta_contable', $.param({
-                  limit: -1
-                })).then(function(response) {
-              ctrl.CuentaContable.data = response.data;
-            });
 
             $("#modal_agregar_cuenta_bancaria").modal("show");
 
     };
 
+    ctrl.mostrar_sucursales = function(){
+
+      ctrl.SucursalSeleccionada = undefined;
+      if(ctrl.agregar_nombre_cuenta_bancaria && ctrl.agregar_numero_cuenta_bancaria && ctrl.selectTipoCuenta){
+        coreRequest.get('sucursal', $.param({
+              limit: -1
+            })).then(function(response) {
+              ctrl.Sucursales.data = response.data;
+        });
+
+        ctrl.formPresente = 'sucursales';
+
+      }else{
+        alert("no sigo")
+      }
+
+    };
+
+    ctrl.mostrar_cuentas_contables = function(){
+
+      if(ctrl.SucursalSeleccionada === undefined){
+        alert("no sigo")
+      } else{
+        financieraRequest.get('cuenta_contable', $.param({
+              limit: -1
+            })).then(function(response) {
+          ctrl.CuentaContable.data = response.data;
+        });
+
+        ctrl.formPresente = 'cuentas_contables'
+
+      }
+
+
+    };
+
+    ctrl.mostrar_datos_basicos = function(){
+      ctrl.formPresente = 'datos_basicos'
+    };
+
     ctrl.agregar_cuenta_bancaria = function(row){
-      alert("agregar cuenta bancaria");
+      if(ctrl.CuentaContableSeleccionada === undefined){
+        alert("no sigo")
+      } else{
+        alert("insertar cuenta bancaria")
+        console.log(ctrl.SucursalSeleccionada)
+        console.log(ctrl.CuentaContableSeleccionada)
+
+      }
     };
 
     ctrl.editar_cuenta_bancaria = function(row){
