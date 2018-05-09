@@ -58,37 +58,37 @@ angular.module('financieraClienteApp')
               visible:false
           },
           {
-              field: 'Id',
+              field: 'Devolucion.Id',
               displayName: $translate.instant('NUMERO_OPERACION'),
               width: '10%'
           },
           {
-              field: 'FormaPago.Nombre',
+              field: 'Devolucion.FormaPago.Nombre',
               displayName: $translate.instant('FORMA_PAGO'),
               width: '15%',
           },
           {
-              field: 'RazonDevolucion.Nombre',
+              field: 'Devolucion.RazonDevolucion.Nombre',
               displayName: $translate.instant('RAZON_DEVOLUCION'),
               width: '13%'
           },
           {
-              field: 'Vigencia',
+              field: 'Devolucion.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '13%'
           },
           {
-              field: 'UnidadEjecutora.Nombre',
+              field: 'Devolucion.UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
               width: '13%'
           },
           {
-              field: 'CuentaDevolucion.NumeroCuenta',
+              field: 'Devolucion.CuentaDevolucion.NumeroCuenta',
               displayName: $translate.instant('CUENTA'),
               width: '13%'
           },
           {
-              field: 'Soporte.Nombre',
+              field: 'Devolucion.Soporte.Nombre',
               displayName: $translate.instant('SOPORTE'),
               width: '13%'
           },
@@ -105,42 +105,74 @@ angular.module('financieraClienteApp')
       ]
     };
 
+    ctrl.consultarListas = function(){
+      financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+        var year = parseInt(response.data);
+        ctrl.anos = [];
+        for (var i = 0; i < 5; i++) {
+          ctrl.anos.push(year - i);
+        }
+      });
+
+      financieraRequest.get('unidad_ejecutora', $.param({
+          limit: -1
+      })).then(function(response) {
+          ctrl.unidadesejecutoras = response.data;
+      });
+    };
+    ctrl.consultarListas();
 
     ctrl.consultarSolicitudes = function(){
-        financieraRequest.get('solicitud_devolucion',$.param({
+        financieraRequest.get('solicitud_devolucion_estado_devolucion',$.param({
+          query:"EstadoDevolucion:6,Activo:true",
           limit: -1
         })).then(function(response){
           if(response.data != undefined){
-            console.log(response.data);
             angular.forEach(response.data,function(row){
               financieraRequest.get('solicitud_devolucion_concepto',$.param({
-                query:"SolicitudDevolucion:" + row.Id,
+                query:"SolicitudDevolucion:" + row.Devolucion.Id,
                 fields:"ValorDevolucion",
                 limit: -1
               })).then(function(response){
                 row.valorDevolucion = response.data[0].ValorDevolucion;
               });
-
             });
             ctrl.gridOrdenes.data = response.data;
+            console.log(ctrl.gridOrdenes.data );
           }
         });
         };
 
-        ctrl.consultarSolicitudes();
+      ctrl.consultarSolicitudes();
 
       ctrl.insertarOrden = function(){
-        ctrl.ordenSolicitudes=[];
+        ctrl.Solicitudes=[];
 
         ctrl.gridApi.selection.getSelectedGridRows().forEach(function(row) {
-          ctrl.ordenSolicitud = {
+          ctrl.Solicitud = {
             SolicitudDevolucion:{
               Id:row.entity.Id
             }
           };
-          ctrl.ordenSolicitudes.push(ctrl.ordenSolicitud);
+          ctrl.Solicitudes.push(ctrl.Solicitud);
         });
+        console.log(ctrl.Solicitudes);
+        ctrl.request={
+          ordenDevolucion:{
+            Observaciones:ctrl.observaciones,
+            ValorTotal:ctrl.valorTotal,
+            UnidadEjecutora:ctrl.unidadejecutora,
+            Vigencia:ctrl.vigencia
+          },
+          estadoOrdenDevol:{
+            Id:1
+          },
+          ordenSolicitud:ctrl.Solicitudes
+        };
         console.log(ctrl.ordenSolicitudes);
+        financieraRequest.post('orden_devolucion/AddDevolutionOrder',ctrl.request).then(function(response) {
+          console.log(response);
+        });
       };
 
   });

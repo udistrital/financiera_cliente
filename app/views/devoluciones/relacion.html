@@ -20,20 +20,20 @@
     <div class = "col-md-4">
       <div class="form-group">
         <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-        <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras">
+        <select class="form-control" ng-model="devolucionesrelacion.unidadejecutora" ng-options="op as op.Nombre for op in devolucionesrelacion.unidadesejecutoras">
           <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                     </select>
       </div>
       <div class="form-group">
         <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ingresoRegistroG.observaciones"></textarea>
+        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="devolucionesrelacion.observaciones"></textarea>
       </div>
     </div>
 
     <div class = "col-md-4">
       <div class="form-group">
       <label class="control-label">{{'VIGENCIA'|translate}}</label>
-      <select ng-model="ordendevolucion.vigencia" ng-options="i.vigencia for i in ordendevolucion.anos" class="form-control" required>
+      <select ng-model="devolucionesrelacion.vigencia" ng-options="i for i in devolucionesrelacion.anos" class="form-control" required>
         <option value="">{{'VIGENCIA'|translate}}</option>
       </select>
     </div>
