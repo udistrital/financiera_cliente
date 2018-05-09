@@ -201,4 +201,10 @@ angular.module('financieraClienteApp')
       $route.reload()
 
     };
+
+    ctrl.gestionar_cuentas_bancarias = function(){
+      $location.path('/bancos/gestion_cuentas_bancarias');
+      $route.reload()
+
+    };
   });
