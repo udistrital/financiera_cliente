@@ -8,8 +8,20 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesConsultaRelacionCtrl', function ($scope,$translate) {
+  .controller('DevolucionesConsultaRelacionCtrl', function ($scope,$translate,financieraRequest) {
     var ctrl = this;
+
+    $scope.estado_select = [];
+    $scope.estados = [];
+    $scope.tipos = [];
+    $scope.estado_select = [];
+    $scope.aristas = [];
+    $scope.estadoclick = {};
+    $scope.senDataEstado = {};
+
+    $scope.botones = [
+        { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+    ];
 
     ctrl.gridOrdenes = {
       paginationPageSizes: [5, 15, 20],
@@ -18,44 +30,25 @@ angular.module('financieraClienteApp')
       enableSorting: true,
       enableRowSelection: true,
       enableRowHeaderSelection: false,
-      columnDefs: [{
+      columnDefs: [
+          {
               field: 'Id',
-              displayName: 'Solicitante',
-              width: '5%',
-          },
-          {
-              field: 'Vendedor',
-              displayName: 'Beneficiario',
-              width: '10%',
-          },
-          {
-              field: 'Emisor',
-              displayName: 'Forma Pago',
-              width: '15%',
-          },
-          {
-              field: 'NumOperacion',
-              displayName: 'Numero Operación',
+              displayName:$translate.instant('NUMERO_OPERACION'),
               width: '10%'
           },
           {
-              field: 'Trm',
-              displayName: 'Banco',
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
               width: '14%'
           },
           {
-              field: 'TasaNominal',
-              displayName: 'Tipo Cuenta',
+              field: 'UnidadEjecutora.Nombre',
+              displayName: $translate.instant('UNIDAD_EJECUTORA'),
               width: '14%'
           },
           {
-              field: 'ValorNomSaldo',
-              displayName: 'Cuenta',
-              width: '8%',
-          },
-          {
-              field: 'ValorNomSaldoMonNal',
-              displayName: 'Valor Solicitado',
+              field: 'ValorTotal',
+              displayName: $translate.instant('VALOR'),
               width: '8%',
           },
           {
@@ -66,6 +59,90 @@ angular.module('financieraClienteApp')
       ]
     };
 
+    ctrl.cargarRelaciones=function(){
+      financieraRequest.get('orden_devolucion',$.param({
+        limit: -1
+      })).then(function(response){
+        if(response.data != undefined){
+          angular.forEach(response.data, function(rowData) {
+            var est = [];
+            financieraRequest.get("orden_devolucion_estado_devolucion", $.param({
+                    query: "Devolucion:" + rowData.Id + ",Activo:true",
+                    fields: "EstadoDevolucion",
+                    limit: -1
+                })).then(function(estado){
+                  console.log("estados",estado);
+                  angular.forEach(estado.data, function(rowData) {
+                    est.push(rowData.EstadoDevolucion);
+                  });
+                  rowData.Estado = est;
+                });
+          });
+          ctrl.gridOrdenes.data = response.data;
+        }
+      });
+    };
+
+    ctrl.cargarEstados = function() {
+        financieraRequest.get("estado_devolucion", $.param({
+                query:"Tipo:2",
+                sortby: "NumeroOrden",
+                limit: -1,
+                order: "asc"
+            }))
+            .then(function(response) {
+                $scope.estados = [];
+                $scope.aristas = [];
+                ctrl.estados = response.data;
+                angular.forEach(ctrl.estados, function(estado) {
+                    $scope.estados.push({
+                        id: estado.Id,
+                        label: estado.Nombre
+                    });
+                    $scope.estado_select.push({
+                        value: estado.Nombre,
+                        label: estado.Nombre,
+                        estado: estado
+                    });
+                });
+                $scope.aristas = [{
+                        from: 1,
+                        to: 2
+                    },
+                    {
+                        from: 1,
+                        to: 3
+                    },
+                    {
+                        from: 2,
+                        to: 4
+                    },
+                    {
+                        from: 2,
+                        to: 5
+                    }
+                ];
+            });
+    };
+
+
+    ctrl.cargarRelaciones();
+    ctrl.cargarEstados();
+
+
+    $scope.loadrow = function(row, operacion) {
+        $scope.solicitud = row.entity;
+        console.log("fila seleccionada ",$scope.solicitud)
+        switch (operacion) {
+            case "proceso":
+                $scope.estado = $scope.solicitud.Estado ;
+                break;
+            case "otro":
+
+                break;
+            default:
+        }
+    };
 
 
   });
