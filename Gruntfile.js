@@ -466,9 +466,9 @@ module.exports = function(grunt) {
                 host: {
                   url: 'http://localhost:9000'
                 },
-                projectKey: 'grunt:kronos-clinetes:0.01',
-                projectName: 'Grunt: Kronos Cliente 0.01',
-                projectVersion: '0.01',
+                projectKey: 'financiera_cliente',
+                projectName: 'financiera_cliente',
+                projectVersion: '0.02',
                 sources: ['app','test'].join(','),
                 language: 'js',
                 sourceEncoding: 'UTF-8'
