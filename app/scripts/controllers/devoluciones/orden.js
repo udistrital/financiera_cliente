@@ -45,6 +45,18 @@ angular.module('financieraClienteApp')
      })).then(function(response) {
          ctrl.unidadesejecutoras = response.data;
      });
+
+     financieraRequest.get('acta_devolucion', $.param({
+         limit: -1
+     })).then(function(response) {
+         ctrl.actas = response.data;
+     });
+
+     financieraRequest.get('razon_devolucion', $.param({
+         limit: -1
+     })).then(function(response) {
+         ctrl.razonesDevolucion = response.data;
+     });
   }
 
   ctrl.consultarListas();
@@ -180,17 +192,23 @@ angular.module('financieraClienteApp')
              TipoCuenta:1,
              NumeroCuenta:ctrl.numeroCuenta.toString()
            },
-           RazonDevolucion:{
-             Id:1
-           },
+           RazonDevolucion:ctrl.razonDevolucion,
            Observaciones:ctrl.observaciones,
-           Soporte:{Id:1},
-           //ctrl.soporte
+           Soporte:ctrl.soporte
          },
          EstadoDevolucion:{
              Id:6
-         }
+         },
+         TotalInversion: ctrl.valorSolicitado,
+         Concepto: ctrl.concepto[0]
        };
+
+       angular.forEach(ctrl.movs, function(data) {
+           delete data.Id;
+       });
+
+       ctrl.SolicitudDevolucion.Movimientos = ctrl.movs;
+
        financieraRequest.post('solicitud_devolucion/AddDevolution',ctrl.SolicitudDevolucion).then(function(response) {
          if(response.data.Type != undefined){
                swal('',$translate.instant(response.data.Code),response.data.Type);

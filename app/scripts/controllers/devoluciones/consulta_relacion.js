@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesConsultaRelacionCtrl', function ($scope,$translate,financieraRequest) {
+  .controller('DevolucionesConsultaRelacionCtrl', function ($scope,$translate,financieraRequest,$localStorage) {
     var ctrl = this;
 
     $scope.estado_select = [];
@@ -143,6 +143,29 @@ angular.module('financieraClienteApp')
             default:
         }
     };
+
+    $scope.funcion = function() {
+        $scope.estadoclick = $localStorage.nodeclick;
+        ctrl.Request = {
+          estadoOrdenDevol:{
+          EstadoDevolucion:$scope.estadoclick,
+        },
+          ordenDevolucion:{
+            Id:$scope.solicitud.Id
+          }
+        };
+              financieraRequest.post('orden_devolucion_estado_devolucion/AddEstadoOrdenDevol', ctrl.Request).then(function(response) {
+                if(response.data.Type != undefined){
+                  if(response.data.Type === "error"){
+                      swal('',$translate.instant(response.data.Code),response.data.Type);
+                    }else{
+                      swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                        ctrl.cargarRelaciones();
+                      })
+                    }
+                  }
+                });
+  }
 
 
   });

@@ -102,6 +102,13 @@
               <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                           </select>
           </div>
+
+          <div class="form-group">
+            <label for="unidadejecutora">{{'RAZON_DEVOLUCION' | translate}}</label>
+            <select class="form-control" ng-model="ordendevolucion.razonDevolucion" ng-options="op as op.Nombre for op in ordendevolucion.razonesDevolucion">
+              <option value="">{{'RAZON_DEVOLUCION' | translate}}</option>
+            </select>
+          </div>
         </div>
 
           <div class="col-md-6">
@@ -121,7 +128,7 @@
 
             <div class="form-group">
               <label class="control-label">{{'SOPORTE'|translate}}</label>
-              <select ng-model="ordendevolucion.soporte" ng-options="i.soporte for i in ordendevolucion.actas" class="form-control" required>
+              <select ng-model="ordendevolucion.soporte" ng-options="i.Nombre for i in ordendevolucion.actas" class="form-control" required>
                 <option value="">{{'SOPORTE'|translate}}</option>
               </select>
             </div>
@@ -152,21 +159,20 @@
 </div>
 
     <div class="col-md-12">
-      <div class="row" ng-show="actaComprainv.concepto[0]">
-        <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
+      <div class="row" ng-show="ordendevolucion.concepto[0]">
         <div class="panel-default panel-body">
           <div class="panel panel-heading">
             <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
           </div>
           <ul class="list-unstyled">
-            <li><b>{{'RUBRO' | translate}}:</b> {{actaComprainv.concepto[0].Rubro.Codigo+" / "+actaComprainv.concepto[0].Rubro.Nombre}}
+            <li><b>{{'RUBRO' | translate}}:</b> {{ordendevolucion.concepto[0].Rubro.Codigo+" / "+ordendevolucion.concepto[0].Rubro.Nombre}}
               <ul>
                 <li>
                   <div class="col-md-4" style="width:148px">
                     <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                   </div>
                   <div class="col-md-4" style="width:200px">
-                    <input class="form-control" id="total" type="text" ng-model="ordendevolucion.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                    <input class="form-control" id="total" type="text" ng-model="ordendevolucion.valorSolicitado" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" ng-disabled="true" style="height:25px">
                   </div>
                 </li>
               </ul>
@@ -223,7 +229,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in ordendevolucion.concepto" ng-show="ordendevolucion.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="ordendevolucion.movs" monto="ordendevolucion.total" editable validatemov="c.validado">
+              <movimientos-contables conceptoid="c.Id" movimientos="ordendevolucion.movs" monto="ordendevolucion.valorSolicitado" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>
