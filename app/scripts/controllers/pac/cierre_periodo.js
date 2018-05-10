@@ -96,7 +96,7 @@ angular.module('financieraClienteApp')
       };
       $scope.union = [];
       financieraMidRequest.post('rubro/GenerarCierre', consulta).then(function(response){
-        if (response.data.Ingresos !== null && response.data.Ingresos !== undefined){
+        if (response.data.Ingresos != null && response.data.Ingresos != undefined){
 
            $scope.ingresos = response.data.Ingresos;
            $scope.egresos = response.data.Egresos;
@@ -118,8 +118,8 @@ angular.module('financieraClienteApp')
           mes: $scope.mes
       };
         financieraRequest.post('detalle_pac/InsertarRegistros',insercion).then(function(response){
-           if (response.data.Type !== undefined) {
-                   swal('', $translate.instant(response.data.Code), response.data.Type); 
+           if (response.data.Type != undefined) {
+                   swal('', $translate.instant(response.data.Code), response.data.Type);
            }
 
         });
