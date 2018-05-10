@@ -551,6 +551,16 @@ angular
               controller: 'InversionesConsultaTitulosCtrl',
               controllerAs: 'invconsultaTitulos'
             })
+            .when('/bancos/gestion_sucursales', {
+                templateUrl: 'views/bancos/gestion_sucursales.html',
+                controller: 'GestionSucursalesCtrl',
+                controllerAs: 'gestionSucursales'
+            })
+            .when('/bancos/gestion_cuentas_bancarias', {
+                templateUrl: 'views/bancos/gestion_cuentas_bancarias.html',
+                controller: 'GestionCuentasBancariasCtrl',
+                controllerAs: 'gestionCuentasBancarias'
+            })
             .otherwise({
                 redirectTo: '/'
             });
