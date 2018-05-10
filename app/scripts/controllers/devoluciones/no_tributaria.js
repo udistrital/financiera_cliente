@@ -11,6 +11,12 @@ angular.module('financieraClienteApp')
   .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest) {
     var ctrl = this;
 
+    ctrl.seleccionMov = true;
+
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+    ];
+
     ctrl.gridOrdenesDePago = {
       enableRowSelection: true,
       enableSelectAll: true,
@@ -35,7 +41,8 @@ angular.module('financieraClienteApp')
           field: 'Consecutivo',
           displayName: $translate.instant('CODIGO'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
         },
         {
           field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
@@ -45,13 +52,15 @@ angular.module('financieraClienteApp')
             //term: 'OP-PROV',
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.tipos
-          }
+          },
+          headerCellClass: 'text-info'
         },
         {
           field: 'Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
@@ -64,34 +73,40 @@ angular.module('financieraClienteApp')
           field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
           displayName: $translate.instant('NO_CRP'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'text-info'
         },
         {
           field: 'FormaPago.CodigoAbreviacion',
           width: '5%',
-          displayName: $translate.instant('FORMA_PAGO')
+          displayName: $translate.instant('FORMA_PAGO'),
+          headerCellClass: 'text-info'
         },
         {
           field: 'Proveedor.Tipopersona',
           width: '10%',
-          displayName: $translate.instant('TIPO_PERSONA')
+          displayName: $translate.instant('TIPO_PERSONA'),
+          headerCellClass: 'text-info'
         },
         {
           field: 'Proveedor.NomProveedor',
-          displayName: $translate.instant('NOMBRE')
+          displayName: $translate.instant('NOMBRE'),
+          headerCellClass: 'text-info'
         },
         {
           field: 'Proveedor.NumDocumento',
           width: '10%',
           cellClass: 'input_center',
-          displayName: $translate.instant('NO_DOCUMENTO')
+          displayName: $translate.instant('NO_DOCUMENTO'),
+          headerCellClass: 'text-info'
         },
         {
           field: 'ValorBase',
           width: '10%',
           cellFilter: 'currency',
           cellClass: 'input_right',
-          displayName: $translate.instant('VALOR')
+          displayName: $translate.instant('VALOR'),
+          headerCellClass: 'text-info'
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
@@ -108,12 +123,8 @@ angular.module('financieraClienteApp')
           name: $translate.instant('OPERACION'),
           enableFiltering: false,
           width: '5%',
-          cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.opViewAll.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
-            '</center>'
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+          headerCellClass: 'text-info'
         },
 
       ],
@@ -192,5 +203,22 @@ ctrl.cargarOrdenesPago = function (){
 };
 
 ctrl.cargarOrdenesPago();
+
+
+$scope.loadrow = function(row, operacion) {
+  console.log(row)
+  ctrl.operacion = operacion;
+  switch (operacion) {
+      case "ver":
+      $("#myModal").modal();
+          ctrl.IdOrden = row.entity.Consecutivo;
+          break;
+
+      case "otro":
+
+      break;
+      default:
+  }
+};
 
   });

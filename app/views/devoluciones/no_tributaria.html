@@ -156,7 +156,7 @@
                     <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                   </div>
                   <div class="col-md-4" style="width:200px">
-                    <input class="form-control" id="total" type="text" ng-model="actaComprainv.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                    <input class="form-control" id="total" type="text" ng-model="devolucionesnoTributaria.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
                   </div>
                 </li>
               </ul>
@@ -168,7 +168,7 @@
 </div>
 </div>
 
-  <div class="panel-body" ng-show="actaComprainv.concepto[0]">
+  <div class="panel-body" ng-show="devolucionesnoTributaria.concepto[0]">
     <legend class="text-primary" ng-click="c=!c">
       {{'CUENTAS_CONTABLES' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!c"></span>
@@ -178,14 +178,14 @@
       <div class="col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
-            <li ng-class="{active: selected == c.Id}" ng-repeat="c in actaComprainv.concepto"><a href ng-click="actaComprainv.selected=c.Id" data-toggle="tab">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in devolucionesnoTributaria.concepto"><a href ng-click="devolucionesnoTributaria.selected=c.Id" data-toggle="tab">
                                 Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
             </li>
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane fade in active" ng-repeat="c in actaComprainv.concepto" ng-show="actaComprainv.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="actaComprainv.movs" monto="actaComprainv.total" editable validatemov="c.validado">
+            <div class="tab-pane fade in active" ng-repeat="c in devolucionesnoTributaria.concepto" ng-show="devolucionesnoTributaria.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="devolucionesnoTributaria.movs" monto="devolucionesnoTributaria.total" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>
@@ -196,8 +196,35 @@
 
     <div class="panel-footer">
       <div align="center">
-        <button  class="btn btn-outline btn-info" ng-click="actaComprainv.registrarInversion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+        <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.registrarInversion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
       </div>
     </div>
 
   </div>
+
+
+
+  <div id="myModal" class="modal fade col-md-12" role="dialog">
+    <div class="modal-content col-md-offset-1 col-md-10">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="page-header">{{'SELECCIONAR_CUENTA_CONTABLE'|translate}}</h3>
+            </div>
+            <div class="panel-body">
+    <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
+      {{'CUENTAS_CONTABLES' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!panelDetalleCuentas"></span>
+      <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
+    </legend class="text-primary">
+    <div ng-if="panelDetalleCuentas" class="panel-body">
+      <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov">
+      </movimientos-contables-op-detalle>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
