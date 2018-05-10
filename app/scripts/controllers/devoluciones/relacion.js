@@ -147,16 +147,14 @@ angular.module('financieraClienteApp')
 
       ctrl.insertarOrden = function(){
         ctrl.Solicitudes=[];
-
         ctrl.gridApi.selection.getSelectedGridRows().forEach(function(row) {
           ctrl.Solicitud = {
             SolicitudDevolucion:{
-              Id:row.entity.Id
+              Id:row.entity.Devolucion.Id
             }
           };
           ctrl.Solicitudes.push(ctrl.Solicitud);
         });
-        console.log(ctrl.Solicitudes);
         ctrl.request={
           ordenDevolucion:{
             Observaciones:ctrl.observaciones,
@@ -165,14 +163,20 @@ angular.module('financieraClienteApp')
             Vigencia:ctrl.vigencia
           },
           estadoOrdenDevol:{
-            Id:1
+          EstadoDevolucion:{Id:1}
           },
           ordenSolicitud:ctrl.Solicitudes
         };
-        console.log(ctrl.ordenSolicitudes);
         financieraRequest.post('orden_devolucion/AddDevolutionOrder',ctrl.request).then(function(response) {
-          console.log(response);
-        });
+          if(response.data.Type != undefined){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+                if(response.data.Type != "error"){
+                  ctrl.request.ordenDevolucion.Id = response.data.Body.Id;
+                  financieraRequest.post('orden_devolucion_estado_devolucion/AddEstadoOrdenDevol',ctrl.request).then(function(response) {
+                    console.log(response);
+                  });
+                }
+           }
+         });
       };
-
   });
