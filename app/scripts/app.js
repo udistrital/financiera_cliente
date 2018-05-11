@@ -561,6 +561,11 @@ angular
                 controller: 'GestionCuentasBancariasCtrl',
                 controllerAs: 'gestionCuentasBancarias'
             })
+            .when('/devoluciones/consulta_devoluciones_tributarias', {
+              templateUrl: 'views/devoluciones/consulta_devoluciones_tributarias.html',
+              controller: 'DevolucionesConsultaDevolucionesTributariasCtrl',
+              controllerAs: 'consultaDevolucionesTributarias'
+            })
             .otherwise({
                 redirectTo: '/'
             });

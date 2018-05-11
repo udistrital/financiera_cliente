@@ -1,4 +1,8 @@
-<div class="panel panel-primary panel-body">
+<div ng-if="!devolucionesnoTributaria.loadCircle">
+    <loadingcircle load="load"></loadingcircle>
+</div>
+
+<div class="panel panel-primary panel-body" ng-if="devolucionesnoTributaria.loadCircle">
   <h2 class="page-header text-center">{{ 'ORDEN_DEVOLUCION' | translate }} {{'TRIBUTARIA'|translate}}</h2>
 
 <div class="panel-body" >
@@ -9,7 +13,7 @@
   </legend>
 
   <div ng-if="devolucionesnoTributaria.infOrdenPago">
-    <div ui-grid="devolucionesnoTributaria.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+    <div ui-grid="devolucionesnoTributaria.gridOrdenesDePago" ui-grid-auto-resize ui-grid-pagination></div>
  </div>
  </div>
 <div class="panel-body" >
@@ -29,21 +33,23 @@
             <div class="col-md-6">
               <div class="form-group">
               <label for="tipodoc" class="control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
-              <select ng-model="devolucionesnoTributaria.tipoDocSoli" ng-options="i.TipoDocSol for i in devolucionesnoTributaria.tiposdoc" class="form-control" id="tipoDocSoli" required>
+              <select ng-model="devolucionesnoTributaria.tipoDocSoli" ng-options="i.ValorParametro for i in devolucionesnoTributaria.tiposdoc" class="form-control" id="tipoDocSoli" required>
                 <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
               </select>
             </div>
             </div>
             <div class="col-md-6">
-              <div class="form-group">
-                <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
-              </div>
+              <form ng-submit="devolucionesnoTributaria.consultaPagos()" >
+                <div class="form-group">
+                  <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
+                  <input type="text" class="form-control input_left"  ng-blur="devolucionesnoTributaria.consultaPagos()" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                </div>
+              </form>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                <span class="form-control"></span>
+                <span class="form-control">{{devolucionesnoTributaria.nombreSolicitante}}</span>
               </div>
           </div>
       </div>
@@ -60,7 +66,7 @@
 
             <div class="form-group">
               <label for="formaPago" class="control-label">{{'FORMA_PAGO'|translate}}</label>
-              <select ng-model="devolucionesnoTributaria.formaPago" ng-options="i.formaPago for i in devolucionesnoTributaria.formasPago" class="form-control" id="formaPago" required>
+              <select ng-model="devolucionesnoTributaria.formaPago" ng-options="i.Nombre for i in devolucionesnoTributaria.formasPago" class="form-control" id="formaPago" required>
                 <option value="">{{'SELECCIONAR_FORMA_PAGO'|translate}}</option>
               </select>
             </div>
@@ -75,7 +81,7 @@
 
             <div class="form-group">
               <label>{{'VALOR_SOLICITADO'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="actaComprainv.trm" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.sumadebitos" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-number-mask="0" required/>
             </div>
 
           <div class="form-group">
@@ -86,10 +92,8 @@
           </div>
 
           <div class="form-group">
-            <label for="unidadejecutora">{{'RAZON_DEVOLUCION' | translate}}</label>
-            <select class="form-control" ng-model="devolucionesnoTributaria.razonDevolucion" ng-options="op as op.Nombre for op in devolucionesnoTributaria.razonesDevolucion">
-              <option value="">{{'RAZON_DEVOLUCION' | translate}}</option>
-            </select>
+            <label for="unidadejecutora">{{'NO_OFICIO' | translate}}</label>
+            <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.oficio" placeholder="{{'NO_OFICIO'|translate}}" ui-number-mask="0" required/>
           </div>
 
         </div>
@@ -106,7 +110,7 @@
 
             <div class="form-group">
               <label class="control-label">{{'CUENTA'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="actaComprainv.tasaNominal" placeholder="{{'CUENTA'|translate}}" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.numeroCuenta" placeholder="{{'CUENTA'|translate}}" ui-number-mask="0" required/>
             </div>
 
             <div class="form-group">
@@ -118,7 +122,7 @@
 
             <div class="form-group">
               <label class="control-label">{{'VIGENCIA'|translate}}</label>
-              <select ng-model="devolucionesnoTributaria.vigencia" ng-options="i.vigencia for i in devolucionesnoTributaria.anos" class="form-control" required>
+              <select ng-model="devolucionesnoTributaria.vigencia" ng-options="i for i in devolucionesnoTributaria.anos" class="form-control" required>
                 <option value="">{{'VIGENCIA'|translate}}</option>
               </select>
             </div>
@@ -156,7 +160,7 @@
                     <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                   </div>
                   <div class="col-md-4" style="width:200px">
-                    <input class="form-control" id="total" type="text" ng-model="devolucionesnoTributaria.total" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                    <input class="form-control" id="total" type="text" ng-model="devolucionesnoTributaria.sumadebitos" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" ng-disabled ="true"style="height:25px">
                   </div>
                 </li>
               </ul>
@@ -185,7 +189,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in devolucionesnoTributaria.concepto" ng-show="devolucionesnoTributaria.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="devolucionesnoTributaria.movs" monto="devolucionesnoTributaria.total" editable validatemov="c.validado">
+              <movimientos-contables conceptoid="c.Id" movimientos="devolucionesnoTributaria.movs" monto="devolucionesnoTributaria.sumadebitos" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>
@@ -196,7 +200,7 @@
 
     <div class="panel-footer">
       <div align="center">
-        <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.registrarInversion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+        <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.crearDevolucion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
       </div>
     </div>
 
@@ -220,7 +224,7 @@
       <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
     </legend class="text-primary">
     <div ng-if="panelDetalleCuentas" class="panel-body">
-      <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov">
+      <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos">
       </movimientos-contables-op-detalle>
     </div>
   </div>

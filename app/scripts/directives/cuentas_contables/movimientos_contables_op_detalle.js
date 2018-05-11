@@ -12,8 +12,10 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        codigodocumentoafectante: '=?',
-        selection: '=?'
+        codigodocumentoafectante:'=?',
+        selection:'=?',
+        debitos:'=?',
+        creditos:'=?'
       },
 
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables_op_detalle.html',
@@ -144,13 +146,29 @@ angular.module('financieraClienteApp')
           //set gridApi on scope
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.movimientos = row.entity;
+            if (angular.isUndefined($scope.debitos)){
+                $scope.debitos=0;
+            }
+            if (angular.isUndefined($scope.creditos)){
+                $scope.creditos=0;
+            }
+            if(row.isSelected){
+              $scope.debitos=$scope.debitos + row.entity.Debito;
+              $scope.creditos=$scope.creditos + row.entity.Credito;
+            }else{
+              $scope.debitos=$scope.debitos - row.entity.Debito;
+              $scope.creditos=$scope.creditos - row.entity.Credito;
+            }
+            console.log("Suma debitos",$scope.debitos,"suma credito",$scope.creditos);
           });
 
           gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-            self.valorTotal=0;
+            $scope.sumaDebitos=0;
             gridApi.selection.getSelectedGridRows().forEach(function(row) {
-                  ctrl.valorTotal= ctrl.valorTotal + row.entity.valorDevolucion;
+                  if(row.isSelected){
+                    $scope.debitos=$scope.debitos + row.entity.Debito;
+                    $scope.creditos=$scope.creditos + row.entity.Credito;
+                  }
                 });
             });
         };
