@@ -1,0 +1,22 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'DEVOLUCION_TRIBUTARIA' | translate }}</h2>
+  <div class="panel-body" >
+    <legend class="text-primary" ng-click="consultaDevolucionesTributarias.infDevol=!devolucionesrelacion.infDevol">
+      {{ 'INFORMACION_DEVOLUCION' | translate }}
+      <span class="fa fa-plus pull-right" ng-show="!consultaDevolucionesTributarias.infDevol"></span>
+      <span class="fa fa-minus pull-right" ng-show="consultaDevolucionesTributarias.infDevol"></span>
+    </legend class="text-primary">
+    <div ng-if="consultaDevolucionesTributarias.infDevol">
+      <div ui-grid="consultaDevolucionesTributarias.gridDevoluciones" ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    </div>
+  </div>
+<div class="panel-footer">
+  <div align="center">
+    <a ng-href="#/devoluciones/no_tributaria"  class="btn btn-info btn-outline">
+       {{ 'BTN.CREAR_DEVOLUCION_TRIBUTARIA' | translate }} </a>
+  </div>
+</div>
+</div>
