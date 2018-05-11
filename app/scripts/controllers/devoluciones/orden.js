@@ -274,7 +274,6 @@ angular.module('financieraClienteApp')
              Origen:9
            },
            FormaPago:ctrl.formaPago,
-           RazonDevolucion:ctrl.soporte,
            Vigencia:ctrl.vigencia,
            UnidadEjecutora:ctrl.unidadejecutora,
            CuentaDevolucion:{
