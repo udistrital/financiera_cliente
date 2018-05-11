@@ -14,7 +14,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest,$translate,gridApiService,$scope) {
+  .controller('RubroRubroRegistroCtrl', function (financieraRequest,financieraMidRequest,$translate,gridApiService,$scope) {
     var self = this;
     self.ProdutoRubro = [];
     self.botones = [
@@ -166,15 +166,33 @@ angular.module('financieraClienteApp')
                 Estado: 1,
                 ProductoRubro: Pr
             };
-            console.log(rubro_hijo);
-           if(self.padre.Codigo != undefined){
+            //console.log(rubro_hijo);
+            var rubro_rubro = {
+              RubroPadre : rubro_padre,
+              RubroHijo: rubro_hijo
+            }
+            financieraMidRequest.post("rubro/RegistrarRubro", rubro_rubro).then(function(response) {
+              if (response.data.Type !== undefined){
+                if (response.data.Type === "error"){
+                  swal('',$translate.instant(response.data.Code),response.data.Type);
+                }else{
+                  swal('',$translate.instant(response.data.Code)+": "+response.data.Body.RubroHijo.Codigo+":"+response.data.Body.RubroHijo.Descripcion,response.data.Type);
+                  //self.filtro_rubro = ""+response.data.Body.RubroHijo.Descripcion;
+                  self.recarga_arbol = !self.recarga_arbol;
+                }
+
+              }
+              console.log(response.data);
+                 });
+           /*if(self.padre.Codigo != undefined){
               var rubro_rubro = {
                     RubroPadre : rubro_padre,
                     RubroHijo: rubro_hijo
                   }
                   console.log("Valor a Registrar###############");
                   console.log(rubro_rubro);
-              financieraRequest.post('rubro_rubro', rubro_rubro).then(function(response) {
+              //financieraRequest.post('rubro_rubro', rubro_rubro).then(function(response) {
+              financieraMidRequest.post("rubro/RegistrarRubro", rubro_rubro).then(function(response) {
                 if (response.data.Type !== undefined){
                   if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
@@ -190,7 +208,8 @@ angular.module('financieraClienteApp')
 
            }else{
              console.log(rubro_hijo);
-              financieraRequest.post("rubro", rubro_hijo).then(function(response) {
+              //financieraRequest.post("rubro", rubro_hijo).then(function(response) {
+              financieraMidRequest.post("rubro/RegistrarRubro", rubro_hijo).then(function(response) {
                 if (response.data.Type !== undefined){
                   if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
@@ -203,7 +222,7 @@ angular.module('financieraClienteApp')
                 }
               console.log(response.data);
             });
-           }
+           }*/
         }
 
 
