@@ -144,7 +144,8 @@ angular.module('financieraClienteApp')
             codigo_rubro = codigo_rubro + self.padre.Codigo + "-" + self.codigo_hijo;
 
               rubro_padre= {
-                    Id : parseInt(self.padre.Id)
+                    Id : parseInt(self.padre.Id),
+                    Codigo: self.padre.Codigo
                 };
 
           }
