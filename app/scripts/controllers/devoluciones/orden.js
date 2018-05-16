@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest) {
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
@@ -58,6 +58,13 @@ angular.module('financieraClienteApp')
      })).then(function(response) {
          ctrl.razonesDevolucion = response.data;
      });
+
+     administrativaRequest.get("informacion_persona_juridica", $.param({
+          fields: "Id,DigitoVerificacion,NomProveedor",
+         limit: -1
+       })).then(function(response) {
+         ctrl.bancos = response.data;
+       });
   }
 
   ctrl.consultarListas();
@@ -277,8 +284,8 @@ angular.module('financieraClienteApp')
            Vigencia:ctrl.vigencia,
            UnidadEjecutora:ctrl.unidadejecutora,
            CuentaDevolucion:{
-             Banco:1,
-             TipoCuenta:1,
+             Banco:ctrl.banco.Id,
+             TipoCuenta:ctrl.tipocuenta.Id,
              NumeroCuenta:ctrl.numeroCuenta.toString()
            },
            RazonDevolucion:ctrl.razonDevolucion,
