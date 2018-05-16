@@ -59,8 +59,6 @@ angular.module('financieraClienteApp')
                 console.log(gridApi.selection.getSelectedRows());
                $scope.valorsolicitado = 0;
                gridApi.selection.getSelectedGridRows().forEach(function(row) {
-                 console.log("filas");
-                 console.log(row);
                  if(row.isSelected){
                    $scope.valorsolicitado=$scope.valorsolicitado + row.entity.Total;
                  }else{
