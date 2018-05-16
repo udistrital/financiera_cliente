@@ -1,0 +1,143 @@
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name financieraClienteApp.directive:devoluciones/pagosAcademica
+ * @description
+ * # devoluciones/pagosAcademica
+ */
+angular.module('financieraClienteApp')
+  .directive('devolPagosAcademica', function ( uiGridConstants, $translate) {
+    return {
+      restrict: 'E',
+      scope:{
+          inforecibos: '=?',
+          valorsolicitado:'=?'
+        },
+
+      templateUrl: 'views/directives/devoluciones/pagos_academica.html',
+      controller:function($scope,$attrs){
+        var ctrl = this;
+        $scope.botones = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.VER_PAGOS'), operacion: 'ver', estado: true },
+        ];
+        ctrl.gridPagos = {
+
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            multiSelect: true,
+            enableRowHeaderSelection: true,
+            showColumnFooter: true,
+
+
+            enableHorizontalScrollbar: true,
+            enableVerticalScrollbar: 0,
+
+            enableFiltering: true,
+            enableSorting: true,
+
+
+            paginationPageSizes: [5, 15, 20],
+            paginationPageSize: 5,
+
+            onRegisterApi: function(gridApi) {
+              ctrl.gridApi = gridApi;
+              gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+
+                if(angular.isUndefined($scope.valorsolicitado)){
+                    $scope.valorsolicitado = 0;
+                }
+                if(row.isSelected){
+                  $scope.valorsolicitado=$scope.valorsolicitado + row.entity.Total;
+                }else{
+                  $scope.valorsolicitado=$scope.valorsolicitado - row.entity.Total;
+                }
+              });
+
+              gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
+                console.log(gridApi.selection.getSelectedRows());
+               $scope.valorsolicitado = 0;
+               gridApi.selection.getSelectedGridRows().forEach(function(row) {
+                 if(row.isSelected){
+                   $scope.valorsolicitado=$scope.valorsolicitado + row.entity.Total;
+                 }else{
+                   $scope.valorsolicitado=$scope.valorsolicitado - row.entity.Total;
+                 }
+                        });
+                console.log($scope.valorsolicitado);
+                });
+            },
+
+            columnDefs: [{
+                    field: 'Numero_Recibo',
+                    displayName: $translate.instant('NUMERO') + " " + $translate.instant('RECIBO'),
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '20%'
+                },
+                {
+                    field: 'Periodo',
+                    displayName: $translate.instant('PERIODO'),
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '10%'
+                },
+                {
+                    field: 'Fecha_Extraordinario',
+                    displayName: $translate.instant('FECHA') + " "+$translate.instant('EXTRAORDINARIO'),
+                    cellFilter: "date:'yyyy-MM-dd'",
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '20%'
+                },
+                {
+                    field: 'Fecha_Ordinario',
+                    displayName: $translate.instant('FECHA') + " "+ $translate.instant('ORDINARIO'),
+                    cellFilter: "date:'yyyy-MM-dd'",
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '20%'
+                },
+                {
+                    field: 'Pago',
+                    displayName: $translate.instant('PAGO_REPORTADO'),
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '5%'
+                },
+                {
+                    field: 'Total',
+                    displayName: $translate.instant('TOTAL'),
+                    cellClass: 'input_right',
+                    width: '15%',
+                    headerCellClass: 'text-info',
+                    type: 'number',
+                    cellFilter: 'currency',
+                    enableCellEdit: true,
+                    aggregationType: uiGridConstants.aggregationTypes.sum,
+                    aggregationType: uiGridConstants.aggregationTypes.sum,
+                    footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+                    footerCellClass: 'input_right'
+                },
+                {
+                    name: $translate.instant('OPCIONES'),
+                    width: '8%',
+                    cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
+                },
+            ]
+        };
+
+        ctrl.cargarPagos = function(){
+        ctrl.gridPagos.data = $scope.inforecibos.InformacionRecibos;
+        };
+
+        ctrl.cargarPagos();
+
+        $scope.$watch('inforecibos',function(newValue){
+            ctrl.cargarPagos();
+        },true)
+      },
+      controllerAs:'d_devol_pagosAcademica'
+    };
+  });

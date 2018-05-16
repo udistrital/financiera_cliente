@@ -1,0 +1,163 @@
+<div class="panel panel-primary panel-body">
+
+  <h3 class="page-header">
+        {{"CUENTAS_BANCARIAS" | translate}}
+  </h3>
+
+  <div class="panel-body">
+    <div>
+      <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.CuentasBancarias" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
+    <br>
+  </div>
+
+  <div>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_modal_agregar_cuenta_bancaria()">{{"AGREGAR_CUENTA_BANCARIA" | translate}}</button></button>
+    </center>
+  </div>
+
+
+  <div id="modal_editar_cuenta_bancaria" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'EDITAR_CUENTA_BANCARIA' | translate }}</h3>
+          </div>
+
+          <div ng-show="gestionCuentasBancarias.formPresente==='datos_basicos'" class="panel-body">
+          <form name="formplan" ng-submit="formplan.$valid">
+            <fieldset class="form-group">
+              <label for="agregarnombrecuentabancaria">{{'NOMBRE' | translate}}:</label>
+              <input type="text" class="form-control" id="agregar_nombre_cuenta_bancaria" placeholder="{{NOMBRE | translate}}" ng-model="gestionCuentasBancarias.agregar_nombre_cuenta_bancaria" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
+              <input type="text" class="form-control" id="agregar_numero_cuenta_bancaria" placeholder="{{NUMERO_CUENTA | translate}}" ng-model="gestionCuentasBancarias.agregar_numero_cuenta_bancaria" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
+              <select class="form-control" id="agregar_tipo_cuenta" ng-model="gestionCuentasBancarias.selectTipoCuenta" required>
+                <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                <option ng-repeat="tcuenta in gestionCuentasBancarias.TipoCuentaBancaria"  value="{{tcuenta}}">{{tcuenta.Nombre}}</option>
+              </select>
+            </fieldset>
+
+            <br>
+
+            <center><button  ng-click='gestionCuentasBancarias.mostrar_sucursales()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
+          </form>
+
+
+        </div>
+
+        <div ng-show="gestionCuentasBancarias.formPresente==='sucursales'">
+          <br>
+          <label for="agregarsucursal">{{'SUCURSALES' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.Sucursales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_cuentas_contables()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+
+        </div>
+
+        <div ng-show="gestionCuentasBancarias.formPresente==='cuentas_contables'">
+          <br>
+          <label for="agregarcuentacontable">{{'CUENTA_CONTABLE' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.CuentaContable" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_sucursales()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.agregar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="modal_agregar_cuenta_bancaria" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'AGREGAR_CUENTA_BANCARIA' | translate }}</h3>
+          </div>
+
+          <div ng-show="gestionCuentasBancarias.formPresente==='datos_basicos'" class="panel-body">
+          <form name="formplan" ng-submit="formplan.$valid">
+            <fieldset class="form-group">
+              <label for="agregarnombrecuentabancaria">{{'NOMBRE' | translate}}:</label>
+              <input type="text" class="form-control" id="agregar_nombre_cuenta_bancaria" placeholder="{{NOMBRE | translate}}" ng-model="gestionCuentasBancarias.agregar_nombre_cuenta_bancaria" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
+              <input type="text" class="form-control" id="agregar_numero_cuenta_bancaria" placeholder="{{NUMERO_CUENTA | translate}}" ng-model="gestionCuentasBancarias.agregar_numero_cuenta_bancaria" required>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
+              <select class="form-control" id="agregar_tipo_cuenta" ng-model="gestionCuentasBancarias.selectTipoCuenta" required>
+                <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                <option ng-repeat="tcuenta in gestionCuentasBancarias.TipoCuentaBancaria"  value="{{tcuenta}}">{{tcuenta.Nombre}}</option>
+              </select>
+            </fieldset>
+
+            <br>
+
+            <center><button  ng-click='gestionCuentasBancarias.mostrar_sucursales()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
+          </form>
+
+
+        </div>
+
+        <div ng-show="gestionCuentasBancarias.formPresente==='sucursales'">
+          <br>
+          <label for="agregarsucursal">{{'SUCURSALES' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.Sucursales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_cuentas_contables()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+
+        </div>
+
+        <div ng-show="gestionCuentasBancarias.formPresente==='cuentas_contables'">
+          <br>
+          <label for="agregarcuentacontable">{{'CUENTA_CONTABLE' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.CuentaContable" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_sucursales()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.agregar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
