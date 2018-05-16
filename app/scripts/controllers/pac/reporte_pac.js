@@ -129,12 +129,7 @@ angular.module('financieraClienteApp')
         displayName: $translate.instant('RUBRO'),
         headerCellClass: 'text-info',
         width: "60%",
-        pinnedLeft: true,
-        cellClass: function(grid, row) {
-                        if (row.entity.Descripcion.indexOf("Total") !==-1) {
-                              return 'ui-grid-desc-cellT';
-                        }
-        },
+        pinnedLeft: true
       }
 
 
@@ -147,7 +142,6 @@ angular.module('financieraClienteApp')
         periodosproy: 3
       };
       financieraMidRequest.post('rubro/GenerarPac', consulta).then(function(response) {
-        console.log(response.data);
         $scope.union = [];
         $scope.unionTotales = [];
         $scope.ingresos = response.data.Ingresos;
@@ -157,7 +151,7 @@ angular.module('financieraClienteApp')
         $scope.unionTotales.push.apply($scope.unionTotales,response.data.TotalesIngresos);
         $scope.unionTotales.push.apply($scope.unionTotales,response.data.TotalesEgresos);
 
-        if ($scope.union != null && $scope.union != undefined){
+        if ($scope.union.length > 0 && $scope.union != undefined){
           for (var i = 0; i < $scope.union[0].Reporte.length; i++) {
           $scope.gridOptions_egresos.columnDefs.push({
             name: '' + response.data.Egresos[0].Reporte[i].Mes + ' EJC',
@@ -233,13 +227,7 @@ angular.module('financieraClienteApp')
             width: "8%",
             enablePinning: false,
             cellFilter: 'currency',
-            cellClass: function(grid, row) {
-                            if (row.entity.Descripcion.indexOf("Total") ==-1) {
-                                  return 'right-letters';
-                            }else{
-                                  return 'ui-grid-number-cellT';
-                            }
-            },
+            cellClass:'right-letters',
             exporterPdfAlign: 'right'
           });
           $scope.gridOptions_totales.columnDefs.push({
@@ -250,13 +238,7 @@ angular.module('financieraClienteApp')
             //cellTemplate: ' <div>{{row.entity.reporte[' + i + '].valores.proyeccion}}</div>',
             enablePinning: false,
             cellFilter: 'currency',
-            cellClass: function(grid, row) {
-                            if (row.entity.Descripcion.indexOf("Total") ==-1) {
-                                  return 'right-letters';
-                            }else{
-                                  return 'ui-grid-number-cellT';
-                            }
-            },
+            cellClass: 'right-letters',
             exporterPdfAlign: 'right'
           });
           $scope.gridOptions_totales.columnDefs.push({
@@ -267,13 +249,7 @@ angular.module('financieraClienteApp')
             //cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.reporte[' + i + '].valores.variacion)}}">{{row.entity.reporte[' + i + '].valores.variacion}}</span>',
             enablePinning: false,
             cellFilter: 'currency',
-            cellClass: function(grid, row) {
-                            if (row.entity.Descripcion.indexOf("Total") ==-1) {
-                                  return 'right-letters';
-                            }else{
-                                  return 'ui-grid-number-cellT';
-                            }
-            },
+            cellClass:'right-letters',
             exporterPdfAlign: 'right'
           });
           $scope.gridOptions_totales.columnDefs.push({
@@ -283,13 +259,7 @@ angular.module('financieraClienteApp')
             width: "8%",
             cellTemplate: ' <div class="{{grid.appScope.reportePac.changeCellClass(row.entity.Reporte[' + i + '].Valores.Pvariacion*100)}}">{{row.entity.Reporte[' + i + '].Valores.Pvariacion * 100}} %</div>',
             enablePinning: false,
-            cellClass: function(grid, row) {
-                            if (row.entity.Descripcion.indexOf("Total") ==-1) {
-                                  return 'right-letters';
-                            }else{
-                                  return 'ui-grid-number-cellT';
-                            }
-            },
+            cellClass: 'right-letters',
           });
         }
         }
@@ -316,11 +286,11 @@ angular.module('financieraClienteApp')
     }
 
     $scope.$watch('reportePac.vigencia', function() {
-      //console.log("vigencia",self.nuevo_calendario.Vigencia);
-      if (self.fechaInicio !== undefined && self.vigencia !== self.fechaInicio.getFullYear()) {
-        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
-        console.log("reset fecha inicio");
-        self.self.fechaInicio = undefined;
+      if (self.fechaInicio != undefined && self.vigencia != self.fechaInicio.getFullYear()) {
+        self.fechaInicio = undefined;
+      }
+      if (self.fechaFin != undefined && self.vigencia != self.fechaFin.getFullYear()) {
+        self.fechaFin = undefined;
       }
       self.fechamin = new Date(
         self.vigencia,

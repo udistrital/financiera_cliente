@@ -31,35 +31,23 @@
 </div>
 <div class="panel panel-primary panel-body" ng-show="union.length > 0">
   <div class="panel-body">
-    <!--legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
-      {{'INGRESOS' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="b"></span>
-      <span class="fa fa-minus pull-right" ng-show="!b"></span>
-    </legend>
-    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div-->
     <legend class="text-primary" ng-click="a=!a">
       {{'REPORTE_PAC' | translate}}
       <span class="fa fa-plus pull-right" ng-show="a"></span>
       <span class="fa fa-minus pull-right" ng-show="!a"></span>
     </legend>
-    <div class="mi-grid-pac" id="pac" ng-show="!a" ui-grid="gridOptions_egresos" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+    <div class="mi-grid-pac" id="pac" ng-if="!a" ui-grid="gridOptions_egresos" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
 
   </div>
 </div>
 <div class="panel panel-primary panel-body" ng-show="unionTotales.length > 0">
   <div class="panel-body">
-    <!--legend class="text-primary" ng-click="b=!b" ng-show="ingresos">
-      {{'INGRESOS' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="b"></span>
-      <span class="fa fa-minus pull-right" ng-show="!b"></span>
-    </legend>
-    <div class="mi-grid-pac" id="pac" ng-show="!b" ui-grid="gridOptions" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div-->
     <legend class="text-primary" ng-click="totales=!totales">
       {{'REPORTE_PAC_TOTALES' | translate}}
       <span class="fa fa-plus pull-right" ng-show="totales"></span>
       <span class="fa fa-minus pull-right" ng-show="!totales"></span>
     </legend>
-    <div class="mi-grid-pac" id="totalPAC" ng-show="!totales" ui-grid="gridOptions_totales" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
+    <div class="mi-grid-pac" id="totalPAC" ng-if="!totales" ui-grid="gridOptions_totales" ui-grid-pagination ui-grid-pinning ui-grid-auto-resize ui-grid-exporter></div>
 
   </div>
 </div>
