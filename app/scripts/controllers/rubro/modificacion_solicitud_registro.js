@@ -65,7 +65,7 @@ angular.module('financieraClienteApp')
     		}else{
     			modificacion.CuentaContraCredito = self.rubro;
     		}
-    		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2)){
+    		if ((self.tipoModificacion.Id == 1 || self.tipoModificacion.Id == 2 || self.tipoModificacion.Id == 4)){
           if(self.saldomov >= self.valor){
             self.modificaciones.push(modificacion);
             if(self.tipoModificacion.Id === 2){
