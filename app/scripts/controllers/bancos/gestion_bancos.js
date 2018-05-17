@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
+  .controller('GestionBancosCtrl', function(administrativaRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
     var ctrl = this;
 
 
@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
       });
     };
 
-    ctrl.gridOptions = {
+    ctrl.Bancos = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
       enableRowSelection: false,
@@ -62,15 +62,20 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
-          field: 'Nit',
+      columnDefs: [
+        {
+          field: 'Id',
+          visible: false
+        },
+        {
+          field: 'InformacionPersonaJuridicaId.Id',
           sort: {
             direction: uiGridConstants.DESC,
             priority: 1
           },
           displayName: $translate.instant('NIT'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
+          width: '30%'
         },
         /*{
           field: 'DenominacionBanco',
@@ -79,16 +84,10 @@ angular.module('financieraClienteApp')
           width: '20%'
         },*/
         {
-          field: 'NombreBanco',
+          field: 'NombrePerfilEntidad',
           displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           width: '30%'
-        },
-        {
-          field: 'Descripcion',
-          displayName: $translate.instant('DESCRIPCION'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '39%'
         },
         /*{
           field: 'CodigoAch',
@@ -103,36 +102,37 @@ angular.module('financieraClienteApp')
           width: '15%'
         },*/
         {
-          field: 'EstadoActivo',
+          field: 'Estado',
           displayName: $translate.instant('ACTIVO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.EstadoActivo" disabled></center>',
-          width: '8%'
+          width: '20%'
         },
         {
             field: 'Opciones',
             displayName: $translate.instant('OPCIONES'),
             cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
-            headerCellClass: 'text-info'
+            headerCellClass: 'text-info',
+            width: '20%'
         }
       ]
     };
 
     //opciones extras para el control del grid
-    ctrl.gridOptions.multiSelect = false;
-    ctrl.gridOptions.modifierKeysToMultiSelect = false;
-    ctrl.gridOptions.enablePaginationControls = true;
-    ctrl.gridOptions.onRegisterApi = function(gridApi) {
+    ctrl.Bancos.multiSelect = false;
+    ctrl.Bancos.modifierKeysToMultiSelect = false;
+    ctrl.Bancos.enablePaginationControls = true;
+    ctrl.Bancos.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function() {
         ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
       });
     };
 
-    coreRequest.get('banco', $.param({
-        limit: -1
+    administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
+        limit: -1,
+        query: "TipoEntidadId:1",
       })).then(function(response) {
-        ctrl.gridOptions.data = response.data;
+        ctrl.Bancos.data = response.data;
       });
 
     $scope.loadrow = function(row, operacion) {
