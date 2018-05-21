@@ -1,0 +1,140 @@
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_terceros=!info_terceros">{{"INFORMACION_TRASLADO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_terceros"></span> <span class="fa fa-minus pull-right" ng-show="info_terceros"></span></legend>
+
+    <div class="panel-body" ng-show="info_terceros">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="jefe_solicitante" class="control-label">{{"TIPO_DOCUMENTO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.tipo_documento}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="dep_destino" class="control-label">{{"DOCUMENTO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.documento}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="jefe_solicitante" class="control-label">{{"NOMBRE" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.nombres}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="ordenador_gasto" class="control-label">{{"APELLIDOS" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.apellidos}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rol_ordenador_gasto" class="control-label">{{"DIRECCION" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.direccion}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rol_ordenador_gasto" class="control-label">{{"CORREO_ELECTRONICO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.correo}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rol_ordenador_gasto" class="control-label">{{"NUMERO_TELEFONICO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.telefono}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rol_ordenador_gasto" class="control-label">{{"NUMERO_CELULAR" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.celular}}</span>
+            </div>
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_desc_avances=!info_desc_avances">{{"BANCO_GIRADOR" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_desc_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_desc_avances"></span></legend>
+    <div class="panel-body" ng-show="info_desc_avances">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="dep_destino" class="control-label">{{"OBJETIVO" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Objetivo" rows="5" disabled></textarea>
+                <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Justificacion" rows="5" disabled></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
+                <span class="form-control">NO APLICA</span>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"FACULTAD" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Tercero.facultad" rows="2" disabled></textarea>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_CURRICULAR" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Tercero.carrera" rows="2" disabled></textarea>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"CONVENIO" | translate}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="form-control">{{d_verTraslados.Traslados.CodigoConvenio}}</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="form-control">{{d_verTraslados.Traslados.Convenio}}</span>
+                    </div>
+                </div>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_INVESTIGACION" | translate}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="form-control">{{d_verTraslados.Traslados.CodigoProyectoInv}}</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="form-control">{{d_verTraslados.Traslados.ProyectoInv}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_desc_avances=!info_desc_avances">{{"BANCO_RECEPTOR" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_desc_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_desc_avances"></span></legend>
+    <div class="panel-body" ng-show="info_desc_avances">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="dep_destino" class="control-label">{{"OBJETIVO" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Objetivo" rows="5" disabled></textarea>
+                <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Justificacion" rows="5" disabled></textarea>
+            </div>
+            <div class="col-md-6">
+                <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
+                <span class="form-control">NO APLICA</span>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"FACULTAD" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Tercero.facultad" rows="2" disabled></textarea>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_CURRICULAR" | translate}}</label>
+                <textarea class="form-control" ng-model="d_verTraslados.Traslados.Tercero.carrera" rows="2" disabled></textarea>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"CONVENIO" | translate}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="form-control">{{d_verTraslados.Traslados.CodigoConvenio}}</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="form-control">{{d_verTraslados.Traslados.Convenio}}</span>
+                    </div>
+                </div>
+
+                <label for="rol_ordenador_gasto" class="control-label">{{"PROYECTO_INVESTIGACION" | translate}}</label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <span class="form-control">{{d_verTraslados.Traslados.CodigoProyectoInv}}</span>
+                    </div>
+                    <div class="col-md-8">
+                        <span class="form-control">{{d_verTraslados.Traslados.ProyectoInv}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

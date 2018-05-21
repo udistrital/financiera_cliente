@@ -1,0 +1,31 @@
+<div class="panel panel-primary panel-body">
+
+  <h3 class="page-header">
+        {{"TRASLADOS" | translate}}
+  </h3>
+
+  <div class="panel-body">
+    <div>
+      <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
+    <br>
+  </div>
+
+  <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+      <div class="modal-content col-md-offset-2 col-md-8">
+          <div class="modal-header">
+              <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+          </div>
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  {{'VER_TRASLADO' | translate }}
+              </div>
+              <div class="panel panel-body">
+                  <ver-traslados sol="solicitud" tipos="1"></ver-solicitud>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+</div>
