@@ -10,10 +10,12 @@
 angular.module('financieraClienteApp')
   .controller('GestionTrasladosCtrl', function(administrativaRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
     var ctrl = this;
-
+    ctrl.formPresente = 'datos_basicos';
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver_traslado', estado: true },
+      { clase_color: "editar", clase_css: "fa fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.APROBAR'), operacion: 'aprobar_traslado', estado: true },
+        { clase_color: "editar", clase_css: "fa fa-file fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.GENERAR_ACTA'), operacion: 'generar_acta', estado: true },
     ];
 
 
@@ -46,7 +48,13 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'Fecha',
-          displayName: $translate.instant('VIGENCIA'),
+          displayName: $translate.instant('FECHA'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Estado',
+          displayName: $translate.instant('ESTADO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
         },
@@ -82,70 +90,38 @@ angular.module('financieraClienteApp')
             case "ver_traslado":
                   $('#modal_ver').modal('show');
                 break;
-            case "ver_sucursal":
-                  ctrl.ver_sucursal(row);
+            case "aprobar_traslado":
+                  ctrl.aprobar_traslado(row);
                 break;
           default:
         }
     };
 
-    ctrl.agregar_codigos = function(row){
-      alert("agregar codigos");
+    ctrl.aprobar_traslado = function(){
+      alert("aprobar este traslado")
     };
 
-    ctrl.ver_sucursal = function(row){
-
-      coreRequest.get('sucursal', $.param({
-        query: "Banco:" + row.entity.Id,
-        field: "Id,Nombre",
-        limit: -1
-      })).then(function(response) {
-        if(response.data == null){
-          ctrl.tieneSucursal = false;
-        }else{
-          ctrl.tieneSucursal = true;
-          ctrl.NombreSucursal = response.data[0].Nombre;
-          console.log("nombre", ctrl.NombreSucursal)
-        }
-
-      });
-      $("#modal_sucursal").modal("show");
-      //Si tiene, que permita visualizarla en un modal, en este modal, que se permita desvincularla. Si no tiene, que sea un botón que permite agregar, listando las existentes
+    ctrl.generar_acta = function(){
+      alert("generar acta")
     };
 
-    ctrl.desvincular_sucursal = function(){
-      alert("desvinculando sucursal")
+    ctrl.mostrar_modal_solicitud_traslado = function(){
+      $('#modal_solicitar_traslado').modal('show');
     };
 
-    ctrl.mostrar_traslados = function(){
-      ctrl.ver_grid_traslados = true;
-
-      coreRequest.get('sucursal', $.param({
-        limit: -1
-      })).then(function(response) {
-        if(response.data == null){
-          alert("no hay")
-        }else{
-          ctrl.Traslados.data = response.data;
-        }
-
-      });
-
+    ctrl.mostrar_datos_basicos = function(){
+        ctrl.formPresente = 'datos_basicos';
     };
 
-    ctrl.vincular_sucursal = function(){
-      alert("vincular_sucursal")
+    ctrl.mostrar_banco_receptor = function(){
+      ctrl.formPresente = 'banco_receptor';
     };
 
-    ctrl.gestionar_traslados = function(){
-      $location.path('/bancos/gestion_traslados');
-      $route.reload()
-
+    ctrl.mostrar_banco_girador = function(){
+      ctrl.formPresente = 'banco_girador';
     };
 
-    ctrl.gestionar_cuentas_bancarias = function(){
-      $location.path('/bancos/gestion_cuentas_bancarias');
-      $route.reload()
-
-    };
+    ctrl.solicitar_traslado = function (){
+      alert("solicitar traslado")
+    }
   });
