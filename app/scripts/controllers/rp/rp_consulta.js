@@ -133,6 +133,7 @@ angular.module('financieraClienteApp')
     self.gridOptions.multiSelect = false;
     self.cargandoDatosPagos = true;
     self.cargarLista = function (offset,query) {
+      financieraMidRequest.cancel();
       financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
         if (response.data.Type !== undefined){
           self.gridOptions.data = [];
@@ -152,6 +153,11 @@ angular.module('financieraClienteApp')
       self.Valor = undefined;
       self.Rubro_sel = undefined;
       self.alerta = "";
+    };
+    self.verDisponibilidad = function(numero, vigencia){
+      console.log('Numero: ', numero);
+      console.log('Vigencia: ', vigencia);  
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
     };
 
     self.cargarTipoAnulacion = function(){
