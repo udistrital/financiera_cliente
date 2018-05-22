@@ -59,7 +59,7 @@
                     <table class="table text-justify ">
                         <tr>
                             <th>{{'NO_CDP' | translate}}: </th>
-                            <td>{{item.Disponibilidad.NumeroDisponibilidad}}</td>
+                            <td><a ng-click="rpConsulta.verDisponibilidad(item.Disponibilidad.NumeroDisponibilidad, item.Disponibilidad.Vigencia)">{{item.Disponibilidad.NumeroDisponibilidad}}</a></td>
                         </tr>
                         <tr>
                             <th>{{'NECESIDAD_NO' | translate}}: </th>
