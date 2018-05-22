@@ -9,6 +9,14 @@
       <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
     </div>
     <br>
+
+  </div>
+
+  <div class="row">
+    <div align="center">
+        <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_modal_solicitud_traslado()">{{"BTN.SOLICITAR" | translate}}</button></button>
+
+      </div>
   </div>
 
   <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
@@ -27,5 +35,88 @@
       </div>
   </div>
 
+  <div id="modal_solicitar_traslado" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h3>
+          </div>
+
+          <div ng-show="gestionTraslados.formPresente==='datos_basicos'" class="panel-body">
+          <form name="formplan" ng-submit="formplan.$valid">
+            <fieldset class="form-group">
+
+              <div class="row">
+                  <div class="col-md-6">
+                      <label for="jefe_solicitante" class="control-label">{{"MODO_PAGO" | translate}}</label>
+                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.tipo_documento}}</span>
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="dep_destino" class="control-label">{{"TIPO_MONEDA" | translate}}</label>
+                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.documento}}</span>
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="jefe_solicitante" class="control-label">{{"TRM" | translate}}</label>
+                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.nombres}}</span>
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="ordenador_gasto" class="control-label">{{"VALOR_USD" | translate}}</label>
+                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.apellidos}}</span>
+                  </div>
+
+                  <div class="col-md-6">
+                      <label for="rol_ordenador_gasto" class="control-label">{{"VALOR" | translate}}</label>
+                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.direccion}}</span>
+                  </div>
+
+              </div>
+            </fieldset>
+
+            <br>
+
+            <center><button  ng-click='gestionTraslados.mostrar_banco_girador()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
+          </form>
+
+
+        </div>
+
+        <div ng-show="gestionTraslados.formPresente==='banco_girador'">
+          <br>
+          <label for="agregarsucursal">{{'BANCO_GIRADOR' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_receptor()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+
+        </div>
+
+        <div ng-show="gestionTraslados.formPresente==='banco_receptor'">
+          <br>
+          <label for="agregarcuentacontable">{{'BANCO_RECEPTOR' | translate}}:</label>
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <div class="row">
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_girador()">{{"BTN.REGRESAR" | translate}}</button></button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.solicitar_traslado()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
 </div>
