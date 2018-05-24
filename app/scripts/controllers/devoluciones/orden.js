@@ -312,5 +312,4 @@ angular.module('financieraClienteApp')
        });
      }
 
-
    });
