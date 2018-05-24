@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest) {
+  .directive('rubrosConsulta', function(financieraRequest,financieraMidRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -381,7 +381,7 @@ angular.module('financieraClienteApp')
               case "delete":
 
                  if (nodo !== undefined){
-                  financieraRequest.delete("rubro",nodo.Id).then(function(response){
+                  financieraMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
                     console.log(response.data);
                     if (response.data.Type !== undefined) {
                       if (response.data.Type === "error") {
