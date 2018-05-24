@@ -34,26 +34,31 @@ angular.module('financieraClienteApp')
           {
               field: 'Id',
               displayName:$translate.instant('NUMERO_OPERACION'),
-              width: '10%'
+              cellClass: 'input_center',
+              width: '20%'
           },
           {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
-              width: '14%'
+              cellClass:'input_center',
+              width: '20%'
           },
           {
               field: 'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
-              width: '14%'
+              cellClass:'input_center',
+              width: '20%'
           },
           {
               field: 'ValorTotal',
               displayName: $translate.instant('VALOR'),
-              width: '8%',
+              width: '20%',
+              cellFilter:"currency",
+              cellClass: 'input_right'
           },
           {
               name: $translate.instant('OPCIONES'),
-              width: '8%',
+              width: '20%',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ]

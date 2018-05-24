@@ -1,0 +1,40 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'INGRESOS_SIN_SF' | translate }}</h2>
+
+<div class="panel-body" >
+  <div class="col-md-6">
+  <div class="panel panel-default">
+  <div class="panel-body">
+
+    <div class="form-group">
+      <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+      <select class="form-control" ng-model="ordendevolucion.unidadejecutora" ng-options="op as op.Nombre for op in ordendevolucion.unidadesejecutoras">
+        <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">{{'VIGENCIA'|translate}}</label>
+      <select ng-model="ordendevolucion.vigencia" ng-options="i for i in ordendevolucion.anos" class="form-control" required>
+        <option value="">{{'VIGENCIA'|translate}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label">{{'VALOR'|translate}}</label>
+      <input class="form-control" type="text" ng-model="ordendevolucion.valor" ui-money-mask="0" placeholder="{{'VALOR'|translate}}"></input>
+    </div>
+
+  </div>
+</div>
+</div>
+<div class="col-md-6">
+    <rubros-consulta recargar="false" ramasel="true"></rubros-consulta>
+</div>
+</div>
+<div class="panel-footer">
+  <div align="center">
+    <button class="btn btn-outline btn-info">{{'BTN.REGISTRAR'|translate}}</button>
+  </div>
+</div>
+</duv>

@@ -92,7 +92,9 @@ angular.module('financieraClienteApp')
           {
               field: 'valorDevolucion',
               displayName: $translate.instant('VALOR'),
-              width: '13%'
+              width: '13%',
+              cellFilter:"currency",
+              cellClass:'ui-grid-number-cell'
           },
           {
               name: $translate.instant('OPCIONES'),
