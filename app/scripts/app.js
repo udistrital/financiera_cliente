@@ -546,11 +546,6 @@ angular
               controller: 'DevolucionesNoTributariaCtrl',
               controllerAs: 'devolucionesnoTributaria'
             })
-            .when('/inversiones/consulta_titulos', {
-              templateUrl: 'views/inversiones/consulta_titulos.html',
-              controller: 'InversionesConsultaTitulosCtrl',
-              controllerAs: 'invconsultaTitulos'
-            })
             .when('/bancos/gestion_sucursales', {
                 templateUrl: 'views/bancos/gestion_sucursales.html',
                 controller: 'GestionSucursalesCtrl',
@@ -585,6 +580,16 @@ angular
               templateUrl: 'views/devoluciones/parametros/actas.html',
               controller: 'DevolucionesParametrosActasCtrl',
               controllerAs: 'devolparamactas'
+            })
+            .when('/inversiones/parametros/titulo', {
+              templateUrl: 'views/inversiones/parametros/titulo.html',
+              controller: 'InversionesParametrosTituloCtrl',
+              controllerAs: 'invParamTitulo'
+            })
+            .when('/devoluciones/parametros/razon_devolucion', {
+              templateUrl: 'views/devoluciones/parametros/razon_devolucion.html',
+              controller: 'DevolucionesParametrosRazonDevolucionCtrl',
+              controllerAs: 'devolParamRazonDevolucion'
             })
             .otherwise({
                 redirectTo: '/'

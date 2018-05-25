@@ -280,7 +280,6 @@ angular.module('financieraClienteApp')
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
                         swal('',$translate.instant(response.data.Code),response.data.Type);
-                        console.log(response.data);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
                           $window.location.reload();
