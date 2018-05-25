@@ -38,29 +38,30 @@ angular.module('financieraClienteApp')
                 },
                 {
                     field: 'Tercero',
-                    displayName: $translate.instant('DOCUMENTO'),
+                    displayName: $translate.instant('DOCUMENTO') + " " + $translate.instant('TERCERO'),
                     width: '12%',
                 },
                 {
-                    field: 'Estudiante.numero_documento',
-                    displayName: $translate.instant('DOCUMENTO'),
+                    field: 'NumeroFactura',
+                    displayName: $translate.instant('NO_FACTURA'),
                     width: '12%',
                 },
                 {
-                    field: 'Estudiante.nombre',
+                    field: 'InformacionProveedor[0].NomProveedor',
                     displayName: $translate.instant('NOMBRE'),
-                    width: '40%',
+                    width: '39%',
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
-                    width: '12%',
+                    width: '14%',
                 },
                 {
-                    field: 'Dias',
-                    displayName: $translate.instant('Dias'),
-                    width: '12%',
+                    field: 'FechaCompra',
+                    displayName: $translate.instant('FECHA_COMPRA'),
+                    cellTemplate: '<div align="center"><span>{{row.entity.FechaCompra | date:"yyyy-MM-dd":"UTC"}}</span></div>',
+                    width: '10%',
                 },
                 {
                     //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
@@ -96,24 +97,24 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Estudiante.nombre',
                     displayName: $translate.instant('NOMBRE'),
-                    width: '40%',
+                    width: '39%',
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
-                    width: '12%',
+                    width: '14%',
                 },
                 {
                     field: 'Dias',
                     displayName: $translate.instant('Dias'),
-                    width: '12%',
+                    width: '14%',
                 },
                 {
                     //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
-                    width: '8%',
+                    width: '10%',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrowpracticas(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ]
@@ -387,6 +388,18 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     ctrl.gridOptionsCompras.data = response.data;
+                    ctrl.LegalizacionCompras = response.data;
+                    angular.forEach(ctrl.LegalizacionCompras, function(legalizacion) {
+                        legalizacion.InformacionProveedor = null;
+                        administrativaRequest.get("informacion_proveedor",
+                                $.param({
+                                    query: "NumDocumento:" + legalizacion.Tercero,
+                                    limit: -1
+                                }))
+                            .then(function(response) {
+                                legalizacion.InformacionProveedor = response.data;
+                            });
+                    });
                     console.log("__________________________");
                     console.log(ctrl.gridOptionsCompras.data);
                 });
