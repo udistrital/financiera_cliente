@@ -76,7 +76,6 @@ angular.module('financieraClienteApp')
                     fields: "EstadoDevolucion",
                     limit: -1
                 })).then(function(estado){
-                  console.log("estados",estado);
                   angular.forEach(estado.data, function(rowData) {
                     est.push(rowData.EstadoDevolucion);
                   });
@@ -137,13 +136,9 @@ angular.module('financieraClienteApp')
 
     $scope.loadrow = function(row, operacion) {
         $scope.solicitud = row.entity;
-        console.log("fila seleccionada ",$scope.solicitud)
         switch (operacion) {
             case "proceso":
                 $scope.estado = $scope.solicitud.Estado ;
-                break;
-            case "otro":
-
                 break;
             default:
         }
@@ -165,7 +160,10 @@ angular.module('financieraClienteApp')
                       swal('',$translate.instant(response.data.Code),response.data.Type);
                     }else{
                       swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                        ctrl.cargarRelaciones();
+                        $scope.$apply(function(){
+                          ctrl.cargarRelaciones();
+                          $scope.estado = undefined;
+                        });
                       })
                     }
                   }
