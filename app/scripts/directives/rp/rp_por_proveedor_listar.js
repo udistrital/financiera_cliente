@@ -21,7 +21,8 @@ angular.module('financieraClienteApp')
         var self = this;
         self.gridOptions_rp = {
           enableRowSelection: true,
-          enableRowHeaderSelection: false,
+          enableRowHeaderSelection: true,
+          enableSelectAll: true,
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -42,7 +43,7 @@ angular.module('financieraClienteApp')
             }
           ]
         };
-        self.gridOptions_rp.multiSelect = false;
+        self.gridOptions_rp.multiSelect = true;
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
@@ -73,7 +74,8 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
-        //
+        // refrescar
+
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = true;
