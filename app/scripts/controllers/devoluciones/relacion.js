@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesRelacionCtrl', function ($scope,$translate,financieraRequest) {
+  .controller('DevolucionesRelacionCtrl', function ($scope,$translate,financieraRequest,coreRequest) {
     var ctrl = this;
     ctrl.gridApi=[];
 
@@ -16,24 +16,6 @@ angular.module('financieraClienteApp')
         { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
     ];
     ctrl.gridOrdenes = {
-      onRegisterApi: function(gridApi) {
-        ctrl.gridApi = gridApi;
-        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          if(angular.isUndefined(ctrl.valorTotal)){
-              ctrl.valorTotal = 0;
-          }
-          if(row.isSelected){
-            ctrl.valorTotal = ctrl.valorTotal + row.entity.valorDevolucion;
-          }
-        });
-
-        gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-          ctrl.valorTotal=0;
-          gridApi.selection.getSelectedGridRows().forEach(function(row) {
-                ctrl.valorTotal= ctrl.valorTotal + row.entity.valorDevolucion;
-              });
-          });
-      },
       paginationPageSizes: [5, 15, 20],
       paginationPageSize: 5,
       enableFiltering: true,
@@ -85,7 +67,7 @@ angular.module('financieraClienteApp')
               width: '13%'
           },
           {
-              field: 'Devolucion.Soporte.Nombre',
+              field: 'Soporte[0].Nombre',
               displayName: $translate.instant('SOPORTE'),
               width: '13%'
           },
@@ -101,7 +83,25 @@ angular.module('financieraClienteApp')
               width: '10%',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+          if(angular.isUndefined(ctrl.valorTotal)){
+              ctrl.valorTotal = 0;
+          }
+          if(row.isSelected){
+            ctrl.valorTotal = ctrl.valorTotal + row.entity.valorDevolucion;
+          }
+        });
+
+        gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
+          ctrl.valorTotal=0;
+          gridApi.selection.getSelectedGridRows().forEach(function(row) {
+                ctrl.valorTotal= ctrl.valorTotal + row.entity.valorDevolucion;
+              });
+          });
+      }
     };
 
     ctrl.consultarListas = function(){
@@ -134,6 +134,13 @@ angular.module('financieraClienteApp')
                 limit: -1
               })).then(function(response){
                 row.valorDevolucion = response.data[0].ValorDevolucion;
+              });
+
+              coreRequest.get('documento', $.param({
+                query:"Id:"+row.Devolucion.Soporte,
+                  limit: -1
+              })).then(function(response) {
+                  row.Soporte = response.data;
               });
             });
             ctrl.gridOrdenes.data = response.data;
