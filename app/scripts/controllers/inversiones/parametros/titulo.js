@@ -14,4 +14,5 @@ angular.module('financieraClienteApp')
      ctrl.nombreTabla = "titulo_inversion";
      ctrl.titulo = "TITULOS";
      ctrl.subtitulo="LISTA_TITULOS";
+     ctrl.nombreServicio="financieraRequest";
   });

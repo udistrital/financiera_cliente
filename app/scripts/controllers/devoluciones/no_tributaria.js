@@ -22,11 +22,6 @@ angular.module('financieraClienteApp')
     ];
 
     ctrl.gridOrdenesDePago = {
-      //enableRowSelection: true,
-      //enableSelectAll: true,
-      //selectionRowHeaderWidth: 35,
-      //multiSelect: true,
-      //enableRowHeaderSelection: true,
       showColumnFooter: true,
       paginationPageSizes: [10, 50, 100],
       paginationPageSize: null,
