@@ -13,4 +13,5 @@ angular.module('financieraClienteApp')
     ctrl.nombreTabla = "razon_devolucion";
     ctrl.titulo = "RAZON_DEVOLUCION";
     ctrl.subtitulo="LISTA_RAZON_DEVOLUCION";
+    ctrl.nombreServicio="financieraRequest";
   });

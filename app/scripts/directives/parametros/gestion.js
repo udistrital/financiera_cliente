@@ -12,13 +12,16 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           nombreparametro: '=',
+          nombreservicio:'=',
           tituloparametro:'=?',
           subtituloparametro:'=?'
         },
 
       templateUrl: 'views/directives/parametros/gestion.html',
-      controller:function($scope,$attrs,financieraRequest){
+      controller:function($scope,$attrs,$injector,uiGridConstants){
         var ctrl = this;
+        var service = $injector.get($scope.nombreservicio);
+        var emptyData = [];
         $scope.botones=[
           {clase_color:"editar",clase_css:"fa fa-pencil fa-lg animated-hover",titulo:$translate.instant("BTN.EDITAR"),operacion:"editar",estado:true},
           {clase_color:"borrar",clase_css:"fa fa-trash fa-lg animated-hover",titulo:$translate.instant("BTN.BORRAR"),operacion:"eliminar",estado:true}
@@ -50,7 +53,7 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Activo',
                     displayName: $translate.instant('ACTIVO'),
-                    cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
+                    cellTemplate: '<div class="middle"><md-checkbox aria-label="activo" ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
                     headerCellClass:'text-info'
                 },
@@ -61,15 +64,24 @@ angular.module('financieraClienteApp')
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
                     headerCellClass:'text-info'
                 }
-            ]
+            ],
+            onRegisterApi: function(gridApi){ $scope.gridApi = gridApi;}
         };
         ctrl.getParametros = function(){
-          financieraRequest.get($scope.nombreparametro,$.param({
+          var querySet="";
+          if($scope.nombreparametro==="documento"&& $scope.nombreservicio ==="coreRequest"){
+            querySet = "TipoDocumento.Id:5";
+          }
+          service.get($scope.nombreparametro,$.param({
+            query:querySet,
             limit:-1,
             sortby:"Id",
             order:"asc"
           })).then(function(response){
             ctrl.parameters.data = response.data;
+            if (response.data===null) {
+              ctrl.parameters.data = emptyData;
+            }
           });
         };
 
@@ -114,18 +126,24 @@ angular.module('financieraClienteApp')
                 confirmButtonText: $translate.instant('BTN.BORRAR'),
                 cancelButtonText:$translate.instant('BTN.CANCELAR')
             }).then(function() {
-                financieraRequest.delete("acta_devolucion", ctrl.row_entity.Id)
+                service.delete($scope.nombreparametro, ctrl.row_entity.Id)
                     .then(function(response) {
-                        if (response.status === 200) {
+                        if (response.data === "OK") {
                             swal(
                                 $translate.instant('ELIMINADO'),
                                 ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
-                            ctrl.getParametros();
+                              ctrl.getParametros();
+                        }else{
+                          swal(
+                              $translate.instant('ERROR_ELIMINAR'),
+                              ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('E_04566'),
+                              'error'
+                          );
                         }
                     });
-            });
+            })
         };
 
         ctrl.modalEdit=function(){
@@ -134,12 +152,15 @@ angular.module('financieraClienteApp')
             Nombre: ctrl.Nombre,
             Descripcion: ctrl.Descripcion
           };
+          if($scope.nombreparametro==="documento"&& $scope.nombreservicio ==="coreRequest"){
+            ctrl.parameter.TipoDocumento = {Id:5};
+          }
           switch (ctrl.operacion){
             case "editar":
             ctrl.parameter.Id = ctrl.row_entity.Id;
             ctrl.parameter.FechaRegistro =  ctrl.row_entityFechaRegistro;
             ctrl.parameter.Activo= ctrl.Activo;
-            financieraRequest.put($scope.nombreparametro, ctrl.parameter.Id, ctrl.parameter)
+            service.put($scope.nombreparametro, ctrl.parameter.Id, ctrl.parameter)
                 .then(function(response) {
                     if (response.status === 200) {
                         swal(
@@ -153,7 +174,7 @@ angular.module('financieraClienteApp')
             break;
             case "agregar":
             ctrl.parameter.Activo = true;
-            financieraRequest.post($scope.nombreparametro,ctrl.parameter)
+            service.post($scope.nombreparametro,ctrl.parameter)
                 .then(function(response) {
                     if (response.statusText === "Created") {
                         swal(

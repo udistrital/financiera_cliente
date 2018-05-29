@@ -34,46 +34,55 @@ angular.module('financieraClienteApp')
               field: 'Beneficiario',
               displayName: 'Beneficiario',
               width: '10%',
+              headerCellClass:'text-info',
               visible:false
           },
           {
               field: 'Devolucion.Id',
               displayName: $translate.instant('NUMERO_OPERACION'),
+              headerCellClass:'text-info',
               width: '10%'
           },
           {
               field: 'Devolucion.FormaPago.Nombre',
               displayName: $translate.instant('FORMA_PAGO'),
+              headerCellClass:'text-info',
               width: '15%',
           },
           {
               field: 'Devolucion.RazonDevolucion.Nombre',
               displayName: $translate.instant('RAZON_DEVOLUCION'),
+              headerCellClass:'text-info',
               width: '13%'
           },
           {
               field: 'Devolucion.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
+              headerCellClass:'text-info',
               width: '13%'
           },
           {
               field: 'Devolucion.UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
+              headerCellClass:'text-info',
               width: '13%'
           },
           {
               field: 'Devolucion.CuentaDevolucion.NumeroCuenta',
               displayName: $translate.instant('CUENTA'),
+              headerCellClass:'text-info',
               width: '13%'
           },
           {
               field: 'Soporte[0].Nombre',
               displayName: $translate.instant('SOPORTE'),
+              headerCellClass:'text-info',
               width: '13%'
           },
           {
               field: 'valorDevolucion',
               displayName: $translate.instant('VALOR'),
+              headerCellClass:'text-info',
               width: '13%',
               cellFilter:"currency",
               cellClass:'ui-grid-number-cell'
@@ -81,6 +90,7 @@ angular.module('financieraClienteApp')
           {
               name: $translate.instant('OPCIONES'),
               width: '10%',
+              headerCellClass:'text-info',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ],

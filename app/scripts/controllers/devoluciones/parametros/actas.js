@@ -11,8 +11,8 @@ angular.module('financieraClienteApp')
   .controller('DevolucionesParametrosActasCtrl', function ($scope,$translate,financieraRequest) {
     var ctrl = this;
 
-    ctrl.nombreTabla = "acta_devolucion";
+    ctrl.nombreTabla = "documento";
     ctrl.titulo = "ACTA_DEVOLUCION";
     ctrl.subtitulo="LISTA_ACTAS";
-
+    ctrl.nombreServicio="coreRequest";
   });
