@@ -96,3 +96,21 @@
 
     </div>
 </fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="cuentas_contables=!cuentas_contables; d_verTraslados.cargar_cuentas_contables()">{{"CUENTAS_CONTABLES" | translate}} <span class="fa fa-plus pull-right" ng-show="!banco_receptor"></span> <span class="fa fa-minus pull-right" ng-show="banco_receptor"></span></legend>
+
+    <div class="panel-body" ng-show="cuentas_contables">
+      <div class="row">
+            <div class="col-md-12">
+                {{"CONCEPTO " | translate}} : {{d_verTraslados.concepto}}
+            </div>
+
+          <div class="col-md-12">
+            <br>
+            <div ui-grid="d_verTraslados.CuentasContables" ui-grid-selection ui-grid-pagination ui-grid-auto-resize  class="myGrid"></div>
+          </div>
+      </div>
+
+    </div>
+</fieldset>
