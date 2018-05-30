@@ -56,7 +56,6 @@ angular.module('financieraClienteApp')
               });
 
               gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-                console.log(gridApi.selection.getSelectedRows());
                $scope.valorsolicitado = 0;
                gridApi.selection.getSelectedGridRows().forEach(function(row) {
                  if(row.isSelected){
@@ -65,7 +64,6 @@ angular.module('financieraClienteApp')
                    $scope.valorsolicitado=$scope.valorsolicitado - row.entity.Total;
                  }
                         });
-                console.log($scope.valorsolicitado);
                 });
             },
 
@@ -114,10 +112,9 @@ angular.module('financieraClienteApp')
                     headerCellClass: 'text-info',
                     type: 'number',
                     cellFilter: 'currency',
-                    enableCellEdit: true,
+                    enableCellEdit: false,
                     aggregationType: uiGridConstants.aggregationTypes.sum,
-                    aggregationType: uiGridConstants.aggregationTypes.sum,
-                    footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+                    footerCellTemplate: '<div>{{col.getAggregationValue() | currency}}</div>',
                     footerCellClass: 'input_right'
                 },
                 {
@@ -128,11 +125,68 @@ angular.module('financieraClienteApp')
             ]
         };
 
+        ctrl.gridDetallePago = {
+
+            enableRowSelection: true,
+            enableSelectAll: true,
+            selectionRowHeaderWidth: 35,
+            multiSelect: true,
+            enableRowHeaderSelection: true,
+            showColumnFooter: true,
+
+
+            enableHorizontalScrollbar: true,
+            enableVerticalScrollbar: 0,
+
+            enableFiltering: true,
+            enableSorting: true,
+
+            paginationPageSizes: [5, 15, 20],
+            paginationPageSize: 5,
+
+            columnDefs: [{
+                    field: 'Descripcion',
+                    displayName: $translate.instant('DESCRIPCION'),
+                    headerCellClass: 'text-info',
+                    enableCellEdit: false,
+                    width: '50%'
+                },
+                {
+                    field: 'Valor',
+                    displayName: $translate.instant('VALOR'),
+                    cellClass: 'input_right',
+                    width: '50%',
+                    headerCellClass: 'text-info',
+                    type: 'number',
+                    cellFilter: 'currency',
+                    enableCellEdit: false,
+                    aggregationType: uiGridConstants.aggregationTypes.sum,
+                    footerCellTemplate: '<div>{{col.getAggregationValue() | currency}}</div>',
+                    footerCellClass: 'input_right'
+                }
+            ]
+        };
+
         ctrl.cargarPagos = function(){
         ctrl.gridPagos.data = $scope.inforecibos.InformacionRecibos;
         };
 
         ctrl.cargarPagos();
+
+        $scope.loadrow = function(row, operacion) {
+          ctrl.operacion = operacion;
+          switch (operacion) {
+              case "ver":
+              $("#DetallePago").modal();
+                  ctrl.gridDetallePago.data = row.entity.DesagregaRecibos;
+                  break;
+
+              case "otro":
+
+              break;
+              default:
+          }
+        };
 
         $scope.$watch('inforecibos',function(newValue){
             ctrl.cargarPagos();
