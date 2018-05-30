@@ -45,6 +45,25 @@
           <div class="panel-heading">
             <h3 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h3>
           </div>
+          <br>
+          <div ng-show="gestionTraslados.formPresente==='concepto_a_elegir'">
+
+            <label>{{'CONCEPTO_A_ELEGIR' | translate}}:</label>
+            <br>
+            <div class="row">
+            <div class="col-md-12">
+              <br>
+              <div ui-grid="gestionTraslados.ConceptosTesorales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize  class="myGrid"></div>
+              <br>
+            </div>
+
+            <div align="center">
+
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
+
+          </div>
+          </div>
 
           <div ng-show="gestionTraslados.formPresente==='datos_basicos'" class="panel-body">
           <form name="formplan" ng-submit="formplan.$valid">
@@ -81,7 +100,12 @@
 
             <br>
 
-            <center><button  ng-click='gestionTraslados.mostrar_banco_girador()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
+            <div class="row">
+                <div align="center">
+                    <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_conceptos_tesorales()">{{"BTN.REGRESAR" | translate}}</button></button>
+                     <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_girador()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+                </div>
+            </div>
           </form>
 
 
@@ -90,7 +114,13 @@
         <div ng-show="gestionTraslados.formPresente==='banco_girador'">
           <br>
           <label for="agregarsucursal">{{'BANCO_GIRADOR' | translate}}:</label>
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <select class="form-control" ng-model="gestionTraslados.selectBanco" required ng-change="gestionTraslados.cargar_cuentas_bancarias()">
+                 <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                 <option ng-repeat="tbanco in gestionTraslados.Bancos"  value="{{tbanco}}">{{tbanco.NombrePerfilEntidad}}</option>
+         </select>
+
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.CuentaBancaria" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
 
           <div class="row">
             <div align="center">
@@ -104,7 +134,13 @@
         <div ng-show="gestionTraslados.formPresente==='banco_receptor'">
           <br>
           <label for="agregarcuentacontable">{{'BANCO_RECEPTOR' | translate}}:</label>
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+
+          <select class="form-control" ng-model="gestionTraslados.selectBanco" required ng-change="gestionTraslados.cargar_cuentas_bancarias()">
+                 <option selected disabled>{{'SELECCIONE' | translate}}</option>
+                 <option ng-repeat="tbanco in gestionTraslados.Bancos"  value="{{tbanco}}">{{tbanco.NombrePerfilEntidad}}</option>
+         </select>
+
+          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.CuentaBancaria" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
 
           <div class="row">
             <div align="center">
