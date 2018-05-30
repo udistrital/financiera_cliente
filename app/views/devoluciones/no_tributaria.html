@@ -92,7 +92,7 @@
           </div>
 
           <div class="form-group">
-            <label for="unidadejecutora">{{'NO_OFICIO' | translate}}</label>
+            <label for="noOficio">{{'NO_OFICIO' | translate}}</label>
             <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.oficio" placeholder="{{'NO_OFICIO'|translate}}" ui-number-mask="0" required/>
           </div>
 
@@ -103,7 +103,7 @@
 
             <div class="form-group">
               <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
-              <select ng-model="devolucionesnoTributaria.banco" ng-options="i.devolucionesnoTributaria for i in devolucionesnoTributaria.bancos" class="form-control" required>
+              <select ng-model="devolucionesnoTributaria.banco" ng-options="i.NombrePerfilEntidad for i in devolucionesnoTributaria.bancos" class="form-control" required>
                 <option value="">{{'BANCO'|translate}}</option>
               </select>
             </div>
@@ -127,6 +127,11 @@
               </select>
             </div>
 
+            <div class="form-group">
+              <label for="fechaOficio">{{'FECHA_OFICIO' | translate}}</label>
+              <br>
+              <md-datepicker ng-model="devolucionesnoTributaria.FechaOficio" md-placeholder="{{'FECHA_OFICIO' | translate}}"></md-datepicker>
+            </div>
 
           </div>
 
