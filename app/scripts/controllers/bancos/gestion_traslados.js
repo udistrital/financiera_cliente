@@ -8,9 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionTrasladosCtrl', function(administrativaRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
+  .controller('GestionTrasladosCtrl', function(administrativaRequest,financieraRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
     var ctrl = this;
-    ctrl.formPresente = 'datos_basicos';
+    ctrl.formPresente = 'concepto_a_elegir';
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver_traslado', estado: true },
@@ -77,6 +77,47 @@ angular.module('financieraClienteApp')
       });
     };
 
+    ctrl.ConceptosTesorales = {
+      paginationPageSizes: [5, 10, 15, 20, 50],
+      paginationPageSize: 5,
+      enableRowSelection: false,
+      enableRowHeaderSelection: false,
+      enableFiltering: true,
+      enableHorizontalScrollbar: 0,
+      enableVerticalScrollbar: 0,
+      useExternalPagination: false,
+      enableSelectAll: false,
+      columnDefs: [{
+          field: 'Id',
+          visible:false
+
+        },
+        {
+          field: 'Codigo',
+          displayName: $translate.instant('CODIGO'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Nombre',
+          displayName: $translate.instant('NOMBRE'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+
+      ]
+    };
+
+    ctrl.ConceptosTesorales.multiSelect = false;
+    ctrl.ConceptosTesorales.modifierKeysToMultiSelect = false;
+    ctrl.ConceptosTesorales.enablePaginationControls = true;
+    ctrl.ConceptosTesorales.onRegisterApi = function(gridApi) {
+      ctrl.gridApi = gridApi;
+      gridApi.selection.on.rowSelectionChanged($scope, function() {
+       //hacer algo al seleccionar
+      });
+    };
+
     administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
         limit: -1,
         query: "TipoEntidadId:1",
@@ -107,10 +148,24 @@ angular.module('financieraClienteApp')
 
     ctrl.mostrar_modal_solicitud_traslado = function(){
       $('#modal_solicitar_traslado').modal('show');
+      financieraRequest.get('concepto/', $.param({
+          limit: 10,
+      })).then(function(response) {
+          ctrl.ConceptosTesorales.data = response.data;
+        });
     };
 
     ctrl.mostrar_datos_basicos = function(){
         ctrl.formPresente = 'datos_basicos';
+    };
+
+    ctrl.mostrar_conceptos_tesorales = function(){
+        ctrl.formPresente = 'concepto_a_elegir';
+        financieraRequest.get('concepto/', $.param({
+            limit: 10,
+        })).then(function(response) {
+            ctrl.ConceptosTesorales.data = response.data;
+          });
     };
 
     ctrl.mostrar_banco_receptor = function(){
@@ -119,9 +174,22 @@ angular.module('financieraClienteApp')
 
     ctrl.mostrar_banco_girador = function(){
       ctrl.formPresente = 'banco_girador';
+
+      administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
+          limit: -1,
+          query: "TipoEntidadId:1",
+        })).then(function(response) {
+          ctrl.Bancos = response.data;
+        });
+
     };
 
     ctrl.solicitar_traslado = function (){
       alert("solicitar traslado")
-    }
+    };
+
+    ctrl.cargar_cuentas_bancarias = function(){
+       var objeto_banco_seleccionado= JSON.parse(ctrl.selectBanco);
+      //BUSCAR CON ID y llenar grid
+    };
   });
