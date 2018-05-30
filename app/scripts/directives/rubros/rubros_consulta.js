@@ -46,7 +46,9 @@ angular.module('financieraClienteApp')
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
-
+          isLeaf: function(node) {
+                      return node.IsLeaf;
+                  },
           injectClasses: {
             ul: "a1",
             li: "a2",
@@ -181,7 +183,7 @@ angular.module('financieraClienteApp')
          * @description Recarga la estructura de los rubros haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
          */
         self.cargar_arbol = function() {
-          financieraRequest.get("rubro/ArbolRubros", $.param({
+         /* financieraRequest.get("rubro/ArbolRubros", $.param({
           UnidadEjecutora: self.UnidadEjecutora
         })).then(function(response) {
             $scope.arbol = [];
@@ -189,8 +191,15 @@ angular.module('financieraClienteApp')
               $scope.arbol = response.data;
 
             }
-          });
-
+          });*/
+          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            rama: ""
+          })).then(function(response) {
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
+            });
         };
 
 
@@ -327,6 +336,18 @@ angular.module('financieraClienteApp')
               });
 
         };
+        self.onSelectNode = function(node, expanded){
+          if (expanded && !node.Hijos){
+            console.log("Some Action ", node);  
+            financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+              rama: node.Codigo
+            })).then(function(response) {
+                if (response.data !== null) {
+                  node.Hijos = response.data[0].Hijos;
+                }
+              });        
+          }
+        }
 
         self.arbol_operacion = function(nodo, operacion){
           self.operacion = operacion;
