@@ -54,6 +54,34 @@ ctrl.cargarTipoDocumento = function() {
   ctrl.cargarAportantes();
   ctrl.cargarUnidadesEjecutoras();
 
+  ctrl.cargarInfoBancos = function() {
+    financieraRequest.get('tipo_cuenta_bancaria',
+      $.param({
+        limit:'-1'
+      })
+    ).then(function(response){
+      ctrl.tiposCuenta = response.data;
+    });
+
+    financieraRequest.get('cuenta_bancaria',
+      $.param({
+        limit:'-1'
+      })
+    ).then(function(response){
+      ctrl.cuentasBancarias = response.data;
+    });
+
+    administrativaRequest.get("informacion_persona_juridica", $.param({
+       	fields: "Id,DigitoVerificacion,NomProveedor",
+        limit: -1
+      })).then(function(response) {
+        ctrl.bancos = response.data;
+      });
+
+  };
+
+  ctrl.cargarInfoBancos();
+
 $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
             if (!angular.isUndefined(newValue)) {
                 financieraRequest.get('concepto', $.param({

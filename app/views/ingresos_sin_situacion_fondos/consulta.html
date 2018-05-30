@@ -1,0 +1,19 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header text-center">{{'CONSULTA_INGRESOS_SIN_SF'|translate}}</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{'INGRESOS_SIN_SF'|translate}}</h3>
+        </div>
+        <div ui-grid="ingresosSinSitFndsCns.gridIngresoNoSF" ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    </div>
+
+    <div class="panel-footer">
+      <div align="center">
+        <a ng-href="#/devoluciones/orden"  class="btn btn-info btn-outline">
+           {{ 'BTN.CREAR_INGRESO' | translate }} </a>
+      </div>
+    </div>
+</div>
