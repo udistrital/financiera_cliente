@@ -449,19 +449,14 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-
-          /*if (self.expandedNodes.length === 0){
-            self.expandAllNodes($scope.arbol);
-          }
-
-              if ($scope.filtro !== '' && $scope.filtro !== undefined){
-
-              }else{
-                self.expandedNodes.length = 0;
-              }*/
-
-
-
+          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            rama: $scope.filtro
+          })).then(function(response) {
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
+            });
         }, true);
 
         /*$interval(function() {
