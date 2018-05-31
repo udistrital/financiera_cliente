@@ -101,9 +101,11 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.OrdenPago = self.OrdenPago;
           self.dataOrdenPagoInsert.ConceptoOrdenPago = self.ConceptoOrdenPago;
           self.dataOrdenPagoInsert.MovimientoContable = self.MovimientoContable;
+          self.dataOrdenPagoInsert.RegistroPresupuestal = self.RegistroPresupuestal;
           self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         }
         // registrar OP Proveedor
+        console.log(self.dataOrdenPagoInsert);
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) {
             self.resultado = data;
@@ -133,7 +135,7 @@ angular.module('financieraClienteApp')
       if (Object.keys(self.Proveedor).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>";
       }
-      if (self.OrdenPago.RegistroPresupuestal == undefined) {
+      if (self.RegistroPresupuestal == undefined) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>";
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
