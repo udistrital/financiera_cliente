@@ -4,7 +4,7 @@
   <span class="fa fa-minus pull-right" ng-show="a"></span>
 </legend class="text-primary">
 
-<div class="panel-body row" ng-show="a">
+<div class="panel-body row" ng-if="a">
   <div class="panel-body">
     <div ng-if="!refresh"  ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
   </div>
