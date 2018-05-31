@@ -457,6 +457,16 @@ angular.module('financieraClienteApp')
                 $scope.arbol = response.data;
               }
             });
+            self.expandedNodes.length = 0;
+          /*if (self.expandedNodes.length === 0){
+            self.expandAllNodes($scope.arbol);
+          }
+
+              if ($scope.filtro !== '' && $scope.filtro !== undefined){
+
+              }else{
+                self.expandedNodes.length = 0;
+              }*/
         }, true);
 
         /*$interval(function() {
