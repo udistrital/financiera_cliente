@@ -70,7 +70,15 @@ angular.module('financieraClienteApp')
         }
         request.IngresoSinSituacionFondos.Rubro.Id = parseInt(ctrl.rubroSeleccionado.Id);
         console.log("request ",request);
-        financieraMidRequest.post('ingreso_sin_situacion_fondos',request);
+        financieraMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
+          if(response.data.Type==="error"){
+            swal("",$translate.instant(response.data.Code),response.data.Type);
+          }else{
+            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
+            swal('',templateAlert,response.data.Type);
+          }
+        });
     }
 
   });
