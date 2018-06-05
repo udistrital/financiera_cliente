@@ -78,6 +78,7 @@ angular.module('financieraClienteApp')
         //
         $scope.$watch('inputrpid', function(newValue, oldValue) {
           self.refresh();
+          self.datos = [];
           if (!angular.isUndefined(newValue)) {
             if (newValue.length >0 ) {
               angular.forEach(newValue, function(rp){
@@ -87,7 +88,8 @@ angular.module('financieraClienteApp')
                     limit: 0
                   })
                   ).then(function(response) {
-                    self.gridOptions_rubros.data = response.data;
+                    self.datos.push(response.data[0]);
+                    self.gridOptions_rubros.data = self.datos;
                     angular.forEach(self.gridOptions_rubros.data, function(iterador) {
                 // get saldos de lor rp
                 var rpData = {
@@ -153,6 +155,7 @@ angular.module('financieraClienteApp')
                   ],
                   onRegisterApi: function(gridApi) {
                     self.gridApi = gridApi;
+                    $scope.outputconceptos = [];
                     gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
                       if (row2.isSelected) {
                         $scope.outputconceptos.push(row2.entity);
