@@ -92,7 +92,9 @@ angular.module('financieraClienteApp')
             $.param({
               query: "Id:" + id_banco,
             })).then(function(response) {
+            if (response.data != null) {
             self.banco_proveedor = response.data[0];
+            }
           });
         }
         //
