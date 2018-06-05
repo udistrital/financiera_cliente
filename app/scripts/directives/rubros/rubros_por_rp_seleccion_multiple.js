@@ -76,11 +76,9 @@ angular.module('financieraClienteApp')
           }
         })
         //
-        $scope.$watch('inputrpid', function(oldValue, newValue) {
+        $scope.$watch('inputrpid', function(newValue, oldValue) {
           self.refresh();
           if (!angular.isUndefined(newValue)) {
-            console.log("rp",newValue);
-            console.log("longitud rp", newValue.length);
             if (newValue.length >0 ) {
               angular.forEach(newValue, function(rp){
                 financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
