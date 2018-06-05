@@ -12,8 +12,13 @@ angular.module('financieraClienteApp')
         var ctrl = this;
 
 
-        $scope.botones = [
+        $scope.botones_agregar_codigos = [
             { clase_color: "editar", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.AGREGAR_CODIGOS'), operacion: 'ver_modal_info_adicional', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
+        ];
+
+        $scope.botones_editar_codigos = [
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR_CODIGOS'), operacion: 'ver_modal_info_adicional', estado: true },
             { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
         ];
 
@@ -62,8 +67,13 @@ angular.module('financieraClienteApp')
             enableVerticalScrollbar: 0,
             useExternalPagination: false,
             enableSelectAll: false,
-            columnDefs: [{
+            columnDefs: [
+                {
                     field: 'Id',
+                    visible: false
+                },
+                {
+                    field: 'IdInformacionAdicional',
                     visible: false
                 },
                 {
@@ -88,19 +98,20 @@ angular.module('financieraClienteApp')
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '25%'
                 },
-                {
-                  field: 'CodigoAch',
-                  displayName: $translate.instant('ACH'),
-                  headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '10%',
-                  cellFilter: "filtro_codigo_ach:row.entity"
-                },
+
                 {
                   field: 'CodigoSuperintendencia',
                   displayName: $translate.instant('CODIGO_SUPER'),
                   headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                   width: '10%',
                   cellFilter: "filtro_codigo_super:row.entity"
+                },
+                {
+                  field: 'CodigoAch',
+                  displayName: $translate.instant('ACH'),
+                  headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                  width: '10%',
+                  cellFilter: "filtro_codigo_ach:row.entity"
                 },
                 {
                     field: 'Estado',
@@ -112,7 +123,8 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Opciones',
                     displayName: $translate.instant('OPCIONES'),
-                    cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
+                    cellTemplate: '<center><a ng-if="row.entity.CodigoSuperintendencia == 0 "> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_agregar_codigos" fila="row"></btn-registro><center></a>'+
+                    '<center><a ng-if="row.entity.CodigoSuperintendencia !=0"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_editar_codigos" fila="row"></btn-registro><center></a>',
                     headerCellClass: 'text-info',
                     width: '20%'
                 }
@@ -140,9 +152,11 @@ angular.module('financieraClienteApp')
               if(response.data == null){
                 data.CodigoAch = 0
                 data.CodigoSuperintendencia = 0
+                data.IdInformacionAdicional = 0
               }else{
                 data.CodigoAch = response.data[0].CodigoAch
                 data.CodigoSuperintendencia = response.data[0].CodigoSuperintendencia
+                data.IdInformacionAdicional = response.data[0].Id
               }
 
             });
@@ -166,45 +180,125 @@ angular.module('financieraClienteApp')
 
         ctrl.ver_modal_info_adicional = function(row) {
               ctrl.banco_seleccionado_info_adicional = row.entity;
+              if(row.entity.CodigoSuperintendencia != 0 || row.entity.CodigoAch != 0){
+                ctrl.codigo_super = row.entity.CodigoSuperintendencia;
+                ctrl.codigo_ach = row.entity.CodigoAch;
+                ctrl.edicion_codigos = true;
+                ctrl.id_a_editar = row.entity.IdInformacionAdicional
+              }
+
+              if(row.entity.CodigoSuperintendencia == 0 || row.entity.CodigoAch == 0){
+                ctrl.codigo_super = null;
+                ctrl.codigo_ach = null;
+                ctrl.edicion_codigos = false;
+              }
+
               $("#modal_informacion_adicional").modal("show");
+
+
+
         };
 
         ctrl.agregar_informacion_adicional = function() {
+
+        if (ctrl.codigo_ach && ctrl.codigo_super) {
+
             var informacion_adicional_banco = {
               CodigoSuperintendencia:  parseInt(ctrl.codigo_super),
             	CodigoAch :  parseInt(ctrl.codigo_ach),
             	Banco   : ctrl.banco_seleccionado_info_adicional.Id
             }
 
-            financieraRequest.post('informacion_adicional_banco', informacion_adicional_banco).then(function(response) {
+            if(ctrl.edicion_codigos == false){
 
-                if (typeof(response.data) == "object") {
-                    swal({
-                        html: $translate.instant('INFORMACION_REG_CORRECTO'),
-                        type: "success",
-                        showCancelButton: false,
-                        confirmButtonColor: "#449D44",
-                        confirmButtonText: $translate.instant('VOLVER'),
-                    }).then(function() {
-                        $('#modal_informacion_adicional').modal('hide');
-                        $window.location.reload()
-                    })
+                  financieraRequest.post('informacion_adicional_banco', informacion_adicional_banco).then(function(response) {
+
+                      if (typeof(response.data) == "object") {
+                          swal({
+                              html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                              type: "success",
+                              showCancelButton: false,
+                              confirmButtonColor: "#449D44",
+                              confirmButtonText: $translate.instant('VOLVER'),
+                          }).then(function() {
+                              $('#modal_informacion_adicional').modal('hide');
+                              $window.location.reload()
+                          })
+
+                      }
+                      if (typeof(response.data) == "string") {
+                          swal({
+                              html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                              type: "error",
+                              showCancelButton: false,
+                              confirmButtonColor: "#449D44",
+                              confirmButtonText: $translate.instant('VOLVER'),
+                          }).then(function() {
+                              $('#informacion_adicional_banco').modal('hide');
+                              $window.location.reload()
+                          })
+
+                      }
+                  });
 
                 }
-                if (typeof(response.data) == "string") {
-                    swal({
-                        html: $translate.instant('INFORMACION_REG_INCORRECTO'),
-                        type: "error",
-                        showCancelButton: false,
-                        confirmButtonColor: "#449D44",
-                        confirmButtonText: $translate.instant('VOLVER'),
-                    }).then(function() {
-                        $('#informacion_adicional_banco').modal('hide');
-                        $window.location.reload()
-                    })
 
-                }
-            });
+        if(ctrl.edicion_codigos == true){
+
+          swal({
+                    html: $translate.instant('CONFIRMACION_EDICION') +
+                        "<br><b>" + $translate.instant('CONCEPTO_SUPER') + ":</b> " + ctrl.codigo_super+
+                        "<br><b>" + $translate.instant('CONCEPTO_ACH') + ":</b> " + ctrl.codigo_ach + "?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#449D44",
+                    cancelButtonColor: "#C9302C",
+                    confirmButtonText: $translate.instant('CONFIRMAR'),
+                    cancelButtonText: $translate.instant('CANCELAR'),
+         }).then(function() {
+
+              financieraRequest.put('informacion_adicional_banco', ctrl.id_a_editar,informacion_adicional_banco).then(function(response) {
+
+                  if (response.data == "OK") {
+                      swal({
+                          html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                          type: "success",
+                          showCancelButton: false,
+                          confirmButtonColor: "#449D44",
+                          confirmButtonText: $translate.instant('VOLVER'),
+                      }).then(function() {
+                          $('#modal_informacion_adicional').modal('hide');
+                          $window.location.reload()
+                      })
+
+                  }
+                 else{
+                      swal({
+                          html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                          type: "error",
+                          showCancelButton: false,
+                          confirmButtonColor: "#449D44",
+                          confirmButtonText: $translate.instant('VOLVER'),
+                      }).then(function() {
+                          $('#informacion_adicional_banco').modal('hide');
+                          $window.location.reload()
+                      })
+
+                  }
+              });
+            })
+          }
+
+    } else {
+                swal({
+                    html: $translate.instant('ALERTA_COMPLETAR_DATOS_EDICION'),
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#449D44",
+                    confirmButtonText: $translate.instant('VOLVER'),
+                })
+              }
+
         };
 
         ctrl.ver_sucursal = function(row) {
