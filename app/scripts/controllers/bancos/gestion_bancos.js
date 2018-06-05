@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
+    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
         var ctrl = this;
 
 
@@ -93,7 +93,7 @@ angular.module('financieraClienteApp')
                   width: '20%'
                 },*/
                 {
-                    field: 'NombrePerfilEntidad',
+                    field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '25%'
@@ -142,9 +142,9 @@ angular.module('financieraClienteApp')
             });
         };
 
-        administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
+        organizacionRequest.get('organizacion/', $.param({
             limit: -1,
-            query: "TipoEntidadId:1",
+            query: "TipoOrganizacion.CodigoAbreviacion:TO_1",
         })).then(function(response) {
 
           angular.forEach(response.data, function(data){
