@@ -116,6 +116,7 @@ var text_es = {
     CREDITO: "Crédito",
     CRP: "CRP",
     CUENTA: "Cuenta",
+    CUENTA_BANCARIA: "Cuenta Bancaria",
     CUENTAS_BANCARIAS: "Cuentas bancarias",
     CUENTAS_CONTABLES: "Cuentas Contables",
     CUENTA_CONTABLE: "Cuenta contable",
