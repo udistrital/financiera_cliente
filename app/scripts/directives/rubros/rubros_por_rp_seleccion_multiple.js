@@ -76,17 +76,21 @@ angular.module('financieraClienteApp')
           }
         })
         //
-        $scope.$watch('inputrpid', function() {
+        $scope.$watch('inputrpid', function(newValue, oldValue) {
           self.refresh();
-          if ($scope.inputrpid != undefined) {
-            financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
-              $.param({
-                query: "RegistroPresupuestal.Id:" + $scope.inputrpid,
-                limit: 0
-              })
-            ).then(function(response) {
-              self.gridOptions_rubros.data = response.data;
-              angular.forEach(self.gridOptions_rubros.data, function(iterador) {
+          self.datos = [];
+          if (!angular.isUndefined(newValue)) {
+            if (newValue.length >0 ) {
+              angular.forEach(newValue, function(rp){
+                financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
+                  $.param({
+                    query: "RegistroPresupuestal.Id:" + rp.Id,
+                    limit: 0
+                  })
+                  ).then(function(response) {
+                    self.datos.push(response.data[0]);
+                    self.gridOptions_rubros.data = self.datos;
+                    angular.forEach(self.gridOptions_rubros.data, function(iterador) {
                 // get saldos de lor rp
                 var rpData = {
                   Rp: iterador.RegistroPresupuestal,
@@ -94,16 +98,16 @@ angular.module('financieraClienteApp')
                   FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData
-                ).then(function(response) {
-                  iterador.Saldo = response.data.saldo;
+                  ).then(function(response) {
+                    iterador.Saldo = response.data.saldo;
                   //se hace solicitud en este framento para obtener el saldo del rubro
                   financieraRequest.get('concepto',
                     $.param({
                       query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
                       limit: 0
                     })
-                  ).then(function(response) {
-                    iterador.subGridOptions.data = response.data;
+                    ).then(function(response) {
+                      iterador.subGridOptions.data = response.data;
                     //asociar RegistroPresupuestalDisponibilidadApropiacion
                     angular.forEach(iterador.subGridOptions.data, function(subGridData) {
                       subGridData.RegistroPresupuestalDisponibilidadApropiacion = {
@@ -121,36 +125,37 @@ angular.module('financieraClienteApp')
                 iterador.subGridOptions = {
                   multiSelect: true,
                   columnDefs: [{
-                      field: 'Id',
-                      visible: false,
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'Codigo',
-                      displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
-                      enableCellEdit: false,
-                      width: '15%',
-                      cellClass: 'input_center'
-                    },
-                    {
-                      field: 'Nombre',
-                      displayName: $translate.instant('NOMBRE'),
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'Descripcion',
-                      displayName: $translate.instant('DESCRIPCION'),
-                      enableCellEdit: false
-                    },
-                    {
-                      field: 'TipoConcepto.Nombre',
-                      displayName: $translate.instant('TIPO'),
-                      enableCellEdit: false,
-                      width: '10%',
-                    },
+                    field: 'Id',
+                    visible: false,
+                    enableCellEdit: false
+                  },
+                  {
+                    field: 'Codigo',
+                    displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('CONCEPTO'),
+                    enableCellEdit: false,
+                    width: '15%',
+                    cellClass: 'input_center'
+                  },
+                  {
+                    field: 'Nombre',
+                    displayName: $translate.instant('NOMBRE'),
+                    enableCellEdit: false
+                  },
+                  {
+                    field: 'Descripcion',
+                    displayName: $translate.instant('DESCRIPCION'),
+                    enableCellEdit: false
+                  },
+                  {
+                    field: 'TipoConcepto.Nombre',
+                    displayName: $translate.instant('TIPO'),
+                    enableCellEdit: false,
+                    width: '10%',
+                  },
                   ],
                   onRegisterApi: function(gridApi) {
                     self.gridApi = gridApi;
+                    $scope.outputconceptos = [];
                     gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
                       if (row2.isSelected) {
                         $scope.outputconceptos.push(row2.entity);
@@ -163,10 +168,13 @@ angular.module('financieraClienteApp')
                 }; //subGridOptions
               }); // iterador
             }); //tehen
-          }else{
-            self.gridOptions_rubros.data = {};
-          }
-        }) // watch
+                });
+            }else{
+              self.gridOptions_rubros.data = {};
+            }
+        }
+
+        },true); // watch
 
         // fin
       },
