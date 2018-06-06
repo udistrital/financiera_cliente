@@ -155,7 +155,6 @@ angular.module('financieraClienteApp')
                   ],
                   onRegisterApi: function(gridApi) {
                     self.gridApi = gridApi;
-                    $scope.outputconceptos = [];
                     gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
                       if (row2.isSelected) {
                         $scope.outputconceptos.push(row2.entity);
