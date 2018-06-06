@@ -404,7 +404,7 @@ angular.module('financieraClienteApp')
                  if (nodo !== undefined){
                   financieraMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
                     console.log(response.data);
-                    if (response.data.Type !== undefined) {
+                    if (response.data !== null && response.data.Type !== undefined) {
                       if (response.data.Type === "error") {
                           swal('', $translate.instant(response.data.Code), response.data.Type);
                       } else {
@@ -413,6 +413,8 @@ angular.module('financieraClienteApp')
                           $scope.recargar = !$scope.recargar;
                       }
 
+                  }else{
+                    swal('', $translate.instant('E_0460'), 'error');                    
                   }
                   });
                  }
