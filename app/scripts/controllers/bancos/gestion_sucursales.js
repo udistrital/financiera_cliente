@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionSucursalesCtrl', function(coreRequest, $scope, $translate, uiGridConstants) {
+  .controller('GestionSucursalesCtrl', function(organizacionRequest, $scope, $translate, uiGridConstants) {
     var ctrl = this;
 
 
@@ -58,11 +58,17 @@ angular.module('financieraClienteApp')
       });
     };
 
-    coreRequest.get('sucursal', $.param({
-        limit: -1
-      })).then(function(response) {
-        ctrl.Sucursales.data = response.data;
-      });
+    organizacionRequest.get('organizacion/', $.param({
+        limit: -1,
+        query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+    })).then(function(response) {
+        if (response.data == null) {
+            //PONER MARCA DE AGUA DE QUE NO HAY
+        } else {
+            ctrl.Sucursales.data = response.data;
+        }
+
+    });
 
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
