@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
+    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
         var ctrl = this;
 
 
@@ -52,8 +52,8 @@ angular.module('financieraClienteApp')
         ctrl.Sucursales.enablePaginationControls = true;
         ctrl.Sucursales.onRegisterApi = function(gridApi) {
             ctrl.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope, function() {
-                //hacer algo al seleccionar
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                $scope.sucursal_seleccionada = row.entity;
             });
         };
 
@@ -93,7 +93,7 @@ angular.module('financieraClienteApp')
                   width: '20%'
                 },*/
                 {
-                    field: 'NombrePerfilEntidad',
+                    field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     width: '25%'
@@ -142,9 +142,9 @@ angular.module('financieraClienteApp')
             });
         };
 
-        administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
+        organizacionRequest.get('organizacion/', $.param({
             limit: -1,
-            query: "TipoEntidadId:1",
+            query: "TipoOrganizacion.CodigoAbreviacion:TO_1",
         })).then(function(response) {
 
           angular.forEach(response.data, function(data){
@@ -303,19 +303,19 @@ angular.module('financieraClienteApp')
 
         ctrl.ver_sucursal = function(row) {
 
-            coreRequest.get('sucursal', $.param({
-                query: "Banco:" + row.entity.Id,
-                field: "Id,Nombre",
-                limit: -1
-            })).then(function(response) {
+          ctrl.banco_a_vincular_sucursal = row.entity;
+          //DEBO BUSCAR SI TIENE RELACION EN LA TABLA RELACION_ORGANIZACION
+          organizacionRequest.get('relacion_organizaciones/', $.param({
+            limit: -1,
+            query: "OrganizacionPadre:" + row.entity.Id,
+          })).then(function(response) {
                 if (response.data == null) {
                     ctrl.tieneSucursal = false;
                 } else {
                     ctrl.tieneSucursal = true;
-                    ctrl.NombreSucursal = response.data[0].Nombre;
-                    console.log("nombre", ctrl.NombreSucursal)
+                    ctrl.buscar_informacion_sucursal(response.data[0].OrganizacionHija);
+                  //  ctrl.NombreSucursal = response.data[0].Nombre;
                 }
-
             });
             $("#modal_sucursal").modal("show");
             //Si tiene, que permita visualizarla en un modal, en este modal, que se permita desvincularla. Si no tiene, que sea un botón que permite agregar, listando las existentes
@@ -328,11 +328,12 @@ angular.module('financieraClienteApp')
         ctrl.mostrar_sucursales = function() {
             ctrl.ver_grid_sucursales = true;
 
-            coreRequest.get('sucursal', $.param({
-                limit: -1
+            organizacionRequest.get('organizacion/', $.param({
+                limit: -1,
+                query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
             })).then(function(response) {
                 if (response.data == null) {
-                    alert("no hay")
+                    //PONER MARCA DE AGUA DE QUE NO HAY
                 } else {
                     ctrl.Sucursales.data = response.data;
                 }
@@ -342,7 +343,73 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.vincular_sucursal = function() {
-            alert("vincular_sucursal")
+            if($scope.sucursal_seleccionada == null){
+              alert("seleccione sucursal")
+            }else{
+
+            organizacionRequest.get('tipo_relacion_organizaciones/', $.param({
+                  limit: -1,
+                  query: "CodigoAbreviacion:TRO_1",
+              })).then(function(response) {
+                  if (response.data == null) {
+                      console.log("no hay datos de tipo de relacion")
+                  } else {
+                    //Variable para hacer insert en relacion_organizaciones
+                    var objeto_relacion_organizaciones = {
+                      OrganizacionPadre : ctrl.banco_a_vincular_sucursal.Id,
+                      OrganizacionHija :  $scope.sucursal_seleccionada.Id,
+                      TipoRelacionOrganizaciones : {Id: response.data[0].Id}
+                    }
+
+                    organizacionRequest.post('relacion_organizaciones', objeto_relacion_organizaciones).then(function(response) {
+
+                        if (typeof(response.data) == "object") {
+                            swal({
+                                html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#449D44",
+                                confirmButtonText: $translate.instant('VOLVER'),
+                            }).then(function() {
+                                  $("#modal_sucursal").modal("hide");
+                                $window.location.reload()
+                            })
+
+                        }
+                        if (typeof(response.data) == "string") {
+                            swal({
+                                html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonColor: "#449D44",
+                                confirmButtonText: $translate.instant('VOLVER'),
+                            }).then(function() {
+                                $("#modal_sucursal").modal("hide");
+                                $window.location.reload()
+                            })
+
+                        }
+                    });
+
+                  }
+
+              });
+            }
+        };
+
+        ctrl.buscar_informacion_sucursal = function (id_sucursal){
+          //Buscar info de organizacion hija
+          organizacionRequest.get('organizacion/', $.param({
+              limit: -1,
+              query: "TipoOrganizacion.CodigoAbreviacion:TO_2,Id:"+id_sucursal,
+          })).then(function(response) {
+              if (response.data == null) {
+                  //PONER MARCA DE AGUA DE QUE NO HAY
+              } else {
+                  ctrl.NombreSucursal = response.data[0].Nombre;
+              }
+
+          });
         };
 
         ctrl.gestionar_sucursales = function() {
