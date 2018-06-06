@@ -7,9 +7,9 @@
  * # coreNewService
  * Service in the financieraClienteApp.
  */
-angular.module('coreNewService', [])
-    .service('coreNewRequest', function($http, CONF) {
-        var path = CONF.GENERAL.CORE_NEW_SERVICE;
+angular.module('organizacionService', [])
+    .service('organizacionRequest', function($http, CONF) {
+        var path = CONF.GENERAL.ORGANIZACION_SERVICE;
         // Public API here
         return {
             get: function(tabla, params) {
