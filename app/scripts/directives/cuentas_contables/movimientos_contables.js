@@ -30,6 +30,8 @@ angular.module('financieraClienteApp')
                 impydesc: '@?',
                 monto: '=?',
                 outputvalorbruto: '=?',
+                outputformapagoend: '=?',
+                outputformapagoop: '=?',
                 validatemov: '=?'
             },
             templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
@@ -110,7 +112,7 @@ angular.module('financieraClienteApp')
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta =  true;
                                 } else {
-                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta =  false;
                                     } else {
                                         respuesta =  true;
@@ -139,7 +141,7 @@ angular.module('financieraClienteApp')
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
                                 } else {
-                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                       respuesta =  false;
                                     } else {
                                     respuesta =  true;
@@ -289,7 +291,7 @@ angular.module('financieraClienteApp')
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
                                 } else {
-                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
                                     } else {
                                         respuesta = true;
@@ -318,7 +320,7 @@ angular.module('financieraClienteApp')
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
                                 } else {
-                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto") {
+                                    if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
                                     } else {
                                         respuesta = true;
@@ -381,6 +383,11 @@ angular.module('financieraClienteApp')
                             self.cuentaTercero = item.CuentaContable.CuentaBancaria;
                             self.Endosar ="Endoso";
                             self.valorMaximo = self.calcular_endoso(item,$scope.outputvalorbruto);
+                        } else {
+                            if ($scope.outputformapagoop != undefined)
+                            { 
+                             item.FormaPago = $scope.outputformapagoop;
+                            }
                         }
                         item.CuentaEspecial = { Id: item.Id };
                         if (self.gridOptionsDescuentos.data.indexOf(item) < 0) {
@@ -393,6 +400,7 @@ angular.module('financieraClienteApp')
                 self.asignar_endoso = function(){
                     var pos = self.gridOptionsDescuentos.data.indexOf(self.itemActual);
                     self.gridOptionsDescuentos.data[pos].Credito = self.valorInicial;
+                    self.gridOptionsDescuentos.data[pos].FormaPago = $scope.outputformapagoend;
                 }
                 self.calcular_endoso = function (item, valorbruto){
                     return item.Porcentaje * valorbruto / 100 ;
@@ -485,6 +493,7 @@ angular.module('financieraClienteApp')
                     self.suma2 = 0;
                     self.suma3 = 0;
                     self.suma4 = 0;
+                    console.log("movimientos:", self.gridOptionsMovimientos);
                     for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
                         if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial != undefined) {
                             if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre === "Impuesto") {
