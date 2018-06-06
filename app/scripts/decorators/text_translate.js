@@ -192,6 +192,7 @@ var text_es = {
     ETAPA: "Etapa",
     E_0458: "Los datos enviados son erróneos",
     E_0459: "No se pudo registrar la información",
+    E_0460: "No se pudo Eliminar",
     E_04566: "No es posible modificar el registro debido a que este ha sido usado en otras transacciones",
     E_0471: "No es posible realizar actualización debido al estado del registro",
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",

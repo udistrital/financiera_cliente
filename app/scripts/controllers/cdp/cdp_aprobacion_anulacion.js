@@ -89,14 +89,19 @@ angular.module('financieraClienteApp')
 
         self.gridOptions.multiSelect = false;
         self.actualizarLista = function(offset, query) {
+            financieraMidRequest.cancel();
+            //financieraRequest.cancel();
+           
+            self.gridOptions.data.length=0; 
+            self.gridOptions.data=[]; 
             if(query !== ""){
               query = query + ",AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
             }else{
-              query = "&query=AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
+              query = "&query=AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia+",TipoAnulacion.Nombre__not_in:Fenecido";
             }
             financieraRequest.get('anulacion_disponibilidad/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
-                    self.gridOptions.data = [];
+                    self.gridOptions.data.length=0; 
                 } else {
                     console.log(response.data);
                     self.gridOptions.data = response.data;
@@ -105,12 +110,14 @@ angular.module('financieraClienteApp')
                         data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
                     });
                 });
+                
                 }
             });
         };
 
 
         self.cargarListaAnulaciones = function() {
+            self.gridOptions.data = [];
             financieraRequest.get('anulacion_disponibilidad', $.param({
                 limit: -1
             })).then(function(response) {
@@ -132,7 +139,10 @@ angular.module('financieraClienteApp')
                 angular.forEach(grid.columns, function(value, key) {
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
-                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                        if(formtstr !== "Tipo"){
+                          query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                            
+                        }
 
                     }
                 });
@@ -386,7 +396,7 @@ angular.module('financieraClienteApp')
                 term: ""
             };
             self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
-            financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(self.offset, self.customfilter);
@@ -396,7 +406,8 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch("cdpAprobacionAnulacion.Vigencia", function() {
-            financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            if(self.Vigencia !== undefined){
+                financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.gridOptions.totalItems = response.data;
                         self.actualizarLista(self.offset, self.customfilter);
@@ -416,6 +427,7 @@ angular.module('financieraClienteApp')
                 self.Vigencia,
                 12, 0
             );*/
+            }
         }, true);
 
     });
