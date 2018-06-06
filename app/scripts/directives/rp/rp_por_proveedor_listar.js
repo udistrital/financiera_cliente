@@ -48,15 +48,16 @@ angular.module('financieraClienteApp')
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            if (self.gridApi.selection.getSelectedRows()[0] != undefined) {
+            //
             if (row.isSelected) {
               $scope.outputrpselect.push(row.entity);
-              // console.log("rp+", $scope.outputrpselect);
+              console.log("rp+", $scope.outputrpselect);
             } else {
               var i = $scope.outputrpselect.indexOf(row.entity)
               $scope.outputrpselect.splice(i, 1);
-              // console.log("rp-", $scope.outputrpselect);
-            }              
+              console.log("rp-", $scope.outputrpselect);
+            }
+            if (self.gridApi.selection.getSelectedRows()[0] != undefined) {              
               $scope.outputrpselectone = self.gridApi.selection.getSelectedRows()[0];
               //Valor total del Rp
               financieraRequest.get('registro_presupuestal/ValorTotalRp/' + $scope.outputrpselectone.Id)
@@ -69,11 +70,10 @@ angular.module('financieraClienteApp')
                 .then(function(response) {
                   self.necesidadInfo = response.data;
                 });
-
             } else {
-              $scope.outputrpselectone = {};
-              self.valor_total_rp = {};
-              self.necesidadInfo = {};
+             $scope.outputrpselectone = {};
+             self.valor_total_rp = {};
+             self.necesidadInfo = {};
             }
           });         
         };

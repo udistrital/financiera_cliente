@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate) {
+  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate,financieraMidRequest) {
     var ctrl  = this;
 
     ctrl.cargarListas = function(){
@@ -28,18 +28,57 @@ angular.module('financieraClienteApp')
       });
     }
 
+
     ctrl.cargarListas();
 
-    ctrl.registrar = function(){
+    ctrl.validateFields = function(){
       if(angular.isUndefined(ctrl.rubroSeleccionado)){
         swal("", $translate.instant("E_RB003"),"error");
+        return;
       }
-      if($scope.myForm.$invalid){
-        console.log("no enviar");
+
+      if (ctrl.rubroSeleccionado.Hijos != null) {
+        swal("",$translate.instant("E_ISF001"),"error");
+        return;
+      }
+
+      if($scope.datosOblig.$invalid){
+        angular.forEach($scope.datosOblig.$error,function(controles,error){
+          angular.forEach(controles,function(control){
+            control.$setDirty();
+          });
+        });
+
+        swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+        return;
+
       }
     }
 
-    $scope.$watch('ingresosSinSitFnReg.rubroSeleccionado',function(oldvalue,newvalue){
-      console.log("rubro seleccionado",newvalue)
-    },true);
+    ctrl.registrar = function(){
+      var request = {};
+        ctrl.validateFields();
+
+        request = {
+          IngresoSinSituacionFondos:{
+            Rubro:{},
+            Vigencia:ctrl.vigencia,
+            UsuarioRegistro:1111,
+            UnidadEjecutora:ctrl.unidadejecutora.Id,
+            ValorIngreso:ctrl.valor
+          }
+        }
+        request.IngresoSinSituacionFondos.Rubro.Id = parseInt(ctrl.rubroSeleccionado.Id);
+        console.log("request ",request);
+        financieraMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
+          if(response.data.Type==="error"){
+            swal("",$translate.instant(response.data.Code),response.data.Type);
+          }else{
+            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
+            swal('',templateAlert,response.data.Type);
+          }
+        });
+    }
+
   });
