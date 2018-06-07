@@ -415,7 +415,7 @@ angular.module('financieraClienteApp')
                     return self.valorBase != undefined ;
                 }
                 self.calcular_descuento= function (item, valor){
-                    return Math.round(item.Porcentaje * valor / 100) ;
+                    return Math.round(item.Porcentaje * valor) ;
                 }                
                 self.asignar_valor_base = function(){
                     var pos = self.gridOptionsDescuentos.data.indexOf(self.itemImpuesto);
