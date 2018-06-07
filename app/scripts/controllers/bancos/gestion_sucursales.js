@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionSucursalesCtrl', function(coreRequest, $scope, $translate, uiGridConstants) {
+  .controller('GestionSucursalesCtrl', function(financieraMidRequest, organizacionRequest, $scope, $translate, $window,uiGridConstants) {
     var ctrl = this;
 
 
@@ -58,11 +58,17 @@ angular.module('financieraClienteApp')
       });
     };
 
-    coreRequest.get('sucursal', $.param({
-        limit: -1
-      })).then(function(response) {
-        ctrl.Sucursales.data = response.data;
-      });
+    organizacionRequest.get('organizacion/', $.param({
+        limit: -1,
+        query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+    })).then(function(response) {
+        if (response.data == null) {
+            //PONER MARCA DE AGUA DE QUE NO HAY
+        } else {
+            ctrl.Sucursales.data = response.data;
+        }
+
+    });
 
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
@@ -85,7 +91,46 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.agregar_sucursal = function(row){
-      alert("agregar sucursal");
+
+      var informacion_sucursal = {
+        Nombre       : "Ejemplo",
+        Direccion     :"Direccion ejemplo",
+        Telefono     : "345345345",
+        País          : "Colombia",
+        Departamento  : "BOGOTA",
+        Ciudad        : "BOGOTA",
+      }
+
+      financieraMidRequest.post('gestion_sucursales/insertar_sucursal', informacion_sucursal).then(function(response) {
+
+          if (typeof(response.data) == "object") {
+              swal({
+                  html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                  type: "success",
+                  showCancelButton: false,
+                  confirmButtonColor: "#449D44",
+                  confirmButtonText: $translate.instant('VOLVER'),
+              }).then(function() {
+                  $('#modal_agregar_sucursal').modal('hide');
+                  $window.location.reload()
+              })
+
+          }
+          if (typeof(response.data) == "string") {
+              swal({
+                  html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                  type: "error",
+                  showCancelButton: false,
+                  confirmButtonColor: "#449D44",
+                  confirmButtonText: $translate.instant('VOLVER'),
+              }).then(function() {
+                  $('#modal_agregar_sucursal').modal('hide');
+                  $window.location.reload()
+              })
+
+          }
+      });
+
     };
 
     ctrl.editar_sucursal = function(row){

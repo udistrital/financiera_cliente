@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionCuentasBancariasCtrl', function(coreRequest, financieraRequest, $scope, $translate, uiGridConstants) {
+  .controller('GestionCuentasBancariasCtrl', function(organizacionRequest, financieraRequest, $scope, $translate, $window,uiGridConstants) {
     var ctrl = this;
 
     ctrl.formPresente = 'datos_basicos';
@@ -29,8 +29,14 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: false,
       enableSelectAll: false,
-      columnDefs: [{
+      columnDefs: [
+        {
           field: 'Id',
+          visible:false,
+
+        },
+        {
+          field: 'CuentaContable.Id',
           visible:false,
 
         },
@@ -65,7 +71,7 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'CuentaContable',
+          field: 'CuentaContable.Codigo',
           displayName: $translate.instant('CUENTA_CONTABLE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
@@ -181,6 +187,21 @@ angular.module('financieraClienteApp')
     financieraRequest.get('cuenta_bancaria', $.param({
         limit: -1
       })).then(function(response) {
+
+        angular.forEach(response.data, function(data){
+          organizacionRequest.get('organizacion/', $.param({
+              limit: -1,
+              query: "TipoOrganizacion.CodigoAbreviacion:TO_2,Id:"+data.Sucursal,
+          })).then(function(response) {
+              if (response.data == null) {
+                    data.Sucursal = "No asignado";
+              } else {
+                  data.Sucursal = response.data[0].Nombre;
+              }
+
+          });
+        });
+
         ctrl.CuentasBancarias.data = response.data;
       });
 
@@ -198,11 +219,17 @@ angular.module('financieraClienteApp')
 
 
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
-      coreRequest.get('sucursal', $.param({
-          limit: -1
-        })).then(function(response) {
-          ctrl.Sucursales.data = response.data;
-        });
+      organizacionRequest.get('organizacion/', $.param({
+          limit: -1,
+          query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+      })).then(function(response) {
+          if (response.data == null) {
+              //PONER MARCA DE AGUA DE QUE NO HAY
+          } else {
+              ctrl.Sucursales.data = response.data;
+          }
+
+      });
 
         financieraRequest.get('tipo_cuenta_bancaria', $.param({
             limit: -1
@@ -235,10 +262,16 @@ angular.module('financieraClienteApp')
 
       ctrl.SucursalSeleccionada = undefined;
       if(ctrl.agregar_nombre_cuenta_bancaria && ctrl.agregar_numero_cuenta_bancaria && ctrl.selectTipoCuenta){
-        coreRequest.get('sucursal', $.param({
-              limit: -1
-            })).then(function(response) {
-              ctrl.Sucursales.data = response.data;
+        organizacionRequest.get('organizacion/', $.param({
+            limit: -1,
+            query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+        })).then(function(response) {
+            if (response.data == null) {
+                //PONER MARCA DE AGUA DE QUE NO HAY
+            } else {
+                ctrl.Sucursales.data = response.data;
+            }
+
         });
 
         ctrl.formPresente = 'sucursales';
@@ -275,9 +308,50 @@ angular.module('financieraClienteApp')
       if(ctrl.CuentaContableSeleccionada === undefined){
         alert("no sigo")
       } else{
-        alert("insertar cuenta bancaria")
-        console.log(ctrl.SucursalSeleccionada)
-        console.log(ctrl.CuentaContableSeleccionada)
+
+        var objeto_tipo_cuenta = JSON.parse(ctrl.selectTipoCuenta)
+
+        var informacion_cuenta_bancaria = {
+          Nombre  :    ctrl.agregar_nombre_cuenta_bancaria,
+          NumeroCuenta  : (ctrl.agregar_numero_cuenta_bancaria).toString(),
+          EstadoActivo  :  Boolean(true),
+          Saldo  : 0,
+          TipoCuentaBancaria : { Id: objeto_tipo_cuenta.Id},
+          TipoRecurso : {Id: 1},
+          Sucursal  : ctrl.SucursalSeleccionada.Id,
+          UnidadEjecutora : {Id: 1},
+          CuentaContable: {Id: ctrl.CuentaContableSeleccionada.Id}
+      }
+
+        financieraRequest.post('cuenta_bancaria', informacion_cuenta_bancaria).then(function(response) {
+
+            if (typeof(response.data) == "object") {
+                swal({
+                    html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#449D44",
+                    confirmButtonText: $translate.instant('VOLVER'),
+                }).then(function() {
+                    $('#modal_agregar_cuenta_bancaria').modal('hide');
+                    $window.location.reload()
+                })
+
+            }
+            if (typeof(response.data) == "string") {
+                swal({
+                    html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#449D44",
+                    confirmButtonText: $translate.instant('VOLVER'),
+                }).then(function() {
+                    $('#modal_agregar_cuenta_bancaria').modal('hide');
+                    $window.location.reload()
+                })
+
+            }
+        });
 
       }
     };
