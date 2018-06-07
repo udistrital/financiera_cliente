@@ -10,8 +10,10 @@
     </form>
     <div class="pre-scrollable">
         <treecontrol class="tree-classic" tree-model="arbol" options="d_rubrosConsulta.treeOptions" on-node-toggle="d_rubrosConsulta.onSelectNode(node,expanded)" selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_rubrosConsulta.expandedNodes">
-            <span class="text-success">{{node.Codigo }}:</span> {{node.Nombre | limitTo:50}} 
-            - <btn-registro funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
+            <span class="text-success">{{node.Codigo }}:</span> {{node.Nombre | limitTo:50}} - 
+            <!--btn-registro funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro-->
+            <btn-registro ng-if="node.IsLeaf" funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
+            <btn-registro ng-if="!node.IsLeaf" funcion="d_rubrosConsulta.arbol_operacion(node,operacion)" grupobotones="botonespadre" fila="node"></btn-registro>
           </treecontrol>
     </div>
     
@@ -72,4 +74,38 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div id="ModalEdicionApr" class="modal fade col-md-12" role="dialog">
+    <div class="modal-content col-md-offset-1 col-md-10">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>        
+      </div>
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="page-header">{{'APROPIACION' | translate}} :  {{d_rubrosConsulta.apropiacionsel.Nombre}} / {{d_rubrosConsulta.apropiacionsel.Codigo}}</h3>
+            <div  align="right">{{'VIGENCIA' | translate}}:{{vigencia}}</div>
+          </div>
+          <div class="panel-body">
+              <div ng-if="d_rubrosConsulta.apropiacionsel.Apropiacion != null;d_rubrosConsulta.apropiacionsel.Apropiacion.Estado.Id == 2" class="alert alert-danger">
+                  {{'E_AP002'|translate}}
+                </div>
+              <div ng-if="d_rubrosConsulta.apropiacionsel.Apropiacion == null" class="col-md-6 col-md-offset-3">
+                  <label for="valor">{{'APROPIACION_INICIAL'|translate}} : </label><input id="valor" name="valor" type="text" ui-money-mask="0"  class="form-control input-md-6" required="true" ng-model="d_rubrosConsulta.ValorAsignado">
+                  <br>
+                  <center>
+                    <button class="btn btn-outline btn-success" ng-click="d_rubrosConsulta.RegistrarApr()">{{'BTN.REGISTRAR'|translate}}</button>
+                  </center>
+                </div>
+                <div ng-if="d_rubrosConsulta.apropiacionsel.Apropiacion != null;d_rubrosConsulta.apropiacionsel.Apropiacion.Estado.Id == 1" class="col-md-6 col-md-offset-3" >
+                  <label for="valor">{{'APROPIACION_INICIAL'|translate}} : </label><input id="valor" name="valor" type="text" ui-money-mask="0"  class="form-control input-md-6" required="true" ng-model="d_rubrosConsulta.apropiacionsel.Apropiacion.Valor">
+                  <br>
+                  <center>
+                    <button class="btn btn-outline btn-success" ng-click="d_rubrosConsulta.ActualizarApr()">{{'BTN.ACTUALIZAR'|translate}}</button>
+                  </center>
+                  </div>
+          </div>
+      </div>
+    </div>
 </div>
