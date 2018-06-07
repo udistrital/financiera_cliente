@@ -40,6 +40,24 @@ angular.module('financieraClienteApp')
 
         },
         {
+          field: 'Direccion',
+          displayName: $translate.instant('DIRECCION'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Telefono',
+          displayName: $translate.instant('TELEFONO'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Pais',
+          displayName: $translate.instant('PAIS'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
             field: 'Opciones',
             displayName: $translate.instant('OPCIONES'),
             cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
@@ -58,15 +76,13 @@ angular.module('financieraClienteApp')
       });
     };
 
-    organizacionRequest.get('organizacion/', $.param({
-        limit: -1,
-        query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
-    })).then(function(response) {
-        if (response.data == null) {
-            //PONER MARCA DE AGUA DE QUE NO HAY
-        } else {
-            ctrl.Sucursales.data = response.data;
-        }
+    financieraMidRequest.get('gestion_sucursales/listar_sucursales','').then(function(response) {
+      if (response.data == null) {
+          //PONER MARCA DE AGUA DE QUE NO HAY
+      } else {
+          ctrl.Sucursales.data = response.data;
+      }
+
 
     });
 
@@ -96,9 +112,9 @@ angular.module('financieraClienteApp')
         Nombre       : "Ejemplo",
         Direccion     :"Direccion ejemplo",
         Telefono     : "345345345",
-        País          : "Colombia",
-        Departamento  : "BOGOTA",
-        Ciudad        : "BOGOTA",
+        Pais          : "1",
+        Departamento  : "23",
+        Ciudad        : "2",
       }
 
       financieraMidRequest.post('gestion_sucursales/insertar_sucursal', informacion_sucursal).then(function(response) {
