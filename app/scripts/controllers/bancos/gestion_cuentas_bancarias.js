@@ -191,7 +191,7 @@ angular.module('financieraClienteApp')
         angular.forEach(response.data, function(data){
           organizacionRequest.get('organizacion/', $.param({
               limit: -1,
-              query: "TipoOrganizacion.CodigoAbreviacion:TO_2,Id:"+data.Sucursal,
+              query: "TipoOrganizacion.CodigoAbreviacion:SU,Id:"+data.Sucursal,
           })).then(function(response) {
               if (response.data == null) {
                     data.Sucursal = "No asignado";
@@ -221,7 +221,7 @@ angular.module('financieraClienteApp')
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
       organizacionRequest.get('organizacion/', $.param({
           limit: -1,
-          query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+          query: "TipoOrganizacion.CodigoAbreviacion:SU",
       })).then(function(response) {
           if (response.data == null) {
               //PONER MARCA DE AGUA DE QUE NO HAY
@@ -264,7 +264,7 @@ angular.module('financieraClienteApp')
       if(ctrl.agregar_nombre_cuenta_bancaria && ctrl.agregar_numero_cuenta_bancaria && ctrl.selectTipoCuenta){
         organizacionRequest.get('organizacion/', $.param({
             limit: -1,
-            query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+            query: "TipoOrganizacion.CodigoAbreviacion:SU",
         })).then(function(response) {
             if (response.data == null) {
                 //PONER MARCA DE AGUA DE QUE NO HAY
