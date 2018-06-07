@@ -39,6 +39,7 @@ var conf_cloud = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_presentacion = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
@@ -71,6 +72,7 @@ var conf_presentacion = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_pruebas = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -106,6 +108,7 @@ var conf_pruebas = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "kL8YZVnayCztbsWQQRkQ_x9FT9Ea"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_local = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -140,6 +143,7 @@ var conf_local = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 
 

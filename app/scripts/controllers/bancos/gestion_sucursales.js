@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionSucursalesCtrl', function(financieraMidRequest, organizacionRequest, $scope, $translate, $window,uiGridConstants) {
+  .controller('GestionSucursalesCtrl', function(financieraMidRequest, organizacionRequest, ubicacionesRequest,$scope, $translate, $window,uiGridConstants) {
     var ctrl = this;
 
 
@@ -40,6 +40,36 @@ angular.module('financieraClienteApp')
 
         },
         {
+          field: 'Direccion',
+          displayName: $translate.instant('DIRECCION'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Telefono',
+          displayName: $translate.instant('TELEFONO'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Pais',
+          displayName: $translate.instant('PAIS'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Departamento',
+          displayName: $translate.instant('DEPARTAMENTO'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
+          field: 'Ciudad',
+          displayName: $translate.instant('CIUDAD'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+        },
+        {
             field: 'Opciones',
             displayName: $translate.instant('OPCIONES'),
             cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
@@ -58,15 +88,13 @@ angular.module('financieraClienteApp')
       });
     };
 
-    organizacionRequest.get('organizacion/', $.param({
-        limit: -1,
-        query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
-    })).then(function(response) {
-        if (response.data == null) {
-            //PONER MARCA DE AGUA DE QUE NO HAY
-        } else {
-            ctrl.Sucursales.data = response.data;
-        }
+    financieraMidRequest.get('gestion_sucursales/listar_sucursales','').then(function(response) {
+      if (response.data == null) {
+          //PONER MARCA DE AGUA DE QUE NO HAY
+      } else {
+          ctrl.Sucursales.data = response.data;
+      }
+
 
     });
 
@@ -87,18 +115,48 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_modal_agregar_sucursal = function(row){
+
+      ubicacionesRequest.get('lugar', $.param({
+          limit: -1,
+          query: "TipoLugar.CodigoAbreviacion:PAIS",
+        })).then(function(response) {
+          ctrl.Paises = response.data;
+        });
+
+        ubicacionesRequest.get('lugar', $.param({
+            limit: -1,
+            query: "TipoLugar.CodigoAbreviacion:DEPARTAMENTO",
+          })).then(function(response) {
+            ctrl.Departamentos = response.data;
+          });
+
+          ubicacionesRequest.get('lugar', $.param({
+              limit: -1,
+              query: "TipoLugar.CodigoAbreviacion:CIUDAD",
+            })).then(function(response) {
+              ctrl.Ciudades = response.data;
+            });
+
         $("#modal_agregar_sucursal").modal("show");
+
+
     };
 
     ctrl.agregar_sucursal = function(row){
 
+      if(ctrl.NombreSucursal && ctrl.Telefono && ctrl.Direccion && ctrl.selectPaises && ctrl.selectDepartamento && ctrl.selectCiudad){
+
+      var objeto_paises = JSON.parse(ctrl.selectPaises)
+      var objeto_departamentos = JSON.parse(ctrl.selectDepartamento)
+      var objeto_ciudades = JSON.parse(ctrl.selectCiudad)
+
       var informacion_sucursal = {
-        Nombre       : "Ejemplo",
-        Direccion     :"Direccion ejemplo",
-        Telefono     : "345345345",
-        País          : "Colombia",
-        Departamento  : "BOGOTA",
-        Ciudad        : "BOGOTA",
+        Nombre       : ctrl.NombreSucursal,
+        Direccion     :ctrl.Direccion,
+        Telefono     : ctrl.Telefono.toString(),
+        Pais          : objeto_paises.Id.toString(),
+        Departamento  : objeto_departamentos.Id.toString(),
+        Ciudad        : objeto_ciudades.Id.toString(),
       }
 
       financieraMidRequest.post('gestion_sucursales/insertar_sucursal', informacion_sucursal).then(function(response) {
@@ -124,13 +182,22 @@ angular.module('financieraClienteApp')
                   confirmButtonColor: "#449D44",
                   confirmButtonText: $translate.instant('VOLVER'),
               }).then(function() {
-                  $('#modal_agregar_sucursal').modal('hide');
-                  $window.location.reload()
+
+
               })
 
           }
       });
 
+    }else {
+                swal({
+                    html: $translate.instant('ALERTA_COMPLETAR_DATOS_EDICION'),
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#449D44",
+                    confirmButtonText: $translate.instant('VOLVER'),
+                })
+            }
     };
 
     ctrl.editar_sucursal = function(row){

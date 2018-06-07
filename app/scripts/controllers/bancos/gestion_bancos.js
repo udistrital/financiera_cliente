@@ -144,7 +144,7 @@ angular.module('financieraClienteApp')
 
         organizacionRequest.get('organizacion/', $.param({
             limit: -1,
-            query: "TipoOrganizacion.CodigoAbreviacion:TO_1",
+            query: "TipoOrganizacion.CodigoAbreviacion:EB",
         })).then(function(response) {
 
           angular.forEach(response.data, function(data){
@@ -330,7 +330,7 @@ angular.module('financieraClienteApp')
 
             organizacionRequest.get('organizacion/', $.param({
                 limit: -1,
-                query: "TipoOrganizacion.CodigoAbreviacion:TO_2",
+                query: "TipoOrganizacion.CodigoAbreviacion:SU",
             })).then(function(response) {
                 if (response.data == null) {
                     //PONER MARCA DE AGUA DE QUE NO HAY
@@ -401,7 +401,7 @@ angular.module('financieraClienteApp')
           //Buscar info de organizacion hija
           organizacionRequest.get('organizacion/', $.param({
               limit: -1,
-              query: "TipoOrganizacion.CodigoAbreviacion:TO_2,Id:"+id_sucursal,
+              query: "TipoOrganizacion.CodigoAbreviacion:SU,Id:"+id_sucursal,
           })).then(function(response) {
               if (response.data == null) {
                   //PONER MARCA DE AGUA DE QUE NO HAY
