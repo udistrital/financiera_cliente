@@ -55,6 +55,7 @@ angular
         'coreService',
         'oikosService',
         'organizacionService',
+        'ubicacionesService',
         'titanService',
         'pagosService',
         'financieraNotificacion',
