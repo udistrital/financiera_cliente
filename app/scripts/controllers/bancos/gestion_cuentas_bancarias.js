@@ -323,10 +323,6 @@ angular.module('financieraClienteApp')
           CuentaContable: {Id: ctrl.CuentaContableSeleccionada.Id}
       }
 
-      console.log("objeto a insertar")
-      console.log(informacion_cuenta_bancaria)
-
-
         financieraRequest.post('cuenta_bancaria', informacion_cuenta_bancaria).then(function(response) {
 
             if (typeof(response.data) == "object") {
