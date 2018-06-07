@@ -231,12 +231,8 @@ $scope.loadrow = function(row, operacion) {
   switch (operacion) {
       case "ver":
       $("#myModal").modal();
-          ctrl.IdOrden = row.entity.Consecutivo;
+          ctrl.IdOrden = row.entity.Id;
           break;
-
-      case "otro":
-
-      break;
       default:
   }
 };
