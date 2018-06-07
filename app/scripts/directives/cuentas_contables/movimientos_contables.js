@@ -508,15 +508,16 @@ angular.module('financieraClienteApp')
                     self.suma2 = 0;
                     self.suma3 = 0;
                     self.suma4 = 0;
-                    console.log("movimientos:", self.gridOptionsMovimientos);
+                    if (self.gridOptionsMovimientos.data.length != undefined) {
                     for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
                         if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial != undefined) {
-                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre === "Impuesto") {
-                                //self.gridOptionsMovimientos.data[i].Credito = Math.round($scope.monto * self.gridOptionsMovimientos.data[i].Porcentaje);
+                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Descuento" || self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Endoso") {
+                                 self.gridOptionsMovimientos.data[i].Credito = Math.round(self.gridOptionsMovimientos.data[i].ValorBase * self.gridOptionsMovimientos.data[i].Porcentaje);
                             }
                         }
                         self.suma1 = self.suma1 + self.gridOptionsMovimientos.data[i].Debito;
                         self.suma2 = self.suma2 + self.gridOptionsMovimientos.data[i].Credito;
+                    }
                     }
                     if (self.gridOptionsMovsAcreedores.data.length > 0) {
                         for (var j = 0; j < self.gridOptionsMovsAcreedores.data.length; j++) {
