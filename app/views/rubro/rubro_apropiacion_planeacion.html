@@ -3,14 +3,17 @@
       <h2 class="page-header" align="center">{{"PLANEACION_APROBACION_INICIAL" | translate}}</h2>
 
   <div class="panel-body col-md-6">
-     <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
-  </div>
+     <!--apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta-->
+     <rubros-consulta botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="false" ramasel="false" vigencia="rubroApropiacionPlaneacion.Vigencia"></rubros-consulta>
+    </div>
   <div class="panel-body  col-md-6">
     <div class="panel panel-info panel-body">
         <div class="panel panel-heading">
             <h4 class="text-center panel-title">{{"COMPROBACION_APROBACION_INICIAL" | translate}}</h4>
         </div>
         <center>
+     <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
+            
             <table class="table">
                 <tr>
                     <th>

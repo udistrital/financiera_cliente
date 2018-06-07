@@ -30,6 +30,8 @@ angular.module('financieraClienteApp')
         noresumen: '@?',
         ramasel: '=?',
         botones: '=?',
+        botonespadre: '=?',
+        vigencia: '=?'
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
@@ -285,7 +287,6 @@ angular.module('financieraClienteApp')
 
 
               break;
-
             default:
               break;
           }
@@ -419,11 +420,121 @@ angular.module('financieraClienteApp')
                   });
                  }
                   break;
+              case "editapr":
+                console.log("apredit");
+                $("#ModalEdicionApr").modal();
+                self.apropiacionsel = nodo;
+                self.apropiacionsel.Apropiacion = null;
+                self.ValorAsignado = null;
+                if (nodo.Hijos == null){
+                  console.log("Nodo ", nodo);
+                  financieraRequest.get("apropiacion", $.param({
+                    query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                  })).then(function(response) {
+                    
+                    if (response.data !== null) {
+                      console.log(response.data);
+                      self.apropiacionsel.Apropiacion = response.data[0];
+                      financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                        }
+                      });
+                      financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoMovs = response.data;
+                          self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
+                        }
+                      });
+                    }
+                  });
+                  
+                }
+              break;
+              case "editapr":
+                console.log("apredit");
+                $("#ModalEdicionApr").modal();
+                self.apropiacionsel = nodo;
+                self.apropiacionsel.Apropiacion = null;
+                self.ValorAsignado = null;
+                if (nodo.Hijos == null){
+                  financieraRequest.get("apropiacion", $.param({
+                    query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                  })).then(function(response) {
+                    
+                    if (response.data !== null) {
+                      console.log(response.data);
+                      self.apropiacionsel.Apropiacion = response.data[0];
+                      financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                        }
+                      });
+                      financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoMovs = response.data;
+                          self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
+                        }
+                      });
+                    }
+                  });
+                  
+                }
+              break;
               case "config":
                   break;
               default:
           }
         }
+
+        self.ActualizarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          financieraMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+          });
+          $scope.datachangeevent = !$scope.datachangeevent;
+        };
+
+        self.RegistrarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          var aprAregistrar = {};
+          var estadoapr = {};
+          var rubroapr = {};
+          estadoapr.Id = 1;
+          rubroapr = self.apropiacionsel;
+          rubroapr.Nombre = self.apropiacionsel.Nombre;
+          rubroapr.Codigo = self.apropiacionsel.Codigo;
+          aprAregistrar.Vigencia = $scope.vigencia;
+          aprAregistrar.Estado = estadoapr;
+          aprAregistrar.Rubro = rubroapr;
+          aprAregistrar.Valor = self.ValorAsignado;
+          console.log(aprAregistrar);
+          financieraMidRequest.post('apropiacion', aprAregistrar).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+          });
+          $scope.datachangeevent = !$scope.datachangeevent;
+        };
+
 
         self.expandedNodes = [];
         /**
