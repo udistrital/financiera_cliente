@@ -41,7 +41,6 @@ angular.module('financieraClienteApp')
         swal("",$translate.instant("E_ISF001"),"error");
         return;
       }
-
       if($scope.datosOblig.$invalid){
         angular.forEach($scope.datosOblig.$error,function(controles,error){
           angular.forEach(controles,function(control){
