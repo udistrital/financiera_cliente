@@ -4,30 +4,34 @@
     <h4 class="text-center panel-title" ><spanng-show="vtitle">{{"CONCEPTOS" | translate}} </span><loading class="pull-right" load="load" tam="1"/><i ng-show="!load" class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="recargar=!recargar"></i><br ng-show="!vtitle" /></h4>
   </div>
 
+
   <div class="row">
+    <div ng-class="{'col-md-12 sticky':!rvdesc}" class="pre-scrollable">
     <div ng-class="{'col-md-6':rvdesc}">
       <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro" order-by="'Codigo'" reverse-order="{{false}}">
         <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
       </treecontrol>
     </div>
     <loading load="load" tam="2"/>
-
     <div ng-class="{'col-md-6':rvdesc}" class="panel panel-info panel-body row sticky shadow-box" ng-show="conceptosel!=undefined && showc">
-      <span class="pull-right text-danger" ng-click="conceptosel=undefined">X</span>
-      <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
-      <p class="text-muted">{{conceptosel.Descripcion}}</p>
-      <dl>
-        <dt>{{"CODIGO" | translate}}: {{conceptosel.Codigo}}</dt>
-        <dt>{{"FECHA" | translate}}</dt>
-        <dd>- {{"FECHA_CREACION" | translate}} : {{conceptosel.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</dd>
-        <dd>- {{"FECHA_EXPIRACION" | translate}}: {{conceptosel.FechaExpiracion | date:"yyyy-MM-dd":"UTC"}}</dd>
-      </dl>
-      <div class="col-md-3 col-md-offset-6">
-        <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalConceptos">{{"BTN.VER" | translate}}</button>
-      </div>
-      <div class="col-md-3">
-        <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">{{btnsel}}</button>
-      </div>
+
+        <span class="pull-right text-danger" ng-click="conceptosel=undefined">X</span>
+        <h2 class="text-primary">{{conceptosel.Nombre}}</h2>
+        <p class="text-muted">{{conceptosel.Descripcion}}</p>
+        <dl>
+          <dt>{{"CODIGO" | translate}}: {{conceptosel.Codigo}}</dt>
+          <dt>{{"FECHA" | translate}}</dt>
+          <dd>- {{"FECHA_CREACION" | translate}} : {{conceptosel.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</dd>
+          <dd>- {{"FECHA_EXPIRACION" | translate}}: {{conceptosel.FechaExpiracion | date:"yyyy-MM-dd":"UTC"}}</dd>
+        </dl>
+        <div class="col-md-3 col-md-offset-6">
+          <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" data-toggle="modal" data-target="#modalConceptos">{{"BTN.VER" | translate}}</button>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_arbolConceptos.seleccionar_concepto(conceptosel)">{{btnsel}}</button>
+        </div>
+
+    </div>
     </div>
   </div>
 

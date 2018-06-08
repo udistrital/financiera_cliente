@@ -8,7 +8,8 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest) {
+  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest) {
+
     var ctrl = this;
 
     ctrl.seleccionMov = true;
@@ -127,8 +128,6 @@ angular.module('financieraClienteApp')
       //}
     };
 
-
-
     ctrl.consultarListas= function(){
       financieraRequest.get('forma_pago',
         $.param({
@@ -159,7 +158,8 @@ angular.module('financieraClienteApp')
           ctrl.unidadesejecutoras = response.data;
       });
 
-      financieraRequest.get('acta_devolucion', $.param({
+      coreRequest.get('documento', $.param({
+        query:"TipoDocumento.CodigoAbreviacion:TD-DEV",
           limit: -1
       })).then(function(response) {
           ctrl.actas = response.data;
@@ -231,12 +231,8 @@ $scope.loadrow = function(row, operacion) {
   switch (operacion) {
       case "ver":
       $("#myModal").modal();
-          ctrl.IdOrden = row.entity.Consecutivo;
+          ctrl.IdOrden = row.entity.Id;
           break;
-
-      case "otro":
-
-      break;
       default:
   }
 };
@@ -310,24 +306,48 @@ ctrl.consultaPagos = function(){
 
 };
 
+ctrl.validateFields = function(){
+  var validationClear = true;
+
+  if($scope.datosSolicitante.$invalid){
+    angular.forEach($scope.datosSolicitante.$error,function(controles,error){
+      angular.forEach(controles,function(control){
+        control.$setDirty();
+      });
+    });
+    validationClear = false;
+  }
+
+  if($scope.datosDevolucion.$invalid){
+    angular.forEach($scope.datosDevolucion.$error,function(controles,error){
+      angular.forEach(controles,function(control){
+        control.$setDirty();
+      });
+    });
+    validationClear = false;
+  }
+    return validationClear;
+
+}
 ctrl.crearDevolucion = function(){
+
+  if  (!ctrl.validateFields()){
+    swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+    return;
+  }
+
   ctrl.DevolucionTributaria={
     DevolucionTributaria:{
-        Solicitante:{
-          TipoIdentificacion:ctrl.tipoDocSoli.Id,
-          Identificacion:ctrl.numdocSoli,
-          Origen:9
-        },
         FormaPago:ctrl.formaPago,
         Vigencia:ctrl.vigencia,
         UnidadEjecutora:ctrl.unidadejecutora,
         CuentaDevolucion:{
-          Banco:1,
-          TipoCuenta:1,
+          Banco:ctrl.banco.Id,
+          TipoCuenta:ctrl.tipocuenta.Id,
           NumeroCuenta:ctrl.numeroCuenta.toString()
         },
         Observaciones:ctrl.observaciones,
-        Acta:ctrl.soporte,
+        Acta:ctrl.soporte.Id,
         Oficio:ctrl.oficio,
         FechaOficio:ctrl.FechaOficio
       },
@@ -337,6 +357,13 @@ ctrl.crearDevolucion = function(){
       TotalInversion: ctrl.valorSolicitado,
       Concepto: ctrl.concepto[0]
     };
+
+
+    if (angular.isUndefined(ctrl.IdSolicitante)){
+      ctrl.IdSolicitante = ctrl.numdocSoli;
+    }
+
+     ctrl.DevolucionTributaria.Solicitante = ctrl.IdSolicitante;
 
     angular.forEach(ctrl.movs, function(data) {
         delete data.Id;
