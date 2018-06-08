@@ -239,6 +239,7 @@ var text_es = {
     E_OPN_02_4: "Error al intentar registrar los conceptos de orden de pago. ",
     E_OPN_02_5: "Error al intentar registrar Movimientos Contables. ",
     E_OPP_01: "Error al intentar registrar la Orden de pago. ",
+    E_VBO001: "Ingrese el Valor Base de Retención para estimar el descuento",
     E_HOCO_01: "Error al intentar registrar la Homologación de concepto. ",
     E_HOCO_02: "Ya existe la Homologación. ",
     S_HOCO_01: "Homologación de Concepto registrada exitosamente. ",
@@ -415,7 +416,7 @@ var text_es = {
     MSN_DEBE_DOCUMENTO: "Debe seleccionar el tipo de documento en la sección detalle orden pago",
     MSN_DEBE_TOTAL_AFECTACION: "El valor total de la afectación es distinto al valor de la orden de pago",
     MSN_DEBE_UNIDAD: "Debe seleccionar la unidad ejecutora",
-    MSN_DEBE_VAL_BASE: "Debe indicar el valor base en la sección detalle orden pago",
+    MSN_DEBE_VAL_BASE: "Debe indicar el valor bruto en la sección detalle orden pago",
     MSN_SUPERA_SALDO: "supera el saldo disponible",
     MSN_TOTAL_AECTACION: "El total de la afectación al rubro",
     MSN_OP_PLANTA_DEBE_NECESIDAD: "Debe seleccionar una necesidad",
@@ -717,6 +718,7 @@ var text_es = {
     VENDEDOR:"Vendedor",
     BTN: {
         ACTUALIZAR: "Actualizar",
+        ADD_VALOR_BASE:"Agregar Valor Base",
         AGREGAR: "Agregar",
         AGREGAR_CODIGOS: "Agregar códigos",
         ANADIR: "Añadir",
@@ -908,7 +910,7 @@ var text_en = {
     MSN_DEBE_TIPO_OP: "You must select el tipo de Documento en la in Payment Amount Section",
     MSN_DEBE_TOTAL_AFECTACION: "The total value of the assignment is different from the value of the payment order",
     MSN_DEBE_UNIDAD: "You must select Executing Unit",
-    MSN_DEBE_VAL_BASE: "You must indicate the Base Value in the Payment Value Section",
+    MSN_DEBE_VAL_BASE: "You must indicate the Ordinary Value in the Payment Value Section",
     MSN_SUPERA_SALDO: "exceeds the value of the balance",
     MSN_TOTAL_AECTACION: "The total of the affectation to the Concepts of the Rubro",
     MSN_Y: "and",
@@ -1023,6 +1025,7 @@ var text_en = {
         NO_FILAS: "Número de Filas"
     },
     BTN: {
+        ADD_VALOR_BASE:"Add Base Value Withholding",
         AGREGAR: "Add",
         AGREGAR_CODIGOS: "Add codes",
         ANULAR: "Anular",
