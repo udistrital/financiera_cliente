@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
+    .controller('GestionBancosCtrl', function(financieraMidRequest, financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
         var ctrl = this;
 
 
@@ -399,17 +399,24 @@ angular.module('financieraClienteApp')
 
         ctrl.buscar_informacion_sucursal = function (id_sucursal){
           //Buscar info de organizacion hija
-          organizacionRequest.get('organizacion/', $.param({
-              limit: -1,
-              query: "TipoOrganizacion.CodigoAbreviacion:SU,Id:"+id_sucursal,
-          })).then(function(response) {
-              if (response.data == null) {
-                  //PONER MARCA DE AGUA DE QUE NO HAY
-              } else {
-                  ctrl.NombreSucursal = response.data[0].Nombre;
-              }
+
+
+          financieraMidRequest.get('gestion_sucursales/listar_sucursal','id_sucursal='+id_sucursal).then(function(response) {
+            if (response.data == null) {
+                //PONER MARCA DE AGUA DE QUE NO HAY
+            } else {
+                console.log(response.data)
+                ctrl.Nombre = response.data[0].Nombre;
+                ctrl.Direccion = response.data[0].Direccion;
+                ctrl.Telefono = response.data[0].Telefono;
+                ctrl.Pais = response.data[0].Pais;
+                ctrl.Departamento = response.data[0].Departamento;
+                ctrl.Ciudad = response.data[0].Ciudad;
+            }
+
 
           });
+
         };
 
         ctrl.gestionar_sucursales = function() {
