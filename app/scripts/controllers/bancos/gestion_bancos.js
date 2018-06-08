@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('GestionBancosCtrl', function(financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
+    .controller('GestionBancosCtrl', function(financieraMidRequest, financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
         var ctrl = this;
 
 
@@ -84,33 +84,27 @@ angular.module('financieraClienteApp')
                     },
                     displayName: $translate.instant('NIT'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '25%'
+                    width: '15%'
                 },
-                /*{
-                  field: 'DenominacionBanco',
-                  displayName: $translate.instant('DENOMINACION'),
-                  headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '20%'
-                },*/
                 {
                     field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '25%'
+                    width: '20%'
                 },
 
                 {
                   field: 'CodigoSuperintendencia',
                   displayName: $translate.instant('CODIGO_SUPER'),
                   headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '10%',
+                  width: '20%',
                   cellFilter: "filtro_codigo_super:row.entity"
                 },
                 {
                   field: 'CodigoAch',
-                  displayName: $translate.instant('ACH'),
+                  displayName: $translate.instant('CODIGO_ACH'),
                   headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '10%',
+                  width: '15%',
                   cellFilter: "filtro_codigo_ach:row.entity"
                 },
                 {
@@ -291,7 +285,7 @@ angular.module('financieraClienteApp')
 
     } else {
                 swal({
-                    html: $translate.instant('ALERTA_COMPLETAR_DATOS_EDICION'),
+                    html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#449D44",
@@ -311,14 +305,16 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
                 if (response.data == null) {
                     ctrl.tieneSucursal = false;
+                    $("#modal_sucursal").modal("show");
                 } else {
                     ctrl.tieneSucursal = true;
                     ctrl.buscar_informacion_sucursal(response.data[0].OrganizacionHija);
-                  //  ctrl.NombreSucursal = response.data[0].Nombre;
+                    $("#modal_sucursal").modal("show");
+
                 }
             });
-            $("#modal_sucursal").modal("show");
-            //Si tiene, que permita visualizarla en un modal, en este modal, que se permita desvincularla. Si no tiene, que sea un botón que permite agregar, listando las existentes
+
+
         };
 
         ctrl.desvincular_sucursal = function() {
@@ -399,17 +395,23 @@ angular.module('financieraClienteApp')
 
         ctrl.buscar_informacion_sucursal = function (id_sucursal){
           //Buscar info de organizacion hija
-          organizacionRequest.get('organizacion/', $.param({
-              limit: -1,
-              query: "TipoOrganizacion.CodigoAbreviacion:SU,Id:"+id_sucursal,
-          })).then(function(response) {
-              if (response.data == null) {
-                  //PONER MARCA DE AGUA DE QUE NO HAY
-              } else {
-                  ctrl.NombreSucursal = response.data[0].Nombre;
-              }
+
+
+          financieraMidRequest.get('gestion_sucursales/listar_sucursal','id_sucursal='+id_sucursal).then(function(response) {
+            if (response.data == null) {
+                //PONER MARCA DE AGUA DE QUE NO HAY
+            } else {
+                ctrl.Nombre = response.data[0].Nombre;
+                ctrl.Direccion = response.data[0].Direccion;
+                ctrl.Telefono = response.data[0].Telefono;
+                ctrl.Pais = response.data[0].Pais;
+                ctrl.Departamento = response.data[0].Departamento;
+                ctrl.Ciudad = response.data[0].Ciudad;
+            }
+
 
           });
+
         };
 
         ctrl.gestionar_sucursales = function() {
