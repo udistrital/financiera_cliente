@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
     ctrl.Sucursales = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
-      enableRowSelection: true,
+      enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
@@ -191,7 +191,7 @@ angular.module('financieraClienteApp')
 
     }else {
                 swal({
-                    html: $translate.instant('ALERTA_COMPLETAR_DATOS_EDICION'),
+                    html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
                     type: "error",
                     showCancelButton: false,
                     confirmButtonColor: "#449D44",
