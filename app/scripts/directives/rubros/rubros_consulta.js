@@ -519,7 +519,7 @@ angular.module('financieraClienteApp')
           aprAregistrar.Vigencia = $scope.vigencia;
           aprAregistrar.Estado = estadoapr;
           aprAregistrar.Rubro = rubroapr;
-          aprAregistrar.Valor = self.ValorAsignado;
+          aprAregistrar.Valor = parseInt(self.ValorAsignado);
           console.log(aprAregistrar);
           financieraMidRequest.post('apropiacion', aprAregistrar).then(function(response){
             console.log(response.data);
