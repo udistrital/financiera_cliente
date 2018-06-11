@@ -128,7 +128,7 @@
       </div>
     </div>
   </div>
-  <div id="modalAddValorBase" class="modal fade">
+  <div id="modalAddValorBase" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 15%">
 
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
@@ -136,23 +136,23 @@
       <div class="modal-body">
         <legend>{{'VALOR_BASE_RETENCION' | translate}}</legend>
         <div class="panel panel-info panel-body">
-            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_valor_base()" focus-on-field validate>
+            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" focus-on-field validate>
               <div class="row">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="val_base_impuesto_op" class="col-sm-2 control-label ng-binding">{{ 'VALOR' | translate }}*:</label>
                   <div class="col-sm-12">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.valorBase" ui-money-mask="0" ng-required="true"></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].ValorBase" ui-money-mask="0" ng-required="true"></input>
                   </div>
                 </fieldset>
               </div>
               </div>
               <br>
               <div class="row">
-               <div class="form-group" ng-if="d_movimientosContables.validar_valor_base()">
-                <center><button ng-click="d_movimientosContables.asignar_valor_base()" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
+               <div class="form-group" ng-if="d_movimientosContables.validar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
+                <center><button ng-click="d_movimientosContables.asignar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
               </div>
-              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_valor_base()">
+              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
                {{'E_VBO001' | translate}}
              </div>                
               </div>
