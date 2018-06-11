@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.Vigencia =  parseInt(response.data);
-      financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
+      /*financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
         UnidadEjecutora: self.UnidadEjecutora,
         Vigencia: parseInt(response.data)
       })) 
@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
         self.InfoAprobacion =  response.data.Data;
         self.Aprobado = response.data.Aprobado;
         console.log(self.InfoAprobacion);
-      });
+      });*/
     });
 
     self.AprobarPresupuesto = function(){
@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch("datachangeevent", function() {  
-      if (self.Vigencia !== undefined && self.Vigencia !== null){
+      /*if (self.Vigencia !== undefined && self.Vigencia !== null){
         financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
           UnidadEjecutora: self.UnidadEjecutora,
           Vigencia: self.Vigencia
@@ -57,7 +57,7 @@ angular.module('financieraClienteApp')
           self.InfoAprobacion =  response.data.Data;
           self.Aprobado = response.data.Aprobado;
         });
-      }
+      }*/
       
     }, true);
 
