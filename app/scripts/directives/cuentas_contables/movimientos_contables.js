@@ -47,6 +47,7 @@ angular.module('financieraClienteApp')
                 $scope.show_descs = 'impydesc' in $attrs;
                 var self = this;
                 self.descuentos_nuevos = [];
+                self.posactual = 0;
                 financieraRequest.get('forma_pago',
                   $.param({
                     limit: 0
@@ -90,7 +91,7 @@ angular.module('financieraClienteApp')
                                     return 'text-info';
                                 }
                             },
-                            cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase}}</div> </div>' +
+                            cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase | currency }}</div> </div>' +
                                 '<div ng-if="row.entity.TipoCuentaEspecial==undefined"> {{row.entity.CuentaContable.Nombre}} </div>',
                             headerCellClass: 'text-info',
                             cellTooltip: function(row) {
@@ -146,6 +147,7 @@ angular.module('financieraClienteApp')
                                     } else {
                                     respuesta =  true;
                                     }
+                                    console.log("respuesta tipo descuento", respuesta);
                                 }
                                 return respuesta;
                             },
@@ -274,7 +276,7 @@ angular.module('financieraClienteApp')
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
-                            cellTemplate: '<div><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>, {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +': {{row.entity.ValorBase}}</div></div>',
+                            cellTemplate: '<div><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>, {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +': {{row.entity.ValorBase | currency}}</div></div>',
                             enableCellEdit: false,
                             width: '30%'
                         },
@@ -349,8 +351,8 @@ angular.module('financieraClienteApp')
                             cellTemplate: '<center>' +
                                 '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" data-toggle="modal" data-target="#modalEndosar" >' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +
-                                '<a ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true" href="" class="addvalorbase" data-toggle="modal" data-target="#modalAddValorBase">' +
-                                '<i class="fa fa-gear fa-lg faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ADD_VALOR_BASE\' | translate }}"></i></a>' +
+                                '<a ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" href="" class="addvalorbase" data-toggle="modal" data-target="#modalAddValorBase">' +
+                                '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ADD_VALOR_BASE\' | translate }}"></i></a>' +
                                 '<a href="" class="borrar" data-toggle="modal" data-target="#modalverplan" ng-click="grid.appScope.d_movimientosContables.quitar_descuento(row.entity)">' +
                                 '<i class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}"></i></a> ' +
                                 '</center>'
@@ -391,7 +393,6 @@ angular.module('financieraClienteApp')
                              item.FormaPago = $scope.outputformapagoop;
                             }
                             if (item.TipoCuentaEspecial.Nombre !== "Descuento") {
-                                self.itemImpuesto = item;
                                 item.TipoCuentaEspecial.CuentaEspecialImpuesto = true; 
                             }
                         }
@@ -411,17 +412,27 @@ angular.module('financieraClienteApp')
                 self.validar_endoso = function () {
                     return (self.valorInicial > 0) && (self.valorInicial <= self.valorMaximo) ;
                 }
-                self.validar_valor_base = function(){
-                    return self.valorBase != undefined ;
+                self.validar_valor_base = function(item){
+                    if (item != undefined) {
+                        return item.ValorBase != undefined ;                        
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 self.calcular_descuento= function (item, valor){
                     return Math.round(item.Porcentaje * valor) ;
                 }                
-                self.asignar_valor_base = function(){
-                    var pos = self.gridOptionsDescuentos.data.indexOf(self.itemImpuesto);
-                    self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(self.itemImpuesto,self.valorBase);
-                    self.gridOptionsDescuentos.data[pos].ValorBase = self.valorBase;
+                self.asignar_valor_base = function(item){
+                    var pos = self.gridOptionsDescuentos.data.indexOf(item);
+                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {                       
+                        self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(item,self.gridOptionsDescuentos.data[pos].ValorBase);
+                    }
 
+                }
+                self.actualizar_posicion = function(item){
+                    self.posactual = self.gridOptionsDescuentos.data.indexOf(item);
+                    console.log("posicion", self.posactual);
                 }
 
                 /*self.agregar_desc_mov=function(){
@@ -511,7 +522,7 @@ angular.module('financieraClienteApp')
                     if (self.gridOptionsMovimientos.data.length != undefined) {
                     for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
                         if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial != undefined) {
-                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Descuento" || self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Endoso") {
+                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Descuento" && self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Endoso") {
                                  self.gridOptionsMovimientos.data[i].Credito = Math.round(self.gridOptionsMovimientos.data[i].ValorBase * self.gridOptionsMovimientos.data[i].Porcentaje);
                             }
                         }
