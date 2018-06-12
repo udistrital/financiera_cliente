@@ -6,48 +6,51 @@
      <!--apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta-->
      <rubros-consulta botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="false" ramasel="false" vigencia="rubroApropiacionPlaneacion.Vigencia"></rubros-consulta>
     </div>
-  <div class="panel-body  col-md-6">
-    <div class="panel panel-info panel-body">
-        <div class="panel panel-heading">
-            <h4 class="text-center panel-title">{{"COMPROBACION_APROBACION_INICIAL" | translate}}</h4>
-        </div>
-        <center>
-     <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
-            
-            <table class="table">
-                <tr>
-                    <th>
-                        {{"RUBRO" | translate}} 
-                    </th>
-                    <th>
-                        {{'APROPIACION_INICIAL'|translate}}
-                    </th>
-                    
-                </tr>
-                <tr ng-repeat="infoap in rubroApropiacionPlaneacion.InfoAprobacion">
-                    <td>
-                        {{infoap.Codigo + "/" + infoap.Nombre}}
-                    </td>
-                    <td>
-                        {{infoap.SaldoInicial | currency}}
-                    </td>
-                </tr>
-            </table>
-            <div class="panel-footer" align="center">
-                <div ng-show="rubroApropiacionPlaneacion.Aprobado === '1'" class=" text-success">
-                  <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
-                  <br><small>{{"INGRESOS_EGRESOS_CUMPLE" | translate}}</small>
+  <div class="panel-body col-md-6">
+    <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones" botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro" vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
+  </div>
+  <hr>
+    <div class="panel-body  col-md-6 col-md-offset-3">
+      <div class="panel panel-info panel-body">
+          <div class="panel panel-heading">
+              <h4 class="text-center panel-title">{{"COMPROBACION_APROBACION_INICIAL" | translate}}</h4>
+          </div>
+          <center>
+              <table class="table">
+                  <tr>
+                      <th>
+                          {{"RUBRO" | translate}} 
+                      </th>
+                      <th>
+                          {{'APROPIACION_INICIAL'|translate}}
+                      </th>
+                      
+                  </tr>
+                  <tr ng-repeat="infoap in rubroApropiacionPlaneacion.InfoAprobacion">
+                      <td>
+                          {{infoap.Codigo + "/" + infoap.Nombre}}
+                      </td>
+                      <td>
+                          {{infoap.SaldoInicial | currency}}
+                      </td>
+                  </tr>
+              </table>
+              <div class="panel-footer" align="center">
+                  <div ng-show="rubroApropiacionPlaneacion.Aprobado === '1'" class=" text-success">
+                    <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
+                    <br><small>{{"INGRESOS_EGRESOS_CUMPLE" | translate}}</small>
+                  </div>
+              
+                  <div ng-show="rubroApropiacionPlaneacion.Aprobado !== '1'" class="text-danger ">
+                    <span class="glyphicon glyphicon-ban-circle fa-3x" aria-hidden="true"></span>
+                    <br><small>{{"INGRESOS_EGRESOS_NO_CUMPLE" | translate}}</small>
+                  </div>
                 </div>
-            
-                <div ng-show="rubroApropiacionPlaneacion.Aprobado !== '1'" class="text-danger ">
-                  <span class="glyphicon glyphicon-ban-circle fa-3x" aria-hidden="true"></span>
-                  <br><small>{{"INGRESOS_EGRESOS_NO_CUMPLE" | translate}}</small>
-                </div>
-              </div>
-              <hr>
-            <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado === '1'" ng-click="rubroApropiacionPlaneacion.AprobarPresupuesto()">{{'APROBAR'|translate}}</button>
-        </center>
-        
-    </div>
-   </div>
+                <hr>
+              <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado === '1'" ng-click="rubroApropiacionPlaneacion.AprobarPresupuesto()">{{'APROBAR'|translate}}</button>
+          </center>
+          
+      </div>
+     </div>
+
 </div>
