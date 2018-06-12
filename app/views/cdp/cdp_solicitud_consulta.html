@@ -13,7 +13,7 @@
                             <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
                               <option ng-repeat="option in cdpSolicitudConsulta.years" value="{{option}}">{{option}}</option>
                             </select>
-                           
+
                         </div>
                         <div class="col-md-3">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-1">
                             <br>
-                            <a type="button" name="button" ng-click="cdpSolicitudConsulta.cragarDatos(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                            <a type="button" name="button" ng-click="cdpSolicitudConsulta.cargarDatos(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
                         </div>
                     </div>
                     <br>
@@ -33,9 +33,12 @@
             </div>
         </div>
 
-        
-        <div>
-            <div ui-grid="cdpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+
+      <div ng-show="cdpSolicitudConsulta.mostrarGrid"  >
+            <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+                <div class="watermark" ng-show="!cdpSolicitudConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
+            </div>
+
         </div>
 
     </div>
