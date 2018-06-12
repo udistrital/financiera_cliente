@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         $scope.outputrpselect = [];
+        self.posicion_actual = 0;
         self.gridOptions_rp = {
           enableRowSelection: true,
           enableRowHeaderSelection: true,
@@ -44,6 +45,61 @@ angular.module('financieraClienteApp')
             }
           ]
         };
+        self.gridOptions_rp_seleccionados = {
+          enableRowSelection: true,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'NumeroRegistroPresupuestal',
+              displayName: $translate.instant('NO_CRP'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              cellClass: 'input_center'
+            },
+            {
+              field: 'Responsable',
+              displayName: $translate.instant('RESPONSABLE')
+            },
+            {
+              field: 'Estado.Nombre',
+              displayName: $translate.instant('ESTADO')
+            },
+            {
+              field: 'RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Nombre',
+              displayName: $translate.instant('COMPROMISO')
+            },
+            {
+              field: 'RegistroPresupuestalDisponibilidadApropiacion[d_rpPorProveedorListar.posactual].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Descripcion',
+              displayName: $translate.instant('DESCRIPCION_COMPROMISO')
+            },
+            {
+              field: 'valor_total_rp',
+              displayName: $translate.instant('VALOR_CRP'),
+              cellTemplate: '<div>{{row.entity.valor_total_rp | currency:undefined:0}}</div>'
+            },
+            {
+              field: 'RegistroPresupuestalDisponibilidadApropiacion[d_rpPorProveedorListar.posactual].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
+              displayName: $translate.instant('NO_CDP')
+            },
+            {
+              field: 'RegistroPresupuestalDisponibilidadApropiacion[d_rpPorProveedorListar.posactual].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre',
+              displayName: $translate.instant('ESTADO') + " " + $translate.instant('CDP')
+            },
+            {
+              field: 'necesidadInfo.SolicitudDisponibilidad.Necesidad.Numero',
+              displayName: $translate.instant('NECESIDAD_NO')
+            },
+            {
+              field: 'necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto',
+              displayName: $translate.instant('OBJETO') + " " + $translate.instant('NECESIDAD')
+            }
+          ]
+        };
         self.gridOptions_rp.multiSelect = true;
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
@@ -51,11 +107,16 @@ angular.module('financieraClienteApp')
             //
             if (row.isSelected) {
               $scope.outputrpselect.push(row.entity);
-              console.log("rp+", $scope.outputrpselect);
+              // console.log("rp+", $scope.outputrpselect);
+              if (self.gridOptions_rp_seleccionados.data.indexOf(row.entity) < 0) {
+                self.gridOptions_rp_seleccionados.data.push(row.entity);
+              }
+              self.posactual = self.gridOptions_rp_seleccionados.data.indexOf(row.entity);             
             } else {
               var i = $scope.outputrpselect.indexOf(row.entity)
               $scope.outputrpselect.splice(i, 1);
-              console.log("rp-", $scope.outputrpselect);
+              self.gridOptions_rp_seleccionados.data.splice(i, 1);
+              // console.log("rp-", $scope.outputrpselect);
             }
             if (self.gridApi.selection.getSelectedRows()[0] != undefined) {              
               $scope.outputrpselectone = self.gridApi.selection.getSelectedRows()[0];
