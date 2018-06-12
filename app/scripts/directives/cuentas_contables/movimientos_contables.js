@@ -30,7 +30,6 @@ angular.module('financieraClienteApp')
                 impydesc: '@?',
                 monto: '=?',
                 outputvalorbruto: '=?',
-                outputformapagoend: '=?',
                 outputformapagoop: '=?',
                 validatemov: '=?'
             },
@@ -147,7 +146,6 @@ angular.module('financieraClienteApp')
                                     } else {
                                     respuesta =  true;
                                     }
-                                    console.log("respuesta tipo descuento", respuesta);
                                 }
                                 return respuesta;
                             },
@@ -349,7 +347,7 @@ angular.module('financieraClienteApp')
                             width: '10%',
                             enableCellEdit: false,
                             cellTemplate: '<center>' +
-                                '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" data-toggle="modal" data-target="#modalEndosar" >' +
+                                '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" data-toggle="modal" data-target="#modalEndosar" >' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +
                                 '<a ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" href="" class="addvalorbase" data-toggle="modal" data-target="#modalAddValorBase">' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ADD_VALOR_BASE\' | translate }}"></i></a>' +
@@ -365,7 +363,7 @@ angular.module('financieraClienteApp')
                         //console.log(item);
                         var i = self.gridOptionsDescuentos.data.indexOf(item);
                         var j = $scope.movimientos.indexOf(item);
-                        console.log(i, j);
+                        //console.log(i, j);
                         if (i >= 0 && j >= 0) {
                             self.gridOptionsDescuentos.data.splice(i, 1);
                             $scope.movimientos.splice(j, 1);
@@ -382,11 +380,8 @@ angular.module('financieraClienteApp')
                             //item.Credito = Math.round(item.Porcentaje * $scope.monto);
                         }
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
-                            self.itemActual = item;
-                            self.tercero = item.proveedor;
-                            self.cuentaTercero = item.CuentaContable.CuentaBancaria;
                             self.Endosar ="Endoso";
-                            self.valorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
+                            self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
                         } else {
                             if ($scope.outputformapagoop != undefined)
                             { 
@@ -404,13 +399,17 @@ angular.module('financieraClienteApp')
                         }
                     }
                 };
-                self.asignar_endoso = function(){
-                    var pos = self.gridOptionsDescuentos.data.indexOf(self.itemActual);
-                    self.gridOptionsDescuentos.data[pos].Credito = self.valorInicial;
-                    self.gridOptionsDescuentos.data[pos].FormaPago = $scope.outputformapagoend;
+                self.asignar_endoso = function(item){
+                    var pos = self.gridOptionsDescuentos.data.indexOf(item);
+                    self.gridOptionsDescuentos.data[pos].Credito = item.ValorInicialEndoso;
                 }
-                self.validar_endoso = function () {
-                    return (self.valorInicial > 0) && (self.valorInicial <= self.valorMaximo) ;
+                self.validar_endoso = function (item) {
+                    if (item != undefined) {
+                        return (item.ValorInicialEndoso > 0) && (item.ValorInicialEndoso <= self.ValorMaximo) ;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 self.validar_valor_base = function(item){
                     if (item != undefined) {
@@ -431,8 +430,10 @@ angular.module('financieraClienteApp')
 
                 }
                 self.actualizar_posicion = function(item){
+                    if (item.TipoCuentaEspecial.Nombre === "Endoso") {
+                        self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
+                    }
                     self.posactual = self.gridOptionsDescuentos.data.indexOf(item);
-                    console.log("posicion", self.posactual);
                 }
 
                 /*self.agregar_desc_mov=function(){

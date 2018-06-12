@@ -122,7 +122,7 @@ var conf_local = {
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
     FINANCIERA_MID_SERVICE: "http://127.0.0.1:8087/v1/",
-    FINANCIERA_SERVICE: "http://10.20.0.254/financiera_api/v1/",
+    FINANCIERA_SERVICE: "http://127.0.0.1:8084/v1/",
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
