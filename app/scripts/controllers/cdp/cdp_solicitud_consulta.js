@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
   .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
+    self.mostrarGrid = false;
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -27,8 +28,8 @@ angular.module('financieraClienteApp')
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
         {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
-        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),headerCellClass: 'text-info',enableFiltering : false},
-        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),headerCellClass: 'text-info',enableFiltering : false},
+        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),cellClass: 'input_center',headerCellClass: 'text-info',enableFiltering : false},
+        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),cellClass: 'input_center',headerCellClass: 'text-info',enableFiltering : false},
         {field: 'SolicitudDisponibilidad.Vigencia', displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info'},
         {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: $translate.instant("FECHA_REGISTRO") , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>', headerCellClass: 'text-info'},
         {
@@ -42,6 +43,7 @@ angular.module('financieraClienteApp')
       ]
     };
     self.gridOptions.onRegisterApi = function(gridApi) {
+
             self.gridApi = gridApi;
             self.gridApi.core.on.filterChanged($scope, function() {
                 var grid = this.grid;
@@ -58,7 +60,7 @@ angular.module('financieraClienteApp')
                     }
                 });
                 self.offset=0;
-                self.cragarDatos(self.offset,query);
+                self.cargarDatos(self.offset,query);
             });
             self.gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
 
@@ -78,7 +80,7 @@ angular.module('financieraClienteApp')
                     }
                 });
                 self.offset = (newPage - 1) * pageSize;
-                self.cragarDatos(self.offset,query);
+                self.cargarDatos(self.offset,query);
             });
             self.gridOptions.totalItems = 50000;
 };
@@ -93,9 +95,9 @@ angular.module('financieraClienteApp')
         range.push(self.vigenciaActual - i);
       }
       self.years = range;
-      self.Vigencia = self.vigenciaActual;
+    //  self.Vigencia = self.vigenciaActual;
       self.gridOptions.totalItems = 5000;
-      self.cragarDatos(0,'');
+
     });
 
 
@@ -123,49 +125,72 @@ angular.module('financieraClienteApp')
 
           case "otro":
 
-          break;    
+          break;
           default:
       }
   };
 
 
-    self.cragarDatos = function(offset,query){
-      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
-      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+    self.cargarDatos = function(offset,query){
 
-      if (inicio !== undefined && fin !== undefined) {
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
-          UnidadEjecutora: self.UnidadEjecutora,
-          rangoinicio: inicio,
-          rangofin: fin,
-          offset: offset
-        })).then(function(response) {
-        if (response.data === null){
-          self.gridOptions.data = [];
-        }else{
-          self.gridOptions.data = response.data;
-        }
+    if(self.Vigencia == null && self.fechaInicio == null && self.fechaFin == null){
+      swal({
+          html: $translate.instant('ALERTA_CAMPOS_BUSQUEDA'),
+          type: "error",
+          showCancelButton: false,
+          confirmButtonColor: "#449D44",
+          confirmButtonText: $translate.instant('VOLVER'),
+      })
+    }else{
+
+            var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+            var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+
+            if (inicio !== undefined && fin !== undefined) {
+              financieraMidRequest.cancel();
+              financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+                UnidadEjecutora: self.UnidadEjecutora,
+                rangoinicio: inicio,
+                rangofin: fin,
+                offset: offset
+              })).then(function(response) {
+
+              if (response.data === null){
+                self.mostrarGrid = true;
+                self.haySolicitudes = false;
+                self.gridOptions.data = [];
+
+              }else{
+                self.mostrarGrid = true;
+                self.haySolicitudes = true;
+                self.gridOptions.data = response.data;
+
+              }
 
 
-        });
-      }else{
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
-          UnidadEjecutora: self.UnidadEjecutora,
-          offset: offset
-        })).then(function(response) {
-        if (response.data === null){
-          self.gridOptions.data = [];
-        }else{
-          self.gridOptions.data = response.data;
-        }
+              });
+            }else{
+              financieraMidRequest.cancel();
+              financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+                UnidadEjecutora: self.UnidadEjecutora,
+                offset: offset
+              })).then(function(response) {
+              if (response.data === null){
+                self.mostrarGrid = true;
+                self.haySolicitudes = false;
+                self.gridOptions.data = [];
+              }else{
+                self.mostrarGrid = true;
+                self.haySolicitudes = true;
+                self.gridOptions.data = response.data;
+              }
 
 
 
-        });
-      }
+              });
+            }
 
+          }
 
     };
 
@@ -216,12 +241,12 @@ angular.module('financieraClienteApp')
                   confirmButtonText: 'Cerrar'
                 }).then(function(){
                   $("#myModal").modal('hide');
-                  self.cragarDatos(0,'');
+                  self.cargarDatos(0,'');
                 });
 
                 // swal('',$translate.instant(response.data[0].Code)+" "+response.data[0].Body.NumeroDisponibilidad,response.data[0].Type).then(function(){
                 //   $("#myModal").modal('hide');
-                //   self.cragarDatos(0,'');
+                //   self.cargarDatos(0,'');
                 // });
               }
 
@@ -275,10 +300,15 @@ angular.module('financieraClienteApp')
        });
      };
 
+
+
      $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
 
 
-        self.cragarDatos(0,'');
+       if(self.Vigencia != null){
+         self.cargarDatos(0,'');
+       }
+
 
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
         //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
