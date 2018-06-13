@@ -25,6 +25,8 @@ angular.module('financieraClienteApp')
         self.padre = {};
         self.arbol_conceptos = [];
 
+        self.multiSelect = "multiselect" in $attrs;
+
         financieraRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
         });
@@ -56,7 +58,14 @@ angular.module('financieraClienteApp')
           }
         };
         self.seleccionar_concepto = function(concepto) {
-          $scope.seleccion = concepto;
+          if (self.multiSelect===true){
+
+            if($scope.seleccion.indexOf(concepto)===-1){
+              $scope.seleccion.push(concepto);
+            }
+          }else{
+            $scope.seleccion = concepto;
+          }
           $scope.showc=false;
           $scope.conceptosel=undefined;
         };
