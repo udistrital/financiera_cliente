@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
     ctrl.encontrado = false;
     ctrl.loadCircle = true;
     ctrl.FechaOficio = new Date();
-
+    ctrl.concepto=[];
 
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
@@ -204,6 +204,19 @@ angular.module('financieraClienteApp')
      }
    },true);
 
+   $scope.$watch('devolucionesnoTributaria.concepto', function(newValue,oldValue) {
+       if (!angular.isUndefined(newValue)) {
+           financieraRequest.get('concepto', $.param({
+               query: "Id:" + newValue[newValue.length-1].Id,
+               fields: "Rubro",
+               limit: -1
+           })).then(function(response) {
+               ctrl.concepto[newValue.length-1].Rubro = response.data[0].Rubro;
+               ctrl.concepto[newValue.length-1].valorAfectacion = 0;
+           });
+       }
+   }, true);
+
 ctrl.cargarOrdenesPago = function (){
 
     financieraRequest.get('orden_pago', $.param({
@@ -230,7 +243,7 @@ $scope.loadrow = function(row, operacion) {
   ctrl.operacion = operacion;
   switch (operacion) {
       case "ver":
-      $("#myModal").modal();
+      $("#modalCuentas").modal();
           ctrl.IdOrden = row.entity.Id;
           break;
       default:
@@ -381,6 +394,10 @@ ctrl.crearDevolucion = function(){
             }
        }
     });
+  }
+
+  ctrl.aceptar = function(){
+    $("#modalCuentas").modal('hide');
   }
 
   });
