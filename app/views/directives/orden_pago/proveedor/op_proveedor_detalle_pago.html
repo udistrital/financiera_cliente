@@ -9,10 +9,8 @@
     <div class="form-group">
       <label for="tipo_documento" class="col-sm-2 control-label">{{'TIPO_ORDEN_PAGO' | translate }}</label>
       <div class="col-sm-4">
-        <select ng-model="outputsubtipoordenpago" ng-options="i.Nombre for i in d_opProveedorDetallePago.subTiposOrdenPago" class="form-control" id="tipo_documento" required>
-          <option value="">Seleccionar Documento</option>
-        </select>
-      </div>
+        <input ng-model="outputsubtipoordenpago.Nombre" type="text" id="tipo_documento" class="form-control" disabled/>
+      </div>       
       <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
       <div class="col-sm-4">
         <select ng-model="outputformapago" ng-options="i.Nombre for i in d_opProveedorDetallePago.formaPagos" class="form-control" required>

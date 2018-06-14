@@ -41,7 +41,9 @@ angular.module('financieraClienteApp')
                 query: "Id:" + $scope.inputpreviusdata.EntradaAlmacen,
               })
             ).then(function(response) {
-              self.entrada.selected = response.data[0];
+              if (response.data != undefined){
+                  self.entrada.selected = response.data[0];
+              }
             });
             self.ver_seleccion = function($item, $model) {
               if($item != undefined){
@@ -75,6 +77,7 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               self.subTiposOrdenPago = response.data;
+              $scope.outputnewdataselect.SubTipoOrdenPago = self.subTiposOrdenPago[0];
             });
             //forma de pago
             financieraRequest.get('forma_pago',
