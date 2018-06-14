@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
     ctrl.encontrado = false;
     ctrl.loadCircle = true;
     ctrl.FechaOficio = new Date();
-    ctrl.concepto=[];
+    $scope.concepto=[];
 
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
@@ -204,18 +204,29 @@ angular.module('financieraClienteApp')
      }
    },true);
 
-   $scope.$watch('devolucionesnoTributaria.concepto', function(newValue,oldValue) {
-       if (!angular.isUndefined(newValue)) {
-           financieraRequest.get('concepto', $.param({
-               query: "Id:" + newValue[newValue.length-1].Id,
-               fields: "Rubro",
-               limit: -1
-           })).then(function(response) {
-               ctrl.concepto[newValue.length-1].Rubro = response.data[0].Rubro;
-               ctrl.concepto[newValue.length-1].valorAfectacion = 0;
-           });
-       }
-   }, true);
+
+   $scope.$watch('concepto[concepto.length-1]',function(newvalue,oldvalue){
+     if (!angular.isUndefined(newvalue)) {
+         financieraRequest.get('concepto', $.param({
+             query: "Id:" + newvalue.Id,
+             fields: "Rubro",
+             limit: -1
+         })).then(function(response) {
+             newvalue.Rubro = response.data[0].Rubro;
+         });
+     }
+   },true);
+
+   $scope.$watch('[concepto,devolucionesnoTributaria.sumacreditos]',function(){
+     var afectacionTotal = 0;
+     ctrl.validaDevolPr = false;
+     angular.forEach($scope.concepto,function(concepto){
+       afectacionTotal += concepto.valorAfectacion;
+     });
+     if(afectacionTotal === ctrl.sumacreditos){
+       ctrl.validaDevolPr = true;
+     }
+   },true);
 
 ctrl.cargarOrdenesPago = function (){
 
@@ -368,7 +379,7 @@ ctrl.crearDevolucion = function(){
         EstadoDevolucion:{Id:8}
       },
       TotalInversion: ctrl.valorSolicitado,
-      Concepto: ctrl.concepto[0]
+      Concepto: $scope.concepto
     };
 
 

@@ -141,17 +141,18 @@
   </form>
     <div class="col-md-6">
       <div class="form-group">
-        <arbol-conceptos filtro="devolucionesnoTributaria.filtro_ingresos" seleccion="devolucionesnoTributaria.concepto" conceptosel="nodo" multiselect="true"> </arbol-conceptos>
+        <arbol-conceptos filtro="devolucionesnoTributaria.filtro_ingresos" seleccion="concepto" conceptosel="nodo" multiselect="true"> </arbol-conceptos>
       </div>
     </div>
 </div>
     <div class="col-md-12">
-      <div class="row" ng-show="devolucionesnoTributaria.concepto.length > 0">
+      <div class="row" ng-show="concepto.length > 0">
         <div class="panel-default panel-body">
           <div class="panel panel-heading">
             <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
           </div>
-          <ul class="list-unstyled" ng-repeat="con in devolucionesnoTributaria.concepto">
+          <div class="col-md-6">
+          <ul class="list-unstyled" ng-repeat="con in concepto track by con.Id">
             <li><b>{{'RUBRO' | translate}}:</b> {{con.Rubro.Codigo + " / "+ con.Rubro.Nombre }}
               <ul>
                 <li>
@@ -166,12 +167,25 @@
             </li>
           </ul>
         </div>
+
+        <div ng-show= "devolucionesnoTributaria.validaDevolPr" class="col-md-6 text-success" align="center">
+          <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
+          <br><small>{{"TOTAL_DEVOLUCION_RUBRO" | translate}}</small>
+        </div>
+
+        <div ng-show= "!devolucionesnoTributaria.validaDevolPr" class="col-md-6 text-danger" align="center">
+          <span class="glyphicon glyphicon glyphicon-remove-circle fa-3x" aria-hidden="true"></span>
+          <br><small>{{"TOTAL_DEVOLUCION_RUBRO_ADVERTENCIA" | translate}}</small>
+        </div>
+
+
+        </div>
       </div>
     </div>
 </div>
 </div>
 
-  <div class="panel-body" ng-show="devolucionesnoTributaria.concepto.length > 0">
+  <div class="panel-body" ng-show="concepto.length > 0">
     <legend class="text-primary" ng-click="c=!c">
       {{'CUENTAS_CONTABLES' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!c"></span>
@@ -181,14 +195,14 @@
       <div class="col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
-            <li ng-class="{active: selected == c.Id}" ng-repeat="c in devolucionesnoTributaria.concepto"><a href ng-click="devolucionesnoTributaria.selected=c.Id" data-toggle="tab">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="devolucionesnoTributaria.selected=c.Id" data-toggle="tab">
                                 Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
             </li>
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane fade in active" ng-repeat="c in devolucionesnoTributaria.concepto">
-              <movimientos-contables conceptoid="c.Id" movimientos="devolucionesnoTributaria.movs" monto="c.valorAfectacion" editable validatemov="c.validado">
+            <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="devolucionesnoTributaria.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="c.valorAfectacion" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>
