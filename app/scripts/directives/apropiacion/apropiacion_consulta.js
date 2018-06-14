@@ -223,7 +223,7 @@ angular.module('financieraClienteApp')
             console.log(response.data);
             if (response.data.Type !== undefined){
               swal('',$translate.instant(response.data.Code),response.data.Type);
-              
+              $scope.recargar = !$scope.recargar;
 
             }
           });
