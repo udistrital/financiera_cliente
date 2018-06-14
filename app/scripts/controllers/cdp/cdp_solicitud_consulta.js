@@ -154,7 +154,7 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
 
               if (response.data === null){
-    
+
                 self.haySolicitudes = false;
                 self.gridOptions.data = [];
 
@@ -261,7 +261,7 @@ angular.module('financieraClienteApp')
        var solicitud = self.gridApi.selection.getSelectedRows();
        $("#myModal").modal('hide');
        swal({
-         title: 'Indique una justificación por el rechazo',
+         title: $translate.instant('ALERTA_JUSTIFICACION_RECHAZO'),
          input: 'textarea',
          showCancelButton: true,
          inputValidator: function (value) {
@@ -269,7 +269,7 @@ angular.module('financieraClienteApp')
              if (value) {
                resolve();
              } else {
-               reject('Por favor indica una justificación!');
+               reject($translate.instant('ALERTA_JUSTIFICACION_RECHAZO'));
              }
            });
          }
