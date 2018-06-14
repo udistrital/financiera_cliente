@@ -13,7 +13,7 @@
       <h4 class="text-info">{{"VIGENCIA" | translate}} : {{vigencia}}</h4>
       <hr>
       <div class="pre-scrollable">
-          <treecontrol class="tree-classic" tree-model="arbol" options="d_apropiacionConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_apropiacionConsulta.expandedNodes">
+          <treecontrol class="tree-classic" tree-model="arbol" options="d_apropiacionConsulta.treeOptions"selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" on-node-toggle="d_apropiacionConsulta.onSelectNode(node,expanded)"filter-expression="filtro" expanded-nodes="d_apropiacionConsulta.expandedNodes">
               <span class="text-success">{{node.Codigo }}:</span> {{node.Nombre | limitTo:50}} - 
               <btn-registro ng-if="node.Hijos == null" funcion="d_apropiacionConsulta.arbol_operacion(node,operacion)" grupobotones="botones" fila="node"></btn-registro>
               <btn-registro ng-if="node.Hijos != null" funcion="d_apropiacionConsulta.arbol_operacion(node,operacion)" grupobotones="botonespadre" fila="node"></btn-registro>
@@ -22,7 +22,7 @@
     </div>
   </div>
   
-  <div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div id="myModalapr" class="modal fade col-md-12" role="dialog">
     <div class="modal-content col-md-offset-1 col-md-10">
       <div class="modal-header">
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>
@@ -30,7 +30,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="page-header">{{'APROPIACION' | translate}} :  {{d_apropiacionConsulta.apropiacionsel.Nombre}} / {{d_apropiacionConsulta.apropiacionsel.Codigo}}</h3>
-          <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null" align="right">{{'VIGENCIA' | translate}}:{{d_apropiacionConsulta.apropiacionsel.Apropiacion.Vigencia}}</div>
+          <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null" align="right">{{'VIGENCIA' | translate}}:{{d_apropiacionConsulta.apropiacionsel.Vigencia}}</div>
         </div>
         <div class="panel-body">
           <table class="table">

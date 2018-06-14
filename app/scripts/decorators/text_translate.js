@@ -8,6 +8,7 @@
  * Decorator of the financieraClienteApp
  */
 var text_es = {
+    A_S002: "Apropiación Actualizada",
     ABONO_CUENTA: "Abono en Cuenta",
     ACH: "ACH",
     ACTIVO: "Activo",

@@ -77,7 +77,7 @@
 </div>
 
 
-<div id="ModalEdicionApr" class="modal fade col-md-12" role="dialog">
+<div id="ModalRegistroApr" class="modal fade col-md-12" role="dialog">
     <div class="modal-content col-md-offset-1 col-md-10">
       <div class="modal-header">
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" >&times</button><br>        
@@ -99,11 +99,11 @@
                   </center>
                 </div>
                 <div ng-if="d_rubrosConsulta.apropiacionsel.Apropiacion != null;d_rubrosConsulta.apropiacionsel.Apropiacion.Estado.Id == 1" class="col-md-6 col-md-offset-3" >
-                  <label for="valor">{{'APROPIACION_INICIAL'|translate}} : </label><input id="valor" name="valor" type="text" ui-money-mask="0"  class="form-control input-md-6" required="true" ng-model="d_rubrosConsulta.apropiacionsel.Apropiacion.Valor">
+                  <label for="valor">{{'APROPIACION_INICIAL'|translate}} : </label><input id="valor" name="valor" type="text" ui-money-mask="0"  class="form-control input-md-6" required="true" ng-disabled="true" ng-model="d_rubrosConsulta.apropiacionsel.Apropiacion.Valor">
                   <br>
-                  <center>
+                  <!--center>
                     <button class="btn btn-outline btn-success" ng-click="d_rubrosConsulta.ActualizarApr()">{{'BTN.ACTUALIZAR'|translate}}</button>
-                  </center>
+                  </center-->
                   </div>
           </div>
       </div>
