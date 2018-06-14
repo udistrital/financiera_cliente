@@ -48,6 +48,7 @@ angular.module('financieraClienteApp')
         self.gridOptions_rp_seleccionados = {
           enableRowSelection: false,
           enableRowHeaderSelection: false,
+          enableSelectAll: false,
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -123,8 +124,7 @@ angular.module('financieraClienteApp')
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             //
             if (row.isSelected) {
-              $scope.outputrpselect.push(row.entity);
-              // console.log("rp+", $scope.outputrpselect);
+              
               if (self.gridOptions_rp_seleccionados.data.indexOf(row.entity) < 0) {
                 financieraRequest.get('registro_presupuestal/ValorTotalRp/' + row.entity.Id)
                 .then(function(response) {
@@ -136,12 +136,14 @@ angular.module('financieraClienteApp')
                 });                                
                 self.gridOptions_rp_seleccionados.data.push(row.entity);
               }
-              self.posactual = self.gridOptions_rp_seleccionados.data.indexOf(row.entity);             
+              self.posactual = self.gridOptions_rp_seleccionados.data.indexOf(row.entity);
+              $scope.outputrpselect.push(row.entity);
+              //console.log("rp+", $scope.outputrpselect);             
             } else {
               var i = $scope.outputrpselect.indexOf(row.entity)
               $scope.outputrpselect.splice(i, 1);
               self.gridOptions_rp_seleccionados.data.splice(i, 1);
-              // console.log("rp-", $scope.outputrpselect);
+              //console.log("rp-", $scope.outputrpselect);
             }
           });         
         };
