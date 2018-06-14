@@ -34,12 +34,11 @@
         </div>
 
 
-      <div ng-show="cdpSolicitudConsulta.mostrarGrid"  >
-            <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
-                <div class="watermark" ng-show="!cdpSolicitudConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
-            </div>
-
+        <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+          <div class="watermark" ng-show="!cdpSolicitudConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
         </div>
+
+
 
     </div>
 </div>
