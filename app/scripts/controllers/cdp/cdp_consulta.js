@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
     .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.offset = 0;
-    
+
         $scope.botones = [
           { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
           { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
@@ -113,12 +113,12 @@ angular.module('financieraClienteApp')
 
                     if (response.data.Type !== undefined) {
 
-                       self.haySolicitudes = false;
+                       self.hayData = false;
                         self.gridOptions.data = [];
                     } else {
 
 
-                        self.haySolicitudes = true;
+                        self.hayData = true;
                         self.gridOptions.data = response.data;
                     }
                 });
@@ -128,12 +128,12 @@ angular.module('financieraClienteApp')
 
                     if (response.data.Type !== undefined) {
                       self.mostrarGrid = true;
-                      self.haySolicitudes = false;
+                      self.hayData = false;
                         self.gridOptions.data = [];
                     } else {
 
                         self.mostrarGrid = true;
-                        self.haySolicitudes = true;
+                        self.hayData = true;
                         self.gridOptions.data = response.data;
                     }
                 });

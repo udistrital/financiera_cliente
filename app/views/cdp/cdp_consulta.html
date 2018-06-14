@@ -39,7 +39,8 @@
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
 
             <div ui-grid="cdpConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination ui-grid-auto-resize class="myGrid">
-              <div class="watermark" ng-show="!cdpConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
+              <div class="watermark" ng-show="!cdpConsulta.hayData">{{'NO_DATA'| translate}}</div>
+
           </div>
 
     </div>
