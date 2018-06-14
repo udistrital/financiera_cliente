@@ -231,15 +231,25 @@ angular.module('financieraClienteApp')
         };
         
         
-        $scope.$watch("filtro", function() {    
+        $scope.$watch("filtro", function() {
+          financieraMidRequest.get("apropiacion/ArbolApropiaciones/"+ self.UnidadEjecutora+"/"+$scope.vigencia, $.param({
+            rama: $scope.filtro
+          })).then(function(response) {
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
+            });
+            self.expandedNodes.length = 0;
+          /*if (self.expandedNodes.length === 0){
+            self.expandAllNodes($scope.arbol);
+          }
+
               if ($scope.filtro !== '' && $scope.filtro !== undefined){
-                self.expandAllNodes($scope.arbol);
+
               }else{
                 self.expandedNodes.length = 0;
-              }
-             
-             
-           
+              }*/
         }, true);
         
         
