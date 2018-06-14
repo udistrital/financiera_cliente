@@ -155,12 +155,12 @@ angular.module('financieraClienteApp')
 
               if (response.data === null){
 
-                self.haySolicitudes = false;
+                self.hayData = false;
                 self.gridOptions.data = [];
 
               }else{
 
-                self.haySolicitudes = true;
+                self.hayData = true;
                 self.gridOptions.data = response.data;
 
               }
@@ -180,11 +180,11 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
               if (response.data === null){
 
-                self.haySolicitudes = false;
+                self.hayData = false;
                 self.gridOptions.data = [];
               }else{
 
-                self.haySolicitudes = true;
+                self.hayData = true;
                 self.gridOptions.data = response.data;
               }
 

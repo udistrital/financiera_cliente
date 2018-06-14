@@ -23,7 +23,7 @@
                 <br>
                 <br>
                 <a id="btnFenecidos" name="btnFenecidos"  ng-click="cdpAprobacionAnulacion.verAnulaciones()">{{'VER_ANULACIONES' | translate}}</a>
-                          
+
                         </div>
                     </div>
                     <br>
@@ -32,11 +32,13 @@
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid">
+                <div class="watermark" ng-show="!cdpAprobacionAnulacion.hayData">{{'NO_DATA'| translate}}</div>
+            </div>
         </div>
     </div>
 </div>
-      
+
     </div>
   </div>
 </div>
@@ -48,8 +50,8 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
-            <div align="right">Fecha de Registro: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+            <h3 class="page-header">{{'REPORTES.CDP' | translate}} No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
+            <div align="right">{{'FECHA_REGISTRO' | translate}}: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
         <div class="panel-body">
           <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
