@@ -14,6 +14,11 @@ angular.module('financieraClienteApp')
          self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
         self.UnidadEjecutora = 1 ;
         self.rubros_afectados = [];
+
+        $scope.botones = [
+          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+        ];
+
         self.gridOptions = {
             enableFiltering: true,
             enableSorting: true,
@@ -26,44 +31,43 @@ angular.module('financieraClienteApp')
                 field: 'Consecutivo',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width: "10%",
             }, {
                 field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
                 cellClass: 'input_center',
                 displayName: $translate.instant('CDP_NUMERO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',
                 displayName: $translate.instant('VIGENCIA'),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'FechaRegistro',
                 displayName: $translate.instant('FECHA_CREACION'),
                 cellClass: 'input_center',
                 cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'TipoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('TIPO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'EstadoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('ESTADO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado'
             }, {
                 field: 'Opciones',
-                cellTemplate: '<center>' +
-                    ' <a type="button" class="editar" ng-click="grid.appScope.cdpAprobacionAnulacion.verDisponibilidad(row)" >' +
-                    '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>',
-                headerCellClass: 'text-info'
+                cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+                headerCellClass: 'encabezado'
             }]
         };
         self.gridOptions.multiSelect = false;
@@ -88,6 +92,7 @@ angular.module('financieraClienteApp')
             });
 
         self.gridOptions.multiSelect = false;
+
         self.actualizarLista = function(offset, query) {
             if(query !== ""){
               query = query + ",AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
@@ -96,9 +101,10 @@ angular.module('financieraClienteApp')
             }
             financieraRequest.get('anulacion_disponibilidad/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
+                    self.hayData = false;
                     self.gridOptions.data = [];
                 } else {
-                    console.log(response.data);
+                    self.hayData = true;
                     self.gridOptions.data = response.data;
                     angular.forEach(self.gridOptions.data, function(data) {
                     financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
@@ -109,6 +115,19 @@ angular.module('financieraClienteApp')
             });
         };
 
+        $scope.loadrow = function(row, operacion) {
+          self.operacion = operacion;
+          switch (operacion) {
+              case "ver":
+                self.verDisponibilidad(row);
+              break;
+
+              case "otro":
+
+              break;
+              default:
+          }
+      };
 
         self.cargarListaAnulaciones = function() {
             financieraRequest.get('anulacion_disponibilidad', $.param({
@@ -118,7 +137,7 @@ angular.module('financieraClienteApp')
                 angular.forEach(self.gridOptions.data, function(data) {
                     financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
                         data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
-                        console.log("Data: ", response.data);
+
                     });
                 });
             });
@@ -206,8 +225,7 @@ angular.module('financieraClienteApp')
             self.cdp = row.entity.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
             self.anulacion = row.entity;
             self.resumen = self.formatoResumenAfectacion(self.anulacion.AnulacionDisponibilidadApropiacion);
-            console.log("resumen");
-            console.log(self.resumen);
+        ;
             financieraRequest.get('disponibilidad_apropiacion', 'limit=-1&query=Disponibilidad.Id:' + self.cdp.Id).then(function(response) {
                 self.rubros = response.data;
                 angular.forEach(self.rubros, function(data) {
@@ -216,9 +234,6 @@ angular.module('financieraClienteApp')
                     } else {
                         $scope.apropiaciones.push(data.Apropiacion.Id);
                     }
-
-                    console.log($scope.apropiaciones);
-                    console.log(self.cdp.Id);
 
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
@@ -297,7 +312,7 @@ angular.module('financieraClienteApp')
             self.anulacion.EstadoAnulacion.Id = 2;
             self.anulacion.Solicitante = 1234567890; //tomar del prefil
             financieraRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
-                console.log(response.data);
+
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -316,7 +331,7 @@ angular.module('financieraClienteApp')
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
             financieraRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
-                console.log(response.data);
+
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -335,7 +350,7 @@ angular.module('financieraClienteApp')
             var solicitud = self.anulacion;
             $("#myModal").modal('hide');
             swal({
-                title: 'Indique una justificación por el rechazo',
+                title: $translate.instant('ALERTA_JUSTIFICACION_RECHAZO'),
                 input: 'textarea',
                 showCancelButton: true,
                 inputValidator: function(value) {
@@ -343,18 +358,18 @@ angular.module('financieraClienteApp')
                         if (value) {
                             resolve();
                         } else {
-                            reject('Por favor indica una justificación!');
+                            reject($translate.instant('ALERTA_JUSTIFICACION_RECHAZO'));
                         }
                     });
                 }
             }).then(function(text) {
-                console.log(text);
+
                 solicitud.JustificacionRechazo = text;
                 solicitud.EstadoAnulacion.Id = 4;
-                console.log(solicitud);
+
                 var sl = solicitud;
                 financieraRequest.put('anulacion_disponibilidad/', sl.Id + "?fields=justificacion_rechazo,estado_anulacion", sl).then(function(response) {
-                    console.log(response.data);
+
                     self.cargarListaAnulaciones();
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {
