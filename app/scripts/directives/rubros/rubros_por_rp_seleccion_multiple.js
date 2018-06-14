@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
       scope: {
         inputpestanaabierta: '=?',
         inputrpid: '=?',
-        outputconceptos: '=?'
+        outputconceptos: '=?',
+        outputproveedorrubro: '=?'
       },
 
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
@@ -75,11 +76,18 @@ angular.module('financieraClienteApp')
             $scope.a = true;
           }
         })
+        $scope.$watch('outputproveedorrubro', function() {
+          if (!angular.isUndefined($scope.outputproveedorrubro)) {
+            $scope.inputrpid = [];
+          }
+        }
+        ,true);        
         //
         $scope.$watch('inputrpid', function(newValue, oldValue) {
           self.refresh();
           self.datos = [];
           if (!angular.isUndefined(newValue)) {
+            console.log("nuevoValor", newValue);
             if (newValue.length >0 ) {
               angular.forEach(newValue, function(rp){
                 financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
