@@ -34,12 +34,11 @@
         </div>
 
 
-      <div ng-show="cdpSolicitudConsulta.mostrarGrid"  >
-            <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
-                <div class="watermark" ng-show="!cdpSolicitudConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
-            </div>
-
+        <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+          <div class="watermark" ng-show="!cdpSolicitudConsulta.haySolicitudes">{{'NO_DATA'| translate}}</div>
         </div>
+
+
 
     </div>
 </div>
@@ -51,8 +50,8 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="page-header">Solicitud de CDP No. {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
-                <div align="right">Fecha Solicitud: {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
+                <h3 class="page-header">{{'SOLICITUD_CDP' | translate}} {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
+                <div align="right">{{'FECHA_SOLICITUD' | translate}} {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
             </div>
             <div class="panel-body">
                 <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
