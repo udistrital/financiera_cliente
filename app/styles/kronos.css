@@ -164,13 +164,17 @@ sencillo {
 }
 
 .watermark {
-    border: 1px blue solid;
-    position: static;
-    top: 89%;
-    transform: translateY(-104%);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-0%);
     opacity: 0.25;
+    font-size: 3em;
     width: 100%;
     text-align: center;
     z-index: 1000;
-    font-size: 3em;
+}
+
+.encabezado {
+  text-align: center;
+  color: #31708F;
 }

@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
   .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
-    self.mostrarGrid = false;
+
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -27,11 +27,11 @@ angular.module('financieraClienteApp')
       useExternalPagination: true,
       columnDefs : [
         {field: 'SolicitudDisponibilidad.Id',             visible : false},
-        {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
-        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),cellClass: 'input_center',headerCellClass: 'text-info',enableFiltering : false},
-        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),cellClass: 'input_center',headerCellClass: 'text-info',enableFiltering : false},
-        {field: 'SolicitudDisponibilidad.Vigencia', displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info'},
-        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: $translate.instant("FECHA_REGISTRO") , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>', headerCellClass: 'text-info'},
+        {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'encabezado' },
+        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),cellClass: 'input_center',headerCellClass: 'encabezado',enableFiltering : false},
+        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),cellClass: 'input_center',headerCellClass: 'encabezado',enableFiltering : false},
+        {field: 'SolicitudDisponibilidad.Vigencia', displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'encabezado'},
+        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: $translate.instant("FECHA_REGISTRO") , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>', headerCellClass: 'encabezado'},
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
@@ -65,7 +65,7 @@ angular.module('financieraClienteApp')
             self.gridApi.pagination.on.paginationChanged($scope, function(newPage, pageSize) {
 
                 //self.gridOptions.data = {};
-                console.log("change p");
+
                 var query = '';
                 var grid = this.grid;
                 angular.forEach(grid.columns, function(value, key) {
@@ -95,9 +95,16 @@ angular.module('financieraClienteApp')
         range.push(self.vigenciaActual - i);
       }
       self.years = range;
-    //  self.Vigencia = self.vigenciaActual;
+      self.Vigencia = self.vigenciaActual;
       self.gridOptions.totalItems = 5000;
-
+      self.fechamin = new Date(
+        self.vigenciaActual,
+        0, 1
+      );
+      self.fechamax = new Date(
+        self.vigenciaActual,
+        12, 0
+      );
     });
 
 
@@ -110,7 +117,7 @@ angular.module('financieraClienteApp')
             $scope.apropiaciones = [];
             self.data = null;
             self.data = row.entity;
-            console.log(self.data);
+
           argoRequest.get('fuente_financiacion_rubro_necesidad','query=Necesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
 
             angular.forEach(response.data, function(data){
@@ -133,20 +140,11 @@ angular.module('financieraClienteApp')
 
     self.cargarDatos = function(offset,query){
 
-    if(self.Vigencia == null && self.fechaInicio == null && self.fechaFin == null){
-      swal({
-          html: $translate.instant('ALERTA_CAMPOS_BUSQUEDA'),
-          type: "error",
-          showCancelButton: false,
-          confirmButtonColor: "#449D44",
-          confirmButtonText: $translate.instant('VOLVER'),
-      })
-    }else{
-
             var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
             var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
 
             if (inicio !== undefined && fin !== undefined) {
+
               financieraMidRequest.cancel();
               financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
                 UnidadEjecutora: self.UnidadEjecutora,
@@ -156,12 +154,12 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
 
               if (response.data === null){
-                self.mostrarGrid = true;
+
                 self.haySolicitudes = false;
                 self.gridOptions.data = [];
 
               }else{
-                self.mostrarGrid = true;
+
                 self.haySolicitudes = true;
                 self.gridOptions.data = response.data;
 
@@ -169,18 +167,23 @@ angular.module('financieraClienteApp')
 
 
               });
+
+              self.fechaInicio = undefined;
+              self.fechaFin = undefined;
+
             }else{
+
               financieraMidRequest.cancel();
               financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
                 UnidadEjecutora: self.UnidadEjecutora,
                 offset: offset
               })).then(function(response) {
               if (response.data === null){
-                self.mostrarGrid = true;
+
                 self.haySolicitudes = false;
                 self.gridOptions.data = [];
               }else{
-                self.mostrarGrid = true;
+
                 self.haySolicitudes = true;
                 self.gridOptions.data = response.data;
               }
@@ -189,8 +192,6 @@ angular.module('financieraClienteApp')
 
               });
             }
-
-          }
 
     };
 
@@ -218,11 +219,9 @@ angular.module('financieraClienteApp')
       self.data.Responsable = 876543216;
       self.data.Afectacion = $scope.afectacion[0];
       arrSolicitudes[0] = self.data;
-      console.log("########################");
-      console.log(arrSolicitudes);
-      console.log("########################");
+
         financieraMidRequest.post('disponibilidad/ExpedirDisponibilidad?tipoDisponibilidad=1', arrSolicitudes).then(function(response){
-          console.log(response.data);
+
             if (response.data[0].Type !== undefined){
               if (response.data[0].Type === "error"){
                 swal('',$translate.instant(response.data[0].Code),response.data[0].Type);
@@ -262,7 +261,7 @@ angular.module('financieraClienteApp')
        var solicitud = self.gridApi.selection.getSelectedRows();
        $("#myModal").modal('hide');
        swal({
-         title: 'Indique una justificación por el rechazo',
+         title: $translate.instant('ALERTA_JUSTIFICACION_RECHAZO'),
          input: 'textarea',
          showCancelButton: true,
          inputValidator: function (value) {
@@ -270,17 +269,17 @@ angular.module('financieraClienteApp')
              if (value) {
                resolve();
              } else {
-               reject('Por favor indica una justificación!');
+               reject($translate.instant('ALERTA_JUSTIFICACION_RECHAZO'));
              }
            });
          }
        }).then(function(text) {
-         console.log(text);
+
          solicitud[0].SolicitudDisponibilidad.JustificacionRechazo = text;
-         console.log(solicitud[0].SolicitudDisponibilidad);
+
          var sl = solicitud[0].SolicitudDisponibilidad;
            argoRequest.put('solicitud_disponibilidad/', sl.Id , sl).then(function(response) {
-             console.log(response.data);
+
              self.actualiza_solicitudes();
              if (response.data.Type !== undefined) {
                if (response.data.Type === "error") {
@@ -305,14 +304,10 @@ angular.module('financieraClienteApp')
      $scope.$watch("cdpSolicitudConsulta.Vigencia", function() {
 
 
-       if(self.Vigencia != null){
-         self.cargarDatos(0,'');
-       }
-
+       self.cargarDatos(0,'');
 
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
-        //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
-        console.log("reset fecha inicio");
+
         self.fechaInicio = undefined;
         self.fechaFin = undefined;
       }
