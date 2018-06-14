@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
         $scope.outputconceptos = [];
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
-          expandableRowHeight: 100,
+          expandableRowHeight: 200,
           columnDefs: [{
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -83,13 +83,13 @@ angular.module('financieraClienteApp')
         }
         ,true);        
         //
-        $scope.$watch('inputrpid', function(newValue, oldValue) {
+        $scope.$watch('inputrpid[inputrpid.length - 1].Id', function() {
           self.refresh();
           self.datos = [];
-          if (!angular.isUndefined(newValue)) {
-            console.log("nuevoValor", newValue);
-            if (newValue.length >0 ) {
-              angular.forEach(newValue, function(rp){
+          if (!angular.isUndefined($scope.inputrpid)) {
+            console.log("nuevoValor", $scope.inputrpid);
+            if ($scope.inputrpid.length >0 ) {
+              angular.forEach($scope.inputrpid, function(rp){
                 financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
                   $.param({
                     query: "RegistroPresupuestal.Id:" + rp.Id,
