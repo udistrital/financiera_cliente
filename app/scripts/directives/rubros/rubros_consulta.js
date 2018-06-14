@@ -31,7 +31,8 @@ angular.module('financieraClienteApp')
         ramasel: '=?',
         botones: '=?',
         botonespadre: '=?',
-        vigencia: '=?'
+        vigencia: '=?',
+        recargaext: '=?'
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
@@ -39,6 +40,7 @@ angular.module('financieraClienteApp')
         self.editar= false;
         self.padre = false;
         $scope.botonesProductos = [];
+        $scope.recargaext = false;
         self.ProdutoRubro = [];
         self.botonesEditar = [
           { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -422,40 +424,7 @@ angular.module('financieraClienteApp')
                   break;
               case "editapr":
                 console.log("apredit");
-                $("#ModalEdicionApr").modal();
-                self.apropiacionsel = nodo;
-                self.apropiacionsel.Apropiacion = null;
-                self.ValorAsignado = null;
-                if (nodo.Hijos == null){
-                  console.log("Nodo ", nodo);
-                  financieraRequest.get("apropiacion", $.param({
-                    query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
-                  })).then(function(response) {
-                    
-                    if (response.data !== null) {
-                      console.log(response.data);
-                      self.apropiacionsel.Apropiacion = response.data[0];
-                      financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
-                        
-                        if (response.data !== null) {
-                          self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
-                        }
-                      });
-                      financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
-                        
-                        if (response.data !== null) {
-                          self.apropiacionsel.Apropiacion.InfoMovs = response.data;
-                          self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
-                        }
-                      });
-                    }
-                  });
-                  
-                }
-              break;
-              case "editapr":
-                console.log("apredit");
-                $("#ModalEdicionApr").modal();
+                $("#ModalRegistroApr").modal();
                 self.apropiacionsel = nodo;
                 self.apropiacionsel.Apropiacion = null;
                 self.ValorAsignado = null;
@@ -527,6 +496,7 @@ angular.module('financieraClienteApp')
               if (response.data.Type === "error"){
                 swal('',$translate.instant(response.data.Code),response.data.Type);
               }else{
+                $scope.recargaext = !$scope.recargaext;
                 swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
               }
 
