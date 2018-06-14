@@ -61,6 +61,7 @@ angular.module('financieraClienteApp')
           if (self.multiSelect===true){
 
             if($scope.seleccion.indexOf(concepto)===-1){
+              concepto.valorAfectacion = 0;
               $scope.seleccion.push(concepto);
             }
           }else{
