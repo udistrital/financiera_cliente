@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     .controller('CdpCdpAprobacionAnulacionCtrl', function($scope, $translate, financieraRequest, financieraMidRequest, agoraRequest) {
         var self = this;
         self.offset = 0;
-         self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
+        self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
         self.UnidadEjecutora = 1 ;
         self.rubros_afectados = [];
 
