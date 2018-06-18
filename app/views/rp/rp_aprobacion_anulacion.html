@@ -23,7 +23,7 @@
                 <br>
                 <br>
                 <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpAprobacionAnulacion.verAnulaciones()">{{'VER_ANULACIONES' | translate}}</a>
-                          
+
                         </div>
                     </div>
                     <br>
@@ -32,11 +32,14 @@
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="rpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="rpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid">
+              <div class="watermark" ng-show="!rpAprobacionAnulacion.hayData">{{'NO_DATA'| translate}}</div>
+              <div class="watermark" ng-show="rpAprobacionAnulacion.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+            </div>
         </div>
     </div>
 </div>
-      
+
     </div>
   </div>
 </div>
