@@ -50,8 +50,8 @@
     </div>
     <div class="panel panel-default" ng-repeat="item in rpAprobacionAnulacion.detalle">
       <div class="panel-heading">
-        <h3 class="page-header">Registro Presupuestal No {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
-        <div align="right">Fecha de Registro: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+        <h3 class="page-header">{{'DETALLE_RP' | translate}} : {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
+        <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
       </div>
       <div class="panel-body">
         <div>
@@ -224,14 +224,14 @@
               <br>
               <center ng-show="rpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Solicitada'">
 
-                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.aprobarAnulacion()">{{'APROBAR' | translate}}</button>
-                <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="rpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
+                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.aprobarAnulacion()">{{'BTN.APROBAR' | translate}}</button>
+                <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="rpAprobacionAnulacion.Rechazar()">{{'BTN.RECHAZAR' | translate}}</button>
 
 
               </center>
               <center ng-show="rpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
 
-                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
+                <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpAprobacionAnulacion.solicitarAnulacion()">{{'BTN.SOLICITAR' | translate}}</button>
                 <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="rpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 
