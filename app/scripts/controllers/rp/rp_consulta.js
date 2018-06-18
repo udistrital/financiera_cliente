@@ -145,7 +145,7 @@ angular.module('financieraClienteApp')
         self.cargandoDatosPagos = false;
       });
     };
-    
+
     // called no matter success or failure
 
     self.limpiar = function () {
@@ -156,8 +156,8 @@ angular.module('financieraClienteApp')
     };
     self.verDisponibilidad = function(numero, vigencia){
       console.log('Numero: ', numero);
-      console.log('Vigencia: ', vigencia);  
-      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
+      console.log('Vigencia: ', vigencia);
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');
     };
 
     self.cargarTipoAnulacion = function(){
@@ -182,7 +182,7 @@ angular.module('financieraClienteApp')
         console.log("entt");
         console.log(row.entity);
         angular.forEach(self.detalle, function (data) {
-          
+
             self.gridOptions_rubros.data = data.RegistroPresupuestalDisponibilidadApropiacion;
             data.Disponibilidad = data.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
             angular.forEach(self.gridOptions_rubros.data, function (rubros_data) {
@@ -193,12 +193,12 @@ angular.module('financieraClienteApp')
               financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
-                
+
                 if ( data.InfoSolicitudDisponibilidad != undefined &&  data.InfoSolicitudDisponibilidad != null){
 
                   self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
                 }
-                  
+
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
               } else {
@@ -206,8 +206,8 @@ angular.module('financieraClienteApp')
               }
 
             });
-            
-          
+
+
 
         });
         angular.forEach(self.detalle, function (data) {
@@ -217,7 +217,7 @@ angular.module('financieraClienteApp')
 
           });
         });
-      
+
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
@@ -269,10 +269,14 @@ angular.module('financieraClienteApp')
               financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
               .then(function(response) { //error con el success
               self.gridOptions.totalItems = response.data;
+
               self.cargarLista(0,'');
             });
               //$("#myModal").modal('hide');
             });
+
+            
+
           });
       }
 
@@ -379,7 +383,7 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                        
+
                     }
                 });
                 self.cargarLista(self.offset, query);
@@ -398,7 +402,7 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                       
+
                     }
                 });
       self.offset = (newPage-1)*pageSize;
