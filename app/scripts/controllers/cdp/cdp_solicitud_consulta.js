@@ -14,7 +14,8 @@ angular.module('financieraClienteApp')
   .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
-
+    self.cargando = false;
+    self.hayData = true;
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -140,9 +141,11 @@ angular.module('financieraClienteApp')
 
     self.cargarDatos = function(offset,query){
 
+            self.gridOptions.data = [];
             var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
             var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
-
+            self.cargando = true;
+            self.hayData = true;
             if (inicio !== undefined && fin !== undefined) {
 
               financieraMidRequest.cancel();
@@ -156,11 +159,13 @@ angular.module('financieraClienteApp')
               if (response.data === null){
 
                 self.hayData = false;
+                self.cargando = false;
                 self.gridOptions.data = [];
 
               }else{
 
                 self.hayData = true;
+                self.cargando = false;
                 self.gridOptions.data = response.data;
 
               }
@@ -170,7 +175,7 @@ angular.module('financieraClienteApp')
 
               self.fechaInicio = undefined;
               self.fechaFin = undefined;
-
+              self.hayData = true;
             }else{
 
               financieraMidRequest.cancel();
@@ -181,10 +186,13 @@ angular.module('financieraClienteApp')
               if (response.data === null){
 
                 self.hayData = false;
+                self.cargando = false;
                 self.gridOptions.data = [];
+
               }else{
 
                 self.hayData = true;
+                self.cargando = false;
                 self.gridOptions.data = response.data;
               }
 

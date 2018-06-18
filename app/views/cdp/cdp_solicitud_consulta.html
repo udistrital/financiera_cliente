@@ -36,6 +36,7 @@
 
         <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
           <div class="watermark" ng-show="!cdpSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="cdpSolicitudConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
         </div>
 
 
