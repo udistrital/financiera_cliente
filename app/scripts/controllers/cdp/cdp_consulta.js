@@ -14,7 +14,8 @@ angular.module('financieraClienteApp')
     .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.offset = 0;
-
+        self.cargando = false;
+        self.hayData = true;
         $scope.botones = [
           { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
           { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
@@ -105,7 +106,10 @@ angular.module('financieraClienteApp')
 
         self.actualizarLista = function(offset, query) {
 
+            self.gridOptions.data = [];
             financieraMidRequest.cancel();
+            self.cargando = true;
+            self.hayData = true;
             if($location.search().vigencia !== undefined && $location.search().numero){
                 query = '&query=NumeroDisponibilidad:'+$location.search().numero;
 
@@ -114,11 +118,13 @@ angular.module('financieraClienteApp')
                     if (response.data.Type !== undefined) {
 
                        self.hayData = false;
+                       self.cargando = false;
                         self.gridOptions.data = [];
                     } else {
 
 
                         self.hayData = true;
+                        self.cargando = false;
                         self.gridOptions.data = response.data;
                     }
                 });
@@ -127,14 +133,15 @@ angular.module('financieraClienteApp')
                 financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.Vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
 
                     if (response.data.Type !== undefined) {
-                      self.mostrarGrid = true;
+
                       self.hayData = false;
+                      self.cargando = false;
                         self.gridOptions.data = [];
                     } else {
 
-                        self.mostrarGrid = true;
-                        self.hayData = true;
-                        self.gridOptions.data = response.data;
+                      self.hayData = true;
+                      self.cargando = false;
+                      self.gridOptions.data = response.data;
                     }
                 });
             }

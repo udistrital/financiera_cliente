@@ -40,7 +40,7 @@
 
             <div ui-grid="cdpConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination ui-grid-auto-resize class="myGrid">
               <div class="watermark" ng-show="!cdpConsulta.hayData">{{'NO_DATA'| translate}}</div>
-
+              <div class="watermark" ng-show="cdpConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
           </div>
 
     </div>
