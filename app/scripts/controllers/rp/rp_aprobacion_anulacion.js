@@ -323,7 +323,7 @@ angular.module('financieraClienteApp')
                          confirmButtonText: $translate.instant('VOLVER'),
                          }).then(function() {
                         $('myModal').modal('hide');
-                        self.cargarListaAnulaciones();
+                        self.actualizarLista(self.offset, self.customfilter);
                     })
                     }else{
                       swal({
@@ -334,7 +334,7 @@ angular.module('financieraClienteApp')
                          confirmButtonText: $translate.instant('VOLVER'),
                          }).then(function() {
                         $('myModal').modal('hide');
-                        self.cargarListaAnulaciones();
+                        self.actualizarLista(self.offset, self.customfilter);
                     })
                     }
                     /* ------ SE DEJA PENDIENTE PARA CUANDO EL API INCLUYA MANEJO DE ERROR EN ESTA PARTE

@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-    <h2 class="page-header" align="center">Solicitudes de Registro Presupuestal</h2>
+    <h2 class="page-header" align="center">{{'SOLICITUDES_RP' | translate}}</h2>
     <div class="panel-body">
 
         <div class="row">
@@ -36,7 +36,7 @@
 
         <div >
             <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination>
-              <div class="watermark" ng-show="!rpSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>  
+              <div class="watermark" ng-show="!rpSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
             </div>
         </div>
 
@@ -54,8 +54,8 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="page-header">Solicitud de Registro Presupuestal No {{rpSolicitudConsulta.data.Id}} de {{rpSolicitudConsulta.data.Vigencia}}</h3>
-                <div align="right">Fecha de Solicitud: {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
+                <h3 class="page-header">{{'SOLICITUD_RP'| translate}} No {{rpSolicitudConsulta.data.Id}} {{'DE' | translate}} {{rpSolicitudConsulta.data.Vigencia}}</h3>
+                <div align="right">{{'FECHA_SOLICITUD' | translate}} : {{rpSolicitudConsulta.data.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
             </div>
             <div class="panel-body">
                 <table class="table ">
@@ -98,12 +98,12 @@
                 </table>
                 <hr>
 
-                <h4 class="text-info">Afectación Presupuestal</h4>
+                <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
                 <fuente-financiacion-solicitud-rp solrp="rpSolicitudConsulta.data.Id" apropiacion="apropiaciones" afectacion="afectacion">
                 </fuente-financiacion-solicitud-rp>
                 <hr>
                 <center ng-if="!rpSolicitudConsulta.data.Expedida && rpSolicitudConsulta.data.Vigencia === rpSolicitudConsulta.vigenciaActual">
-                    <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">Aprobar</button>
+                    <button class="btn btn-success btn-outline" ng-click="rpSolicitudConsulta.Registrar()">{{'BTN.APROBAR' | translate}}</button>
                     <button class="btn btn-danger btn-outline" ng-click="rpSolicitudConsulta.Rechazar()">{{ 'BTN.RECHAZAR' | translate }}</button>
                 </center>
             </div>
