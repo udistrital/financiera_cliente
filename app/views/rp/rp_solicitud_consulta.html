@@ -33,9 +33,11 @@
         </div>
 
 
-        
+
         <div >
-            <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination></div>
+            <div ui-grid="rpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination>
+              <div class="watermark" ng-show="!rpSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>  
+            </div>
         </div>
 
 
