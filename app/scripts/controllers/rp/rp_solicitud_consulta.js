@@ -311,7 +311,7 @@ angular.module('financieraClienteApp')
         console.log(registro);
         financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
-          console.log("alertaaaaaaaaaa",self.alerta_registro_rp);
+
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
           angular.forEach(self.alerta_registro_rp, function(data) {
             if (data.Type === "error") {
