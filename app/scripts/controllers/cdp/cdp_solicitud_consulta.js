@@ -26,18 +26,55 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
       useExternalPagination: true,
+      enableHorizontalScrollbar: 2,
       columnDefs : [
-        {field: 'SolicitudDisponibilidad.Id',             visible : false},
-        {field: 'SolicitudDisponibilidad.Numero',  displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'encabezado' },
-        {field: 'DependenciaSolicitante.Nombre',  displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),cellClass: 'input_center',headerCellClass: 'encabezado',enableFiltering : false},
-        {field: 'DependenciaDestino.Nombre',  displayName: $translate.instant("DEPENDENCIA_DESTINO"),cellClass: 'input_center',headerCellClass: 'encabezado',enableFiltering : false},
-        {field: 'SolicitudDisponibilidad.Vigencia', displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'encabezado'},
-        {field: 'SolicitudDisponibilidad.FechaSolicitud',  displayName: $translate.instant("FECHA_REGISTRO") , cellClass: 'input_center', cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>', headerCellClass: 'encabezado'},
+        {
+          field: 'SolicitudDisponibilidad.Id',
+          visible : false
+        },
+        {
+          field: 'SolicitudDisponibilidad.Numero',
+          displayName: $translate.instant("NO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          width: '10%',
+        },
+        {
+          field: 'DependenciaSolicitante.Nombre',
+          displayName: $translate.instant("DEPENDENCIA_SOLICITANTE"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          enableFiltering : false,
+          width: '28%',
+        },
+        {
+          field: 'DependenciaDestino.Nombre',
+          displayName: $translate.instant("DEPENDENCIA_DESTINO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          enableFiltering : false,
+          width: '28%',
+        },
+        {
+          field: 'SolicitudDisponibilidad.Vigencia',
+          displayName: $translate.instant("VIGENCIA"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+           width: '10%',
+        },
+        {
+          field: 'SolicitudDisponibilidad.FechaSolicitud',
+          displayName: $translate.instant("FECHA_REGISTRO") ,
+          cellClass: 'input_center',
+          cellTemplate: '<span>{{row.entity.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTF"}}</span>',
+          headerCellClass: 'encabezado',
+          width: '14%',
+        },
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
-          width: '6%',
+          width: '10%',
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
           headerCellClass: 'text-info'
       }
