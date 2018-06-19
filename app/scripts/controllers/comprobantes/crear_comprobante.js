@@ -17,9 +17,8 @@ angular.module('financieraClienteApp')
         enableSorting: true,
         enableRowSelection: true,
         enableRowHeaderSelection: false,
-        paginationPageSizes: [25, 50, 75],
+        paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        useExternalPagination: true,
 
         columnDefs: [
             { field: 'Id', visible: false },
