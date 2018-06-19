@@ -33,6 +33,13 @@ angular.module('financieraClienteApp')
           visible : false
         },
         {
+          field: 'SolicitudDisponibilidad.Vigencia',
+          displayName: $translate.instant("VIGENCIA"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+           width: '10%',
+        },
+        {
           field: 'SolicitudDisponibilidad.Numero',
           displayName: $translate.instant("NO"),
           cellClass: 'input_center',
@@ -54,13 +61,6 @@ angular.module('financieraClienteApp')
           headerCellClass: 'encabezado',
           enableFiltering : false,
           width: '28%',
-        },
-        {
-          field: 'SolicitudDisponibilidad.Vigencia',
-          displayName: $translate.instant("VIGENCIA"),
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado',
-           width: '10%',
         },
         {
           field: 'SolicitudDisponibilidad.FechaSolicitud',
