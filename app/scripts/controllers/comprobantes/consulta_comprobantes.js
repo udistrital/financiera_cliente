@@ -24,9 +24,9 @@ angular.module('financieraClienteApp')
         enableSorting: true,
         enableRowSelection: false,
         enableRowHeaderSelection: false,
-        paginationPageSizes: [25, 50, 75],
+        paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        useExternalPagination: true,
+
         columnDefs: [
             { field: 'Id', visible: false },
             { field: 'Secuencia', displayName: $translate.instant('SECUENCIA'), cellClass: 'input_center', headerCellClass: 'text-info' },
