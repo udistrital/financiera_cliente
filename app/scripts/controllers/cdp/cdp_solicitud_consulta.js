@@ -26,7 +26,6 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
       useExternalPagination: true,
-      enableHorizontalScrollbar: 2,
       columnDefs : [
         {
           field: 'SolicitudDisponibilidad.Id',
