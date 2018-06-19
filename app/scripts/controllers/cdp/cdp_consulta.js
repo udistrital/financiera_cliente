@@ -16,6 +16,8 @@ angular.module('financieraClienteApp')
         self.offset = 0;
         self.cargando = false;
         self.hayData = true;
+        self.ver_boton_reservas = true;
+        self.reservas = false;
         $scope.botones = [
           { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
           { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
@@ -30,20 +32,71 @@ angular.module('financieraClienteApp')
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 10,
             useExternalPagination: true,
+            enableHorizontalScrollbar: 2,
             columnDefs: [
-                { field: 'Id', visible: false },
-                { field: 'Vigencia', cellClass: 'input_center',displayName: $translate.instant('VIGENCIA'), headerCellClass: 'encabezado',enableFiltering: false , width: '10%'},
-                { field: 'NumeroDisponibilidad',displayName: $translate.instant('NO'), cellClass: 'input_center', headerCellClass: 'encabezado', width: '10%'},
-                { field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre', displayName: $translate.instant("TIPO"), cellClass: 'input_center', headerCellClass: 'encabezado', width: '15%' },
-                { field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero',displayName: $translate.instant('NECESIDAD_NO'), cellClass: 'input_center', headerCellClass: 'encabezado' ,enableFiltering: false, width: '10%'},
-                { field: 'FechaRegistro',displayName: $translate.instant('FECHA_REGISTRO'), cellClass: 'input_center', cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>', headerCellClass: 'encabezado' },
-                { field: 'Estado.Nombre',  displayName: $translate.instant('ESTADO'), cellClass: 'input_center', headerCellClass: 'encabezado' },
-                { field: 'Solicitud.DependenciaSolicitante.Nombre', displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'), cellClass: 'input_center', headerCellClass: 'encabezado',enableFiltering: false },
+                {
+                  field: 'Id',
+                  visible: false
+                },
+                {
+                  field: 'Vigencia',
+                  cellClass: 'input_center',
+                  displayName: $translate.instant('VIGENCIA'),
+                  headerCellClass: 'encabezado',
+                  enableFiltering: false ,
+                  width: '7%'
+                },
+                {
+                  field: 'NumeroDisponibilidad',
+                  displayName: $translate.instant('NO'),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado',
+                  width: '7%'
+                },
+                {
+                  field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre',
+                  displayName: $translate.instant("TIPO"),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado',
+                  width: '16%'
+                },
+                {
+                  field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero',
+                  displayName: $translate.instant('NECESIDAD_NO'),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado' ,
+                  enableFiltering: false,
+                  width: '10%'
+                },
+                {
+                  field: 'FechaRegistro',
+                  displayName: $translate.instant('FECHA_REGISTRO'),
+                  cellClass: 'input_center',
+                  cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
+                  headerCellClass: 'encabezado',
+                  width: '15%'
+                },
+                {
+                  field: 'Estado.Nombre',
+                  displayName: $translate.instant('ESTADO'),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado',
+                  width: '20%'
+                },
+                {
+                  field: 'Solicitud.DependenciaSolicitante.Nombre',
+                  displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado',
+                  enableFiltering: false,
+                  width: '15%'
+                 },
                 {
                     field: 'Opciones',
                     cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
                     headerCellClass: 'encabezado',
-                    enableFiltering: false
+                    enableFiltering: false,
+                    width: '10%'
                 }
             ],
             onRegisterApi: function(gridApi) {
@@ -110,6 +163,8 @@ angular.module('financieraClienteApp')
             financieraMidRequest.cancel();
             self.cargando = true;
             self.hayData = true;
+
+
             if($location.search().vigencia !== undefined && $location.search().numero){
                 query = '&query=NumeroDisponibilidad:'+$location.search().numero;
 
@@ -333,6 +388,16 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("cdpConsulta.Vigencia", function() {
 
+                if(self.reservas != true){
+                  self.ver_titulo_reservas = false;
+                  self.ver_boton_reservas = true;
+                  self.reservas = false;
+                }
+                else{
+                  self.ver_titulo_reservas = true;
+                  self.ver_boton_reservas = false;
+                  self.reservas = false;
+                }
 
                 financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
@@ -406,10 +471,22 @@ angular.module('financieraClienteApp')
         };*/
 
          self.verReservas = function() {
+
             financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) {
                     self.Vigencia = parseInt(response.data)-1;
+                    self.reservas = true;
+                    self.ver_boton_reservas = false;
                 });
+
+
         };
+
+        self.volver_a_vigencia = function(){
+
+            self.Vigencia = self.vigenciaActual;
+            self.ver_boton_reservas = true;
+            self.actualizarLista(0, '');
+        }
 
     });

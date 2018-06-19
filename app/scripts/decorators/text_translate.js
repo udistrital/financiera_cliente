@@ -376,6 +376,7 @@ var text_es = {
     LISTA_REQUISITOS_AVANCE: "listado de Requisitos de Avance",
     LISTA_PRODUCTOS: "Listado de Productos",
     LISTA_PRODUCTOS_ASOCIADOS: "Lista Productos Asociados Al Rubro",
+    LISTA_RESERVAS: "Lista de Reservas",
     LISTA_RP: "Lista de Registros Presupuestales",
     LISTA_RP_ANULACION: "Lista de Solicitudes de Anulación de Registros Presupuestales ",
     LISTA_SOLICITUD_ANULACION_CDP: "Lista de Solicitudes de Anulación de Disponibilidad",
@@ -718,6 +719,7 @@ var text_es = {
     VER_TRASLADO: "Ver translado",
     VIGENCIA: "Vigencia",
     VINCULACION: "Vinculación",
+    VOLVER_VIGENCIA_ACTUAL: "Volver a vigencia actual",
     APROPIACION_INICIAL: "Apropiación Inicial",
     INFORMACION_SALDO_APROPIACION: "Información Presupuestal de la Apropiación",
     INFORMACION_RUBROS_MODIFICACION_PRES: "Rubros Seleccionados",
@@ -911,6 +913,7 @@ var text_en = {
     LISTA_TITULOS:"Certificates List",
     LISTA_ACTAS:"Acts List",
     LISTA_RAZON_DEVOLUCION:"Devolution Reason List",
+    LISTA_RESERVAS: "Reservs List",
     LIQUIDACION: "Liquidation",
     MENSAJE_INICIAL: "Now get to start to develop",
     MES: "Month",
@@ -1051,6 +1054,7 @@ var text_en = {
     VER_TRASLADO: "See Transfer",
     VIGENCIA: "Validity",
     VINCULACION: "Bonding",
+    VOLVER_VIGENCIA_ACTUAL: "Back to current Term",
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
         NO_FILAS: "Número de Filas"
