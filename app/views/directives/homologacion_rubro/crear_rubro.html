@@ -1,0 +1,34 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'REGISTRO_RUBRO' | translate }}</h2>
+  <div class="panel-body" >
+    <form name="datosRubro">
+        <div class="col-md-6">
+            <div class="form-group">
+              <label for="codRubro" class="control-label">{{'CODIGO'|translate}}</label>
+              <input type="text" class="form-control input_left" ng-model="d_homologacionRubroCrearRubro.codigoRubro" placeholder="{{'CODIGO'|translate}}" required/>
+            </div>
+            <div class="form-group">
+              <label for="nombreRubro" class="control-label">{{'NOMBRE'|translate}}</label>
+              <input type="text" class="form-control input_left" ng-model="d_homologacionRubroCrearRubro.nombreRubro" placeholder="{{'NOMBRE'|translate}}" required/>
+            </div>
+        </div>
+        <div class=col-md-6>
+          <div class="form-group">
+            <label for="tipodoc" class="control-label">{{'ENTIDAD'|translate}}</label>
+            <select ng-model="d_homologacionRubroCrearRubro.entidad" ng-options="i.Nombre for i in d_homologacionRubroCrearRubro.entidades" class="form-control" required>
+              <option value="">{{'ENTIDAD'|translate}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tipodoc" class="control-label">{{'UNIDAD_EJECUTORA'|translate}}</label>
+            <select ng-model="d_homologacionRubroCrearRubro.unidadejecutora" ng-options="i.Nombre for i in d_homologacionRubroCrearRubro.unidadesejecutoras" class="form-control" required>
+              <option value="">{{'UNIDAD_EJECUTORA'|translate}}</option>
+            </select>
+          </div>
+        </div>
+    </form>
+  </div>
+  <div class="panel-footer" align="center">
+    <button class="btn btn-outline btn-info" ng-click="d_homologacionRubroCrearRubro.registrar()">{{'BTN.REGISTRAR'|translate}}</button>
+  </div>
+</div>
