@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
         self.UnidadEjecutora = 1;
         self.cargando = false;
         self.hayData = true;
+        self.ver_boton_todos = false;
         self.gridOptions = {
             enableFiltering: true,
             enableSorting: true,
@@ -23,48 +24,58 @@ angular.module('financieraClienteApp')
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 10,
             useExternalPagination: true,
+
             columnDefs: [{
                 field: 'Consecutivo',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NO'),
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.NumeroRegistroPresupuestal',
                 cellClass: 'input_center',
                 displayName: $translate.instant('REGISTRO_PRESUPUESTAL_NO'),
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Vigencia',
                 displayName: $translate.instant('VIGENCIA'),
                 cellClass: 'input_center',
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'10%',
+
             }, {
                 field: 'FechaRegistro',
                 displayName: $translate.instant('FECHA_CREACION'),
                 cellClass: 'input_center',
                 cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'TipoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('TIPO'),
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'EstadoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('ESTADO'),
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre',
                 displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
                 cellClass: 'input_center',
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'Opciones',
                 cellTemplate: '<center>' +
                     ' <a type="button" class="editar" ng-click="grid.appScope.rpAprobacionAnulacion.verRp(row)" >' +
                     '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>',
-                headerCellClass: 'encabezado'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }],
             onRegisterApi: function(gridApi) {
                 self.gridApi = gridApi;
@@ -362,9 +373,12 @@ angular.module('financieraClienteApp')
                 term: "Fenecido"
             };
             self.customfilter = '&query=TipoAnulacion.Nombre__in:Fenecido';
+            self.ver_boton_todos = true;
         };
 
         self.verAnulaciones = function() {
+            self.gridOptions.data = [];
+            self.ver_boton_todos = false;
             self.gridApi.grid.columns[4].filters[0] = {
                 term: ""
             };
