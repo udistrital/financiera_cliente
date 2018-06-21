@@ -1,10 +1,19 @@
 <div class="panel panel-primary panel-body">
     <h2 class="page-header" align="center">{{'LISTA_PRODUCTOS' | translate}}</h2>
     <div class="panel-body">
-        <div ui-grid="productoConsulta.gridOptions" ui-grid-pagination class="myGrid"></div>
-        <div class="text-center">
-            <button class="btn btn-info btn-outline" data-toggle="modal" data-target="#modalRegistroPr" ng-click="productoConsulta.limpiar()">{{'REGISTRAR_PRODUCTO' | translate}}</button>
+      <div class= "row">
+
+        <div class="col-md-8 col-md-offset-2">
+          <div ui-grid="productoConsulta.gridOptions" ui-grid-pagination class="myGrid">
+            <div class="watermark" ng-show="!productoConsulta.hayData">{{'NO_DATA'| translate}}</div>
+            <div class="watermark" ng-show="productoConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+          </div>
+          <div class="text-center">
+              <br>
+              <button class="btn btn-info btn-outline" data-toggle="modal" data-target="#modalRegistroPr" ng-click="productoConsulta.limpiar()">{{'REGISTRAR_PRODUCTO' | translate}}</button>
+          </div>
         </div>
+      </div>
     </div>
 </div>
 
@@ -22,7 +31,7 @@
                         <table class="table text-justify">
                             <tr>
                                 <th>
-                                    {{'NOMBRE' | translate}}: 
+                                    {{'NOMBRE' | translate}}:
                                 </th>
                                 <td>
                                     {{productoConsulta.data.Nombre}}
@@ -30,7 +39,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{'DESCRIPCION' | translate}}: 
+                                    {{'DESCRIPCION' | translate}}:
                                 </th>
                                 <td>
                                     {{productoConsulta.data.Descripcion}}
@@ -38,19 +47,27 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{'FECHA_REGISTRO' | translate}}: 
+                                    {{'FECHA_REGISTRO' | translate}}:
                                 </th>
                                 <td>
-                                    {{productoConsulta.data.FechaRegistro}}
+                                    {{productoConsulta.data.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}
                                 </td>
                             </tr>
                         </table>
-                        <hr>
-                        <h4>{{'RUBROS' | translate}}</h4>
-                    
-                            <div ui-grid="productoConsulta.gridOptionsProductoRubro" ui-grid-pagination ui-grid-auto-resize class="col-md-10 col-md-offset-1"></div>
-                            
-                            
+
+
+
+
+                </div>
+                <h2 class="page-header" align="center">{{'RUBROS' | translate}}</h2>
+
+                <div class="row">
+                  <div class="col-md-10 col-md-offset-1">
+                    <div ui-grid="productoConsulta.gridOptionsProductoRubro" ui-grid-pagination ui-grid-auto-resize class="myGrid">
+                      <div class="watermark" ng-show="!productoConsulta.hayData_rubros">{{'NO_DATA'| translate}}</div>
+                      <div class="watermark" ng-show="productoConsulta.cargando_rubros">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -58,7 +75,7 @@
 </div>
 
 <div id="modalRegistroPr" class="modal fade col-md-12" role="dialog">
-    <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-content col-md-offset-3 col-md-6">
         <div class="modal-header">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
         </div>
@@ -67,8 +84,8 @@
                         <h3 class="page-header">{{'REGISTRAR_PRODUCTO' | translate}}</h3>
                     </div>
              <div class="panel-body">
-                
-                    
+
+
                     <br>
                     <div class="col-md-2">
                         <label class="control-label" for="txtValor">{{'NOMBRE' | translate}}</label>
@@ -86,13 +103,13 @@
                          <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="productoConsulta.prRegistrar.Descripcion"></textarea>
                     </div>
                     <br>
-                    <hr> 
+                    <hr>
                     <br>
                     <!--h4 class="text-center text-default">{{'RUBROS' | translate}}</h4>
                     <div class="col-md-5">
-                        
-                        <rubros-consulta botones="productoConsulta.botones" recargar="productoConsulta.recarga_arbol" ramasel="false" rubrosel="productoConsulta.rubroSel" filtro="'3-3-'"></rubros-consulta> 
-                    </div> 
+
+                        <rubros-consulta botones="productoConsulta.botones" recargar="productoConsulta.recarga_arbol" ramasel="false" rubrosel="productoConsulta.rubroSel" filtro="'3-3-'"></rubros-consulta>
+                    </div>
                     <br>
                     <br>
                         <div class="col-md-5 col-md-offset-1">
@@ -112,16 +129,16 @@
                                 <button class="btn btn-outline btn-danger">{{'QUITAR' | translate}}</button>
                                 <hr>
                             </div>
-                            
+
                         </div>
                         <br>
                         <pre class="col-md-10">{{productoConsulta.prRegistrar | json}}</pre-->
                         <div class="col-md-12 text-center">
-                            <button class="btn btn-outline btn-success" ng-click="productoConsulta.registrarProducto()">{{'REGISTRAR' | translate}}</button>
+                            <button class="btn btn-outline btn-success" ng-click="productoConsulta.registrarProducto()">{{'BTN.REGISTRAR' | translate}}</button>
                         </div>
 
-                    
-                
+
+
             </div>
         </div>
     </div>
