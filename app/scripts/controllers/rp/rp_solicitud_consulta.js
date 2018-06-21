@@ -22,6 +22,8 @@ angular.module('financieraClienteApp')
     self.alerta = "";
     self.offset = 0 ;
     self.query = '';
+    self.cargando = false;
+    self.hayData = true;
     self.aprovarMasivo = false;
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
@@ -31,7 +33,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFiltering: true,
-       paginationPageSizes: [20, 50, 100],
+      paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
       useExternalPagination: true,
       columnDefs: [{
@@ -79,7 +81,6 @@ angular.module('financieraClienteApp')
           headerCellClass: 'encabezado',
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
           enableFiltering: false,
-
         }
       ]
 
@@ -128,6 +129,10 @@ angular.module('financieraClienteApp')
      * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
      */
     self.actualizar_solicitudes = function(offset,query) {
+      self.gridOptions.data = [];
+      self.cargando = true;
+      self.hayData = true;
+
       var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
 
@@ -142,9 +147,11 @@ angular.module('financieraClienteApp')
         })).then(function(response) {
         if (response.data === null){
             self.hayData = false;
+            self.cargando = false;
           self.gridOptions.data = [];
         }else{
-            self.hayData = true;
+          self.hayData = true;
+          self.cargando = false;
           self.gridOptions.data = response.data;
         }
         console.log(response.data);
@@ -158,10 +165,12 @@ angular.module('financieraClienteApp')
           query: query
         })).then(function(response) {
         if (response.data === null){
-            self.hayData = false;
+          self.hayData = false;
+          self.cargando = false;
           self.gridOptions.data = [];
         }else{
           self.hayData = true;
+          self.cargando = false;
           self.gridOptions.data = response.data;
         }
         console.log(response.data);

@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 10,
             useExternalPagination: true,
-            enableHorizontalScrollbar: 2,
+
             columnDefs: [
               {
                   field: 'AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia',
