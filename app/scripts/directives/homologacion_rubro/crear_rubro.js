@@ -30,6 +30,14 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
               ctrl.unidadesejecutoras = response.data;
           });
+
+          financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+            var year = parseInt(response.data);
+            ctrl.anos = [];
+            for (var i = 0; i < 5; i++) {
+              ctrl.anos.push(year - i);
+            }
+          });
         }
         ctrl.getLists();
         ctrl.validateFields = function(){
@@ -49,6 +57,15 @@ angular.module('financieraClienteApp')
             swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
             return;
           }
+          var request = {
+            CodigoHomologado:ctrl.codigoRubro,
+            NombreHomologado:ctrl.nombreRubro,
+            Organizacion:ctrl.entidad.Id,
+            Vigencia:ctrl.vigencia
+          }
+          financieraMidRequest.post("rubro_homologado/CreateRubroHomologado",request).then(function(response){
+            swal('',$translate.instant(response.data.Code),response.data.Type);
+          });
         }
       },
       controllerAs:'d_homologacionRubroCrearRubro'
