@@ -6,12 +6,23 @@
     </div>
     <div class="col-md-6">
       <!--homologacion-rubro-entidad><homologacion-rubro-entidad-->
-      <div ui-grid="homologacionRubroCrear.gridrubros" ui-grid-auto-resize ui-grid-edit ui-grid-cell-nav>
+      <div class="panel panel-info panel-body">
+        <div class="panel panel-heading">
+          <h4 class="text-center panel-title">{{"CONSULTA_RUBRO_HOMOLOGADO" | translate}}<i class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click="homologacionRubroCrear.consultarRubrosHomologacion(0, 'Organizacion:'+homologacionRubroCrear.entidad.Id)"></i></h4>
+        </div>
+        <div class="form-group">
+          <label for="tipodoc" class="control-label">{{'ENTIDAD'|translate}}</label>
+          <select ng-model="homologacionRubroCrear.entidad" ng-options="i.Nombre for i in homologacionRubroCrear.entidades" class="form-control" ng-change="homologacionRubroCrear.consultarRubrosHomologacion(0, 'Organizacion:'+homologacionRubroCrear.entidad.Id)"required>
+            <option value="">{{'ENTIDAD'|translate}}</option>
+          </select>
+        </div>
+        <div ui-grid="homologacionRubroCrear.gridrubros" ui-grid-auto-resize ui-grid-pagination ui-grid-selection></div>
       </div>
     </div>
   </div>
   <div class="panel-footer" align="center">
     <button class="btn btn-outline btn-info" ng-click="homologacionRubroCrear.creacionRubro()">{{'NUEVO'|translate}}</button>
+    <button class="btn btn-outline btn-info" ng-click="homologacionRubroCrear.vincular()">{{'BTN.VINCULAR'|translate}}</button>
   </div>
 </div>
 <div id="modal" class="modal fade col-md-12" role="dialog">

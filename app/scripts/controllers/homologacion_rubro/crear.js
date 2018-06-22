@@ -8,9 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,financieraMidRequest) {
+  .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,financieraMidRequest,gridApiService) {
     var ctrl = this;
 
+    ctrl.rubroHomologado={};
     ctrl.gridrubros = {
       paginationPageSizes: [5, 15, 20],
       paginationPageSize: 5,
@@ -20,45 +21,73 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       enableRowHeaderSelection: true,
       selectionRowHeaderWidth: 35,
+      useExternalPagination:true,
       columnDefs: [
           {
-              field: 'Devolucion.Id',
+              field: 'CodigoHomologado',
               displayName: $translate.instant('NUMERO_OPERACION'),
               headerCellClass:'text-info',
-              width: '25%'
+              width: '24%'
           },
           {
-              field: 'Devolucion.FormaPago.Nombre',
+              field: 'NombreHomologado',
               displayName: $translate.instant('NOMBRE'),
               headerCellClass:'text-info',
-              width: '25%',
+              width: '24%',
           },
           {
-              field: 'Devolucion.Vigencia',
+              field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               headerCellClass:'text-info',
-              width: '25%'
+              width: '24%'
           },
           {
-              field: 'Devolucion.Vigencia',
+              field: 'Organizacion[0].Nombre',
               displayName: $translate.instant('ENTIDAD'),
               headerCellClass:'text-info',
-              width: '25%'
+              width: '24%'
           }
       ],
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+            ctrl.rubroHomologado = row.entity;
         });
+        gridApi = gridApiService.pagination(gridApi,ctrl.consultarRubrosHomologacion,$scope)
+
       }
     };
-
-    ctrl.consultarRubrosHomologacion = function(){
-      financieraMidRequest.get("rubro_homologado").then(function(response){
-          console.log(response.data);
+    ctrl.consultarRubrosHomologacion = function(offset,query){
+      financieraMidRequest.cancel();
+      financieraMidRequest.get("rubro_homologado",$.param({
+        limit: ctrl.gridrubros.paginationPageSize,
+        offset:offset,
+        query:query
+      })).then(function(response){
+          ctrl.gridrubros.data=response.data;
       });
     }
-    ctrl.consultarRubrosHomologacion();
+    ctrl.vincular = function(){
+        var request = {
+          RubroHomologado:{Id:ctrl.rubroHomologado.Id},
+          Rubro:{Id:parseInt(ctrl.rubroSeleccionado.Id)},
+        }
+        financieraMidRequest.post("rubro_homologado/CreateHomologacion",request).then(
+          function(response){
+            swal('',$translate.instant(response.data.Code),response.data.Type)
+          }
+        );
+    }
+  ctrl.getLists=function(){
+
+    financieraMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
+        limit: -1,
+        query: "CodigoAbreviacion:TE_2"
+    })).then(function(response) {
+        ctrl.entidades=response.data;
+    });
+  }
+  ctrl.getLists();
     ctrl.creacionRubro=function(){
       $('#modal').modal();
     }
