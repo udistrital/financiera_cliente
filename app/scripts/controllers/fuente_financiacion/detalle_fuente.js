@@ -18,9 +18,10 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   self.TipoFuenteFinanciamiento = $localStorage.fuente.TipoFuenteFinanciamiento.Nombre;
   self.Vigencia = $localStorage.fuente.Vigencia;
   self.valor_cdp = $localStorage.fuente.valor_cdp;
-  self.valor_disponible = $localStorage.fuente.valor_disponible;
-  console.log("e",self.fuente.valor_cdp)
   self.unidad_ejecutora = 1;
+
+  self.cargando = false;
+  self.hayData = true;
 
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
@@ -274,6 +275,7 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
           self.valor_total = self.valor_total + self.fuente_financiamiento_apropiacion[i].Valor;
         }
       }
+         self.valor_disponible = self.valor_total - self.valor_cdp;
     });
 
 };
@@ -283,8 +285,18 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
   self.mostrar_CDP = function(){
 
+    self.gridOptionCDP.data  = [];
+    self.cargando = true;
+    self.hayData = true;
+
     financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
 
+
+        if(response.data.Type === "error"){
+          self.hayData = false;
+          self.cargando = false;
+          self.gridOptionCDP.data  = [];
+        }else{
          self.fuente_cdp = response.data;
 
          for (i = 0; i < self.fuente_cdp.length; i++) {
@@ -295,14 +307,29 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
            }
          }
 
+         self.hayData = true;
+         self.cargando = false;
          self.gridOptionCDP.data = self.fuente_cdp_tabla;
          self.fuente_cdp = response.data;
-        });
+
+       }
+    });
   };
 
   self.mostrar_CRP = function(){
+
+    self.gridOptionCRP.data  = [];
+    self.cargando = true;
+   self.hayData = true;
+
         financieraMidRequest.get('registro_presupuestal/ListaRp/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
 
+            console.log("no data ",response.data)
+          if(response.data.Type === "error"){
+            self.hayData = false;
+            self.cargando = false;
+            self.gridOptionCRP.data.data  = [];
+          }else{
           self.fuente_crp = response.data;
 
           for (i = 0; i < self.fuente_crp.length; i++) {
@@ -311,19 +338,40 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
               self.fuente_crp_tabla.push(self.fuente_crp[i]);
             }
           }
+
+          self.hayData = true;
+          self.cargando = false;
           self.gridOptionCRP.data = self.fuente_crp_tabla;
           self.fuente_crp = response.data;
+        }
 
         });
   };
 
   self.mostrar_OP = function(){
 
+    self.gridOptionOP.data = [];
+    self.cargando = true;
+    self.hayData = true;
+
         financieraMidRequest.get('orden_pago/GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&unidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
-          self.fuente_op = response.data.OrdenPago;
-          self.gridOptionOP.data = self.fuente_op;
+
+            console.log("no data ",response.data)
+          if(response.data === null){
+            self.hayData = false;
+            self.cargando = false;
+            self.gridOptionOP.data = [];
+          }else{
+
+            self.hayData = true;
+            self.cargando = false;
+            self.fuente_op = response.data.OrdenPago;
+            self.gridOptionOP.data = self.fuente_op;
+
+          }
         });
 
   };
+
 
 });

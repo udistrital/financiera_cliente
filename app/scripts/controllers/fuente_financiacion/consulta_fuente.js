@@ -16,6 +16,8 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
   self.hayData = true;
   self.cargando_apropiaciones = false;
   self.hayData_apropiaciones = true;
+  self.valor_cdp = 0;
+  self.valor_disponible = 0;
 
   $scope.botones = [
     { clase_color: "ver", clase_css: "fa fa-info-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_RUBROS'), operacion: 'ver_rubros', estado: true },
@@ -301,6 +303,8 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
 
   self.mostrar_detalle_fuente = function(row){
 
+    self.calcular_valor_CDP(row.entity.Id);
+
     self.fuente = {};
     self.fuente.Id = row.entity.Id;
     self.fuente.Vigencia = self.Vigencia;
@@ -308,8 +312,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     self.fuente.TipoFuenteFinanciamiento.Nombre = row.entity.TipoFuenteFinanciamiento.Nombre;
     self.fuente.Nombre = row.entity.Nombre;
     self.fuente.Codigo = row.entity.Codigo;
-    self.calcular_valor_CDP(row.entity.Id);
-    self.fuente.valor_disponible = self.valor_disponible;
     self.fuente.valor_cdp = self.valor_cdp;
     $localStorage.fuente = self.fuente;
 
@@ -323,22 +325,18 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
   };
 
   self.calcular_valor_CDP = function(id){
-    financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(id)).then(function(response) {
+    financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+ toString(id)).then(function(response) {
 
       self.fuente_cdp = response.data;
-      self.valor_cdp = 0;
-      self.valor_disponible = 0;
 
       for (i = 0; i < self.fuente_cdp.length; i++) {
         for (j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
           self.fuente_cdp[i].DisponibilidadApropiacion[0] = self.fuente_cdp[i].DisponibilidadApropiacion[j];
           self.valor_cdp = self.valor_cdp + self.fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
-          
+
         }
       }
 
-      self.valor_disponible = self.valor_total - self.valor_cdp;
-      console.log(self.valor_disponible, self.valor_cdp)
     });
   };
 
