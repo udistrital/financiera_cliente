@@ -22,24 +22,36 @@ angular.module('financieraClienteApp')
     self.alerta = "";
     self.offset = 0 ;
     self.query = '';
+    self.cargando = false;
+    self.hayData = true;
     self.aprovarMasivo = false;
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+    ];
+
     self.gridOptions = {
       enableRowSelection: false,
       enableRowHeaderSelection: false,
       enableFiltering: true,
-       paginationPageSizes: [20, 50, 100],
+      paginationPageSizes: [20, 50, 100],
       paginationPageSize: 10,
       useExternalPagination: true,
       columnDefs: [{
           field: 'Id',
           displayName: $translate.instant('NO'),
           cellClass: 'input_center',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'Vigencia',
+          displayName: $translate.instant('VIGENCIA'),
+          headerCellClass: 'encabezado',
+          cellClass: 'input_center',
         },
         {
           field: 'FechaSolicitud',
           displayName: $translate.instant('FECHA_REGISTRO'),
-          headerCellClass: 'text-info',
+          headerCellClass: 'encabezado',
           cellClass: 'input_center',
           cellTemplate: '<span>{{row.entity.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</span>'
         },
@@ -47,30 +59,28 @@ angular.module('financieraClienteApp')
           field: 'DatosDisponibilidad.NumeroDisponibilidad',
           displayName: $translate.instant('NO_CDP'),
           cellClass: 'input_center',
-          headerCellClass: 'text-info',
+          headerCellClass: 'encabezado',
           enableFiltering: false
         },
         {
           field: 'DatosDisponibilidad.DatosNecesidad.Numero',
           displayName: $translate.instant('NECESIDAD_NO'),
           cellClass: 'input_center',
-          headerCellClass: 'text-info',
+          headerCellClass: 'encabezado',
           enableFiltering: false
         },
         {
           field: 'DatosDisponibilidad.DatosNecesidad.DatosDependenciaSolicitante.Nombre',
           displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
-          headerCellClass: 'text-info',
+          headerCellClass: 'encabezado',
+          cellClass: 'input_center',
           enableFiltering: false
         },
         {
           field: 'Opciones',
-          cellTemplate: '<center>' +
-            ' <a type="button" class="editar" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" > ' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
-            ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.rpSolicitudConsulta.verSolicitud(row)" >',
-          headerCellClass: 'text-info',
-          enableFiltering: false
+          headerCellClass: 'encabezado',
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+          enableFiltering: false,
         }
       ]
 
@@ -96,6 +106,21 @@ angular.module('financieraClienteApp')
     .then(function(response){
       self.Dependencias = response.data;
     });
+
+    $scope.loadrow = function(row, operacion) {
+      self.operacion = operacion;
+      switch (operacion) {
+          case "ver":
+             self.verSolicitud(row);
+          break;
+
+          case "otro":
+
+          break;
+          default:
+      }
+    };
+
     /**
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#actualizar_solicitudes
@@ -104,6 +129,10 @@ angular.module('financieraClienteApp')
      * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
      */
     self.actualizar_solicitudes = function(offset,query) {
+      self.gridOptions.data = [];
+      self.cargando = true;
+      self.hayData = true;
+
       var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
 
@@ -117,10 +146,12 @@ angular.module('financieraClienteApp')
           query: query
         })).then(function(response) {
         if (response.data === null){
-
+            self.hayData = false;
+            self.cargando = false;
           self.gridOptions.data = [];
         }else{
-
+          self.hayData = true;
+          self.cargando = false;
           self.gridOptions.data = response.data;
         }
         console.log(response.data);
@@ -134,9 +165,12 @@ angular.module('financieraClienteApp')
           query: query
         })).then(function(response) {
         if (response.data === null){
+          self.hayData = false;
+          self.cargando = false;
           self.gridOptions.data = [];
         }else{
-
+          self.hayData = true;
+          self.cargando = false;
           self.gridOptions.data = response.data;
         }
         console.log(response.data);
@@ -286,11 +320,18 @@ angular.module('financieraClienteApp')
         console.log(registro);
         financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
-          console.log(self.alerta_registro_rp);
+
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
           angular.forEach(self.alerta_registro_rp, function(data) {
             if (data.Type === "error") {
-              templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+              if(typeof(data.Body) === "string"){
+                templateAlert = templateAlert + "<tr class='danger'><td>" + "N/A"+ "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+              }
+              if(typeof(data.Body) === "object"){
+                templateAlert = templateAlert + "<tr class='danger'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td> N/A </td>" + "<td>" + $translate.instant(data.Code) + "</td>";
+              }
+
+
             } else if (data.Type === "success") {
               templateAlert = templateAlert + "<tr class='success'><td>" + data.Body.Rp.Solicitud + "</td>" + "<td>" + data.Body.Rp.NumeroRegistroPresupuestal + "</td>" + "<td>" + $translate.instant(data.Code) + "</td>";
             }
@@ -430,14 +471,14 @@ angular.module('financieraClienteApp')
             if (value) {
               resolve();
             } else {
-              reject($translate.instant("S_M002"));
+              reject($translate.instant("S_M001"));
             }
           });
         }
       }).then(function(text) {
         console.log(text);
         console.log(solicitud);
-        self.solicitud.MotivoRechazo = text;
+        solicitud.MotivoRechazo = text;
         argoRequest.post('ingreso/RechazarIngreso', solicitud).then(function(response) {
           console.log(response.data);
           if (response.data.Type !== undefined) {

@@ -180,9 +180,9 @@
     </div>
   </div>
 
-  <div class="panel-body">
+  <div class="panel-body" ng-if='actaComprainv.pactoVenta'>
     <legend class="text-primary" ng-click="d=!d">
-      Pacto de venta
+      {{'PACTO_VENTA'|translate}}
       <span class="fa fa-plus pull-right" ng-show="!d"></span>
       <span class="fa fa-minus pull-right" ng-show="d"></span>
     </legend class="text-primary">

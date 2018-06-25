@@ -156,13 +156,9 @@ angular.module('financieraClienteApp')
       ctrl.consultarDevoluciones();
       $scope.loadrow = function(row, operacion) {
           $scope.devolucion = row.entity;
-          console.log("fila seleccionada ",$scope.devolucion)
           switch (operacion) {
               case "proceso":
                   $scope.estado = $scope.devolucion.EstadoDevolucion;
-                  break;
-              case "otro":
-
                   break;
               default:
           }

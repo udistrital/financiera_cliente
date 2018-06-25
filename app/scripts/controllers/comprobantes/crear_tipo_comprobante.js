@@ -27,9 +27,8 @@ angular.module('financieraClienteApp')
         enableSorting: true,
         enableRowSelection: true,
         enableRowHeaderSelection: true,
-        paginationPageSizes: [25, 50, 75],
+        paginationPageSizes: [5, 10, 20],
         paginationPageSize: 10,
-        useExternalPagination: true,
 
         columnDefs: [
             { field: 'Id', visible: false },
@@ -54,7 +53,7 @@ angular.module('financieraClienteApp')
 
     ctrl.TipoComprobantes.multiSelect = false;
 
-    financieraRequest.get('tipo_comprobante','').then(function(response) {
+    financieraRequest.get('tipo_comprobante','limit=-1').then(function(response) {
       angular.forEach(response.data, function(data){
         financieraRequest.get('unidad_ejecutora','limit=-1&query=Id:'+data.UnidadEjecutora).then(function(response) {
           data.UnidadEjecutoraNombre = response.data[0].Nombre
@@ -66,6 +65,7 @@ angular.module('financieraClienteApp')
           data.EntidadNombre = response.data[0].Nombre
         });
       });
+
 
       ctrl.TipoComprobantes.data = response.data;
     });

@@ -54,6 +54,8 @@ angular
         'argoService',
         'coreService',
         'oikosService',
+        'organizacionService',
+        'ubicacionesService',
         'titanService',
         'pagosService',
         'financieraNotificacion',
@@ -546,11 +548,6 @@ angular
               controller: 'DevolucionesNoTributariaCtrl',
               controllerAs: 'devolucionesnoTributaria'
             })
-            .when('/inversiones/consulta_titulos', {
-              templateUrl: 'views/inversiones/consulta_titulos.html',
-              controller: 'InversionesConsultaTitulosCtrl',
-              controllerAs: 'invconsultaTitulos'
-            })
             .when('/bancos/gestion_sucursales', {
                 templateUrl: 'views/bancos/gestion_sucursales.html',
                 controller: 'GestionSucursalesCtrl',
@@ -561,10 +558,40 @@ angular
                 controller: 'GestionCuentasBancariasCtrl',
                 controllerAs: 'gestionCuentasBancarias'
             })
+            .when('/bancos/gestion_traslados', {
+                templateUrl: 'views/bancos/gestion_traslados.html',
+                controller: 'GestionTrasladosCtrl',
+                controllerAs: 'gestionTraslados'
+            })
             .when('/devoluciones/consulta_devoluciones_tributarias', {
               templateUrl: 'views/devoluciones/consulta_devoluciones_tributarias.html',
               controller: 'DevolucionesConsultaDevolucionesTributariasCtrl',
               controllerAs: 'consultaDevolucionesTributarias'
+            })
+            .when('/ingresos_sin_situacion_fondos/consulta', {
+              templateUrl: 'views/ingresos_sin_situacion_fondos/consulta.html',
+              controller: 'IngresosSinSituacionFondosConsultaCtrl',
+              controllerAs: 'ingresosSinSitFndsCns'
+            })
+            .when('/ingresos_sin_situacion_fondos/registro', {
+              templateUrl: 'views/ingresos_sin_situacion_fondos/registro.html',
+              controller: 'IngresosSinSituacionFondosRegistroCtrl',
+              controllerAs: 'ingresosSinSitFnReg'
+            })
+            .when('/devoluciones/parametros/actas', {
+              templateUrl: 'views/devoluciones/parametros/actas.html',
+              controller: 'DevolucionesParametrosActasCtrl',
+              controllerAs: 'devolparamactas'
+            })
+            .when('/inversiones/parametros/titulo', {
+              templateUrl: 'views/inversiones/parametros/titulo.html',
+              controller: 'InversionesParametrosTituloCtrl',
+              controllerAs: 'invParamTitulo'
+            })
+            .when('/devoluciones/parametros/razon_devolucion', {
+              templateUrl: 'views/devoluciones/parametros/razon_devolucion.html',
+              controller: 'DevolucionesParametrosRazonDevolucionCtrl',
+              controllerAs: 'devolParamRazonDevolucion'
             })
             .otherwise({
                 redirectTo: '/'

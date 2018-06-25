@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest,coreRequest) {
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
@@ -47,7 +47,8 @@ angular.module('financieraClienteApp')
          ctrl.unidadesejecutoras = response.data;
      });
 
-     financieraRequest.get('acta_devolucion', $.param({
+     coreRequest.get('documento', $.param({
+       query:"TipoDocumento.CodigoAbreviacion:TD-DEV",
          limit: -1
      })).then(function(response) {
          ctrl.actas = response.data;
@@ -58,6 +59,13 @@ angular.module('financieraClienteApp')
      })).then(function(response) {
          ctrl.razonesDevolucion = response.data;
      });
+
+     agoraRequest.get("informacion_persona_juridica_tipo_entidad", $.param({
+          query:"TipoEntidadId:1",
+         limit: -1
+       })).then(function(response) {
+         ctrl.bancos = response.data;
+       });
   }
 
   ctrl.consultarListas();
@@ -144,11 +152,12 @@ angular.module('financieraClienteApp')
               ctrl.encontrado = true;
             }else{
               agoraRequest.get('informacion_persona_natural',$.param({
-                query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Id: " + ctrl.tipoDocSoli.Id,
+                query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Abreviatura: " + ctrl.tipoDocSoli.Abreviatura,
                 limit:-1
               })).then(function(response){
                 if(!angular.isUndefined(response.data) && response.data!=null){
                     ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                    ctrl.IdSolicitante = response.data[0].Id;
                     ctrl.encontrado = true;
                     ctrl.loadCircle = true;
                   }else{
@@ -158,6 +167,7 @@ angular.module('financieraClienteApp')
                     })).then(function(response){
                         if(!angular.isUndefined(response.data) && response.data!=null){
                             ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                            ctrl.IdSolicitante = response.data[0].Id;
                             ctrl.encontrado = true;
                         }else{
                           agoraRequest.get('supervisor_contrato',$.param({
@@ -165,6 +175,7 @@ angular.module('financieraClienteApp')
                             limit:-1
                           })).then(function(response){
                               if(!angular.isUndefined(response.data) && response.data!=null){
+                                  ctrl.IdSolicitante = response.data[0].Id;
                                   ctrl.nombreSolicitante = response.data[0].Nombre;
                                   ctrl.encontrado = true;
                               }else{
@@ -215,6 +226,7 @@ angular.module('financieraClienteApp')
                 limit:-1
               })).then(function(response){
                 if(!angular.isUndefined(response.data) && response.data!=null){
+                    ctrl.IdBeneficiario = response.data[0].Id;
                     ctrl.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
                   }else{
                     agoraRequest.get('informacion_persona_juridica',$.param({
@@ -223,6 +235,7 @@ angular.module('financieraClienteApp')
                     })).then(function(response){
                         if(!angular.isUndefined(response.data) && response.data!=null){
                             ctrl.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                            ctrl.IdBeneficiario = response.data[0].Id;
                         }else{
                           agoraRequest.get('supervisor_contrato',$.param({
                             query:"Documento:" + ctrl.numdocBeneficiario,
@@ -230,6 +243,7 @@ angular.module('financieraClienteApp')
                           })).then(function(response){
                               if(!angular.isUndefined(response.data) && response.data!=null){
                                   ctrl.nombreBeneficiario = response.data[0].Nombre;
+                                  ctrl.IdBeneficiario = response.data[0].Id;
                               }
                             });
                         }
@@ -263,27 +277,17 @@ angular.module('financieraClienteApp')
    ctrl.crearSolicitud = function(){
      ctrl.SolicitudDevolucion={
        SolicitudDevolucion:{
-         Beneficiario:{
-           TipoIdentificacion:ctrl.tipoDocBen.Id,
-           Identificacion:ctrl.numdocBeneficiario,
-           Origen:9
-         },
-           Solicitante:{
-             TipoIdentificacion:ctrl.tipoDocSoli.Id,
-             Identificacion:ctrl.numdocSoli,
-             Origen:9
-           },
            FormaPago:ctrl.formaPago,
            Vigencia:ctrl.vigencia,
            UnidadEjecutora:ctrl.unidadejecutora,
            CuentaDevolucion:{
-             Banco:1,
-             TipoCuenta:1,
+             Banco:ctrl.banco.Id,
+             TipoCuenta:ctrl.tipocuenta.Id,
              NumeroCuenta:ctrl.numeroCuenta.toString()
            },
            RazonDevolucion:ctrl.razonDevolucion,
            Observaciones:ctrl.observaciones,
-           Soporte:ctrl.soporte
+           Soporte:ctrl.soporte.Id
          },
          EstadoDevolucion:{
              Id:6
@@ -291,6 +295,19 @@ angular.module('financieraClienteApp')
          TotalInversion: ctrl.valorSolicitado,
          Concepto: ctrl.concepto[0]
        };
+
+       if (angular.isUndefined(ctrl.IdBeneficiario)){
+         ctrl.IdBeneficiario = ctrl.numdocBeneficiario;
+       }
+
+       if (angular.isUndefined(ctrl.IdSolicitante)){
+         ctrl.IdSolicitante = ctrl.numdocSoli;
+       }
+
+        ctrl.SolicitudDevolucion.Beneficiario = ctrl.IdBeneficiario;
+        ctrl.SolicitudDevolucion.Solicitante = ctrl.IdSolicitante;
+        ctrl.SolicitudDevolucion.SolicitudDevolucion.CuentaDevolucion.Titular = ctrl.IdSolicitante;
+
 
        angular.forEach(ctrl.movs, function(data) {
            delete data.Id;
@@ -304,6 +321,5 @@ angular.module('financieraClienteApp')
           }
        });
      }
-
 
    });

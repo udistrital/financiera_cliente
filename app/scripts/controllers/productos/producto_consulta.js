@@ -10,10 +10,12 @@
 angular.module('financieraClienteApp')
   .controller('ProductosProductoConsultaCtrl', function ($scope,$translate,financieraRequest, gridApiService) {
     var self = this;
-        self.offset = 0;
+      self.offset = 0;
     	self.prRegistrar = {};
     	self.prRegistrar.ProductoRubro = [];
-        self.offset = 0;
+      self.cargando = false;
+      self.hayData = true;
+      self.offset = 0;
         $scope.botones = [{
                 clase_color: "ver",
                 clase_css: "fa fa-eye fa-lg  faa-shake animated-hover",
@@ -38,24 +40,27 @@ angular.module('financieraClienteApp')
                 field: 'Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NOMBRE'),
-                headerCellClass: 'text-info',
-                enableFiltering: true
+                headerCellClass: 'encabezado',
+                enableFiltering: true,
+                width: '30%',
             }, {
                 field: 'Descripcion',
                 displayName: $translate.instant('DESCRIPCION'),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width: '30%',
             }, {
                 field: 'FechaRegistro',
                 displayName: $translate.instant("FECHA_REGISTRO"),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info',
-                cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>'
+                headerCellClass: 'encabezado',
+                cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
+                width: '30%',
             },{
                 name: $translate.instant('OPCIONES'),
                 enableFiltering: false,
-                width: '8%',
-                 headerCellClass: 'text-info',
+                width: '10%',
+                 headerCellClass: 'encabezado',
                 cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>'
             }],
             onRegisterApi: function(gridApi) {
@@ -78,26 +83,26 @@ angular.module('financieraClienteApp')
                 field: 'Rubro.Codigo',
                 cellClass: 'input_center',
                 displayName: $translate.instant('CODIGO'),
-                headerCellClass: 'text-info',
+                headerCellClass: 'encabezado',
                 enableFiltering: true
             }, {
                 field: 'Rubro.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NOMBRE'),
-                headerCellClass: 'text-info',
+                headerCellClass: 'encabezado',
                 enableFiltering: true
             }, {
                 field: 'ValorDistribucion',
                 cellClass: 'input_center',
                 displayName: $translate.instant('VALOR'),
-                headerCellClass: 'text-info',
+                headerCellClass: 'encabezado',
                 enableFiltering: true,
                  cellTemplate: "<span>{{row.entity.ValorDistribucion * 100}} %</span>"
             }, {
                 field: 'FechaAsignacion',
                 cellClass: 'input_center',
                 displayName: $translate.instant('FECHA_REGISTRO'),
-                headerCellClass: 'text-info',
+                headerCellClass: 'encabezado',
                 enableFiltering: true
             }
             ]
@@ -111,18 +116,39 @@ angular.module('financieraClienteApp')
         $scope.loadrow = function(row, operacion) {
             switch (operacion) {
                 case "ver":
+
                     self.verProducto(row.entity);
+
                     break;
                 case "otro":
-                    break;    
+                    break;
             }
         };
 
         self.verProducto = function(entity){
-        	self.data = {};
-        	self.data = entity;
-        	self.gridOptionsProductoRubro.data = self.data.ProductoRubro
-        	$("#myModal").modal();
+          self.data ={};
+          self.data = entity;
+          self.cargando_rubros = false;
+          self.hayData_rubros = true;
+
+          financieraRequest.get('producto/', 'query=Id:'+entity.Id ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+
+              if (response.data[0].ProductoRubro.length == 0) {
+
+                self.hayData_rubros= false;
+                self.cargando_rubros = false;
+                self.gridOptionsProductoRubro.data = [];
+                $("#myModal").modal("show");
+              } else {
+                  self.hayData_rubros = true;
+                  self.cargando_rubros = false;
+                self.gridOptionsProductoRubro.data = response.data[0].ProductoRubro;
+                  $("#myModal").modal("show");
+              }
+          });
+
+
+        //  self.gridOptionsProductoRubro.data = [];
         };
 
         self.limpiar = function(){
@@ -134,10 +160,18 @@ angular.module('financieraClienteApp')
 
 
         self.actualizarLista = function(offset,query){
+            self.gridOptions.data = [];
+            self.cargando = true;
+            self.hayData = true
             financieraRequest.get('producto/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
-                    self.gridOptions.data = [];
+
+                  self.hayData = false;
+                  self.cargando = false;
+                  self.gridOptions.data = [];
                 } else {
+                    self.hayData = true;
+                    self.cargando = false;
                     self.gridOptions.data = response.data;
                 }
             });
@@ -148,6 +182,12 @@ angular.module('financieraClienteApp')
         });
 
         self.registrarProducto = function(){
+
+          if(self.prRegistrar.Nombre === null || self.prRegistrar.Nombre === "" || self.prRegistrar.Nombre === undefined) {
+              swal("", $translate.instant('ERROR_LLENAR'), "error")
+            }else if(self.prRegistrar.Descripcion === null || self.prRegistrar.Descripcion === "" || self.prRegistrar.Descripcion === undefined){
+              swal("", $translate.instant('ERROR_LLENAR'), "error")
+            } else{
             financieraRequest.post('producto/', self.prRegistrar).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type === "error"){
@@ -169,6 +209,10 @@ angular.module('financieraClienteApp')
                     });
                 }
             });
+
+
+
+            }
         };
 
         $scope.$watch("productoConsulta.rubroSel", function() {

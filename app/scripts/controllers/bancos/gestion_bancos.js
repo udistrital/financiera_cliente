@@ -8,203 +8,470 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionBancosCtrl', function(coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
-    var ctrl = this;
+    .controller('GestionBancosCtrl', function(financieraMidRequest, financieraRequest,administrativaRequest, organizacionRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,$window) {
+        var ctrl = this;
 
 
-    $scope.botones = [
-      { clase_color: "editar", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.AGREGAR_CODIGOS'), operacion: 'agregar_codigos', estado: true },
-        { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
-    ];
+        $scope.botones_agregar_codigos = [
+            { clase_color: "editar", clase_css: "fa fa-plus fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.AGREGAR_CODIGOS'), operacion: 'ver_modal_info_adicional', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
+        ];
+
+        $scope.botones_editar_codigos = [
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR_CODIGOS'), operacion: 'ver_modal_info_adicional', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
+        ];
 
 
-    ctrl.Sucursales = {
-      paginationPageSizes: [5, 10, 15, 20, 50],
-      paginationPageSize: 5,
-      enableRowSelection: true,
-      enableRowHeaderSelection: false,
-      enableFiltering: true,
-      enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
-      useExternalPagination: false,
-      enableSelectAll: false,
-      columnDefs: [{
-          field: 'Id',
-          visible:false,
+        ctrl.Sucursales = {
+            paginationPageSizes: [5, 10, 15, 20, 50],
+            paginationPageSize: 5,
+            enableRowSelection: true,
+            enableRowHeaderSelection: false,
+            enableFiltering: true,
+            enableHorizontalScrollbar: 0,
+            enableVerticalScrollbar: 0,
+            useExternalPagination: false,
+            enableSelectAll: false,
+            columnDefs: [{
+                    field: 'Id',
+                    visible: false,
 
-        },
-        {
-          field: 'Nombre',
-          displayName: $translate.instant('NOMBRE'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                },
+                {
+                    field: 'Nombre',
+                    displayName: $translate.instant('NOMBRE'),
+                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
-        }
-      ]
-    };
+                }
+            ]
+        };
 
-    ctrl.Sucursales.multiSelect = false;
-    ctrl.Sucursales.modifierKeysToMultiSelect = false;
-    ctrl.Sucursales.enablePaginationControls = true;
-    ctrl.Sucursales.onRegisterApi = function(gridApi) {
-      ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-       //hacer algo al seleccionar
-      });
-    };
+        ctrl.Sucursales.multiSelect = false;
+        ctrl.Sucursales.modifierKeysToMultiSelect = false;
+        ctrl.Sucursales.enablePaginationControls = true;
+        ctrl.Sucursales.onRegisterApi = function(gridApi) {
+            ctrl.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                $scope.sucursal_seleccionada = row.entity;
+            });
+        };
 
-    ctrl.gridOptions = {
-      paginationPageSizes: [5, 10, 15, 20, 50],
-      paginationPageSize: 5,
-      enableRowSelection: false,
-      enableRowHeaderSelection: false,
-      enableFiltering: true,
-      enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
-      useExternalPagination: false,
-      enableSelectAll: false,
-      columnDefs: [{
-          field: 'Nit',
-          sort: {
-            direction: uiGridConstants.DESC,
-            priority: 1
-          },
-          displayName: $translate.instant('NIT'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
-        },
-        /*{
-          field: 'DenominacionBanco',
-          displayName: $translate.instant('DENOMINACION'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '20%'
-        },*/
-        {
-          field: 'NombreBanco',
-          displayName: $translate.instant('NOMBRE'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '30%'
-        },
-        {
-          field: 'Descripcion',
-          displayName: $translate.instant('DESCRIPCION'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '39%'
-        },
-        /*{
-          field: 'CodigoAch',
-          displayName: $translate.instant('ACH'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '5%'
-        },
-        {
-          field: 'CodigoSuperintendencia',
-          displayName: $translate.instant('CODIGO_SUPER'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          width: '15%'
-        },*/
-        {
-          field: 'EstadoActivo',
-          displayName: $translate.instant('ACTIVO'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.EstadoActivo" disabled></center>',
-          width: '8%'
-        },
-        {
-            field: 'Opciones',
-            displayName: $translate.instant('OPCIONES'),
-            cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
-            headerCellClass: 'text-info'
-        }
-      ]
-    };
+        ctrl.Bancos = {
+            paginationPageSizes: [5, 10, 15, 20, 50],
+            paginationPageSize: 5,
+            enableRowSelection: false,
+            enableRowHeaderSelection: false,
+            enableFiltering: true,
+            enableHorizontalScrollbar: 0,
+            enableVerticalScrollbar: 0,
+            useExternalPagination: false,
+            enableSelectAll: false,
+            columnDefs: [
+                {
+                    field: 'Id',
+                    visible: false
+                },
+                {
+                    field: 'IdInformacionAdicional',
+                    visible: false
+                },
+                {
+                    field: 'InformacionPersonaJuridicaId.Id',
+                    sort: {
+                        direction: uiGridConstants.DESC,
+                        priority: 1
+                    },
+                    displayName: $translate.instant('NIT'),
+                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                    width: '15%'
+                },
+                {
+                    field: 'Nombre',
+                    displayName: $translate.instant('NOMBRE'),
+                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                    width: '20%'
+                },
 
-    //opciones extras para el control del grid
-    ctrl.gridOptions.multiSelect = false;
-    ctrl.gridOptions.modifierKeysToMultiSelect = false;
-    ctrl.gridOptions.enablePaginationControls = true;
-    ctrl.gridOptions.onRegisterApi = function(gridApi) {
-      ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-        ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
-      });
-    };
+                {
+                  field: 'CodigoSuperintendencia',
+                  displayName: $translate.instant('CODIGO_SUPER'),
+                  headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                  width: '20%',
+                  cellFilter: "filtro_codigo_super:row.entity"
+                },
+                {
+                  field: 'CodigoAch',
+                  displayName: $translate.instant('CODIGO_ACH'),
+                  headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                  width: '15%',
+                  cellFilter: "filtro_codigo_ach:row.entity"
+                },
+                {
+                    field: 'Estado',
+                    displayName: $translate.instant('ACTIVO'),
+                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                    width: '10%',
+                    cellFilter: "filtro_estado_banco:row.entity"
+                },
+                {
+                    field: 'Opciones',
+                    displayName: $translate.instant('OPCIONES'),
+                    cellTemplate: '<center><a ng-if="row.entity.CodigoSuperintendencia == 0 "> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_agregar_codigos" fila="row"></btn-registro><center></a>'+
+                    '<center><a ng-if="row.entity.CodigoSuperintendencia !=0"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_editar_codigos" fila="row"></btn-registro><center></a>',
+                    headerCellClass: 'text-info',
+                    width: '20%'
+                }
+            ]
+        };
 
-    coreRequest.get('banco', $.param({
-        limit: -1
-      })).then(function(response) {
-        ctrl.gridOptions.data = response.data;
-      });
+        //opciones extras para el control del grid
+        ctrl.Bancos.multiSelect = false;
+        ctrl.Bancos.modifierKeysToMultiSelect = false;
+        ctrl.Bancos.enablePaginationControls = true;
+        ctrl.Bancos.onRegisterApi = function(gridApi) {
+            ctrl.gridApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function() {
+                ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
+            });
+        };
 
-    $scope.loadrow = function(row, operacion) {
-        ctrl.operacion = operacion;
-        switch (operacion) {
-            case "agregar_codigos":
-                  ctrl.agregar_codigos(row);
-                break;
-            case "ver_sucursal":
-                  ctrl.ver_sucursal(row);
-                break;
-          default:
-        }
-    };
+        organizacionRequest.get('organizacion/', $.param({
+            limit: -1,
+            query: "TipoOrganizacion.CodigoAbreviacion:EB",
+        })).then(function(response) {
 
-    ctrl.agregar_codigos = function(row){
-      alert("agregar codigos");
-    };
+          angular.forEach(response.data, function(data){
+            financieraRequest.get('informacion_adicional_banco','limit=-1&query=Banco:'+data.Id).then(function(response) {
+              if(response.data == null){
+                data.CodigoAch = 0
+                data.CodigoSuperintendencia = 0
+                data.IdInformacionAdicional = 0
+              }else{
+                data.CodigoAch = response.data[0].CodigoAch
+                data.CodigoSuperintendencia = response.data[0].CodigoSuperintendencia
+                data.IdInformacionAdicional = response.data[0].Id
+              }
 
-    ctrl.ver_sucursal = function(row){
+            });
+          });
 
-      coreRequest.get('sucursal', $.param({
-        query: "Banco:" + row.entity.Id,
-        field: "Id,Nombre",
-        limit: -1
-      })).then(function(response) {
-        if(response.data == null){
-          ctrl.tieneSucursal = false;
-        }else{
-          ctrl.tieneSucursal = true;
-          ctrl.NombreSucursal = response.data[0].Nombre;
-          console.log("nombre", ctrl.NombreSucursal)
-        }
+            ctrl.Bancos.data = response.data;
+        });
 
-      });
-      $("#modal_sucursal").modal("show");
-      //Si tiene, que permita visualizarla en un modal, en este modal, que se permita desvincularla. Si no tiene, que sea un botón que permite agregar, listando las existentes
-    };
+        $scope.loadrow = function(row, operacion) {
+            ctrl.operacion = operacion;
+            switch (operacion) {
+                case "ver_modal_info_adicional":
+                    ctrl.ver_modal_info_adicional(row);
+                    break;
+                case "ver_sucursal":
+                    ctrl.ver_sucursal(row);
+                    break;
+                default:
+            }
+        };
 
-    ctrl.desvincular_sucursal = function(){
-      alert("desvinculando sucursal")
-    };
+        ctrl.ver_modal_info_adicional = function(row) {
+              ctrl.banco_seleccionado_info_adicional = row.entity;
+              if(row.entity.CodigoSuperintendencia != 0 || row.entity.CodigoAch != 0){
+                ctrl.codigo_super = row.entity.CodigoSuperintendencia;
+                ctrl.codigo_ach = row.entity.CodigoAch;
+                ctrl.edicion_codigos = true;
+                ctrl.id_a_editar = row.entity.IdInformacionAdicional
+              }
 
-    ctrl.mostrar_sucursales = function(){
-      ctrl.ver_grid_sucursales = true;
+              if(row.entity.CodigoSuperintendencia == 0 || row.entity.CodigoAch == 0){
+                ctrl.codigo_super = null;
+                ctrl.codigo_ach = null;
+                ctrl.edicion_codigos = false;
+              }
 
-      coreRequest.get('sucursal', $.param({
-        limit: -1
-      })).then(function(response) {
-        if(response.data == null){
-          alert("no hay")
-        }else{
-          ctrl.Sucursales.data = response.data;
-        }
+              $("#modal_informacion_adicional").modal("show");
 
-      });
 
-    };
 
-    ctrl.vincular_sucursal = function(){
-      alert("vincular_sucursal")
-    };
+        };
 
-    ctrl.gestionar_sucursales = function(){
-      $location.path('/bancos/gestion_sucursales');
-      $route.reload()
+        ctrl.agregar_informacion_adicional = function() {
 
-    };
+        if (ctrl.codigo_ach && ctrl.codigo_super) {
 
-    ctrl.gestionar_cuentas_bancarias = function(){
-      $location.path('/bancos/gestion_cuentas_bancarias');
-      $route.reload()
+            var informacion_adicional_banco = {
+              CodigoSuperintendencia:  parseInt(ctrl.codigo_super),
+            	CodigoAch :  parseInt(ctrl.codigo_ach),
+            	Banco   : ctrl.banco_seleccionado_info_adicional.Id
+            }
 
-    };
-  });
+            if(ctrl.edicion_codigos == false){
+
+                  financieraRequest.post('informacion_adicional_banco', informacion_adicional_banco).then(function(response) {
+
+                      if (typeof(response.data) == "object") {
+                          swal({
+                              html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                              type: "success",
+                              showCancelButton: false,
+                              confirmButtonColor: "#449D44",
+                              confirmButtonText: $translate.instant('VOLVER'),
+                          }).then(function() {
+                              $('#modal_informacion_adicional').modal('hide');
+                              $window.location.reload()
+                          })
+
+                      }
+                      if (typeof(response.data) == "string") {
+                          swal({
+                              html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                              type: "error",
+                              showCancelButton: false,
+                              confirmButtonColor: "#449D44",
+                              confirmButtonText: $translate.instant('VOLVER'),
+                          }).then(function() {
+                              $('#informacion_adicional_banco').modal('hide');
+                              $window.location.reload()
+                          })
+
+                      }
+                  });
+
+                }
+
+        if(ctrl.edicion_codigos == true){
+
+          swal({
+                    html: $translate.instant('CONFIRMACION_EDICION') +
+                        "<br><b>" + $translate.instant('CONCEPTO_SUPER') + ":</b> " + ctrl.codigo_super+
+                        "<br><b>" + $translate.instant('CONCEPTO_ACH') + ":</b> " + ctrl.codigo_ach + "?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#449D44",
+                    cancelButtonColor: "#C9302C",
+                    confirmButtonText: $translate.instant('CONFIRMAR'),
+                    cancelButtonText: $translate.instant('CANCELAR'),
+         }).then(function() {
+
+              financieraRequest.put('informacion_adicional_banco', ctrl.id_a_editar,informacion_adicional_banco).then(function(response) {
+
+                  if (response.data == "OK") {
+                      swal({
+                          html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                          type: "success",
+                          showCancelButton: false,
+                          confirmButtonColor: "#449D44",
+                          confirmButtonText: $translate.instant('VOLVER'),
+                      }).then(function() {
+                          $('#modal_informacion_adicional').modal('hide');
+                          $window.location.reload()
+                      })
+
+                  }
+                 else{
+                      swal({
+                          html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                          type: "error",
+                          showCancelButton: false,
+                          confirmButtonColor: "#449D44",
+                          confirmButtonText: $translate.instant('VOLVER'),
+                      }).then(function() {
+                          $('#informacion_adicional_banco').modal('hide');
+                          $window.location.reload()
+                      })
+
+                  }
+              });
+            })
+          }
+
+    } else {
+                swal({
+                    html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: "#449D44",
+                    confirmButtonText: $translate.instant('VOLVER'),
+                })
+              }
+
+        };
+
+        ctrl.ver_sucursal = function(row) {
+
+          ctrl.banco_a_vincular_sucursal = row.entity;
+          //DEBO BUSCAR SI TIENE RELACION EN LA TABLA RELACION_ORGANIZACION
+          organizacionRequest.get('relacion_organizaciones/', $.param({
+            limit: -1,
+            query: "OrganizacionPadre:" + row.entity.Id,
+          })).then(function(response) {
+                if (response.data == null) {
+                    ctrl.tieneSucursal = false;
+                    $("#modal_sucursal").modal("show");
+                } else {
+                    ctrl.tieneSucursal = true;
+                    ctrl.buscar_informacion_sucursal(response.data[0].OrganizacionHija);
+                    $("#modal_sucursal").modal("show");
+
+                }
+            });
+
+
+        };
+
+        ctrl.desvincular_sucursal = function() {
+            alert("desvinculando sucursal")
+        };
+
+        ctrl.mostrar_sucursales = function() {
+            ctrl.ver_grid_sucursales = true;
+
+            organizacionRequest.get('organizacion/', $.param({
+                limit: -1,
+                query: "TipoOrganizacion.CodigoAbreviacion:SU",
+            })).then(function(response) {
+                if (response.data == null) {
+                    //PONER MARCA DE AGUA DE QUE NO HAY
+                } else {
+                    ctrl.Sucursales.data = response.data;
+                }
+
+            });
+
+        };
+
+        ctrl.vincular_sucursal = function() {
+            if($scope.sucursal_seleccionada == null){
+              alert("seleccione sucursal")
+            }else{
+
+            organizacionRequest.get('tipo_relacion_organizaciones/', $.param({
+                  limit: -1,
+                  query: "CodigoAbreviacion:TRO_1",
+              })).then(function(response) {
+                  if (response.data == null) {
+                      console.log("no hay datos de tipo de relacion")
+                  } else {
+                    //Variable para hacer insert en relacion_organizaciones
+                    var objeto_relacion_organizaciones = {
+                      OrganizacionPadre : ctrl.banco_a_vincular_sucursal.Id,
+                      OrganizacionHija :  $scope.sucursal_seleccionada.Id,
+                      TipoRelacionOrganizaciones : {Id: response.data[0].Id}
+                    }
+
+                    organizacionRequest.post('relacion_organizaciones', objeto_relacion_organizaciones).then(function(response) {
+
+                        if (typeof(response.data) == "object") {
+                            swal({
+                                html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                                type: "success",
+                                showCancelButton: false,
+                                confirmButtonColor: "#449D44",
+                                confirmButtonText: $translate.instant('VOLVER'),
+                            }).then(function() {
+                                  $("#modal_sucursal").modal("hide");
+                                $window.location.reload()
+                            })
+
+                        }
+                        if (typeof(response.data) == "string") {
+                            swal({
+                                html: $translate.instant('INFORMACION_REG_INCORRECTO'),
+                                type: "error",
+                                showCancelButton: false,
+                                confirmButtonColor: "#449D44",
+                                confirmButtonText: $translate.instant('VOLVER'),
+                            }).then(function() {
+                                $("#modal_sucursal").modal("hide");
+                                $window.location.reload()
+                            })
+
+                        }
+                    });
+
+                  }
+
+              });
+            }
+        };
+
+        ctrl.buscar_informacion_sucursal = function (id_sucursal){
+          //Buscar info de organizacion hija
+
+
+          financieraMidRequest.get('gestion_sucursales/listar_sucursal','id_sucursal='+id_sucursal).then(function(response) {
+            if (response.data == null) {
+                //PONER MARCA DE AGUA DE QUE NO HAY
+            } else {
+                ctrl.Nombre = response.data[0].Nombre;
+                ctrl.Direccion = response.data[0].Direccion;
+                ctrl.Telefono = response.data[0].Telefono;
+                ctrl.Pais = response.data[0].Pais;
+                ctrl.Departamento = response.data[0].Departamento;
+                ctrl.Ciudad = response.data[0].Ciudad;
+            }
+
+
+          });
+
+        };
+
+        ctrl.gestionar_sucursales = function() {
+            $location.path('/bancos/gestion_sucursales');
+            $route.reload()
+
+        };
+
+        ctrl.gestionar_cuentas_bancarias = function() {
+            $location.path('/bancos/gestion_cuentas_bancarias');
+            $route.reload()
+
+        };
+    }).filter('filtro_estado_banco', function($filter) {
+        return function(input, entity) {
+            var output;
+            if (undefined === input || null === input) {
+                return "";
+            }
+
+            if (entity.Estado === 1) {
+                output = "Activo";
+            }
+
+            if (entity.Estado !== 1) {
+                output = "Inactivo";
+            }
+
+
+            return output;
+        };
+    }).filter('filtro_codigo_ach', function($filter) {
+        return function(input, entity) {
+            var output;
+            if (undefined === input || null === input) {
+                return "";
+            }
+
+            if (entity.CodigoAch === 0) {
+                output = "No asignado";
+            }else{
+                output = entity.CodigoAch;
+            }
+
+            return output;
+        };
+    }).filter('filtro_codigo_super', function($filter) {
+        return function(input, entity) {
+            var output;
+            if (undefined === input || null === input) {
+                return "";
+            }
+
+            if (entity.CodigoSuperintendencia === 0) {
+                output = "No asignado";
+            }else{
+              output = entity.CodigoSuperintendencia;
+            }
+
+
+            return output;
+        };
+    });

@@ -42,7 +42,7 @@
     <rp-por-proveedor-listar
       inputpestanaabierta="opCrear.PestanaAbierta"
       inputbeneficiaroid="opCrear.Proveedor.Id"
-      outputrpselect="opCrear.OrdenPago.RegistroPresupuestal">
+      outputrpselect="opCrear.RegistroPresupuestal">
     </rp-por-proveedor-listar>
 
     <!--detalle pago -->
@@ -60,7 +60,8 @@
     <!--Rubros-->
     <rubros-por-rp-seleccion-multiple
       inputpestanaabierta="opCrear.PestanaAbierta"
-      inputrpid="opCrear.OrdenPago.RegistroPresupuestal.Id"
+      inputrpid="opCrear.RegistroPresupuestal"
+      outputproveedorrubro="opCrear.Proveedor"
       outputconceptos="opCrear.Conceptos">
     </rubros-por-rp-seleccion-multiple>
 
@@ -72,7 +73,7 @@
       <span class="fa fa-plus pull-right" ng-show="!a"></span>
       <span class="fa fa-minus pull-right" ng-show="a"></span>
     </legend class="text-primary">
-    <div class="panel-body row" ng-show="a">
+    <div class="panel-body row" ng-if="a">
       <div class=" col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
@@ -82,7 +83,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in opCrear.Conceptos" ng-show="opCrear.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc outputvalorbruto="opCrear.OrdenPago.ValorBase">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc outputvalorbruto="opCrear.OrdenPago.ValorBase" outputformapagoop="opCrear.OrdenPago.FormaPago">
               </movimientos-contables>
             </div>
           </div>

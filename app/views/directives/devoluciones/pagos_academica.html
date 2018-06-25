@@ -8,3 +8,21 @@
 </div>
 <div class="mi-grid" id="mi-grid" ui-grid="d_devol_pagosAcademica.gridPagos" ui-grid-cellnav ui-grid-auto-resize ui-grid-edit ui-grid-selection ui-grid-pagination></div><br>
 </div>
+
+<div id="DetallePago" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+      <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="page-header">{{'DETALLE_VALOR_PAGO'|translate}}</h3>
+          </div>
+          <div class="panel-body">
+  <div class="panel-body">
+    <div ui-grid="d_devol_pagosAcademica.gridDetallePago" ui-grid-auto-resize ui-grid-pagination></div>
+  </div>
+</div>
+</div>
+</div>
+</div>
