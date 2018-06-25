@@ -624,7 +624,7 @@ angular.module('financieraClienteApp')
 
     // Registro
     self.adicionar_fuente = function() {
-      self.cerrar_ventana();
+
       // crea documento
 
       self.contenido = {
@@ -650,6 +650,8 @@ angular.module('financieraClienteApp')
         self.id = response.data.Id;
         self.asignar_rubros(self.adicion_rubro, self.id);
       });
+
+        self.cerrar_ventana();
     };
 
 

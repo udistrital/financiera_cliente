@@ -934,6 +934,7 @@ var text_en = {
     MES_SEPTIEMBRE: "september",
     SELECT_MES:"Select Month",
     MODO_PAGO: "Payment Method",
+    MODIFICACION_FUENTES_FINANCIAMIENTO: "Modify Source of Funding",
     MOVIMIENTOS_APROPIACION: "Movimientos De la Apropiación",
     MSN_DEBE_CONCEPTO: "You must select at least one Concept",
     MSN_DEBE_IVA: "You must indicate the value of the IVA in the Payment Value Section",
