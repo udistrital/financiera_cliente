@@ -22,7 +22,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
   $scope.botones = [
     { clase_color: "ver", clase_css: "fa fa-info-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_RUBROS'), operacion: 'ver_rubros', estado: true },
     { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_DETALLE'), operacion: 'ver_detalle', estado: true },
-    { clase_color: "ver", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.MODIFICAR'), operacion: 'modificar', estado: true }
+
   ];
 
   self.gridOptions = {
@@ -175,9 +175,6 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
             self.mostrar_detalle_fuente(row)
         break;
 
-        case "modificar":
-            self.mostrar_modificar_fuente(row);
-        break;
 
         default:
     }
