@@ -11,6 +11,10 @@ angular.module('financieraClienteApp')
   .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,financieraMidRequest,gridApiService) {
     var ctrl = this;
 
+    ctrl.botones = [
+      { clase_color: "ver", clase_css: "fa fa-language fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_HOMOL'), operacion: 'verHomologacion', estado: true },
+    ];
+
     ctrl.rubroHomologado={};
     ctrl.gridrubros = {
       paginationPageSizes: [5, 15, 20],
@@ -66,6 +70,11 @@ angular.module('financieraClienteApp')
       })).then(function(response){
           ctrl.gridrubros.data=response.data;
       });
+    }
+
+    ctrl.consultarRubrosEntidad= function(){
+      ctrl.gridrubros.data = [];
+      ctrl.consultarRubrosHomologacion(0, 'Organizacion:'+ctrl.entidad.Id);
     }
     ctrl.vincular = function(){
         var request = {

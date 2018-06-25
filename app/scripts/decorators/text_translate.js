@@ -738,6 +738,7 @@ var text_es = {
         CREAR_INGRESO:"Crear Ingreso",
         BORRAR: "Borrar",
         CANCELAR: "Cancelar",
+        CERRAR:"Cerrar",
         CONFIGURAR: "Configurar",
         CONFIRMAR: "Confirmar",
         DESVINCULAR: "Desvincular",
@@ -766,7 +767,8 @@ var text_es = {
         VINCULAR: "Vincular",
         CONSULTAR: "Consultar",
         DESCARGAR_PDF: "Descargar PDF",
-        VER_PAGOS:"Ver Pagos"
+        VER_PAGOS:"Ver Pagos",
+        VER_HOMOL:"Ver Homologación"
     },
     D_PLANES_CUENTA: {
         LISTADO_PLAN_CUENTAS: "Listado de Planes de Cuentas",
@@ -1048,6 +1050,7 @@ var text_en = {
         CREAR_ORDEN_DEVOLUCION:"Create Devolution Order",
         CREAR_RELACION_DEVOLUCION:"Create Devolution Relation",
         CREAR_INGRESO:"Create Income",
+        CERRAR:"Close",
         CONSULTAR_MOVIMIENTO: "See asociated activity",
         DESVINCULAR: "Disassociate",
         EDITAR: "Edit",
@@ -1065,7 +1068,8 @@ var text_en = {
         VINCULAR: "Associate",
         CONSULTAR: "Consult",
         DESCARGAR_PDF: "PDF Download",
-        VER_PAGOS:"Look Payment"
+        VER_PAGOS:"Look Payment",
+        VER_HOMOL:"Show Homologation"
     },
     REPORTES: {
       LISTADO_APROPIACIONES: "Apropiations List",
