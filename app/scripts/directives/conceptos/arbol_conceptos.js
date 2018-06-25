@@ -57,8 +57,9 @@ angular.module('financieraClienteApp')
         };
         self.seleccionar_concepto = function(concepto) {
           $scope.seleccion = concepto;
+          $scope.showc=false;
+          $scope.conceptosel=undefined;
         };
-
       },
       controllerAs: "d_arbolConceptos"
     };

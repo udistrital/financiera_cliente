@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     ctrl.filtro_ingresos = "Ingreso";
     ctrl.concepto = [];
     ctrl.Request={};
+    ctrl.pactoVenta = false;
 
     $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {
                 if (!angular.isUndefined(newValue)) {
@@ -78,9 +79,11 @@ angular.module('financieraClienteApp')
             ctrl.cargar_titulos();
             ctrl.cargarBancos();
 
+
     ctrl.cargarInfoPadre = function(){
       ctrl.infoPadre = ingresoDoc.get();
       if (ctrl.infoPadre.Inversion != undefined) {
+        ctrl.pactoVenta = true;
         financieraRequest.get("inversion", $.param({
                 query:"Id:" + ctrl.infoPadre.Inversion.Id,
                 limit: -1,
@@ -99,8 +102,6 @@ angular.module('financieraClienteApp')
               ctrl.fechaVencimiento=new Date(response.data[0].FechaVencimiento);
               ctrl.fechaEmision=new Date(response.data[0].FechaEmision);
               ctrl.valorRecompra = response.data[0].ValorRecompra;
-              ctrl.fechaVenta= new Date(response.data[0].FechaVenta);
-              ctrl.fechaPacto = new Date(response.data[0].FechaPacto);
               ctrl.observaciones = response.data[0].Observaciones;
               ctrl.vigencia = response.data[0].Vigencia;
               ctrl.unidadejecutora = response.data[0].UnidadEjecutora;
@@ -120,18 +121,22 @@ angular.module('financieraClienteApp')
       ctrl.infoPadre = ingresoDoc.get();
 
 
-      if (ctrl.concepto == null) {
+      if (angular.isUndefined(ctrl.concepto) || ctrl.concepto[0] == null) {
           swal("", $translate.instant('SELECCIONAR_CONCEPTO_INGRESO'), "error");
           return;
       }
 
+      if (ctrl.concepto[0].validado===false){
+        swal("",$translate.instant('PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA'),"warning");
+        return;
+      }
         ctrl.inversion = {
           Inversion:{
             Vendedor:parseInt(ctrl.vendedor.Id),
             Emisor:parseInt(ctrl.emisor.Id),
             NumeroTransaccion:ctrl.NumOperacion,
             Trm:ctrl.trm,
-            TasaNominal:ctrl.tasaNominal/100.0,
+            TasaNominal:ctrl.tasaNominal,
             ValorNominalSaldo:ctrl.ValorNomSaldo,
             ValorNomSaldoMonNal:ctrl.ValorNomSaldoMonNal,
             ValorActual:ctrl.ValorActual,
@@ -140,7 +145,6 @@ angular.module('financieraClienteApp')
             FechaRedencion:ctrl.fechaRedencion,
             FechaVencimiento:ctrl.fechaVencimiento,
             FechaEmision:ctrl.fechaEmision,
-            Comprador:parseInt(ctrl.comprador.Id),
             ValorRecompra:ctrl.valorRecompra,
             FechaVenta:ctrl.fechaVenta,
             FechaPacto:ctrl.fechaPacto,
@@ -158,6 +162,11 @@ angular.module('financieraClienteApp')
           tipoInversion:1,
           usuario:32132222
         };
+
+        if(!angular.isUndefined(ctrl.comprador)){
+            ctrl.inversion.Inversion.Comprador = parseInt(ctrl.comprador.Id);
+        }
+
 
         if (ctrl.infoPadre.Inversion != undefined) {
           ctrl.inversion.actapadre={Id:ctrl.infoPadre.Inversion.Id};

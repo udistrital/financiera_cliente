@@ -176,12 +176,14 @@ angular.module('financieraClienteApp')
                         })).then(function(response) {
                           rowData.Emisor = response.data[0];
                         });
-
                         administrativaRequest.get("informacion_persona_juridica", $.param({
                            	query: "Id:" + rowData.Comprador,
                             limit: -1
                           })).then(function(response) {
-                            rowData.Comprador = response.data[0];
+                            if(!angular.isUndefined(response)&& response.data != null){
+                                rowData.Comprador = response.data[0];
+                            }
+
                           });
 
               });
@@ -252,9 +254,6 @@ angular.module('financieraClienteApp')
               case "proceso":
                   $scope.estado = $scope.solicitud.Estado ;
                   break;
-              case "otro":
-
-                  break;
               default:
           }
       };
@@ -280,10 +279,10 @@ angular.module('financieraClienteApp')
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
                         swal('',$translate.instant(response.data.Code),response.data.Type);
-                        console.log(response.data);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                          $window.location.reload();
+                            ctrl.getInversiones();
+                            $scope.estado=undefined;
                         })
                       }
                     }

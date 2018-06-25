@@ -1,168 +1,178 @@
 <div class="panel panel-primary panel-body">
-    <h2 class="page-header" align="center">{{'LISTA_RP' | translate}}</h2>
-    <div class="panel-body">
+  <h2 class="page-header" align="center">{{'LISTA_RP' | translate}}</h2>
+  <div class="panel-body">
 
 
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="col-md-4 col-md-offset-1">
-                            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
-                            <br>
-                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
-                              <option ng-repeat="option in rpConsulta.years" value="{{option}}">{{option}}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
-                            <md-datepicker ng-model="rpConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year" md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label><br>
-                            <md-datepicker ng-model="rpConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year" md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
-                        </div>
-                        <div class="col-md-1">
-                            <br>
-                            <a type="button" name="button" ng-click="rpConsulta.filtrarListaRp()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
-                        </div>
-                        <div class="col-md-4 col-md-offset-1">
-                        <br>
-                            <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpConsulta.verReservas()">{{'VER_RESERVAS' | translate}}</a>
-                          
-                        </div>
-                    </div>
-                    <br>
-                </div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="col-md-4 col-md-offset-1">
+              <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+              <br>
+              <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="rpConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                <option ng-repeat="option in rpConsulta.years" value="{{option}}">{{option}}</option>
+              </select>
             </div>
+            <div class="col-md-3">
+              <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
+              <md-datepicker ng-model="rpConsulta.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}" flex md-current-view="year" md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
+            </div>
+            <div class="col-md-3">
+              <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label><br>
+              <md-datepicker ng-model="rpConsulta.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}" flex md-current-view="year" md-min-date="rpConsulta.fechamin" md-max-date="rpConsulta.fechamax"></md-datepicker>
+            </div>
+            <div class="col-md-1">
+              <br>
+              <a type="button" name="button" ng-click="rpConsulta.filtrarListaRp()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+              <br>
+              <div ng-if="rpConsulta.ver_boton_reservas">
+                <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpConsulta.verReservas()">{{'VER_RESERVAS' | translate}}</a>
+              </div>
+              <div ng-if="!rpConsulta.ver_boton_reservas">
+                <a id="btnFenecidos" name="btnFenecidos"  ng-click="rpConsulta.volver_a_vigencia()">{{'VOLVER_VIGENCIA_ACTUAL' | translate}}</a>
+              </div>
+            </div>
+          </div>
+          <br>
         </div>
-
-
-        <!-- ng-if="!load" loadingcircle load="load"></loadingcircle-->
-        <div >
-            <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
-        </div>
+      </div>
     </div>
+
+
+    <!-- ng-if="!load" loadingcircle load="load"></loadingcircle-->
+    <div >
+      <h2 class="titulo_secundario" ng-show="rpConsulta.ver_titulo_reservas" align="center">{{'LISTA_RESERVAS' | translate }}</h2>
+      <br>
+      <div ui-grid="rpConsulta.gridOptions" ui-grid-auto-resize ui-grid-pagination class="myGrid">
+        <div class="watermark" ng-show="!rpConsulta.hayData">{{'NO_DATA'| translate}}</div>
+        <div class="watermark" ng-show="rpConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+      </div>
+    </div>
+  </div>
 </div>
 <div id="myModal" class="modal fade col-md-12" role="dialog">
-    <div class="modal-content col-md-offset-1 col-md-10">
-        <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
-        </div>
-        <div class="panel panel-default" ng-repeat="item in rpConsulta.detalle">
+  <div class="modal-content col-md-offset-1 col-md-10">
+    <div class="modal-header">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+    </div>
+    <div class="panel panel-default" ng-repeat="item in rpConsulta.detalle">
+      <div class="panel-heading">
+        <h3 class="page-header">{{'DETALLE_RP' | translate}} {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
+        <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+      </div>
+      <div class="panel-body">
+        <div>
+          <table class="table text-justify ">
+            <tr>
+              <th>{{'NO_CDP' | translate}}: </th>
+              <td><a ng-click="rpConsulta.verDisponibilidad(item.Disponibilidad.NumeroDisponibilidad, item.Disponibilidad.Vigencia)">{{item.Disponibilidad.NumeroDisponibilidad}}</a></td>
+            </tr>
+            <tr>
+              <th>{{'NECESIDAD_NO' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.Numero}}</td>
+            </tr>
+            <tr>
+              <th>{{'ESTADO' | translate}}: </th>
+              <td>{{item.Estado.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'BENEFECIARIO' | translate}}: </th>
+              <td>{{item.BeneficiarioInfo.NomProveedor}}</td>
+            </tr>
+            <tr>
+              <th>{{'TIPO_PERSONA' | translate}}: </th>
+              <td>{{item.BeneficiarioInfo.Tipopersona}}</td>
+            </tr>
+            <tr>
+              <th>{{'NO_DOCUMENTO' | translate}}: </th>
+              <td>{{item.BeneficiarioInfo.NumDocumento}}</td>
+            </tr>
+            <tr>
+              <th>{{'TIPO_COMPROMISO' | translate}}: </th>
+              <td>{{item.TipoCompromiso.Id+" / "+item.TipoCompromiso.Objeto}}</td>
+            </tr>
+            <tr>
+              <th>{{'COMPROMISO_NO' | translate}}: </th>
+              <td>{{item.NumeroCompromiso}}</td>
+            </tr>
+            <tr>
+              <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.ModalidadSeleccion.Id+" / "+rpConsulta.Necesidad.ModalidadSeleccion.Nombre}}</td>
+            </tr>
+            <tr>
+              <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th>
+              <td>{{rpConsulta.Necesidad.Objeto}}</td>
+            </tr>
+          </table>
+          <hr>
+          <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
+          <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados"></fuente-financiacion-rp>
+
+          <div class="panel panel-default" ng-show="rpConsulta.anular">
             <div class="panel-heading">
-                <h3 class="page-header">{{'DETALLE_RP' | translate}} {{item.NumeroRegistroPresupuestal}} de {{item.Vigencia}}</h3>
-                <div align="right">{{'FECHA_REGISTRO' | translate}}: {{item.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+              <div class="panel-title">
+                {{'ANULACION_RP' | translate}}
+              </div>
             </div>
             <div class="panel-body">
-                <div>
-                    <table class="table text-justify ">
-                        <tr>
-                            <th>{{'NO_CDP' | translate}}: </th>
-                            <td><a ng-click="rpConsulta.verDisponibilidad(item.Disponibilidad.NumeroDisponibilidad, item.Disponibilidad.Vigencia)">{{item.Disponibilidad.NumeroDisponibilidad}}</a></td>
-                        </tr>
-                        <tr>
-                            <th>{{'NECESIDAD_NO' | translate}}: </th>
-                            <td>{{rpConsulta.Necesidad.Numero}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'ESTADO' | translate}}: </th>
-                            <td>{{item.Estado.Nombre}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'BENEFECIARIO' | translate}}: </th>
-                            <td>{{item.BeneficiarioInfo.NomProveedor}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'TIPO_PERSONA' | translate}}: </th>
-                            <td>{{item.BeneficiarioInfo.Tipopersona}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'NO_DOCUMENTO' | translate}}: </th>
-                            <td>{{item.BeneficiarioInfo.NumDocumento}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'TIPO_COMPROMISO' | translate}}: </th>
-                            <td>{{item.TipoCompromiso.Id+" / "+item.TipoCompromiso.Objeto}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'COMPROMISO_NO' | translate}}: </th>
-                            <td>{{item.NumeroCompromiso}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'MODALIDAD_DE_SELECCION' | translate}}: </th>
-                            <td>{{rpConsulta.Necesidad.ModalidadSeleccion.Id+" / "+rpConsulta.Necesidad.ModalidadSeleccion.Nombre}}</td>
-                        </tr>
-                        <tr>
-                            <th>{{'OBJETO_CONTRACTUAL' | translate}}: </th>
-                            <td>{{rpConsulta.Necesidad.Objeto}}</td>
-                        </tr>
-                    </table>
-                    <hr>
-                    <h4><b>{{'AFECTACION_PRESUPUESTAL' | translate}}</b></h4>
-                    <fuente-financiacion-rp rp="item.Id" apropiacion="apropiaciones" resumen="rpConsulta.rubros_afectados"></fuente-financiacion-rp>
-
-                    <div class="panel panel-default" ng-show="rpConsulta.anular">
-                        <div class="panel-heading">
-                            <div class="panel-title">
-                                {{'ANULACION_RP' | translate}}
-                            </div>
-                        </div>
-                        <div class="panel-body">
-                            <form class="form-ctrl">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpConsulta.motivo"></textarea>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label>{{'TIPO_ANULACION' | translate}}</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                       <select class="form-control" ng-model="rpConsulta.tipoAnulacion" ng-options="o as o.Nombre for o in rpConsulta.tiposAnulacion">
-                                        </select>
-                                    </div>
-                                </div>
-                                <br>
-                                <!-- Text input-->
-                                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
-                                    <div class="col-md-4 ">
-                                        <label>{{'SELECCION_RUBRO' | translate}}</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <select class="form-control" ng-model="rpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in rpConsulta.rubros_afectados">
-                   </select>
-                                    </div>
-                                </div>
-                                <br>
-                                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
-                                    <div class="col-md-4">
-                                        <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
-                                    </div>
-                                    <div class="col-md-8">
-                                        <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control" required="" ng-model="rpConsulta.Valor" ui-money-mask="0">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <!-- Button (Double) -->
-                        <br>
-                        <center>
-
-                            <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpConsulta.anularRp()">{{'SOLICITAR' | translate}}</button>
-
-
-                        </center>
-
-                    </div>
-
+              <form class="form-ctrl">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>{{'MOTIVO_ANULACION_CDP' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <textarea class="form-control" id="txtMotivo" name="txtMotivo" ng-model="rpConsulta.motivo"></textarea>
+                  </div>
                 </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>{{'TIPO_ANULACION' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <select class="form-control" ng-model="rpConsulta.tipoAnulacion" ng-options="o as o.Nombre for o in rpConsulta.tiposAnulacion">
+                    </select>
+                  </div>
+                </div>
+                <br>
+                <!-- Text input-->
+                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
+                  <div class="col-md-4 ">
+                    <label>{{'SELECCION_RUBRO' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <select class="form-control" ng-model="rpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in rpConsulta.rubros_afectados">
+                    </select>
+                  </div>
+                </div>
+                <br>
+                <div ng-hide="rpConsulta.tipoAnulacion.Id == 2 || rpConsulta.tipoAnulacion.Id == 3" class="row">
+                  <div class="col-md-4">
+                    <label class="control-label" for="txtValor">{{'VALOR' | translate}}</label>
+                  </div>
+                  <div class="col-md-8">
+                    <input id="txtValor" name="txtValor" type="text" placeholder="Valor que desea anular" class="form-control" required="" ng-model="rpConsulta.Valor" ui-money-mask="0">
+                  </div>
+                </div>
+              </form>
             </div>
+            <!-- Button (Double) -->
+            <br>
+            <center>
+
+              <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="rpConsulta.anularRp()">{{'BTN.SOLICITAR' | translate}}</button>
+
+
+            </center>
+
+          </div>
+
         </div>
+      </div>
     </div>
+  </div>
 </div>

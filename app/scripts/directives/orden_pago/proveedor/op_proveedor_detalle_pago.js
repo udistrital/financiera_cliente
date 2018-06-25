@@ -41,6 +41,7 @@ angular.module('financieraClienteApp')
           })
         ).then(function(response) {
           self.subTiposOrdenPago = response.data;
+          $scope.outputsubtipoordenpago = self.subTiposOrdenPago[0];
         });
         //forma de pago
         financieraRequest.get('forma_pago',

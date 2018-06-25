@@ -34,26 +34,36 @@ angular.module('financieraClienteApp')
           {
               field: 'Id',
               displayName:$translate.instant('NUMERO_OPERACION'),
-              width: '10%'
+              cellClass: 'input_center',
+              headerCellClass:'text-info',
+              width: '20%'
           },
           {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
-              width: '14%'
+              cellClass:'input_center',
+              headerCellClass:'text-info',
+              width: '20%'
           },
           {
               field: 'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
-              width: '14%'
+              cellClass:'input_center',
+              headerCellClass:'text-info',
+              width: '20%'
           },
           {
               field: 'ValorTotal',
               displayName: $translate.instant('VALOR'),
-              width: '8%',
+              width: '20%',
+              cellFilter:"currency",
+              headerCellClass:'text-info',
+              cellClass: 'input_right'
           },
           {
               name: $translate.instant('OPCIONES'),
-              width: '8%',
+              width: '20%',
+              headerCellClass:'text-info',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ]
@@ -71,7 +81,6 @@ angular.module('financieraClienteApp')
                     fields: "EstadoDevolucion",
                     limit: -1
                 })).then(function(estado){
-                  console.log("estados",estado);
                   angular.forEach(estado.data, function(rowData) {
                     est.push(rowData.EstadoDevolucion);
                   });
@@ -132,13 +141,9 @@ angular.module('financieraClienteApp')
 
     $scope.loadrow = function(row, operacion) {
         $scope.solicitud = row.entity;
-        console.log("fila seleccionada ",$scope.solicitud)
         switch (operacion) {
             case "proceso":
                 $scope.estado = $scope.solicitud.Estado ;
-                break;
-            case "otro":
-
                 break;
             default:
         }
@@ -160,7 +165,10 @@ angular.module('financieraClienteApp')
                       swal('',$translate.instant(response.data.Code),response.data.Type);
                     }else{
                       swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                        ctrl.cargarRelaciones();
+                        $scope.$apply(function(){
+                          ctrl.cargarRelaciones();
+                          $scope.estado = undefined;
+                        });
                       })
                     }
                   }

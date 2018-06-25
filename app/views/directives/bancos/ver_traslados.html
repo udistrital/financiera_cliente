@@ -1,0 +1,116 @@
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_traslados=!info_traslados">{{"INFORMACION_TRASLADO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_traslados"></span> <span class="fa fa-minus pull-right" ng-show="info_traslados"></span></legend>
+
+    <div class="panel-body" ng-show="info_traslados">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="jefe_solicitante" class="control-label">{{"MODO_PAGO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.tipo_documento}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="dep_destino" class="control-label">{{"TIPO_MONEDA" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.documento}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="jefe_solicitante" class="control-label">{{"TRM" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.nombres}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="ordenador_gasto" class="control-label">{{"VALOR_USD" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.apellidos}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="rol_ordenador_gasto" class="control-label">{{"VALOR" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.Tercero.direccion}}</span>
+            </div>
+
+        </div>
+
+    </div>
+</fieldset>
+
+
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="banco_girador=!banco_girador">{{"BANCO_GIRADOR" | translate}} <span class="fa fa-plus pull-right" ng-show="!banco_girador"></span> <span class="fa fa-minus pull-right" ng-show="banco_girador"></span></legend>
+
+    <div class="panel-body" ng-show="banco_girador">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="nit_banco" class="control-label">{{"NIT" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoGirador.Nit}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="nombre_banco" class="control-label">{{"BANCO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoGirador.Nombre}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="numero_cuenta_banco" class="control-label">{{"NUMERO_CUENTA" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoGirador.NumeroCuenta}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tipo_cuenta_banco" class="control-label">{{"TIPO_CUENTA" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoGirador.CuentaBancaria.TipoCuenta}}</span>
+            </div>
+
+
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="banco_receptor=!banco_receptor">{{"BANCO_RECEPTOR" | translate}} <span class="fa fa-plus pull-right" ng-show="!banco_receptor"></span> <span class="fa fa-minus pull-right" ng-show="banco_receptor"></span></legend>
+
+    <div class="panel-body" ng-show="banco_receptor">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="nit_banco" class="control-label">{{"NIT" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoReceptor.Nit}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="nombre_banco" class="control-label">{{"BANCO" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoReceptor.Nombre}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="numero_cuenta_banco" class="control-label">{{"NUMERO_CUENTA" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoReceptor.NumeroCuenta}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <label for="tipo_cuenta_banco" class="control-label">{{"TIPO_CUENTA" | translate}}</label>
+                <span class="form-control">{{d_verTraslados.Traslados.BancoReceptor.CuentaBancaria.TipoCuenta}}</span>
+            </div>
+
+
+        </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="cuentas_contables=!cuentas_contables; d_verTraslados.cargar_cuentas_contables()">{{"CUENTAS_CONTABLES" | translate}} <span class="fa fa-plus pull-right" ng-show="!banco_receptor"></span> <span class="fa fa-minus pull-right" ng-show="banco_receptor"></span></legend>
+
+    <div class="panel-body" ng-show="cuentas_contables">
+      <div class="row">
+            <div class="col-md-12">
+                {{"CONCEPTO " | translate}} : {{d_verTraslados.concepto}}
+            </div>
+
+          <div class="col-md-12">
+            <br>
+            <div ui-grid="d_verTraslados.CuentasContables" ui-grid-selection ui-grid-pagination ui-grid-auto-resize  class="myGrid"></div>
+          </div>
+      </div>
+
+    </div>
+</fieldset>

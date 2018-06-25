@@ -22,7 +22,7 @@
   </div>
 
   <div class="mi-grid" ui-grid="d_movimientosContables.gridOptionsMovimientos" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
-  <div  ng-show="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
+  <div  ng-if="d_movimientosContables.gridOptionsMovsAcreedores.data.length > 0" ui-grid="d_movimientosContables.gridOptionsMovsAcreedores" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav ></div>
   <div ng-show="show_descs">
     <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos{{conceptoid}}">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
@@ -63,17 +63,17 @@
       <div class="modal-body">
         <legend>{{"ENDOSAR_A_TERCERO" | translate}}</legend>
         <div class="panel panel-default panel-body">
-            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_endoso()" focus-on-field validate>
+            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_endoso(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" focus-on-field validate>
               <div class="row">
               <div class="col-md-12">
                 <fieldset class="form-group">
                   <label for="val_endoso_op" class="col-sm-2 control-label ng-binding">{{ 'VALOR' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.valorInicial" ui-money-mask="0" ng-required="true"></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].ValorInicialEndoso " ui-money-mask="0" ng-required="true"></input>
                   </div>
                   <label for="val_endoso_max" class="col-sm-2 control-label ng-binding">{{ 'VALOR_MAXIMO' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.valorMaximo" ui-money-mask="0" ng-required="true" disabled></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.ValorMaximo" ui-money-mask="0" ng-required="true" disabled></input>
                   </div>
                 </fieldset>
               </div>
@@ -83,11 +83,11 @@
                 <fieldset class="form-group">
                   <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'DOCUMENTO' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.tercero.NumDocumento" ng-required="true" disabled ></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].proveedor.NumDocumento" ng-required="true" disabled ></input>
                   </div>
                   <label for="nombre_tercero" class="col-sm-2 control-label ng-binding">{{ 'NOMBRE' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input class="form-control" ng-model="d_movimientosContables.tercero.NomProveedor" ng-required="true" disabled></input>
+                    <input class="form-control" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].proveedor.NomProveedor" ng-required="true" disabled></input>
                   </div>
                 </fieldset>             
               </div>
@@ -97,16 +97,16 @@
                 <fieldset class="form-group">
                   <label for="no_documento" class="col-sm-2 control-label ng-binding">{{ 'CUENTA_BANCARIA' | translate }}*:</label>
                   <div class="col-sm-4">
-                    <input class="form-control input_right" ng-model="d_movimientosContables.cuentaTercero.NumeroCuenta" ng-required="true" disabled ></input>
+                    <input class="form-control input_right" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].CuentaContable.CuentaBancaria.NumeroCuenta" ng-required="true" disabled ></input>
                   </div>
                   <label for="nombre_tercero" class="col-sm-2 control-label ng-binding">{{ 'BANCO' | translate }}/{{ 'SUCURSAL' | translate }}:</label>
                   <div class="col-sm-4">
-                    <input class="form-control" ng-model="d_movimientosContables.cuentaTercero.Nombre" ng-required="true" disabled></input>
+                    <input class="form-control" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].CuentaContable.CuentaBancaria.Nombre" ng-required="true" disabled></input>
                   </div>
                 </fieldset>
                 <label for="forma_pago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
                 <div class="col-sm-4">
-                  <select ng-model="outputformapago" ng-options="i.Nombre for i in d_movimientosContables.formaPagos" class="form-control" required>
+                  <select ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].FormaPago" ng-options="i.Nombre for i in d_movimientosContables.formaPagos" class="form-control" required>
                     <option value="">Seleccionar Forma de Pago</option>
                   </select>
                 </div>                
@@ -114,10 +114,10 @@
               </div>
               <br>
               <div class="row">
-               <div class="form-group" ng-if="d_movimientosContables.validar_endoso()">
-                <center><button ng-click="d_movimientosContables.asignar_endoso()" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
+               <div class="form-group" ng-if="d_movimientosContables.validar_endoso(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
+                <center><button ng-click="d_movimientosContables.asignar_endoso(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
               </div>
-              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_endoso()">
+              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_endoso(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
                {{'E_EDO001' | translate}}
              </div>                
               </div>
@@ -128,7 +128,41 @@
       </div>
     </div>
   </div>
+  <div id="modalAddValorBase" class="modal fade" role="dialog">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 15%">
 
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+
+      <div class="modal-body">
+        <legend>{{'VALOR_BASE_RETENCION' | translate}}</legend>
+        <div class="panel panel-info panel-body">
+            <form name="end_form" ng-submit="end_form.$valid && d_movimientosContables.asignar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" focus-on-field validate>
+              <div class="row">
+              <div class="col-md-12">
+                <fieldset class="form-group">
+                  <label for="val_base_impuesto_op" class="col-sm-2 control-label ng-binding">{{ 'VALOR' | translate }}*:</label>
+                  <div class="col-sm-12">
+                    <input class="form-control input_right" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].ValorBase" ui-money-mask="0" ng-required="true"></input>
+                  </div>
+                </fieldset>
+              </div>
+              </div>
+              <br>
+              <div class="row">
+               <div class="form-group" ng-if="d_movimientosContables.validar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
+                <center><button ng-click="d_movimientosContables.asignar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])" class="btn btn-info btn-outline shadow-box" name="button" data-dismiss="modal">{{"BTN.CONFIRMAR" | translate}}</button></center>
+              </div>
+              <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
+               {{'E_VBO001' | translate}}
+             </div>                
+              </div>
+
+            
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="panel-footer" align="center">
     <div ng-show="validatemov" class=" text-success">

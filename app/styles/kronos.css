@@ -164,13 +164,23 @@ sencillo {
 }
 
 .watermark {
-    border: 1px blue solid;
-    position: static;
-    top: 89%;
-    transform: translateY(-80%);
+    position: absolute;
+    top : 80px;
     opacity: 0.25;
+    font-size: 1.5em;
     width: 100%;
     text-align: center;
     z-index: 1000;
-    font-size: 3em;
+
+}
+
+
+.encabezado {
+  text-align: center;
+  color: #31708F;
+}
+
+.titulo_secundario {
+  text-align: center;
+  color: #31708F;
 }

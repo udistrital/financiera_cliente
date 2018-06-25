@@ -15,6 +15,15 @@ angular.module('financieraClienteApp')
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora=1;
+    self.cargando = false;
+    self.hayData = true;
+    self.ver_boton_reservas = true;
+    self.reservas = false;
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
+    ];
+
     self.gridOptions = {
       enableFiltering: true,
       enableSorting: true,
@@ -32,54 +41,61 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('VIGENCIA'),
           cellClass: 'input_center',
           enableFiltering: false,
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+           width: "10%",
         },
         {
           field: 'NumeroRegistroPresupuestal',
           displayName: $translate.instant('NO'),
           cellClass: 'input_center',
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+           width: "10%",
         },
         {
           field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
           displayName: $translate.instant('NO_CDP'),
           cellClass: 'input_center',
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+           width: "10%",
         },
         {
           field: 'InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad.Numero',
           displayName: $translate.instant('NECESIDAD_NO'),
           cellClass: 'input_center',
           enableFiltering: false,
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+           width: "10%",
         },
         {
           field: 'FechaRegistro',
           cellClass: 'input_center',
           displayName: $translate.instant('FECHA_REGISTRO'),
           cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+           width: "15%",
         },
         {
           field: 'Estado.Nombre',
           displayName: $translate.instant('ESTADO'),
-           headerCellClass: 'text-info'
+           headerCellClass: 'encabezado',
+          cellClass: 'input_center',
+          width: "15%",
         },
         {
           field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
           displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
           enableFiltering: false,
-           headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
+          cellClass: 'input_center',
+          width: "20%",
         },
         {
           field: 'Opciones',
-          cellTemplate: '<center>' +
-            ' <a type="button" class="editar" ng-click="grid.appScope.rpConsulta.verRp(row,false)" > ' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>' +
-            ' <a type="button" class="borrar" aria-hidden="true" ng-click="grid.appScope.rpConsulta.verRp(row,true)" >' +
-            '<i class="fa fa-file-excel-o fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ANULAR\' | translate }}"></i></a>',
-            enableFiltering: false,
-          headerCellClass: 'text-info'
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+          enableFiltering: false,
+          headerCellClass: 'encabezado',
+          width: "10%",
+
         }
       ]
 
@@ -132,20 +148,42 @@ angular.module('financieraClienteApp')
     });
     self.gridOptions.multiSelect = false;
     self.cargandoDatosPagos = true;
+
     self.cargarLista = function (offset,query) {
       financieraMidRequest.cancel();
+
+      self.gridOptions.data = [];
+      self.cargando = true;
+      self.hayData = true;
       financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
         if (response.data.Type !== undefined){
+          self.hayData = false;
+          self.cargando = false;
           self.gridOptions.data = [];
         }else{
           console.log(response.data);
+          self.hayData = true;
+          self.cargando = false;
           self.gridOptions.data = response.data;
           console.log(response.data);
         }
         self.cargandoDatosPagos = false;
       });
     };
-    
+
+    $scope.loadrow = function(row, operacion) {
+      self.operacion = operacion;
+      switch (operacion) {
+            case "ver":
+                  self.verRp(row,false);
+            break;
+
+            case "anular":
+                  self.verRp(row,true);
+            break;
+          default:
+      }
+  };
     // called no matter success or failure
 
     self.limpiar = function () {
@@ -156,8 +194,8 @@ angular.module('financieraClienteApp')
     };
     self.verDisponibilidad = function(numero, vigencia){
       console.log('Numero: ', numero);
-      console.log('Vigencia: ', vigencia);  
-      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
+      console.log('Vigencia: ', vigencia);
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');
     };
 
     self.cargarTipoAnulacion = function(){
@@ -182,7 +220,7 @@ angular.module('financieraClienteApp')
         console.log("entt");
         console.log(row.entity);
         angular.forEach(self.detalle, function (data) {
-          
+
             self.gridOptions_rubros.data = data.RegistroPresupuestalDisponibilidadApropiacion;
             data.Disponibilidad = data.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
             angular.forEach(self.gridOptions_rubros.data, function (rubros_data) {
@@ -193,12 +231,12 @@ angular.module('financieraClienteApp')
               financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
-                
+
                 if ( data.InfoSolicitudDisponibilidad != undefined &&  data.InfoSolicitudDisponibilidad != null){
 
                   self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
                 }
-                  
+
               if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
 
               } else {
@@ -206,8 +244,8 @@ angular.module('financieraClienteApp')
               }
 
             });
-            
-          
+
+
 
         });
         angular.forEach(self.detalle, function (data) {
@@ -217,17 +255,17 @@ angular.module('financieraClienteApp')
 
           });
         });
-      
+
     };
     self.anularRp = function(){
       if (self.motivo == undefined || self.motivo ===""|| self.motivo == null){
         swal("", $translate.instant("E_A02") , "error")
       }else if (self.tipoAnulacion == undefined || self.tipoAnulacion == null){
         swal("", $translate.instant("E_A03"), "error")
-      }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion.Id === 1)){
-        swal("", $translate.instant("E_A04"), "error")
-      }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion.Id === 1)){
+      }else if ((self.Rubro_sel == undefined || self.Rubro_sel ===""|| self.Rubro_sel == null)&&(self.tipoAnulacion.Nombre === "Parcial")){
        swal("", $translate.instant("E_A06"), "error")
+     }else if ((self.Valor == undefined || self.Valor ===""|| self.Valor == null)&&(self.tipoAnulacion.Nombre === "Parcial")){
+        swal("", $translate.instant("E_A04"), "error")
       }else if(parseFloat(self.Valor) <= 0){
         swal("", $translate.instant("E_A07"), "error")
       }else{
@@ -266,13 +304,19 @@ angular.module('financieraClienteApp')
             self.alerta = self.alerta + "</ol>";
             swal("", self.alerta, self.alerta_anulacion_rp[0]).then(function(){
               self.limpiar();
+              $("#myModal").modal("hide");
               financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
               .then(function(response) { //error con el success
               self.gridOptions.totalItems = response.data;
+
               self.cargarLista(0,'');
+
             });
               //$("#myModal").modal('hide');
             });
+
+
+
           });
       }
 
@@ -349,6 +393,18 @@ angular.module('financieraClienteApp')
     };
 
     $scope.$watch("rpConsulta.Vigencia", function() {
+
+      if(self.reservas != true){
+        self.ver_titulo_reservas = false;
+        self.ver_boton_reservas = true;
+        self.reservas = false;
+      }
+      else{
+        self.ver_titulo_reservas = true;
+        self.ver_boton_reservas = false;
+        self.reservas = false;
+      }
+
       financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
@@ -379,7 +435,7 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                        
+
                     }
                 });
                 self.cargarLista(self.offset, query);
@@ -398,7 +454,7 @@ angular.module('financieraClienteApp')
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
                         query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                       
+
                     }
                 });
       self.offset = (newPage-1)*pageSize;
@@ -418,7 +474,15 @@ angular.module('financieraClienteApp')
             financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) {
                     self.Vigencia = parseInt(response.data)-1;
+                    self.reservas = true;
+                    self.ver_boton_reservas = false;
                 });
         };
 
+    self.volver_a_vigencia = function(){
+
+            self.Vigencia = self.vigenciaActual;
+            self.ver_boton_reservas = true;
+            self.cargarLista(0,'');
+        }
   });

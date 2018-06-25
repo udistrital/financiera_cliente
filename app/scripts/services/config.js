@@ -17,6 +17,7 @@ var conf_cloud = {
     ARKA_SERVICE: "http://10.20.0.254/arka_api_crud/v1/",
     CONFIGURACION_SERVICE: "http://10.20.0.254/configuracion_api/v1/",
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
+    ORGANIZACION_SERVICE: "http://10.20.0.254/organizacion_crud/v1/",
     FINANCIERA_MID_SERVICE: "http://10.20.0.254/financiera_mid_api/v1/",
     FINANCIERA_SERVICE: "http://10.20.0.254/financiera_api/v1/",
     MODELS_SERVICE: "scripts/models/",
@@ -38,6 +39,7 @@ var conf_cloud = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_presentacion = {
     ACADEMICA_SERVICE: "http://10.20.0.127/urano/index.php?data=B-7djBQWvIdLAEEycbH1n6e-3dACi5eLUOb63vMYhGq0kPBs7NGLYWFCL0RSTCu1yTlE5hH854MOgmjuVfPWyvdpaJDUOyByX-ksEPFIrrQQ7t1p4BkZcBuGD2cgJXeD",
@@ -53,6 +55,7 @@ var conf_presentacion = {
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
+    ORGANIZACION_SERVICE: "http://10.20.0.254/organizacion_crud/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
@@ -69,6 +72,7 @@ var conf_presentacion = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_pruebas = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -86,6 +90,7 @@ var conf_pruebas = {
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
+    ORGANIZACION_SERVICE: "http://10.20.0.254/organizacion_crud/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     SPAGOBI_SERVICE: "https://intelligentia.udistrital.edu.co:8443/SpagoBI/restful-services/1.0/",
@@ -103,6 +108,7 @@ var conf_pruebas = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "kL8YZVnayCztbsWQQRkQ_x9FT9Ea"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 var conf_local = {
     WSO2_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services",
@@ -120,6 +126,7 @@ var conf_local = {
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://10.20.2.134:8080/ws/join",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
+    ORGANIZACION_SERVICE: "http://localhost:8080/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
@@ -136,6 +143,7 @@ var conf_local = {
         REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "Y8WA3LDAH79QjiMvCkTfaiZsOtEa"
     },
+    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
 
 
