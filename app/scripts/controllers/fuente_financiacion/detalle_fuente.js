@@ -22,6 +22,9 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
   self.cargando = false;
   self.hayData = true;
+  self.info_CDP = false;
+  self.info_CRP = false;
+  self.info_OP = false;
 
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
@@ -285,6 +288,11 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
   self.mostrar_CDP = function(){
 
+
+    self.info_CDP = !self.info_CDP;
+    self.info_CRP = false;
+    self.info_OP = false;
+
     self.gridOptionCDP.data  = [];
     self.cargando = true;
     self.hayData = true;
@@ -318,9 +326,13 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
 
   self.mostrar_CRP = function(){
 
+    self.info_CRP = !self.info_CRP;
+    self.info_CDP = false;
+    self.info_OP = false;
+
     self.gridOptionCRP.data  = [];
     self.cargando = true;
-   self.hayData = true;
+    self.hayData = true;
 
         financieraMidRequest.get('registro_presupuestal/ListaRp/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
 
@@ -349,6 +361,10 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   };
 
   self.mostrar_OP = function(){
+
+    self.info_OP = !self.info_OP;
+    self.info_CRP = false;
+    self.info_CDP = false;
 
     self.gridOptionOP.data = [];
     self.cargando = true;
