@@ -15,7 +15,6 @@ angular.module('financieraClienteApp')
       { clase_color: "ver", clase_css: "fa fa-language fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_HOMOL'), operacion: 'verHomologacion', estado: true },
     ];
 
-    ctrl.rubroHomologado={};
     ctrl.gridrubros = {
       paginationPageSizes: [5, 15, 20],
       paginationPageSize: 5,
@@ -49,16 +48,25 @@ angular.module('financieraClienteApp')
               field: 'Organizacion[0].Nombre',
               displayName: $translate.instant('ENTIDAD'),
               headerCellClass:'text-info',
-              width: '24%'
+              width: '24%',
+              enableFiltering: false
           }
       ],
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            ctrl.rubroHomologado = row.entity;
+            if(row.isSelected){
+              ctrl.rubroHomologado = row.entity;
+            }else{
+              ctrl.rubroHomologado = undefined;
+            }
+
         });
         gridApi = gridApiService.pagination(gridApi,ctrl.consultarRubrosHomologacion,$scope)
 
+      },
+      isRowSelectable: function(row) {
+        return row.entity.Disponibilidad;
       }
     };
     ctrl.consultarRubrosHomologacion = function(offset,query){
@@ -76,8 +84,31 @@ angular.module('financieraClienteApp')
       ctrl.gridrubros.data = [];
       ctrl.consultarRubrosHomologacion(0, 'Organizacion:'+ctrl.entidad.Id);
     }
+
+    ctrl.validar = function(){
+      if(angular.isUndefined(ctrl.rubroSeleccionado)){
+        swal("", $translate.instant("E_RB003"),"error");
+        return false;
+      }
+      if(angular.isUndefined(ctrl.rubroHomologado)){
+        swal("", $translate.instant("E_RB003"),"error");
+        return false;
+      }
+
+      financieraMidRequest.get('rubro_homologado/GetHomologationNumberRubro/'+ctrl.rubroSeleccionado.Id).then(function(response){
+        if (response.data.Body>=1){
+          swal("", $translate.instant("E_RB003"),"error");
+          return false;
+        }
+      });
+
+    }
+
     ctrl.vincular = function(){
-        var request = {
+      if (!ctrl.validar()) {
+        return;
+      }
+      var request = {
           RubroHomologado:{Id:ctrl.rubroHomologado.Id},
           Rubro:{Id:parseInt(ctrl.rubroSeleccionado.Id)},
         }
@@ -96,6 +127,7 @@ angular.module('financieraClienteApp')
         ctrl.entidades=response.data;
     });
   }
+
   ctrl.getLists();
     ctrl.creacionRubro=function(){
       $('#modal').modal();
