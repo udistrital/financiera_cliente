@@ -450,7 +450,6 @@ angular.module('financieraClienteApp')
             if (leaf.Hijos) {
               self.expandedNodes.push(leaf);
               self.expandAllNodes(leaf.Hijos);
-
             }
           });
 
