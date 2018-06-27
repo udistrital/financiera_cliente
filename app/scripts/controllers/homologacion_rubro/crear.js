@@ -10,7 +10,6 @@
 angular.module('financieraClienteApp')
   .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,financieraMidRequest,gridApiService) {
     var ctrl = this;
-
     ctrl.botones = [
       { clase_color: "ver", clase_css: "fa fa-language fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_HOMOL'), operacion: 'verHomologacion', estado: true },
     ];
@@ -130,6 +129,14 @@ angular.module('financieraClienteApp')
 
   ctrl.getLists();
     ctrl.creacionRubro=function(){
-      $('#modal').modal();
+      $('#modal').modal('show');
     }
+    $scope.$watch("rubrocreado",function(newValue,oldValue){
+      if (!angular.isUndefined(newValue)){
+        if (angular.equals(newValue,"success")){
+          ctrl.consultarRubrosEntidad();
+          $('#modal').modal('hide');
+        }
+      }
+    },true);
   });

@@ -2,16 +2,19 @@
     <div class="panel panel-default panel-body">
       <div class="form-group">
         <label for="unidadejecutora">{{'ENTIDAD' | translate}}</label>
-        <select class="form-control" ng-model="d_homologacionRubroRubroEntidad.entidad" ng-options="op as op.Nombre for op in d_homologacionRubroRubroEntidad.entidades" required>
+        <select class="form-control" ng-model="d_homologacionRubroRubroEntidad.entidad" ng-options="op as op.Nombre for op in d_homologacionRubroRubroEntidad.entidades" ng-change="d_homologacionRubroRubroEntidad.ArbolRubrosEntidad()" required>
           <option value="">{{'ENTIDAD' | translate}}</option>
         </select>
       </div>
     </div>
   <div class="panel panel-heading">
-    <h4 class="text-center panel-title">{{"" | translate}}<i class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click=""></i></h4>
+    <h4 class="text-center panel-title">{{"ARBOL_RUBROS_HOMMOLOGADO" | translate}} - {{d_homologacionRubroRubroEntidad.entidad.Nombre}} <i class="fa fa-refresh pull-right faa-spin animated-hover" aria-hidden="true" ng-click=""></i></h4>
   </div>
   <div class="panel-body" >
     <div class="col-md-6">
+      <treecontrol class="tree-classic" tree-model="arbol" options="d_homologacionRubroRubroEntidad.treeOptions" selected-node="rubrosel" order-by="'Codigo'" reverse-order="{{false}}" filter-expression="filtro" expanded-nodes="d_homologacionRubroRubroEntidad.expandedNodes">
+          <span class="text-success">{{node.Codigo}}:</span> {{node.Nombre | limitTo:50}}
+        </treecontrol>
     </div>
   </div>
 </div>

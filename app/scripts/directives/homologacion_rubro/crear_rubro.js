@@ -10,10 +10,10 @@ angular.module('financieraClienteApp')
   .directive('homologacionRubroCrearRubro', function () {
     return {
       restrict: 'E',
-      /*scope:{
-          var:'='
+      scope:{
+          rubrocreado:'=?'
         },
-      */
+
       templateUrl: 'views/directives/homologacion_rubro/crear_rubro.html',
       controller:function($scope,$translate,financieraMidRequest,financieraRequest){
         var ctrl = this;
@@ -65,6 +65,7 @@ angular.module('financieraClienteApp')
           }
           financieraMidRequest.post("rubro_homologado/CreateRubroHomologado",request).then(function(response){
             swal('',$translate.instant(response.data.Code),response.data.Type);
+            $scope.rubrocreado = response.data.Type;
           });
         }
       },
