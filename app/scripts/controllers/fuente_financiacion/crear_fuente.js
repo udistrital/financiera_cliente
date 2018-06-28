@@ -52,15 +52,7 @@ angular.module('financieraClienteApp')
       }
     });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
-      self.apropiacion = response.data;
-      self.gridOptionsapropiacion.data = response.data;
-    });
 
-    financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-1-&sortby=rubro&order=asc').then(function(response) {
-      self.apropiacion1 = response.data;
-      self.gridOptionsapropiacion1.data = response.data;
-    });
   };
 
 
@@ -159,6 +151,16 @@ angular.module('financieraClienteApp')
     self.rubros_seleccionados = [];
 
     self.cambiar_rubro = function() {
+
+      financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-3-001-15-01-08-0119-&sortby=rubro&order=asc').then(function(response) {
+        self.apropiacion = response.data;
+        self.gridOptionsapropiacion.data = response.data;
+      });
+
+      financieraRequest.get("apropiacion", 'limit=-1&query=Vigencia:' + parseInt(self.year) + ',rubro.codigo__startswith:3-1-&sortby=rubro&order=asc').then(function(response) {
+        self.apropiacion1 = response.data;
+        self.gridOptionsapropiacion1.data = response.data;
+      });
 
       for (i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
         if (self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id) {
@@ -306,19 +308,20 @@ angular.module('financieraClienteApp')
 
       self.registrar = true;
 
-      if (self.nueva_fuente.Codigo == null) {
+      
+      if (self.nueva_fuente.Codigo === null || self.nueva_fuente.Codigo === "" || self.nueva_fuente.Codigo === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_CODIGO'), "error");
-      } else if (self.nueva_fuente.Nombre == null) {
+      } else if (self.nueva_fuente.Nombre === null || self.nueva_fuente.Nombre === "" || self.nueva_fuente.Nombre === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_NOMBRE'), "error");
-      } else if (self.nueva_fuente.Descripcion == null) {
+      } else if (self.nueva_fuente.Descripcion === null || self.nueva_fuente.Descripcion === "" || self.nueva_fuente.Descripcion === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_DESCRIPCION'), "error");
-      } else if (self.nueva_fuente_apropiacion.Monto == null) {
+      } else if (self.nueva_fuente_apropiacion.Monto === null || self.nueva_fuente_apropiacion.Monto === "" || self.nueva_fuente_apropiacion.Monto === undefined || self.nueva_fuente_apropiacion.Monto <= 0) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_TOTAL'), "error");
-      } else if (self.nueva_fuente_apropiacion.tipo_documento == null) {
+      } else if (self.nueva_fuente_apropiacion.tipo_documento === null || self.nueva_fuente_apropiacion.tipo_documento === "" || self.nueva_fuente_apropiacion.tipo_documento === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_TIPO_DOCUMENTO'), "error");
-      } else if (self.nueva_fuente_apropiacion.no_documento == null) {
+      } else if (self.nueva_fuente_apropiacion.no_documento === null || self.nueva_fuente_apropiacion.no_documento === "" || self.nueva_fuente_apropiacion.no_documento === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_NO_DOCUMENTO'), "error");
-      } else if (self.nueva_fuente_apropiacion.fecha_documento == null) {
+      } else if (self.nueva_fuente_apropiacion.fecha_documento === null || self.nueva_fuente_apropiacion.fecha_documento === "" || self.nueva_fuente_apropiacion.fecha_documento === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_FECHA_DOCUMENTO'), "error");
       } else if (self.rubros_seleccionados.length == 0) {
         swal($translate.instant('ERROR'), $translate.instant('SELECCIONE_RUBROS_FUENTE'), "error");
@@ -326,11 +329,11 @@ angular.module('financieraClienteApp')
 
         for (i = 0; i < self.rubros_seleccionados.length; i++) {
           for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-            if (self.rubros_seleccionados[i].seleccionado[j].Valor == 0) {
-              swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_DEPENDENCIA'), "error");
-              self.registrar = false;
-            } else if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == 0) {
+            if (self.rubros_seleccionados[i].seleccionado[j].Dependencia == 0) {
               swal($translate.instant('ERROR'), $translate.instant('INGRESE_DEPENDENCIA'), "error");
+              self.registrar = false;
+            } else if (self.rubros_seleccionados[i].seleccionado[j].Valor == 0) {
+              swal($translate.instant('ERROR'), $translate.instant('INGRESE_VALOR_DEPENDENCIA'), "error");
               self.registrar = false;
             }
           }
@@ -392,7 +395,7 @@ angular.module('financieraClienteApp')
     self.crear_fuente = function(documento) {
 
 
-      self.cerrar_ventana();
+
 
       var data = {
         Codigo: self.nueva_fuente.Codigo,
@@ -409,6 +412,7 @@ angular.module('financieraClienteApp')
         self.asignar_rubros(self.id, documento);
       });
 
+      self.cerrar_ventana();
     };
 
     self.asignar_rubros = function(id, documento) {
