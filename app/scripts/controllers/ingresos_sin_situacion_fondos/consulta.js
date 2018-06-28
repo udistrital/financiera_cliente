@@ -10,7 +10,9 @@
 angular.module('financieraClienteApp')
   .controller('IngresosSinSituacionFondosConsultaCtrl', function ($scope,$translate,financieraRequest, $localStorage,financieraMidRequest) {
     var ctrl = this;
-
+    ctrl.cargando = false;
+    ctrl.hayData = true;
+    ctrl.hayProceso = false;
     $scope.botones = [
         {clase_color:"ver",clase_css:"fa fa-product-hunt fa-lg faa-shake animated-hover",titulo:$translate.instant("ESTADO"),operacion:"proceso",estado:true}
     ];
@@ -69,19 +71,36 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.consultaIngresos = function(){
+
+      ctrl.gridIngresoNoSF.data = [];
+      ctrl.cargando = true;
+      ctrl.hayData = true;
+
       financieraRequest.get('ingreso_sin_situacion_fondos_estado',$.param({
         query:"Activo:true",
         limit:-1,
         sortby: "Id",
         order: "asc"
       })).then(function(response){
-        angular.forEach(response.data,function(rowData){
-          financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
-                rowData.UnidadEjecutora = unidadEjec.data;
-              });
-        });
+
+        if(response.data === null || typeof(response.data) === "string"){
+          ctrl.gridIngresoNoSF.data = [];
+          ctrl.cargando = false;
+          ctrl.hayData = false;
+          ctrl.hayProceso = false;
+        }else{
+          ctrl.gridIngresoNoSF.data = [];
+          ctrl.cargando = false;
+          ctrl.hayData = true;
+          ctrl.hayProceso = true;
+          angular.forEach(response.data,function(rowData){
+            financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
+                  rowData.UnidadEjecutora = unidadEjec.data;
+                });
+          });
         ctrl.gridIngresoNoSF.data =  response.data;
-        console.log(response.data);
+
+      }
       })
     };
     ctrl.consultaIngresos();
@@ -96,7 +115,7 @@ angular.module('financieraClienteApp')
                 $scope.estados = [];
                 $scope.aristas = [];
                 ctrl.estados = response.data;
-                console.log("estados",ctrl.estados);
+
                 angular.forEach(ctrl.estados, function(estado) {
                     $scope.estados.push({
                         id: estado.Id,

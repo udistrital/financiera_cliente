@@ -158,8 +158,8 @@ angular.module('financieraClienteApp')
 
         self.actualizarLista = function(offset, query) {
 
-            self.gridOptions.data = [];
             financieraMidRequest.cancel();
+            self.gridOptions.data = [];
             self.cargando = true;
             self.hayData = true;
 
