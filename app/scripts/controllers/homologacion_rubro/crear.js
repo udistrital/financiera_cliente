@@ -15,15 +15,13 @@ angular.module('financieraClienteApp')
     ];
 
     ctrl.gridrubros = {
-      paginationPageSizes: [5, 15, 20],
-      paginationPageSize: 5,
       enableFiltering: true,
       enableSorting: true,
       enableRowSelection: true,
-      enableSelectAll: false,
-      enableRowHeaderSelection: true,
-      selectionRowHeaderWidth: 35,
-      useExternalPagination:true,
+      enableRowHeaderSelection: false,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
+      useExternalPagination: true,
       columnDefs: [
           {
               field: 'CodigoHomologado',
@@ -61,7 +59,7 @@ angular.module('financieraClienteApp')
             }
 
         });
-        gridApi = gridApiService.pagination(gridApi,ctrl.consultarRubrosHomologacion,$scope)
+        gridApi = gridApiService.pagination(gridApi,ctrl.consultarRubrosHomologacion,$scope);
 
       },
       isRowSelectable: function(row) {
@@ -70,6 +68,9 @@ angular.module('financieraClienteApp')
     };
     ctrl.consultarRubrosHomologacion = function(offset,query){
       financieraMidRequest.cancel();
+      if (!angular.isUndefined(ctrl.entidad.Id)){
+        query='Organizacion:'+ctrl.entidad.Id;
+      }
       financieraMidRequest.get("rubro_homologado",$.param({
         limit: ctrl.gridrubros.paginationPageSize,
         offset:offset,
@@ -81,7 +82,7 @@ angular.module('financieraClienteApp')
 
     ctrl.consultarRubrosEntidad= function(){
       ctrl.gridrubros.data = [];
-      ctrl.consultarRubrosHomologacion(0, 'Organizacion:'+ctrl.entidad.Id);
+      ctrl.consultarRubrosHomologacion(0, null);
     }
 
     ctrl.validar = function(){
@@ -134,7 +135,7 @@ angular.module('financieraClienteApp')
     $scope.$watch("rubrocreado",function(newValue,oldValue){
       if (!angular.isUndefined(newValue)){
         if (angular.equals(newValue,"success")){
-          ctrl.consultarRubrosEntidad();
+          ctrl.consultarRubrosEntidad(0,'');
           $('#modal').modal('hide');
         }
       }
