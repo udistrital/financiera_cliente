@@ -31,10 +31,12 @@
                 </div>
             </div>
         </div>
-        <loadingcircle load="load"></loadingcircle>
-        <div ng-if="!load">
-            <div ui-grid="modificacionSolicitudConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid"></div>
+
+        <div ui-grid="modificacionSolicitudConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid">
+          <div class="watermark" ng-show="!modificacionSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="modificacionSolicitudConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
         </div>
+
     </div>
 </div>
 
@@ -87,7 +89,7 @@
                     <br>
                     <label ng-if="data.Disponibilidad"  for="Disponibilidad">{{'CDP_NUMERO' | translate}} : </label>
                     <span ng-if="data.Disponibilidad"  name="Disponibilidad"><a ng-click="modificacionSolicitudConsulta.verDisponibilidad(data.Disponibilidad.NumeroDisponibilidad,data.Disponibilidad.Vigencia)">{{data.Disponibilidad.NumeroDisponibilidad}}</a> de {{data.Disponibilidad.Vigencia}}</span>
-                    <br ng-if="data.Disponibilidad" >                 
+                    <br ng-if="data.Disponibilidad" >
                     <label for="Valor">{{'VALOR' | translate}} : </label>
                     <span name="Valor">{{data.Valor | currency}}</span>
                     <br>
