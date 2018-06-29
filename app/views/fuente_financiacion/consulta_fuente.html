@@ -4,7 +4,7 @@
   <div class="panel-body">
     <div class="col-md-2 col-md-offset-5">
       <center>
-        <label for="select_vigencia" class="col-form-label">Vigencia </label>
+        <label for="select_vigencia" class="col-form-label">{{'VIGENCIA'|translate}} </label>
         <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="consultaFuente.Vigencia" ng-change="consultaFuente.consulta_fuente_vigencia()">
                   <option ng-repeat="option in consultaFuente.years" value="{{option}}">{{option}}</option>
             </select>
@@ -13,7 +13,15 @@
   </div>
 
   <div class="panel-body">
-    <div ui-grid="consultaFuente.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+    <div ui-grid="consultaFuente.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+      <div class="watermark" ng-show="!consultaFuente.hayData">{{'NO_DATA'| translate}}</div>
+      <div class="watermark" ng-show="consultaFuente.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+    </div>
+    <div class="text-center">
+        <br>
+        <button class="btn btn-info btn-outline" ng-click="consultaFuente.crear_fuente()">{{'CREAR_FUENTE' | translate}}</button>
+          <button class="btn btn-info btn-outline" ng-click="consultaFuente.mostrar_modificar_fuente()">{{'MODIFICACION_FUENTES_FINANCIAMIENTO' | translate}}</button>
+    </div>
   </div>
 </div>
 
@@ -51,10 +59,13 @@
 
         </table>
         <hr>
-        <h4 class="text-info">{{'RUBROS' | translate}}</h4>
+        <h4 class="titulo_secundario">{{'RUBROS' | translate}}</h4>
 
         <div class="modal-body">
-          <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-auto-resize class="grid"></div>
+          <div ui-grid="consultaFuente.gridOptionsapropiacion" ui-grid-pagination ui-grid-auto-resize class="grid">
+            <div class="watermark" ng-show="!consultaFuente.hayData_apropiaciones">{{'NO_DATA'| translate}}</div>
+            <div class="watermark" ng-show="consultaFuente.cargando_apropiaciones">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+          </div>
         </div>
       </div>
     </div>

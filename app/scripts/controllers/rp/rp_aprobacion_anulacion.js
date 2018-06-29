@@ -13,6 +13,9 @@ angular.module('financieraClienteApp')
         self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
         self.rubros_afectados = [];
         self.UnidadEjecutora = 1;
+        self.cargando = false;
+        self.hayData = true;
+        self.ver_boton_todos = false;
         self.gridOptions = {
             enableFiltering: true,
             enableSorting: true,
@@ -21,48 +24,58 @@ angular.module('financieraClienteApp')
             paginationPageSizes: [25, 50, 75],
             paginationPageSize: 10,
             useExternalPagination: true,
+
             columnDefs: [{
                 field: 'Consecutivo',
                 cellClass: 'input_center',
                 displayName: $translate.instant('NO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.NumeroRegistroPresupuestal',
                 cellClass: 'input_center',
                 displayName: $translate.instant('REGISTRO_PRESUPUESTAL_NO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Vigencia',
                 displayName: $translate.instant('VIGENCIA'),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'10%',
+
             }, {
                 field: 'FechaRegistro',
                 displayName: $translate.instant('FECHA_CREACION'),
                 cellClass: 'input_center',
                 cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'TipoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('TIPO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'EstadoAnulacion.Nombre',
                 cellClass: 'input_center',
                 displayName: $translate.instant('ESTADO'),
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud.DependenciaSolicitante.Nombre',
                 displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
                 cellClass: 'input_center',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'15%',
             }, {
                 field: 'Opciones',
                 cellTemplate: '<center>' +
                     ' <a type="button" class="editar" ng-click="grid.appScope.rpAprobacionAnulacion.verRp(row)" >' +
                     '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a>',
-                headerCellClass: 'text-info'
+                headerCellClass: 'encabezado',
+                width:'10%',
             }],
             onRegisterApi: function(gridApi) {
                 self.gridApi = gridApi;
@@ -70,16 +83,31 @@ angular.module('financieraClienteApp')
             }
         };
         self.gridOptions.multiSelect = false;
+
         self.cargarListaAnulaciones = function() {
+
+          self.cargando = true;
+          self.hayData = true;
+          self.gridOptions.data = [];
+
             financieraRequest.get('anulacion_registro_presupuestal', $.param({
                 limit: -1
             })).then(function(response) {
-                self.gridOptions.data = response.data;
-                angular.forEach(self.gridOptions.data, function(data) {
-                    financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
-                        data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data[0];
-                    });
-                });
+                if(response.data == null){
+                      self.hayData = false;
+                      self.cargando = false;
+                      self.gridOptions.data = [];
+                }else{
+                  self.hayData = true;
+                  self.cargando = false;
+                  self.gridOptions.data = response.data;
+                  angular.forEach(self.gridOptions.data, function(data) {
+                      financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
+                          data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data[0];
+                      });
+                  });
+                }
+
             });
         };
 
@@ -105,6 +133,10 @@ angular.module('financieraClienteApp')
 
 
         self.actualizarLista = function(offset, query) {
+
+            self.gridOptions.data = [];
+            self.cargando = true;
+            self.hayData = true;
             if (query !== "") {
                 query = query + ",AnulacionRegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Vigencia:" + self.Vigencia;
             } else {
@@ -112,9 +144,13 @@ angular.module('financieraClienteApp')
             }
             financieraRequest.get('anulacion_registro_presupuestal/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
+                  self.hayData = false;
+                  self.cargando = false;
                     self.gridOptions.data = [];
                 } else {
                     console.log(response.data);
+                    self.hayData = true;
+                    self.cargando = false;
                     self.gridOptions.data = response.data;
                     angular.forEach(self.gridOptions.data, function(data) {
                         financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
@@ -228,6 +264,8 @@ angular.module('financieraClienteApp')
             self.anulacion.Solicitante = 1234567890; //tomar del prefil
             financieraRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
                 console.log(response.data);
+
+
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -239,6 +277,7 @@ angular.module('financieraClienteApp')
                     }
 
                 }
+
             });
         };
 
@@ -265,7 +304,7 @@ angular.module('financieraClienteApp')
             var solicitud = self.anulacion;
             $("#myModal").modal('hide');
             swal({
-                title: 'Indique una justificación por el rechazo',
+                title: $translate.instant('ALERTA_JUSTIFICACION_RECHAZO'),
                 input: 'textarea',
                 showCancelButton: true,
                 inputValidator: function(value) {
@@ -273,7 +312,7 @@ angular.module('financieraClienteApp')
                         if (value) {
                             resolve();
                         } else {
-                            reject('Por favor indica una justificación!');
+                            reject($translate.instant('ALERTA_JUSTIFICACION_RECHAZO'));
                         }
                     });
                 }
@@ -285,6 +324,31 @@ angular.module('financieraClienteApp')
                 var sl = solicitud;
                 financieraRequest.put('anulacion_registro_presupuestal/', sl.Id + "?fields=justificacion_rechazo,estado_anulacion", sl).then(function(response) {
                     console.log(response.data);
+
+                    if(response.data == "OK"){
+                      swal({
+                         html: $translate.instant('ALERTA_RECHAZO_CORRECTO'),
+                         type: "success",
+                         showCancelButton: false,
+                         confirmButtonColor: "#449D44",
+                         confirmButtonText: $translate.instant('VOLVER'),
+                         }).then(function() {
+                        $('myModal').modal('hide');
+                        self.actualizarLista(self.offset, self.customfilter);
+                    })
+                    }else{
+                      swal({
+                         html: $translate.instant('ALERTA_ERROR_RECHAZO'),
+                         type: "success",
+                         showCancelButton: false,
+                         confirmButtonColor: "#449D44",
+                         confirmButtonText: $translate.instant('VOLVER'),
+                         }).then(function() {
+                        $('myModal').modal('hide');
+                        self.actualizarLista(self.offset, self.customfilter);
+                    })
+                    }
+                    /* ------ SE DEJA PENDIENTE PARA CUANDO EL API INCLUYA MANEJO DE ERROR EN ESTA PARTE
                     self.cargarListaAnulaciones();
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {
@@ -298,7 +362,7 @@ angular.module('financieraClienteApp')
                         }
 
                     }
-
+                    */
                 });
 
             });
@@ -309,9 +373,12 @@ angular.module('financieraClienteApp')
                 term: "Fenecido"
             };
             self.customfilter = '&query=TipoAnulacion.Nombre__in:Fenecido';
+            self.ver_boton_todos = true;
         };
 
         self.verAnulaciones = function() {
+            self.gridOptions.data = [];
+            self.ver_boton_todos = false;
             self.gridApi.grid.columns[4].filters[0] = {
                 term: ""
             };

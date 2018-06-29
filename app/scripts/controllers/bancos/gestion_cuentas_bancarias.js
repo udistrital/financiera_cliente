@@ -179,7 +179,13 @@ angular.module('financieraClienteApp')
     ctrl.CuentaContable.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-        ctrl.CuentaContableSeleccionada = row.entity
+
+        if(row.isSelected === false){
+          ctrl.CuentaContableSeleccionada = undefined;
+        }else{
+            ctrl.CuentaContableSeleccionada = row.entity
+        }
+      
       });
     };
 
@@ -277,7 +283,13 @@ angular.module('financieraClienteApp')
         ctrl.formPresente = 'sucursales';
 
       }else{
-        alert("no sigo")
+        swal({
+            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#449D44",
+            confirmButtonText: $translate.instant('VOLVER'),
+        })
       }
 
     };
@@ -285,7 +297,13 @@ angular.module('financieraClienteApp')
     ctrl.mostrar_cuentas_contables = function(){
 
       if(ctrl.SucursalSeleccionada === undefined){
-        alert("no sigo")
+        swal({
+            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#449D44",
+            confirmButtonText: $translate.instant('VOLVER'),
+        })
       } else{
         financieraRequest.get('cuenta_contable', $.param({
               limit: -1
@@ -306,7 +324,13 @@ angular.module('financieraClienteApp')
 
     ctrl.agregar_cuenta_bancaria = function(row){
       if(ctrl.CuentaContableSeleccionada === undefined){
-        alert("no sigo")
+        swal({
+            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#449D44",
+            confirmButtonText: $translate.instant('VOLVER'),
+        })
       } else{
 
         var objeto_tipo_cuenta = JSON.parse(ctrl.selectTipoCuenta)

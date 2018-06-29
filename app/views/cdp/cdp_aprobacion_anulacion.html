@@ -7,7 +7,7 @@
     <div class="panel-body">
         <!-- ui-grid-selection -->
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="col-md-4 col-md-offset-1">
@@ -17,13 +17,11 @@
                           <option ng-repeat="option in cdpAprobacionAnulacion.years" value="{{option}}">{{option}}</option>
                     </select>
                         </div>
-                        <div class="col-md-4 col-md-offset-3">
-                        <br>
-                <a id="btnFenecidos" name="btnFenecidos"  ng-click="cdpAprobacionAnulacion.verFenecidos()">{{'VER_FENECIDOS' | translate}}</a>
-                <br>
-                <br>
-                <a id="btnFenecidos" name="btnFenecidos"  ng-click="cdpAprobacionAnulacion.verAnulaciones()">{{'VER_ANULACIONES' | translate}}</a>
-                          
+                        <div class="col-md-5 col-md-offset-2">
+                          <br>
+                          <a id="btnFenecidos" name="btnFenecidos" ng-if="!cdpAprobacionAnulacion.ver_boton_todos" ng-click="cdpAprobacionAnulacion.verFenecidos()">{{'VER_FENECIDOS' | translate}}</a>
+                          <a id="btnFenecidos" name="btnFenecidos" ng-if="cdpAprobacionAnulacion.ver_boton_todos" ng-click="cdpAprobacionAnulacion.verAnulaciones()">{{'VER_TODOS' | translate}}</a>
+
                         </div>
                     </div>
                     <br>
@@ -32,11 +30,14 @@
         </div>
         <!--ng-if="!load" loadingcircle load="load"></loadingcircle-->
         <div >
-            <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid"></div>
+            <div ui-grid="cdpAprobacionAnulacion.gridOptions" ui-grid-pagination class="myGrid">
+                <div class="watermark" ng-show="!cdpAprobacionAnulacion.hayData">{{'NO_DATA'| translate}}</div>
+                  <div class="watermark" ng-show="cdpAprobacionAnulacion.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+            </div>
         </div>
     </div>
 </div>
-      
+
     </div>
   </div>
 </div>
@@ -48,8 +49,8 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="page-header">Certificado De Disponibilidad Presupuestal No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
-            <div align="right">Fecha de Registro: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+            <h3 class="page-header">{{'REPORTES.CDP' | translate}} No {{cdpAprobacionAnulacion.cdp.NumeroDisponibilidad}} de {{cdpAprobacionAnulacion.cdp.Vigencia}}</h3>
+            <div align="right">{{'FECHA_REGISTRO' | translate}}: {{cdpAprobacionAnulacion.cdp.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
         <div class="panel-body">
           <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
@@ -232,7 +233,7 @@
                 </center>
                 <center ng-show="cdpAprobacionAnulacion.anulacion.EstadoAnulacion.Nombre === 'Expedida'">
 
-                  <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.solicitarAnulacion()">{{'SOLICITAR' | translate}}</button>
+                  <button id="btnAnular" name="btnAnular" class="btn btn-success btn-outline" ng-click="cdpAprobacionAnulacion.solicitarAnulacion()">{{'BTN.SOLICITAR' | translate}}</button>
                   <button id="btnAnular" name="btnAnular" class="btn btn-danger btn-outline" ng-click="cdpAprobacionAnulacion.Rechazar()">{{'RECHAZAR' | translate}}</button>
 
 

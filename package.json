@@ -52,6 +52,7 @@
     "angular-websocket": "^2.0.1",
     "bower": "^1.8.4",
     "bower-config": "^1.4.0",
+    "uglify-js": "^2.6.0",
     "ui-grid-auto-fit-columns": "^1.1.4"
   },
   "description": "This project is generated with [yo oas-generator](https://github.com/fabianLeon/oas) version 0.0.16.",
