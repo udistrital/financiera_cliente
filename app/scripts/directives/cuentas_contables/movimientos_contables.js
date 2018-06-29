@@ -30,7 +30,6 @@ angular.module('financieraClienteApp')
                 impydesc: '@?',
                 monto: '=?',
                 outputvalorbruto: '=?',
-                outputformapagoend: '=?',
                 outputformapagoop: '=?',
                 validatemov: '=?'
             },
@@ -47,6 +46,7 @@ angular.module('financieraClienteApp')
                 $scope.show_descs = 'impydesc' in $attrs;
                 var self = this;
                 self.descuentos_nuevos = [];
+                self.posactual = 0;
                 financieraRequest.get('forma_pago',
                   $.param({
                     limit: 0
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
                                     return 'text-info';
                                 }
                             },
-                            cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase}}</div> </div>' +
+                            cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase | currency }}</div> </div>' +
                                 '<div ng-if="row.entity.TipoCuentaEspecial==undefined"> {{row.entity.CuentaContable.Nombre}} </div>',
                             headerCellClass: 'text-info',
                             cellTooltip: function(row) {
@@ -274,7 +274,7 @@ angular.module('financieraClienteApp')
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
-                            cellTemplate: '<div><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>, {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +': {{row.entity.ValorBase}}</div></div>',
+                            cellTemplate: '<div><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>, {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +': {{row.entity.ValorBase | currency}}</div></div>',
                             enableCellEdit: false,
                             width: '30%'
                         },
@@ -347,10 +347,10 @@ angular.module('financieraClienteApp')
                             width: '10%',
                             enableCellEdit: false,
                             cellTemplate: '<center>' +
-                                '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" data-toggle="modal" data-target="#modalEndosar" >' +
+                                '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" data-toggle="modal" data-target="#modalEndosar" >' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +
-                                '<a ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true" href="" class="addvalorbase" data-toggle="modal" data-target="#modalAddValorBase">' +
-                                '<i class="fa fa-gear fa-lg faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ADD_VALOR_BASE\' | translate }}"></i></a>' +
+                                '<a ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" href="" class="addvalorbase" data-toggle="modal" data-target="#modalAddValorBase">' +
+                                '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ADD_VALOR_BASE\' | translate }}"></i></a>' +
                                 '<a href="" class="borrar" data-toggle="modal" data-target="#modalverplan" ng-click="grid.appScope.d_movimientosContables.quitar_descuento(row.entity)">' +
                                 '<i class="fa fa-trash fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.BORRAR\' | translate }}"></i></a> ' +
                                 '</center>'
@@ -363,7 +363,7 @@ angular.module('financieraClienteApp')
                         //console.log(item);
                         var i = self.gridOptionsDescuentos.data.indexOf(item);
                         var j = $scope.movimientos.indexOf(item);
-                        console.log(i, j);
+                        //console.log(i, j);
                         if (i >= 0 && j >= 0) {
                             self.gridOptionsDescuentos.data.splice(i, 1);
                             $scope.movimientos.splice(j, 1);
@@ -380,11 +380,8 @@ angular.module('financieraClienteApp')
                             //item.Credito = Math.round(item.Porcentaje * $scope.monto);
                         }
                         if (item.TipoCuentaEspecial.Nombre === "Endoso") {
-                            self.itemActual = item;
-                            self.tercero = item.proveedor;
-                            self.cuentaTercero = item.CuentaContable.CuentaBancaria;
                             self.Endosar ="Endoso";
-                            self.valorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
+                            self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
                         } else {
                             if ($scope.outputformapagoop != undefined)
                             {
@@ -403,25 +400,49 @@ angular.module('financieraClienteApp')
                         }
                     }
                 };
-                self.asignar_endoso = function(){
-                    var pos = self.gridOptionsDescuentos.data.indexOf(self.itemActual);
-                    self.gridOptionsDescuentos.data[pos].Credito = self.valorInicial;
-                    self.gridOptionsDescuentos.data[pos].FormaPago = $scope.outputformapagoend;
+                self.asignar_endoso = function(item){
+                    var pos = self.gridOptionsDescuentos.data.indexOf(item);
+                    self.gridOptionsDescuentos.data[pos].Credito = item.ValorInicialEndoso;
                 }
-                self.validar_endoso = function () {
-                    return (self.valorInicial > 0) && (self.valorInicial <= self.valorMaximo) ;
+                self.validar_endoso = function (item) {
+                    if (item != undefined) {
+                        return (item.ValorInicialEndoso > 0) && (item.ValorInicialEndoso <= self.ValorMaximo) ;
+                    }
+                    else {
+                        return false;
+                    }
                 }
-                self.validar_valor_base = function(){
-                    return self.valorBase != undefined ;
+                self.validar_valor_base = function(item){
+                    if (item != undefined) {
+                        return item.ValorBase != undefined ;
+                    }
+                    else {
+                        return false;
+                    }
                 }
                 self.calcular_descuento= function (item, valor){
                     return Math.round(item.Porcentaje * valor) ;
+<<<<<<< HEAD
                 }
                 self.asignar_valor_base = function(){
                     var pos = self.gridOptionsDescuentos.data.indexOf(self.itemImpuesto);
                     self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(self.itemImpuesto,self.valorBase);
                     self.gridOptionsDescuentos.data[pos].ValorBase = self.valorBase;
+=======
+                }
+                self.asignar_valor_base = function(item){
+                    var pos = self.gridOptionsDescuentos.data.indexOf(item);
+                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {
+                        self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(item,self.gridOptionsDescuentos.data[pos].ValorBase);
+                    }
+>>>>>>> 5e4636738182f631b1e4d42a45d7fc8207b4bd67
 
+                }
+                self.actualizar_posicion = function(item){
+                    if (item.TipoCuentaEspecial.Nombre === "Endoso") {
+                        self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
+                    }
+                    self.posactual = self.gridOptionsDescuentos.data.indexOf(item);
                 }
 
                 /*self.agregar_desc_mov=function(){
@@ -515,7 +536,7 @@ angular.module('financieraClienteApp')
                     if (self.gridOptionsMovimientos.data.length != undefined) {
                     for (var i = 0; i < self.gridOptionsMovimientos.data.length; i++) {
                         if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial != undefined) {
-                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Descuento" || self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Endoso") {
+                            if (self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Descuento" && self.gridOptionsMovimientos.data[i].TipoCuentaEspecial.Nombre !== "Endoso") {
                                  self.gridOptionsMovimientos.data[i].Credito = Math.round(self.gridOptionsMovimientos.data[i].ValorBase * self.gridOptionsMovimientos.data[i].Porcentaje);
                             }
                         }

@@ -13,7 +13,7 @@
                             <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="cdpSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
                               <option ng-repeat="option in cdpSolicitudConsulta.years" value="{{option}}">{{option}}</option>
                             </select>
-                           
+
                         </div>
                         <div class="col-md-3">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label><br>
@@ -25,7 +25,7 @@
                         </div>
                         <div class="col-md-1">
                             <br>
-                            <a type="button" name="button" ng-click="cdpSolicitudConsulta.cragarDatos(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                            <a type="button" name="button" ng-click="cdpSolicitudConsulta.cargarDatos(0,'')" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
                         </div>
                     </div>
                     <br>
@@ -33,10 +33,13 @@
             </div>
         </div>
 
-        
-        <div>
-            <div ui-grid="cdpSolicitudConsulta.gridOptions" ui-grid-selection ui-grid-pagination class="myGrid"></div>
+
+        <div ui-grid="cdpSolicitudConsulta.gridOptions"  ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="myGrid">
+          <div class="watermark" ng-show="!cdpSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="cdpSolicitudConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
         </div>
+
+
 
     </div>
 </div>
@@ -48,8 +51,8 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="page-header">Solicitud de CDP No. {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
-                <div align="right">Fecha Solicitud: {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
+                <h3 class="page-header">{{'SOLICITUD_CDP' | translate}} {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Numero}} de {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.Vigencia}}</h3>
+                <div align="right">{{'FECHA_SOLICITUD' | translate}} {{cdpSolicitudConsulta.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
             </div>
             <div class="panel-body">
                 <h4 class="text-info">{{'DATOS_NECESIDAD' | translate}}</h4>
