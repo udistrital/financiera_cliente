@@ -422,20 +422,12 @@ angular.module('financieraClienteApp')
                 }
                 self.calcular_descuento= function (item, valor){
                     return Math.round(item.Porcentaje * valor) ;
-<<<<<<< HEAD
-                }
-                self.asignar_valor_base = function(){
-                    var pos = self.gridOptionsDescuentos.data.indexOf(self.itemImpuesto);
-                    self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(self.itemImpuesto,self.valorBase);
-                    self.gridOptionsDescuentos.data[pos].ValorBase = self.valorBase;
-=======
                 }
                 self.asignar_valor_base = function(item){
                     var pos = self.gridOptionsDescuentos.data.indexOf(item);
                     if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {
                         self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(item,self.gridOptionsDescuentos.data[pos].ValorBase);
                     }
->>>>>>> 5e4636738182f631b1e4d42a45d7fc8207b4bd67
 
                 }
                 self.actualizar_posicion = function(item){

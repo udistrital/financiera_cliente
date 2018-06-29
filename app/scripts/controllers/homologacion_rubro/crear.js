@@ -71,6 +71,13 @@ angular.module('financieraClienteApp')
       if (!angular.isUndefined(ctrl.entidad.Id)){
         query='Organizacion:'+ctrl.entidad.Id;
       }
+
+      financieraMidRequest.get("rubro_homologado/GetHomologationNumberEntity",$.param({
+        idEntidad:ctrl.entidad.Id
+      })).then(function(response){
+          ctrl.gridrubros.totalItems = response.data.Body;
+      });
+
       financieraMidRequest.get("rubro_homologado",$.param({
         limit: ctrl.gridrubros.paginationPageSize,
         offset:offset,
@@ -79,6 +86,8 @@ angular.module('financieraClienteApp')
           ctrl.gridrubros.data=response.data;
       });
     }
+
+
 
     ctrl.consultarRubrosEntidad= function(){
       ctrl.gridrubros.data = [];
