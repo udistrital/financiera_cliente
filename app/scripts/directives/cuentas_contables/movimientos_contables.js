@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate) {
+    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q) {
         return {
             restrict: 'E',
             scope: {
@@ -384,11 +384,12 @@ angular.module('financieraClienteApp')
                             self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
                         } else {
                             if ($scope.outputformapagoop != undefined)
-                            { 
+                            {
                              item.FormaPago = $scope.outputformapagoop;
                             }
                             if (item.TipoCuentaEspecial.Nombre !== "Descuento") {
-                                item.TipoCuentaEspecial.CuentaEspecialImpuesto = true; 
+                                self.itemImpuesto = item;
+                                item.TipoCuentaEspecial.CuentaEspecialImpuesto = true;
                             }
                         }
                         item.CuentaEspecial = { Id: item.Id };
@@ -413,7 +414,7 @@ angular.module('financieraClienteApp')
                 }
                 self.validar_valor_base = function(item){
                     if (item != undefined) {
-                        return item.ValorBase != undefined ;                        
+                        return item.ValorBase != undefined ;
                     }
                     else {
                         return false;
@@ -421,10 +422,10 @@ angular.module('financieraClienteApp')
                 }
                 self.calcular_descuento= function (item, valor){
                     return Math.round(item.Porcentaje * valor) ;
-                }                
+                }
                 self.asignar_valor_base = function(item){
                     var pos = self.gridOptionsDescuentos.data.indexOf(item);
-                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {                       
+                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {
                         self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(item,self.gridOptionsDescuentos.data[pos].ValorBase);
                     }
 
@@ -456,15 +457,19 @@ angular.module('financieraClienteApp')
                 };
 
                 self.cargar_cuentas_concepto = function() {
-                    if ($scope.conceptoid != undefined) {
-                        financieraRequest.get('concepto_cuenta_contable', $.param({
+                  var  servicioPromesa;
+                    if ($scope.conceptoid != undefined && angular.isUndefined($scope.movimientos)) {
+                      servicioPromesa =  financieraRequest.get('concepto_cuenta_contable', $.param({
                             query: "Concepto:" + $scope.conceptoid,
                             limit: 0
                         })).then(function(response) {
                             $scope.movimientos = response.data;
-                            self.cargar_cuentas_grid();
                         });
                     }
+                    $q.all([servicioPromesa]).then(function() {
+                        self.cargar_cuentas_grid();
+                    });
+
                 };
 
 
@@ -531,7 +536,7 @@ angular.module('financieraClienteApp')
                         self.suma2 = self.suma2 + self.gridOptionsMovimientos.data[i].Credito;
                     }
                     }
-                    if (self.gridOptionsMovsAcreedores.data.length > 0) {
+                    if (!angular.isUndefined(self.gridOptionsMovsAcreedores.data) && self.gridOptionsMovsAcreedores.data.length > 0) {
                         for (var j = 0; j < self.gridOptionsMovsAcreedores.data.length; j++) {
                             self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[j].Debito;
                             self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[j].Credito;
