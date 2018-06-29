@@ -12,6 +12,9 @@ angular.module('financieraClienteApp')
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora = 1;
+    self.cargando = false;
+    self.hayData = true;
+
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -23,21 +26,56 @@ angular.module('financieraClienteApp')
       paginationPageSize: 10,
       useExternalPagination: true,
       columnDefs : [
-        {field: 'Id',             visible : false},
-        {field: 'Vigencia' ,displayName: $translate.instant("VIGENCIA"), cellClass: 'input_center',headerCellClass: 'text-info' },
-        {field: 'NumeroMovimiento' ,displayName: $translate.instant("NO"), cellClass: 'input_center',headerCellClass: 'text-info' },
-        {field: 'FechaMovimiento',  displayName: $translate.instant("FECHA_MOVIMIENTO"), cellClass: 'input_center',headerCellClass: 'text-info' ,cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"UTF"}}</span>'},
-        {field: 'Noficio',  displayName: $translate.instant("NO_OFICIO"),headerCellClass: 'text-info'},
-        {field: 'Foficio',  displayName: $translate.instant("FECHA_OFICIO"),headerCellClass: 'text-info',cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'},
-        {field: 'EstadoMovimientoApropiacion.Nombre',  displayName: $translate.instant("ESTADO"),headerCellClass: 'text-info'},
+        {
+          field: 'Id',
+          visible : false
+        },
+        {
+          field: 'Vigencia' ,
+          displayName: $translate.instant("VIGENCIA"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'NumeroMovimiento' ,
+          displayName: $translate.instant("NO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'FechaMovimiento',
+          displayName: $translate.instant("FECHA_MOVIMIENTO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado' ,
+          cellTemplate: '<span>{{row.entity.FechaMovimiento | date:"yyyy-MM-dd":"UTF"}}</span>'
+        },
+        {
+          field: 'Noficio',
+          displayName: $translate.instant("NO_OFICIO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'Foficio',
+          displayName: $translate.instant("FECHA_OFICIO"),
+          headerCellClass: 'encabezado',
+          cellClass: 'input_center',
+          cellTemplate: '<span>{{row.entity.Foficio | date:"yyyy-MM-dd":"UTF"}}</span>'
+        },
+        {
+          field: 'EstadoMovimientoApropiacion.Nombre',
+          displayName: $translate.instant("ESTADO"),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'},
 
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPCIONES'),
           enableFiltering: false,
+          cellClass: 'input_center',
           width: '6%',
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado'
       }
       ]
 
@@ -64,6 +102,10 @@ angular.module('financieraClienteApp')
 
 
     self.cargarDatos = function(offset,query){
+      self.gridOptions.data = [];
+      self.cargando = true;
+      self.hayData = true;
+
       if (query === ''){
         query = query+ '&query=Vigencia:'+ self.Vigencia+",UnidadEjecutora:"+self.UnidadEjecutora;
       }else{
@@ -71,9 +113,13 @@ angular.module('financieraClienteApp')
       }
       financieraRequest.get('movimiento_apropiacion','limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) {
         if (response.data === null || response.data.Type !== undefined) {
-            self.gridOptions.data = [];
+          self.hayData = false;
+          self.cargando = false;
+          self.gridOptions.data = [];
         } else {
             console.log(response.data);
+            self.hayData = true;
+            self.cargando = false;
             self.gridOptions.data = response.data;
         }
     });
@@ -82,8 +128,8 @@ angular.module('financieraClienteApp')
     };
     self.verDisponibilidad = function(numero, vigencia){
       console.log('Numero: ', numero);
-      console.log('Vigencia: ', vigencia);  
-      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
+      console.log('Vigencia: ', vigencia);
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');
     };
 
     self.gridOptions.onRegisterApi = function(gridApi) {
@@ -153,7 +199,7 @@ angular.module('financieraClienteApp')
           		self.data = row.entity;
             	break;
           case "otro":
-              break;      
+              break;
           default:
       }
   };
