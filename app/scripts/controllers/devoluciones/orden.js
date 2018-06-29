@@ -113,7 +113,7 @@ angular.module('financieraClienteApp')
    },true);
 
 
-   $scope.$watch('ordendevolucion.concepto[0]', function(oldValue, newValue) {
+   $scope.$watch('ordendevolucion.concepto[0]', function(newValue,oldValue) {
        if (!angular.isUndefined(newValue)) {
            financieraRequest.get('concepto', $.param({
                query: "Id:" + newValue.Id,
