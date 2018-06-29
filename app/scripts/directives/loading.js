@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
             scope: {
                 load: '=',
                 tam: '=?',
-                clase: "="
+                clase: "=?"
             },
             template: '<div class="loading" ng-show="load">' +
                 '<i class="{{clase.clase}} fa-spin fa-{{tam}}x {{clase.animacion}}" aria-hidden="true" ></i>' +

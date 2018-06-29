@@ -593,6 +593,16 @@ angular
               controller: 'DevolucionesParametrosRazonDevolucionCtrl',
               controllerAs: 'devolParamRazonDevolucion'
             })
+            .when('/inversiones/cancelacion', {
+              templateUrl: 'views/inversiones/cancelacion.html',
+              controller: 'InversionesCancelacionCtrl',
+              controllerAs: 'inversionesCancelacion'
+            })
+            .when('/homologacion_rubro/crear', {
+              templateUrl: 'views/homologacion_rubro/crear.html',
+              controller: 'HomologacionRubroCrearCtrl',
+              controllerAs: 'homologacionRubroCrear'
+            })
             .otherwise({
                 redirectTo: '/'
             });

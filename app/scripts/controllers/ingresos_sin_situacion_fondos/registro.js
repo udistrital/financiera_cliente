@@ -74,7 +74,6 @@ angular.module('financieraClienteApp')
 
 
         request.IngresoSinSituacionFondos.Rubro.Id = parseInt(ctrl.rubroSeleccionado.Id);
-        console.log("request ",request);
         financieraMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
 
           if(response.data===null){
