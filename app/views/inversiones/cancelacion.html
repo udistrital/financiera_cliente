@@ -7,6 +7,7 @@
       <span class = "fa fa-minus pull-right" ng-show= "!datos"></span>
     </legend>
     <div ng-show="!datos">
+      <form name="datosOblig">
       <div class="col-md-6">
 
         <div class="form-group">
@@ -32,7 +33,7 @@
           <div class="form group">
               <label for="tipo_ingreso">{{'FECHA_CANCELACION' | translate}}</label>
               <br>
-              <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_CANCELACION' | translate}}"></md-datepicker>
+              <md-datepicker ng-model="inversionesCancelacion.fechaInicio" md-placeholder="{{'FECHA_CANCELACION' | translate}}" required></md-datepicker>
           </div>
 
           <div class="form-group">
@@ -48,7 +49,7 @@
               <arbol-conceptos filtro="inversionesCancelacion.filtro_ingresos" seleccion="inversionesCancelacion.concepto[0]" conceptosel="nodo"></arbol-conceptos>
           </div>
         </div>
-
+      </form>
       </div>
     </div>
     <div class="panel-body" ng-show="inversionesCancelacion.concepto[0]">
@@ -79,7 +80,7 @@
 
     <div class="panel-footer">
       <div align="center">
-        <button  class="btn btn-outline btn-info" ng-click="inversionesCancelacion.crear()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+        <button  class="btn btn-outline btn-info" ng-click="inversionesCancelacion.registrar()"> {{ 'BTN.REGISTRAR' | translate }} </button>
       </div>
     </div>
 </div>
