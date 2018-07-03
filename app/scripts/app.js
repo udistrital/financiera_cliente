@@ -593,7 +593,7 @@ angular
               controller: 'DevolucionesParametrosRazonDevolucionCtrl',
               controllerAs: 'devolParamRazonDevolucion'
             })
-            .when('/inversiones/cancelacion', {
+            .when('/inversiones/cancelacion/:idInversion', {
               templateUrl: 'views/inversiones/cancelacion.html',
               controller: 'InversionesCancelacionCtrl',
               controllerAs: 'inversionesCancelacion'
