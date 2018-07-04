@@ -8,7 +8,10 @@
 
     <div class="col-md-12" ng-show="gestionCompromisos.gridfield">
       <div class="panel panel-default shadow-box">
-        <div id="mi-grid"  ui-grid="gestionCompromisos.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="mi-grid"></div>
+        <div id="mi-grid"  ui-grid="gestionCompromisos.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize class="mi-grid">
+          <div class="watermark" ng-show="!gestionCompromisos.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="gestionCompromisos.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+        </div>
       </div>
     </div>
 
