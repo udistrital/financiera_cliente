@@ -63,6 +63,7 @@ angular.module('financieraClienteApp')
           swal("",$translate.instant('PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA'),"warning");
           return false;
         }
+
     }
 
     ctrl.registrar = function(){
@@ -79,15 +80,29 @@ angular.module('financieraClienteApp')
            UnidadEjecutora:ctrl.unidadejecutora.Id,
            UsuarioEjecucion:111,
          },
-         Concepto: ctrl.concepto[0]
+         cancelacionConcepto:{
+           Concepto:ctrl.concepto[0],
+           ValorAgregado:ctrl.valorCancelacion
+         },
        }
+
+
 
        angular.forEach(ctrl.movs, function(data) {
            delete data.Id;
        });
-
        ctrl.request.Movimientos = ctrl.movs;
-
+       financieraMidRequest.post('CreateInversion',request).then(function(response){
+         if (response.data.Type != undefined) {
+             if (response.data.Type === "error") {
+                 swal('', $translate.instant(response.data.Code), response.data.Type);
+             } else {
+                 var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th></tr>";
+                 templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td></table>" ;
+                 swal('', templateAlert, response.data.Type);
+             }
+         }
+       });
      }
     }
 
