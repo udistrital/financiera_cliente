@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
 .controller('GestionCompromisosCtrl', function($scope, financieraRequest, $translate) {
   var self = this;
+  self.cargando = false;
+  self.hayData = true;
 
   $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
@@ -143,11 +145,24 @@ angular.module('financieraClienteApp')
 
 
   self.cargar = function() {
+    self.gridOptions.data = [];
+    self.cargando = true;
+    self.hayData = true;
+
     financieraRequest.get("compromiso", $.param({
       limit: -1,
       query: "TipoCompromisoTesoral.CategoriaCompromiso.Nombre:"+self.filtro_categoria.Nombre+",UnidadEjecutora:"+1 //CAMBIAR SEGUN USUARIO LOGUEADO
     })).then(function(response) {
-      self.gridOptions.data =(response.data != null)?response.data:[];
+      if (response.data === null) {
+          self.hayData = false;
+          self.cargando = false;
+          self.gridOptions.data = [];
+      }else {
+          self.hayData = true;
+          self.cargando = false;
+          self.gridOptions.data = response.data;
+        }
+
     });
   };
 
