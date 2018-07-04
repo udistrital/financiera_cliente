@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
     if(validar_campos != false){
 
     swal({
-      title: $translate.instant('NUEVA_CATEGORIA')+'!',
+      title: '¡'+$translate.instant('NUEVA_CATEGORIA')+'!',
       text: $translate.instant('DESEA_CREAR_CATEGORIA'),
       type: 'info',
       showCancelButton: true,
@@ -72,7 +72,7 @@ angular.module('financieraClienteApp')
     var validar_campos =self.validateFieldsTipo();
     if(validar_campos != false){
     swal({
-      title: $translate.instant('NUEVO_TIPO_COMPROMISO')+'!',
+      title: '¡'+$translate.instant('NUEVO_TIPO_COMPROMISO')+'!',
       text:  $translate.instant('DESEA_CREAR_TIPO_COMPROMISO'),
       type: 'info',
       showCancelButton: true,
@@ -115,7 +115,7 @@ angular.module('financieraClienteApp')
       if(validar_campos != false){
 
     swal({
-      title: $translate.instant('NUEVO_COMPROMISO')+'!',
+      title: '¡'+$translate.instant('NUEVO_COMPROMISO')+'!',
       text: $translate.instant('DESEA_CREAR_COMPROMISO'),
       type: 'info',
       showCancelButton: true,
