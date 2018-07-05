@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesCancelacionCtrl', function ($scope,$translate,financieraRequest) {
+  .controller('InversionesCancelacionCtrl', function ($scope,$translate,financieraRequest,financieraMidRequest) {
     var ctrl = this;
     ctrl.fechaInicio= new Date();
     ctrl.cargar_listas = function() {
@@ -38,7 +38,7 @@ angular.module('financieraClienteApp')
                        fields: "Rubro",
                        limit: -1
                    })).then(function(response) {
-                       $scope.actaComprainv.concepto[0].Rubro = response.data[0].Rubro;
+                       $scope.inversionesCancelacion.concepto[0].Rubro = response.data[0].Rubro;
                    });
                }
            }, true);
@@ -85,20 +85,18 @@ angular.module('financieraClienteApp')
            ValorAgregado:ctrl.valorCancelacion
          },
        }
-
-
-
+       
        angular.forEach(ctrl.movs, function(data) {
            delete data.Id;
        });
-       ctrl.request.Movimientos = ctrl.movs;
-       financieraMidRequest.post('CreateInversion',request).then(function(response){
+       request.Movimientos = ctrl.movs;
+       financieraMidRequest.post('inversion/CreateInversion',request).then(function(response){
          if (response.data.Type != undefined) {
              if (response.data.Type === "error") {
                  swal('', $translate.instant(response.data.Code), response.data.Type);
              } else {
-                 var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th></tr>";
-                 templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td></table>" ;
+                 var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('NO')  + $translate.instant('CONSECUTIVO') + "</th></tr>";
+                 templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></table>" ;
                  swal('', templateAlert, response.data.Type);
              }
          }
