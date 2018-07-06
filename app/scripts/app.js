@@ -603,6 +603,11 @@ angular
               controller: 'HomologacionRubroCrearCtrl',
               controllerAs: 'homologacionRubroCrear'
             })
+            .when('/inversiones/consulta_cancelacion', {
+              templateUrl: 'views/inversiones/consulta_cancelacion.html',
+              controller: 'InversionesConsultaCancelacionCtrl',
+              controllerAs: 'inversionesConsultaCancelacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
