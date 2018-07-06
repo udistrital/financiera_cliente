@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-.controller('crearCompromisoCtrl', function (financieraRequest, $translate) {
+.controller('crearCompromisoCtrl', function (financieraRequest, $translate, $scope) {
   var self = this;
 
   self.nueva_categoria={};
@@ -31,8 +31,12 @@ angular.module('financieraClienteApp')
 
 
   self.crear_categoria=function(){
+
+    var validar_campos =self.validateFieldsCategoria();
+    if(validar_campos != false){
+
     swal({
-      title: $translate.instant('NUEVA_CATEGORIA')+'!',
+      title: '¡'+$translate.instant('NUEVA_CATEGORIA')+'!',
       text: $translate.instant('DESEA_CREAR_CATEGORIA'),
       type: 'info',
       showCancelButton: true,
@@ -60,12 +64,15 @@ angular.module('financieraClienteApp')
         }
       });
     });
+  }
   };
 
   self.crear_tipo=function(){
 
+    var validar_campos =self.validateFieldsTipo();
+    if(validar_campos != false){
     swal({
-      title: $translate.instant('NUEVO_TIPO_COMPROMISO')+'!',
+      title: '¡'+$translate.instant('NUEVO_TIPO_COMPROMISO')+'!',
       text:  $translate.instant('DESEA_CREAR_TIPO_COMPROMISO'),
       type: 'info',
       showCancelButton: true,
@@ -97,11 +104,18 @@ angular.module('financieraClienteApp')
       });
     });
 
+  }
   };
 
+
+
   self.crear_compromiso=function(){
+
+      var validar_campos =self.validateFieldsCompromiso();
+      if(validar_campos != false){
+
     swal({
-      title: $translate.instant('NUEVO_COMPROMISO')+'!',
+      title: '¡'+$translate.instant('NUEVO_COMPROMISO')+'!',
       text: $translate.instant('DESEA_CREAR_COMPROMISO'),
       type: 'info',
       showCancelButton: true,
@@ -131,10 +145,54 @@ angular.module('financieraClienteApp')
         }
       });
     });
-
+  }
   };
 
+  self.validateFieldsCompromiso = function(){
 
+    if($scope.compromiso_form.$invalid){
+      angular.forEach($scope.compromiso_form.$error,function(controles,error){
+        angular.forEach(controles,function(control){
+          control.$setDirty();
+        });
+      });
+
+    return false;
+
+    }
+
+  }
+
+  self.validateFieldsTipo = function(){
+
+    if($scope.tipo_form.$invalid){
+      angular.forEach($scope.tipo_form.$error,function(controles,error){
+        angular.forEach(controles,function(control){
+          control.$setDirty();
+        });
+      });
+
+    return false;
+
+    }
+
+
+  }
+
+  self.validateFieldsCategoria = function(){
+
+    if($scope.categoria_form.$invalid){
+      angular.forEach($scope.categoria_form.$error,function(controles,error){
+        angular.forEach(controles,function(control){
+          control.$setDirty();
+        });
+      });
+
+    return false;
+
+    }
+
+  }
   /*self.cargar_unidades_ejecutoras=function(){
     financieraRequest.get("unidad_ejecutora",$.param({
       sortby: "Id",

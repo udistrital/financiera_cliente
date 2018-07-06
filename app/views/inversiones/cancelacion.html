@@ -7,12 +7,12 @@
       <span class = "fa fa-minus pull-right" ng-show= "!datos"></span>
     </legend>
     <div ng-show="!datos">
-    <form name="datosOblig">
+      <form name="datosOblig">
       <div class="col-md-6">
 
         <div class="form-group">
           <label>{{'VALOR_SOLICITADO'|translate}}</label>
-          <input type="text" class="form-control input_left" ng-model="inversionesCancelacion.valorDevolucion" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-money-mask="0" required/>
+          <input type="text" class="form-control input_left" ng-model="inversionesCancelacion.valorCancelacion" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-money-mask="0" required/>
         </div>
 
         <div class="form-group">
@@ -69,7 +69,7 @@
             <!-- Tab panes -->
             <div class="tab-content">
               <div class="tab-pane fade in active" ng-repeat="c in inversionesCancelacion.concepto" ng-show="inversionesCancelacion.selected==c.Id">
-                <movimientos-contables conceptoid="c.Id" movimientos="inversionesCancelacion.movs" monto="inversionesCancelacion.valorSolicitado" editable validatemov="c.validado">
+                <movimientos-contables conceptoid="c.Id" movimientos="inversionesCancelacion.movs" monto="inversionesCancelacion.valorCancelacion" editable validatemov="c.validado">
                 </movimientos-contables>
               </div>
             </div>
