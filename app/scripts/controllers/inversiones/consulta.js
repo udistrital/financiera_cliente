@@ -279,7 +279,7 @@ angular.module('financieraClienteApp')
           $scope.$apply(function(){
             $location.path('/inversiones/cancelacion/'+$scope.solicitud.Id);
           });
-        }/*else{
+        }else{
                 financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
@@ -292,6 +292,6 @@ angular.module('financieraClienteApp')
                       }
                     }
                   });
-                }*/
+                }
     }
   });
