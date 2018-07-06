@@ -22,6 +22,9 @@ angular.module('financieraClienteApp')
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: 5,
       useExternalPagination: true,
+      enableSelectAll: false,
+      selectionRowHeaderWidth: 35,
+      enableRowHeaderSelection: true,
       columnDefs: [
           {
               field: 'CodigoHomologado',

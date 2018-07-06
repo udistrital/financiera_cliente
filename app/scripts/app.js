@@ -593,7 +593,7 @@ angular
               controller: 'DevolucionesParametrosRazonDevolucionCtrl',
               controllerAs: 'devolParamRazonDevolucion'
             })
-            .when('/inversiones/cancelacion', {
+            .when('/inversiones/cancelacion/:idInversion', {
               templateUrl: 'views/inversiones/cancelacion.html',
               controller: 'InversionesCancelacionCtrl',
               controllerAs: 'inversionesCancelacion'
@@ -602,6 +602,11 @@ angular
               templateUrl: 'views/homologacion_rubro/crear.html',
               controller: 'HomologacionRubroCrearCtrl',
               controllerAs: 'homologacionRubroCrear'
+            })
+            .when('/inversiones/consulta_cancelacion', {
+              templateUrl: 'views/inversiones/consulta_cancelacion.html',
+              controller: 'InversionesConsultaCancelacionCtrl',
+              controllerAs: 'inversionesConsultaCancelacion'
             })
             .otherwise({
                 redirectTo: '/'

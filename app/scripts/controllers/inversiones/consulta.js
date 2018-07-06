@@ -269,12 +269,17 @@ angular.module('financieraClienteApp')
             },
             Usuario:212121
           };
+          console.log("seleccionado",$scope.estadoclick.Id);
           if($scope.estadoclick.Id === 6){
           ingresoDoc.set(ctrl.Request);
           $scope.$apply(function(){
             $location.path('/inversiones/acta_compra');
           });
-          }else{
+        }else if($scope.estadoclick.Id === 7){
+          $scope.$apply(function(){
+            $location.path('/inversiones/cancelacion/'+$scope.solicitud.Id);
+          });
+        }else{
                 financieraRequest.post('inversion_estado_inversion/AddEstadoInv', ctrl.Request).then(function(response) {
                   if(response.data.Type != undefined){
                     if(response.data.Type === "error"){
