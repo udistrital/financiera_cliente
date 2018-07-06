@@ -16,7 +16,7 @@
                     {{"NUEVO_COMPROMISO" | translate}}
                   </div>
                   <div class="panel-body">
-                    <form name="compromiso_form" ng-submit="compromiso_form.$valid && crearCompromiso.crear_compromiso()" novalidate>
+                    <form name="compromiso_form">
 
                       <fieldset>
                         <sel-categoria-tipo categoria="crearCompromiso.nuevo_compromiso.Categoria" tipo="crearCompromiso.nuevo_compromiso.TipoCompromisoTesoral" reload="crearCompromiso.cargar_categoriasc"></sel-categoria-tipo>
@@ -65,7 +65,7 @@
 
                       <fieldset class="form-group col-md-12">
                         <center>
-                          <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
+                          <button type="submit" class="btn btn-success btn-outline" ng-click="crearCompromiso.crear_compromiso()">{{"BTN.AGREGAR" | translate}}</button>
                           <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.nuevo_compromiso={}">{{"BTN.CANCELAR" | translate}}</button>
                         </center>
                       </fieldset>
@@ -89,7 +89,7 @@
                         </div>
                         <div class="panel-body"><br />
 
-                          <form name="categoria_form" ng-submit="categoria_form.$valid && crearCompromiso.crear_categoria()" novalidate>
+                          <form name="categoria_form">
                             <fieldset class="form-group col-md-12">
                               <label>{{"NOMBRE" | translate}}: </label>
                               <input type="text" class="form-control" ng-model="crearCompromiso.nueva_categoria.Nombre" placeholder="{{'INGRESE_NOMBRE' | translate}}" ng-maxlength="{{80}}" required>
@@ -98,11 +98,11 @@
 
                             <fieldset class="form-group col-md-12">
                               <label>{{"DESCRIPCION" | translate}}: </label>
-                              <textarea class="form-control" ng-model="crearCompromiso.nueva_categoria.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5"></textarea>
+                              <textarea class="form-control" ng-model="crearCompromiso.nueva_categoria.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5" required></textarea>
                             </fieldset>
 
                             <fieldset class="form-group col-md-12">
-                              <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
+                              <button type="submit" class="btn btn-success btn-outline" ng-click="crearCompromiso.crear_categoria()">{{"BTN.AGREGAR" | translate}}</button>
                               <button class="btn btn-danger btn-outline" ng-click="crearCompromiso.nueva_categoria={}">{{"BTN.CANCELAR" | translate}}</button>
                             </fieldset>
                           </form>
@@ -118,10 +118,10 @@
                         </div>
                         <div class="panel-body"><br />
 
-                          <form name="tipo_form" ng-submit="tipo_form.$valid && crearCompromiso.crear_tipo()" novalidate>
+                          <form name="tipo_form">
 
                             <fieldset class="form-group col-md-12">
-                              <sel-categoria-tipo categoria="crearCompromiso.nuevo_tipo.CategoriaCompromiso" reload="crearCompromiso.cargar_categorias"></sel-categoria-tipo>
+                              <sel-categoria-tipo categoria="crearCompromiso.nuevo_tipo.CategoriaCompromiso" reload="crearCompromiso.cargar_categorias" ></sel-categoria-tipo>
                             </fieldset>
 
                             <fieldset class="form-group col-md-12">
@@ -137,12 +137,12 @@
 
                             <fieldset class="form-group col-md-12">
                               <label>{{"DESCRIPCION" | translate}}: </label>
-                              <textarea class="form-control" ng-model="crearCompromiso.nuevo_tipo.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5"></textarea>
+                              <textarea class="form-control" ng-model="crearCompromiso.nuevo_tipo.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}" rows="5" required></textarea>
                             </fieldset>
 
                             <fieldset class="form-group col-md-12">
-                              <button type="submit" class="btn btn-success btn-outline">{{"BTN.AGREGAR" | translate}}</button>
-                              <button class="btn btn-danger btn-outline" ng-click="crearCompromiso.nuevo_tipo={}">{{"BTN.CANCELAR" | translate}}</button>
+                              <button type="submit" class="btn btn-success btn-outline" ng-click="crearCompromiso.crear_tipo()">{{"BTN.AGREGAR" | translate}}</button>
+                              <button type="cancel" class="btn btn-danger btn-outline" ng-click="crearCompromiso.nuevo_tipo={}">{{"BTN.CANCELAR" | translate}}</button>
                             </fieldset>
 
                           </form>
