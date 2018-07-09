@@ -365,7 +365,7 @@ angular.module('financieraClienteApp')
                     } else {
                         swal('', $translate.instant(response.data.Code) + ' ' + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, '');
                         });
                     }
 
@@ -376,7 +376,7 @@ angular.module('financieraClienteApp')
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
-            financieraRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
+            financieraMidRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
 
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
@@ -384,7 +384,7 @@ angular.module('financieraClienteApp')
                     } else {
                         swal('', $translate.instant(response.data.Code) + ' ' + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, '');
                         });
                     }
 
