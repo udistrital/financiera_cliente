@@ -2,21 +2,21 @@
 
 /**
  * @ngdoc controller
- * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl
+ * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
  * @description
- * # BancosSaldosInicialesCtrl
+ * # BancosAgregarSaldosInicialesCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location, $route) {
+  .controller('BancosAgregarSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
         var self = this;
         self.nueva_fecha = {};
         self.cargando = false;
         self.hayData = true;
         /**
          * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#cargar_vigencia
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#cargar_vigencia
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @description
          * Carga la vigencia en la que se situa la fecha y realiza un arreglo con 3 vigencias atras y una arriba
          * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
 
         self.cargar_plan_maestro();
 
-        $scope.$watch("saldosIniciales.padre", function(){
+        $scope.$watch("agregarSaldosIniciales.padre", function(){
             if (self.padre !== undefined){
                 financieraRequest.get("saldo_cuenta_contable", $.param({
                     query: "CuentaContable.Id:" + self.padre.Id + ",Anio:" + self.vigencia_saldos ,
@@ -70,14 +70,24 @@ angular.module('financieraClienteApp')
           }
         },true);
 
-        $scope.$watch('saldosIniciales.registroExitoso',function (){
-            if (self.registroExitoso !== undefined){
+        $scope.$watch('agregarSaldosIniciales.registroExitoso',function (){
+            if (self.registroExitoso === true){
                 self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
              $location.path('/bancos/saldos_iniciales');
               swal(
                 'Registro Existoso',
                 'El registro del saldo inicial por un valor ' + self.valor_inicial + ' fue creado exitosamente en la cuenta contable: '+ self.padre.Codigo + ', para la cuenta bancaria: ' + self.padre.Nombre,
                 'success'
+              );
+            }
+
+            if (self.registroExitoso === false){
+
+             $location.path('/bancos/saldos_iniciales');
+              swal(
+                '',
+                $translate.instant("E_SI1"),
+                'error'
               );
             }
          });
@@ -156,8 +166,8 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#cargar_saldos_full
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#cargar_saldos_full
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @description
          * Carga todo el listado de saldos creados hasta la fecha
          * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
@@ -186,8 +196,8 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#cargar_saldos_vigencia
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#cargar_saldos_vigencia
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {var} vigencia Vigencia en la que se encuentran los saldos a obtener
          * @description
          * Carga el listado de saldos creados en una vigencia determinada
@@ -218,8 +228,8 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#modo_editar
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#modo_editar
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {object} calendario caendario que se cargara en el formulario para ser editado
          * @description
          * Función para cargar el calendario a editar en el formulario, realizando una copia del mismo y
@@ -233,28 +243,106 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#crear_saldo
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#crear_saldo
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @description
          * Comprueba si es un saldo a editar o a crear, si la accion es para crear consume el servicio POST de
          * {@link financieraService.service:financieraRequest financieraRequest}  y si es de actualizar el servicio PUT
          */
         self.crear_saldo = function() {
 
-          $location.path('/bancos/agregar_saldos_iniciales');
-          $route.reload();
 
+          var validar_campos =self.validateFields();
+         if(validar_campos != false){
+            console.log("Cuenta:", self.padre.Codigo);
+            console.log("Saldo:", self.valor_inicial);
+            console.log("Vigencia", self.nueva_fecha.Vigencia );
+            console.log("FechaInicio", self.nueva_fecha.FechaInicio);
+            console.log("Mes", self.nueva_fecha.FechaInicio.getMonth() +1);
+            console.log("FechaFin", self.nueva_fecha.FechaFin);
+            console.log("Obj Seleccionado", self.padre);
+
+        /*
+        TODO: - generar y/o conectar al servicio que registre la transacción del movimiento
+              - limpiar variables
+              - generar sweet alert
+              - redireccionar
+
+        */
+            if ($scope.editar === true) {
+/*                financieraRequest.put('saldo_cuenta_contable', self.nueva_fecha.Id, self.nueva_fecha).then(function(response) {
+                    console.log(response);
+                    if (self.vigencia_saldos === null) {
+                        self.cargar_saldos_full();
+                    } else {
+                        self.cargar_saldos_vigencia(self.vigencia_saldos);
+                    }
+                });*/
+            } else {
+                var nuevo = {
+                    Saldo: self.valor_inicial,
+                    Anio: parseInt(self.nueva_fecha.Vigencia),
+                    Mes: self.nueva_fecha.FechaInicio.getMonth() +1,
+                    CuentaContable: {Id: self.padre.Id }
+                };
+
+                financieraRequest.post('saldo_cuenta_contable', nuevo).then(function(response) {
+
+                    console.log("response", response.data, typeof(response.data))
+                    if(typeof(response.data) === "object"){
+                      if (self.vigencia_saldos === null) {
+                          self.cargar_saldos_full();
+                      } else {
+                          self.cargar_saldos_vigencia(self.vigencia_saldos);
+                      }
+                      self.registroExitoso = true;
+                    }
+
+                    if(typeof(response.data) === "string"){
+                        self.registroExitoso = false;
+                    }
+
+
+                });
+
+            }
+
+          }
         };
 
         /**
+         * @ngdoc function
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#validateFields
+         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
+         * @description
+         * Valida los campos del formulario de crear el saldo
+         * {@link financieraService.service:financieraRequest financieraRequest}  y si es de actualizar el servicio PUT
+         */
+
+        self.validateFields= function(){
+
+          if($scope.saldoForm.$invalid){
+
+
+            angular.forEach($scope.saldoForm.$error,function(controles,error){
+              angular.forEach(controles,function(control){
+                control.$setDirty();
+              });
+            });
+            return false;
+          }
+        };
+
+
+        /**
          * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#watch_on_vigencia
+         * @eventOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {var} Vigencia vigencia del nuevo calendario
          * @description
          * Valida en base a la vigencia seleccionada el rango de la fecha inicio y la fecha fin
          */
-        $scope.$watch('saldosIniciales.nueva_fecha.Vigencia', function() {
+        $scope.$watch('agregarSaldosIniciales.nueva_fecha.Vigencia', function() {
             if (self.nueva_fecha.FechaInicio !== undefined) {
                 console.log("reset fecha inicio");
                 self.nueva_fecha.FechaInicio = undefined;
@@ -272,13 +360,13 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_fecha_inicio
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#watch_on_fecha_inicio
+         * @eventOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {date} FechaInicio fecha inicial del calendario
          * @description
          * Valida en base a la fecha inicial registrada el rango minimo de la fecha fin
          */
-        $scope.$watch('saldosIniciales.nueva_fecha.FechaInicio', function() {
+        $scope.$watch('agregarSaldosIniciales.nueva_fecha.FechaInicio', function() {
             if (self.nueva_fecha.FechaInicio >= self.nueva_fecha.FechaFin || self.nueva_fecha.FechaInicio === undefined ) {
                 self.nueva_fecha.FechaFin = undefined;
             }
@@ -286,8 +374,8 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_editar
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#watch_on_editar
+         * @eventOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {boolean} editar bandera para llenar el formulario con los datos de un calendario
          * @description
          * Observa si la variable editar es falsa limpia la variable utilizada en el formulario para crear un calendario
@@ -300,13 +388,13 @@ angular.module('financieraClienteApp')
 
         /**
          * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia_saldos
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
+         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#watch_on_vigencia_saldos
+         * @eventOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
          * @param {var} vigencia_saldos Vigencia seleccionada para la carga de saldos
          * @description
          * Comprueba si la variable vigencia cambia para volver a cargar el grid con los datos correspondientes
          */
-        $scope.$watch('saldosIniciales.vigencia_saldos', function() {
+        $scope.$watch('agregarSaldosIniciales.vigencia_saldos', function() {
             if (self.vigencia_saldos === null) { //Si no existe vigencia realiza la carga de todos los saldos
                 self.cargar_saldos_full();
             } else {
