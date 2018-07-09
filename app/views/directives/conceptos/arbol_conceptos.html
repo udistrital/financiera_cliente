@@ -7,9 +7,9 @@
 
   <div class="row">
     <div ng-class="{'col-md-12 sticky':!rvdesc}" class="pre-scrollable">
-    <div ng-class="{'col-md-6':rvdesc}">
+    <div ng-class="{'col-md-6':rvdesc}" ng-show="!d_arbolConceptos.algo_fue_seleccionado">
       <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro" order-by="'Codigo'" reverse-order="{{false}}">
-        <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
+        <span ng-class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
       </treecontrol>
     </div>
     <loading load="load" tam="2"/>
@@ -32,11 +32,27 @@
         </div>
 
     </div>
+
+    <div ng-class="{'col-md-6':rvdesc, 'col-md-6 col-md-offset-3': d_arbolConceptos.algo_fue_seleccionado === true}" class="panel panel-info panel-body row sticky shadow-box" ng-show="d_arbolConceptos.algo_fue_seleccionado">
+
+        <span class="pull-right text-danger">X</span>
+        <h2 class="text-primary">{{d_arbolConceptos.temp.Nombre}}</h2>
+        <p class="text-muted">{{d_arbolConceptos.temp.Descripcion}}</p>
+        <dl>
+          <dt>{{"CODIGO" | translate}}: {{d_arbolConceptos.temp.Codigo}}</dt>
+          <dt>{{"FECHA" | translate}}</dt>
+          <dd>- {{"FECHA_CREACION" | translate}} : {{d_arbolConceptos.temp.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</dd>
+          <dd>- {{"FECHA_EXPIRACION" | translate}}: {{d_arbolConceptos.temp.FechaExpiracion | date:"yyyy-MM-dd":"UTC"}}</dd>
+        </dl>
+
+
+    </div>
+
     </div>
   </div>
 
-  <div ng-show="seleccion!=undefined || conceptosel!=undefined;">
-    <center><button type="button" class="btn btn-danger btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
+  <div ng-show="d_arbolConceptos.algo_fue_seleccionado === true">
+    <center><button type="button" class="btn btn-danger btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; d_arbolConceptos.algo_fue_seleccionado=false;showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
 
   <div id="modalConceptos" class="modal fade" role="dialog">
