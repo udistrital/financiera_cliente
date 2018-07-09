@@ -282,6 +282,7 @@ var text_es = {
     E_C92011: "Un concepto o clasificador no puede ser creado dentro de un concepto, únicamente dentro de un clasificador diferente de si mismo",
     E_TRANS_01: "Error en la estructura de parámetros de entrada",
     E_OP_E_ESTADO: "Error al intentar registrar estado de orden de pago",
+    E_SI1: "Error al asignar saldo inicial",
     ESTAMPILLA_UD: "Estampilla Universidad Distrital",
     ESTAMPILLA_PROCULTURA: "Estampilla Procultura",
     ESTAMPILLA_PRO_ADULTO_MAYOR: "Estampilla Adulto Mayor",
