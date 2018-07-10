@@ -11,6 +11,12 @@ angular.module('financieraClienteApp')
   .controller('conceptosEditarCtrl', function($scope, financieraRequest, $routeParams, $translate, $location) {
       var self = this;
       $scope.btnagregar=$translate.instant('BTN.AGREGAR');
+      self.info_rubros = false;
+      self.info_cuentas = false;
+      self.info_afectacion = false;
+      self.info_basico = false;
+      self.cargando = false;
+      self.hayData = true;
 
       self.cargar_concepto = function() {
         financieraRequest.get("concepto", $.param({
@@ -56,12 +62,14 @@ angular.module('financieraClienteApp')
       };
 
       self.actualizar_codigo=function(){
+
         if (self.cpadre != null) {
           self.e_concepto.Codigo1= self.cpadre.Codigo+"-";
           self.e_concepto.Codigo2= self.e_concepto.Codigo2?self.e_concepto.Codigo2:self.e_concepto.Codigo.substring(self.cpadre.Codigo.length+1,self.e_concepto.Codigo.length);
           self.e_concepto.TipoConcepto=self.cpadre.TipoConcepto
         } else {
-          self.e_concepto.Codigo1= "";
+
+          self.e_concepto.Codigo1= self.padre_original.Codigo+"-";
           self.e_concepto.Codigo2= self.e_concepto.Codigo2?self.e_concepto.Codigo2:self.e_concepto.Codigo;
         }
       };
@@ -112,10 +120,74 @@ angular.module('financieraClienteApp')
         });
       };
 
+      self.validateFields= function(){
+
+
+        var respuesta;
+        var hay_afectacion = false;
+        self.MensajesAlerta = '';
+
+        if($scope.editForm.$invalid){
+
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
+          angular.forEach($scope.editForm.$error,function(controles,error){
+            angular.forEach(controles,function(control){
+              control.$setDirty();
+            });
+          });
+
+        }
+
+        /*
+        if(self.nuevo_concepto.FechaExpiracion === undefined && $scope.isconcepto){
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
+        }
+        */
+
+      if(self.e_concepto.Codigo1 === undefined){
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
+
+        }
+
+        if($scope.isconcepto){
+        for (var i = 0; i < self.e_afectaciones.length; i++) {
+          if(self.e_afectaciones[i].AfectacionIngreso || self.e_afectaciones[i].AfectacionEgreso){
+            hay_afectacion = true;
+          }
+        }
+
+        if(hay_afectacion === false){
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONE_AFECTACION')+ "</li>";
+
+        }
+
+        if(self.e_concepto.Rubro === undefined){
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONAR_RUBRO')+ "</li>";
+
+        }
+
+
+        if(self.e_cuentas.length === 0){
+            self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONE_CUENTAS')+ "</li>";
+
+      }
+    }
+        if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+          respuesta =  true;
+        } else {
+            swal("",self.MensajesAlerta, "error");
+          respuesta =  false;
+        }
+        return respuesta;
+
+      }
+
       self.editar_concepto = function() {
 
+        var validar_campos =self.validateFields();
+        if(validar_campos != false){
         swal({
-          title: $translate.instant('ACTUALIZAR_CONCEPTO') + '!',
+          title: '¡'+$translate.instant('ACTUALIZAR_CONCEPTO') + '!',
           text: $translate.instant('DESEA_ACTUALIZAR_CONCEPTO'),
           type: 'info',
           showCancelButton: true,
@@ -165,6 +237,7 @@ angular.module('financieraClienteApp')
               }
             });
           });
+        }
         };
 
         self.gridOptions = {
@@ -174,7 +247,7 @@ angular.module('financieraClienteApp')
           enableVerticalScrollbar: 0,
           useExternalPagination: false,
           enableRowSelection: true,
-          enableRowHeaderSelection: true,
+          enableRowHeaderSelection: false,
           enableFiltering: true,
           enableSorting: true,
           columnDefs: [{
@@ -184,7 +257,9 @@ angular.module('financieraClienteApp')
               cellTooltip: function(row) {
                 return row.entity.Codigo;
               },
-              width: '30%'
+              width: '30%',
+              headerCellClass: 'encabezado',
+              cellClass: 'input_center',
             },
             {
               headerCellClass: 'text-success',
@@ -193,7 +268,9 @@ angular.module('financieraClienteApp')
               cellTooltip: function(row) {
                 return row.entity.Nombre;
               },
-              width: '68%'
+              width: '70%',
+              headerCellClass: 'encabezado',
+              cellClass: 'input_center',
             }
           ]
         };
@@ -206,11 +283,60 @@ angular.module('financieraClienteApp')
             self.e_concepto.Rubro = $scope.gridApi.selection.getSelectedRows()[0];
           });
         };
+
+        self.mostrar_rubros = function(){
+
+          self.gridOptions.data = [];
+          self.cargando = true;
+          self.hayData = true;
+
+          self.info_rubros = !self.info_rubros;
+          self.info_cuentas = false;
+          self.info_afectacion = false;
+          self.info_basico = false;
+        //  self.info_OP = false;
         financieraRequest.get('rubro', $.param({
           limit: -1
         })).then(function(response) {
-          self.gridOptions.data = response.data;
+          if (response.data === null) {
+              self.hayData = false;
+              self.cargando = false;
+              self.gridOptions.data = [];
+          } else {
+              self.hayData = true;
+              self.cargando = false;
+              self.gridOptions.data = response.data;
+            }
         });
+
+      };
+
+      self.mostrar_cuentas_contables = function(){
+
+        self.info_cuentas = !self.info_cuentas;
+        self.info_rubros = false;
+        self.info_afectacion = false;
+        self.info_basico = false;
+
+      };
+
+      self.mostrar_afectacion_contable = function(){
+
+        self.info_afectacion = !self.info_afectacion;
+        self.info_rubros = false;
+        self.info_cuentas = false;
+        self.info_basico = false;
+      };
+
+      self.mostrar_datos_basicos = function(){
+
+        self.info_basico = !self.info_basico;
+        self.info_rubros = false;
+        self.info_cuentas = false;
+        self.info_afectacion = false;
+      };
+
+
 
         self.cargar_plan_maestro();
         self.cargar_concepto();
