@@ -60,7 +60,7 @@ angular.module('financieraClienteApp')
         self.seleccionar_concepto = function(concepto) {
 
           self.temp = $scope.conceptosel;
-        
+
           if (self.multiSelect===true){
 
             if($scope.seleccion.indexOf(concepto)===-1){
