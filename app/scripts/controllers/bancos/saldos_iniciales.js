@@ -52,37 +52,9 @@ angular.module('financieraClienteApp')
 
         self.cargar_plan_maestro();
 
-        $scope.$watch("saldosIniciales.padre", function(){
-            if (self.padre !== undefined){
-                financieraRequest.get("saldo_cuenta_contable", $.param({
-                    query: "CuentaContable.Id:" + self.padre.Id + ",Anio:" + self.vigencia_saldos ,
-                })).then(function(response) {
-                    if (response.data !== null) {
-                        self.Modificable = true;
-                        console.log("true", response.data);
-                    }
-                    else{
-                        console.log("false");
-                        self.Modificable = false;
-                    }
+    
 
-                })
-          }
-        },true);
-
-        $scope.$watch('saldosIniciales.registroExitoso',function (){
-            if (self.registroExitoso !== undefined){
-                self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-             $location.path('/bancos/saldos_iniciales');
-              swal(
-                'Registro Existoso',
-                'El registro del saldo inicial por un valor ' + self.valor_inicial + ' fue creado exitosamente en la cuenta contable: '+ self.padre.Codigo + ', para la cuenta bancaria: ' + self.padre.Nombre,
-                'success'
-              );
-            }
-         });
-
-        //Se definen la opciones para el ui-grid
+      //Se definen la opciones para el ui-grid
         self.gridOptions = {
             paginationPageSizes: [5, 10, 15, 20, 50],
             paginationPageSize: 5,
@@ -216,29 +188,15 @@ angular.module('financieraClienteApp')
             });
         };
 
-        /**
-         * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#modo_editar
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {object} calendario caendario que se cargara en el formulario para ser editado
-         * @description
-         * Función para cargar el calendario a editar en el formulario, realizando una copia del mismo y
-         * ajustando el formato de las fechas programadas del calendario
-         */
-        self.modo_editar = function(calendario) {
-            self.nueva_fecha = angular.copy(calendario);
-            self.nueva_fecha.FechaInicio = new Date(self.nueva_fecha.FechaInicio);
-            self.nueva_fecha.FechaFin = new Date(self.nueva_fecha.FechaFin);
-        };
-
-        /**
+      /**
          * @ngdoc function
          * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#crear_saldo
          * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
          * @description
-         * Comprueba si es un saldo a editar o a crear, si la accion es para crear consume el servicio POST de
+         * Redirecciona a la interfaz de creación
          * {@link financieraService.service:financieraRequest financieraRequest}  y si es de actualizar el servicio PUT
          */
+
         self.crear_saldo = function() {
 
           $location.path('/bancos/agregar_saldos_iniciales');
@@ -246,59 +204,7 @@ angular.module('financieraClienteApp')
 
         };
 
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {var} Vigencia vigencia del nuevo calendario
-         * @description
-         * Valida en base a la vigencia seleccionada el rango de la fecha inicio y la fecha fin
-         */
-        $scope.$watch('saldosIniciales.nueva_fecha.Vigencia', function() {
-            if (self.nueva_fecha.FechaInicio !== undefined) {
-                console.log("reset fecha inicio");
-                self.nueva_fecha.FechaInicio = undefined;
-                self.nueva_fecha.FechaFin = undefined;
-            }
-            self.fechamin = new Date(
-                self.nueva_fecha.Vigencia,
-                0, 1
-            );
-            self.fechamax = new Date(
-                self.nueva_fecha.Vigencia,
-                12, 0
-            );
-        }, true);
-
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_fecha_inicio
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {date} FechaInicio fecha inicial del calendario
-         * @description
-         * Valida en base a la fecha inicial registrada el rango minimo de la fecha fin
-         */
-        $scope.$watch('saldosIniciales.nueva_fecha.FechaInicio', function() {
-            if (self.nueva_fecha.FechaInicio >= self.nueva_fecha.FechaFin || self.nueva_fecha.FechaInicio === undefined ) {
-                self.nueva_fecha.FechaFin = undefined;
-            }
-        }, true);
-
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_editar
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {boolean} editar bandera para llenar el formulario con los datos de un calendario
-         * @description
-         * Observa si la variable editar es falsa limpia la variable utilizada en el formulario para crear un calendario
-         */
-        $scope.$watch('editar', function() {
-            if ($scope.editar === false) {
-                self.nueva_fecha = {};
-            }
-        });
-
-        /**
+      /**
          * @ngdoc event
          * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia_saldos
          * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
