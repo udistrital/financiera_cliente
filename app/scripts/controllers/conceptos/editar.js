@@ -102,7 +102,7 @@ angular.module('financieraClienteApp')
             }
             self.cuenta_contable = undefined;
           } else {
-            swal("Espera!", "Unicamente puedes seleccionar cuentas que no tengan hijos", "warning");
+            swal("", $translate.instant("SELECCIONE_CUENTAS_HIJOS"), "warning");
             self.cuenta_contable = undefined;
           }
         }

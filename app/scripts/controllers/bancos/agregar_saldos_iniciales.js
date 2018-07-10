@@ -75,8 +75,8 @@ angular.module('financieraClienteApp')
                 self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
              $location.path('/bancos/saldos_iniciales');
               swal(
-                'Registro Existoso',
-                'El registro del saldo inicial por un valor ' + self.valor_inicial + ' fue creado exitosamente en la cuenta contable: '+ self.padre.Codigo + ', para la cuenta bancaria: ' + self.padre.Nombre,
+                $translate.instant("S_543"),
+                $translate.instant("S_SI1")+' '+'<b>'+self.valor_inicial+'</b>'+' '+$translate.instant("S_SI2")+' :'+'<b>'+self.padre.Codigo +'</b>' +', ' + $translate.instant("S_SI3") + ': '+'<b>'+self.padre.Nombre+'</b>',
                 'success'
               );
             }
@@ -91,140 +91,6 @@ angular.module('financieraClienteApp')
               );
             }
          });
-
-        //Se definen la opciones para el ui-grid
-        self.gridOptions = {
-            paginationPageSizes: [5, 10, 15, 20, 50],
-            paginationPageSize: 5,
-            enableRowSelection: true,
-            enableRowHeaderSelection: false,
-            enableFiltering: true,
-            enableHorizontalScrollbar: 0,
-            enableVerticalScrollbar: 0,
-            useExternalPagination: false,
-            enableSelectAll: false,
-            columnDefs: [{
-                    field: 'Anio',
-                    sort: {
-                        direction: uiGridConstants.DESC,
-                        priority: 1
-                    },
-                    displayName: $translate.instant('VIGENCIA'),
-                    width: '10%',
-                    cellClass: 'input_center',
-                    headerCellClass: 'encabezado',
-                },
-                {
-                    field: 'Mes',
-                    displayName: $translate.instant('MES'),
-                    width: '20%',
-                    cellClass: 'input_center',
-                    headerCellClass: 'encabezado',
-                    cellFilter: 'filtro_nombres_meses:row.entity'
-                },
-                {
-                    field: 'CuentaContable.Codigo',
-                    displayName: $translate.instant('CUENTA_CONTABLE'),
-                    width: '20%',
-                    cellClass: 'input_center',
-                    headerCellClass: 'encabezado',
-                },
-                {
-                    field: 'CuentaContable.Nombre',
-                    displayName: $translate.instant('NOMBRE'),
-                    width: '30%',
-                    cellClass: 'input_center',
-                    headerCellClass: 'encabezado',
-                },
-                {
-                    field: 'Saldo',
-                    displayName: $translate.instant('SALDO'),
-                    cellClass: 'input_right',
-                    cellFilter: 'currency',
-                    width: '20%',
-                    headerCellClass: 'encabezado',
-                },
-                {
-                    name: $translate.instant('OPCIONES'),
-                    enableFiltering: false,
-                    width: '5%',
-                    visible: false
-                }
-            ]
-        };
-
-        //opciones extras para el control del grid
-        self.gridOptions.multiSelect = false;
-        self.gridOptions.modifierKeysToMultiSelect = false;
-        self.gridOptions.enablePaginationControls = true;
-        self.gridOptions.onRegisterApi = function(gridApi) {
-            self.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope, function() {
-                self.row_calndario = self.gridApi.selection.getSelectedRows()[0];
-            });
-        };
-
-        /**
-         * @ngdoc function
-         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#cargar_saldos_full
-         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
-         * @description
-         * Carga todo el listado de saldos creados hasta la fecha
-         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
-         * que retorna los saldos tributarios
-         */
-        self.cargar_saldos_full = function() {
-
-          self.gridOptions.data = [];
-          self.cargando = true;
-          self.hayData = true;
-
-            financieraRequest.get('saldo_cuenta_contable', $.param({
-                limit: -1
-            })).then(function(response) {
-                if (response.data === null) {
-                    self.hayData = false;
-                    self.cargando = false;
-                    self.gridOptions.data = [];
-                } else {
-                  self.hayData = true;
-                  self.cargando = false;
-                  self.gridOptions.data = response.data;
-                }
-            });
-        };
-
-        /**
-         * @ngdoc function
-         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#cargar_saldos_vigencia
-         * @methodOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
-         * @param {var} vigencia Vigencia en la que se encuentran los saldos a obtener
-         * @description
-         * Carga el listado de saldos creados en una vigencia determinada
-         * se consume el servicio {@link financieraService.service:financieraRequest financieraRequest}
-         * que retorna los saldos tributarios
-         */
-        self.cargar_saldos_vigencia = function(vigencia) {
-
-          self.gridOptions.data = [];
-          self.cargando = true;
-          self.hayData = true;
-
-            financieraRequest.get('saldo_cuenta_contable', $.param({
-                limit: -1,
-                query: 'Anio:' + vigencia
-            })).then(function(response) {
-                if (response.data === null) {
-                  self.hayData = false;
-                  self.cargando = false;
-                  self.gridOptions.data = [];
-                } else {
-                  self.hayData = true;
-                  self.cargando = false;
-                  self.gridOptions.data = response.data;
-                }
-            });
-        };
 
         /**
          * @ngdoc function
@@ -290,11 +156,6 @@ angular.module('financieraClienteApp')
 
                     console.log("response", response.data, typeof(response.data))
                     if(typeof(response.data) === "object"){
-                      if (self.vigencia_saldos === null) {
-                          self.cargar_saldos_full();
-                      } else {
-                          self.cargar_saldos_vigencia(self.vigencia_saldos);
-                      }
                       self.registroExitoso = true;
                     }
 
@@ -386,64 +247,4 @@ angular.module('financieraClienteApp')
             }
         });
 
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl#watch_on_vigencia_saldos
-         * @eventOf financieraClienteApp.controller:BancosAgregarSaldosInicialesCtrl
-         * @param {var} vigencia_saldos Vigencia seleccionada para la carga de saldos
-         * @description
-         * Comprueba si la variable vigencia cambia para volver a cargar el grid con los datos correspondientes
-         */
-        $scope.$watch('agregarSaldosIniciales.vigencia_saldos', function() {
-            if (self.vigencia_saldos === null) { //Si no existe vigencia realiza la carga de todos los saldos
-                self.cargar_saldos_full();
-            } else {
-                self.cargar_saldos_vigencia(self.vigencia_saldos);
-            }
-        }, true);
-  }).filter('filtro_nombres_meses', function($filter, $translate) {
-        return function(input, entity) {
-            var output;
-            if (undefined === input || null === input) {
-                return "";
-            }
-
-            if (entity.Mes === 1) {
-                output = $translate.instant('ENERO');
-            }
-            if (entity.Mes === 2) {
-                output = $translate.instant('FEBRERO');
-            }
-            if (entity.Mes === 3) {
-                output = $translate.instant('MARZO');
-            }
-            if (entity.Mes === 4) {
-                output = $translate.instant('ABRIL');
-            }
-            if (entity.Mes === 5) {
-                output = $translate.instant('MAYO');
-            }
-            if (entity.Mes === 6) {
-                output = $translate.instant('JUNIO');
-            }
-            if (entity.Mes === 7) {
-                output = $translate.instant('JULIO');
-            }
-            if (entity.Mes === 8) {
-                output = $translate.instant('AGOSTO');
-            }
-            if (entity.Mes === 9) {
-                output = $translate.instant('SEPTIEMBRE');
-            }
-            if (entity.Mes === 10) {
-                output = $translate.instant('OCTUBRE');
-            }
-            if (entity.Mes === 11) {
-                output = $translate.instant('NOVIEMBRE');
-            }
-            if (entity.Mes === 12) {
-                output = $translate.instant('DICIEMBRE');
-            }
-            return output;
-        };
-});
+  });
