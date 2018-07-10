@@ -77,6 +77,7 @@ angular.module('financieraClienteApp')
 
       }
 
+      if($scope.isconcepto){
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
         if(self.tipos_afectacion[i].Ingreso || self.tipos_afectacion[i].Egreso){
           hay_afectacion = true;
@@ -98,7 +99,7 @@ angular.module('financieraClienteApp')
           self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONE_CUENTAS')+ "</li>";
 
     }
-
+  }
       if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
         respuesta =  true;
       } else {

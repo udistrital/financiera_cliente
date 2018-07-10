@@ -17,6 +17,7 @@ var text_es = {
     ACTUALIZADO_CORRECTAMENTE: "Actualizado correctamente",
     ACTUALIZAR: "Actualizar",
     ACTUALIZAR_COMPROMISO: "Actualizar Compromiso",
+    ACTUALIZAR_CONCEPTO: "Actualizar Concepto",
     ADICION_FUENTE_FINANCIAMIENTO: "Adición Fuente de Financiamiento",
     AFECTACION: "Afectación",
     AFECTACION_DE_LA_ANULACION : "Afectación de la Anulación",
@@ -824,6 +825,7 @@ var text_es = {
 var text_en = {
     ACTUALIZAR: "Update",
     ACTUALIZADO_CORRECTAMENTE: "Correctly updated",
+    ACTUALIZAR_CONCEPTO: "Update Concept",
     ACTA:"Record",
     ACTA_DEVOLUCION:"Devolution Act",
     AFECTACION: "Affectation",
