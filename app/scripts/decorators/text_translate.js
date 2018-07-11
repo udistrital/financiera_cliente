@@ -1039,7 +1039,7 @@ var text_en = {
     RESPONSABLE: "Responsible",
     RELACION_DEVOLUCION: "Devolution Association",
     RUBRO: "Rubro",
-    S_SI1: "The Initial Balance value",
+    S_SI1: "The Initial Balance value ",
     S_SI2: "was succesfully created to Accounting Account",
     S_SI3: "to Bank Account",
     SALDO: "Balance",

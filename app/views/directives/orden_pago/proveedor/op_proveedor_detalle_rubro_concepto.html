@@ -4,10 +4,12 @@
   <span class="fa fa-minus pull-right" ng-show="inputpestanaabierta"></span>
 </legend class="text-primary">
 
-<div ng-show="inputpestanaabierta">
-  <div class="panel-body">
-    <div ui-grid="d_opProveedorDetalleRubroConcepto.gridOptions_rubros" ui-grid-pinning ui-grid-auto-resize ui-grid-expandable></div>
+<div class = "panel-body "ng-show="inputpestanaabierta">
+  <div class="col-md-12 form-group ">
+  <div class="panel panel-default shadow-box">
+    <div ui-grid="d_opProveedorDetalleRubroConcepto.gridOptions_rubros" ui-grid-pinning ui-grid-expandable></div>
   </div>
+</div>
 </div>
 
 <script type="text/ng-template"  id="expandableRowUpc.html">
