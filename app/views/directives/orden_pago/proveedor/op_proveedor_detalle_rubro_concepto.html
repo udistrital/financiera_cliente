@@ -4,10 +4,13 @@
   <span class="fa fa-minus pull-right" ng-show="inputpestanaabierta"></span>
 </legend class="text-primary">
 
-<div class = "panel-body "ng-show="inputpestanaabierta">
+<div class = "panel-body "ng-if="inputpestanaabierta">
   <div class="col-md-12 form-group ">
   <div class="panel panel-default shadow-box">
-    <div ui-grid="d_opProveedorDetalleRubroConcepto.gridOptions_rubros" ui-grid-pinning ui-grid-expandable></div>
+    <div ui-grid="d_opProveedorDetalleRubroConcepto.gridOptions_rubros" ui-grid-pinning ui-grid-expandable ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
+      <div class="watermark" ng-show="!d_opProveedorDetalleRubroConcepto.hayData">{{'NO_DATA'| translate}}</div>
+      <div class="watermark" ng-show="d_opProveedorDetalleRubroConcepto.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+    </div>
   </div>
 </div>
 </div>
