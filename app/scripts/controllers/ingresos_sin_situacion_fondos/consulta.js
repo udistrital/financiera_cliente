@@ -65,7 +65,7 @@ angular.module('financieraClienteApp')
               name: $translate.instant('OPCIONES'),
               width: '17%',
               headerCellClass:'text-info',
-              cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>'
           }
       ]
     };
