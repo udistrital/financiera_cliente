@@ -34,7 +34,7 @@
         </div>
 
         <legend class="text-primary" ng-click="crearConcepto.mostrar_datos_basicos()">{{'DATOS_BASICOS' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_basico"></span> <span class="fa fa-minus pull-right" ng-show="info_basico"></span></legend>
-        <div class="panel-body" ng-show="crearConcepto.info_basico">
+        <div class="panel-body" ng-if="crearConcepto.info_basico">
         <form id="conceptoForm" name="conceptoForm">
         <div class="col-md-12 form-group ">
         <center>
@@ -59,7 +59,7 @@
             </textarea>
           </div>
 
-          <div ng-show="isconcepto" class="col-md-12 form-group ">
+          <div ng-if="isconcepto" class="col-md-12 form-group ">
             <div class="col-md-2">
               <label>{{"FECHA_EXPIRACION" | translate}}:</label>
             </div>
@@ -79,7 +79,7 @@
 
           <legend class="text-primary" ng-click="crearConcepto.mostrar_afectacion_contable()">{{'AFECTACION_CONTABLE' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_afectacion"></span> <span class="fa fa-minus pull-right" ng-show="info_afectacion"></span></legend>
 
-          <div class="panel-body" ng-show="crearConcepto.info_afectacion">
+          <div class="panel-body" ng-if="crearConcepto.info_afectacion">
           <div class="col-md-12 form-group ">
             <div class="panel panel-default shadow-box">
               <table class="table table-bordered table-responsive table-hover">
@@ -100,7 +100,7 @@
 
           <legend class="text-primary" ng-click="crearConcepto.mostrar_rubros()">{{'RUBROS' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_rubro"></span> <span class="fa fa-minus pull-right" ng-show="info_rubro"></span></legend>
 
-          <div class="panel-body" ng-show="crearConcepto.info_rubros">
+          <div class="panel-body" ng-if="crearConcepto.info_rubros">
           <div class="col-md-3 form-group ">
             <label>{{"RUBRO" | translate}}:</label>
             <li  readonly ng-show="crearConcepto.rubro!=undefined">{{crearConcepto.rubro.Codigo}} -- {{crearConcepto.rubro.Nombre}}
@@ -119,7 +119,7 @@
         </div>
 
         <legend class="text-primary" ng-click="crearConcepto.mostrar_cuentas_contables()">{{'CUENTAS_CONTABLES' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_cuentas"></span> <span class="fa fa-minus pull-right" ng-show="info_cuentas"></span></legend>
-        <div class="panel-body" ng-show="crearConcepto.info_cuentas">
+        <div class="panel-body" ng-if="crearConcepto.info_cuentas">
           <div class="col-md-12 form-group ">
             <fieldset class="form-group">
               <small class="text-muted">{{"SELECCIONAR_CUENTAS_CONTABLES_CONCEPTO" | translate}}</small>

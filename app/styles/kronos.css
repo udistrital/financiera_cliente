@@ -184,3 +184,8 @@ sencillo {
   text-align: center;
   color: #31708F;
 }
+
+.proceso {
+  height:400px;
+  width:100%;
+}
