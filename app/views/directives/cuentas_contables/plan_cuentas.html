@@ -5,15 +5,15 @@
   <div class="row">
 
 
-    <div ng-class="{'col-md-6':rvdesc}">
+    <div ng-class="{'col-md-6':rvdesc}" ng-show="!d_planCuentas.algo_fue_seleccionado">
       <treecontrol class="tree-classic" tree-model="arbol" options="d_planCuentas.treeOptions" on-selection="showSelected(node, $path);showc=true" selected-node="cuentasel" order-by="'Codigo'" reverse-order="{{false}}" >
         <span class="text-success">{{node.Codigo}}:</span>  {{node.Nombre}}
       </treecontrol>
     </div>
      <loading load="load" tam="2"/>
-    
 
-    <div ng-class="{'col-md-6':rvdesc}" class="panel panel-success panel-body row sticky shadow-box" ng-show="cuentasel!=undefined && showc && !vista_resumen">
+
+    <div ng-class="{'col-md-6':rvdesc, 'col-md-6 col-md-offset-3': d_planCuentas.algo_fue_seleccionado === true}" class="panel panel-success panel-body row sticky shadow-box" ng-show="cuentasel!=undefined && showc && !vista_resumen">
       <span class="pull-right text-danger" ng-click="cuentasel=undefined">X</span>
       <h2 class="text-success">{{cuentasel.Nombre}}</h2>
       <p class="text-muted text-justify ">{{cuentasel.Descripcion | limitTo:370}} ...</p>
@@ -23,18 +23,22 @@
         <dd>- {{"NATURALEZA" | translate}} : {{cuentasel.Naturaleza | date:'d-MMMM-yyyy'}}</dd>
 
       </dl>
-      <div class="col-md-3 col-md-offset-6">
+      <div class="col-md-6" ng-show="d_planCuentas.esconder_botones === false">
         <button type="button" class="btn btn-outline btn-primary btn-sm btn-block" ng-click="ver_cuentaid=cuentasel.Codigo" data-toggle="modal" data-target="#modalCuentas{{d_planCuentas.plan.Id}}">{{"BTN.VER" | translate}}</button>
       </div>
 
-      <div class="col-md-3" >
+      <div class="col-md-6" ng-show="d_planCuentas.esconder_botones === false">
         <button type="button" class="btn btn-outline btn-success btn-sm btn-block" ng-click="d_planCuentas.seleccionar_cuenta(cuentasel)" >{{btnsel}}</button>
       </div>
+
+      <div ng-show="d_planCuentas.algo_fue_seleccionado === true">
+        <center><button type="button"  class="btn btn-success btn-outline" ng-click="seleccion=undefined; d_planCuentas.algo_fue_seleccionado=false; d_planCuentas.esconder_botones=false;cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
+      </div>
+
     </div>
 
-  <div ng-show="seleccion!=undefined || cuentasel!=undefined;">
-    <center><button type="button"  class="btn btn-success btn-outline" ng-click="seleccion=undefined; cuentasel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
-  </div>
+
+
   </div>
 
 

@@ -503,6 +503,11 @@ angular
               controller: 'BancosSaldosInicialesCtrl',
               controllerAs: 'saldosIniciales'
             })
+             .when('/bancos/agregar_saldos_iniciales', {
+                templateUrl: 'views/bancos/agregar_saldos_iniciales.html',
+                controller: 'BancosAgregarSaldosInicialesCtrl',
+                controllerAs: 'agregarSaldosIniciales'
+              })
             .when('/ingresos/ingreso_registroG/:tipoIngreso', {
               templateUrl: 'views/ingresos/ingreso_registrog.html',
               controller: 'IngresosIngresoRegistrogCtrl',

@@ -18,6 +18,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_detalle_rubro_concepto.html',
       controller: function($scope) {
         var self = this;
+        $scope.inputpestanaabierta = !$scope.inputpestanaabierta;
 
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
@@ -29,7 +30,8 @@ angular.module('financieraClienteApp')
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
               displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('RUBRO'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              width: '30%',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',

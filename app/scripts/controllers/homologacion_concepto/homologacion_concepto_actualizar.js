@@ -11,6 +11,11 @@ angular.module('financieraClienteApp')
   .controller('HomologacionConceptoActualizarCtrl', function($scope, $routeParams, financieraRequest, financieraMidRequest, titanRequest, agoraRequest, coreRequest, oikosRequest, $translate, $window) {
     var self = this;
     self.HomologacionId = $routeParams.Id;
+    self.cargando_con_kronos = true;
+    self.hayData_con_kronos = true;
+    self.cargando_con_titan = true;
+    self.hayData_con_titan = true;
+
     financieraRequest.get("homologacion_concepto",
       $.param({
         query: "Id:" + self.HomologacionId,
@@ -159,11 +164,13 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO') + " " + $translate.instant('CONCEPTO') + " Kronos",
           width: '20%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Nombre',
           displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CONCEPTO') + " Kronos",
-          width: '80%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         }
       ],
     };
@@ -187,7 +194,15 @@ angular.module('financieraClienteApp')
         order: "asc",
       })
     ).then(function(response) {
+      if(response.data === null){
+        self.hayData_con_kronos = false;
+        self.cargando_con_kronos = false;
+        self.gridConcepto.data = [];
+      }else{
+        self.hayData_con_kronos = true;
+        self.cargando_con_kronos = false;
       self.gridConcepto.data = response.data;
+    }
     });
     //
     self.gridConceptoTitan = {
@@ -206,11 +221,14 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO') + " " + $translate.instant('CONCEPTO') + " Titan",
           width: '20%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'AliasConcepto',
           displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CONCEPTO') + " Titan",
           width: '80%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         }
       ],
     };
@@ -244,7 +262,15 @@ angular.module('financieraClienteApp')
         order: "asc",
       })
     ).then(function(response) {
-      self.gridConceptoTitan.data = response.data;
+      if(response.data === null){
+        self.hayData_con_titan = false;
+        self.cargando_con_titan = false;
+        self.gridConceptoTitan.data = [];
+      }else{
+        self.hayData_con_titan = true;
+        self.cargando_con_titan = false;
+         self.gridConceptoTitan.data = response.data;
+      }
     });
     // ===============
     // Actualizar

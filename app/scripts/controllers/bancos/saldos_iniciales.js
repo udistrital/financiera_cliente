@@ -8,10 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
+  .controller('BancosSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location, $route) {
         var self = this;
         self.nueva_fecha = {};
-
+        self.cargando = false;
+        self.hayData = true;
         /**
          * @ngdoc function
          * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#cargar_vigencia
@@ -51,37 +52,9 @@ angular.module('financieraClienteApp')
 
         self.cargar_plan_maestro();
 
-        $scope.$watch("saldosIniciales.padre", function(){
-            if (self.padre !== undefined){
-                financieraRequest.get("saldo_cuenta_contable", $.param({
-                    query: "CuentaContable.Id:" + self.padre.Id + ",Anio:" + self.vigencia_saldos ,
-                })).then(function(response) {
-                    if (response.data !== null) {
-                        self.Modificable = true;
-                        console.log("true", response.data);
-                    }
-                    else{
-                        console.log("false");
-                        self.Modificable = false;
-                    }
+    
 
-                })
-          }
-        },true);
-
-        $scope.$watch('saldosIniciales.registroExitoso',function (){
-            if (self.registroExitoso !== undefined){
-                self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-             $location.path('/bancos/saldos_iniciales');
-              swal(
-                'Registro Existoso',
-                'El registro del saldo inicial por un valor ' + self.valor_inicial + ' fue creado exitosamente en la cuenta contable: '+ self.padre.Codigo + ', para la cuenta bancaria: ' + self.padre.Nombre,
-                'success'
-              );
-            }
-         });
-
-        //Se definen la opciones para el ui-grid
+      //Se definen la opciones para el ui-grid
         self.gridOptions = {
             paginationPageSizes: [5, 10, 15, 20, 50],
             paginationPageSize: 5,
@@ -99,39 +72,45 @@ angular.module('financieraClienteApp')
                         priority: 1
                     },
                     displayName: $translate.instant('VIGENCIA'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '20%'
+                    width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                 },
                 {
                     field: 'Mes',
                     displayName: $translate.instant('MES'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '20%'
+                    width: '20%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    cellFilter: 'filtro_nombres_meses:row.entity'
                 },
                 {
                     field: 'CuentaContable.Codigo',
                     displayName: $translate.instant('CUENTA_CONTABLE'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '10%'
+                    width: '20%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                 },
                 {
                     field: 'CuentaContable.Nombre',
                     displayName: $translate.instant('NOMBRE'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '15%'
+                    width: '30%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                 },
                 {
                     field: 'Saldo',
                     displayName: $translate.instant('SALDO'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                     cellClass: 'input_right',
                     cellFilter: 'currency',
-                    width: '30%'
+                    width: '20%',
+                    headerCellClass: 'encabezado',
                 },
                 {
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
-                    width: '5%'
+                    width: '5%',
+                    visible: false
                 }
             ]
         };
@@ -157,13 +136,22 @@ angular.module('financieraClienteApp')
          * que retorna los saldos tributarios
          */
         self.cargar_saldos_full = function() {
+
+          self.gridOptions.data = [];
+          self.cargando = true;
+          self.hayData = true;
+
             financieraRequest.get('saldo_cuenta_contable', $.param({
                 limit: -1
             })).then(function(response) {
                 if (response.data === null) {
+                    self.hayData = false;
+                    self.cargando = false;
                     self.gridOptions.data = [];
                 } else {
-                    self.gridOptions.data = response.data;
+                  self.hayData = true;
+                  self.cargando = false;
+                  self.gridOptions.data = response.data;
                 }
             });
         };
@@ -179,142 +167,44 @@ angular.module('financieraClienteApp')
          * que retorna los saldos tributarios
          */
         self.cargar_saldos_vigencia = function(vigencia) {
+
+          self.gridOptions.data = [];
+          self.cargando = true;
+          self.hayData = true;
+
             financieraRequest.get('saldo_cuenta_contable', $.param({
                 limit: -1,
                 query: 'Anio:' + vigencia
             })).then(function(response) {
                 if (response.data === null) {
-                    self.gridOptions.data = [];
+                  self.hayData = false;
+                  self.cargando = false;
+                  self.gridOptions.data = [];
                 } else {
-                    self.gridOptions.data = response.data;
+                  self.hayData = true;
+                  self.cargando = false;
+                  self.gridOptions.data = response.data;
                 }
             });
         };
 
-        /**
-         * @ngdoc function
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#modo_editar
-         * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {object} calendario caendario que se cargara en el formulario para ser editado
-         * @description
-         * Función para cargar el calendario a editar en el formulario, realizando una copia del mismo y
-         * ajustando el formato de las fechas programadas del calendario
-         */
-        self.modo_editar = function(calendario) {
-            self.nueva_fecha = angular.copy(calendario);
-            self.nueva_fecha.FechaInicio = new Date(self.nueva_fecha.FechaInicio);
-            self.nueva_fecha.FechaFin = new Date(self.nueva_fecha.FechaFin);
-        };
-
-        /**
+      /**
          * @ngdoc function
          * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#crear_saldo
          * @methodOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
          * @description
-         * Comprueba si es un saldo a editar o a crear, si la accion es para crear consume el servicio POST de
+         * Redirecciona a la interfaz de creación
          * {@link financieraService.service:financieraRequest financieraRequest}  y si es de actualizar el servicio PUT
          */
+
         self.crear_saldo = function() {
 
-            $('#modalformP').modal('hide');
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            console.log("Cuenta:", self.padre.Codigo);
-            console.log("Saldo:", self.valor_inicial);
-            console.log("Vigencia", self.nueva_fecha.Vigencia );
-            console.log("FechaInicio", self.nueva_fecha.FechaInicio);
-            console.log("Mes", self.nueva_fecha.FechaInicio.getMonth() +1);
-            console.log("FechaFin", self.nueva_fecha.FechaFin);
-            console.log("Obj Seleccionado", self.padre);
+          $location.path('/bancos/agregar_saldos_iniciales');
+          $route.reload();
 
-        /*
-        TODO: - generar y/o conectar al servicio que registre la transacción del movimiento
-              - limpiar variables
-              - generar sweet alert
-              - redireccionar
-
-        */
-            if ($scope.editar === true) {
-/*                financieraRequest.put('saldo_cuenta_contable', self.nueva_fecha.Id, self.nueva_fecha).then(function(response) {
-                    console.log(response);
-                    if (self.vigencia_saldos === null) {
-                        self.cargar_saldos_full();
-                    } else {
-                        self.cargar_saldos_vigencia(self.vigencia_saldos);
-                    }
-                });*/
-            } else {
-                var nuevo = {
-                    Saldo: self.valor_inicial,
-                    Anio: self.nueva_fecha.Vigencia,
-                    Mes: self.nueva_fecha.FechaInicio.getMonth() +1,
-                    CuentaContable: {Id: self.padre.Id }
-                };
-
-                financieraRequest.post('saldo_cuenta_contable', nuevo).then(function(response) {
-                    if (self.vigencia_saldos === null) {
-                        self.cargar_saldos_full();
-                    } else {
-                        self.cargar_saldos_vigencia(self.vigencia_saldos);
-                    }
-                });
-            }
-            self.registroExitoso = true;
         };
 
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {var} Vigencia vigencia del nuevo calendario
-         * @description
-         * Valida en base a la vigencia seleccionada el rango de la fecha inicio y la fecha fin
-         */
-        $scope.$watch('saldosIniciales.nueva_fecha.Vigencia', function() {
-            if (self.nueva_fecha.FechaInicio !== undefined) {
-                console.log("reset fecha inicio");
-                self.nueva_fecha.FechaInicio = undefined;
-                self.nueva_fecha.FechaFin = undefined;
-            }
-            self.fechamin = new Date(
-                self.nueva_fecha.Vigencia,
-                0, 1
-            );
-            self.fechamax = new Date(
-                self.nueva_fecha.Vigencia,
-                12, 0
-            );
-        }, true);
-
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_fecha_inicio
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {date} FechaInicio fecha inicial del calendario
-         * @description
-         * Valida en base a la fecha inicial registrada el rango minimo de la fecha fin
-         */
-        $scope.$watch('saldosIniciales.nueva_fecha.FechaInicio', function() {
-            if (self.nueva_fecha.FechaInicio >= self.nueva_fecha.FechaFin || self.nueva_fecha.FechaInicio === undefined ) {
-                self.nueva_fecha.FechaFin = undefined;
-            }
-        }, true);
-
-        /**
-         * @ngdoc event
-         * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_editar
-         * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
-         * @param {boolean} editar bandera para llenar el formulario con los datos de un calendario
-         * @description
-         * Observa si la variable editar es falsa limpia la variable utilizada en el formulario para crear un calendario
-         */
-        $scope.$watch('editar', function() {
-            if ($scope.editar === false) {
-                self.nueva_fecha = {};
-            }
-        });
-
-        /**
+      /**
          * @ngdoc event
          * @name financieraClienteApp.controller:BancosSaldosInicialesCtrl#watch_on_vigencia_saldos
          * @eventOf financieraClienteApp.controller:BancosSaldosInicialesCtrl
@@ -329,4 +219,49 @@ angular.module('financieraClienteApp')
                 self.cargar_saldos_vigencia(self.vigencia_saldos);
             }
         }, true);
-  });
+  }).filter('filtro_nombres_meses', function($filter, $translate) {
+        return function(input, entity) {
+            var output;
+            if (undefined === input || null === input) {
+                return "";
+            }
+
+            if (entity.Mes === 1) {
+                output = $translate.instant('ENERO');
+            }
+            if (entity.Mes === 2) {
+                output = $translate.instant('FEBRERO');
+            }
+            if (entity.Mes === 3) {
+                output = $translate.instant('MARZO');
+            }
+            if (entity.Mes === 4) {
+                output = $translate.instant('ABRIL');
+            }
+            if (entity.Mes === 5) {
+                output = $translate.instant('MAYO');
+            }
+            if (entity.Mes === 6) {
+                output = $translate.instant('JUNIO');
+            }
+            if (entity.Mes === 7) {
+                output = $translate.instant('JULIO');
+            }
+            if (entity.Mes === 8) {
+                output = $translate.instant('AGOSTO');
+            }
+            if (entity.Mes === 9) {
+                output = $translate.instant('SEPTIEMBRE');
+            }
+            if (entity.Mes === 10) {
+                output = $translate.instant('OCTUBRE');
+            }
+            if (entity.Mes === 11) {
+                output = $translate.instant('NOVIEMBRE');
+            }
+            if (entity.Mes === 12) {
+                output = $translate.instant('DICIEMBRE');
+            }
+            return output;
+        };
+});
