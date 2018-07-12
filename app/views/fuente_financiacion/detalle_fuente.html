@@ -71,33 +71,33 @@
 
           <legend class="text-primary" ng-click="detalleFuente.mostrar_CDP()">{{'LISTA_CDP' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_CDP"></span> <span class="fa fa-minus pull-right" ng-show="info_CDP"></span></legend>
 
-          <div class="panel-body" ng-show="detalleFuente.info_CDP">
+          <div class="panel-body" ng-if="detalleFuente.info_CDP">
             <div class="row" ng-if="true">
               <div ui-grid="detalleFuente.gridOptionCDP" ui-grid-pagination ui-grid-auto-resize class="grid">
-                <div class="watermark" ng-show="!detalleFuente.hayData">{{'NO_DATA'| translate}}</div>
-                <div class="watermark" ng-show="detalleFuente.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                <div class="watermark" ng-show="!detalleFuente.hayData_disp">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_disp">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
               </div>
             </div>
           </div>
 
           <legend class="text-primary" ng-click="detalleFuente.mostrar_CRP()">{{'LISTA_RP' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_CRP"></span> <span class="fa fa-minus pull-right" ng-show="info_CRP"></span></legend>
 
-          <div class="panel-body" ng-show="detalleFuente.info_CRP">
+          <div class="panel-body" ng-if="detalleFuente.info_CRP">
             <div class="row" ng-if="true">
               <div ui-grid="detalleFuente.gridOptionCRP" ui-grid-pagination ui-grid-auto-resize class="grid">
-                <div class="watermark" ng-show="!detalleFuente.hayData">{{'NO_DATA'| translate}}</div>
-                <div class="watermark" ng-show="detalleFuente.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                <div class="watermark" ng-show="!detalleFuente.hayData_rp">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_rp">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
               </div>
             </div>
           </div>
 
           <legend class="text-primary" ng-click="detalleFuente.mostrar_OP()">{{'OP_TITULO' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_OP"></span> <span class="fa fa-minus pull-right" ng-show="info_OP"></span></legend>
 
-          <div class="panel-body" ng-show="detalleFuente.info_OP">
+          <div class="panel-body" ng-if="detalleFuente.info_OP">
             <div class="row" ng-if="true">
               <div ui-grid="detalleFuente.gridOptionOP" ui-grid-pagination ui-grid-auto-resize class="grid">
-                <div class="watermark" ng-show="!detalleFuente.hayData">{{'NO_DATA'| translate}}</div>
-                <div class="watermark" ng-show="detalleFuente.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                <div class="watermark" ng-show="!detalleFuente.hayData_op">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_op">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
 
               </div>
             </div>
