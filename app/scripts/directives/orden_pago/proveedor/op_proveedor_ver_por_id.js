@@ -21,13 +21,13 @@ angular.module('financieraClienteApp')
         var self = this;
         self.rubros = [];
         // paneles
-        $scope.panelUnidadEjecutora = $scope.inputpestanaabierta;
-        $scope.panelProveedor = $scope.inputpestanaabierta;
-        $scope.panelRp = $scope.inputpestanaabierta;
-        $scope.panelDetallePagoProveedor = $scope.inputpestanaabierta;
-        $scope.panelDetalleRubro = $scope.inputpestanaabierta;
-        $scope.panelDetalleConceptos = $scope.inputpestanaabierta;
-        $scope.panelDetalleCuentas = $scope.inputpestanaabierta;
+        $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
+        $scope.panelProveedor = !$scope.inputpestanaabierta;
+        $scope.panelRp = !$scope.inputpestanaabierta;
+        $scope.panelDetallePagoProveedor = !$scope.inputpestanaabierta;
+        $scope.panelDetalleRubro = !$scope.inputpestanaabierta;
+        $scope.panelDetalleConceptos = !$scope.inputpestanaabierta;
+        $scope.panelDetalleCuentas = !$scope.inputpestanaabierta;
         //orden de pago
         $scope.$watch('opproveedorid', function() {
           if ($scope.opproveedorid != undefined) {

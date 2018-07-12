@@ -2,7 +2,7 @@
   <h2 class="page-header" align="center">{{"NUEVO_CONCEPTO" | translate}}</h2>
   <div class="panel panel-default shadow-box">
     <div class="panel-body">
-      <form id="conceptoForm" name="conceptoForm" ng-submit="conceptoForm.$valid && crearConcepto.crear_concepto_nuevo()" focus-on-field validate>
+
 
         <div class="col-md-12 form-group" ng-init="isconcepto=true">
           <center><label>
@@ -20,52 +20,67 @@
           <select name="selTipoConcepto" class="form-control" ng-model="crearConcepto.tipo_concepto" ng-options="tipo.Nombre for tipo in crearConcepto.tipos_concepto track by tipo.Id" required>
                 <option value="" disabled>-- {{"SELECCIONAR_TIPO" | translate}} --</option>
                 </select>
-          <div ng-messages="conceptoForm.selTipoConcepto.$error" style="color:maroon" role="alert" ng-show="submitted">
-            <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
           </div>
-        </div>
 
-        <div class="col-md-12 form-group " ng-class="{'text-danger': submitted && conceptoForm.codigo.$invalid}">
+        <div class="col-md-12 form-group ">
           <label>{{"CODIGO" | translate}}*:</label>
           <fieldset class="form-group">
             <small>{{"SELECCIONE_CARPETA_CONCEPTO" | translate}}</small>
             <arbol-conceptos filtro="filtro_padre" seleccion="crearConcepto.padre" conceptosel="nodo" recargar="crearConcepto.recargar" rdesc />
           </fieldset>
 
-          <fieldset class="col-md-12">
-            <center>
-              <span>{{"CODIGO" | translate}}*: </span>
-              <span class="form-control form-control-inline" size="{{crearConcepto.nuevo_concepto.Codigo.length}}" readonly> {{crearConcepto.padre.Codigo}}-
-                        </span>
-              <input name="codigo" class="form-control form-control-inline" ng-model="crearConcepto.nuevo_concepto.Codigo" placeholder="Ingresar codigo" ng-maxlength="5" required>
-              </input>
-              <div ng-messages="conceptoForm.codigo.$error" style="color:maroon" role="alert" ng-show="submitted">
-                <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
-                <div ng-message="maxlength">{{"MSN_TAMANO_MAX" | translate}}</div>
-              </div>
-            </center>
-            <!--span class="help-inline" ng-show="submitted && conceptoForm.codigo.$error.email">Invalid email</span-->
-          </fieldset>
         </div>
 
-        <div class="col-md-12 form-group " ng-class="{'text-danger': submitted && conceptoForm.nombre.$invalid}">
+        </div>
+
+        <legend class="text-primary" ng-click="crearConcepto.mostrar_datos_basicos()">{{'DATOS_BASICOS' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_basico"></span> <span class="fa fa-minus pull-right" ng-show="info_basico"></span></legend>
+        <div class="panel-body" ng-show="crearConcepto.info_basico">
+        <form id="conceptoForm" name="conceptoForm">
+        <div class="col-md-12 form-group ">
+        <center>
+            <span>{{"CODIGO" | translate}}*: </span>
+            <span class="form-control form-control-inline" size="{{crearConcepto.nuevo_concepto.Codigo.length}}" readonly> {{crearConcepto.padre.Codigo}}-
+            </span>
+            <input name="codigo" class="form-control form-control-inline" ng-model="crearConcepto.nuevo_concepto.Codigo" placeholder="Ingresar codigo" ng-maxlength="5" required>
+            </input>
+          </center>
+        </div>
+          <!--span class="help-inline" ng-show="submitted && conceptoForm.codigo.$error.email">Invalid email</span-->
+
+        <div class="col-md-12 form-group ">
           <label>{{"NOMBRE" | translate}}*:</label>
           <input class="form-control" name="nombre" ng-model="crearConcepto.nuevo_concepto.Nombre" placeholder="Ingrese el nombre del concepto" required>
           </input>
-          <div ng-messages="conceptoForm.nombre.$error" style="color:maroon" role="alert" ng-show="submitted">
-            <div ng-message="required">{{"MSN_CAMPO_REQUERIDO" | translate}}</div>
-          </div>
         </div>
 
         <div class="col-md-12 form-group ">
           <label>{{"DESCRIPCION" | translate}}:</label>
-          <textarea class="form-control form" ng-model="crearConcepto.nuevo_concepto.Descripcion" placeholder="Ingrese una descripción para el concepto" rows="6">
+          <textarea name="descripcion" class="form-control form" ng-model="crearConcepto.nuevo_concepto.Descripcion" placeholder="Ingrese una descripción para el concepto" rows="6" required>
             </textarea>
+          </div>
+
+          <div ng-show="isconcepto" class="col-md-12 form-group ">
+            <div class="col-md-2">
+              <label>{{"FECHA_EXPIRACION" | translate}}:</label>
+            </div>
+            <div class="col-md-10 form-group ">
+              <div class="input-group date" data-provide="datepicker">
+                <md-datepicker md-bcurrent-view="year" md-placeholder="Fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion" required></md-datepicker>
+              </div>
+            </div>
+          </div>
+
+          </form>
         </div>
 
+
+
         <div ng-show="isconcepto">
+
+          <legend class="text-primary" ng-click="crearConcepto.mostrar_afectacion_contable()">{{'AFECTACION_CONTABLE' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_afectacion"></span> <span class="fa fa-minus pull-right" ng-show="info_afectacion"></span></legend>
+
+          <div class="panel-body" ng-show="crearConcepto.info_afectacion">
           <div class="col-md-12 form-group ">
-            <label>{{"AFECTACION_CONTABLE" | translate}}:</label>
             <div class="panel panel-default shadow-box">
               <table class="table table-bordered table-responsive table-hover">
                 <tr class="text-success">
@@ -81,19 +96,31 @@
               </table>
             </div>
           </div>
+        </div>
 
-          <div class="col-md-12 form-group ">
+          <legend class="text-primary" ng-click="crearConcepto.mostrar_rubros()">{{'RUBROS' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_rubro"></span> <span class="fa fa-minus pull-right" ng-show="info_rubro"></span></legend>
+
+          <div class="panel-body" ng-show="crearConcepto.info_rubros">
+          <div class="col-md-3 form-group ">
             <label>{{"RUBRO" | translate}}:</label>
             <li  readonly ng-show="crearConcepto.rubro!=undefined">{{crearConcepto.rubro.Codigo}} -- {{crearConcepto.rubro.Nombre}}
               <span class="text-danger" ng-click="crearConcepto.rubro=undefined">&times</span>
             </li>
+          </div>
+            <div class="col-md-9 form-group ">
             <div class="panel panel-default shadow-box">
-              <div ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+              <div ui-grid="crearConcepto.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
+                <div class="watermark" ng-show="!crearConcepto.hayData">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="crearConcepto.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+              </div>
             </div>
           </div>
+        </div>
 
+        <legend class="text-primary" ng-click="crearConcepto.mostrar_cuentas_contables()">{{'CUENTAS_CONTABLES' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_cuentas"></span> <span class="fa fa-minus pull-right" ng-show="info_cuentas"></span></legend>
+        <div class="panel-body" ng-show="crearConcepto.info_cuentas">
           <div class="col-md-12 form-group ">
-            <label>{{"CUENTAS_CONTABLES" | translate}}:</label>
             <fieldset class="form-group">
               <small class="text-muted">{{"SELECCIONAR_CUENTAS_CONTABLES_CONCEPTO" | translate}}</small>
               <plan-cuentas filtro="filtro_padre" seleccion="crearConcepto.cuenta_contable" recargar="crearConcepto.recargar_arbol" planid="crearConcepto.plan_maestro.Id" rdesc btnselnom="btnagregar"/>
@@ -126,28 +153,20 @@
               </div-->
           </div>
 
-          <div class="col-md-12 form-group ">
-            <div class="col-md-2">
-              <label>{{"FECHA_EXPIRACION" | translate}}:</label>
-            </div>
-            <div class="col-md-10">
-              <div class="input-group date" data-provide="datepicker">
-                <md-datepicker md-bcurrent-view="year" md-placeholder="Fecha" ng-model="crearConcepto.nuevo_concepto.FechaExpiracion"></md-datepicker>
-              </div>
-            </div>
-          </div>
+
+        </div>
         </div>
 
+        <div class="panel-body">
         <div class="form-group" align="center">
           <div class="col-md-3 col-md-offset-3">
-            <input type="submit" class="btn btn-outline btn-primary btn-lg btn-block" value="{{'BTN.CONFIRMAR' | translate}}" ng-click="submitted=true">
+            <button ng-click="crearConcepto.crear_concepto_nuevo()" class="btn btn-outline btn-primary btn-lg btn-block">{{"BTN.CONFIRMAR" | translate}}</button>
           </div>
           <div class="col-md-3 ">
             <button ng-click="crearConcepto.resetear()" class="btn btn-outline btn-danger btn-lg btn-block">{{"BTN.CANCELAR" | translate}}</button>
           </div>
         </div>
+      </div>
 
-      </form>
-    </div>
   </div>
 </div>

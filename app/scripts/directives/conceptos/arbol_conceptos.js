@@ -58,6 +58,9 @@ angular.module('financieraClienteApp')
           }
         };
         self.seleccionar_concepto = function(concepto) {
+
+          self.temp = $scope.conceptosel;
+
           if (self.multiSelect===true){
 
             if($scope.seleccion.indexOf(concepto)===-1){
@@ -68,6 +71,8 @@ angular.module('financieraClienteApp')
             $scope.seleccion = concepto;
           }
           $scope.showc=false;
+          self.algo_fue_seleccionado = true;
+
           $scope.conceptosel=undefined;
         };
       },

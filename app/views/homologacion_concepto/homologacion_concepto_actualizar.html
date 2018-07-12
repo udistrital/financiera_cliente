@@ -66,20 +66,26 @@
       </div>
       <label class="control-label col-sm-1">{{'NOMBRE' | translate }} {{'CONCEPTO' | translate }} Titan:</label>
       <div class="col-sm-7">
-        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoActualizar.ConceptoTitanData.NombreConcepto}}</textarea>
+        <textarea class="form-control ng-binding" rows="2" readonly="">{{homologacionConceptoActualizar.ConceptoTitanData.AliasConcepto}}</textarea>
       </div>
     </div>
 
     <div class="form-group">
       <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Kronos:</label>
       <div class=" col-sm-11">
-        <div ui-grid="homologacionConceptoActualizar.gridConcepto" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+        <div ui-grid="homologacionConceptoActualizar.gridConcepto" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
+          <div class="watermark" ng-show="!homologacionConceptoActualizar.hayData_con_kronos">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="homologacionConceptoActualizar.cargando_con_kronos">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+        </div>
       </div>
     </div>
     <div class="form-group">
       <label for="formapago" class="col-sm-1 control-label">{{'CONCEPTO' | translate }} Titan:</label>
       <div class=" col-sm-11">
-        <div ui-grid="homologacionConceptoActualizar.gridConceptoTitan" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+        <div ui-grid="homologacionConceptoActualizar.gridConceptoTitan" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
+          <div class="watermark" ng-show="!homologacionConceptoActualizar.hayData_con_titan">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="homologacionConceptoActualizar.cargando_con_titan">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+        </div>
       </div>
     </div>
     <div class="panel-footer">
