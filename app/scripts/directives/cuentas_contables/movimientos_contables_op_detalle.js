@@ -41,33 +41,40 @@ angular.module('financieraClienteApp')
             {
               field: 'CuentaContable.Codigo',
               displayName: $translate.instant('CODIGO'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'CuentaContable.Nombre',
-              displayName: $translate.instant('CUENTA')
+              displayName: $translate.instant('CUENTA'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Debito',
               displayName: $translate.instant('DEBITO'),
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
-              cellClass: 'input_right',
               footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
-              footerCellClass: 'input_right'
+              footerCellClass: 'input_right',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Credito',
               displayName: $translate.instant('CREDITO'),
               cellFilter: 'currency',
               aggregationType: uiGridConstants.aggregationTypes.sum,
-              cellClass: 'input_right',
               footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
-              footerCellClass: 'input_right'
+              footerCellClass: 'input_right',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'CuentaContable.Naturaleza',
-              displayName: $translate.instant('NATURALEZA')
+              displayName: $translate.instant('NATURALEZA'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             }
           ]
         };

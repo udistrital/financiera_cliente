@@ -281,6 +281,8 @@ angular.module('financieraClienteApp')
             });
         };
 
+  
+
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
