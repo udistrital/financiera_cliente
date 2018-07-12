@@ -52,7 +52,12 @@
               </tr>
               <tr>
                 <th>{{ 'VALOR_CDP' | translate }}: </th>
-                <td>{{ detalleFuente.valor_cdp | currency}}</td>
+                <td ng-if="detalleFuente.calculando_cdp === true" >
+                   <i class="fa fa-spin fa-spinner"></i></div>
+                </td>
+                <td ng-if="detalleFuente.calculando_cdp === false" >
+                  {{ detalleFuente.valor_cdp | currency}}
+                </td>
               </tr>
               <tr>
                 <th>{{ 'VALOR_DISPONIBLE' | translate }}: </th>

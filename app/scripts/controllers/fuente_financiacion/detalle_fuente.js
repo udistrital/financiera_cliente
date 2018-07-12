@@ -17,14 +17,38 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   self.Codigo = $localStorage.fuente.Codigo;
   self.TipoFuenteFinanciamiento = $localStorage.fuente.TipoFuenteFinanciamiento.Nombre;
   self.Vigencia = $localStorage.fuente.Vigencia;
-  self.valor_cdp = $localStorage.fuente.valor_cdp;
+  self.valor_cdp = 0;
   self.unidad_ejecutora = 1;
 
   self.cargando = false;
+
   self.hayData = true;
   self.info_CDP = false;
   self.info_CRP = false;
   self.info_OP = false;
+
+
+    self.calcular_valor_CDP = function(id){
+
+      self.calculando_cdp = true;
+      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + self.unidad_ejecutora + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+id).then(function(response) {
+
+        self.fuente_cdp = response.data;
+
+        for (i = 0; i < self.fuente_cdp.length; i++) {
+          for (j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
+            self.fuente_cdp[i].DisponibilidadApropiacion[0] = self.fuente_cdp[i].DisponibilidadApropiacion[j];
+            self.valor_cdp = self.valor_cdp + self.fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
+
+          }
+        }
+        self.calculando_cdp = false;
+
+      });
+    };
+
+    self.calcular_valor_CDP(self.fuente);
+
 
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
