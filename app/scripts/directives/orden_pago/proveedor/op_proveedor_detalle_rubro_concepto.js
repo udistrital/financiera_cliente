@@ -43,34 +43,42 @@ angular.module('financieraClienteApp')
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo',
               displayName: $translate.instant('CODIGO') + ' ' + $translate.instant('RUBRO'),
               cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               width: '30%',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '5%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Descripcion',
-              displayName: $translate.instant('DESCRIPCION')
+              displayName: $translate.instant('DESCRIPCION'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.Valor',
               displayName: $translate.instant('VALOR'),
               cellFilter: 'currency',
               width: '14%',
-              cellClass: 'input_right'
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Descripcion',
-              displayName: $translate.instant('FUENTES_FINANCIACION')
+              displayName: $translate.instant('FUENTES_FINANCIACION'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Codigo',
               displayName: $translate.instant('FUENTE_FINANCIACION_CODIGO'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
             },
           ]
         };

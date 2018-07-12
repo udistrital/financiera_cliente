@@ -19,9 +19,13 @@ angular.module('financieraClienteApp')
       controller:function($scope){
         var self = this;
         $scope.resumenafectacion = [];
+        $scope.mostrar_titulo = false;
         $scope.$watch('apropiacion', function(){
+
           $scope.resumenafectacion = [];
           if ($scope.necesidad != undefined && $scope.apropiacion != undefined){
+            $scope.mostrar_titulo = true;
+            console.log("mostra", $scope.mostrar_titulo)
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
               argoRequest.get('fuente_financiacion_rubro_necesidad',$.param({
                 query: "Necesidad.Id:"+$scope.necesidad+",Apropiacion:"+apropiacion_data,
@@ -41,14 +45,14 @@ angular.module('financieraClienteApp')
                   })).then(function(response) {
                     if (response.data === null){
                       rubros_data.FuenteFinanciamiento = {Id:0};
-                      console.log("fuente dev ")
+                      console.log("fuente dev 1")
                       console.log(rubros_data.FuenteFinanciamiento);
                     }else{
                       rubros_data.FuenteFinanciamiento = response.data[0];
                       console.log("fuente dev ")
                       console.log(response.data);
                     }
-                    
+
                   });
                 });
                 $scope.resumenafectacion.push(self.rubros_afectados);
@@ -56,6 +60,7 @@ angular.module('financieraClienteApp')
 
             });
           }
+
         },true);
       },
       controllerAs:'fuenteFinanciacionNecesidad'
