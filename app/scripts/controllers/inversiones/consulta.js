@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window,ingresoDoc,coreRequest,administrativaRequest) {
+  .controller('InversionesConsultaCtrl', function ($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window,ingresoDoc,coreRequest,administrativaRequest,$q) {
 
    var ctrl = this;
 
@@ -257,7 +257,13 @@ angular.module('financieraClienteApp')
               default:
           }
       };
-
+      ctrl.validateCancellation=function(){
+        ctrl.servicioRespuesta=financieraRequest.get("cancelacion_inversion_estado_cancelacion/GetActiveCancelations", $.param({
+                idInversion: $scope.solicitud.Id
+            })).then(function(response){
+              ctrl.respuestaValidateC=response.data.Body;
+            })
+      }
 
       $scope.funcion = function() {
           $scope.estadoclick = $localStorage.nodeclick;
@@ -269,7 +275,16 @@ angular.module('financieraClienteApp')
             },
             Usuario:212121
           };
-          console.log("seleccionado",$scope.estadoclick.Id);
+          if($scope.estadoclick.Id === 6 ||$scope.estadoclick.Id === 7 ){
+            ctrl.validateCancellation();
+            $q.all([ctrl.servicioRespuesta]).then(function(){
+              if(!ctrl.respuestaValidateC){
+                swal('',$translate.instant("E_CI001"),"error");
+                return
+              }
+            });
+          }
+
           if($scope.estadoclick.Id === 6){
           ingresoDoc.set(ctrl.Request);
           $scope.$apply(function(){
