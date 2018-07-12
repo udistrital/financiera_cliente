@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     ctrl.cargando = true;
     ctrl.hayData = true;
-
+    $scope.mostrar_direc = false;
     $scope.estados = [];
     $scope.tipos = [];
     $scope.estado_select = [];
@@ -61,6 +61,8 @@ angular.module('financieraClienteApp')
 
           case "proceso":
             $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+            $scope.informacion_op = "Orden de Pago No ";
+            $scope.mostrar_direc = true;
           break;
           default:
       }
