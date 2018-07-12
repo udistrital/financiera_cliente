@@ -129,36 +129,6 @@ angular.module('financieraClienteApp')
           return self.retornar_movimientos;
         };
 
-        self.cargarMovimientos = function (){
-          if ($scope.codigodocumentoafectante !== undefined) {
-
-            self.gridOptions_movimientos.data = [];
-            self.cargando = true;
-            self.hayData = true;
-
-            financieraRequest.get('movimiento_contable',
-              $.param({
-                query: "TipoDocumentoAfectante.Id:1,CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
-                limit: 0,
-              })).then(function(response) {
-
-              if(response.data === null){
-                self.hayData = false;
-                self.cargando = false;
-                self.gridOptions_movimientos.data = [];
-              }else{
-                self.hayData = true;
-                self.cargando = false;
-                self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data);
-                $scope.gridHeight = self.gridOptions_movimientos.rowHeight * 4 + (self.gridOptions_movimientos.data.length * self.gridOptions_movimientos.rowHeight);
-
-              }
-              //self.gridOptions_movimientos.data = response.data
-
-
-            });
-          }
-        };
 
         $scope.$watch('codigodocumentoafectante', function() {
           self.refresh();
@@ -194,9 +164,12 @@ angular.module('financieraClienteApp')
             });
           }
         });
+
         self.gridOptions_movimientos.onRegisterApi = function(gridApi) {
           //set gridApi on scope
           self.gridApi = gridApi;
+
+          /* Se comenta ya que las sumas no están siendo visualizadas en este momento
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if (angular.isUndefined($scope.debitos)){
                 $scope.debitos=0;
@@ -223,6 +196,7 @@ angular.module('financieraClienteApp')
                   }
                 });
             });
+                    */
         };
 
         //self.gridOptions_movimientos.multiSelect = false;
