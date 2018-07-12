@@ -12,7 +12,6 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     ctrl.fechaInicio= new Date();
     ctrl.cargar_listas = function() {
-      console.log("id inversion",$routeParams.idInversion);
       financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
         ctrl.vigencia_calendarios = parseInt(response.data);
         var year = parseInt(response.data) + 1;
@@ -84,8 +83,9 @@ angular.module('financieraClienteApp')
            Concepto:ctrl.concepto[0],
            ValorAgregado:ctrl.valorCancelacion
          },
+         Inversion:{Id:parseInt($routeParams.idInversion)}
        }
-
+       console.log(request)
        angular.forEach(ctrl.movs, function(data) {
            delete data.Id;
        });
