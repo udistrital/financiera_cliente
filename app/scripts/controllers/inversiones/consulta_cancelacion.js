@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesConsultaCancelacionCtrl', function ($scope,$translate,financieraMidRequest,gridApiService,financieraRequest) {
+  .controller('InversionesConsultaCancelacionCtrl', function ($scope,$translate,financieraMidRequest,gridApiService,financieraRequest,$localStorage) {
     var ctrl = this;
 
     $scope.estado_select = [];
@@ -46,7 +46,7 @@ angular.module('financieraClienteApp')
               width: '*',
           },
           {
-              field:'CancelacionInversion.UnidadEjecutora',
+              field:'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
               headerCellClass:'text-info',
               width: '*',
@@ -136,20 +136,23 @@ angular.module('financieraClienteApp')
     $scope.funcion = function() {
         $scope.estadoclick = $localStorage.nodeclick;
         ctrl.Request = {
-        EstadoDevolTribut:{
-          EstadoDevolucion:$scope.estadoclick,
+        EstadoCancelacion:{
+          EstadoCancelacionInversion:$scope.estadoclick,
         },
-          DevolucionTributaria:{
-            Id:$scope.devolucion.Devolucion.Id
-          }
+        CancelacionInversion:{
+            Id:$scope.cancelacion.CancelacionInversion.Id
+          },
+        inversionPadre:{
+          Id:$scope.cancelacion.Inversion.Id
+        }
         };
-              financieraRequest.post('devolucion_tributaria_estado_devolucion/AddEstadoDevolTributaria', ctrl.Request).then(function(response) {
+              financieraRequest.post('cancelacion_inversion_estado_cancelacion/AddEstadoCancelacionInversion', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){
                       swal('',$translate.instant(response.data.Code),response.data.Type);
                     }else{
                       swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                        ctrl.consultarDevoluciones();
+                        ctrl.consultarCancelacion(0,null);
                         $scope.estado = undefined;
                       })
                     }
