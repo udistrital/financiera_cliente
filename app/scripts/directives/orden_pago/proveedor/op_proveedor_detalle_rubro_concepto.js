@@ -18,11 +18,23 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/proveedor/op_proveedor_detalle_rubro_concepto.html',
       controller: function($scope) {
         var self = this;
+
+        self.cargando = false;
+        self.hayData = true;
         $scope.inputpestanaabierta = !$scope.inputpestanaabierta;
 
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 100,
+          paginationPageSizes: [5, 10, 15, 20, 50],
+          paginationPageSize: 5,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          useExternalPagination: false,
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          enableFiltering: true,
+          enableSorting: true,
           columnDefs: [{
               field: 'RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -63,7 +75,14 @@ angular.module('financieraClienteApp')
           ]
         };
 
+
+
         $scope.$watch('inputordenpagoid', function() {
+
+          self.gridOptions_rubros.data = [];
+          self.cargando = true;
+          self.hayData = true;
+
           if ($scope.inputordenpagoid != undefined) {
             financieraRequest.get('concepto_orden_pago',
               $.param({
@@ -71,7 +90,15 @@ angular.module('financieraClienteApp')
                 limit: 0
               })
             ).then(function(response) {
+
+              if(response.data === null){
+                self.hayData = false;
+                self.cargando = false;
+                self.gridOptions_rubros.data = [];
               //quitar repetidos
+            }else{
+              self.hayData = true;
+              self.cargando = false;
               var hash = {};
               response.data = response.data.filter(function(current) {
                 var exists = !hash[current.RegistroPresupuestalDisponibilidadApropiacion.Id] || false;
@@ -131,7 +158,10 @@ angular.module('financieraClienteApp')
                   iterador.subGridOptions.data = response.data;
                 });
               }) //recorrer para subgrip
+            }
             });
+
+
           }
         })
       //fin
