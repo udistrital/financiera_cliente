@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('InversionesConsultaCancelacionCtrl', function ($scope,$translate,financieraMidRequest,gridApiService,financieraRequest) {
+  .controller('InversionesConsultaCancelacionCtrl', function ($scope,$translate,financieraMidRequest,gridApiService,financieraRequest,$localStorage) {
     var ctrl = this;
 
     $scope.estado_select = [];
@@ -46,7 +46,7 @@ angular.module('financieraClienteApp')
               width: '*',
           },
           {
-              field:'CancelacionInversion.UnidadEjecutora',
+              field:'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
               headerCellClass:'text-info',
               width: '*',
@@ -66,12 +66,17 @@ angular.module('financieraClienteApp')
       ],
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
-        gridApi = gridApiService.pagination(gridApi,ctrl.consultarCancelaciones,$scope);
+        gridApi = gridApiService.pagination(gridApi,ctrl.consultarCancelacion,$scope);
       }
     };
 
     ctrl.consultarCancelacion = function(offset,query){
       financieraMidRequest.cancel();
+
+      financieraMidRequest.get("inversion/GetCancelationQuantity","").then(function(response){
+          ctrl.gridInversiones.totalItems = response.data.Body;
+      });
+
       financieraMidRequest.get('inversion/GetAllCancelaciones',$.param({
         limit:ctrl.gridInversiones.paginationPageSize,
         offset:offset,
@@ -127,5 +132,32 @@ angular.module('financieraClienteApp')
             default:
         }
     };
+
+    $scope.funcion = function() {
+        $scope.estadoclick = $localStorage.nodeclick;
+        ctrl.Request = {
+        EstadoCancelacion:{
+          EstadoCancelacionInversion:$scope.estadoclick,
+        },
+        CancelacionInversion:{
+            Id:$scope.cancelacion.CancelacionInversion.Id
+          },
+        inversionPadre:{
+          Id:$scope.cancelacion.Inversion.Id
+        }
+        };
+              financieraRequest.post('cancelacion_inversion_estado_cancelacion/AddEstadoCancelacionInversion', ctrl.Request).then(function(response) {
+                if(response.data.Type != undefined){
+                  if(response.data.Type === "error"){
+                      swal('',$translate.instant(response.data.Code),response.data.Type);
+                    }else{
+                      swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                        ctrl.consultarCancelacion(0,null);
+                        $scope.estado = undefined;
+                      })
+                    }
+                  }
+                });
+  }
 
   });
