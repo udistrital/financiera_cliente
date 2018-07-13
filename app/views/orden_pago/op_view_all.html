@@ -4,14 +4,14 @@
         <div class="panel-heading">
             <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
         </div>
-  
+
         <div ui-grid="opViewAll.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
           <div class="watermark" ng-show="!opViewAll.hayData">{{'NO_DATA'| translate}}</div>
-          <div class="watermark" ng-show="opViewAll.cargando">{{'CARGANDO'| translate}}   IIIII<i class="fa fa-spin fa-spinner"></i></div>
+          <div class="watermark" ng-show="opViewAll.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
         </div>
     </div>
-    <div>
-        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    <div ng-if="mostrar_direc">
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info_proceso="informacion_op"></proceso>
     </div>
     <div class="panel-footer">
       <div align="center">

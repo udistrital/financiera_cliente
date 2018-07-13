@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     ctrl.cargando = true;
     ctrl.hayData = true;
+    $scope.mostrar_direc = false;
     $scope.estados = [];
     $scope.tipos = [];
     $scope.estado_select = [];
@@ -25,10 +26,11 @@ angular.module('financieraClienteApp')
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "ver", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar', estado: true },
+      { clase_color: "ver", clase_css: "fa fa-product-hunt fa-lg  faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
     ];
     //
     ctrl.gridOrdenesDePago = {
-      enableRowSelection: true,
+      enableRowSelection: false,
       enableSelectAll: false,
       selectionRowHeaderWidth: 35,
       multiSelect: false,
@@ -42,9 +44,7 @@ angular.module('financieraClienteApp')
 
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
-        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
-        });
+
       }
     };
 
@@ -57,6 +57,12 @@ angular.module('financieraClienteApp')
 
           case "editar":
             ctrl.op_editar(row);
+          break;
+
+          case "proceso":
+            $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+            $scope.informacion_op = "Orden de Pago No ";
+            $scope.mostrar_direc = true;
           break;
           default:
       }

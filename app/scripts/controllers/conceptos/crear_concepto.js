@@ -18,8 +18,9 @@ angular.module('financieraClienteApp')
     self.info_cuentas = false;
     self.info_afectacion = false;
     self.info_basico = false;
-    self.cargando = false;
+    self.cargando = true;
     self.hayData = true;
+
   //  self.info_OP = false;
 
     $scope.btnagregar=$translate.instant('BTN.AGREGAR');
@@ -245,28 +246,12 @@ angular.module('financieraClienteApp')
 
     self.mostrar_rubros = function(){
 
-      self.gridOptions.data = [];
-      self.cargando = true;
-      self.hayData = true;
 
       self.info_rubros = !self.info_rubros;
       self.info_cuentas = false;
       self.info_afectacion = false;
       self.info_basico = false;
-    //  self.info_OP = false;
-    financieraRequest.get('rubro', $.param({
-      limit: -1
-    })).then(function(response) {
-      if (response.data === null) {
-          self.hayData = false;
-          self.cargando = false;
-          self.gridOptions.data = [];
-      } else {
-          self.hayData = true;
-          self.cargando = false;
-          self.gridOptions.data = response.data;
-        }
-    });
+
 
   };
 
@@ -304,6 +289,21 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_afectacion", "").then(function(response) {
       self.tipos_afectacion = response.data;
+    });
+
+    //  self.info_OP = false;
+    financieraRequest.get('rubro', $.param({
+      limit: -1
+    })).then(function(response) {
+      if (response.data === null) {
+          self.hayData = false;
+          self.cargando = false;
+          self.gridOptions.data = [];
+      } else {
+          self.hayData = true;
+          self.cargando = false;
+          self.gridOptions.data = response.data;
+        }
     });
 
     self.cargar_plan_maestro();

@@ -40,9 +40,12 @@ angular.module('financieraClienteApp')
               // documento
               self.getDocumento(self.orden_pago);
               // proveedor
-              self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
-              // detalle rp
-              self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
+              if(self.orden_pago.RegistroPresupuestal != undefined){
+                  self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
+                  // detalle rp
+                  self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
+              }
+        
               // entrada almacen
               if (self.orden_pago.EntradaAlmacen != 0) {
                 self.entradaAlmacen(self.orden_pago.EntradaAlmacen);
