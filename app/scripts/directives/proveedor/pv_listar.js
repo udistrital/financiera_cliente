@@ -18,6 +18,9 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/proveedor/pv_listar.html',
       controller: function($scope) {
         var self = this;
+        self.cargando = true;
+        self.hayData = true;
+
         self.gridOptions_proveedor = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
@@ -59,7 +62,18 @@ angular.module('financieraClienteApp')
             query: "Estado.ValorParametro:ACTIVO",
             limit: -1
           })).then(function(response) {
-          self.gridOptions_proveedor.data = response.data;
+
+            if (response.data === null) {
+                self.hayData = false;
+                self.cargando = false;
+                  self.gridOptions_proveedor.data = [];
+            } else {
+                self.hayData = true;
+                self.cargando = false;
+                self.gridOptions_proveedor.data = response.data;
+            }
+
+
         });
         //
         self.gridOptions_proveedor.onRegisterApi = function(gridApi) {
