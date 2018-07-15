@@ -17,7 +17,7 @@
 
         <div class="form-group">
             <label for="vigencia">{{'VIGENCIA' | translate}}</label>
-            <select class="form-control" ng-model="inversionesCancelacion.ano" ng-options="o for o in inversionesCancelacion.vigencias" required>
+            <select class="form-control" ng-model="inversionesCancelacion.vigencia" ng-options="o for o in inversionesCancelacion.vigencias" required>
               <option value="">{{'VIGENCIA' | translate}}</option>
             </select>
           </div>
@@ -49,7 +49,7 @@
               <arbol-conceptos filtro="inversionesCancelacion.filtro_ingresos" seleccion="inversionesCancelacion.concepto[0]" conceptosel="nodo"></arbol-conceptos>
           </div>
         </div>
-      </form> 
+      </form>
       </div>
     </div>
     <div class="panel-body" ng-show="inversionesCancelacion.concepto[0]">
