@@ -15,9 +15,11 @@
 </div>
 
 <script type="text/ng-template"  id="expandableRowUpc.html">
+
 	<div ui-grid="row.entity.subGridOptions" class="grid" ui-grid-selection ui-grid-auto-resize style="height:200px;">
-		<div class="watermark_no_filter" ng-show="!d_rubrosPorRpSeleccionMultiple.hayData_conceptos">{{'NO_DATA'| translate}}</div>
-		<div class="watermark_no_filter" ng-show="d_rubrosPorRpSeleccionMultiple.cargando_conceptos">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+		<div class="watermark_no_filter" ng-show="!hayData_conceptos">{{'NO_DATA'| translate}}</div>
+		<div class="watermark_no_filter" ng-show="cargando_conceptos">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
 
 	</div>
 </script>
