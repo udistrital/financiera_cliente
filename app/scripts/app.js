@@ -613,6 +613,11 @@ angular
               controller: 'InversionesConsultaCancelacionCtrl',
               controllerAs: 'inversionesConsultaCancelacion'
             })
+            .when('/tesoreria/reintegros', {
+              templateUrl: 'views/tesoreria/reintegros.html',
+              controller: 'TesoreriaReintegrosCtrl',
+              controllerAs: 'tesoreriaReintegros'
+            })
             .otherwise({
                 redirectTo: '/'
             });

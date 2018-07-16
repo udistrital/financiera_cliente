@@ -30,7 +30,7 @@ angular.module('financieraClienteApp')
           paginationPageSize: 5,
           enableFiltering: true,
           enableSorting: true,
-          enableRowSelection: true,
+          enableRowSelection: false,
           enableRowHeaderSelection: false,
           enableSelectAll: true,
           selectionRowHeaderWidth: 35,
@@ -83,6 +83,7 @@ angular.module('financieraClienteApp')
           if ($scope.selection = true) {
             self.gridOptions_movimientos.enableRowHeaderSelection = true;
             self.gridOptions_movimientos.enableSelectAll= true;
+            enableRowSelection: false;
           }
         }
         self.activateSelection();
@@ -172,11 +173,13 @@ angular.module('financieraClienteApp')
           }
         });
 
+//sumas utilizadas para la seleccion de movimientos contables por orden de pago en devoluciones tributarias
+
         self.gridOptions_movimientos.onRegisterApi = function(gridApi) {
           //set gridApi on scope
           self.gridApi = gridApi;
 
-          /* Se comenta ya que las sumas no están siendo visualizadas en este momento
+
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if (angular.isUndefined($scope.debitos)){
                 $scope.debitos=0;
@@ -203,7 +206,7 @@ angular.module('financieraClienteApp')
                   }
                 });
             });
-                    */
+
         };
 
         //self.gridOptions_movimientos.multiSelect = false;

@@ -154,7 +154,6 @@ angular.module('financieraClienteApp')
               });
             });
             ctrl.gridOrdenes.data = response.data;
-            console.log(ctrl.gridOrdenes.data );
           }
         });
         };
