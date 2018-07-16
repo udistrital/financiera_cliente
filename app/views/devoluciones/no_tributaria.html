@@ -231,16 +231,9 @@
                 <h3 class="page-header">{{'SELECCIONAR_CUENTA_CONTABLE'|translate}}</h3>
             </div>
             <div class="panel-body">
-    <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
-      {{'CUENTAS_CONTABLES' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="panelDetalleCuentas"></span>
-      <span class="fa fa-minus pull-right" ng-show="!panelDetalleCuentas"></span>
-    </legend class="text-primary">
-    <div ng-if="!panelDetalleCuentas" class="panel-body">
-      <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos">
-      </movimientos-contables-op-detalle>
-    </div>
-  </div>
+              <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos">
+              </movimientos-contables-op-detalle>
+            </div>
   <div class="panel-footer">
     <div align="center">
       <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.aceptar()"> {{ 'BTN.SELECCIONAR' | translate }} </button>
