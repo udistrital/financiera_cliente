@@ -10,7 +10,7 @@
       <label for="tipo_documento" class="col-sm-2 control-label">{{'TIPO_ORDEN_PAGO' | translate }}</label>
       <div class="col-sm-4">
         <input ng-model="outputsubtipoordenpago.Nombre" type="text" id="tipo_documento" class="form-control" disabled/>
-      </div>       
+      </div>
       <label for="formapago" class="col-sm-2 control-label">{{'FORMA_PAGO' | translate }}</label>
       <div class="col-sm-4">
         <select ng-model="outputformapago" ng-options="i.Nombre for i in d_opProveedorDetallePago.formaPagos" class="form-control" required>
@@ -27,7 +27,7 @@
       </div>
       <label for="val_base_retencion" class="col-sm-2 control-label">{{'VALOR_BRUTO' | translate}}</label>
       <div class="col-sm-4">
-        <input type="text" class="form-control input_right" ng-model="outputvalorbase" placeholder="{{'VALOR_BRUTO' | translate}}" ui-number-mask="0" required/>
+        <input type="text" class="form-control input_right currency" ng-model="outputvalorbase" placeholder="{{'VALOR_BRUTO' | translate}}" ui-number-mask="0" required/>
       </div>
     </div>
     <div class="form-group">
