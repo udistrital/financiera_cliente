@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .controller('OrdenPagoOpCrearCtrl', function($scope, financieraRequest, $window, $translate) {
     //
     var self = this;
-    self.PestanaAbierta = false;
+    self.panel_abierto = "ninguno";
     self.panelUnidadEjecutora = false;
     self.OrdenPago = {};
     self.Proveedor = {};
@@ -154,7 +154,7 @@ angular.module('financieraClienteApp')
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>";
       }
       if ((self.TotalAfectacion != self.OrdenPago.ValorBase) && self.OrdenPago.ValorBase != undefined) {
-      
+
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION')
       }
       if(Object.keys(self.afectacionEnRubros).length != 0 && Object.keys(self.saldoDeRubros).length != 0){
@@ -174,6 +174,29 @@ angular.module('financieraClienteApp')
       }
 
       return respuesta;
+    };
+
+    self.mostrar_panel_unidad = function (){
+      self.panelUnidadEjecutora = !self.panelUnidadEjecutora;
+      self.panelProveedores = false;
+      self.panelRps = false;
+    };
+
+    self.mostrar_proveedores = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = !self.panelProveedores;
+      self.panelRps = false;
+    };
+
+    self.mostrar_rps = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = false;
+      self.panelRps = !self.panelRps;
+    };
+
+    self.abrir_panel = function(nombre){
+      console.log("panel",nombre)
+      self.panel_abierto = nombre;
     }
     //
   });

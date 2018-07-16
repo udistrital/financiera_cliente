@@ -2,12 +2,12 @@
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
 
     <!--detalle Unidad Ejecutora-->
-    <legend class="text-primary" ng-click="opCrear.panelUnidadEjecutora=!opCrear.panelUnidadEjecutora">
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('unidad_ejecutora')">
       {{'UNIDAD_EJECUTORA' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!opCrear.panelUnidadEjecutora"></span>
-      <span class="fa fa-minus pull-right" ng-show="opCrear.panelUnidadEjecutora"></span>
+      <span class="fa fa-plus pull-right" ng-show="!opCrear.panel_abierto === 'unidad_ejecutora'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'unidad_ejecutora'"></span>
     </legend class="text-primary">
-    <div ng-show="opCrear.panelUnidadEjecutora" class="panel-body">
+    <div ng-show="opCrear.panel_abierto === 'unidad_ejecutora'" class="panel-body">
       <div class="form-horizontal">
         <div class="form-group">
           <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
@@ -34,8 +34,13 @@
     </div>
 
     <!--Proveedor -->
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('proveedores')">
+      {{'PROVEEDOR' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!a"></span>
+      <span class="fa fa-minus pull-right" ng-show="a"></span>
+    </legend class="text-primary">
     <pv-listar
-      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputpestanaabierta="opCrear.panel_abierto"
       outputproveedor="opCrear.Proveedor">
     </pv-listar>
 
