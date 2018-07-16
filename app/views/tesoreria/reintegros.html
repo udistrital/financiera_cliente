@@ -1,0 +1,147 @@
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'REINTEGROS' | translate }}</h2>
+<div class="panel-body" >
+    <legend class="text-primary" ng-click="tesoreriaReintegros.infOrdenPago=!tesoreriaReintegros.infOrdenPago">
+    {{'ORDEN_DE_PAGO'|translate}}
+    <span class="fa fa-plus pull-right" ng-show="!tesoreriaReintegros.infOrdenPago"></span>
+    <span class="fa fa-minus pull-right" ng-show="tesoreriaReintegros.infOrdenPago"></span>
+  </legend>
+
+  <div ng-if="tesoreriaReintegros.infOrdenPago">
+    <div ui-grid="tesoreriaReintegros.gridOrdenesDePago" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+ </div>
+ </div>
+<div class="panel-body" >
+  <legend class="text-primary" ng-click="tesoreriaReintegros.infDevol=!tesoreriaReintegros.infDevol">
+    {{'INFORMACION_REINTEGRO'|translate}}
+    <span class="fa fa-plus pull-right" ng-show="!tesoreriaReintegros.infDevol"></span>
+    <span class="fa fa-minus pull-right" ng-show="tesoreriaReintegros.infDevol"></span>
+  </legend>
+  <div ng-show="tesoreriaReintegros.infDevol">
+
+    <div class="col-md-12">
+      <form name="datosReintegro">
+        <div class="col-md-6">
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+
+              <div class="col-md-6">
+
+                <div class="form-group">
+                  <label for="noOficio">{{'NO_OFICIO' | translate}}</label>
+                  <input type="text" class="form-control input_left" ng-model="tesoreriaReintegros.oficio" placeholder="{{'NO_OFICIO'|translate}}" ui-number-mask="0" required/>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+                  <select class="form-control" ng-model="tesoreriaReintegros.unidadejecutora" ng-options="op as op.Nombre for op in tesoreriaReintegros.unidadesejecutoras" required>
+                    <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
+                  </select>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="unidadejecutora">{{'CAUSAL_REINTEGRO' | translate}}</label>
+                  <select class="form-control" ng-model="tesoreriaReintegros.causalReintegro" ng-options="op as op.Nombre for op in tesoreriaReintegros.causalesReintegro" required>
+                    <option value="">{{'CAUSAL_REINTEGRO' | translate}}</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="fechaOficio">{{'FECHA_OFICIO' | translate}}</label>
+                  <br>
+                  <md-datepicker ng-model="tesoreriaReintegros.FechaOficio" md-placeholder="{{'FECHA_OFICIO' | translate}}"></md-datepicker>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label">{{'VIGENCIA'|translate}}</label>
+                  <select ng-model="tesoreriaReintegros.vigencia" ng-options="i for i in tesoreriaReintegros.anos" class="form-control" required>
+                    <option value="">{{'VIGENCIA'|translate}}</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>{{'VALOR'|translate}}</label>
+                  <input type="text" class="form-control input_left" ng-model="tesoreriaReintegros.valor" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-money-mask="0" required/>
+                </div>
+
+              </div>
+
+              <div class="col-md-12">
+                <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
+                <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="tesoreriaReintegros.observaciones"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+        <div class="col-md-6">
+          <div class="form-group">
+            <arbol-conceptos filtro="tesoreriaReintegros.filtro_ingresos" seleccion="tesoreriaReintegros.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+          </div>
+        </div>
+      </div>
+    <div class="col-md-12">
+      <div class="row" ng-show="tesoreriaReintegros.concepto[0]">
+        <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
+        <div class="panel-default panel-body">
+          <div class="panel panel-heading">
+            <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
+          </div>
+          <ul class="list-unstyled">
+            <li><b>{{'RUBRO' | translate}}:</b> {{tesoreriaReintegros.concepto[0].Rubro.Codigo+" / "+tesoreriaReintegros.concepto[0].Rubro.Nombre}}
+              <ul>
+                <li>
+                  <div class="col-md-4" style="width:148px">
+                    <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
+                  </div>
+                  <div class="col-md-4" style="width:200px">
+                    <span class="form-control" style="height:25px">{{tesoreriaReintegros.valor|currency}}</span>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="panel-body" ng-show="tesoreriaReintegros.concepto[0]">
+    <legend class="text-primary" ng-click="c=!c">
+      {{'CUENTAS_CONTABLES' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!c"></span>
+      <span class="fa fa-minus pull-right" ng-show="c"></span>
+    </legend class="text-primary">
+    <div class="panel-body row" ng-show="c">
+      <div class="col-sm-12">
+        <div class="panel-body">
+          <ul class="nav nav-tabs">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in tesoreriaReintegros.concepto"><a href ng-click="tesoreriaReintegros.selected=c.Id" data-toggle="tab">
+                                Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+                              </li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                              <div class="tab-pane fade in active" ng-repeat="c in tesoreriaReintegros.concepto" ng-show="tesoreriaReintegros.selected==c.Id">
+                                <movimientos-contables conceptoid="c.Id" movimientos="tesoreriaReintegros.movs" monto="tesoreriaReintegros.valor" editable validatemov="c.validado">
+                                </movimientos-contables>
+                              </div>
+                            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="panel-footer">
+      <div align="center">
+        <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.crearDevolucion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+      </div>
+    </div>
+
+  </div>
