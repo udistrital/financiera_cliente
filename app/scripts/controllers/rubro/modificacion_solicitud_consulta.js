@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,$scope,$translate,$filter,$window) {
+  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,financieraMidRequest,$scope,$translate,$filter,$window) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora = 1;
@@ -82,8 +82,8 @@ angular.module('financieraClienteApp')
     };
     self.verDisponibilidad = function(numero, vigencia){
       console.log('Numero: ', numero);
-      console.log('Vigencia: ', vigencia);  
-      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');    
+      console.log('Vigencia: ', vigencia);
+      $window.open('#/cdp/cdp_consulta?vigencia='+vigencia+'&numero='+numero, '_blank', 'location=yes');
     };
 
     self.gridOptions.onRegisterApi = function(gridApi) {
@@ -153,13 +153,13 @@ angular.module('financieraClienteApp')
           		self.data = row.entity;
             	break;
           case "otro":
-              break;      
+              break;
           default:
       }
   };
 
   self.generarModificacion = function(){
-  	financieraRequest.post('movimiento_apropiacion/AprobarMovimietnoApropiacion', self.data).then(function(response) {
+  	financieraMidRequest.post('movimiento_apropiacion/AprobarMovimietnoApropiacion', self.data).then(function(response) {
     		console.log(response.data);
              self.alerta = response.data;
           console.log(self.alerta);
