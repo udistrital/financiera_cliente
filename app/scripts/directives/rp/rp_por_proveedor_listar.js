@@ -26,9 +26,9 @@ angular.module('financieraClienteApp')
           enableRowSelection: true,
           enableRowHeaderSelection: true,
           enableSelectAll: true,
+          enableFiltering : true,
           paginationPageSizes: [5, 10, 20],
           paginationPageSize: 10,
-          sortInfo: {fields:['Vigencia'], directions:['asc']},
           columnDefs: [{
               field: 'Id',
               visible: false

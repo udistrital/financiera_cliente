@@ -20,6 +20,9 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller: function($scope) {
         var self = this;
+        self.cargando_rubros = true;
+        self.hayData_rubros = true;
+
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -81,7 +84,7 @@ angular.module('financieraClienteApp')
             $scope.inputrpid = [];
           }
         }
-        ,true);        
+        ,true);
         //
         $scope.$watch('inputrpid[inputrpid.length - 1].Id', function() {
           self.refresh();
@@ -96,6 +99,17 @@ angular.module('financieraClienteApp')
                     limit: 0
                   })
                   ).then(function(response) {
+
+                    if(response.data === null){
+                        self.gridOptions_rubros.data  = [];
+                        self.cargando_rubros = false;
+                        self.hayData_rubros = false;
+                    }
+                    else{
+                      self.cargando_rubros = false;
+                      self.hayData_rubros = true;
+                      self.cargando_conceptos= true;
+                      self.hayData_conceptos = true;
                     self.datos.push(response.data[0]);
                     self.gridOptions_rubros.data = self.datos;
                     angular.forEach(self.gridOptions_rubros.data, function(iterador) {
@@ -115,6 +129,15 @@ angular.module('financieraClienteApp')
                       limit: 0
                     })
                     ).then(function(response) {
+
+                      if(response.data === null){
+                        iterador.subGridOptions.data = [];
+                        self.cargando_conceptos = false;
+                        self.hayData_conceptos = false;
+                      }
+                      else{
+                        self.cargando_conceptos = false;
+                        self.hayData_conceptos = true;
                       iterador.subGridOptions.data = response.data;
                     //asociar RegistroPresupuestalDisponibilidadApropiacion
                     angular.forEach(iterador.subGridOptions.data, function(subGridData) {
@@ -126,6 +149,7 @@ angular.module('financieraClienteApp')
                         'Saldo': iterador.Saldo,
                       };
                     });
+                  }
                   });
                   //se inclulle consulta para obtener saldo en el objeto
                 });
@@ -175,10 +199,13 @@ angular.module('financieraClienteApp')
                   }
                 }; //subGridOptions
               }); // iterador
+            }
             }); //tehen
                 });
             }else{
               self.gridOptions_rubros.data = {};
+              self.cargando_rubros = false;
+              self.hayData_rubros = false;
             }
         }
 

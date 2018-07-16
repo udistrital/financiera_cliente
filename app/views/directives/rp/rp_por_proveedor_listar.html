@@ -8,7 +8,7 @@
   <div class="col-md-12" >
     <div class="panel panel-default">
       <div class="panel-body">
-        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
+        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid">
           <div class="watermark" ng-show="!d_rpPorProveedorListar.hayData">{{'NO_DATA'| translate}}</div>
           <div class="watermark" ng-show="d_rpPorProveedorListar.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
         </div>
