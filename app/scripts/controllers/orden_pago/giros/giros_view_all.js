@@ -11,17 +11,23 @@ angular.module('financieraClienteApp')
   .controller('OpGirosViewAllCtrl', function($scope, financieraRequest, $window, $translate, $location, coreRequest, uiGridConstants) {
     var self = this;
     self.selectEstadoGiro = [];
+    self.cargando = true;
+    self.hayData = true;
+
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+    ];
 
     self.gridGiros = {
       showColumnFooter: false,
-      enableRowSelection: true,
-      enableRowHeaderSelection: true,
+      enableRowSelection: false,
+      enableRowHeaderSelection: false,
 
-      paginationPageSizes: [15, 30, 45],
-      paginationPageSize: null,
+      paginationPageSizes: [10, 20],
+      paginationPageSize: 10,
 
       enableFiltering: true,
-      enableSelectAll: true,
+      enableSelectAll: false,
       enableHorizontalScrollbar: 0,
       enableVerticalScrollbar: 0,
       minRowsToShow: 15,
@@ -35,12 +41,14 @@ angular.module('financieraClienteApp')
           field: 'Consecutivo',
           displayName: $translate.instant('CODIGO'),
           width: '10%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Vigencia',
           width: '10%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('VIGENCIA'),
         },
         {
@@ -49,12 +57,15 @@ angular.module('financieraClienteApp')
           cellFilter: "date:'yyyy-MM-dd'",
           displayName: $translate.instant('FECHA_CREACION'),
           cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+
         },
         {
           field: 'FormaPago.CodigoAbreviacion',
           displayName: $translate.instant('FORMA_PAGO'),
           width: '10%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'ValorTotal',
@@ -62,22 +73,27 @@ angular.module('financieraClienteApp')
           width: '10%',
           cellFilter: 'currency',
           cellClass: 'input_right',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'CuentaBancaria.NumeroCuenta',
           displayName: $translate.instant('CUENTA_BANCARIA'),
           width: '10%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Sucursal.Banco.DenominacionBanco',
           displayName: $translate.instant('BANCO'),
-          width: '10%',
-          cellClass: 'input_center'
+          width: '20%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'GiroEstadoGiro[0].EstadoGiro.Nombre',
           width: '10%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('ESTADO'),
           filter: {
             //term: 'Elaborado',
@@ -89,12 +105,9 @@ angular.module('financieraClienteApp')
           name: $translate.instant('OPERACION'),
           enableFiltering: false,
           width: '10%',
-          cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.opGirosViewAll.detalle(row)">' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.opViewAll.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
-            '</center>'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
         },
       ]
     };
@@ -112,6 +125,15 @@ angular.module('financieraClienteApp')
         limit: -1
       })
     ).then(function(response) {
+
+      if(response.data === null){
+        self.gridGiros.data = [];
+        self.hayData = false;
+        self.cargando = false;
+      }
+      else{
+        self.hayData = true;
+        self.cargando = false;
       self.gridGiros.data = response.data;
       angular.forEach(self.gridGiros.data, function(iterador) {
         coreRequest.get('sucursal',
@@ -122,6 +144,7 @@ angular.module('financieraClienteApp')
           iterador.Sucursal = response.data[0];
         })
       })
+    }
     })
     // dataFilter
     // datos Estados Giros
@@ -140,6 +163,20 @@ angular.module('financieraClienteApp')
       });
     });
 
+
+    $scope.loadrow = function(row, operacion) {
+      self.operacion = operacion;
+      switch (operacion) {
+        case "ver":
+          self.detalle(row);
+        break;
+
+        case "otro":
+
+        break;
+        default:
+      }
+    };
     // refrescar
     self.refresh = function() {
       $scope.refresh = true;
