@@ -11,7 +11,10 @@ angular.module('financieraClienteApp')
   .controller('OrdenPagoOpCrearCtrl', function($scope, financieraRequest, $window, $translate) {
     //
     var self = this;
-    self.PestanaAbierta = false;
+    self.panel_abierto = "ninguno";
+    var currentTime = new Date();
+    var year = currentTime.getFullYear()
+    self.open = false;
     self.panelUnidadEjecutora = false;
     self.OrdenPago = {};
     self.Proveedor = {};
@@ -109,10 +112,14 @@ angular.module('financieraClienteApp')
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) {
             self.resultado = data;
-            //mensaje
+            console.log("resultado op", self.resultado.data.Body)
+            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('ORDEN_DE_PAGO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + self.resultado.data.Body + "</td>" + "<td>" + year + "</td><td>" + $translate.instant(self.resultado.data.Code) + "</td></tr>" ;
+            templateAlert = templateAlert + "</table>";
+
             swal({
-              title: 'Orden de Pago',
-              text: $translate.instant(self.resultado.data.Code) + self.resultado.data.Body,
+              title: '',
+              html: templateAlert,
               type: self.resultado.data.Type,
             }).then(function() {
               $window.location.href = '#/orden_pago/ver_todos';
@@ -153,8 +160,9 @@ angular.module('financieraClienteApp')
       if (Object.keys(self.Conceptos).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_CONCEPTO') + "</li>";
       }
-      if (self.TotalAfectacion != self.OrdenPago.ValorBase) {
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION') + "</li>" + self.TotalAfectacion + " != " + self.OrdenPago.ValorBase;
+      if ((self.TotalAfectacion != self.OrdenPago.ValorBase) && self.OrdenPago.ValorBase != undefined) {
+
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TOTAL_AFECTACION')
       }
       if(Object.keys(self.afectacionEnRubros).length != 0 && Object.keys(self.saldoDeRubros).length != 0){
         angular.forEach(self.afectacionEnRubros, function(afectacionValue, afectacionKey){
@@ -173,6 +181,82 @@ angular.module('financieraClienteApp')
       }
 
       return respuesta;
+    };
+
+    self.mostrar_panel_unidad = function (){
+      self.panelUnidadEjecutora = !self.panelUnidadEjecutora;
+      self.panelProveedores = false;
+      self.panelRps = false;
+      self.panelDetalle = false;
+      self.panelRubros = false;
+      self.panelCuentas = false;
+    };
+
+    self.mostrar_proveedores = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = !self.panelProveedores;
+      self.panelRps = false;
+      self.panelDetalle = false;
+      self.panelRubros = false;
+      self.panelCuentas = false;
+    };
+
+    self.mostrar_rps = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = false;
+      self.panelRps = !self.panelRps;
+      self.panelDetalle = false;
+      self.panelRubros = false;
+      self.panelCuentas = false;
+    };
+
+    self.mostrar_detalle_pago = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = false;
+      self.panelRps = false;
+      self.panelDetalle = !self.panelDetalle;
+      self.panelRubros = false;
+      self.panelCuentas = false;
+    };
+
+    self.mostrar_rubros = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = false;
+      self.panelRps = false;
+      self.panelDetalle = false;
+      self.panelRubros = !self.panelRubros;
+      self.panelCuentas = false;
+    };
+
+    self.mostrar_cuentas = function (){
+      self.panelUnidadEjecutora = false;
+      self.panelProveedores = false;
+      self.panelRps = false;
+      self.panelDetalle = false;
+      self.panelRubros = false;
+      self.panelCuentas = !self.panelCuentas;
+    };
+
+    self.abrir_panel = function(nombre){
+
+      if(self.panel_abierto === nombre && self.open === true){
+          self.open = false;
+          self.panel_abierto = "ninguno"
+      }else{
+        self.panel_abierto = nombre;
+        if(self.open === false){
+          self.open = true;
+      }else{
+          if(self.open === true){
+            self.open = false;
+
+          }
+        }
+      }
+
+
+
     }
+
     //
   });

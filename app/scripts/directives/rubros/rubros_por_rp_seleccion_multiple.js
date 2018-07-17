@@ -20,6 +20,9 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
       controller: function($scope) {
         var self = this;
+        var expandableScope = {};
+        self.cargando_rubros = true;
+        self.hayData_rubros = true;
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;
@@ -27,10 +30,12 @@ angular.module('financieraClienteApp')
             $scope.refresh = false;
           }, 0);
         };
+
         $scope.outputconceptos = [];
         self.gridOptions_rubros = {
           expandableRowTemplate: 'expandableRowUpc.html',
           expandableRowHeight: 200,
+          expandableRowScope: expandableScope,
           columnDefs: [{
               field: 'DisponibilidadApropiacion.Apropiacion.Rubro.Id',
               visible: false
@@ -73,7 +78,7 @@ angular.module('financieraClienteApp')
         };
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
-            $scope.a = true;
+            $scope.a = $scope.inputpestanaabierta;
           }
         })
         $scope.$watch('outputproveedorrubro', function() {
@@ -81,13 +86,13 @@ angular.module('financieraClienteApp')
             $scope.inputrpid = [];
           }
         }
-        ,true);        
+        ,true);
         //
         $scope.$watch('inputrpid[inputrpid.length - 1].Id', function() {
           self.refresh();
           self.datos = [];
           if (!angular.isUndefined($scope.inputrpid)) {
-            console.log("nuevoValor", $scope.inputrpid);
+
             if ($scope.inputrpid.length >0 ) {
               angular.forEach($scope.inputrpid, function(rp){
                 financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
@@ -96,6 +101,16 @@ angular.module('financieraClienteApp')
                     limit: 0
                   })
                   ).then(function(response) {
+
+                    if(response.data === null){
+                        self.gridOptions_rubros.data  = [];
+                        self.cargando_rubros = false;
+                        self.hayData_rubros = false;
+                    }
+                    else{
+                      self.cargando_rubros = false;
+                      self.hayData_rubros = true;
+
                     self.datos.push(response.data[0]);
                     self.gridOptions_rubros.data = self.datos;
                     angular.forEach(self.gridOptions_rubros.data, function(iterador) {
@@ -115,7 +130,20 @@ angular.module('financieraClienteApp')
                       limit: 0
                     })
                     ).then(function(response) {
-                      iterador.subGridOptions.data = response.data;
+
+                      expandableScope.cargando_conceptos = true;
+                      expandableScope.hayData_conceptos = true;
+                      if(response.data === null){
+
+                        iterador.subGridOptions.data = [];
+                        expandableScope.cargando_conceptos = false;
+                        expandableScope.hayData_conceptos = false;
+                      }
+                      else{
+
+                        expandableScope.cargando_conceptos = false;
+                        expandableScope.hayData_conceptos = true;
+                        iterador.subGridOptions.data = response.data;
                     //asociar RegistroPresupuestalDisponibilidadApropiacion
                     angular.forEach(iterador.subGridOptions.data, function(subGridData) {
                       subGridData.RegistroPresupuestalDisponibilidadApropiacion = {
@@ -126,12 +154,15 @@ angular.module('financieraClienteApp')
                         'Saldo': iterador.Saldo,
                       };
                     });
+                  }
                   });
-                  //se inclulle consulta para obtener saldo en el objeto
+                  //se incluye consulta para obtener saldo en el objeto
                 });
                 //fin get saldos de lor rp
                 iterador.subGridOptions = {
-                  multiSelect: true,
+                  multiSelect: false,
+                  enableRowSelection: true,
+                  enableRowHeaderSelection: false,
                   columnDefs: [{
                     field: 'Id',
                     visible: false,
@@ -175,10 +206,13 @@ angular.module('financieraClienteApp')
                   }
                 }; //subGridOptions
               }); // iterador
+            }
             }); //tehen
                 });
             }else{
               self.gridOptions_rubros.data = {};
+              self.cargando_rubros = false;
+              self.hayData_rubros = false;
             }
         }
 
