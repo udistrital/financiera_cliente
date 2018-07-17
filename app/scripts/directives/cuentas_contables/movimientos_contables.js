@@ -68,12 +68,15 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    console.log("no cuenta esp")
+                                    return 'texto_no_cuenta_especial';
+
                                 } else {
-                                    return 'text-info';
+                                    console.log("cuenta esp")
+                                    return 'texto_cuenta_especial';
                                 }
                             },
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
                             },
@@ -85,14 +88,14 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('DESCRIPCION'),
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    return 'texto_no_cuenta_especial';
                                 } else {
-                                    return 'text-info';
+                                    return 'texto_cuenta_especial';
                                 }
                             },
                             cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase | currency }}</div> </div>' +
                                 '<div ng-if="row.entity.TipoCuentaEspecial==undefined"> {{row.entity.CuentaContable.Nombre}} </div>',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
@@ -103,7 +106,7 @@ angular.module('financieraClienteApp')
                             field: 'Debito',
                             displayName: $translate.instant('DEBITO'),
                             cellClass: 'input_right',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTemplate: '<div>{{row.entity.Debito | currency:undefined:0}}</div>',
                             width: '15%',
                             enableCellEdit: true,
@@ -132,7 +135,7 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CREDITO'),
                             cellClass: 'input_right',
                             width: '15%',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             type: 'number',
                             cellFilter: 'number',
                             enableCellEdit: true,
@@ -157,12 +160,12 @@ angular.module('financieraClienteApp')
                         {
                             field: 'CuentaContable.Naturaleza',
                             displayName: $translate.instant('NATURALEZA'),
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    return 'texto_no_cuenta_especial';
                                 } else {
-                                    return 'text-info';
+                                    return 'texto_cuenta_especial';
                                 }
                             },
                             enableCellEdit: false,
@@ -258,8 +261,8 @@ angular.module('financieraClienteApp')
                     columnDefs: [{
                             field: 'CuentaContable.Codigo',
                             displayName: $translate.instant('CODIGO'),
-                            cellClass: 'text-info',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
                             },
@@ -269,8 +272,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'Descripcion',
                             displayName: $translate.instant('DESCRIPCION'),
-                            cellClass: 'text-info',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
@@ -281,8 +284,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'Debito',
                             displayName: $translate.instant('DEBITO'),
-                            cellClass: 'input_right',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTemplate: '<div>{{row.entity.Debito | currency:undefined:0}}</div>',
                             width: '15%',
                             enableCellEdit: true,
@@ -290,11 +293,14 @@ angular.module('financieraClienteApp')
                                var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
+
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
+
                                     } else {
                                         respuesta = true;
+
                                     }
                                 }
 
@@ -311,7 +317,8 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CREDITO'),
                             cellClass: 'input_right',
                             width: '15%',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
+                            cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             type: 'number',
                             cellFilter: 'number',
                             enableCellEdit: true,
@@ -319,16 +326,18 @@ angular.module('financieraClienteApp')
                                 var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
+
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
+
                                     } else {
                                         respuesta = true;
+
                                     }
                                 }
                                 return respuesta;
                             },
-                            cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             aggregationType: uiGridConstants.aggregationTypes.sum,
                             footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
                             footerCellClass: 'input_right'
@@ -336,8 +345,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'CuentaContable.Naturaleza',
                             displayName: $translate.instant('NATURALEZA'),
-                            headerCellClass: 'text-info',
-                            cellClass: 'text-info',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                             enableCellEdit: false,
                             width: '15%'
                         },
@@ -346,6 +355,8 @@ angular.module('financieraClienteApp')
                             //enableFiltering: false,
                             width: '10%',
                             enableCellEdit: false,
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                             cellTemplate: '<center>' +
                                 '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" data-toggle="modal" data-target="#modalEndosar" >' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +

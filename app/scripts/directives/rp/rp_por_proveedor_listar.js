@@ -183,7 +183,7 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
-            $scope.a = true;
+              $scope.a = $scope.inputpestanaabierta;
           }
         })
 
@@ -196,12 +196,6 @@ angular.module('financieraClienteApp')
         })
 
 
-
-        $scope.$watch('inputpestanaabierta', function() {
-          if ($scope.inputpestanaabierta) {
-            $scope.a = true;
-          }
-        })
         //
         $scope.$watch('inputbeneficiaroid', function() {
           self.refresh();

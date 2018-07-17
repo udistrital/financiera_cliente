@@ -196,6 +196,16 @@ sencillo {
   color: #31708F;
 }
 
+.texto_no_cuenta_especial {
+  text-align: center;
+  color: #5CB85C;
+}
+
+.texto_cuenta_especial {
+  text-align: center;
+  color: #31708F;
+}
+
 .proceso {
   height:400px;
   width:100%;
@@ -204,7 +214,3 @@ sencillo {
 .vis-hidden{
      visibility: hidden;
   }
-
-.prueba{
-  display: none;
-}

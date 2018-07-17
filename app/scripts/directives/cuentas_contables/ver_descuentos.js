@@ -44,51 +44,59 @@ angular.module('financieraClienteApp')
                     columnDefs: [{
                             field: 'Id',
                             displayName: $translate.instant('ID'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                             width: '7%'
                         },
                         {
                             field: 'Descripcion',
                             displayName: $translate.instant('DESCRIPCION'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '35%'
+                            width: '35%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'TarifaUvt',
                             displayName: $translate.instant('UVT'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '5%'
+                            width: '5%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'Porcentaje',
                             displayName: $translate.instant('PORCENTAJE'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '7%'
+                            width: '7%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'Deducible',
                             displayName: $translate.instant('DEDUCIBLE'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
                             cellTemplate: '<center><input type="checkbox" ng-checked="row.entity.Deducible" disabled></center>',
-                            width: '8%'
+                            width: '8%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'CuentaContable.Codigo',
                             displayName: $translate.instant('CODIGO_CUENTA'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '13%'
+                            width: '13%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'proveedor.NomProveedor',
                             displayName: $translate.instant('PROVEEDOR'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '17%'
+                            width: '17%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         },
                         {
                             field: 'TipoCuentaEspecial.Nombre',
                             displayName: $translate.instant('TIPO'),
-                            headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                            width: '8%'
+                            width: '8%',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                         }
                     ]
                 };
