@@ -21,10 +21,14 @@ angular.module('financieraClienteApp')
         var self = this;
         $scope.outputrpselect = [];
         self.posicion_actual = 0;
+        $scope.rp_seleccionado = false;
         self.gridOptions_rp = {
           enableRowSelection: true,
           enableRowHeaderSelection: true,
           enableSelectAll: true,
+          enableFiltering : true,
+          paginationPageSizes: [5, 10, 20],
+          paginationPageSize: 10,
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -32,16 +36,20 @@ angular.module('financieraClienteApp')
             {
               field: 'NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Estado.Nombre',
-              displayName: $translate.instant('ESTADO')
+              displayName: $translate.instant('ESTADO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             }
           ]
         };
@@ -57,64 +65,80 @@ angular.module('financieraClienteApp')
               field: 'NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '5%'
             },
             {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '5%'
             },
             {
               field: 'Responsable',
               displayName: $translate.instant('RESPONSABLE'),
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '5%'
             },
             {
               field: 'Estado.Nombre',
               displayName: $translate.instant('ESTADO'),
-              width: '5%'
+              width: '5%',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Nombre',
               displayName: $translate.instant('COMPROMISO'),
-              width: '10%'
+              width: '10%',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Descripcion',
               displayName: $translate.instant('DESCRIPCION_COMPROMISO'),
-              width: '10%'
+              width: '10%',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'valor_total_rp',
               displayName: $translate.instant('VALOR_CRP'),
               cellTemplate: '<div>{{row.entity.valor_total_rp | currency:undefined:0}}</div>',
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '15%'
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad',
               displayName: $translate.instant('NO_CDP'),
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '5%'
             },
             {
               field: 'RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre',
               displayName: $translate.instant('ESTADO') + " " + $translate.instant('CDP'),
-              width: '10%'
+              width: '10%',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'necesidadInfo.SolicitudDisponibilidad.Necesidad.Numero',
               displayName: $translate.instant('NECESIDAD_NO'),
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               width: '10%'
             },
             {
               field: 'necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto',
               displayName: $translate.instant('OBJETO') + " " + $translate.instant('NECESIDAD'),
               cellTemplate:'<br/><textarea class="form-control" rows="3" readonly> {{row.entity.necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea><br/>',
-              width: '20%'
+              width: '20%',
+              cellClass: 'input_right',
+              headerCellClass: 'encabezado'
             }
           ]
         };
@@ -122,9 +146,9 @@ angular.module('financieraClienteApp')
         self.gridOptions_rp.onRegisterApi = function(gridApi) {
           self.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            //
+
             if (row.isSelected) {
-              
+
               if (self.gridOptions_rp_seleccionados.data.indexOf(row.entity) < 0) {
                 financieraRequest.get('registro_presupuestal/ValorTotalRp/' + row.entity.Id)
                 .then(function(response) {
@@ -133,19 +157,20 @@ angular.module('financieraClienteApp')
                 financieraMidRequest.get('disponibilidad/SolicitudById/' + row.entity.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '')
                 .then(function(response) {
                   row.entity.necesidadInfo = response.data;
-                });                                
+                });
                 self.gridOptions_rp_seleccionados.data.push(row.entity);
               }
               self.posactual = self.gridOptions_rp_seleccionados.data.indexOf(row.entity);
               $scope.outputrpselect.push(row.entity);
-              //console.log("rp+", $scope.outputrpselect);             
+              //console.log("rp+", $scope.outputrpselect);
             } else {
+
               var i = $scope.outputrpselect.indexOf(row.entity)
               $scope.outputrpselect.splice(i, 1);
               self.gridOptions_rp_seleccionados.data.splice(i, 1);
               //console.log("rp-", $scope.outputrpselect);
             }
-          });         
+          });
         };
         // refrescar
         self.refresh = function() {
@@ -158,9 +183,19 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
-            $scope.a = true;
+              $scope.a = $scope.inputpestanaabierta;
           }
         })
+
+        $scope.$watch('inputbeneficiaroid', function() {
+          self.gridOptions_rp_seleccionados.data = [];
+        })
+
+        $scope.$watch('outputrpselect', function() {
+
+        })
+
+
         //
         $scope.$watch('inputbeneficiaroid', function() {
           self.refresh();
@@ -168,11 +203,24 @@ angular.module('financieraClienteApp')
             financieraRequest.get('registro_presupuestal',
               $.param({
                 query: "Beneficiario:" + $scope.inputbeneficiaroid,
+                sortby: "Vigencia",
+                order: "desc",
               })).then(function(response) {
-              self.gridOptions_rp.data = response.data;
+                if (response.data === null) {
+                    self.hayData = false;
+                    self.cargando = false;
+                    self.gridOptions_rp.data  = [];
+                } else {
+                    self.hayData = true;
+                    self.cargando = false;
+                    self.gridOptions_rp.data = response.data;
+                }
+
             });
           } else {
-            self.gridOptions_rp.data = {};
+            self.hayData = false;
+            self.cargando = false;
+            self.gridOptions_rp.data  = [];
           }
         })
 

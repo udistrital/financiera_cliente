@@ -2,8 +2,9 @@
             <pre>{{fuenteFinanciacionNecesidad.resumen_afectacion_presupuestal|json}}</pre>
           </div> -->
 
-
-
+<div ng-show="resumenafectacion.length != 0">
+<h4 class="text-info" >{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
+</div>
 <ul class="list-unstyled" ng-repeat="item in resumenafectacion">
   <hr class="hr-primary">
   <li><b>{{'RUBRO' | translate}}:</b> {{item[0].Apropiacion.Rubro.Codigo+" / "+item[0].Apropiacion.Rubro.Nombre}}

@@ -18,7 +18,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
   self.hayData_apropiaciones = true;
   self.valor_cdp = 0;
   self.valor_disponible = 0;
-
+  self.unidad_ejecutora = 1;
   $scope.botones = [
     { clase_color: "ver", clase_css: "fa fa-info-circle fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_RUBROS'), operacion: 'ver_rubros', estado: true },
     { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_DETALLE'), operacion: 'ver_detalle', estado: true },
@@ -31,9 +31,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     enableRowSelection: false,
     enableRowHeaderSelection: false,
     paginationPageSizes: [5, 10, 15],
-    paginationPageSize: 15,
-
-
+    paginationPageSize: 10,
 
     columnDefs: [{
         field: 'Id',
@@ -215,6 +213,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
       }
 
       self.gridOptions.data = self.fuente_financiamiento;
+      console.log("self", self.gridOptions.data)
     }
     });
 
@@ -300,7 +299,7 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
 
   self.mostrar_detalle_fuente = function(row){
 
-    self.calcular_valor_CDP(row.entity.Id);
+    //self.calcular_valor_CDP(row.entity.Id);
 
     self.fuente = {};
     self.fuente.Id = row.entity.Id;
@@ -309,9 +308,9 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     self.fuente.TipoFuenteFinanciamiento.Nombre = row.entity.TipoFuenteFinanciamiento.Nombre;
     self.fuente.Nombre = row.entity.Nombre;
     self.fuente.Codigo = row.entity.Codigo;
-    self.fuente.valor_cdp = self.valor_cdp;
+  //  self.fuente.valor_cdp = self.valor_cdp;
     $localStorage.fuente = self.fuente;
-
+    console.log("local", $localStorage.fuente)
     $location.path('/fuente_financiacion/detalle_fuente');
     $route.reload()
   };
@@ -321,20 +320,5 @@ angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function
     $route.reload()
   };
 
-  self.calcular_valor_CDP = function(id){
-    financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+ toString(id)).then(function(response) {
-
-      self.fuente_cdp = response.data;
-
-      for (i = 0; i < self.fuente_cdp.length; i++) {
-        for (j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
-          self.fuente_cdp[i].DisponibilidadApropiacion[0] = self.fuente_cdp[i].DisponibilidadApropiacion[j];
-          self.valor_cdp = self.valor_cdp + self.fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
-
-        }
-      }
-
-    });
-  };
 
 });

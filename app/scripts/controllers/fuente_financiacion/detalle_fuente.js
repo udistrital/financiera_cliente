@@ -17,14 +17,45 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
   self.Codigo = $localStorage.fuente.Codigo;
   self.TipoFuenteFinanciamiento = $localStorage.fuente.TipoFuenteFinanciamiento.Nombre;
   self.Vigencia = $localStorage.fuente.Vigencia;
-  self.valor_cdp = $localStorage.fuente.valor_cdp;
+  self.valor_cdp = 0;
   self.unidad_ejecutora = 1;
 
-  self.cargando = false;
-  self.hayData = true;
+  self.cargando_disp = true;
+  self.hayData_disp = true;
+
+  self.cargando_rp = true;
+  self.hayData_rp = true;
+
+
+  self.cargando_op = true;
+  self.hayData_op = true;
+
   self.info_CDP = false;
   self.info_CRP = false;
   self.info_OP = false;
+
+
+    self.calcular_valor_CDP = function(id){
+
+      self.calculando_cdp = true;
+      financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + self.unidad_ejecutora + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:'+id).then(function(response) {
+
+        self.fuente_cdp = response.data;
+
+        for (i = 0; i < self.fuente_cdp.length; i++) {
+          for (j = 0; j < self.fuente_cdp[i].DisponibilidadApropiacion.length; j++) {
+            self.fuente_cdp[i].DisponibilidadApropiacion[0] = self.fuente_cdp[i].DisponibilidadApropiacion[j];
+            self.valor_cdp = self.valor_cdp + self.fuente_cdp[i].DisponibilidadApropiacion[j].Valor;
+
+          }
+        }
+        self.calculando_cdp = false;
+
+      });
+    };
+
+    self.calcular_valor_CDP(self.fuente);
+
 
   financieraRequest.get("orden_pago/FechaActual/2006")
     .then(function(response) {
@@ -281,28 +312,11 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
          self.valor_disponible = self.valor_total - self.valor_cdp;
     });
 
-};
-
-  self.cambiar_rubro();
-
-
-  self.mostrar_CDP = function(){
-
-
-    self.info_CDP = !self.info_CDP;
-    self.info_CRP = false;
-    self.info_OP = false;
-
-    self.gridOptionCDP.data  = [];
-    self.cargando = true;
-    self.hayData = true;
-
     financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
 
-
         if(response.data.Type === "error"){
-          self.hayData = false;
-          self.cargando = false;
+          self.hayData_disp = false;
+          self.cargando_disp = false;
           self.gridOptionCDP.data  = [];
         }else{
          self.fuente_cdp = response.data;
@@ -315,78 +329,89 @@ angular.module('financieraClienteApp').controller('detalleFuenteCtrl', function(
            }
          }
 
-         self.hayData = true;
-         self.cargando = false;
+         self.hayData_disp = true;
+         self.cargando_disp = false;
          self.gridOptionCDP.data = self.fuente_cdp_tabla;
          self.fuente_cdp = response.data;
 
        }
     });
+
+    financieraMidRequest.get('registro_presupuestal/ListaRp/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
+
+
+      if(response.data.Type === "error"){
+        self.hayData_rp = false;
+        self.cargando_rp = false;
+        self.gridOptionCRP.data.data  = [];
+      }else{
+      self.fuente_crp = response.data;
+
+      for (i = 0; i < self.fuente_crp.length; i++) {
+        for (j = 0; j < self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
+          self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
+          self.fuente_crp_tabla.push(self.fuente_crp[i]);
+        }
+      }
+
+      self.hayData_rp = true;
+      self.cargando_rp = false;
+      self.gridOptionCRP.data = self.fuente_crp_tabla;
+      self.fuente_crp = response.data;
+    }
+
+    });
+
+    financieraMidRequest.get('orden_pago/GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&unidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
+
+
+      if(response.data === null){
+        self.hayData_op = false;
+        self.cargando_op = false;
+        self.gridOptionOP.data = [];
+      }else{
+
+        self.hayData_op = true;
+        self.cargando_op = false;
+        self.fuente_op = response.data.OrdenPago;
+        self.gridOptionOP.data = self.fuente_op;
+
+      }
+    });
+};
+
+
+
+
+
+
+  self.cambiar_rubro();
+
+
+  self.mostrar_CDP = function(){
+
+
+    self.info_CDP = !self.info_CDP;
+  //  self.info_CRP = false;
+  //  self.info_OP = false;
+
+
   };
 
   self.mostrar_CRP = function(){
 
     self.info_CRP = !self.info_CRP;
-    self.info_CDP = false;
-    self.info_OP = false;
+    //self.info_CDP = false;
+    //self.info_OP = false;
 
-    self.gridOptionCRP.data  = [];
-    self.cargando = true;
-    self.hayData = true;
 
-        financieraMidRequest.get('registro_presupuestal/ListaRp/' + parseInt(self.Vigencia) + "/", 'limit=-1&UnidadEjecutora=' + parseInt(self.unidad_ejecutora) + '&query=RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.FuenteFinanciamiento.Id:' + parseInt(self.fuente)).then(function(response) {
-
-            console.log("no data ",response.data)
-          if(response.data.Type === "error"){
-            self.hayData = false;
-            self.cargando = false;
-            self.gridOptionCRP.data.data  = [];
-          }else{
-          self.fuente_crp = response.data;
-
-          for (i = 0; i < self.fuente_crp.length; i++) {
-            for (j = 0; j < self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion.length; j++) {
-              self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[0] = self.fuente_crp[i].RegistroPresupuestalDisponibilidadApropiacion[j];
-              self.fuente_crp_tabla.push(self.fuente_crp[i]);
-            }
-          }
-
-          self.hayData = true;
-          self.cargando = false;
-          self.gridOptionCRP.data = self.fuente_crp_tabla;
-          self.fuente_crp = response.data;
-        }
-
-        });
   };
 
   self.mostrar_OP = function(){
 
     self.info_OP = !self.info_OP;
-    self.info_CRP = false;
-    self.info_CDP = false;
-
-    self.gridOptionOP.data = [];
-    self.cargando = true;
-    self.hayData = true;
-
-        financieraMidRequest.get('orden_pago/GetOrdenPagoByFuenteFinanciamiento', 'limit=-1&fuente=' + parseInt(self.fuente) + '&vigencia=' + parseInt(self.Vigencia) + '&unidadEjecutora=' + parseInt(self.unidad_ejecutora)).then(function(response) {
-
-            console.log("no data ",response.data)
-          if(response.data === null){
-            self.hayData = false;
-            self.cargando = false;
-            self.gridOptionOP.data = [];
-          }else{
-
-            self.hayData = true;
-            self.cargando = false;
-            self.fuente_op = response.data.OrdenPago;
-            self.gridOptionOP.data = self.fuente_op;
-
-          }
-        });
-
+    //self.info_CRP = false;
+    //self.info_CDP = false;
   };
 
 
