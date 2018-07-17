@@ -661,7 +661,7 @@ var text_es = {
     S_MODP002: "Solicitud de Modificación Presupuestal Aprobada",
     S_MODP003: "CDP para la Modificación Presupuestal Correctamente Expedido",
     S_MODP004: "Solicitud De Modificación Presupuestal Anulada",
-    S_OPP_01: "Orden de pago registrado exitosamente con consecutivo No. ",
+    S_OPP_01: "Registrada exitosamente",
     S_GIRO_01: "Giro registrado exitosamente con consecutivo No. ",
     S_OP_ESTADO: "Estado de la orden de pago registrado",
     S_OPP_02: "Orden de Pago Actualizado Exitosamente con Consecutivo No. ",

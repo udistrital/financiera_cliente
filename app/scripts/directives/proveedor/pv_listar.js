@@ -20,7 +20,7 @@ angular.module('financieraClienteApp')
         var self = this;
         self.cargando = true;
         self.hayData = true;
-        console.log("inputpestanaabierta",inputpestanaabierta)
+
         self.gridOptions_proveedor = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
@@ -104,6 +104,7 @@ angular.module('financieraClienteApp')
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = $scope.inputpestanaabierta;
+            
           }
         })
         //
