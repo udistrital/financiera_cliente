@@ -4,26 +4,29 @@
       <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
       <div class="col-sm-3">
         <select ng-model="d_opMultiSelect.vigenciaSelect" ng-options="i as i for i in d_opMultiSelect.vigencias" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
-          <option value="">Seleccionar Vigencia</option>
+          <option value="">{{'SELECCIONAR' | translate}} {{'VIGENCIA' | translate}}</option>
         </select>
       </div>
       <label class="control-label col-sm-1">{{'TIPO' | translate}}</label>
       <div class="col-sm-3">
         <select ng-model="d_opMultiSelect.tipoOrdenPagoSelect" ng-options="i.CodigoAbreviacion for i in d_opMultiSelect.tipoOrdenPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
-          <option value="">Seleccionar Tipo OP</option>
+          <option value="">{{'SELECCIONAR' | translate}} {{'TIPO' | translate}} {{'ORDEN_DE_PAGO'| translate}} </option>
         </select>
       </div>
       <label class="control-label col-sm-1">{{'FORMA_PAGO' | translate}}</label>
       <div class="col-sm-3">
         <select ng-model="d_opMultiSelect.formaPagoSelect" ng-options="i.Nombre for i in d_opMultiSelect.formaPagoData" ng-change="d_opMultiSelect.consultar()" class="form-control" required>
-          <option value="">Seleccionar forma pago</option>
+          <option value="">{{'SELECCIONAR' | translate}} {{'FORMA_PAGO' | translate}}</option>
         </select>
       </div>
     </div>
   </div>
 
   <div class="panel-default">
-    <div ng-if="!refresh" ui-grid="d_opMultiSelect.gridOptions_op" ui-grid-auto-resize ui-grid-selection></div>
+    <div ng-if="!refresh" ui-grid="d_opMultiSelect.gridOptions_op" ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
+      <div class="watermark" ng-show="!d_opMultiSelect.hayData_detalle">{{'NO_DATA'| translate}}</div>
+      <div class="watermark" ng-show="d_opMultiSelect.cargando_detalle">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+    </div>
   </div>
 
   <div align="center" class="panel-footer">
