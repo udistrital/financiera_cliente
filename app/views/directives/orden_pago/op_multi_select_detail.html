@@ -1,7 +1,10 @@
 <div ng-show="!inputvisible">
 
   <div class="panel-body">
-    <div ng-if="!refresh" ui-grid="d_opMultiSelectDetail.gridOptions_op_detail" ui-grid-selection></div>
+    <div ng-if="!refresh" ui-grid="d_opMultiSelectDetail.gridOptions_op_detail" ui-grid-selection ui-grid-pagination>
+      <div class="watermark" ng-show="!d_opMultiSelectDetail.hayData_detalle">{{'NO_DATA'| translate}}</div>
+      <div class="watermark" ng-show="d_opMultiSelectDetail.cargando_detalle">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+    </div>
     <br/>
     <div class="form-horizontal">
       <div class="form-group">
@@ -16,7 +19,10 @@
       <div class="form-group">
         <label for="formapago" class="col-sm-2 control-label">{{'CUENTA_BANCARIA' | translate }}</label>
         <div class=" col-sm-10">
-          <div ui-grid="d_opMultiSelectDetail.gridOptions_cuenta_bancaria" ui-grid-selection ui-grid-pagination></div>
+          <div ui-grid="d_opMultiSelectDetail.gridOptions_cuenta_bancaria" ui-grid-selection ui-grid-pagination>
+            <div class="watermark" ng-show="!d_opMultiSelectDetail.hayData_cb">{{'NO_DATA'| translate}}</div>
+            <div class="watermark" ng-show="d_opMultiSelectDetail.cargando_cb">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+          </div>
         </div>
       </div>
     </div>

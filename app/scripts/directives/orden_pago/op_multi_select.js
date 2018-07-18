@@ -18,6 +18,8 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
       controller: function($scope) {
         var self = this;
+        self.hayData_detalle = true;
+        self.cargando_detalle = true;
         //
         self.cargar_vigencia = function() {
           financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
@@ -72,6 +74,8 @@ angular.module('financieraClienteApp')
               self.refresh();
               if (response.data != null) {
                 self.gridOptions_op.data = response.data;
+                self.hayData_detalle = true;
+                self.cargando_detalle = false;
                 // data
                 angular.forEach(self.gridOptions_op.data, function(iterador) {
                   agoraRequest.get('informacion_proveedor',
@@ -88,11 +92,15 @@ angular.module('financieraClienteApp')
                 // data proveedor
               } else {
                 self.gridOptions_op.data = null;
+                self.hayData_detalle = false;
+                self.cargando_detalle = false;
                 self.refresh();
               }
             });
           } else {
             self.gridOptions_op.data = null;
+            self.hayData_detalle = false;
+            self.cargando_detalle = false;
             self.refresh();
           }
         }
@@ -103,7 +111,7 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: true,
 
           paginationPageSizes: [15, 30, 45],
-          paginationPageSize: null,
+          paginationPageSize: 15,
 
           enableFiltering: true,
           enableSelectAll: true,
@@ -120,23 +128,28 @@ angular.module('financieraClienteApp')
               field: 'Consecutivo',
               displayName: $translate.instant('CODIGO'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
               width: '8%',
               displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               cellFilter: "date:'yyyy-MM-dd'",
               width: '8%',
             },
@@ -144,26 +157,34 @@ angular.module('financieraClienteApp')
               field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'FormaPago.CodigoAbreviacion',
               width: '5%',
-              displayName: $translate.instant('FORMA_PAGO')
+              displayName: $translate.instant('FORMA_PAGO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.Tipopersona',
               width: '10%',
-              displayName: $translate.instant('TIPO_PERSONA')
+              displayName: $translate.instant('TIPO_PERSONA'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.NomProveedor',
-              displayName: $translate.instant('NOMBRE')
+              displayName: $translate.instant('NOMBRE'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.NumDocumento',
               width: '10%',
               cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               displayName: $translate.instant('NO_DOCUMENTO')
             },
             {
@@ -171,12 +192,15 @@ angular.module('financieraClienteApp')
               width: '10%',
               cellFilter: 'currency',
               cellClass: 'input_right',
-              displayName: $translate.instant('VALOR')
+              displayName: $translate.instant('VALOR'),
+              headerCellClass: 'encabezado'
             },
             {
               field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
               width: '7%',
-              displayName: $translate.instant('ESTADO')
+              displayName: $translate.instant('ESTADO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
           ]
         };
@@ -196,6 +220,7 @@ angular.module('financieraClienteApp')
           }, 0);
         };
 
+        self.consultar();
         // fin
       },
       controllerAs: 'd_opMultiSelect'
