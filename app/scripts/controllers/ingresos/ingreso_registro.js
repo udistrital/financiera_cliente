@@ -83,12 +83,11 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
 
-            if (angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre)){
+            if (!angular.isUndefined(ctrl.tipoIngresoSelec)&&(angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre))){
                 $scope.otro = false;
             }else{
                 $scope.otro = true;
             }
-
         }, true);
 
 
@@ -243,7 +242,7 @@ angular.module('financieraClienteApp')
                             { name: 'seguro', displayName: 'Pago Seguro', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' },
                             { name: 'carnet', displayName: 'Pago Carnet', headerCellClass: 'text-info', cellFilter: 'currency',cellClass: 'right-letters' }
                         ];
-                        
+
                         inicio = $filter('date')(ctrl.fechaInicio, "dd-MM-yy");
                         fin = $filter('date')(ctrl.fechaFin, "dd-MM-yy");
                         parametros = [{

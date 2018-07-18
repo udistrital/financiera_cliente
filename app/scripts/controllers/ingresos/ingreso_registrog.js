@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,ingresoDoc) {
+  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,ingresoDoc,organizacionRequest) {
     var ctrl = this;
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
@@ -71,12 +71,19 @@ ctrl.cargarTipoDocumento = function() {
       ctrl.cuentasBancarias = response.data;
     });
 
-    administrativaRequest.get("informacion_persona_juridica", $.param({
-       	fields: "Id,DigitoVerificacion,NomProveedor",
-        limit: -1
-      })).then(function(response) {
+    organizacionRequest.get('organizacion/', $.param({
+        limit: -1,
+        query: "TipoOrganizacion.CodigoAbreviacion:EB",
+    })).then(function(response) {
         ctrl.bancos = response.data;
-      });
+    });
+
+    organizacionRequest.get('organizacion/', $.param({
+        limit: -1,
+        query: "TipoOrganizacion.CodigoAbreviacion:SU",
+    })).then(function(response) {
+        ctrl.sucursales = response.data;
+    });
 
   };
 
