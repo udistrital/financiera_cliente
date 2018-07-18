@@ -8,8 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate,financieraMidRequest) {
+  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate,financieraMidRequest,$location) {
     var ctrl  = this;
+    ctrl.disabled = false;
 
     ctrl.cargarListas = function(){
 
@@ -60,8 +61,8 @@ angular.module('financieraClienteApp')
       var request = {};
 
       var validar_campos = ctrl.validateFields();
-
       if(validar_campos != false){
+        ctrl.disabled = true;
         request = {
           IngresoSinSituacionFondos:{
             Rubro:{},
@@ -88,8 +89,14 @@ angular.module('financieraClienteApp')
           else{
             var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
-            swal('',templateAlert,response.data.Type);
+            swal('',templateAlert,response.data.Type).then(function(){
+              $scope.$apply(function(){
+                  $location.path('/ingresos_sin_situacion_fondos/consulta');
+              });
+            });
+
           }
+          ctrl.disabled = false;
         });
 
       }

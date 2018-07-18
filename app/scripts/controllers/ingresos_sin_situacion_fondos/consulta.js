@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
               width: '17%'
           },
           {
-              field: 'EstadoIngresoSinSituacionFondos.Rubro.Codigo',
+              field: 'IngresoSinSituacionFondos.Rubro.Nombre',
               displayName: $translate.instant('RUBRO'),
               cellClass:'input_center',
               headerCellClass:'text-info',
