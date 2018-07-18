@@ -2,27 +2,28 @@
   <h2 class="page-header text-center">{{ 'OP_TITULO' | translate }}</h2>
 
     <!--detalle Unidad Ejecutora-->
-    <legend class="text-primary" ng-click="opCrear.panelUnidadEjecutora=!opCrear.panelUnidadEjecutora">
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('unidad_ejecutora')">
       {{'UNIDAD_EJECUTORA' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!opCrear.panelUnidadEjecutora"></span>
-      <span class="fa fa-minus pull-right" ng-show="opCrear.panelUnidadEjecutora"></span>
+      <span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'unidad_ejecutora'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'unidad_ejecutora'"></span>
     </legend class="text-primary">
-    <div ng-show="opCrear.panelUnidadEjecutora" class="panel-body">
+    <div ng-show="opCrear.panel_abierto === 'unidad_ejecutora'" class="panel-body">
       <div class="form-horizontal">
         <div class="form-group">
-          <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
+          <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
+            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Entidad.Nombre}}</span>
           </div>
+
           <label class="control-label col-sm-1">{{'DESCRIPCION' | translate}}</label>
           <div class="col-sm-5">
             <textarea readonly class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Descripcion}}</textarea>
           </div>
         </div>
         <div class="form-group">
-          <label class="control-label col-sm-1">{{'ENTIDAD' | translate}}</label>
+          <label class="control-label col-sm-1">{{'UNIDAD_EJECUTORA' | translate}}</label>
           <div class="col-sm-5">
-            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Entidad.Nombre}}</span>
+            <span class="form-control">{{opCrear.OrdenPago.UnidadEjecutora.Nombre}}</span>
           </div>
           <label class="control-label col-sm-1">{{'CODIGO' | translate}}</label>
           <div class="col-sm-5">
@@ -33,21 +34,35 @@
     </div>
 
     <!--Proveedor -->
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('proveedores')">
+      {{'PROVEEDOR' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'proveedores'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'proveedores'"></span>
+    </legend class="text-primary">
     <pv-listar
-      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputpestanaabierta="opCrear.panel_abierto"
       outputproveedor="opCrear.Proveedor">
     </pv-listar>
 
-    <!--RP-->
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('rps')">
+      {{'REGISTRO_PRESUPUESTAL' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'rps'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'rps'"></span>
+    </legend class="text-primary">
     <rp-por-proveedor-listar
-      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputpestanaabierta="opCrear.panel_abierto"
       inputbeneficiaroid="opCrear.Proveedor.Id"
       outputrpselect="opCrear.RegistroPresupuestal">
     </rp-por-proveedor-listar>
 
     <!--detalle pago -->
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('detalle_op')">
+      {{'DETALLE_OP' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'detalle_op'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'detalle_op'"></span>
+    </legend class="text-primary">
     <op-proveedor-detalle-pago
-      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputpestanaabierta="opCrear.panel_abierto"
       inputproveedor="opCrear.Proveedor.NumDocumento"
       outputsubtipoordenpago="opCrear.OrdenPago.SubTipoOrdenPago"
       outputformapago="opCrear.OrdenPago.FormaPago"
@@ -58,8 +73,13 @@
     </op-proveedor-detalle-pago>
 
     <!--Rubros-->
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('rubros_conceptos')">
+    	{{'RUBROS' | translate}} {{'MSN_Y' | translate}} {{'CONCEPTOS' | translate}}
+    	<span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'rubros_conceptos'"></span>
+    	<span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'rubros_conceptos'"></span>
+    </legend class="text-primary">
     <rubros-por-rp-seleccion-multiple
-      inputpestanaabierta="opCrear.PestanaAbierta"
+      inputpestanaabierta="opCrear.panel_abierto"
       inputrpid="opCrear.RegistroPresupuestal"
       outputproveedorrubro="opCrear.Proveedor"
       outputconceptos="opCrear.Conceptos">
@@ -68,12 +88,12 @@
     <!-- <pre>{{opCrear.Conceptos | json }}</pre> -->
 
     <!--Cuentas contables -->
-    <legend class="text-primary" ng-click="a=!a">
+    <legend class="text-primary" ng-click="opCrear.abrir_panel('cuentas_contables')">
       {{'CUENTAS_CONTABLES' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!a"></span>
-      <span class="fa fa-minus pull-right" ng-show="a"></span>
+      <span class="fa fa-plus pull-right" ng-show="opCrear.panel_abierto !== 'cuentas_contables'"></span>
+      <span class="fa fa-minus pull-right" ng-show="opCrear.panel_abierto === 'cuentas_contables'"></span>
     </legend class="text-primary">
-    <div class="panel-body row" ng-if="a">
+    <div class="panel-body row" ng-if="opCrear.panel_abierto === 'cuentas_contables'">
       <div class=" col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
