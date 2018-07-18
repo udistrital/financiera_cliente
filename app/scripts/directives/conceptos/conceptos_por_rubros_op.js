@@ -36,35 +36,45 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('CODIGO'),
               enableCellEdit: false,
               width: '10%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Nombre',
               displayName: $translate.instant('NOMBRE'),
-              enableCellEdit: false
+              enableCellEdit: false,
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Descripcion',
               displayName: $translate.instant('DESCRIPCION'),
-              enableCellEdit: false
+              enableCellEdit: false,
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'TipoConcepto.Nombre',
               displayName: $translate.instant('TIPO'),
               enableCellEdit: false,
               width: '10%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Rubro.Codigo',
               displayName: $translate.instant('RUBRO'),
               enableCellEdit: false,
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'FuenteFinanciamiento.Descripcion',
               displayName: $translate.instant('FUENTES_FINANCIACION'),
               enableCellEdit: false,
-              width: '7%'
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Afectacion',
