@@ -19,6 +19,10 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.giro = {};
+        self.hayData_detalle = true;
+        self.cargando_detalle = true;
+        self.hayData_cb = true;
+        self.cargando_cb = true;
         //
         self.regresar = function() {
           $scope.inputvisible = !$scope.inputvisible;
@@ -29,7 +33,7 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
 
           paginationPageSizes: [15, 30, 45],
-          paginationPageSize: null,
+          paginationPageSize: 10,
 
           enableFiltering: true,
           enableSelectAll: true,
@@ -46,23 +50,28 @@ angular.module('financieraClienteApp')
               field: 'Consecutivo',
               displayName: $translate.instant('CODIGO'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
               width: '8%',
               displayName: $translate.instant('TIPO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               cellFilter: "date:'yyyy-MM-dd'",
               width: '8%',
             },
@@ -70,26 +79,34 @@ angular.module('financieraClienteApp')
               field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
               width: '7%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'FormaPago.CodigoAbreviacion',
               width: '5%',
-              displayName: $translate.instant('FORMA_PAGO')
+              displayName: $translate.instant('FORMA_PAGO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.Tipopersona',
               width: '10%',
-              displayName: $translate.instant('TIPO_PERSONA')
+              displayName: $translate.instant('TIPO_PERSONA'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.NomProveedor',
-              displayName: $translate.instant('NOMBRE')
+              displayName: $translate.instant('NOMBRE'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Proveedor.NumDocumento',
               width: '10%',
               cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               displayName: $translate.instant('NO_DOCUMENTO')
             },
             {
@@ -97,6 +114,7 @@ angular.module('financieraClienteApp')
               width: '10%',
               cellFilter: 'currency',
               cellClass: 'input_right',
+              headerCellClass: 'encabezado',
               displayName: $translate.instant('VALOR'),
 
               aggregationType: uiGridConstants.aggregationTypes.sum,
@@ -106,7 +124,9 @@ angular.module('financieraClienteApp')
             {
               field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
               width: '7%',
-              displayName: $translate.instant('ESTADO')
+              displayName: $translate.instant('ESTADO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
             },
           ]
         };
@@ -133,21 +153,26 @@ angular.module('financieraClienteApp')
               field: 'NumeroCuenta',
               //width: '8%',
               displayName: $translate.instant('NUMERO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'TipoCuentaBancaria.Nombre',
               displayName: $translate.instant('TIPO'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'SucursalData[0].Nombre',
               displayName: $translate.instant('SUCURSAL'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'SucursalData[0].Banco.DenominacionBanco',
               displayName: $translate.instant('BANCO'),
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
           ]
         };
@@ -167,7 +192,16 @@ angular.module('financieraClienteApp')
             query: "EstadoActivo:true", //unidad ejecutora entra por usuario logueado
             limit: -1,
           })).then(function(response) {
+
+          if(response.data === null){
+            self.gridOptions_cuenta_bancaria.data = [];
+            self.hayData_cb = false;
+            self.cargando_cb = false;
+          }
+          else{
           self.gridOptions_cuenta_bancaria.data = response.data;
+          self.hayData_cb = true;
+          self.cargando_cb = false;
           //data sucursal, banco
           angular.forEach(self.gridOptions_cuenta_bancaria.data, function(iterador) {
             coreRequest.get('sucursal',
@@ -178,6 +212,7 @@ angular.module('financieraClienteApp')
               iterador.SucursalData = response.data;
             })
           })
+        }
         });
         // refrescar
         self.refresh = function() {
@@ -189,6 +224,9 @@ angular.module('financieraClienteApp')
         // data
         $scope.$watch('inputopselect', function() {
           if (Object.keys($scope.inputopselect).length > 0) {
+
+            self.hayData_detalle = true;
+            self.cargando_detalle = false;
             self.gridOptions_op_detail.data = [];
             self.gridOptions_op_detail.data = $scope.inputopselect;
             self.giro.ValorTotal = 0;
@@ -198,6 +236,12 @@ angular.module('financieraClienteApp')
             angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
               self.giro.ValorTotal = self.giro.ValorTotal + iterador.ValorTotal;
             })
+          }else{
+
+              self.hayData_detalle = false;
+              self.cargando_detalle = false;
+            self.gridOptions_op_detail.data = [];
+
           }
         }, true)
         // Funcion encargada de validar la obligatoriedad de los campos
