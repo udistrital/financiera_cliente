@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, $location,financieraRequest, wso2Request, oikosRequest, $translate, $filter,ingresoDoc, $window) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location, financieraRequest, wso2Request, oikosRequest, $translate, $filter, ingresoDoc, $window) {
         var ctrl = this;
         //prueba de codigos de facultad
         ctrl.cargando = false;
@@ -83,48 +83,49 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
 
-          if(ctrl.tipoIngresoSelec != undefined){
-            if (angular.equals("INSCRIPCIONES",ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS",ctrl.tipoIngresoSelec.Nombre)){
-                $scope.otro = false;
-            }else{
-                $scope.otro = true;
+            if (ctrl.tipoIngresoSelec != undefined) {
+
+                if (!angular.isUndefined(ctrl.tipoIngresoSelec) && (angular.equals("INSCRIPCIONES", ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS", ctrl.tipoIngresoSelec.Nombre))) {
+                    $scope.otro = false;
+                } else {
+                    $scope.otro = true;
+                }
+
             }
 
-        }
-
-        if(ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined){
-            if(ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null){
-                ctrl.ejecutarIngresos();
-              }
+            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
+                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
+                    ctrl.ejecutarIngresos();
+                }
 
             }
         }, true);
 
         $scope.$watch('ingresoRegistro.facultadSelec.Id', function() {
 
-        if(ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined){
-          if(ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null){
-            ctrl.ejecutarIngresos();
-          }
-        }
+            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
+                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
+                    ctrl.ejecutarIngresos();
+                }
+            }
         }, true);
 
         $scope.$watch('ingresoRegistro.fechaInicio', function() {
 
-        if(ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined){
-          if(ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null){
-            ctrl.ejecutarIngresos();
-          }
-        }
+            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
+                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
+                    ctrl.ejecutarIngresos();
+                }
+            }
         }, true);
 
         $scope.$watch('ingresoRegistro.fechaFin', function() {
 
-        if(ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined){
-          if(ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null){
-            ctrl.ejecutarIngresos();
-          }
-        }
+            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
+                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
+                    ctrl.ejecutarIngresos();
+                }
+            }
         }, true);
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
@@ -171,11 +172,11 @@ angular.module('financieraClienteApp')
                     if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
-                             $window.location.reload()
+                            $window.location.reload()
                         } else {
                             var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th>";
 
-                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>" ;
+                            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Consecutivo + "</td>" + "<td>" + response.data.Body.Vigencia + "</td>";
 
                             swal('', templateAlert, response.data.Type);
                         }
@@ -193,11 +194,11 @@ angular.module('financieraClienteApp')
 
         };
 
-        ctrl.ejecutarIngresos = function(){
-            if($scope.otro){
+        ctrl.ejecutarIngresos = function() {
+            if ($scope.otro) {
                 ingresoDoc.set(ctrl.tipoIngresoSelec);
-                $location.path('/ingresos/ingreso_registroG/'+ctrl.tipoIngresoSelec.Nombre);
-            }else{
+                $location.path('/ingresos/ingreso_registroG/' + ctrl.tipoIngresoSelec.Nombre);
+            } else {
                 ctrl.ver_grid = true;
                 ctrl.consultarPagos();
             }
@@ -226,47 +227,46 @@ angular.module('financieraClienteApp')
 
                 switch (tipo_recibo) {
                     case "INSCRIPCIONES":
-                        ctrl.gridOptions.columnDefs = [
-                            {
-                              name: 'identificacion',
-                              displayName: $translate.instant('IDENTIFICACION'),
-                              headerCellClass: 'encabezado',
-                             cellClass: 'input_center',
+                        ctrl.gridOptions.columnDefs = [{
+                                name: 'identificacion',
+                                displayName: $translate.instant('IDENTIFICACION'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
 
                             },
                             {
-                              name: 'fecha',
-                              displayName: $translate.instant('FECHA'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
-                              cellTemplate: '<span>{{row.entity.fecha | date:"yyyy-MM-dd":"UTC"}}</span>',
+                                name: 'fecha',
+                                displayName: $translate.instant('FECHA'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
+                                cellTemplate: '<span>{{row.entity.fecha | date:"yyyy-MM-dd":"UTC"}}</span>',
                             },
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
                             {
-                              name: 'valor',
-                              displayName: $translate.instant('VALOR'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right'
+                                name: 'valor',
+                                displayName: $translate.instant('VALOR'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right'
                             },
                             {
-                              name: 'codigo_banco',
-                              displayName: $translate.instant('CODIGO_BANCO'),
-                              headerCellClass: 'encabezado',
-                             cellClass: 'input_center'
+                                name: 'codigo_banco',
+                                displayName: $translate.instant('CODIGO_BANCO'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center'
                             },
                             {
-                              name: 'oficina_banco',
-                              displayName: $translate.instant('SUCURSAL'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center'
+                                name: 'oficina_banco',
+                                displayName: $translate.instant('SUCURSAL'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center'
                             },
                             {
-                              name: 'referencia_pago',
-                              displayName: $translate.instant('REFERENCIA_PAGO'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right'
+                                name: 'referencia_pago',
+                                displayName: $translate.instant('REFERENCIA_PAGO'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right'
                             }
                         ];
                         inicio = $filter('date')(ctrl.fechaInicio, "yyyy-MM-dd");
@@ -289,89 +289,88 @@ angular.module('financieraClienteApp')
                         wso2Request.get("admisionesProxyServer", parametros).then(function(response) {
 
                             if (Object.keys(response.data.ingresosAdmisionesCollection).length != 0) {
-                              ctrl.cargando = false;
-                              ctrl.hayData = true;
+                                ctrl.cargando = false;
+                                ctrl.hayData = true;
                                 ctrl.gridOptions.data = response.data.ingresosAdmisionesCollection.ingresoAdmisiones;
                                 ctrl.total = 0;
                                 angular.forEach(ctrl.gridOptions.data, function(ingreso) {
                                     ctrl.total += parseFloat(ingreso.referencia_pago);
                                 });
                             } else {
-                              ctrl.cargando = false;
-                              ctrl.hayData = false;
-                          }
+                                ctrl.cargando = false;
+                                ctrl.hayData = false;
+                            }
                         });
 
                         break;
 
                     case "CODIGO DE BARRAS":
-                        ctrl.gridOptions.columnDefs = [
-                            {
-                              name: 'ano',
-                              displayName: $translate.instant('VIGENCIA'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
-                              width: '10%'
+                        ctrl.gridOptions.columnDefs = [{
+                                name: 'ano',
+                                displayName: $translate.instant('VIGENCIA'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
+                                width: '10%'
                             },
                             {
-                              name: 'identificacion',
-                              displayName: $translate.instant('IDENTIFICACION'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
-                              width: '10%'
+                                name: 'identificacion',
+                                displayName: $translate.instant('IDENTIFICACION'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
+                                width: '10%'
                             },
                             {
-                              name: 'nombre',
-                              displayName: $translate.instant('NOMBRE'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
-                              width: '20%'
+                                name: 'nombre',
+                                displayName: $translate.instant('NOMBRE'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
+                                width: '20%'
                             },
                             //{ name: 'CODIGO_CONCEPTO', displayName: 'Concepto'  },
                             {
-                              name: 'numero_cuenta',
-                              displayName: $translate.instant('NUMERO_CUENTA'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
+                                name: 'numero_cuenta',
+                                displayName: $translate.instant('NUMERO_CUENTA'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
                                 width: '10%'
                             },
                             {
-                              name: 'tipo_recibo',
-                              displayName: $translate.instant('TIPO_RECIBO'),
-                              headerCellClass: 'encabezado',
-                              cellClass: 'input_center',
+                                name: 'tipo_recibo',
+                                displayName: $translate.instant('TIPO_RECIBO'),
+                                headerCellClass: 'encabezado',
+                                cellClass: 'input_center',
                                 width: '10%'
                             },
                             {
-                              name: 'pago_reportado',
-                              displayName: $translate.instant('PAGO_REPORTADO'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right',
+                                name: 'pago_reportado',
+                                displayName: $translate.instant('PAGO_REPORTADO'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right',
                                 width: '10%'
                             },
                             {
-                              name: 'matricula',
-                              displayName: $translate.instant('PAGO_MATRICULA'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right',
+                                name: 'matricula',
+                                displayName: $translate.instant('PAGO_MATRICULA'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right',
                                 width: '10%'
                             },
                             {
-                              name: 'seguro',
-                              displayName: $translate.instant('PAGO_SEGURO'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right',
+                                name: 'seguro',
+                                displayName: $translate.instant('PAGO_SEGURO'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right',
                                 width: '10%'
                             },
                             {
-                              name: 'carnet',
-                              displayName: $translate.instant('PAGO_CARNET'),
-                              headerCellClass: 'encabezado',
-                              cellFilter: 'currency',
-                              cellClass: 'input_right',
+                                name: 'carnet',
+                                displayName: $translate.instant('PAGO_CARNET'),
+                                headerCellClass: 'encabezado',
+                                cellFilter: 'currency',
+                                cellClass: 'input_right',
                                 width: '10%'
                             }
                         ];
@@ -398,20 +397,20 @@ angular.module('financieraClienteApp')
                         });
                         wso2Request.get("academicaProxyService", parametros).then(function(response) {
 
-                          if (Object.keys(response.data.ingresosConceptoCollection).length != 0) {
-                              ctrl.cargando = false;
-                              ctrl.hayData = true;
+                            if (Object.keys(response.data.ingresosConceptoCollection).length != 0) {
+                                ctrl.cargando = false;
+                                ctrl.hayData = true;
                                 ctrl.gridOptions.data = response.data.ingresosConceptoCollection.ingresoConcepto;
                                 ctrl.total = 0;
                                 angular.forEach(ctrl.gridOptions.data, function(ingreso) {
                                     ctrl.total += parseFloat(ingreso.pago_reportado);
                                 });
                             } else {
-                              ctrl.cargando = false;
-                              ctrl.hayData = false;
+                                ctrl.cargando = false;
+                                ctrl.hayData = false;
                             }
                         });
-                      break;
+                        break;
                     default:
                         break;
                 }
