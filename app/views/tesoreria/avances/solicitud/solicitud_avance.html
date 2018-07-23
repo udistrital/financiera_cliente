@@ -150,14 +150,25 @@
                   <label for="dep_destino" class="control-label">{{"DESCRIPCION" | translate}}</label>
                   <textarea class="form-control" ng-model="solicitudAvance.descripcion" rows="4" required></textarea>
 
+                <div class="col-md-3 col-md-offset-4" align="center">
+                   <br>
                   <button align="center" class="btn btn-success btn-outline" ng-click="solicitudAvance.anadir_tipo()">+ {{'TIPO' | translate }}</button>
+                </div>
               </div>
 
                 <div class="col-md-6">
                   <div ui-grid="solicitudAvance.gridOptions" ui-grid-pagination class="myGrid">
                       <div class="watermark" ng-show="!solicitudAvance.hayData">{{'NO_DATA'| translate}}</div>
                   </div>
+                  <div class="col-md-3 col-md-offset-3">
+                    <h3>{{'TOTAL' | translate}}: </h3>
+                  </div>
+                  <div class="col-md-3 ">
+                    <br>
+                    <span class="form-control">{{solicitudAvance.total | currency}}</span>
+                  </div>
                 </div>
+
             </div>
         </div>
         </form>
