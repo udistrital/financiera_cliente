@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
   .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest) {
     var ctrl = this;
+    ctrl.fechaOficio = new Date();
+    ctrl.fechaConsignacion = new Date();
     ctrl.gridOrdenesDePago = {
       showColumnFooter: true,
       paginationPageSizes: [10, 50, 100],
@@ -153,14 +155,18 @@ angular.module('financieraClienteApp')
           ctrl.unidadesejecutoras = response.data;
       });
 
+      financieraRequest.get('causal_reintegro', $.param({
+          limit: -1
+      })).then(function(response) {
+          ctrl.causalesReintegro = response.data;
+      });
+
    };
 
    ctrl.consultarListas();
 
 
    ctrl.validateFields = function(){
-     var validationClear = true;
-
      if($scope.datosReintegro.$invalid){
        angular.forEach($scope.datosReintegro.$error,function(controles,error){
          angular.forEach(controles,function(control){
@@ -179,7 +185,6 @@ angular.module('financieraClienteApp')
        return false;
      }
        return true;
-
    }
 
    $scope.$watch('tesoreriaReintegros.concepto[0]', function(newValue,oldValue) {
@@ -193,5 +198,19 @@ angular.module('financieraClienteApp')
                    });
                }
            }, true);
+
+    ctrl.crearDevolucion = function(){
+      var request
+       if(validateFields()){
+         request = {
+           Ingreso:{
+             FechaInicio: ctrl.FechaConsignacion,
+             FechaFin: ctrl.FechaConsignacion,
+             Observaciones: ctrl.observaciones,
+             UnidadEjecutora: ctrl.unidadejecutora,
+           }
+         }
+       }
+    }
 
   });
