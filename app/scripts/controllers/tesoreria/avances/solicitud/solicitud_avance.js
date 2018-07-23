@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
         $scope.info_terceros = true;
         $scope.info_desc_avances = true;
         $scope.info_detalle_avances = true;
+        ctrl.total = 0;
         ctrl.tipos_avance = [];
         ctrl.lista_tipos = [];
         ctrl.hayData = false;
@@ -45,11 +46,12 @@ angular.module('financieraClienteApp')
                 width: "25%",
             }, {
                 field: 'Valor',
-                cellClass: 'input_center',
+                cellClass: 'input_right',
+                cellFilter: 'currency',
                 displayName: $translate.instant('VALOR'),
                 headerCellClass: 'encabezado',
                 width: "25%",
-                footerCellTemplate: '<div>custom template</div>' 
+            
             },  {
                 field: 'Opciones',
                 cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
@@ -83,6 +85,7 @@ angular.module('financieraClienteApp')
            }else{
              ctrl.hayData = true;
            }
+           ctrl.calcular_total();
          };
 
         ctrl.get_tipos_avance = function() {
