@@ -618,6 +618,11 @@ angular
               controller: 'TesoreriaReintegrosCtrl',
               controllerAs: 'tesoreriaReintegros'
             })
+            .when('/tesoreria/parametros/causal_reintegro', {
+              templateUrl: 'views/tesoreria/parametros/causal_reintegro.html',
+              controller: 'TesoreriaParametrosCausalReintegroCtrl',
+              controllerAs: 'tesoreriaCausalReintegro'
+            })
             .otherwise({
                 redirectTo: '/'
             });
