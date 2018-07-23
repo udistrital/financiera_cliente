@@ -87,8 +87,8 @@ angular.module('financieraClienteApp')
           }
           */
           else{
-            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
-            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
+            var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></tr>" ;
             swal('',templateAlert,response.data.Type).then(function(){
               $scope.$apply(function(){
                   $location.path('/ingresos_sin_situacion_fondos/consulta');

@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest) {
+  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest) {
     var ctrl = this;
     ctrl.fechaOficio = new Date();
     ctrl.fechaConsignacion = new Date();
@@ -114,7 +114,7 @@ angular.module('financieraClienteApp')
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          ctrl.IdOrdenPago = row.entity.Id;
+          ctrl.ordenPago = row.entity;
         });
       }
     };
@@ -199,17 +199,54 @@ angular.module('financieraClienteApp')
                }
            }, true);
 
-    ctrl.crearDevolucion = function(){
+    ctrl.crearReintegro= function(){
       var request
-       if(validateFields()){
+       if(ctrl.validateFields()){
          request = {
            Ingreso:{
              FechaInicio: ctrl.FechaConsignacion,
              FechaFin: ctrl.FechaConsignacion,
              Observaciones: ctrl.observaciones,
              UnidadEjecutora: ctrl.unidadejecutora,
-           }
+           },
+           DocumentoGenerador:{
+               NumDocumento:ctrl.oficio,
+               FechaDocumento:ctrl.fechaOficio,
+               TipoDocumento:49
+           },
+           Reintegro:{
+             Oficio: ctrl.oficio,
+             FechaOficio:ctrl.fechaOficio,
+             Causal:ctrl.causalReintegro,
+             Observaciones:ctrl.observaciones,
+             OrdenPago:ctrl.ordenPago
+           },
+           IngresoBanco: ctrl.valor,
+           Concepto: ctrl.concepto[0]
          }
+
+         angular.forEach(ctrl.movs, function(data) {
+             delete data.Id;
+         });
+         request.Movimientos = ctrl.movs;
+
+         financieraMidRequest.post('reintegro/Create',request).then(function(response){
+           if(response.data.Type==="error"){
+             swal("",$translate.instant(response.data.Code),response.data.Type);
+           }
+           else{
+             var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
+             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></tr>" ;
+             swal('',templateAlert,response.data.Type).then(function(){
+               $scope.$apply(function(){
+                   $location.path('/ingresos/ingreso_consulta');
+               });
+             });
+
+           }
+           ctrl.disabled = false;
+         });
+
        }
     }
 
