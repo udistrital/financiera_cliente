@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest) {
+  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location) {
     var ctrl = this;
     ctrl.fechaOficio = new Date();
     ctrl.fechaConsignacion = new Date();
@@ -229,22 +229,23 @@ angular.module('financieraClienteApp')
              delete data.Id;
          });
          request.Movimientos = ctrl.movs;
-
+         console.log(request);
          financieraMidRequest.post('reintegro/Create',request).then(function(response){
+          console.log(response);
            if(response.data.Type==="error"){
              swal("",$translate.instant(response.data.Code),response.data.Type);
            }
            else{
              var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></tr>" ;
-             swal('',templateAlert,response.data.Type).then(function(){
-               $scope.$apply(function(){
-                   $location.path('/ingresos/ingreso_consulta');
-               });
-             });
+             swal('',templateAlert,response.data.Type);
+             //.then(function(){
+            //   $scope.$apply(function(){
+            //       $location.path('/ingresos/ingreso_consulta');
+            //   });
+             //});
 
            }
-           ctrl.disabled = false;
          });
 
        }
