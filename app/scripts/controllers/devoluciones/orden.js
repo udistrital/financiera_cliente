@@ -126,8 +126,8 @@ angular.module('financieraClienteApp')
    }, true);
 
    ctrl.consultaPagos = function(){
-
      if (ctrl.consultaPag === true){
+       ctrl.nombreSolicitante = null;
        ctrl.loadCircle = false;
        var parametros = [
       {
@@ -166,7 +166,7 @@ angular.module('financieraClienteApp')
                       limit:-1
                     })).then(function(response){
                         if(!angular.isUndefined(response.data) && response.data!=null){
-                            ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                            ctrl.nombreSolicitante = response.data[0].NomProveedor;
                             ctrl.IdSolicitante = response.data[0].Id;
                             ctrl.encontrado = true;
                         }else{
