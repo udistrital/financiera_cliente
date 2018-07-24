@@ -264,7 +264,7 @@ $scope.loadrow = function(row, operacion) {
 ctrl.consultaPagos = function(){
 
   if (ctrl.consultaPag === true){
-
+    ctrl.nombreSolicitante = null;
     ctrl.loadCircle = false;
     var parametros = [
    {
@@ -301,7 +301,7 @@ ctrl.consultaPagos = function(){
                    limit:-1
                  })).then(function(response){
                      if(!angular.isUndefined(response.data) && response.data!=null){
-                         ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                         ctrl.nombreSolicitante = response.data[0].NomProveedor;
                          ctrl.encontrado = true;
                      }else{
                        agoraRequest.get('supervisor_contrato',$.param({
