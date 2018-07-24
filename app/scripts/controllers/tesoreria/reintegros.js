@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location) {
+  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location,coreRequest) {
     var ctrl = this;
     ctrl.fechaOficio = new Date();
     ctrl.fechaConsignacion = new Date();
@@ -161,6 +161,15 @@ angular.module('financieraClienteApp')
           ctrl.causalesReintegro = response.data;
       });
 
+      coreRequest.get('documento',
+        $.param({
+          query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True,TipoDocumento.CodigoAbreviacion:TD-ING",
+          limit: -1
+        })
+      ).then(function(response) {
+        ctrl.documentos = response.data;
+      });
+
    };
 
    ctrl.consultarListas();
@@ -204,16 +213,16 @@ angular.module('financieraClienteApp')
        if(ctrl.validateFields()){
          request = {
            Ingreso:{
-             FechaInicio: ctrl.FechaConsignacion,
-             FechaFin: ctrl.FechaConsignacion,
+             FechaInicio: ctrl.fechaConsignacion,
+             FechaFin: ctrl.fechaConsignacion,
              Observaciones: ctrl.observaciones,
              UnidadEjecutora: ctrl.unidadejecutora,
            },
-           DocumentoGenerador:{
-               NumDocumento:ctrl.oficio,
-               FechaDocumento:ctrl.fechaOficio,
-               TipoDocumento:49
-           },
+           //DocumentoGenerador:{
+          //     NumDocumento:ctrl.oficio,
+          //     FechaDocumento:ctrl.fechaOficio,
+          //     TipoDocumento:ctrl.documentoSelec.Id
+           //},
            Reintegro:{
              Oficio: ctrl.oficio,
              FechaOficio:ctrl.fechaOficio,
@@ -237,13 +246,12 @@ angular.module('financieraClienteApp')
            }
            else{
              var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
-             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></tr>" ;
-             swal('',templateAlert,response.data.Type);
-             //.then(function(){
-            //   $scope.$apply(function(){
-            //       $location.path('/ingresos/ingreso_consulta');
-            //   });
-             //});
+             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Reintegro.Consecutivo + "</td></tr>" ;
+             swal('',templateAlert,response.data.Type).then(function(){
+               $scope.$apply(function(){
+                   $location.path('/ingresos/ingreso_consulta');
+               });
+             });
 
            }
          });
