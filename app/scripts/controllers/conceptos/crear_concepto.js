@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
     self.info_basico = false;
     self.cargando = true;
     self.hayData = true;
+    $scope.formulario = {};
 
   //  self.info_OP = false;
 
@@ -57,26 +58,34 @@ angular.module('financieraClienteApp')
       var hay_afectacion = false;
       self.MensajesAlerta = '';
 
-      if($scope.conceptoForm.$invalid){
-
+      if($scope.formulario.conceptoForm === undefined){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
-        angular.forEach($scope.conceptoForm.$error,function(controles,error){
-          angular.forEach(controles,function(control){
-            control.$setDirty();
-          });
-        });
+      }else{
+        if(self.padre === undefined){
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
 
+        }
+
+        if($scope.formulario.conceptoForm.$invalid){
+
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
+          angular.forEach($scope.formulario.conceptoForm.$error,function(controles,error){
+            angular.forEach(controles,function(control){
+              control.$setDirty();
+            });
+          });
+
+        }
       }
+
+
 
       /*
       if(self.nuevo_concepto.FechaExpiracion === undefined && $scope.isconcepto){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
       }
       */
-      if(self.padre === undefined){
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
 
-      }
 
       if($scope.isconcepto){
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
