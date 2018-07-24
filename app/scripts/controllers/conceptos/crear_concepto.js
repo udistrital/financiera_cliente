@@ -9,7 +9,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $window) {
+  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $location, $route) {
 
     var self = this;
     //self.rubro = {};
@@ -61,10 +61,6 @@ angular.module('financieraClienteApp')
       if($scope.formulario.conceptoForm === undefined){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
       }else{
-        if(self.padre === undefined){
-          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
-
-        }
 
         if($scope.formulario.conceptoForm.$invalid){
 
@@ -77,8 +73,10 @@ angular.module('financieraClienteApp')
 
         }
       }
+      if(self.padre === undefined){
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
 
-
+      }
 
       /*
       if(self.nuevo_concepto.FechaExpiracion === undefined && $scope.isconcepto){
@@ -180,7 +178,9 @@ angular.module('financieraClienteApp')
               swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
               self.recargar = !self.recargar;
               self.resetear();
-              $window.location.reload()
+              $location.path('/conceptos/listado_conceptos');
+              $route.reload();
+
             } else {
               swal("", $translate.instant(response.data.Code), response.data.Type);
             }
@@ -248,8 +248,8 @@ angular.module('financieraClienteApp')
         self.tipos_afectacion[i].Ingreso = false;
       }
       $scope.gridApi.selection.clearSelectedRows();
-      $scope.conceptoForm.$setPristine();
-      $scope.conceptoForm.$setUntouched();
+      $scope.formulario.conceptoForm.$setPristine();
+      $scope.formulario.conceptoForm.$setUntouched();
       $scope.submitted=false
     };
 
