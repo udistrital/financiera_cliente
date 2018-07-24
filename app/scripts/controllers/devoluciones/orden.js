@@ -201,6 +201,7 @@ angular.module('financieraClienteApp')
 
    ctrl.consultaBen = function(){
      if (ctrl.consultaBeneficiario === true){
+       ctrl.nombreBeneficiario = null;
        ctrl.loadCircle = false;
        var parametros = [
       {
@@ -234,7 +235,7 @@ angular.module('financieraClienteApp')
                       limit:-1
                     })).then(function(response){
                         if(!angular.isUndefined(response.data) && response.data!=null){
-                            ctrl.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                            ctrl.nombreBeneficiario = response.data[0].NomProveedor;
                             ctrl.IdBeneficiario = response.data[0].Id;
                         }else{
                           agoraRequest.get('supervisor_contrato',$.param({
