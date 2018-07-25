@@ -18,7 +18,8 @@ angular.module('financieraClienteApp')
         ctrl.lista_tipos = [];
         ctrl.hayData = false;
         $scope.botones = [
-          { clase_color: "ver", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'borrar', estado: true }
+          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+          { clase_color: "ver", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'borrar', estado: true },
         ];
 
         ctrl.gridOptions = {
@@ -26,8 +27,8 @@ angular.module('financieraClienteApp')
             enableSorting: true,
             enableRowSelection: true,
             enableRowHeaderSelection: false,
-            paginationPageSizes: [25, 50, 75],
-            paginationPageSize: 10,
+            paginationPageSizes: [5, 10],
+            paginationPageSize: 5,
             useExternalPagination: true,
 
             columnDefs: [
@@ -51,7 +52,7 @@ angular.module('financieraClienteApp')
                 displayName: $translate.instant('VALOR'),
                 headerCellClass: 'encabezado',
                 width: "25%",
-            
+
             },  {
                 field: 'Opciones',
                 cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
@@ -69,19 +70,34 @@ angular.module('financieraClienteApp')
                 ctrl.borrarFila(row);
               break;
 
-              case "otro":
+              case "ver":
+                ctrl.verRequisitos(row);
 
               break;
               default:
           }
       };
 
+      ctrl.verRequisitos = function(row){
+        ctrl.row_seleccionada = row.entity;
+        if(typeof(ctrl.row_seleccionada.requisitos_seleccionados[0]) === "string"){
+          ctrl.hayRequisitos = false;
+
+        }else{
+          ctrl.hayRequisitos = true;
+          ctrl.requisitos = ctrl.row_seleccionada.requisitos_seleccionados[0];
+        }
+         $('#modal_informacion_tipo_avance').modal('show');
+
+      };
+
       ctrl.borrarFila = function(row) {
            var index = ctrl.gridOptions.data.indexOf(row.entity);
            ctrl.gridOptions.data.splice(index, 1);
-           console.log("data",ctrl.gridOptions.data)
-           if(ctrl.gridOptions.data === null){
+
+           if(ctrl.gridOptions.data.length === 0){
              ctrl.hayData = false;
+
            }else{
              ctrl.hayData = true;
            }
@@ -97,29 +113,29 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     ctrl.tipos_avance = response.data;
-                    console.log(ctrl.tipos_avance);
+
                 });
         };
         ctrl.get_tipos_avance();
         ctrl.ver_seleccion = function($item, $model) {
             ctrl.tercero = $item;
-            ctrl.tercero.dependencia = "NO APLICA";
+            ctrl.tercero.dependencia = $translate.instant('NO_APLICA');
         }
 
         var parametros = "";
         academicaRequest.get(parametros)
             .then(function(response) {
                 ctrl.terceros = response.data;
-                console.log(ctrl.terceros);
+
             });
 
         ctrl.calcular_total = function() {
             ctrl.total = 0;
             angular.forEach(ctrl.lista_tipos, function(data) {
-                console.log(data);
+
                 ctrl.total += data.Valor;
             });
-            console.log(ctrl.total);
+
         };
 
         ctrl.camposObligatorios = function() {
@@ -264,7 +280,7 @@ angular.module('financieraClienteApp')
         } else {
           // mesnajes de error campos obligatorios
           swal({
-            title: 'Error!',
+            title: '¡Error!',
             html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
             type: 'error'
           })
