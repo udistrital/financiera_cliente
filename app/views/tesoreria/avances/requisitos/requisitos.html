@@ -6,7 +6,10 @@
                 {{ 'LISTA_REQUISITOS_AVANCE' | translate }}
             </div>
             <div class="panel-body">
-                <div class="mi-grid" id="mi-grid" ui-grid="requisitos.gridOptions" ui-grid-selection ui-grid-pagination></div>
+                <div class="mi-grid" id="mi-grid" ui-grid="requisitos.gridOptions" ui-grid-selection ui-grid-pagination>
+                  <div class="watermark" ng-show="!requisitos.hayData">{{'NO_DATA'| translate}}</div>
+                  <div class="watermark" ng-show="requisitos.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                </div>
             </div>
             <div class="panel-footer">
                 <div align="center"> <button ng-click="loadrow('', 'add')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
@@ -29,33 +32,36 @@
             </div>
 
 
-            <form class="form-horizontal" name="avances_add_edit" ng-submit="avances_add_edit.$valid && requisitos.add_edit()">
+            <form class="form-horizontal" name="avances_add_edit">
                 <br>
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ABREVIACION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.CodigoAbreviacion" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.CodigoAbreviacion" class="form-control" required />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.Nombre" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="requisitos.row_entity.Nombre" class="form-control" required />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <textarea name="descripcion" ng-model="requisitos.row_entity.Descripcion" rows=7 class="form-control" required="true"></textarea>
+                        <textarea name="descripcion" ng-model="requisitos.row_entity.Descripcion" rows=7 class="form-control" required></textarea>
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'ETAPA' | translate }}:</label>
                     <div class="col-sm-9">
-                        <select name="estado" ng-model="requisitos.row_entity.EtapaAvance.Id" class="form-control">
+                        <select name="estado" ng-model="requisitos.selectTipoAvance" class="form-control"  required ng-if="requisitos.operacion ==='add'" >
+                            <option ng-repeat="etapa in requisitos.etapas" ng-value="{{etapa}}">{{etapa.Nombre}}</option>
+                        </select>
+                        <select name="estado" ng-model="requisitos.row_entity.EtapaAvance.Id" class="form-control"  required ng-if="requisitos.operacion ==='edit'" >
                             <option ng-repeat="etapa in requisitos.etapas" ng-value="etapa.Id">{{etapa.Nombre}}</option>
                         </select>
                     </div>
@@ -70,8 +76,8 @@
                 </div>
                 <br>
                 <center>
-                    <input type="reset" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="requisitos.operacion ==='add'" />
-                    <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
+                    <input ng-click="requisitos.reset()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}"/>
+                    <input ng-click="requisitos.add_edit()" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
                 </center>
             </form>
             <br>
