@@ -210,17 +210,21 @@ angular.module('financieraClienteApp')
                     }
                 });
             } else {
+
+                console.log("crear calendario no edicion")
                 var nuevo = {
                     Vigencia: self.nuevo_calendario.Vigencia,
                     Entidad: { Id: 1 },
                     Descripcion: self.nuevo_calendario.Descripcion,
                     FechaInicio: self.nuevo_calendario.FechaInicio,
                     FechaFin: self.nuevo_calendario.FechaFin,
-                    EstadoCalendario: { Id: 1 },
+                    EstadoCalendarioTributario: { Id: 1 },
                     Responsable: 546546556
                 };
 
                 financieraRequest.post('calendario_tributario', nuevo).then(function(response) {
+                  console.log("respuesta",response.data)
+
                     if (self.vigencia_calendarios === null) {
                         self.cargar_calendarios_full();
                     } else {
