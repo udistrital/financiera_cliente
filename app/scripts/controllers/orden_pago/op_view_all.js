@@ -60,7 +60,7 @@ angular.module('financieraClienteApp')
 
           case "proceso":
             $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
-            $scope.informacion_op = "Orden de Pago No ";
+            $scope.informacion = $translate.instant('ORDEN_DE_PAGO')+ ' '+ 'No'+' '+row.entity.Consecutivo;
             $scope.mostrar_direc = true;
           break;
           default:
