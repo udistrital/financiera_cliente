@@ -16,7 +16,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('verDescuentos', function(financieraRequest, administrativaRequest, $translate) {
+    .directive('verDescuentos', function(financieraRequest, administrativaRequest, $translate,$interval) {
         return {
             restrict: 'E',
             //variables del scope de la directiva
@@ -107,6 +107,9 @@ angular.module('financieraClienteApp')
                 self.gridOptions.enablePaginationControls = true;
                 self.gridOptions.onRegisterApi = function(gridApi) {
                     self.gridApi = gridApi;
+                    $interval( function() {
+                        self.gridApi.core.handleWindowResize();
+                      }, 500, 100);
                     gridApi.selection.on.rowSelectionChanged($scope, function() {
                         $scope.seldesc = self.gridApi.selection.getSelectedRows()[0];
                         if ('cuentasel' in $attrs) {
