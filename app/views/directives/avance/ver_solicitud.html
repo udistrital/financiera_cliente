@@ -58,6 +58,10 @@
                 <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Objetivo" rows="5" disabled></textarea>
                 <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
                 <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Justificacion" rows="5" disabled></textarea>
+                <div class="form-group">
+                  <label for="dep_presupuesto" class="control-label">{{"INFORMACION_PRESUPUESTAL" | translate}}</label>
+                <div style="width:50%" ui-grid="d_verSolicitud.gridInfPresupuesto"></div>
+              </div>
             </div>
             <div class="col-md-6">
                 <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
