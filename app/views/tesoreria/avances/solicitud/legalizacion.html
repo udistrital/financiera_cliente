@@ -2,10 +2,27 @@
     <h2 class="page-header text-center">{{ 'LEGALIZACION_AVANCE' | translate }}</h2>
     <div class="panel-body">
         <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+
+        <fieldset class="form-group">
+          <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="!c"></span> <span class="fa fa-minus pull-right" ng-show="c"></span></legend>
+          <div class="panel-body" ng-show="c">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+                </div>
+
+                <div style="width=100%" ui-grid="legalizacion.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                  <div class="watermark" ng-show="!legalizacion.hayData">{{'NO_DATA'| translate}}</div>
+                  <div class="watermark" ng-show="legalizacion.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+                </div>
+            </div>
+          </div>
+        </fieldset>
+
         <fieldset class="form-group">
             <legend class="text-primary" ng-click="d=!d">{{'LEGALIZACION_EVENTO_COMPRA'| translate}} <span class="fa fa-plus pull-right" ng-show="!d"></span>
                 <span class="fa fa-minus pull-right" ng-show="d"></span></legend>
-            <div class="panel panel-default" ng-show="!d">
+            <div class="panel panel-default" ng-show="d">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {{ 'LEGALIZACION_EVENTO_COMPRA' | translate }}
@@ -20,9 +37,10 @@
             </div>
         </fieldset>
         <fieldset class="form-group">
-            <legend class="text-primary" ng-click="e=!e">{{'LEGALIZACION_PRACTICA_ACADEMICA'| translate}} <span class="fa fa-plus pull-right" ng-show="!e"></span>
-                <span class="fa fa-minus pull-right" ng-show="e"></span></legend>
-            <div class="panel panel-default" ng-show="!e">
+            <legend class="text-primary" ng-click="e=!e">{{'LEGALIZACION_PRACTICA_ACADEMICA'| translate}}
+              <span class="fa fa-plus pull-right" ng-show="!e"></span>
+              <span class="fa fa-minus pull-right" ng-show="e"></span></legend>
+            <div class="panel panel-default" ng-show="e">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         {{ 'LEGALIZACION_PRACTICA_ACADEMICA' | translate }}
