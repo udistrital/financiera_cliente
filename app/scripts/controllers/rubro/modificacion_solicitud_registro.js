@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope,$translate,$window,financieraRequest) {
+  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope,$translate,$window,financieraRequest, financieraMidRequest) {
     var self = this;
     self.modificaciones = [];
     self.descripcion = '';
@@ -137,7 +137,7 @@ angular.module('financieraClienteApp')
 
     			 // if (response.data !== null) {
                         self.rubroCuentaCredito = self.rubroCuentaCreditosel;
-                        financieraRequest.get("apropiacion/SaldoApropiacion/"+self.rubroCuentaCredito.Id, "").then(function(response) {
+                        financieraMidRequest.get("apropiacion/SaldoApropiacion/"+self.rubroCuentaCredito.Codigo+"/"+self.rubroCuentaCredito.UnidadEjecutora+"/"+self.Vigencia, "").then(function(response) {
 
                           if (response.data !== null) {
                            self.rubroCuentaCredito.InfoSaldo = response.data;
