@@ -44,9 +44,11 @@ angular.module('financieraClienteApp')
             },
             controller: function($scope, $attrs) {
                 $scope.show_descs = 'impydesc' in $attrs;
+                $scope.show_selcuent = 'selcuentas' in $attrs
                 var self = this;
                 self.descuentos_nuevos = [];
                 self.posactual = 0;
+                self.cargarCuentas = true;
                 financieraRequest.get('forma_pago',
                   $.param({
                     limit: 0
@@ -566,6 +568,18 @@ angular.module('financieraClienteApp')
                         $scope.validatemov = false;
                     }
                 }, true);
+
+                self.cargar_plan_maestro = function() {
+                  if (self.cargarCuentas) {
+                    financieraRequest.get("plan_cuentas", $.param({
+                      query: "PlanMaestro:" + true
+                    })).then(function(response) {
+                      self.plan_maestro = response.data[0]; //Se carga data devuelta por el servicio en la variable del controlador plan_maestro
+                    });
+                    self.cargarCuentas=false;
+                  }
+
+                };
 
                 /**
                  * @ngdoc event
