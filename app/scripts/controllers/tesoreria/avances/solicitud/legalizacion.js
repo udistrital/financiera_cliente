@@ -8,17 +8,24 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants) {
+    .controller('LegalizacionCtrl', function($scope, financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
         ctrl.row_entity = {};
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
+        ctrl.Vigencia=2018;
+        ctrl.UnidadEjecutora=1;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
         ];
+
+        $scope.botonesCRP = [
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'vercrp', estado: true },
+        ];
+
         $scope.clase_load = {
             clase: "fa fa-spinner",
             animacion: "faa-spin animated"
@@ -114,7 +121,6 @@ angular.module('financieraClienteApp')
                     width: '14%',
                 },
                 {
-                    //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '10%',
@@ -126,14 +132,74 @@ angular.module('financieraClienteApp')
             }
         };
 
+        ctrl.gridCRP = {
+          enableFiltering: true,
+          enableSorting: true,
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: 5,
+          useExternalPagination: true,
+          columnDefs: [{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              cellClass: 'input_center',
+              enableFiltering: false,
+               headerCellClass: 'encabezado',
+               width: "15%",
+            },
+            {
+              field: 'NumeroRegistroPresupuestal',
+              displayName: $translate.instant('NO'),
+              cellClass: 'input_center',
+               headerCellClass: 'encabezado',
+               width: "15%",
+            },
+            {
+              field: 'FechaRegistro',
+              cellClass: 'input_center',
+              displayName: $translate.instant('FECHA_REGISTRO'),
+              cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
+               headerCellClass: 'encabezado',
+               width: "20%",
+            },
+            {
+              field: 'Estado.Nombre',
+              displayName: $translate.instant('ESTADO'),
+               headerCellClass: 'encabezado',
+              cellClass: 'input_center',
+              width: "20%",
+            },
+            {
+              field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
+              displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+              enableFiltering: false,
+              headerCellClass: 'encabezado',
+              cellClass: 'input_center',
+              width: "20%",
+            },
+            {
+              field: $translate.instant('OPERACION'),
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botonesCRP" fila="row"></btn-registro></center>',
+              enableFiltering: false,
+              headerCellClass: 'encabezado',
+              width: "10%",
+            }
+          ]
+        };
+
         ctrl.gridOrdenesDePago = {
           enableRowSelection: true,
           enableSelectAll: false,
           selectionRowHeaderWidth: 35,
           multiSelect: false,
           enableRowHeaderSelection: false,
-          paginationPageSizes: [10, 50, 100],
-          paginationPageSize: null,
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 10,
 
           enableFiltering: true,
           minRowsToShow: 10,
@@ -245,6 +311,26 @@ angular.module('financieraClienteApp')
 
           }
         };
+
+        ctrl.cargarLista = function (offset,query) {
+          financieraMidRequest.cancel();
+          ctrl.gridCRP.data = [];
+          ctrl.cargandoCRP = true;
+          ctrl.hayDataCRP = true;
+          financieraMidRequest.get('registro_presupuestal/ListaRp/'+ctrl.Vigencia, 'UnidadEjecutora='+ctrl.UnidadEjecutora+'&limit='+ctrl.gridCRP.paginationPageSize+'&offset='+offset+query).then(function (response) {
+            if (response.data.Type !== undefined){
+              ctrl.hayDataCRP = false;
+              ctrl.cargandoCRP = false;
+              ctrl.gridCRP.data = [];
+            }else{
+              ctrl.hayDataCRP = true;
+              ctrl.cargandoCRP = false;
+              ctrl.gridCRP.data = response.data;
+            }
+          });
+        };
+
+        ctrl.cargarLista();
 
         ctrl.cargarOrdenesPago = function(){
           financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
@@ -639,6 +725,18 @@ angular.module('financieraClienteApp')
             }
             ctrl.row_entity = {};
         };
+
+        $scope.$watch('legalizacion.concepto[0]', function(newValue,oldValue) {
+                    if (!angular.isUndefined(newValue)) {
+                        financieraRequest.get('concepto', $.param({
+                            query: "Id:" + newValue.Id,
+                            fields: "Rubro",
+                            limit: -1
+                        })).then(function(response) {
+                            $scope.legalizacion.concepto[0].Rubro = response.data[0].Rubro;
+                        });
+                    }
+                }, true);
 
       $scope.$watch('c', function() {
           if($scope.c){

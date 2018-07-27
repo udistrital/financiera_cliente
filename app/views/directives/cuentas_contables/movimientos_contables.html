@@ -35,9 +35,9 @@
       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
       <div class="modal-body">
         <legend>{{"SELECCIONAR_CUENTA_CONTABLE" | translate}}</legend>
-          <plan-cuentas filtro="filtro_padre" seleccion="d_movimientosContables.padre" recargar="d_movimientosContables.recargar_arbol" planid="d_movimientosContables.plan_maestro.Id" rdesc btnselnom="btneditar" />
+          <plan-cuentas filtro="filtro_padre" cuentasel="d_movimientosContables.padre" recargar="d_movimientosContables.recargar_arbol" planid="d_movimientosContables.plan_maestro.Id" rdesc btnselnom="d_movimientosContables.btnselec" />
         <div class="form-group">
-          <center><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">{{"AGREGAR" | translate}}</button></center>
+          <center><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_cuenta(d_movimientosContables.padre)">{{"AGREGAR" | translate}}</button></center>
         </div>
       </div>
 

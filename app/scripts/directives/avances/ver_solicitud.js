@@ -46,12 +46,6 @@ angular.module('financieraClienteApp')
                   width: '33%',
                   headerCellClass: 'encabezado',
               },
-              {
-                  field: 'InformacionProveedor[0].NomProveedor',
-                  displayName: $translate.instant('NO_CRP'),
-                  width: '34%',
-                  headerCellClass: 'encabezado',
-              }
           ]
         };
 
