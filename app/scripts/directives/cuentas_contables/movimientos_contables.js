@@ -46,6 +46,7 @@ angular.module('financieraClienteApp')
                 $scope.show_descs = 'impydesc' in $attrs;
                 $scope.show_selcuent = 'selcuentas' in $attrs
                 var self = this;
+                self.btnselec=$translate.instant('BTN.SELECCIONAR');
                 self.descuentos_nuevos = [];
                 self.posactual = 0;
                 self.cargarCuentas = true;
@@ -413,6 +414,22 @@ angular.module('financieraClienteApp')
                         }
                     }
                 };
+
+                self.agregar_cuenta= function(item) {
+                  var movimiento={};
+                  if(!angular.isUndefined(item)){
+                    delete item.Hijos;
+                    movimiento.CuentaContable = item;
+                    movimiento.Concepto = self.concepto_movs;
+                    movimiento.Debito=0;
+                    movimiento.Credito=0;
+                    if (self.gridOptionsMovimientos.data.indexOf(item) < 0) {
+                        $scope.movimientos.unshift(movimiento);
+                        self.cargar_cuentas_grid();
+                    }
+                  }
+                }
+
                 self.asignar_endoso = function(item){
                     var pos = self.gridOptionsDescuentos.data.indexOf(item);
                     self.gridOptionsDescuentos.data[pos].Credito = item.ValorInicialEndoso;
@@ -606,6 +623,10 @@ angular.module('financieraClienteApp')
                     if (!angular.isUndefined($scope.outputvalorbruto) && !angular.isUndefined($scope.cuen) && $scope.outputvalorbruto > 0) {
                         self.valorMaximo = self.calcular_descuento($scope.cuen,$scope.outputvalorbruto);
                     }
+                });
+
+                $scope.$watch('d_movimientosContables.padre', function() {
+                    console.log("cuenta seleccionada",self.padre);
                 });
             },
             controllerAs: 'd_movimientosContables'
