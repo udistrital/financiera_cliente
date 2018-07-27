@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
                 node: '=?',
                 nodeclick: '=',
                 eventclick: '&',
-                info_proceso: '@'
+                info: '=?'
 
             },
 
@@ -25,9 +25,8 @@ angular.module('financieraClienteApp')
 
             },
             controller: function($scope, $localStorage,$attrs) {
-              
-                console.log("scp", $scope.info_proceso)
 
+                  
                 $scope.clicknode = function(params) {
                     var data = {
                         Estado: { Id: this.getNodeAt(params.pointer.DOM) }

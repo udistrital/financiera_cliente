@@ -9,7 +9,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $window) {
+  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $location, $route) {
 
     var self = this;
     //self.rubro = {};
@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
     self.info_basico = false;
     self.cargando = true;
     self.hayData = true;
+    $scope.formulario = {};
 
   //  self.info_OP = false;
 
@@ -57,14 +58,23 @@ angular.module('financieraClienteApp')
       var hay_afectacion = false;
       self.MensajesAlerta = '';
 
-      if($scope.conceptoForm.$invalid){
-
+      if($scope.formulario.conceptoForm === undefined){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
-        angular.forEach($scope.conceptoForm.$error,function(controles,error){
-          angular.forEach(controles,function(control){
-            control.$setDirty();
+      }else{
+
+        if($scope.formulario.conceptoForm.$invalid){
+
+          self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('ALERTA_COMPLETAR_DATOS') + "</li>";
+          angular.forEach($scope.formulario.conceptoForm.$error,function(controles,error){
+            angular.forEach(controles,function(control){
+              control.$setDirty();
+            });
           });
-        });
+
+        }
+      }
+      if(self.padre === undefined){
+        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
 
       }
 
@@ -73,10 +83,7 @@ angular.module('financieraClienteApp')
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
       }
       */
-      if(self.padre === undefined){
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
 
-      }
 
       if($scope.isconcepto){
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
@@ -171,7 +178,9 @@ angular.module('financieraClienteApp')
               swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
               self.recargar = !self.recargar;
               self.resetear();
-              $window.location.reload()
+              $location.path('/conceptos/listado_conceptos');
+              $route.reload();
+
             } else {
               swal("", $translate.instant(response.data.Code), response.data.Type);
             }
@@ -239,8 +248,8 @@ angular.module('financieraClienteApp')
         self.tipos_afectacion[i].Ingreso = false;
       }
       $scope.gridApi.selection.clearSelectedRows();
-      $scope.conceptoForm.$setPristine();
-      $scope.conceptoForm.$setUntouched();
+      $scope.formulario.conceptoForm.$setPristine();
+      $scope.formulario.conceptoForm.$setUntouched();
       $scope.submitted=false
     };
 
