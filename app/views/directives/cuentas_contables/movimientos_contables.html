@@ -26,6 +26,23 @@
   <div ng-show="show_descs">
     <center><button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalDescuentos{{conceptoid}}">{{"IMPUESTOS_DESCUENTOS" | translate}}</button></center>
   </div>
+  <div ng-show="show_selcuent">
+    <center><button type="button" ng-click="d_movimientosContables.cargar_plan_maestro()" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalSeleccionCuentas">{{"SELECCION_CUENTAS" | translate}}</button></center>
+  </div>
+
+  <div id="modalSeleccionCuentas" class="modal fade">
+    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+      <div class="modal-body">
+        <legend>{{"SELECCIONAR_CUENTA_CONTABLE" | translate}}</legend>
+          <plan-cuentas filtro="filtro_padre" cuentasel="d_movimientosContables.padre" recargar="d_movimientosContables.recargar_arbol" planid="d_movimientosContables.plan_maestro.Id" rdesc btnselnom="d_movimientosContables.btnselec" />
+        <div class="form-group">
+          <center><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_cuenta(d_movimientosContables.padre)">{{"AGREGAR" | translate}}</button></center>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <div id="modalDescuentos{{conceptoid}}" class="modal fade">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
@@ -89,7 +106,7 @@
                   <div class="col-sm-4">
                     <input class="form-control" ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].proveedor.NomProveedor" ng-required="true" disabled></input>
                   </div>
-                </fieldset>             
+                </fieldset>
               </div>
               </div>
               <div class="row">
@@ -109,7 +126,7 @@
                   <select ng-model="d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual].FormaPago" ng-options="i.Nombre for i in d_movimientosContables.formaPagos" class="form-control" required>
                     <option value="">Seleccionar Forma de Pago</option>
                   </select>
-                </div>                
+                </div>
               </div>
               </div>
               <br>
@@ -119,10 +136,10 @@
               </div>
               <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_endoso(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
                {{'E_EDO001' | translate}}
-             </div>                
+             </div>
               </div>
 
-            
+
             </form>
         </div>
       </div>
@@ -154,10 +171,10 @@
               </div>
               <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="!d_movimientosContables.validar_valor_base(d_movimientosContables.gridOptionsMovimientos.data[d_movimientosContables.posactual])">
                {{'E_VBO001' | translate}}
-             </div>                
+             </div>
               </div>
 
-            
+
             </form>
         </div>
       </div>
