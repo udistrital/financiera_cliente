@@ -4,10 +4,13 @@
         <div class="panel-heading">
             <h3 class="panel-title">{{'SELECCIONAR_INVERSION'|translate}}</h3>
         </div>
-        <div ui-grid="consultaInv.gridInversiones" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+        <div ui-grid="consultaInv.gridInversiones" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
+          <div class="watermark" ng-show="!consultaInv.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="consultaInv.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+        </div>
     </div>
-    <div>
-        <procesol edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></procesol>
+    <div ng-if="mostrar_direc">
+        <procesol edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info="informacion"></procesol>
     </div>
     <div class="panel-footer">
       <div align="center">
@@ -15,5 +18,21 @@
           {{'CREACION_ACTA_COMPRA'|translate}}
         </a>
       </div>
+    </div>
+</div>
+
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'VER_INVERSION' | translate }}
+            </div>
+            <div class="panel panel-body">
+                <ver-inversion inversion="inversion"></ver-inversion>
+            </div>
+        </div>
     </div>
 </div>
