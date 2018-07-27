@@ -13,8 +13,96 @@ angular.module('financieraClienteApp')
         $scope.info_terceros = true;
         $scope.info_desc_avances = true;
         $scope.info_detalle_avances = true;
+        ctrl.total = 0;
         ctrl.tipos_avance = [];
         ctrl.lista_tipos = [];
+        ctrl.hayData = false;
+        $scope.botones = [
+          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+          { clase_color: "ver", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'borrar', estado: true },
+        ];
+
+        ctrl.gridOptions = {
+            enableFiltering: true,
+            enableSorting: true,
+            enableRowSelection: true,
+            enableRowHeaderSelection: false,
+            paginationPageSizes: [5, 10],
+            paginationPageSize: 5,
+            useExternalPagination: true,
+
+            columnDefs: [
+              {
+                  field: 'TipoAvance.Nombre',
+                  displayName: $translate.instant('NOMBRE'),
+                  cellClass: 'input_center',
+                  headerCellClass: 'encabezado',
+                  width: "25%",
+              },
+              {
+                field: 'Descripcion',
+                cellClass: 'input_center',
+                displayName: $translate.instant('DESCRIPCION'),
+                headerCellClass: 'encabezado',
+                width: "25%",
+            }, {
+                field: 'Valor',
+                cellClass: 'input_right',
+                cellFilter: 'currency',
+                displayName: $translate.instant('VALOR'),
+                headerCellClass: 'encabezado',
+                width: "25%",
+
+            },  {
+                field: 'Opciones',
+                cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+                headerCellClass: 'encabezado',
+                width: "25%",
+            }]
+        };
+
+
+
+        $scope.loadrow = function(row, operacion) {
+          ctrl.operacion = operacion;
+          switch (operacion) {
+              case "borrar":
+                ctrl.borrarFila(row);
+              break;
+
+              case "ver":
+                ctrl.verRequisitos(row);
+
+              break;
+              default:
+          }
+      };
+
+      ctrl.verRequisitos = function(row){
+        ctrl.row_seleccionada = row.entity;
+        if(typeof(ctrl.row_seleccionada.requisitos_seleccionados[0]) === "string"){
+          ctrl.hayRequisitos = false;
+
+        }else{
+          ctrl.hayRequisitos = true;
+          ctrl.requisitos = ctrl.row_seleccionada.requisitos_seleccionados[0];
+        }
+         $('#modal_informacion_tipo_avance').modal('show');
+
+      };
+
+      ctrl.borrarFila = function(row) {
+           var index = ctrl.gridOptions.data.indexOf(row.entity);
+           ctrl.gridOptions.data.splice(index, 1);
+
+           if(ctrl.gridOptions.data.length === 0){
+             ctrl.hayData = false;
+
+           }else{
+             ctrl.hayData = true;
+           }
+           ctrl.calcular_total();
+         };
 
         ctrl.get_tipos_avance = function() {
             financieraRequest.get("tipo_avance", $.param({
@@ -25,35 +113,95 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                     ctrl.tipos_avance = response.data;
-                    console.log(ctrl.tipos_avance);
+
                 });
         };
         ctrl.get_tipos_avance();
         ctrl.ver_seleccion = function($item, $model) {
             ctrl.tercero = $item;
-            ctrl.tercero.dependencia = "NO APLICA";
+            ctrl.tercero.dependencia = $translate.instant('NO_APLICA');
         }
 
         var parametros = "";
         academicaRequest.get(parametros)
             .then(function(response) {
                 ctrl.terceros = response.data;
-                console.log(ctrl.terceros);
+
             });
 
         ctrl.calcular_total = function() {
             ctrl.total = 0;
             angular.forEach(ctrl.lista_tipos, function(data) {
-                console.log(data);
+
                 ctrl.total += data.Valor;
             });
-            console.log(ctrl.total);
+
         };
 
+        ctrl.camposObligatorios = function() {
+          var respuesta;
+          ctrl.MensajesAlerta = '';
+
+
+          if (ctrl.tercero === undefined) {
+              ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_TERCERO') + "</li>";
+
+          }
+
+          if($scope.datosOblig.$invalid){
+            angular.forEach($scope.datosOblig.$error,function(controles,error){
+              angular.forEach(controles,function(control){
+                control.$setDirty();
+              });
+            });
+
+          if (ctrl.lista_tipos.length === 0) {
+                ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('MSN_TIPO_AVANCE') + "</li>";
+
+            }
+
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS') + "</li>";
+          }
+
+          // Operar
+          if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+            respuesta = true;
+          } else {
+            respuesta =  false;
+          }
+
+          return respuesta;
+        };
+
+
+        ctrl.camposObligatoriosTipoAvance = function() {
+          var respuesta;
+          ctrl.MensajesAlerta = '';
+
+          if($scope.datosTipoAvance.$invalid){
+            angular.forEach($scope.datosOblig.$error,function(controles,error){
+              angular.forEach(controles,function(control){
+                control.$setDirty();
+              });
+            });
+
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS_AVANCE') + "</li>";
+          }
+
+          // Operar
+          if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+            respuesta = true;
+          } else {
+            respuesta =  false;
+          }
+
+          return respuesta;
+        };
+
+
         ctrl.anadir_tipo = function() {
-            if (ctrl.tipo_avance_select !== '' && ctrl.tipo_avance_select !== 'undefined' &&
-                ctrl.valor_avance !== '' && ctrl.valor_avance !== 'undefined' &&
-                ctrl.descripcion !== '' && ctrl.descripcion !== 'undefined') {
+
+            if (ctrl.camposObligatoriosTipoAvance()) {
                 var TipoAvance = {};
                 for (var i = 0; i < ctrl.tipos_avance.length; i++) {
                     if (ctrl.tipos_avance[i].Id == ctrl.tipo_avance_select) {
@@ -72,7 +220,7 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(response) {
                                 TipoAvance.requisitos_seleccionados.push(response.data);
-                                console.log(TipoAvance.requisitos_seleccionados);
+
                             });
 
                         ctrl.lista_tipos.push(TipoAvance);
@@ -83,10 +231,27 @@ angular.module('financieraClienteApp')
                     }
                 }
                 ctrl.calcular_total();
+                ctrl.gridOptions.data = ctrl.lista_tipos;
+                if(ctrl.gridOptions.data === null){
+                  ctrl.hayData = false;
+                }else{
+                  ctrl.hayData = true;
+                }
+
+            }else {
+              // mesnajes de error campos obligatorios
+              swal({
+                title: 'Error!',
+                html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
+                type: 'error'
+              })
             }
         };
 
         ctrl.enviar = function() {
+
+
+            if(ctrl.camposObligatorios()){
             var Solicitud = {};
             var SolicitudAvance = {};
             Solicitud.Beneficiario = parseInt(ctrl.tercero.documento);
@@ -112,8 +277,15 @@ angular.module('financieraClienteApp')
                         }
                     }
                 });
-        };
-
+        } else {
+          // mesnajes de error campos obligatorios
+          swal({
+            title: '¡Error!',
+            html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
+            type: 'error'
+          })
+        }
+      };
 
 
     });

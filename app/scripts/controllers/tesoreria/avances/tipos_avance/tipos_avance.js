@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
         ctrl.row_entity = {};
         ctrl.tipo_avance = {};
         ctrl.requisito_select = [];
+        ctrl.hay_requisitos_conf = true;
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -26,7 +27,7 @@ angular.module('financieraClienteApp')
 
             enableFiltering: true,
             enableSorting: true,
-            enableRowSelection: true,
+            enableRowSelection: false,
             enableRowHeaderSelection: false,
             columnDefs: [{
                     field: 'IdTipo',
@@ -36,29 +37,37 @@ angular.module('financieraClienteApp')
                     field: 'RequisitoAvance.CodigoAbreviacion',
                     displayName: $translate.instant('CODIGO_ABREVIACION'),
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 }, {
                     field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
-                    cellTemplate: '<div align="left">{{row.entity.RequisitoAvance.Nombre}}</div>',
-                    width: '20%',
+                    cellTemplate: '<div align="center">{{row.entity.RequisitoAvance.Nombre}}</div>',
+                    width: '25%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Descripcion',
                     displayName: $translate.instant('DESCRIPCION'),
                     cellTemplate: '<div align="left">{{row.entity.RequisitoAvance.Descripcion}}</div>',
-                    width: '50%',
+                    width: '45%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estado',
                     displayName: $translate.instant('ESTADO'),
                     cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.RequisitoAvance.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'FechaRegistro',
                     displayName: $translate.instant('FECHA'),
                     cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 }
             ]
         };
@@ -68,7 +77,7 @@ angular.module('financieraClienteApp')
             paginationPageSize: 5,
             enableFiltering: true,
             enableSorting: true,
-            enableRowSelection: true,
+            enableRowSelection: false,
             enableRowHeaderSelection: false,
             columnDefs: [{
                     field: 'IdTipo',
@@ -78,35 +87,45 @@ angular.module('financieraClienteApp')
                     field: 'CodigoAbreviacion',
                     displayName: $translate.instant('CODIGO_ABREVIACION'),
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     width: '15%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Descripcion',
                     displayName: $translate.instant('DESCRIPCION'),
                     width: '45%',
+                    cellClass: 'text-align',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Activo',
                     displayName: $translate.instant('ACTIVO'),
                     cellTemplate: '<div class="middle"><md-checkbox ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'FechaRegistro',
                     displayName: $translate.instant('FECHA'),
                     cellTemplate: '<div align="center"><span>{{row.entity.FechaRegistro| date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '12%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '8%',
-
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ]
@@ -114,13 +133,25 @@ angular.module('financieraClienteApp')
         ctrl.gridOptions.enablePaginationControls = true;
         ctrl.gridOptions.multiSelect = false;
         ctrl.get_all_avances = function() {
-            financieraRequest.get("tipo_avance", $.param({
+          ctrl.hayData_lista = true;
+          ctrl.cargando_lista = true;
+          ctrl.gridOptions.data = [];
+          financieraRequest.get("tipo_avance", $.param({
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
-                    ctrl.gridOptions.data = response.data;
+                    if(response.data === null){
+                      ctrl.hayData_lista = false;
+                      ctrl.cargando_lista = false;
+                      ctrl.gridOptions.data = [];
+                    }else{
+                      ctrl.hayData_lista = true;
+                      ctrl.cargando_lista = false;
+                      ctrl.gridOptions.data = response.data;
+                    }
+
                 });
         };
 
@@ -130,6 +161,9 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.get_requisito_tipo_avance = function(id) {
+          ctrl.hayData_tipos = true;
+          ctrl.cargando_tipos = true;
+          ctrl.grid_option_requisito.data = [];
             financieraRequest.get("requisito_tipo_avance", $.param({
                     query: "TipoAvance.Id:" + id,
                     limit: -1,
@@ -137,11 +171,23 @@ angular.module('financieraClienteApp')
                     order: "asc"
                 }))
                 .then(function(response) {
+                  if(response.data === null){
+                    ctrl.hayData_tipos = false;
+                    ctrl.cargando_tipos = false;
+                    ctrl.grid_option_requisito.data = [];
+                  }else{
+                    ctrl.hayData_tipos = true;
+                    ctrl.cargando_tipos = false;
                     ctrl.grid_option_requisito.data = response.data;
+                  }
+
                 });
         };
 
         ctrl.update_config = function() {
+            ctrl.requisito_tipo_avance = {};
+            ctrl.hay_requisitos_conf = true;
+            ctrl.cargando_requisitos = true;
             financieraRequest.get("requisito_avance", $.param({
                     limit: -1,
                     sortby: "Id",
@@ -157,20 +203,30 @@ angular.module('financieraClienteApp')
                             order: "asc"
                         }))
                         .then(function(response) {
-                            ctrl.grid_option_requisito.data = response.data;
-                            console.log(ctrl.grid_option_requisito);
-                            ctrl.requisito_tipo_avance = response.data;
-                            angular.forEach(ctrl.requisito_avance, function(ra) {
-                                var distint = 0;
-                                angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
-                                    if (rta.RequisitoAvance.Id === ra.Id) {
-                                        distint++;
-                                    }
-                                });
-                                if (distint === 0) {
-                                    ctrl.requisito_select.push(ra);
-                                }
-                            });
+
+                            if(typeof(response.data) !== "string"){
+
+                              ctrl.hay_requisitos_conf = true;
+                              ctrl.cargando_requisitos = false;
+                              ctrl.grid_option_requisito.data = response.data;
+
+                              ctrl.requisito_tipo_avance = response.data;
+                              angular.forEach(ctrl.requisito_avance, function(ra) {
+                                  var distint = 0;
+                                  angular.forEach(ctrl.requisito_tipo_avance, function(rta) {
+                                      if (rta.RequisitoAvance.Id === ra.Id) {
+                                          distint++;
+                                      }
+                                  });
+                                  if (distint === 0) {
+                                      ctrl.requisito_select.push(ra);
+                                  }
+                              });
+                          }else{
+
+                            ctrl.hay_requisitos_conf = false;
+                            ctrl.cargando_requisitos = false;
+                          }
                         });
                 });
         };
@@ -241,13 +297,14 @@ angular.module('financieraClienteApp')
 
         ctrl.delete_tipo = function() {
             swal({
-                title: 'Está seguro ?',
+                title:$translate.instant('BTN.CONFIRMAR') ,
                 text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: $translate.instant('BTN.BORRAR')
+                confirmButtonText: $translate.instant('BTN.BORRAR'),
+                cancelButtonText: $translate.instant('BTN.CANCELAR')
             }).then(function() {
                 financieraRequest.delete("tipo_avance", ctrl.row_entity.Id)
                     .then(function(response) {
@@ -263,8 +320,28 @@ angular.module('financieraClienteApp')
             });
         };
 
+        ctrl.validateFields = function(){
+
+
+          if($scope.avances_add_edit.$invalid){
+            angular.forEach($scope.avances_add_edit.$error,function(controles,error){
+              angular.forEach(controles,function(control){
+                control.$setDirty();
+              });
+            });
+
+            swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+            return false;
+
+          }
+
+        }
+
         ctrl.add_edit = function() {
             var data = {};
+            var validar_campos = ctrl.validateFields();
+
+            if(validar_campos != false){
             switch (ctrl.operacion) {
                 case 'edit':
                     data = {
@@ -275,7 +352,7 @@ angular.module('financieraClienteApp')
                         Activo: ctrl.tipo_avance.Activo,
                         FechaRegistro: ctrl.tipo_avance.FechaRegistro,
                     };
-                    console.log(data);
+
                     financieraRequest.put("tipo_avance", data.Id, data)
                         .then(function(response) {
                             if (response.status === 200) {
@@ -284,7 +361,14 @@ angular.module('financieraClienteApp')
                                     ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ACTUALIZADO'),
                                     'success'
                                 );
+                                ctrl.tipo_avance = {};
+                                $("#myModal").modal('hide');
                                 ctrl.get_all_avances();
+                            }else{
+                              swal("Error", $translate.instant("E_0459"),"error");
+                              ctrl.tipo_avance = {};
+                              $("#myModal").modal('hide');
+                              ctrl.get_all_avances();
                             }
                         });
                     break;
@@ -297,13 +381,38 @@ angular.module('financieraClienteApp')
                     };
                     financieraRequest.post("tipo_avance", data)
                         .then(function(info) {
-                            console.log(info);
+                            if (info.status === 201) {
+
+                              var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CODIGO_ABREVIACION') + "</th><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DESCRIPCION') + "</th>";
+                              templateAlert = templateAlert + "<tr class='success'><td>" + data.CodigoAbreviacion + "</td>" + "<td>" + data.Nombre + "</td>"+ "<td>" +  data.Descripcion + "</td></tr>" ;
+                              templateAlert = templateAlert + "</table>";
+
+                              swal($translate.instant('INFORMACION_REG_CORRECTO'), templateAlert, 'success').then(function(){
+                                ctrl.tipo_avance = {};
+                                $("#myModal").modal('hide');
+                                ctrl.get_all_avances();
+                              });
+
+                          }else{
+                            swal("Error", $translate.instant("E_0459"),"error");
+                            ctrl.tipo_avance = {};
+                            $("#myModal").modal('hide');
                             ctrl.get_all_avances();
+                          }
+
                         });
+
                     break;
                 default:
             }
-            ctrl.tipo_avance = {};
-            $("#myModal").modal('hide');
+
+          }
+        };
+
+        ctrl.reset = function (){
+          ctrl.tipo_avance.CodigoAbreviacion = "";
+          ctrl.tipo_avance.Nombre = "";
+          ctrl.tipo_avance.Descripcion = "";
+
         };
     });
