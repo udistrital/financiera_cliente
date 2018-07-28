@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     ctrl.cargando = false;
     ctrl.hayData = true;
     ctrl.hayProceso = false;
+    console.log("hay",ctrl.hayProceso)
     $scope.botones = [
         {clase_color:"ver",clase_css:"fa fa-product-hunt fa-lg faa-shake animated-hover",titulo:$translate.instant("ESTADO"),operacion:"proceso",estado:true}
     ];
@@ -87,12 +88,12 @@ angular.module('financieraClienteApp')
           ctrl.gridIngresoNoSF.data = [];
           ctrl.cargando = false;
           ctrl.hayData = false;
-          ctrl.hayProceso = false;
+          
         }else{
           ctrl.gridIngresoNoSF.data = [];
           ctrl.cargando = false;
           ctrl.hayData = true;
-          ctrl.hayProceso = true;
+         
           angular.forEach(response.data,function(rowData){
             financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
                   rowData.UnidadEjecutora = unidadEjec.data;
@@ -139,6 +140,8 @@ angular.module('financieraClienteApp')
         switch (operacion) {
             case "proceso":
                 $scope.estado = $scope.solicitud.EstadoIngresoSinSituacionFondos;
+                ctrl.hayProceso = true;
+                $scope.informacion = $translate.instant('INGRESO') + ' '+row.entity.IngresoSinSituacionFondos.Id;
                 break;
             default:
         }

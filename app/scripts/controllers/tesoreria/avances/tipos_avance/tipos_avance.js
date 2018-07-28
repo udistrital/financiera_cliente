@@ -160,6 +160,22 @@ angular.module('financieraClienteApp')
             gridApi.selection.on.rowSelectionChanged($scope, function() {});
         };
 
+        ctrl.get_all_requisitos = function () {
+            
+             financieraRequest.get("requisito_avance", $.param({
+                            limit: -1,
+                            sortby: "Id",
+                            order: "asc"
+                        }))
+                        .then(function(response) {
+                            if(response.data === null){
+                                ctrl.requisitos_select = null;
+                            }else{
+                                ctrl.requisitos_select = response.data;
+                            }
+                        });
+        }
+
         ctrl.get_requisito_tipo_avance = function(id) {
           ctrl.hayData_tipos = true;
           ctrl.cargando_tipos = true;
@@ -231,6 +247,7 @@ angular.module('financieraClienteApp')
                 });
         };
         ctrl.get_all_avances();
+        ctrl.get_all_requisitos();
 
         ctrl.anadir_requisito = function() {
             var data = {

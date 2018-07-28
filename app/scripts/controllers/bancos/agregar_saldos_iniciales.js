@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
                     query: "CuentaContable.Id:" + self.padre.Id + ",Anio:" + self.vigencia_saldos ,
                 })).then(function(response) {
                     if (response.data !== null) {
-                        self.Modificable = true;
+                        self.Modificable = false;
                         console.log("true", response.data);
                     }
                     else{
