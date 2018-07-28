@@ -128,7 +128,7 @@ angular.module('financieraClienteApp')
       } else {
         // mesnajes de error campos obligatorios
         swal({
-          title: 'Error!',
+          title: '¡Error!',
           html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
           type: 'error'
         })

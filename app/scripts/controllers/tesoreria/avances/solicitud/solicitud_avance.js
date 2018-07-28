@@ -155,13 +155,15 @@ angular.module('financieraClienteApp')
               });
             });
 
+          
+
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS') + "</li>";
+          }
+
           if (ctrl.lista_tipos.length === 0) {
                 ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('MSN_TIPO_AVANCE') + "</li>";
 
             }
-
-            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS') + "</li>";
-          }
 
           // Operar
           if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
