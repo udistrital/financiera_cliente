@@ -1,9 +1,7 @@
 <div class="panel panel-primary panel-body">
     <h2 class="page-header text-center">{{'CONSULTA_INVERSIONES'|translate}}</h2>
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{'SELECCIONAR_INVERSION'|translate}}</h3>
-        </div>
+      
         <div ui-grid="consultaInv.gridInversiones" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
           <div class="watermark" ng-show="!consultaInv.hayData">{{'NO_DATA'| translate}}</div>
           <div class="watermark" ng-show="consultaInv.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
@@ -28,7 +26,7 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{'VER_INVERSION' | translate }}
+                {{'INVERSION' | translate }}
             </div>
             <div class="panel panel-body">
                 <ver-inversion inversion="inversion"></ver-inversion>

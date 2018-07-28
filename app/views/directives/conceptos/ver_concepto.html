@@ -28,8 +28,8 @@
       </blockquote>
     </div>
 
-    <div ng-show="!d_verConcepto.v_concepto.Clasificador">
-      <div class="col-md-12 row line">
+    <div>
+      <div class="col-md-12 row line" ng-if="d_verConcepto.afectaciones">
         <div class="col-md-2">
           <label><h5>{{"AFECTACION" | translate}}:<h5></label>
         </div>
@@ -50,7 +50,16 @@
         </div>
       </div>
 
-      <div class="col-md-12 row line">
+      <div class="col-md-12 row line" ng-if="!d_verConcepto.afectaciones">
+        <div class="col-md-2">
+          <label><b>{{"AFECTACION" | translate}}:</b></label>
+        </div>
+        <div class="col-md-2">
+          {{"NO_DATA" | translate}}
+        </div>
+      </div>
+
+      <div class="col-md-12 row line" ng-if="d_verConcepto.v_concepto.Rubro">
         <div class="col-md-2">
           <label><h5>{{"RUBRO" | translate}}:<h5></label>
         </div>
@@ -64,7 +73,16 @@
         </div>
       </div>
 
-      <div class="col-md-12 row line" ng-show="::d_verConcepto.cuentas.length">
+      <div class="col-md-12 row line" ng-if="!d_verConcepto.v_concepto.Rubro">
+        <div class="col-md-2">
+          <label><b>{{"RUBRO" | translate}}:</b></label>
+        </div>
+        <div class="col-md-2">
+          <span>{{"NO_DATA" | translate}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-12 row line" ng-if="d_verConcepto.cuentas">
         <div class="col-md-2">
           <label><h5>{{"CUENTAS_CONTABLES" | translate}}:<h5></label>
         </div>
@@ -84,6 +102,16 @@
           </table>
 
         </div>
+      </div>
+
+      <div class="col-md-12 row line" ng-if="!d_verConcepto.cuentas">
+        <div class="col-md-2">
+          <label><b>{{"CUENTAS_CONTABLES" | translate}}:</b></label>
+        </div>
+        <div class="col-md-2">
+          {{"NO_DATA" | translate}}
+        </div>
+
       </div>
     </div>
 
