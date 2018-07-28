@@ -218,11 +218,11 @@ angular.module('financieraClienteApp')
              Observaciones: ctrl.observaciones,
              UnidadEjecutora: ctrl.unidadejecutora,
            },
-           //DocumentoGenerador:{
-          //     NumDocumento:ctrl.oficio,
-          //     FechaDocumento:ctrl.fechaOficio,
-          //     TipoDocumento:ctrl.documentoSelec.Id
-           //},
+           DocumentoGenerador:{
+               NumDocumento:ctrl.oficio,
+               FechaDocumento:ctrl.fechaOficio,
+               TipoDocumento:ctrl.documentoSelec.Id
+           },
            Reintegro:{
              Oficio: ctrl.oficio,
              FechaOficio:ctrl.fechaOficio,
