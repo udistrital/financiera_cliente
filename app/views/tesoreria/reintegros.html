@@ -97,7 +97,6 @@
       </div>
     <div class="col-md-12">
       <div class="row" ng-show="tesoreriaReintegros.concepto[0]">
-        <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
         <div class="panel-default panel-body">
           <div class="panel panel-heading">
             <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
@@ -136,7 +135,6 @@
                                 Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
                               </li>
                             </ul>
-                            <!-- Tab panes -->
                             <div class="tab-content">
                               <div class="tab-pane fade in active" ng-repeat="c in tesoreriaReintegros.concepto" ng-show="tesoreriaReintegros.selected==c.Id">
                                 <movimientos-contables conceptoid="c.Id" movimientos="tesoreriaReintegros.movs" monto="tesoreriaReintegros.valor" editable validatemov="c.validado" impydesc>
