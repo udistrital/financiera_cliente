@@ -189,7 +189,11 @@ angular.module('financieraClienteApp')
               headerCellClass: 'encabezado',
               width: "10%",
             }
-          ]
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridCRPApi = gridApi;
+
+          }
         };
 
         ctrl.gridOrdenesDePago = {
@@ -309,6 +313,54 @@ angular.module('financieraClienteApp')
           onRegisterApi: function(gridApi) {
             ctrl.gridOPApi = gridApi;
 
+          }
+        };
+
+        ctrl.gridReintegros = {
+          enableRowSelection: true,
+          enableSelectAll: false,
+          selectionRowHeaderWidth: 35,
+          multiSelect: false,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: 10,
+
+          enableFiltering: true,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
+          columnDefs:[{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'Consecutivo',
+              displayName: $translate.instant('CONSECUTIVO'),
+              width: '25%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '25%',
+              displayName: $translate.instant('CAUSAL_REINTEGRO'),
+              filter: {
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.tipos
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('OBSERVACIONES'),
+              width: '50%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            }
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridOPApi = gridApi;
           }
         };
 
@@ -476,7 +528,6 @@ angular.module('financieraClienteApp')
                 });
             }
         };
-
         ctrl.cargar_proveedor = function() {
             $scope.encontrado = false;
             ctrl.LegalizacionCompras.InformacionProveedor = null;
@@ -742,7 +793,10 @@ angular.module('financieraClienteApp')
           if($scope.c){
             $interval( function() {
                 ctrl.gridOPApi.core.handleWindowResize();
+                ctrl.gridCRPApi.core.handleWindowResize();
               }, 500, 2);
+
+
           }
         });
 
