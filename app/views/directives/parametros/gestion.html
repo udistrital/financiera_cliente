@@ -6,7 +6,10 @@
                 {{ subtituloparametro | translate }}
             </div>
             <div class="panel-body">
-                <div class="mi-grid" id="gridParam" ui-grid="d_parametros_gestion.parameters" ui-grid-pagination></div>
+                <div class="mi-grid" id="gridParam" ui-grid="d_parametros_gestion.parameters" ui-grid-pagination>
+                  <div class="watermark" ng-show="!d_parametros_gestion.hayData">{{'NO_DATA'| translate}}</div>
+                  <div class="watermark" ng-show="d_parametros_gestion.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+                </div>
             </div>
             <div class="panel-footer">
                 <div align="center"> <button ng-click="loadrow('', 'agregar')" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>

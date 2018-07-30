@@ -21,6 +21,8 @@ angular.module('financieraClienteApp')
       controller:function($scope,$attrs,$injector,uiGridConstants){
         var ctrl = this;
         var service = $injector.get($scope.nombreservicio);
+        ctrl.hayData = true;
+        ctrl.cargando = true;
         var emptyData = [];
         $scope.botones=[
           {clase_color:"editar",clase_css:"fa fa-pencil fa-lg animated-hover",titulo:$translate.instant("BTN.EDITAR"),operacion:"editar",estado:true},
@@ -36,33 +38,38 @@ angular.module('financieraClienteApp')
                     field: 'CodigoAbreviacion',
                     displayName: $translate.instant('CODIGO_ABREVIACION'),
                     width: '10%',
-                    headerCellClass:'text-info'
+                    cellClass: 'input_center',
+                    headerCellClass:'encabezado'
                 },
                 {
                     field: 'Nombre',
                     displayName: $translate.instant('NOMBRE'),
                     width: '15%',
-                    headerCellClass:'text-info'
+                    cellClass: 'input_center',
+                    headerCellClass:'encabezado'
                 },
                 {
                     field: 'Descripcion',
                     displayName: $translate.instant('DESCRIPCION'),
-                    width: '57%',
-                    headerCellClass:'text-info'
+                    width: '60%',
+                    cellClass: 'input_center',
+                    headerCellClass:'encabezado'
                 },
                 {
                     field: 'Activo',
                     displayName: $translate.instant('ACTIVO'),
                     cellTemplate: '<div class="middle"><md-checkbox aria-label="activo" ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
                     width: '10%',
-                    headerCellClass:'text-info'
+                    cellClass: 'input_center',
+                    headerCellClass:'encabezado'
                 },
                 {
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
-                    width: '12%',
+                    width: '5%',
+                    cellClass: 'input_center',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
-                    headerCellClass:'text-info'
+                    headerCellClass:'encabezado'
                 }
             ],
             onRegisterApi: function(gridApi){ $scope.gridApi = gridApi;}
@@ -78,9 +85,15 @@ angular.module('financieraClienteApp')
             sortby:"Id",
             order:"asc"
           })).then(function(response){
-            ctrl.parameters.data = response.data;
+
             if (response.data===null) {
+              ctrl.hayData = false;
+              ctrl.cargando = false;
               ctrl.parameters.data = emptyData;
+            }else{
+              ctrl.parameters.data = response.data;
+              ctrl.hayData = true;
+              ctrl.cargando = false;
             }
           });
         };
@@ -115,10 +128,28 @@ angular.module('financieraClienteApp')
           }
         };
 
+        ctrl.validateFields = function(){
+
+
+          if($scope.avances_add_edit.$invalid){
+            angular.forEach($scope.avances_add_edit.$error,function(controles,error){
+              angular.forEach(controles,function(control){
+                control.$setDirty();
+              });
+            });
+
+            swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+            return false;
+
+          }
+
+        };
+
+
         ctrl.eliminar = function() {
             swal({
-                title: 'CONFIRMAR',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
+                title: $translate.instant('BTN.CONFIRMAR'),
+                text: $translate.instant('ELIMINARA') + ' ' +$translate.instant('TITULO') +' '+'<b>'+ctrl.row_entity.CodigoAbreviacion+'</b>',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -147,6 +178,11 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.modalEdit=function(){
+
+          var validar_campos = ctrl.validateFields();
+
+
+          if(validar_campos != false){
           ctrl.parameter={
             CodigoAbreviacion: ctrl.CodigoAbreviacion,
             Nombre: ctrl.Nombre,
@@ -188,6 +224,7 @@ angular.module('financieraClienteApp')
             break;
           }
           $('#modalEdit').modal('hide');
+        }
         }
 
 
