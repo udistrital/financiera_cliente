@@ -150,25 +150,29 @@ angular.module('financieraClienteApp')
     self.cargandoDatosPagos = true;
 
     self.cargarLista = function (offset,query) {
-      financieraMidRequest.cancel();
-
-      self.gridOptions.data = [];
-      self.cargando = true;
-      self.hayData = true;
-      financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
-        if (response.data.Type !== undefined){
-          self.hayData = false;
-          self.cargando = false;
-          self.gridOptions.data = [];
-        }else{
-          console.log(response.data);
-          self.hayData = true;
-          self.cargando = false;
-          self.gridOptions.data = response.data;
-          console.log(response.data);
+      if($location.search().vigencia !== undefined && $location.search().numero && $location.search().UnidadEjecutora){
+          query = '&query=NumeroRegistroPresupuestal:'+$location.search().numero;
+          self.Vigencia = $location.search().vigencia;
+          self.UnidadEjecutora = $location.search().UnidadEjecutora;
         }
-        self.cargandoDatosPagos = false;
-      });
+        financieraMidRequest.cancel();
+        self.gridOptions.data = [];
+        self.cargando = true;
+        self.hayData = true;
+        financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
+          if (response.data.Type !== undefined){
+            self.hayData = false;
+            self.cargando = false;
+            self.gridOptions.data = [];
+          }else{
+            console.log(response.data);
+            self.hayData = true;
+            self.cargando = false;
+            self.gridOptions.data = response.data;
+            console.log(response.data);
+          }
+          self.cargandoDatosPagos = false;
+        });
     };
 
     $scope.loadrow = function(row, operacion) {
