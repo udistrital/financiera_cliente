@@ -4,10 +4,13 @@
         <div class="panel-heading">
             <h3 class="panel-title">{{'SELECCIONAR'|translate}} {{'RELACION_DEVOLUCION'|translate}}</h3>
         </div>
-        <div ui-grid="devolucionesconsultaRelacion.gridOrdenes" ui-grid-auto-resize ui-grid-pagination></div>
+        <div ui-grid="devolucionesconsultaRelacion.gridOrdenes" ui-grid-auto-resize ui-grid-pagination>
+          <div class="watermark" ng-show="!devolucionesconsultaRelacion.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="devolucionesconsultaRelacion.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+        </div>
     </div>
-    <div>
-        <procesol edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></procesol>
+    <div ng-if="mostrar_direc">
+        <procesol edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"  info="informacion"></procesol>
     </div>
 
     <div class="panel-footer">
