@@ -149,7 +149,7 @@ angular.module('financieraClienteApp')
         ctrl.eliminar = function() {
             swal({
                 title: $translate.instant('BTN.CONFIRMAR'),
-                text: $translate.instant('ELIMINARA') + ' ' +$translate.instant('TITULO') +' '+'<b>'+ctrl.row_entity.CodigoAbreviacion+'</b>',
+                html: $translate.instant('ELIMINARA') + ' ' +$translate.instant('TITULO') +' '+'<div><b>'+ctrl.row_entity.Nombre+'</b></div>',
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -225,7 +225,17 @@ angular.module('financieraClienteApp')
           }
           $('#modalEdit').modal('hide');
         }
-        }
+      };
+
+      ctrl.reset = function (){
+
+        ctrl.CodigoAbreviacion = "";
+        ctrl.Nombre = "";
+        ctrl.Descripcion = "";
+        ctrl.Activo = "";
+        ctrl.FechaRegistro = "";
+      };
+
 
 
       },
