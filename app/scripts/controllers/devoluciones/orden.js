@@ -13,8 +13,8 @@ angular.module('financieraClienteApp')
    ctrl.selectedcar = {};
    ctrl.concepto = [];
    $scope.load = false;
-   ctrl.encontrado = false;
-   ctrl.loadCircle = true;
+   ctrl.cargando_nombre = false;
+
    ctrl.carreras=[];
 
    ctrl.consultarListas= function(){
@@ -70,6 +70,7 @@ angular.module('financieraClienteApp')
 
   ctrl.consultarListas();
 
+
    ctrl.cargarTiposDoc = function(){
         agoraRequest.get('parametro_estandar',$.param({
           query:"ClaseParametro:Tipo Documento",
@@ -80,36 +81,99 @@ angular.module('financieraClienteApp')
    };
    ctrl.cargarTiposDoc();
 
-   $scope.$watch('ordendevolucion.numdocSoli', function(newValue){
-     if (!angular.isUndefined(newValue)) {
-        ctrl.consultaPag = true;
+   ctrl.camposObligatorios = function() {
+     var respuesta;
+     self.MensajesAlerta = '';
+
+
+     if($scope.datosSolicitante.$invalid){
+       angular.forEach($scope.datosSolicitante.$error,function(controles,error){
+         angular.forEach(controles,function(control){
+           control.$setDirty();
+         });
+       });
+
+       self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_SOLICITANTE") + "</li>";
+
+
      }else{
-       ctrl.consultaPag = false;
+       if(ctrl.encontrado === false){
+         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("MSN_SOL_NO_ENC") + "</li>";
+       }
+     }
+
+     if($scope.datosBeneficiario.$invalid){
+       angular.forEach($scope.datosBeneficiario.$error,function(controles,error){
+         angular.forEach(controles,function(control){
+           control.$setDirty();
+         });
+       });
+
+       self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_BENEFICIARIO") + "</li>";
+
+
+     }else{
+       if(ctrl.encontrado_ben === false){
+         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("MSN_BEN_NO_ENC") + "</li>";
+       }
+     }
+
+     if($scope.datosOblig.$invalid){
+       angular.forEach($scope.datosBeneficiario.$error,function(controles,error){
+         angular.forEach(controles,function(control){
+           control.$setDirty();
+         });
+       });
+
+       self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
+
+
+     }
+
+     if(ctrl.concepto[0] === undefined){
+       self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_CONCEPTO") + "</li>";
+
+     }
+
+     if(ctrl.concepto[0] !== undefined){
+       if(ctrl.concepto[0].validado === false){
+         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant("PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA") + "</li>";
+       }
+     }
+
+
+     // Operar
+     if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+       respuesta = true;
+     } else {
+       respuesta =  false;
+     }
+
+     return respuesta;
+   };
+
+   $scope.$watch('ordendevolucion.numdocSoli', function(){
+     if (ctrl.tipoDocSoli!= undefined && ctrl.numdocSoli!= undefined) {
+       ctrl.consultaPagos();
+    }
+   },true);
+
+   $scope.$watch('ordendevolucion.tipoDocSoli', function(){
+     if (ctrl.tipoDocSoli!== undefined && ctrl.numdocSoli!== undefined) {
+        ctrl.consultaPagos();
      }
    },true);
 
-   $scope.$watch('ordendevolucion.tipoDocSoli', function(newValue){
-     if (!angular.isUndefined(newValue) && ctrl.numdocSoli!= undefined) {
-        ctrl.consultaPag = true;
-     }else{
-       ctrl.consultaPag = false;
+   $scope.$watch('ordendevolucion.numdocBeneficiario', function(){
+     if (ctrl.numdocBeneficiario!= undefined  && ctrl.tipoDocBen != undefined) {
+        ctrl.consultaBen();
      }
    },true);
 
-   $scope.$watch('ordendevolucion.numdocBeneficiario', function(newValue){
-     if (!angular.isUndefined(newValue)) {
-        ctrl.consultaBeneficiario = true;
-     }else{
-       ctrl.consultaBeneficiario = false;
-     }
-   },true);
-
-   $scope.$watch('ordendevolucion.tipoDocBen', function(newValue){
-     if (!angular.isUndefined(newValue) && ctrl.numdocBeneficiario!= undefined) {
-        ctrl.consultaBeneficiario = true;
-     }else{
-       ctrl.consultaBeneficiario = false;
-     }
+   $scope.$watch('ordendevolucion.tipoDocBen', function(){
+     if (ctrl.tipoDocBen != undefined && ctrl.numdocBeneficiario!= undefined) {
+       ctrl.consultaBen();
+    }
    },true);
 
 
@@ -126,9 +190,12 @@ angular.module('financieraClienteApp')
    }, true);
 
    ctrl.consultaPagos = function(){
-     if (ctrl.consultaPag === true){
+
+
+       ctrl.encontrado=false;
+       ctrl.cargando_sol = true;
        ctrl.nombreSolicitante = null;
-       ctrl.loadCircle = false;
+
        var parametros = [
       {
            name: "tipo_consulta",
@@ -148,38 +215,47 @@ angular.module('financieraClienteApp')
           financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(dataAcademica) {
             if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
               ctrl.nombreSolicitante = dataAcademica.data.InformacionEstudiante.Nombre;
+
               ctrl.carreras = dataAcademica.data.InformacionCarrera;
               ctrl.encontrado = true;
+              ctrl.cargando_sol = false;
             }else{
               agoraRequest.get('informacion_persona_natural',$.param({
                 query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Abreviatura: " + ctrl.tipoDocSoli.Abreviatura,
                 limit:-1
               })).then(function(response){
-                if(!angular.isUndefined(response.data) && response.data!=null){
+                if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+
                     ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+
                     ctrl.IdSolicitante = response.data[0].Id;
                     ctrl.encontrado = true;
-                    ctrl.loadCircle = true;
+                    ctrl.cargando_sol = false;
                   }else{
                     agoraRequest.get('informacion_persona_juridica',$.param({
                       query:"Id:" + ctrl.numdocSoli,
                       limit:-1
                     })).then(function(response){
-                        if(!angular.isUndefined(response.data) && response.data!=null){
+                        if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+
                             ctrl.nombreSolicitante = response.data[0].NomProveedor;
                             ctrl.IdSolicitante = response.data[0].Id;
                             ctrl.encontrado = true;
+                            ctrl.cargando_sol = false;
                         }else{
                           agoraRequest.get('supervisor_contrato',$.param({
                             query:"Documento:" + ctrl.numdocSoli,
                             limit:-1
                           })).then(function(response){
-                              if(!angular.isUndefined(response.data) && response.data!=null){
+                              if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
                                   ctrl.IdSolicitante = response.data[0].Id;
                                   ctrl.nombreSolicitante = response.data[0].Nombre;
                                   ctrl.encontrado = true;
+                                  ctrl.cargando_sol = false;
                               }else{
                                 ctrl.encontrado = false;
+                                ctrl.cargando_sol = false;
+                                ctrl.nombreSolicitante = $translate.instant('NO_ENCONTRADO');
                               }
                             });
                         }
@@ -190,19 +266,19 @@ angular.module('financieraClienteApp')
 
           });
           //console.log(response.data.pagosCollection);
-          ctrl.loadCircle = true;
+
         });
 
-        ctrl.consultaPag = false;
-     }
+
 
    };
 
 
    ctrl.consultaBen = function(){
-     if (ctrl.consultaBeneficiario === true){
+       ctrl.encontrado_ben = false;
+       ctrl.cargando_ben = true;
        ctrl.nombreBeneficiario = null;
-       ctrl.loadCircle = false;
+
        var parametros = [
       {
            name: "tipo_consulta",
@@ -220,13 +296,17 @@ angular.module('financieraClienteApp')
         wso2Request.get("academicaProxy", parametros).then(function(response) {
           financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(dataAcademica) {
             if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
+              ctrl.encontrado_ben = true;
+              ctrl.cargando_ben = false;
               ctrl.nombreBeneficiario = dataAcademica.data.InformacionEstudiante.Nombre;
             }else{
               agoraRequest.get('informacion_persona_natural',$.param({
                 query:"Id:" + ctrl.numdocBeneficiario +",TipoDocumento.Id: " + ctrl.tipoDocBen.Id,
                 limit:-1
               })).then(function(response){
-                if(!angular.isUndefined(response.data) && response.data!=null){
+                if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
+                   ctrl.encontrado_ben = true;
+                    ctrl.cargando_ben = false;
                     ctrl.IdBeneficiario = response.data[0].Id;
                     ctrl.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
                   }else{
@@ -234,7 +314,9 @@ angular.module('financieraClienteApp')
                       query:"Id:" + ctrl.numdocBeneficiario,
                       limit:-1
                     })).then(function(response){
-                        if(!angular.isUndefined(response.data) && response.data!=null){
+                        if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+                           ctrl.encontrado_ben = true;
+                            ctrl.cargando_ben = false;
                             ctrl.nombreBeneficiario = response.data[0].NomProveedor;
                             ctrl.IdBeneficiario = response.data[0].Id;
                         }else{
@@ -242,9 +324,15 @@ angular.module('financieraClienteApp')
                             query:"Documento:" + ctrl.numdocBeneficiario,
                             limit:-1
                           })).then(function(response){
-                              if(!angular.isUndefined(response.data) && response.data!=null){
+                              if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
+                                  ctrl.encontrado_ben = true;
+                                  ctrl.cargando_ben = false;
                                   ctrl.nombreBeneficiario = response.data[0].Nombre;
                                   ctrl.IdBeneficiario = response.data[0].Id;
+                              }else{
+                                 ctrl.encontrado_ben = false;
+                                  ctrl.cargando_ben = false;
+                                  ctrl.nombreBeneficiario = $translate.instant('NO_ENCONTRADO');
                               }
                             });
                         }
@@ -254,11 +342,9 @@ angular.module('financieraClienteApp')
             }
 
           });
-          ctrl.loadCircle = true;
+
         });
 
-        ctrl.consultaBeneficiario = false;
-     }
 
    };
 
@@ -276,6 +362,10 @@ angular.module('financieraClienteApp')
    }
 
    ctrl.crearSolicitud = function(){
+
+
+     var validar_campos = ctrl.camposObligatorios();
+     if(validar_campos != false){
      ctrl.SolicitudDevolucion={
        SolicitudDevolucion:{
            FormaPago:ctrl.formaPago,
@@ -321,6 +411,14 @@ angular.module('financieraClienteApp')
                swal('',$translate.instant(response.data.Code),response.data.Type);
           }
        });
+     }else {
+       // mesnajes de error campos obligatorios
+       swal({
+         title: '¡Error!',
+         html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+         type: 'error'
+       })
      }
+ };
 
    });
