@@ -17,10 +17,11 @@
       <span class="fa fa-minus pull-right" ng-show="devolucionesrelacion.infRela"></span>
     </legend class="text-primary">
   <div ng-show = "devolucionesrelacion.infRela">
+    <form name="datosOblig">
     <div class = "col-md-4">
       <div class="form-group">
         <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-        <select class="form-control" ng-model="devolucionesrelacion.unidadejecutora" ng-options="op as op.Nombre for op in devolucionesrelacion.unidadesejecutoras">
+        <select class="form-control" ng-model="devolucionesrelacion.unidadejecutora" ng-options="op as op.Nombre for op in devolucionesrelacion.unidadesejecutoras" required>
           <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                     </select>
       </div>
@@ -47,10 +48,84 @@
     </div>
 
   </div>
+</form>
 </div>
 <div class="panel-footer">
   <div align="center">
     <button  class="btn btn-outline btn-info" ng-click="devolucionesrelacion.insertarOrden()"> {{ 'BTN.REGISTRAR' | translate }} </button>
   </div>
 </div>
+</div>
+
+
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'RELACION_DEVOLUCION' | translate }}
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{'VIGENCIA' | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Devolucion.Vigencia}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{'NUMERO_OPERACION' | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Devolucion.Id}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"UNIDAD_EJECUTORA" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Devolucion.UnidadEjecutora.Nombre}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"NUMERO_CUENTA" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Devolucion.CuentaDevolucion.NumeroCuenta}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"SOLICITANTE" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Solicitante}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"BENEFICIARIO" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Beneficiario}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"SOPORTE" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Soporte[0].Nombre}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"FORMA_PAGO" | translate}}</label>
+                        <span class="form-control">{{devolucionesrelacion.fila.Devolucion.FormaPago.Nombre}}</span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <br>
+                        <label class="control-label">{{"RAZON_DEVOLUCION" | translate}}</label>
+                        <textarea class="form-control" disabled>{{devolucionesrelacion.fila.Devolucion.RazonDevolucion.Nombre}}</textarea>
+                    </div>
+
+                  </div>
+
+            </div>
+        </div>
+    </div>
 </div>
