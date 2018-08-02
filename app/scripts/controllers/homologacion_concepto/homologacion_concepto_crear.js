@@ -225,11 +225,16 @@ angular.module('financieraClienteApp')
     }
     self.checkVigencia = function(p_vigencia) {
       var respuesta;
-      if (p_vigencia.length != 4) {
+
+      if(p_vigencia !== undefined){
+      if (p_vigencia.toString().length != 4) {
         respuesta =  false;
       } else {
         respuesta =  true;
       }
+    }else{
+      respuesta = false;
+    }
       return respuesta;
     }
     // Registra
