@@ -104,20 +104,20 @@ angular.module('financieraClienteApp')
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
             $scope.a = $scope.inputpestanaabierta;
-            
+
           }
         })
         //
         self.get_info_banco = function(id_banco) {
-          coreRequest.get('banco',
+          agoraRequest.get('informacion_persona_juridica_tipo_entidad',
             $.param({
-              query: "Id:" + id_banco,
+              query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
-            if (response.data != null) {
             self.banco_proveedor = response.data[0];
-            }
+
           });
         }
+        //
         //
         self.get_tel_provee = function(id_prove) {
           agoraRequest.get('proveedor_telefono',
