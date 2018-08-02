@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.rubros = [];
+        self.rps = [];
         // paneles
         $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
         $scope.panelProveedor = !$scope.inputpestanaabierta;
@@ -30,7 +31,9 @@ angular.module('financieraClienteApp')
         $scope.panelDetalleCuentas = !$scope.inputpestanaabierta;
         //orden de pago
         $scope.$watch('opproveedorid', function() {
+
           if ($scope.opproveedorid != undefined) {
+
             financieraRequest.get('orden_pago',
               $.param({
                 query: "Id:" + $scope.opproveedorid,
@@ -39,13 +42,22 @@ angular.module('financieraClienteApp')
               $scope.outputopp = response.data[0];
               // documento
               self.getDocumento(self.orden_pago);
-              // proveedor
-              if(self.orden_pago.RegistroPresupuestal != undefined){
-                  self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
-                  // detalle rp
-                  self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
-              }
-        
+
+              financieraRequest.get('orden_pago_registro_presupuestal',
+                $.param({
+                  query: "OrdenPago:" + self.orden_pago.Id,
+                })).then(function(response) {
+                  if(response.data === null){
+                    self.rps = undefined
+                  }else{
+                    self.rps = response.data;
+                   self.asignar_proveedor(self.rps[0].RegistroPresupuestal.Beneficiario);
+                    // detalle rp
+                    self.detalle_rp(self.rps[0].RegistroPresupuestal.Id);
+                  }
+              });
+
+
               // entrada almacen
               if (self.orden_pago.EntradaAlmacen != 0) {
                 self.entradaAlmacen(self.orden_pago.EntradaAlmacen);
@@ -53,6 +65,10 @@ angular.module('financieraClienteApp')
             });
           }
         })
+
+        self.get_rp = function(id_op){
+
+        }
         // documento
         self.getDocumento = function(orden_pago){
           coreRequest.get('documento',
@@ -67,12 +83,14 @@ angular.module('financieraClienteApp')
 
         // Function buscamos datos del proveedor que esta en el rp
         self.asignar_proveedor = function(beneficiario_id) {
+
           agoraRequest.get('informacion_proveedor',
             $.param({
               query: "Id:" + beneficiario_id,
             })
           ).then(function(response) {
             self.proveedor = response.data;
+            console.log("proveeedor", self.proveedor)
             // datos banco
             self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
             //datos telefono
@@ -81,11 +99,12 @@ angular.module('financieraClienteApp')
         }
         //
         self.get_info_banco = function(id_banco) {
-          coreRequest.get('banco',
+          agoraRequest.get('informacion_persona_juridica_tipo_entidad',
             $.param({
-              query: "Id:" + id_banco,
+              query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
             self.banco_proveedor = response.data[0];
+      
           });
         }
         //
