@@ -22,12 +22,13 @@
             </div>
             </div>
             <div class="col-md-6">
-            <form >
               <div class="form-group">
-                <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                <input type="text" class="form-control input_left" ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                <label for="numdoc" class="control-label" style="display:block">{{'NO_DOCUMENTO'|translate}}</label>
+                  <div style="display:inline-block">
+                    <input type="text" class="form-control input_left"  ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                </div>
+                <button type="button" ng-click="" class="fa fa-search btn btn-info btn-outline" ></button>
               </div>
-            </form>
             </div>
             <div class="col-md-12">
               <div class="form-group">
