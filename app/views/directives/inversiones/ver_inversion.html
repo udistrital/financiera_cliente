@@ -1,0 +1,128 @@
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_general=!info_general">{{"INFORMACION_GENERAL" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_general"></span> <span class="fa fa-minus pull-right" ng-show="info_terceros"></span></legend>
+
+    <div class="panel-body" ng-show="info_general">
+        <div class="row">
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"CONSECUTIVO" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.Id}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"NUMERO_OPERACION" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.NumeroTransaccion}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"COMPRADOR" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.Comprador.NomProveedor}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"VENDEDOR" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.Vendedor.NombreBanco}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"EMISOR" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.Emisor.NombreBanco}}</span>
+            </div>
+
+          </div>
+
+    </div>
+</fieldset>
+
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_dinero=!info_dinero">{{"INFORMACION_DINERO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_dinero"></span> <span class="fa fa-minus pull-right" ng-show="info_dinero"></span></legend>
+
+    <div class="panel-body" ng-show="info_dinero">
+        <div class="row">
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"TRM" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.Trm | currency}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"TASA_NOMINAL" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.TasaNominal}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"VALOR_NOMINAL_SALDO" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.ValorNominalSaldo | currency}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"VALOR_NOM_SALDO_MON_NAL" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.ValorNomSaldoMonNal | currency}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"VALOR_ACTUAL" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.ValorActual | currency}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"VALOR_NETO_GIRAR" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.ValorNetoGirar | currency}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"VALOR_RECOMPRA" | translate}}</label>
+                <span class="form-control input_right">{{d_verInversion.inversion.ValorRecompra | currency}}</span>
+            </div>
+
+          </div>
+
+    </div>
+</fieldset>
+
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="info_fechas=!info_fechas">{{"INFORMACION_FECHAS" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_fechas"></span> <span class="fa fa-minus pull-right" ng-show="info_fechas"></span></legend>
+
+    <div class="panel-body" ng-show="info_fechas">
+        <div class="row">
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"FECHA_COMPRA" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.FechaCompra | date:'yyyy-MM-dd'}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label class="control-label">{{"FECHA_REDENCION" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.FechaRedencion | date:'yyyy-MM-dd'}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"FECHA_VENCIMIENTO" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.FechaVencimiento | date:'yyyy-MM-dd'}}</span>
+            </div>
+
+            <div class="col-md-6">
+                <br>
+                <label  class="control-label">{{"FECHA_PACTO" | translate}}</label>
+                <span class="form-control">{{d_verInversion.inversion.FechaPacto | date:'yyyy-MM-dd'}}</span>
+            </div>
+
+
+          </div>
+
+    </div>
+</fieldset>

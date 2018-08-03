@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('BancosAgregarSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location) {
+  .controller('BancosAgregarSaldosInicialesCtrl', function ($scope, $translate, uiGridConstants, financieraRequest, $location, $route) {
         var self = this;
         self.nueva_fecha = {};
         self.cargando = false;
@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
                     query: "CuentaContable.Id:" + self.padre.Id + ",Anio:" + self.vigencia_saldos ,
                 })).then(function(response) {
                     if (response.data !== null) {
-                        self.Modificable = true;
+                        self.Modificable = false;
                         console.log("true", response.data);
                     }
                     else{
@@ -73,22 +73,34 @@ angular.module('financieraClienteApp')
         $scope.$watch('agregarSaldosIniciales.registroExitoso',function (){
             if (self.registroExitoso === true){
                 self.valor_inicial = '$' + self.valor_inicial.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
-             $location.path('/bancos/saldos_iniciales');
-              swal(
-                $translate.instant("S_543"),
-                $translate.instant("S_SI1")+' '+'<b>'+self.valor_inicial+'</b>'+' '+$translate.instant("S_SI2")+' :'+'<b>'+self.padre.Codigo +'</b>' +', ' + $translate.instant("S_SI3") + ': '+'<b>'+self.padre.Nombre+'</b>',
-                'success'
-              );
+
+             var templateAlert = "<table class='table table-bordered'><th>" +'<center>' +$translate.instant('SALDO')+' '+$translate.instant('INICIAL') + "</center></th><th><center>" + $translate.instant('CUENTA_CONTABLE') + "</center></th><th><center>" + $translate.instant('CUENTA_BANCARIA') + "</center></th>";
+             templateAlert = templateAlert + "<tr class='success'><td>"+self.valor_inicial+"</td>" + "<td>" +self.padre.Codigo + "</td>"+ "<td>" + self.padre.Nombre + "</td></tr>" ;
+             templateAlert = templateAlert + "</table>";
+
+              swal({
+                title: $translate.instant("S_543"),
+                type: "success",
+                width: 800,
+                html: templateAlert,
+                showCloseButton: true,
+                confirmButtonText: 'Cerrar'
+              }).then(function(){
+                 $location.path('/bancos/saldos_iniciales');
+                 $route.reload()
+              });
             }
 
             if (self.registroExitoso === false){
 
-             $location.path('/bancos/saldos_iniciales');
-              swal(
+            swal(
                 '',
                 $translate.instant("E_SI1"),
                 'error'
-              );
+              ).then(function(){
+                 $location.path('/bancos/saldos_iniciales');
+                 $route.reload()
+              });
             }
          });
 
