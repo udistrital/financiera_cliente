@@ -139,10 +139,12 @@ angular.module('financieraClienteApp')
     self.camposObligatorios = function() {
       var respuesta;
       self.MensajesAlerta = '';
+
       if (Object.keys(self.Proveedor).length == 0) {
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_PROVEEDOR') + "</li>";
       }
-      if (self.RegistroPresupuestal == undefined) {
+      if (self.RegistroPresupuestal.length === 0) {
+
         self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_REGISTRO') + "</li>";
       }
       if (self.OrdenPago.SubTipoOrdenPago == undefined) {
