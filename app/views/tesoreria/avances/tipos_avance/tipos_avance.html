@@ -128,7 +128,18 @@
       </div>
       <div class="row" ng-show="!TiposAvance.hay_requisitos_conf">
         <div class="panel-body" >
-        <div class="text-center"> {{'NO_REQUISITOS_REGISTRADOS' | translate}}</div>
+          <div class="col-md-2 col-md-offset-1">
+          <label for="descripcion" class="col-sm-2 control-label">{{'REQUISITOS' | translate }}:</label>
+          </div>
+         <div class="col-md-6">   
+        <select name="requisito" ng-model="TiposAvance.requisito" class="form-control" ng-required="true">
+              <option selected value="" disabled>{{'SELECCIONE' | translate }} ...</option>
+              <option ng-repeat="r in TiposAvance.requisitos_select" value="{{r.Id}}">{{"(" + r.CodigoAbreviacion + ")\t" + r.Nombre}}</option>
+            </select>
+          </div>
+             <div class="col-sm-2">
+            <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.ANADIR' | translate }}" />
+          </div>
         </div>
       </div>
       <div class="row" ng-show="TiposAvance.cargando_requisitos">

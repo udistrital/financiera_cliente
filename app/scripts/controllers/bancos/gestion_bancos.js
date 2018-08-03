@@ -18,7 +18,7 @@ angular.module('financieraClienteApp')
         ];
 
         $scope.botones_editar_codigos = [
-            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR_CODIGOS'), operacion: 'ver_modal_info_adicional', estado: true },
+            { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'ver_modal_info_adicional', estado: true },
             { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
         ];
 
@@ -136,6 +136,7 @@ angular.module('financieraClienteApp')
             });
         };
 
+        ctrl.cargar_bancos = function (){
         organizacionRequest.get('organizacion/', $.param({
             limit: -1,
             query: "TipoOrganizacion.CodigoAbreviacion:EB",
@@ -143,7 +144,7 @@ angular.module('financieraClienteApp')
 
           angular.forEach(response.data, function(data){
             financieraRequest.get('informacion_adicional_banco','limit=-1&query=Banco:'+data.Id).then(function(response) {
-              if(response.data == null){
+              if(typeof(response.data) === "string"){
                 data.CodigoAch = 0
                 data.CodigoSuperintendencia = 0
                 data.IdInformacionAdicional = 0
@@ -158,6 +159,9 @@ angular.module('financieraClienteApp')
 
             ctrl.Bancos.data = response.data;
         });
+      }
+
+      ctrl.cargar_bancos();
 
         $scope.loadrow = function(row, operacion) {
             ctrl.operacion = operacion;
@@ -208,8 +212,14 @@ angular.module('financieraClienteApp')
                   financieraRequest.post('informacion_adicional_banco', informacion_adicional_banco).then(function(response) {
 
                       if (typeof(response.data) == "object") {
+
+                        var templateAlert = "<table class='table table-bordered'><th>" +'<center>' +$translate.instant('BANCO') + "</center></th><th><center>" + $translate.instant('CODIGO_SUPER') + "</center></th><th><center>" + $translate.instant('CODIGO_ACH') + "</center></th>";
+                        templateAlert = templateAlert + "<tr class='success'><td>"+informacion_adicional_banco.Banco+"</td>" + "<td>" +informacion_adicional_banco.CodigoSuperintendencia + "</td>"+ "<td>" + informacion_adicional_banco.CodigoAch + "</td></tr>" ;
+                        templateAlert = templateAlert + "</table>";
+
                           swal({
-                              html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                              title:$translate.instant('INFORMACION_REG_CORRECTO'),
+                              html: templateAlert ,
                               type: "success",
                               showCancelButton: false,
                               confirmButtonColor: "#449D44",
@@ -240,29 +250,36 @@ angular.module('financieraClienteApp')
         if(ctrl.edicion_codigos == true){
 
           swal({
-                    html: $translate.instant('CONFIRMACION_EDICION') +
-                        "<br><b>" + $translate.instant('CONCEPTO_SUPER') + ":</b> " + ctrl.codigo_super+
-                        "<br><b>" + $translate.instant('CONCEPTO_ACH') + ":</b> " + ctrl.codigo_ach + "?",
+                    html: $translate.instant('BTN.CONFIRMAR') +
+                        "<br><b>" + $translate.instant('CODIGO_SUPER') + ":</b> " + ctrl.codigo_super+
+                        "<br><b>" + $translate.instant('CODIGO_ACH') + ":</b> " + ctrl.codigo_ach + "?",
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#449D44",
                     cancelButtonColor: "#C9302C",
-                    confirmButtonText: $translate.instant('CONFIRMAR'),
-                    cancelButtonText: $translate.instant('CANCELAR'),
+                    confirmButtonText: $translate.instant('BTN.CONFIRMAR'),
+                    cancelButtonText: $translate.instant('BTN.CANCELAR'),
          }).then(function() {
 
               financieraRequest.put('informacion_adicional_banco', ctrl.id_a_editar,informacion_adicional_banco).then(function(response) {
 
                   if (response.data == "OK") {
+
+                    var templateAlert = "<table class='table table-bordered'><th>" +'<center>' +$translate.instant('BANCO') + "</center></th><th><center>" + $translate.instant('CODIGO_SUPER') + "</center></th><th><center>" + $translate.instant('CODIGO_ACH') + "</center></th>";
+                    templateAlert = templateAlert + "<tr class='success'><td>"+informacion_adicional_banco.Banco+"</td>" + "<td>" +informacion_adicional_banco.CodigoSuperintendencia + "</td>"+ "<td>" + informacion_adicional_banco.CodigoAch + "</td></tr>" ;
+                    templateAlert = templateAlert + "</table>";
+
                       swal({
-                          html: $translate.instant('INFORMACION_REG_CORRECTO'),
+                          title: $translate.instant('INFORMACION_REG_CORRECTO'),
+                          html: templateAlert,
                           type: "success",
                           showCancelButton: false,
                           confirmButtonColor: "#449D44",
                           confirmButtonText: $translate.instant('VOLVER'),
                       }).then(function() {
                           $('#modal_informacion_adicional').modal('hide');
-                          $window.location.reload()
+                          ctrl.cargar_bancos();
+
                       })
 
                   }
@@ -275,7 +292,7 @@ angular.module('financieraClienteApp')
                           confirmButtonText: $translate.instant('VOLVER'),
                       }).then(function() {
                           $('#informacion_adicional_banco').modal('hide');
-                          $window.location.reload()
+                          ctrl.cargar_bancos();
                       })
 
                   }

@@ -28,90 +28,88 @@ angular.module('financieraClienteApp')
               field: 'Solicitante',
               displayName: 'Solicitante',
               width: '5%',
+              cellClass: 'input_center',
               visible:false
           },
           {
               field: 'Beneficiario',
               displayName: 'Beneficiario',
               width: '10%',
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
               visible:false
-          },
-          {
-              field: 'Devolucion.Id',
-              displayName: $translate.instant('NUMERO_OPERACION'),
-              headerCellClass:'text-info',
-              width: '10%'
-          },
-          {
-              field: 'Devolucion.FormaPago.Nombre',
-              displayName: $translate.instant('FORMA_PAGO'),
-              headerCellClass:'text-info',
-              width: '15%',
-          },
-          {
-              field: 'Devolucion.RazonDevolucion.Nombre',
-              displayName: $translate.instant('RAZON_DEVOLUCION'),
-              headerCellClass:'text-info',
-              width: '13%'
           },
           {
               field: 'Devolucion.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
-              headerCellClass:'text-info',
-              width: '13%'
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
+              width: '20%'
           },
+          {
+              field: 'Devolucion.Id',
+              displayName: $translate.instant('NUMERO_OPERACION'),
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
+              width: '20%'
+          },
+
           {
               field: 'Devolucion.UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
-              headerCellClass:'text-info',
-              width: '13%'
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
+              width: '30%'
           },
-          {
-              field: 'Devolucion.CuentaDevolucion.NumeroCuenta',
-              displayName: $translate.instant('CUENTA'),
-              headerCellClass:'text-info',
-              width: '13%'
-          },
-          {
-              field: 'Soporte[0].Nombre',
-              displayName: $translate.instant('SOPORTE'),
-              headerCellClass:'text-info',
-              width: '13%'
-          },
+
           {
               field: 'valorDevolucion',
               displayName: $translate.instant('VALOR'),
-              headerCellClass:'text-info',
-              width: '13%',
+              headerCellClass:'encabezado',
+              cellClass: 'input_right',
+              width: '15%',
               cellFilter:"currency",
-              cellClass:'ui-grid-number-cell'
+
           },
           {
               name: $translate.instant('OPCIONES'),
-              width: '10%',
-              headerCellClass:'text-info',
+              width: '12%',
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ],
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          if(angular.isUndefined(ctrl.valorTotal)){
-              ctrl.valorTotal = 0;
-          }
-          if(row.isSelected){
-            ctrl.valorTotal = ctrl.valorTotal + row.entity.valorDevolucion;
-          }
+            var arreglo_seleccionados= ctrl.gridApi.selection.getSelectedRows();
+            ctrl.valorTotal = 0;
+            ctrl.sumarValores(arreglo_seleccionados);
         });
 
-        gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-          ctrl.valorTotal=0;
-          gridApi.selection.getSelectedGridRows().forEach(function(row) {
-                ctrl.valorTotal= ctrl.valorTotal + row.entity.valorDevolucion;
-              });
-          });
+
       }
+    };
+
+    $scope.loadrow = function(row, operacion) {
+      ctrl.fila = row.entity;
+      switch (operacion) {
+
+          case "ver":
+              $('#modal_ver').modal('show');
+              break;
+          case "otro":
+
+                break;
+            default:
+        }
+    };
+
+    ctrl.sumarValores = function(arreglo){
+
+        angular.forEach(arreglo,function(pos){
+          ctrl.valorTotal = ctrl.valorTotal + pos.valorDevolucion;
+        });
     };
 
     ctrl.consultarListas = function(){
@@ -160,7 +158,37 @@ angular.module('financieraClienteApp')
 
       ctrl.consultarSolicitudes();
 
+      ctrl.camposObligatorios = function() {
+        var respuesta;
+        ctrl.MensajesAlerta = '';
+
+        if($scope.datosOblig.$invalid){
+          angular.forEach($scope.datosOblig.$error,function(controles,error){
+            angular.forEach(controles,function(control){
+              control.$setDirty();
+            });
+          });
+
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
+        }
+
+        if(ctrl.valorTotal === 0 || ctrl.valorTotal === undefined){
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("SELECCIONAR_ORDEN_DEV") + "</li>";
+        }
+        // Operar
+        if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+          respuesta = true;
+        } else {
+          respuesta =  false;
+        }
+
+        return respuesta;
+      };
+
+
       ctrl.insertarOrden = function(){
+
+      if (ctrl.camposObligatorios()) {
         ctrl.Solicitudes=[];
         ctrl.gridApi.selection.getSelectedGridRows().forEach(function(row) {
           ctrl.Solicitud = {
@@ -193,5 +221,12 @@ angular.module('financieraClienteApp')
                 }
            }
          });
+       }else{
+         swal({
+           title: '¡Error!',
+           html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
+           type: 'error'
+         })
+       }
       };
   });
