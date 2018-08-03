@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .factory("rp", function () {
     return {};
   })
-  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest) {
+  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest,$location) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora=1;
@@ -150,10 +150,10 @@ angular.module('financieraClienteApp')
     self.cargandoDatosPagos = true;
 
     self.cargarLista = function (offset,query) {
-      if($location.search().vigencia !== undefined && $location.search().numero && $location.search().UnidadEjecutora){
+      if($location.search().vigencia !== undefined && $location.search().numero && $location.search().unidadejecutora){
           query = '&query=NumeroRegistroPresupuestal:'+$location.search().numero;
           self.Vigencia = $location.search().vigencia;
-          self.UnidadEjecutora = $location.search().UnidadEjecutora;
+          self.UnidadEjecutora = $location.search().unidadejecutora;
         }
         financieraMidRequest.cancel();
         self.gridOptions.data = [];
