@@ -8,11 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
         ctrl.row_entity = {};
+        ctrl.rubrosAfectados=[];
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
         ctrl.Vigencia=2018;
@@ -244,7 +245,9 @@ angular.module('financieraClienteApp')
           ],
           onRegisterApi: function(gridApi) {
             ctrl.gridOPApi = gridApi;
-
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+              $scope.addRubro(row.entity.Id);
+            });
           }
         };
 
@@ -296,7 +299,22 @@ angular.module('financieraClienteApp')
           }
         };
 
-
+        $scope.addRubro = function(idOp){
+          financieraRequest.get('concepto_orden_pago', $.param({
+            query:"OrdenDePago.Id:"+idOp,
+            limit:1
+          })
+        ).then(function(response) {
+          var rubro = response.data[0].Concepto.Rubro;
+         if (ctrl.rubrosAfectados.indexOf(rubro) === -1){
+           ctrl.rubrosAfectados.push(rubro);
+         }
+        });
+        }
+        ctrl.removeRubro=function(rubro){
+          var idx = ctrl.rubrosAfectados.indexOf(rubro);
+          ctrl.rubrosAfectados.splice(idx,1);
+        }
         ctrl.cargarOrdenesPago = function(idCRP){
           financieraRequest.get('orden_pago_registro_presupuestal', $.param({
             query:"RegistroPresupuestal.Id:"+idCRP,

@@ -65,7 +65,6 @@ angular.module('financieraClienteApp')
           enableRowHeaderSelection: false,
           paginationPageSizes: [5, 10, 15],
           paginationPageSize: 5,
-          useExternalPagination: true,
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -101,14 +100,6 @@ angular.module('financieraClienteApp')
               width: "20%",
             },
             {
-              field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
-              displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
-              enableFiltering: false,
-              headerCellClass: 'encabezado',
-              cellClass: 'input_center',
-              width: "20%",
-            },
-            {
               field: $translate.instant('OPERACION'),
               cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botonesCRP" fila="row"></btn-registro></center>',
               enableFiltering: false,
@@ -120,8 +111,6 @@ angular.module('financieraClienteApp')
             ctrl.gridCRPApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope, function(row) {
               $scope.crpselecc = row.entity;
-              console.log(row.entity);
-              console.log("unidad ejecutora ",row.entity.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.UnidadEjecutora);
             });
           }
         };
@@ -147,7 +136,6 @@ angular.module('financieraClienteApp')
                                       necesidad:ctrl.necesidadinfoPresupuestal}
                           return respuesta;} );
                         ctrl.gridInfPresupuesto.data = ctrl.infoPresupuestal;
-                        console.log(ctrl.infoPresupuestal);
                         ctrl.gridCRP.data = [];
                         ctrl.cargandoCRP = true;
                         ctrl.hayDataCRP = true;
@@ -166,15 +154,21 @@ angular.module('financieraClienteApp')
         }
         ctrl.cargar_info_presupuestal();
         $scope.loadrow = function(row, operacion) {
-            $scope.solicitud = row.entity;
-            console.log($scope.solicitud);
             switch (operacion) {
                 case "vercrp":
+                  ctrl.verCRP(row.entity);
                     break;
                 default:
                 break;
             }
         };
+        ctrl.verCRP = function(CRPInfo){
+          console.log(CRPInfo);
+          var numero = CRPInfo.NumeroRegistroPresupuestal;
+          var vigencia = CRPInfo.Vigencia;
+          var unidadejecutora = CRPInfo.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Apropiacion.Rubro.UnidadEjecutora;
+          $window.open('#/rp/rp_consulta?vigencia='+vigencia+'&numero='+numero+'&unidadejecutora='+unidadejecutora, '_blank', 'location=yes');
+        }
         $scope.verDisponibilidad = function(row){
           var numero = row.entity.disponibilidad.NumeroDisponibilidad;
           var vigencia = row.entity.disponibilidad.Vigencia;
