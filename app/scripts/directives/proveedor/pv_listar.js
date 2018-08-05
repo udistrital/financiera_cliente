@@ -20,6 +20,8 @@ angular.module('financieraClienteApp')
         var self = this;
         self.cargando = true;
         self.hayData = true;
+        self.banco_proveedor = {};
+        self.tel_proveedor = {};
 
         self.gridOptions_proveedor = {
           enableRowSelection: true,
@@ -94,8 +96,8 @@ angular.module('financieraClienteApp')
               self.get_tel_provee($scope.outputproveedor.Id)
             } else {
               $scope.outputproveedor = {};
-              self.banco_proveedor = {};
-              self.tel_proveedor = {};
+              self.banco_proveedor.NombrePerfilEntidad = $translate.instant('NO_ENCONTRADO');
+              self.tel_proveedor.IdTelefono.NumeroTel = $translate.instant('NO_ENCONTRADO');
             }
           });
         };
@@ -113,7 +115,11 @@ angular.module('financieraClienteApp')
             $.param({
               query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
-            self.banco_proveedor = response.data[0];
+              if(response.data === null){
+                self.banco_proveedor.NombrePerfilEntidad = $translate.instant('NO_ENCONTRADO');
+              }else{
+                self.banco_proveedor.NombrePerfilEntidad = response.data[0].NombrePerfilEntidad ;
+              }
 
           });
         }
