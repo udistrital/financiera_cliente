@@ -15,7 +15,8 @@ angular.module('financieraClienteApp')
           edges: '=?',
           node: '=?',
           nodeclick: '=',
-          eventclick: '&'
+          eventclick: '&',
+          info: '=?'
 
       },
 

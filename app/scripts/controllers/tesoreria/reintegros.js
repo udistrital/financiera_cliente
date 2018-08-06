@@ -228,7 +228,8 @@ angular.module('financieraClienteApp')
              FechaOficio:ctrl.fechaOficio,
              Causal:ctrl.causalReintegro,
              Observaciones:ctrl.observaciones,
-             OrdenPago:ctrl.ordenPago
+             OrdenPago:ctrl.ordenPago,
+             Disponible:true,
            },
            IngresoBanco: ctrl.valor,
            Concepto: ctrl.concepto[0]
