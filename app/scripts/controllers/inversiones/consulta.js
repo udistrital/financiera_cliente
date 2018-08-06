@@ -12,6 +12,7 @@ angular.module('financieraClienteApp')
 
    var ctrl = this;
 
+    $scope.mostrar_direc = false;
     $scope.estado_select = [];
     $scope.estados = [];
     $scope.tipos = [];
@@ -22,9 +23,11 @@ angular.module('financieraClienteApp')
     $scope.senDataEstado.Usuario = {
       'Id': 1
     }
+    ctrl.hayData = true;
+    ctrl.cargando = true;
 
     $scope.botones = [
-        //{ clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+        { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
         { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
         //{ clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('LEGALIZAR'), operacion: 'legalizar', estado: true }
 
@@ -35,107 +38,81 @@ angular.module('financieraClienteApp')
       paginationPageSize: 5,
       enableFiltering: true,
       enableSorting: true,
-      enableRowSelection: true,
+      enableRowSelection: false,
       enableRowHeaderSelection: false,
       columnDefs: [{
               field: 'Id',
-              displayName: 'Consecutivo',
+              displayName: $translate.instant('CONSECUTIVO'),
               width: '5%',
-          },
-          {
-              field: 'Vendedor.NombreBanco',
-              displayName: 'Vendedor',
-              width: '10%',
-          },
-          {
-              field: 'Emisor.NombreBanco',
-              displayName: 'Emisor',
-              width: '10%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
           },
           {
               field: 'NumeroTransaccion',
-              displayName: 'Numero Operación',
-              width: '8%'
-          },
-          {
-              field: 'Trm',
-              displayName: 'TRM',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%'
-          },
-          {
-              field: 'TasaNominal',
-              displayName: 'Tasa Nominal',
-              width: '8%'
-          },
-          {
-              field: 'ValorNominalSaldo',
-              displayName: 'Valor Nom. Saldo',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%',
-          },
-          {
-              field: 'ValorNomSaldoMonNal',
-              displayName: 'Valor Nom. Saldo Mon. Nal',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%',
-          },
-          {
-              field: 'ValorActual',
-              displayName: 'Valor Actual',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%',
-          },
-          {
-              field: 'ValorNetoGirar',
-              displayName: 'Valor Neto Girar',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%',
-          },
-          {
-              field: 'FechaCompra',
-              displayName: 'Fecha Compra',
-              cellFilter: "date:'yyyy-MM-dd'",
-              width: '7%',
-          },
-          {
-              field: 'FechaRedencion',
-              displayName: 'Fecha Redencion',
-              cellFilter: "date:'yyyy-MM-dd'",
-              width: '7%',
-          },
-          {
-              field: 'FechaVencimiento',
-              displayName: 'Fecha Vencimiento',
-              cellFilter: "date:'yyyy-MM-dd'",
-              width: '7%',
+              displayName:  $translate.instant('NUMERO_OPERACION'),
+              width: '10%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
           },
           {
               field: 'Comprador.NomProveedor',
-              displayName: 'Comprador',
-              width: '8%',
+              displayName:  $translate.instant('COMPRADOR'),
+              width: '20%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
           },
           {
-              field: 'ValorRecompra',
-              displayName: 'Valor Recompra',
-              cellFilter: 'currency',
-              cellClass: 'input_right',
-              width: '8%',
+              field: 'Vendedor.NombreBanco',
+              displayName: $translate.instant('VENDEDOR'),
+              width: '15%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+          },
+          {
+              field: 'Emisor.NombreBanco',
+              displayName:  $translate.instant('EMISOR'),
+              width: '15%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+          },
+
+          {
+              field: 'FechaCompra',
+              displayName:  $translate.instant('FECHA_COMPRA'),
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+          },
+          {
+              field: 'FechaRedencion',
+              displayName:  $translate.instant('FECHA_REDENCION'),
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+          },
+          {
+              field: 'FechaVencimiento',
+              displayName: $translate.instant('FECHA_VENCIMIENTO'),
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
           },
           {
               field: 'FechaPacto',
-              displayName: 'Fecha Pacto',
+              displayName: $translate.instant('FECHA_PACTO'),
               cellFilter: "date:'yyyy-MM-dd'",
               width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
           },
           {
               name: $translate.instant('OPCIONES'),
-              width: '8%',
+              width: '6%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ]
@@ -147,6 +124,9 @@ angular.module('financieraClienteApp')
                 sortby: "Id",
                 order: "asc"
             })).then(function(response) {
+
+              if(response.data !== null){
+
               angular.forEach(response.data, function(rowData) {
                 var est = [];
                 financieraRequest.get("inversion_estado_inversion", $.param({
@@ -187,8 +167,15 @@ angular.module('financieraClienteApp')
                           });
 
               });
-
+              ctrl.hayData = true;
+              ctrl.cargando = false;
               ctrl.gridInversiones.data = response.data;
+            }
+              else{
+                ctrl.gridInversiones.data = [];
+                ctrl.hayData = false;
+                ctrl.cargando = false;
+              }
             });
 
           };
@@ -251,8 +238,14 @@ angular.module('financieraClienteApp')
           $scope.solicitud = row.entity;
 
           switch (operacion) {
-              case "proceso":
+            case "ver":
+                $scope.inversion = row.entity;
+                $('#modal_ver').modal('show');
+                break;
+            case "proceso":
                   $scope.estado = $scope.solicitud.Estado ;
+                  $scope.informacion = $translate.instant('INVERSION')+ ' '+ 'No'+' '+row.entity.Id;
+                  $scope.mostrar_direc = true;
                   break;
               default:
           }

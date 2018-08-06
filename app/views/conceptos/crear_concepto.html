@@ -1,5 +1,5 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header" align="center">{{"NUEVO_CONCEPTO" | translate}}</h2>
+  <h2 class="page-header text-center">{{"NUEVO_CONCEPTO" | translate}}</h2>
   <div class="panel panel-default shadow-box">
     <div class="panel-body">
 
@@ -32,9 +32,9 @@
         </div>
 
         </div>
-
+        </div>
         <legend class="text-primary" ng-click="crearConcepto.mostrar_datos_basicos()">{{'DATOS_BASICOS' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_basico"></span> <span class="fa fa-minus pull-right" ng-show="info_basico"></span></legend>
-        <div class="panel-body" ng-if="crearConcepto.info_basico">
+        <div class="panel-body" ng-show="crearConcepto.info_basico">
         <form name="formulario.conceptoForm">
         <div class="col-md-12 form-group ">
         <center>
@@ -168,5 +168,5 @@
         </div>
       </div>
 
-  </div>
+
 </div>

@@ -2,13 +2,14 @@
   <h2 class="page-header text-center">{{ 'INVERSIONES' | translate }}</h2>
 
 <div class="panel-body" >
-  <legend class="text-primary" ng-click="actaComprainv.infTitulo=!actaComprainv.infTitulo">
-    Titulo
-    <span class="fa fa-plus pull-right" ng-show="!actaComprainv.infTitulo"></span>
-    <span class="fa fa-minus pull-right" ng-show="actaComprainv.infTitulo"></span>
+  <legend class="text-primary" ng-click="actaComprainv.abrir_panel('info_basica')">
+    {{'TITULOS' | translate}}
+    <span class="fa fa-plus pull-right" ng-show="actaComprainv.panel_abierto !== 'info_basica'"></span>
+    <span class="fa fa-minus pull-right" ng-show="actaComprainv.panel_abierto === 'info_basica'"></span>
   </legend class="text-primary">
-  <div ng-show="actaComprainv.infTitulo">
-    <div class="col-md-7">
+  <div ng-show="actaComprainv.panel_abierto === 'info_basica'" >
+    <form name=formulario.datosOblig>
+    <div class="col-md-12">
 
       <div class="panel panel-default">
         <div class="panel-body">
@@ -31,13 +32,13 @@
             </div>
 
             <div class="form-group">
-              <label>TRM</label>
-              <input type="text" class="form-control input_left" ng-model="actaComprainv.trm" placeholder="TRM" ui-money-mask="0" required/>
+              <label>{{'TRM' | translate}}</label>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.trm" placeholder="{{'TRM' | translate}}" ui-money-mask="0" required/>
             </div>
 
             <div class="form-group">
-              <label class="control-label">{{'VAL_NOM_SALDO'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldo" placeholder="Valor Nom. Saldo" ui-money-mask="0" required/>
+              <label class="control-label">{{'VALOR_NOMINAL_SALDO'|translate}}</label>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldo" placeholder="{{'VALOR_NOMINAL_SALDO' | translate}}" ui-money-mask="0" required/>
           </div>
 
           <div class="form-group">
@@ -59,7 +60,7 @@
 
           <div class="form-group">
             <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-            <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras track by op.Id">
+            <select class="form-control" ng-model="actaComprainv.unidadejecutora" ng-options="op as op.Nombre for op in actaComprainv.unidadesejecutoras track by op.Id" required>
                           </select>
           </div>
         </div>
@@ -80,12 +81,12 @@
             </div>
 
             <div class="form-group">
-              <label class="control-label">{{'TASA'|translate}} {{'NOMINAL'|translate}}</label>
+              <label class="control-label">{{'TASA_NOMINAL'|translate}}</label>
               <input type="text" class="form-control input_left" ng-model="actaComprainv.tasaNominal" placeholder="{{'TASA'|translate}} {{'NOMINAL'|translate}}" ui-percentage-mask="4" required/>
             </div>
             <div class="form-group">
-              <label class="control-label"> {{'VAL_NOM_SALDO_MON_NAL'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldoMonNal" placeholder="{{'VAL_NOM_SALDO_MON_NAL'|translate}}" ui-money-mask="0" required/>
+              <label class="control-label"> {{'VALOR_NOM_SALDO_MON_NAL'|translate}}</label>
+              <input type="text" class="form-control input_left" ng-model="actaComprainv.ValorNomSaldoMonNal" placeholder="{{'VALOR_NOM_SALDO_MON_NAL'|translate}}" ui-money-mask="0" required/>
             </div>
             <div class="form-group">
               <label class="control-label">{{'VALOR_NETO_GIRAR'|translate}}</label>
@@ -94,45 +95,63 @@
             <div class="form-group">
               <label class="control-label" for="fechaRedencion">{{'FECHA_REDENCION'|translate}}</label>
               <br>
-              <md-datepicker ng-model="actaComprainv.fechaRedencion" md-placeholder="{{'FECHA_REDENCION'|translate}}"></md-datepicker>
+              <md-datepicker ng-model="actaComprainv.fechaRedencion" md-placeholder="{{'FECHA_REDENCION'|translate}}" required></md-datepicker>
             </div>
 
             <div class="form-group">
               <label class="control-label" for="fechaEmision">{{'FECHA_EMISION'|translate}}</label>
               <br>
-              <md-datepicker ng-model="actaComprainv.fechaEmision" md-placeholder="{{'FECHA_EMISION'|translate}}"></md-datepicker>
+              <md-datepicker ng-model="actaComprainv.fechaEmision" md-placeholder="{{'FECHA_EMISION'|translate}}" required></md-datepicker>
             </div>
 
             <div class="form-group">
               <label for="unidadejecutora">{{'VIGENCIA' | translate}}</label>
-              <select class="form-control" ng-model="actaComprainv.vigencia" ng-options="i as i for i in actaComprainv.vigencias">
+              <select class="form-control" ng-model="actaComprainv.vigencia" ng-options="i as i for i in actaComprainv.vigencias" required>
                 <option value="">{{'SELECCIONAR_VIGENCIA'|translate}}</option>
-                            </select>
+              </select>
             </div>
           </div>
 
-          <div class="col-md-12">
+          <div class="col-md-6">
             <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-            <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="actaComprainv.observaciones"></textarea>
+            <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="actaComprainv.observaciones"  required></textarea>
           </div>
 
         </div>
       </div>
     </div>
+  </form>
+  </div>
+</div>
 
-    <div class="col-md-5">
-      <div class="form-group">
-        <arbol-conceptos filtro="actaComprainv.filtro_ingresos" seleccion="actaComprainv.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+  <div class="panel-body" >
+    <legend class="text-primary" ng-click="actaComprainv.abrir_panel('concepto')">
+      {{'CONCEPTOS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="actaComprainv.panel_abierto !== 'concepto'"></span>
+      <span class="fa fa-minus pull-right" ng-show="actaComprainv.panel_abierto === 'concepto'"></span>
+    </legend class="text-primary">
+    <div ng-if="actaComprainv.panel_abierto === 'concepto'" >
+
+      <div class="col-md-12" form-group >
+         <fieldset class="form-group">
+        <arbol-conceptos filtro="actaComprainv.filtro_ingresos" seleccion="actaComprainv.concepto[0]" conceptosel="nodo" recargar="actaComprainv.recargar" rdesc > </arbol-conceptos>
+       </fieldset>
       </div>
-    </div>
 
-    <div class="col-md-12">
-      <div class="row" ng-show="actaComprainv.concepto[0]">
+
+  </div>
+</div>
+
+<div class="panel-body" >
+  <legend class="text-primary" ng-show="actaComprainv.concepto[0]" ng-click="actaComprainv.abrir_panel('afectacion')">
+    {{'AFECTACION_PRESUPUESTAL' | translate}}
+    <span class="fa fa-plus pull-right" ng-show="actaComprainv.panel_abierto !== 'afectacion'"></span>
+    <span class="fa fa-minus pull-right" ng-show="actaComprainv.panel_abierto === 'afectacion'"></span>
+  </legend class="text-primary">
+    <div class="col-md-12" ng-if="actaComprainv.panel_abierto === 'afectacion'">
+      <div class="row">
         <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
         <div class="panel-default panel-body">
-          <div class="panel panel-heading">
-            <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
-          </div>
           <ul class="list-unstyled">
             <li><b>{{'RUBRO' | translate}}:</b> {{actaComprainv.concepto[0].Rubro.Codigo+" / "+actaComprainv.concepto[0].Rubro.Nombre}}
               <ul>
@@ -151,17 +170,18 @@
       </div>
     </div>
 
-</div>
-</div>
+  </div>
 
-  <div class="panel-body" ng-show="actaComprainv.concepto[0]">
-    <legend class="text-primary" ng-click="c=!c">
-      {{'CUENTAS_CONTABLES' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!c"></span>
-      <span class="fa fa-minus pull-right" ng-show="c"></span>
-    </legend class="text-primary">
-    <div class="panel-body row" ng-show="c">
-      <div class="col-sm-12">
+
+
+  <div class="panel-body" >
+        <legend class="text-primary" ng-show="actaComprainv.concepto[0]"  ng-click="actaComprainv.abrir_panel('cuentas')">
+          {{'CUENTAS_CONTABLES' | translate}}
+          <span class="fa fa-plus pull-right" ng-show="actaComprainv.panel_abierto !== 'cuentas'"></span>
+          <span class="fa fa-minus pull-right" ng-show="actaComprainv.panel_abierto === 'cuentas'"></span>
+        </legend class="text-primary">
+
+      <div class="col-sm-12" ng-if="actaComprainv.panel_abierto === 'cuentas'">
         <div class="panel-body">
           <ul class="nav nav-tabs">
             <li ng-class="{active: selected == c.Id}" ng-repeat="c in actaComprainv.concepto"><a href ng-click="actaComprainv.selected=c.Id" data-toggle="tab">
@@ -178,7 +198,7 @@
         </div>
       </div>
     </div>
-  </div>
+
 
   <div class="panel-body" ng-if='actaComprainv.pactoVenta'>
     <legend class="text-primary" ng-click="d=!d">
