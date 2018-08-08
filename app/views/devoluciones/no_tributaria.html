@@ -1,8 +1,4 @@
-<div ng-if="!devolucionesnoTributaria.loadCircle">
-    <loadingcircle load="load"></loadingcircle>
-</div>
-
-<div class="panel panel-primary panel-body" ng-show="devolucionesnoTributaria.loadCircle">
+<div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'ORDEN_DEVOLUCION' | translate }} {{'TRIBUTARIA'|translate}}</h2>
 <div class="panel-body" >
     <legend class="text-primary" ng-click="devolucionesnoTributaria.infOrdenPago=!devolucionesnoTributaria.infOrdenPago">
@@ -39,15 +35,25 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                  <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                  <input type="text" class="form-control input_left"  ng-blur="devolucionesnoTributaria.consultaPagos()" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                  <label for="numdoc" class="control-label" style="display:block" >{{'NO_DOCUMENTO'|translate}}</label>
+                  <div style="display:inline-block">
+                    <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                  </div>
+                    <button type="button" ng-click="devolucionesnoTributaria.consultaPagos()" class="fa fa-search btn btn-info btn-outline" ></button>
                 </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                <span class="form-control">{{devolucionesnoTributaria.nombreSolicitante}}</span>
+                <div ng-if="!devolucionesnoTributaria.cargando_sol">
+                  <span class="form-control">{{devolucionesnoTributaria.nombreSolicitante}}</span>
+                </div>
+                <div  ng-if="devolucionesnoTributaria.cargando_sol">
+                  <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+               </div>
+
               </div>
+
           </div>
         </form>
       </div>

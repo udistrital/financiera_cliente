@@ -35,57 +35,69 @@ angular.module('financieraClienteApp')
               field: 'Solicitante',
               displayName: 'Solicitante',
               width: '5%',
+              headerCellClass: 'encabezado',
               visible:false
           },
           {
               field: 'Beneficiario',
               displayName: 'Beneficiario',
-              width: '10%',
+              width: '15%',
+              headerCellClass: 'encabezado',
               visible:false
           },
           {
               field: 'Devolucion.Id',
               displayName: $translate.instant('NUMERO_OPERACION'),
+              headerCellClass: 'encabezado',
               width: '10%'
           },
           {
               field: 'Devolucion.FormaPago.Nombre',
               displayName: $translate.instant('FORMA_PAGO'),
+              headerCellClass: 'encabezado',
               width: '15%',
           },
           {
               field: 'Devolucion.Oficio',
               displayName: $translate.instant('NO_OFICIO'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
               field: 'Devolucion.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
+              headerCellClass: 'encabezado',
               width: '13%'
           },
           {
               field: 'Devolucion.UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
               field: 'Devolucion.CuentaDevolucion.NumeroCuenta',
               displayName: $translate.instant('CUENTA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
               field: 'Devolucion.Acta.Nombre',
               displayName: $translate.instant('ACTA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
               field: 'valorDevolucion',
               displayName: $translate.instant('VALOR'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              cellFilter:"currency",
+              width: '10%'
           },
           {
               name: $translate.instant('OPCIONES'),
               width: '10%',
+              headerCellClass: 'encabezado',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ]
