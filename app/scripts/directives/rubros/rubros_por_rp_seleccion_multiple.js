@@ -34,9 +34,9 @@ angular.module('financieraClienteApp')
       $scope.outputconceptos = [];
 
       self.gridOptions_conceptos = {
-        multiSelect: false,
+        multiSelect: true,
         enableRowSelection: true,
-        enableRowHeaderSelection: false,
+        enableRowHeaderSelection: true,
         columnDefs: [
         {
           field: 'Id',
@@ -101,7 +101,10 @@ angular.module('financieraClienteApp')
         self.gridApi = gridApi;
         $scope.outputconceptos = [];
         gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
+
+
           if (row2.isSelected) {
+            console.log("conceptos directiva", )
             $scope.outputconceptos.push(row2.entity);
             console.log("outputconcepto", $scope.outputconceptos)
           } else {
@@ -126,67 +129,81 @@ angular.module('financieraClienteApp')
     //
     $scope.$watch('inputrpid[inputrpid.length - 1].Id', function() {
       self.refresh();
-      self.datos = [];
+
       if (!angular.isUndefined($scope.inputrpid)) {
 
         if ($scope.inputrpid.length >0 ) {
+
           angular.forEach($scope.inputrpid, function(rp){
+
             financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',
             $.param({
               query: "RegistroPresupuestal.Id:" + rp.Id,
               limit: 0
             })
           ).then(function(response) {
+            //ACÁ TENGO LOS RUBROS
            if(response.data === null){
               self.hayData = false;
               self.cargando = false;
             }
             else{
+              self.datos = [];
               self.datos.push(response.data[0]);
+
               angular.forEach(self.datos, function(iterador) {
+
                 // get saldos de lor rp
                 var rpData = {
                   Rp: iterador.RegistroPresupuestal,
-                  RpDisAp: iterador,
                   Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
                   FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData
               ).then(function(response) {
-                iterador.Saldo = response.data.saldo;
-                //se hace solicitud en este framento para obtener el saldo del rubro
-                financieraRequest.get('concepto',
-                $.param({
-                  query: "Rubro.Id:" + iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id,
-                  limit: 0
-                })
-              ).then(function(response) {
+
                 if(response.data === null){
                   self.hayData = false;
                   self.cargando = false;
                 }else{
                   self.hayData = true;
                   self.cargando = false;
-                  response.data[0].RpData = rpData;
-                  console.log(response.data)
-
-                  self.gridOptions_conceptos.data = response.data;
-                  console.log(self.gridOptions_conceptos.data)
+                  iterador.Saldo = response.data.saldo;
+                  self.arreglo_total_conceptos = [];
+                  self.get_conceptos(iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id, iterador.Saldo);
+                  self.gridOptions_conceptos.data = self.arreglo_total_conceptos;
                 }
+
 
 
               });
               //se incluye consulta para obtener saldo en el objeto
             });
-          }); // iterador
-        }
+          }; // iterador
+        })
       }); //tehen
-    });
+
+    };
   }
-}
+
 
 },true); // watch
 
+self.get_conceptos = function(rubro, saldo){
+
+  financieraRequest.get('concepto',
+  $.param({
+    query: "Rubro.Id:" + rubro,
+    limit: 0
+  })
+  ).then(function(response) {
+      angular.forEach(response.data, function(iterador) {
+        iterador.Saldo = saldo;
+        self.arreglo_total_conceptos.push(iterador);
+      });
+
+  });
+}
 // fin
 },
 controllerAs: 'd_rubrosPorRpSeleccionMultiple'
