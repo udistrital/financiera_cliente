@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
@@ -252,52 +252,46 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.gridReintegros = {
-          enableRowSelection: true,
-          enableSelectAll: false,
-          selectionRowHeaderWidth: 35,
-          multiSelect: false,
-          enableRowHeaderSelection: false,
-          paginationPageSizes: [5, 10, 15],
-          paginationPageSize: 10,
-
-          enableFiltering: true,
-          minRowsToShow: 10,
-          useExternalPagination: false,
-
-          columnDefs:[{
-              field: 'Id',
-              visible: false
-            },
-            {
-              field: 'Consecutivo',
-              displayName: $translate.instant('CONSECUTIVO'),
-              width: '25%',
-              cellClass: 'input_center',
-              headerCellClass: 'encabezado'
-            },
-            {
-              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
-              width: '25%',
-              displayName: $translate.instant('CAUSAL_REINTEGRO'),
-              filter: {
-                type: uiGridConstants.filter.SELECT,
-                selectOptions: $scope.tipos
-              },
-              cellClass: 'input_center',
-              headerCellClass: 'encabezado'
-            },
-            {
-              field: 'Vigencia',
-              displayName: $translate.instant('OBSERVACIONES'),
-              width: '50%',
-              cellClass: 'input_center',
-              headerCellClass: 'encabezado'
-            }
-          ],
-          onRegisterApi: function(gridApi) {
-            ctrl.gridOPApi = gridApi;
-          }
-        };
+                  enableRowSelection: true,
+                  enableSelectAll: false,
+                  selectionRowHeaderWidth: 35,
+                  multiSelect: false,
+                  enableRowHeaderSelection: false,
+                  paginationPageSizes: [5, 10, 15],
+                  paginationPageSize: 10,
+                  enableFiltering: true,
+                  minRowsToShow: 10,
+                  useExternalPagination: false,
+                  columnDefs:[{
+                      field: 'Reintegro.Id',
+                      visible: false
+                    },
+                    {
+                      field: 'Reintegro.Consecutivo',
+                      displayName: $translate.instant('CONSECUTIVO'),
+                      width: '25%',
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    },
+                    {
+                      field: 'Reintegro.Causal.Descripcion',
+                      width: '50%',
+                      displayName: $translate.instant('CAUSAL_REINTEGRO'),
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    },
+                    {
+                      field: 'Reintegro.Ingreso.IngresoConcepto.ValorAgregado',
+                      displayName: $translate.instant('VALOR'),
+                      width: '25%',
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    }
+                  ],
+                  onRegisterApi: function(gridApi) {
+                    ctrl.gridReintApi = gridApi;
+                  }
+                };
 
         $scope.addRubro = function(idOp){
           financieraRequest.get('concepto_orden_pago', $.param({
@@ -427,6 +421,10 @@ angular.module('financieraClienteApp')
                     break;
             }
         };
+
+        ctrl.agregarReintegro = function(){
+          $('#modal_add_reintegro').modal('show');
+        }
 
 
         ctrl.limpiar_practica = function() {
@@ -570,6 +568,27 @@ angular.module('financieraClienteApp')
             })
         };
 
+        ctrl.cargarReintegros=function(){
+          financieraRequest.get("reintegro_avance_legalizacion",
+                  $.param({
+                      query: "Avance.Id:"+$scope.solicitud.Id, //Impuesto RETE IVA
+                      limit: -1
+                  }))
+              .then(function(response) {
+                angular.forEach(response.data,function(row){
+                  financieraRequest.get("ingreso_concepto",
+                          $.param({
+                              query: "Ingreso.Id:"+row.Reintegro.Ingreso.Id,
+                              limit: 1
+                          }))
+                      .then(function(response) {
+                        row.Reintegro.Ingreso.IngresoConcepto = response.data[0]
+                      });
+                });
+                  ctrl.gridReintegros.data = response.data;
+              });
+        }
+        ctrl.cargarReintegros();
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
