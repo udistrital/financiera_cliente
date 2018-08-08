@@ -37,8 +37,14 @@ angular.module('financieraClienteApp')
         multiSelect: false,
         enableRowSelection: true,
         enableRowHeaderSelection: false,
-        columnDefs: [{
+        columnDefs: [
+        {
           field: 'Id',
+          visible: false,
+          enableCellEdit: false
+        },
+        {
+          field: 'RpData',
           visible: false,
           enableCellEdit: false
         },
@@ -97,6 +103,7 @@ angular.module('financieraClienteApp')
         gridApi.selection.on.rowSelectionChanged(gridApi.grid.appScope, function(row2) {
           if (row2.isSelected) {
             $scope.outputconceptos.push(row2.entity);
+            console.log("outputconcepto", $scope.outputconceptos)
           } else {
             var i = $scope.outputconceptos.indexOf(row2.entity)
             $scope.outputconceptos.splice(i, 1);
@@ -140,6 +147,7 @@ angular.module('financieraClienteApp')
                 // get saldos de lor rp
                 var rpData = {
                   Rp: iterador.RegistroPresupuestal,
+                  RpDisAp: iterador,
                   Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
                   FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
@@ -159,7 +167,11 @@ angular.module('financieraClienteApp')
                 }else{
                   self.hayData = true;
                   self.cargando = false;
+                  response.data[0].RpData = rpData;
+                  console.log(response.data)
+
                   self.gridOptions_conceptos.data = response.data;
+                  console.log(self.gridOptions_conceptos.data)
                 }
 
 
