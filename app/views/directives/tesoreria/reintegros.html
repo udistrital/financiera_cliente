@@ -1,0 +1,18 @@
+<fieldset class="form-group">
+    <legend class="text-primary" ng-click="g=!g">
+      {{'INFORMACION_REINTEGRO' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="g"></span>
+      <span class="fa fa-minus pull-right" ng-show="!g"></span>
+    </legend class="text-primary">
+    <div class="panel panel-default"  ng-show="!g">
+        <div class="panel-heading">
+            {{ 'INFORMACION_REINTEGRO' | translate }}
+        </div>
+        <div class="panel-body">
+            <div class="mi-grid" id="mi-grid" ui-grid="d_tesoreriaReintegros.gridReintegros" ui-grid-selection ui-grid-pagination></div>
+        </div>
+        <div class="panel-footer">
+            <div align="center"> <button ng-click="d_tesoreriaReintegros.guardarReinteAvances()" class="btn btn-info btn-outline">{{ 'BTN.AGREGAR' | translate }}</button></div>
+        </div>
+    </div>
+</fieldset>
