@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location) {
+  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location,$window) {
 
     var ctrl = this;
 
@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
     $scope.concepto=[];
 
     $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.SELECCIONAR'), operacion: 'seleccionar', estado: true },
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
 
@@ -234,11 +235,15 @@ ctrl.cargarOrdenesPago();
 $scope.loadrow = function(row, operacion) {
   ctrl.operacion = operacion;
   switch (operacion) {
-      case "ver":
+      case "seleccionar":
       $("#modalCuentas").modal();
           ctrl.IdOrden = row.entity.Id;
           break;
+      case "ver":
+          $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');
+          break;
       default:
+          break;
   }
 };
 
@@ -336,7 +341,7 @@ ctrl.validateFields = function(){
 
 }
 ctrl.crearDevolucion = function(){
-
+  var templateAlert;
   if  (!ctrl.validateFields()){
     swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
     return;
@@ -380,14 +385,18 @@ ctrl.crearDevolucion = function(){
 
     financieraRequest.post('devolucion_tributaria/AddDevolucionTributaria',ctrl.DevolucionTributaria).then(function(response) {
       if(response.data.Type != undefined){
-            swal('',$translate.instant(response.data.Code),response.data.Type);
             if(response.data.Type != "error"){
+              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+              templateAlert = templateAlert + "</table>";
               ctrl.DevolucionTributaria.DevolucionTributaria.Id = response.data.Body.Id;
               financieraRequest.post('devolucion_tributaria_estado_devolucion/AddEstadoDevolTributaria',ctrl.DevolucionTributaria).then(function(response) {
-                console.log("respuesta estado ",response.data.Type);
                     $location.path('/devoluciones/consulta_devoluciones_tributarias');
               });
+            }else{
+              templateAlert=$translate.instant(response.data.Code);
             }
+            swal('',templateAlert,response.data.Type);
        }
     });
   }

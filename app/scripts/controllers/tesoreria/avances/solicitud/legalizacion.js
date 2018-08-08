@@ -393,7 +393,6 @@ angular.module('financieraClienteApp')
                     $('#modal_practicas_academicas').modal('show');
                     break;
                 case "edit":
-                    console.log(ctrl.row_entity);
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_practicas_academicas').modal('show');
                     break;
@@ -412,7 +411,6 @@ angular.module('financieraClienteApp')
                     $('#modal_legalizacion_compras').modal('show');
                     break;
                 case "edit":
-                    console.log(ctrl.row_entity);
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_legalizacion_compras').modal('show');
                     break;
@@ -452,7 +450,6 @@ angular.module('financieraClienteApp')
                 wso2Request.get("bienestarProxy", parametros).then(function(response) {
                     $scope.estudiante_cargado = false;
                     if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                        console.log(response.data.datosCollection.datos[0]);
                         ctrl.LegalizacionPracticaAcademica.Estudiante = response.data.datosCollection.datos[0];
                     } else {
                         $scope.encontrado = "true";
@@ -469,7 +466,6 @@ angular.module('financieraClienteApp')
                         limit: -1
                     }))
                 .then(function(response) {
-                    console.log(response.data);
                     if (response.data == null) {
                         $scope.encontrado = "true";
                     } else {
