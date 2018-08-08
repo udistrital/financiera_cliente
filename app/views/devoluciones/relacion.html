@@ -96,13 +96,23 @@
                     <div class="col-md-6">
                         <br>
                         <label class="control-label">{{"SOLICITANTE" | translate}}</label>
-                        <span class="form-control">{{devolucionesrelacion.fila.Solicitante}}</span>
+                        <div ng-if="!devolucionesrelacion.cargando_sol">
+                          <span class="form-control" >{{devolucionesrelacion.nombreSolicitante}}</span>
+                        </div>
+                       <div  ng-if="devolucionesrelacion.cargando_sol">
+                         <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+                       </div>
                     </div>
 
                     <div class="col-md-6">
                         <br>
                         <label class="control-label">{{"BENEFICIARIO" | translate}}</label>
-                        <span class="form-control">{{devolucionesrelacion.fila.Beneficiario}}</span>
+                        <div  ng-if="!devolucionesrelacion.cargando_ben">
+                          <span class="form-control">{{devolucionesrelacion.nombreBeneficiario}}</span>
+                        </div>
+                        <div ng-if="devolucionesrelacion.cargando_ben">
+                          <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+                        </div>
                     </div>
 
                     <div class="col-md-6">
