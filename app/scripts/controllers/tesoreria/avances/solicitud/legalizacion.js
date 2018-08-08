@@ -8,11 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
         ctrl.row_entity = {};
+        ctrl.rubrosAfectados=[];
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
         ctrl.Vigencia=2018;
@@ -20,10 +21,6 @@ angular.module('financieraClienteApp')
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
-        ];
-
-        $scope.botonesCRP = [
-            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'vercrp', estado: true },
         ];
 
         $scope.clase_load = {
@@ -132,66 +129,6 @@ angular.module('financieraClienteApp')
             }
         };
 
-        ctrl.gridCRP = {
-          enableFiltering: true,
-          enableSorting: true,
-          enableRowSelection: true,
-          enableRowHeaderSelection: false,
-          paginationPageSizes: [5, 10, 15],
-          paginationPageSize: 5,
-          useExternalPagination: true,
-          columnDefs: [{
-              field: 'Id',
-              visible: false
-            },
-            {
-              field: 'Vigencia',
-              displayName: $translate.instant('VIGENCIA'),
-              cellClass: 'input_center',
-              enableFiltering: false,
-               headerCellClass: 'encabezado',
-               width: "15%",
-            },
-            {
-              field: 'NumeroRegistroPresupuestal',
-              displayName: $translate.instant('NO'),
-              cellClass: 'input_center',
-               headerCellClass: 'encabezado',
-               width: "15%",
-            },
-            {
-              field: 'FechaRegistro',
-              cellClass: 'input_center',
-              displayName: $translate.instant('FECHA_REGISTRO'),
-              cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-               headerCellClass: 'encabezado',
-               width: "20%",
-            },
-            {
-              field: 'Estado.Nombre',
-              displayName: $translate.instant('ESTADO'),
-               headerCellClass: 'encabezado',
-              cellClass: 'input_center',
-              width: "20%",
-            },
-            {
-              field: 'InfoSolicitudDisponibilidad.DependenciaSolicitante.Nombre',
-              displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
-              enableFiltering: false,
-              headerCellClass: 'encabezado',
-              cellClass: 'input_center',
-              width: "20%",
-            },
-            {
-              field: $translate.instant('OPERACION'),
-              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botonesCRP" fila="row"></btn-registro></center>',
-              enableFiltering: false,
-              headerCellClass: 'encabezado',
-              width: "10%",
-            }
-          ]
-        };
-
         ctrl.gridOrdenesDePago = {
           enableRowSelection: true,
           enableSelectAll: false,
@@ -210,14 +147,14 @@ angular.module('financieraClienteApp')
               visible: false
             },
             {
-              field: 'Consecutivo',
+              field: 'OrdenPago.Consecutivo',
               displayName: $translate.instant('CODIGO'),
               width: '7%',
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
             },
             {
-              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              field: 'OrdenPago.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
               width: '8%',
               displayName: $translate.instant('TIPO'),
               filter: {
@@ -229,14 +166,14 @@ angular.module('financieraClienteApp')
               headerCellClass: 'encabezado'
             },
             {
-              field: 'Vigencia',
+              field: 'OrdenPago.Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               width: '7%',
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
             },
             {
-              field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
+              field: 'OrdenPagoEstadoOrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro',
               displayName: $translate.instant('FECHA_CREACION'),
               cellClass: 'input_center',
               headerCellClass: 'encabezado',
@@ -251,7 +188,7 @@ angular.module('financieraClienteApp')
               headerCellClass: 'encabezado'
             },
             {
-              field: 'FormaPago.CodigoAbreviacion',
+              field: 'OrdenPago.FormaPago.CodigoAbreviacion',
               width: '5%',
               displayName: $translate.instant('FORMA_PAGO'),
               cellClass: 'input_center',
@@ -278,7 +215,7 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('NO_DOCUMENTO')
             },
             {
-              field: 'ValorBase',
+              field: 'OrdenPago.ValorBase',
               width: '10%',
               cellFilter: 'currency',
               cellClass: 'input_center',
@@ -286,7 +223,7 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('VALOR')
             },
             {
-              field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
+              field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
               width: '7%',
               displayName: $translate.instant('ESTADO'),
               filter: {
@@ -308,32 +245,82 @@ angular.module('financieraClienteApp')
           ],
           onRegisterApi: function(gridApi) {
             ctrl.gridOPApi = gridApi;
-
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+              $scope.addRubro(row.entity.Id);
+            });
           }
         };
 
-        ctrl.cargarLista = function (offset,query) {
-          financieraMidRequest.cancel();
-          ctrl.gridCRP.data = [];
-          ctrl.cargandoCRP = true;
-          ctrl.hayDataCRP = true;
-          financieraMidRequest.get('registro_presupuestal/ListaRp/'+ctrl.Vigencia, 'UnidadEjecutora='+ctrl.UnidadEjecutora+'&limit='+ctrl.gridCRP.paginationPageSize+'&offset='+offset+query).then(function (response) {
-            if (response.data.Type !== undefined){
-              ctrl.hayDataCRP = false;
-              ctrl.cargandoCRP = false;
-              ctrl.gridCRP.data = [];
-            }else{
-              ctrl.hayDataCRP = true;
-              ctrl.cargandoCRP = false;
-              ctrl.gridCRP.data = response.data;
+        ctrl.gridReintegros = {
+          enableRowSelection: true,
+          enableSelectAll: false,
+          selectionRowHeaderWidth: 35,
+          multiSelect: false,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: 10,
+
+          enableFiltering: true,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
+          columnDefs:[{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'Consecutivo',
+              displayName: $translate.instant('CONSECUTIVO'),
+              width: '25%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '25%',
+              displayName: $translate.instant('CAUSAL_REINTEGRO'),
+              filter: {
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.tipos
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'Vigencia',
+              displayName: $translate.instant('OBSERVACIONES'),
+              width: '50%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             }
-          });
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridOPApi = gridApi;
+          }
         };
 
-        ctrl.cargarLista();
-
-        ctrl.cargarOrdenesPago = function(){
-          financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
+        $scope.addRubro = function(idOp){
+          financieraRequest.get('concepto_orden_pago', $.param({
+            query:"OrdenDePago.Id:"+idOp,
+            limit:1
+          })
+        ).then(function(response) {
+          var rubro = response.data[0].Concepto.Rubro;
+         if (ctrl.rubrosAfectados.indexOf(rubro) === -1){
+           ctrl.rubrosAfectados.push(rubro);
+         }
+        });
+        }
+        ctrl.removeRubro=function(rubro){
+          var idx = ctrl.rubrosAfectados.indexOf(rubro);
+          ctrl.rubrosAfectados.splice(idx,1);
+        }
+        ctrl.cargarOrdenesPago = function(idCRP){
+          financieraRequest.get('orden_pago_registro_presupuestal', $.param({
+            query:"RegistroPresupuestal.Id:"+idCRP,
+            limit:-1
+          })
+          ).then(function(response) {
             if(response.data === null){
               ctrl.hayData = false;
               ctrl.cargando = false;
@@ -363,7 +350,6 @@ angular.module('financieraClienteApp')
           }
           });
       }
-      ctrl.cargarOrdenesPago();
         $scope.loadrow = function(row, operacion) {
           self.operacion = operacion;
           switch (operacion) {
@@ -476,7 +462,6 @@ angular.module('financieraClienteApp')
                 });
             }
         };
-
         ctrl.cargar_proveedor = function() {
             $scope.encontrado = false;
             ctrl.LegalizacionCompras.InformacionProveedor = null;
@@ -738,11 +723,19 @@ angular.module('financieraClienteApp')
                     }
                 }, true);
 
+
+      $scope.$watch('legalizacion.CRPSelecc',function(){
+        if(!angular.isUndefined(ctrl.CRPSelecc)){
+          ctrl.cargarOrdenesPago(ctrl.CRPSelecc.Id);
+        }
+      });
       $scope.$watch('c', function() {
           if($scope.c){
             $interval( function() {
                 ctrl.gridOPApi.core.handleWindowResize();
               }, 500, 2);
+
+
           }
         });
 

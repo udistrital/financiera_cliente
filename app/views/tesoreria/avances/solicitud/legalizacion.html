@@ -1,25 +1,12 @@
 <div class="panel panel-primary panel-body">
     <h2 class="page-header text-center">{{ 'LEGALIZACION_AVANCE' | translate }}</h2>
     <div class="panel-body">
-        <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+        <ver-solicitud sol="solicitud" tipos="1" crpselecc="legalizacion.CRPSelecc"></ver-solicitud>
 
         <fieldset class="form-group">
-          <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="c"></span> <span class="fa fa-minus pull-right" ng-show="!c"></span></legend>
-          <div class="panel-body" ng-show="!c">
+          <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="!c"></span> <span class="fa fa-minus pull-right" ng-show="c"></span></legend>
+          <div class="panel-body" ng-show="c">
             <div class="panel panel-default">
-
-
-
-              <div class="panel-heading">
-                  <h3 class="panel-title">{{ 'SELECCIONE_CRP' | translate }}</h3>
-              </div>
-
-              <div style="width=100%" ui-grid="legalizacion.gridCRP" ui-grid-auto-resize ui-grid-pagination>
-                <div class="watermark" ng-show="!legalizacion.hayDataCRP">{{'NO_DATA'| translate}}</div>
-                <div class="watermark" ng-show="legalizacion.cargandoCRP">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
-              </div>
-
-              <br>
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
                 </div>
@@ -33,17 +20,20 @@
                     <div class="row">
                       <div class="panel-default panel-body">
                         <div class="panel panel-heading">
-                          <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
+                          <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}
+                          </span>
+                        </h4>
                         </div>
                         <ul class="list-unstyled">
-                          <li><b>{{'RUBRO' | translate}}:</b> {{actaComprainv.concepto[0].Rubro.Codigo+" / "+actaComprainv.concepto[0].Rubro.Nombre}}
+                          <li style= "display: inline-block" ng-repeat = "rubro in legalizacion.rubrosAfectados track by rubro.Id"><span><b>{{'RUBRO' | translate}}:</b> {{rubro.Codigo+" / "+rubro.Nombre}}
+                            <button ng-click="legalizacion.removeRubro(rubro)" type="button" class="btn btn-outline btn-xs pull-left">&times</button></span>
                             <ul>
                               <li>
                                 <div class="col-md-4" style="width:148px">
                                   <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                                 </div>
                                 <div class="col-md-4" style="width:200px">
-                                  <span class="form-control" style="height:25px">{{actaComprainv.ValorNetoGirar|currency}}</span>
+                                  <span class="form-control" style="height:25px">{{rubro.valor|currency}}</span>
                                 </div>
                               </li>
                             </ul>
@@ -100,48 +90,24 @@
             </legend class="text-primary">
             <div class="panel-body row" ng-show="g">
               <div class="col-sm-12">
-
+                  <div style="width:100%"  ui-grid="legalizacion.gridReintegros" ui-grid-selection ui-grid-pagination></div>
               </div>
             </div>
-        </fieldset>
-        <fieldset class="form-group">
-          <div class="col-md-6">
-            <div class="form-group">
-              <arbol-conceptos filtro="legalizacion.filtro_ingresos" seleccion="legalizacion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
-            </div>
-          </div>
         </fieldset>
       <fieldset class="form-group">
-          <legend class="text-primary" ng-click="g=!g" ng-show="legalizacion.concepto[0]">
-            {{'CUENTAS_CONTABLES' | translate}}
-            <span class="fa fa-plus pull-right" ng-show="!g"></span>
-            <span class="fa fa-minus pull-right" ng-show="g"></span>
+          <legend class="text-primary" ng-click="h=!h">
+            {{'AFECTACION_CONTABLE' | translate}}
+            <span class="fa fa-plus pull-right" ng-show="!h"></span>
+            <span class="fa fa-minus pull-right" ng-show="h"></span>
           </legend class="text-primary">
-          <div class="panel-body row" ng-if="g">
-            <div class="col-md-12">
-              <div class="row" ng-show="legalizacion.concepto[0]">
-                <div class="panel-default panel-body">
-                  <div class="panel panel-heading">
-                    <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
-                  </div>
-                  <ul class="list-unstyled">
-                    <li><b>{{'RUBRO' | translate}}:</b> {{legalizacion.concepto[0].Rubro.Codigo+" / "+legalizacion.concepto[0].Rubro.Nombre}}
-                      <ul>
-                        <li>
-                          <div class="col-md-4" style="width:148px">
-                            <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
-                          </div>
-                          <div class="col-md-4" style="width:200px">
-                            <span class="form-control" style="height:25px">{{legalizacion.valor|currency}}</span>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+          <div class="panel-body row" ng-if="h">
+            <fieldset class="form-group">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <arbol-conceptos filtro="legalizacion.filtro_ingresos" seleccion="legalizacion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
                 </div>
               </div>
-            </div>
-
+            </fieldset>
             <div class=" col-sm-12">
               <div class="panel-body">
                 <ul class="nav nav-tabs">

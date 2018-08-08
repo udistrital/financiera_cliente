@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest,coreRequest) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest,coreRequest,$location) {
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
@@ -151,30 +151,6 @@ angular.module('financieraClienteApp')
 
      return respuesta;
    };
-
-   $scope.$watch('ordendevolucion.numdocSoli', function(){
-     if (ctrl.tipoDocSoli!= undefined && ctrl.numdocSoli!= undefined) {
-       ctrl.consultaPagos();
-    }
-   },true);
-
-   $scope.$watch('ordendevolucion.tipoDocSoli', function(){
-     if (ctrl.tipoDocSoli!== undefined && ctrl.numdocSoli!== undefined) {
-        ctrl.consultaPagos();
-     }
-   },true);
-
-   $scope.$watch('ordendevolucion.numdocBeneficiario', function(){
-     if (ctrl.numdocBeneficiario!= undefined  && ctrl.tipoDocBen != undefined) {
-        ctrl.consultaBen();
-     }
-   },true);
-
-   $scope.$watch('ordendevolucion.tipoDocBen', function(){
-     if (ctrl.tipoDocBen != undefined && ctrl.numdocBeneficiario!= undefined) {
-       ctrl.consultaBen();
-    }
-   },true);
 
 
    $scope.$watch('ordendevolucion.concepto[0]', function(newValue,oldValue) {
@@ -408,7 +384,13 @@ angular.module('financieraClienteApp')
 
        financieraRequest.post('solicitud_devolucion/AddDevolution',ctrl.SolicitudDevolucion).then(function(response) {
          if(response.data.Type != undefined){
-               swal('',$translate.instant(response.data.Code),response.data.Type);
+               swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                 if(response.data.Type === "success"){
+                   $scope.$apply(function(){
+                       $location.path('/devoluciones/consulta_relacion');
+                   });
+                 }
+               });
           }
        });
      }else {
