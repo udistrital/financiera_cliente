@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
             },
             'Valor': concepto.Afectacion,
             'RegistroPresupuestalDisponibilidadApropiacion': {
-              'Id': concepto.RegistroPresupuestalDisponibilidadApropiacion.Id
+              'Id': concepto.RpData.RpDisAp.DisponibilidadApropiacion.Id
             }
           });
           //  data movimientos contables
@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
           })
         }
       })
-    }
+    } 
 
     //funcion calcularTotalAfectacion
     self.calcularTotalAfectacion = function(pConceptos) {
@@ -78,14 +78,14 @@ angular.module('financieraClienteApp')
       angular.forEach(pConceptos, function(concepto) {
         if (concepto.validado == true && concepto.Afectacion != 0) {
           // total afectacion
-          if(self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
-            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
+          if(self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+            self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
           }else{
-            self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
+            self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
           }
           // saldos
-          if(self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
-            self.saldoDeRubros[concepto.RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.RegistroPresupuestalDisponibilidadApropiacion.Saldo;
+          if(self.saldoDeRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+            self.saldoDeRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.RpData.RpDisAp.Saldo;
           }
         }
       });
