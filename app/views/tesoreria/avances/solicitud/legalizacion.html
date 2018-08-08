@@ -88,10 +88,16 @@
               <span class="fa fa-plus pull-right" ng-show="!g"></span>
               <span class="fa fa-minus pull-right" ng-show="g"></span>
             </legend class="text-primary">
-            <div class="panel-body row" ng-show="g">
-              <div class="col-sm-12">
-                  <div style="width:100%"  ui-grid="legalizacion.gridReintegros" ui-grid-selection ui-grid-pagination></div>
-              </div>
+            <div class="panel panel-default"  ng-show="g">
+                <div class="panel-heading">
+                    {{ 'INFORMACION_REINTEGRO' | translate }}
+                </div>
+                <div class="panel-body">
+                    <div class="mi-grid" id="mi-grid" ui-grid="legalizacion.gridReintegros" ui-grid-selection ui-grid-pagination></div>
+                </div>
+                <div class="panel-footer">
+                    <div align="center"> <button ng-click="legalizacion.agregarReintegro()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+                </div>
             </div>
         </fieldset>
       <fieldset class="form-group">
@@ -299,6 +305,15 @@
             <br>
         </div>
     </div>
+</div>
+
+<div id="modal_add_reintegro" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+      <div class="modal-header panel-heading">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+      </div>
+      <tesoreria-reintegros avance="solicitud"></tesoreria-reintegros>
+</div>
 </div>
 
 <div id="modal_practicas_academicas" class="modal fade col-md-12" role="dialog" style="padding-top:10%">

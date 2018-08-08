@@ -16,7 +16,8 @@ angular.module('financieraClienteApp')
         panel:'=?',
         selection:'=?',
         debitos:'=?',
-        creditos:'=?'
+        creditos:'=?',
+        inputpestanaabierta:'=?'
       },
 
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables_op_detalle.html',
