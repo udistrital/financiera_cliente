@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest,$sanitize) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -43,6 +43,13 @@ angular.module('financieraClienteApp')
             return list.indexOf(item) > -1;
         };
 
+        ctrl.validatenoRowFound = function (item){
+          if(angular.equals(typeof(item),"string")){
+            return true;
+          }else{
+            return false;
+          }
+        }
         ctrl.get_solicitudes = function() {
             financieraRequest.get("solicitud_avance", $.param({
                     limit: -1,
@@ -51,7 +58,6 @@ angular.module('financieraClienteApp')
                 }))
                 .then(function(response) {
                   if(response.data !==  null){
-
                     angular.forEach(response.data, function(solicitud) {
                         financieraRequest.get("avance_estado_avance", $.param({
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
@@ -77,8 +83,8 @@ angular.module('financieraClienteApp')
                                 solicitud.Tipos = response.data;
                                 solicitud.Total = 0;
                                 angular.forEach(response.data, function(tipo) {
-
-                                    if(response.data !== "<QuerySeter> no row found"){
+                                  console.log(" tipo ",tipo," funcion ",ctrl.validatenoRowFound(tipo))
+                                    if(!ctrl.validatenoRowFound(tipo)){
 
                                     solicitud.Total += tipo.Valor;
                                     financieraRequest.get("requisito_tipo_avance", $.param({
@@ -93,6 +99,7 @@ angular.module('financieraClienteApp')
                                             var sol = 0;
                                             var leg = 0;
                                             angular.forEach(tipo.Requisitos, function(data) {
+                                              if(!ctrl.validatenoRowFound(data)){
                                                 data.SolicitudTipoAvance = { Id: tipo.Id };
                                                 data.RequisitoTipoAvance = { Id: data.Id };
                                                 if (data.RequisitoAvance.EtapaAvance.Id == 1) { //Solicitud
@@ -103,6 +110,7 @@ angular.module('financieraClienteApp')
                                                 }
                                                 tipo.n_solicitar = sol;
                                                 tipo.n_legalizar = leg;
+                                              }
                                             });
                                         });
                                       }
@@ -122,6 +130,7 @@ angular.module('financieraClienteApp')
                   }
                 });
         };
+
 
         ctrl.get_solicitudes();
         ctrl.gridOptions = {
@@ -209,7 +218,6 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
-            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
