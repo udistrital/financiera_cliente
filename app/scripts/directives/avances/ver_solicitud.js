@@ -75,14 +75,14 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center',
               enableFiltering: false,
                headerCellClass: 'encabezado',
-               width: "15%",
+               width: "20%",
             },
             {
               field: 'NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO'),
               cellClass: 'input_center',
                headerCellClass: 'encabezado',
-               width: "15%",
+               width: "20%",
             },
             {
               field: 'FechaRegistro',
@@ -104,7 +104,7 @@ angular.module('financieraClienteApp')
               cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botonesCRP" fila="row"></btn-registro></center>',
               enableFiltering: false,
               headerCellClass: 'encabezado',
-              width: "10%",
+              width: "20%",
             }
           ],
           onRegisterApi: function(gridApi) {
@@ -121,6 +121,9 @@ angular.module('financieraClienteApp')
         });
 
         ctrl.cargar_info_presupuestal= function(){
+          if(angular.isUndefined($scope.sol)){
+            return;
+          }
           administrativaPruebasRequest.get("necesidad_proceso_externo",
                   $.param({
                       query: "proceso_externo:" + $scope.sol.Id + ",TipoNecesidad.NumeroOrden:3",
