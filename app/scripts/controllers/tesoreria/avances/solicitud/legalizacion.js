@@ -504,7 +504,6 @@ angular.module('financieraClienteApp')
         var path = "/orden_pago/proveedor/ver/";
         $location.url(path + row.entity.Id);
       }
-
         ctrl.calcular_valor_impuesto = function() {
             var sum_impuestos = 0;
             for (var i in ctrl.Impuesto) {
@@ -902,7 +901,22 @@ angular.module('financieraClienteApp')
                     }
                 }, true);
 
-
+      ctrl.addAccountingInf = function(){
+        var request;
+        request = {
+          ConceptoAvance:{
+                          Avance:{Id:$scope.solicitud.Id},
+                          Concepto:ctrl.concepto[0]
+          }
+        }
+        angular.forEach(ctrl.movs, function(data) {
+            delete data.Id;
+        });
+        request.Movimientos=ctrl.movs;
+        financieraRequest.post('concepto_avance_legalizacion/CreateLegalizacionAccountantInfo',request).then(function(response) {
+              swal('',$translate.instant(response.data.Code),response.data.Type);
+        });
+      }
       $scope.$watch('legalizacion.CRPSelecc',function(){
         if(!angular.isUndefined(ctrl.CRPSelecc)){
           ctrl.cargarOrdenesPago(ctrl.CRPSelecc.Id);
