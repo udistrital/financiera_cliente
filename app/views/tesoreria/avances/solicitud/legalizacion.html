@@ -5,13 +5,14 @@
 
         <fieldset class="form-group">
           <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="!c"></span> <span class="fa fa-minus pull-right" ng-show="c"></span></legend>
-          <div class="panel-body" ng-show="c">
+          <div class="panel panel-default" ng-show="c">
+          <div class="panel-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
                 </div>
 
-                <div style="width=100%" ui-grid="legalizacion.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                <div style="width:100%" ui-grid="legalizacion.gridOrdenesDePagoAvance" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
                   <div class="watermark" ng-show="!legalizacion.hayData">{{'NO_DATA'| translate}}</div>
                   <div class="watermark" ng-show="legalizacion.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
                 </div>
@@ -25,8 +26,8 @@
                         </h4>
                         </div>
                         <ul class="list-unstyled">
-                          <li style= "display: inline-block" ng-repeat = "rubro in legalizacion.rubrosAfectados track by rubro.Id"><span><b>{{'RUBRO' | translate}}:</b> {{rubro.Codigo+" / "+rubro.Nombre}}
-                            <button ng-click="legalizacion.removeRubro(rubro)" type="button" class="btn btn-outline btn-xs pull-left">&times</button></span>
+                          <li style= "display: inline-block" ng-repeat = "rubro in legalizacion.rubrosAfectados track by rubro.Id">
+                            <span><b>{{'RUBRO' | translate}}:</b> {{rubro.Codigo+" / "+rubro.Nombre}} </span>
                             <ul>
                               <li>
                                 <div class="col-md-4" style="width:148px">
@@ -44,7 +45,12 @@
                   </div>
 
             </div>
+
           </div>
+          <div class="panel-footer">
+              <div align="center"> <button ng-click="legalizacion.agregarOP()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+          </div>
+        </div>
         </fieldset>
 
         <fieldset class="form-group">
@@ -313,6 +319,35 @@
           <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
       </div>
       <tesoreria-reintegros avance="solicitud"></tesoreria-reintegros>
+</div>
+</div>
+
+<div id="modal_add_ordenPago" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+      <div class="modal-header panel-heading">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+      <fieldset class="form-group">
+        <legend class="text-primary" ng-click="opm=!opm">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="opm"></span> <span class="fa fa-minus pull-right" ng-show="!opm"></span></legend>
+        <div class="panel-body" ng-show="!opm">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+              </div>
+
+              <div style="width:100%" ui-grid="legalizacion.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                <div class="watermark" ng-show="!legalizacion.hayData">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="legalizacion.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+
+          </div>
+        </div>
+      </fieldset>
+      <div class="panel-footer">
+          <div align="center"> <button ng-click="legalizacion.guardarOPAvance()" class="btn btn-info btn-outline">{{ 'BTN.AGREGAR' | translate }}</button></div>
+      </div>
+    </div>
 </div>
 </div>
 
