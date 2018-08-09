@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
         ctrl.row_entity = {};
         ctrl.row_entity = {};
         ctrl.rubrosAfectados=[];
+        ctrl.ordenesPago=[];
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
         ctrl.Vigencia=2018;
@@ -135,7 +136,7 @@ angular.module('financieraClienteApp')
           selectionRowHeaderWidth: 35,
           multiSelect: false,
           enableRowHeaderSelection: false,
-          paginationPageSizes: [25, 50, 75],
+          paginationPageSizes: [5, 10, 15],
           paginationPageSize: 10,
 
           enableFiltering: true,
@@ -246,11 +247,114 @@ angular.module('financieraClienteApp')
           onRegisterApi: function(gridApi) {
             ctrl.gridOPApi = gridApi;
             gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-              $scope.addRubro(row.entity.Id);
+              ctrl.addOrdenPago(row.entity.Id);
             });
           }
         };
 
+        ctrl.gridOrdenesDePagoAvance = {
+          enableRowSelection: true,
+          enableSelectAll: false,
+          selectionRowHeaderWidth: 35,
+          multiSelect: false,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: 10,
+
+          enableFiltering: true,
+          minRowsToShow: 10,
+          useExternalPagination: true,
+
+          columnDefs:[{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'OrdenPago.Consecutivo',
+              displayName: $translate.instant('CODIGO'),
+              width: '12%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '12%',
+              displayName: $translate.instant('TIPO'),
+              filter: {
+                //term: 'OP-PROV',
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.tipos
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              width: '12%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.OrdenPagoEstadoOrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro',
+              displayName: $translate.instant('FECHA_CREACION'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '13%',
+            },
+            {
+              field: 'OrdenPago.FormaPago.CodigoAbreviacion',
+              width: '13%',
+              displayName: $translate.instant('FORMA_PAGO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.ValorBase',
+              width: '13%',
+              cellFilter: 'currency',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
+              displayName: $translate.instant('VALOR')
+            },
+            {
+              field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
+              width: '13%',
+              displayName: $translate.instant('ESTADO'),
+              filter: {
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.estado_select
+
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              name: $translate.instant('OPERACION'),
+              enableFiltering: false,
+              width: '12%',
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+
+            }
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridOPApiAvance = gridApi;
+            gridApi = gridApiService.pagination(gridApi,ctrl.cargarOrdenesPagoAvance,$scope);
+          }
+        };
+
+        ctrl.addOrdenPago = function(id){
+          var ordenPagoAvance;
+          ordenPagoAvance = {
+            OrdenPago:{Id:id},
+            Avance:{Id:$scope.solicitud.Id}
+          };
+          if (ctrl.ordenesPago.indexOf(ordenPagoAvance)===-1){
+              ctrl.ordenesPago.push(ordenPagoAvance);
+          }
+
+        }
         ctrl.gridReintegros = {
                   enableRowSelection: true,
                   enableSelectAll: false,
@@ -270,7 +374,6 @@ angular.module('financieraClienteApp')
                       field: 'Reintegro.Consecutivo',
                       displayName: $translate.instant('CONSECUTIVO'),
                       width: '25%',
-                      cellClass: 'input_center',
                       headerCellClass: 'encabezado'
                     },
                     {
@@ -284,7 +387,7 @@ angular.module('financieraClienteApp')
                       field: 'Reintegro.Ingreso.IngresoConcepto.ValorAgregado',
                       displayName: $translate.instant('VALOR'),
                       width: '25%',
-                      cellClass: 'input_center',
+                      cellFilter: 'currency',
                       headerCellClass: 'encabezado'
                     }
                   ],
@@ -294,21 +397,63 @@ angular.module('financieraClienteApp')
                 };
 
         $scope.addRubro = function(idOp){
+          var agregado = false;
           financieraRequest.get('concepto_orden_pago', $.param({
             query:"OrdenDePago.Id:"+idOp,
             limit:1
           })
         ).then(function(response) {
-          var rubro = response.data[0].Concepto.Rubro;
-         if (ctrl.rubrosAfectados.indexOf(rubro) === -1){
-           ctrl.rubrosAfectados.push(rubro);
-         }
+          var afectacionPresupuestal;
+          afectacionPresupuestal = {rubro : response.data[0].Concepto.Rubro,
+                                    valorAfectacion: response.data[0].Valor,
+                                    ordenPago:[idOp]};
+           angular.forEach(ctrl.rubrosAfectados,function(afectacionItem){
+             if(!agregado){
+               if (angular.equals(afectacionItem.rubro.Id,afectacionPresupuestal.rubro.Id)){
+                 afectacionItem.valorAfectacion = afectacionItem.valorAfectacion + afectacionPresupuestal.valorAfectacion;
+                 afectacionItem.ordenPago.push(idOp);
+                 agregado = true;
+               }
+             }
+           });
+           if(!agregado){
+              ctrl.rubrosAfectados.push(afectacionPresupuestal);
+           }
         });
         }
         ctrl.removeRubro=function(rubro){
           var idx = ctrl.rubrosAfectados.indexOf(rubro);
           ctrl.rubrosAfectados.splice(idx,1);
         }
+
+        ctrl.cargarOrdenesPagoAvance = function(offset,query){
+          var querybase = "Avance.Id:"+$scope.solicitud.Id;
+          if(angular.isUndefined(query)||query.trim().length===0){
+            query = querybase;
+          }else{
+            query = query+","+querybase;
+          }
+          financieraRequest.get('orden_pago_avance_legalizacion', $.param({
+            query:query,
+            limit:ctrl.gridOrdenesDePagoAvance.paginationPageSize,
+            offset:offset
+          })
+          ).then(function(response) {
+            if(response.data === null){
+              ctrl.hayData = false;
+              ctrl.cargando = false;
+              ctrl.gridOrdenesDePagoAvance.data = [];
+            }else{
+
+              ctrl.hayData = true;
+              ctrl.cargando = false;
+
+              ctrl.gridOrdenesDePagoAvance.data = response.data;
+          }
+          });
+      }
+      ctrl.cargarOrdenesPagoAvance(0,'');
+
         ctrl.cargarOrdenesPago = function(idCRP){
           financieraRequest.get('orden_pago_registro_presupuestal', $.param({
             query:"RegistroPresupuestal.Id:"+idCRP,
@@ -423,6 +568,26 @@ angular.module('financieraClienteApp')
         ctrl.agregarReintegro = function(){
           $('#modal_add_reintegro').modal('show');
         }
+        ctrl.agregarOP = function(){
+          $('#modal_add_ordenPago').modal('show');
+          $interval( function() {
+              ctrl.gridOPApi.core.handleWindowResize();
+            }, 500, 2);
+        }
+
+        ctrl.guardarOPAvance = function (){
+          if(ctrl.ordenesPago.length>0){
+            var request = {
+              OPAvance:ctrl.ordenesPago
+            }
+            financieraRequest.post('orden_pago_avance_legalizacion/AddOPAvance',request).then(function(response) {
+                  swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
+                    $("#modal_add_ordenPago").modal('hide');
+                  });
+            });
+          }
+        }
+
 
 
         ctrl.limpiar_practica = function() {
@@ -725,7 +890,6 @@ angular.module('financieraClienteApp')
             }
             ctrl.row_entity = {};
         };
-
         $scope.$watch('legalizacion.concepto[0]', function(newValue,oldValue) {
                     if (!angular.isUndefined(newValue)) {
                         financieraRequest.get('concepto', $.param({
