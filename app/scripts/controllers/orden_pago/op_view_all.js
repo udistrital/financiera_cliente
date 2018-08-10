@@ -60,6 +60,7 @@ angular.module('financieraClienteApp')
 
           case "proceso":
             $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+            self.op_seleccionada_proceso = row.entity;
             $scope.informacion = $translate.instant('ORDEN_DE_PAGO')+ ' '+ 'No'+' '+row.entity.Consecutivo;
             $scope.mostrar_direc = true;
           break;
@@ -68,15 +69,10 @@ angular.module('financieraClienteApp')
   };
 
 
-    $scope.funcion = function() {
-      $scope.estadoclick = $localStorage.nodeclick;
-      var data = ctrl.gridApi.selection.getSelectedRows();
-      var numero = data.length;
-      if (numero > 0) {
-        $scope.senDataEstado.OrdenPago = data;
-        $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
-        financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
+    ctrl.aprobar = function(){
+       financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
           .then(function(data) {
+         
             $scope.resultado = data;
             swal({
               title: 'Orden de Pago',
@@ -87,13 +83,29 @@ angular.module('financieraClienteApp')
               //$window.location.href = '#/orden_pago/ver_todos';
             })
           })
-      } else {
-        swal(
-          '',
-          'Debe seleccionar al menos una orden de pago',
-          'warning'
-        );
-      }
+    };
+
+    ctrl.desaprobar = function(){
+      swal({
+              title: '¡Rechazado!',
+              text: "No se ha realizado la aprobación del estado",
+              type: 'error',
+            }).then(function() {
+               $('#modal_informacion_en_estado').modal('hide')
+              //$window.location.href = '#/orden_pago/ver_todos';
+            })
+       
+    };
+
+    $scope.funcion = function() {
+      $scope.estadoclick = $localStorage.nodeclick;
+      var data = [];
+      data[0] = self.op_seleccionada_proceso;
+        $scope.senDataEstado.OrdenPago = data;
+        $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
+        console.log("$scope.estadoclick", $scope.estadoclick)
+        $('#modal_informacion_en_estado').modal('show');
+      
     };
 
     $scope.$watch('estado_select', function() {
@@ -268,10 +280,26 @@ angular.module('financieraClienteApp')
         order: "asc"
       }))
       .then(function(response) {
+        ctrl.temp_estados_op = [];
+        ctrl.temp_estados_giro = [];
         $scope.estados = [];
+        $scope.estados_giro = [];
         $scope.aristas = [];
-        ctrl.estados = response.data;
-        angular.forEach(ctrl.estados, function(estado) {
+        console.log("largo", response.data.length)
+         angular.forEach(response.data, function(iterador) {
+
+             if(iterador.NumeroOrden >= 8){
+       
+              ctrl.temp_estados_giro.push(iterador)
+              
+            }else{
+             ctrl.temp_estados_op.push(iterador)
+          
+            }
+
+         });
+
+        angular.forEach(ctrl.temp_estados_op, function(estado) {
           $scope.estados.push({
             id: estado.Id,
             label: estado.Nombre
@@ -287,16 +315,8 @@ angular.module('financieraClienteApp')
             to: 2
           },
           {
-            from: 1,
-            to: 3
-          },
-          {
             from: 2,
             to: 4
-          },
-          {
-            from: 2,
-            to: 5
           },
           {
             from: 4,
