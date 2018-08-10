@@ -28,3 +28,42 @@
     </div>
 
 </div>
+
+<div id="modal_informacion_en_estado" class="modal fade" role="dialog">
+   <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+     <div class="modal-header">
+       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+     </div>
+     <div class="modal-body">
+       <div class="panel panel-default">
+         <div class="panel-heading">
+           <h3 class="panel-title">{{'APROBACION' | translate}}</h3>
+         </div>
+         <div class="panel-body">
+              
+                <div ng-if="estadoclick.Id === 4">
+                    DIRECTIVA APROBACION PRESUPUESTAL
+                </div>
+
+                <div ng-if="estadoclick.Id === 2"> 
+                    DIRECTIVA APROBACION CONTABLE
+                </div>          
+
+                <div class="row">
+                <div class="col-md-6 col-md-offset-4">
+                  <div class="col-md-3">
+                 <button  ng-click='opViewAll.aprobar()' class="btn btn-outline btn-primary">{{'BTN.APROBAR' | translate}}</button>
+               </div>
+                <div class="col-md-3">
+               <button  ng-click='opViewAll.desaprobar()' class="btn btn-outline btn-primary">{{'BTN.RECHAZAR' | translate}}</button>
+              </div>
+                </div>
+            </div>
+
+             
+         </div>
+       </div>
+     </div>
+   </div>
+
+</div>
