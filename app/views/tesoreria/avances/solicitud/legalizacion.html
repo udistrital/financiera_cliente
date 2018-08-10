@@ -131,7 +131,7 @@
                                     <!-- Tab panes -->
                         <div class="tab-content">
                           <div class="tab-pane fade in active" ng-repeat="c in legalizacion.concepto" ng-show="legalizacion.selected==c.Id">
-                            <movimientos-contables conceptoid="c.Id" movimientos="legalizacion.movs" monto="legalizacion.valor" editable validatemov="c.validado" selcuentas ventanadespl="h">
+                            <movimientos-contables conceptoid="c.Id" movimientos="legalizacion.movs" monto="solicitud.Total" editable validatemov="legalizacion.movValidado" selcuentas ventanadespl="h" >
                             </movimientos-contables>
                           </div>
                         </div>

@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q) {
+    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q,$interval) {
         return {
             restrict: 'E',
             scope: {

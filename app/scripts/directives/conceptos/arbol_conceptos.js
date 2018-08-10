@@ -46,6 +46,9 @@ angular.module('financieraClienteApp')
           console.log("concepto seleccionado ",$scope.conceptosel);
             if (self.multiSelect && !angular.isUndefined($scope.conceptosel)){
               self.algo_fue_seleccionado=false;
+            }else {
+              self.temp = $scope.conceptosel;
+              self.algo_fue_seleccionado=true;
             }
         },true);
 
