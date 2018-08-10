@@ -15,10 +15,12 @@ angular.module('financieraClienteApp')
         ctrl.row_entity = {};
         ctrl.rubrosAfectados=[];
         ctrl.ordenesPago=[];
+        ctrl.concepto=[];
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
         ctrl.Vigencia=2018;
         ctrl.UnidadEjecutora=1;
+        ctrl.movContablesEnc = false;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
@@ -900,8 +902,50 @@ angular.module('financieraClienteApp')
                         });
                     }
                 }, true);
+      ctrl.getConceptoAvance = function(){
+        financieraRequest.get('concepto_avance_legalizacion',$.param({
+          query: "Avance.Id:"+$scope.solicitud.Id,
+          limit: -1
+        })).then(function(response){
+          ctrl.concepto[0] = response.data[0].Concepto;
+          $scope.nodo = response.data[0].Concepto;
+        });
+      }
+      ctrl.getConceptoAvance();
+      ctrl.getMovimientosContables = function(){
+        financieraRequest.get('tipo_documento_afectante',$.param({
+          query: "CodigoAbreviacion:DA-LA",
+          fields: "Id",
+          limit: -1
+        })).then(function(response){
+          var idDocumento = response.data[0].Id;
+          financieraRequest.get('movimiento_contable',$.param({
+            query:"TipoDocumentoAfectante.Id:"+idDocumento+",CodigoDocumentoAfectante:"+$scope.solicitud.Id,
+            limit: -1
+          })).then(function(response){
+            if (response.data!=null && !ctrl.revisarNoRow(response.data) ){
+              ctrl.movContablesEnc = true;
+              ctrl.movs = response.data;
+            }
+          });
+
+        });
+      }
+      ctrl.getMovimientosContables();
+      ctrl.revisarNoRow = function(obj){
+        if(typeof(obj)==="string"){
+        if(response.data.indexOf("no row found")>=0) {
+          return true;
+        }
+        }
+      return false;
+      }
 
       ctrl.addAccountingInf = function(){
+        if (!ctrl.movValidado){
+          swal("",$translate.instant('PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA'),"warning");
+          return
+        }
         var request;
         request = {
           ConceptoAvance:{
