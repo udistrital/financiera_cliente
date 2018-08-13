@@ -24,11 +24,13 @@ angular.module('financieraClienteApp')
         // paneles
         $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
         $scope.panelProveedor = !$scope.inputpestanaabierta;
-        $scope.panelRp = !$scope.inputpestanaabierta;
+        $scope.mostrar_leyenda_rp = true;
+        $scope.panelRp = true;
         $scope.panelDetallePagoProveedor = !$scope.inputpestanaabierta;
         $scope.panelDetalleRubro = !$scope.inputpestanaabierta;
         $scope.panelDetalleConceptos = !$scope.inputpestanaabierta;
         $scope.panelDetalleCuentas = !$scope.inputpestanaabierta;
+
         //orden de pago
         $scope.$watch('opproveedorid', function() {
 
@@ -66,9 +68,6 @@ angular.module('financieraClienteApp')
           }
         })
 
-        self.get_rp = function(id_op){
-
-        }
         // documento
         self.getDocumento = function(orden_pago){
           coreRequest.get('documento',
@@ -103,8 +102,11 @@ angular.module('financieraClienteApp')
             $.param({
               query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
-            self.banco_proveedor = response.data[0];
-      
+              if(response.data !== null){
+                    self.banco_proveedor = response.data[0];
+              }
+
+
           });
         }
         //
