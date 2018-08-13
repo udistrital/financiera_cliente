@@ -626,7 +626,12 @@ angular
             .when('/tesoreria/cheques/gestion_chequera', {
               templateUrl: 'views/tesoreria/cheques/gestion_chequera.html',
               controller: 'TesoreriaChequesGestionChequeraCtrl',
-              controllerAs: 'tesoreria/cheques/gestionChequera'
+              controllerAs: 'tesoreriaGestionChequera'
+            })
+            .when('/tesoreria/cheques/gestion_cheque', {
+              templateUrl: 'views/tesoreria/cheques/gestion_cheque.html',
+              controller: 'TesoreriaChequesGestionChequeCtrl',
+              controllerAs: 'tesoreriaGestionCheque'
             })
             .otherwise({
                 redirectTo: '/'

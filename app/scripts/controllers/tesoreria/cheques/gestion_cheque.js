@@ -2,18 +2,18 @@
 
 /**
  * @ngdoc function
- * @name financieraClienteApp.controller:TesoreriaChequesGestionChequeraCtrl
+ * @name financieraClienteApp.controller:TesoreriaChequesGestionChequeCtrl
  * @description
- * # TesoreriaChequesGestionChequeraCtrl
+ * # TesoreriaChequesGestionChequeCtrl
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaChequesGestionChequeraCtrl', function ($scope,$translate) {
+  .controller('TesoreriaChequesGestionChequeCtrl', function ($scope,$translate,financieraRequest) {
     var ctrl = this;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
     ];
-    ctrl.gridChequeras = {
+    ctrl.gridCheque = {
       enableFiltering: true,
       enableSorting: true,
       enableRowSelection: true,
@@ -28,45 +28,53 @@ angular.module('financieraClienteApp')
               field: 'CodigoHomologado',
               displayName: $translate.instant('CONSECUTIVO'),
               headerCellClass:'text-info',
-              width: '12%'
+              width: '14%'
           },
           {
               field: 'NombreHomologado',
-              displayName: $translate.instant('UNIDAD_EJECUTORA'),
+              displayName: $translate.instant('CHEQUERA'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '20%',
           },
           {
               field: 'Vigencia',
-              displayName: $translate.instant('VIGENCIA'),
+              displayName: $translate.instant('ORDEN_PAGO'),
               headerCellClass:'text-info',
-              width: '12%'
+              width: '14%'
           },
           {
               field: 'NombreHomologado',
-              displayName: $translate.instant('CUENTA_BANCARIA'),
+              displayName: $translate.instant('BENEFICIARIO'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '20%',
           },
           {
               field: 'NombreHomologado',
-              displayName: $translate.instant('CHEQUE_INICIAL'),
+              displayName: $translate.instant('FECHA_VENCIMIENTO'),
               headerCellClass:'text-info',
-              width: '15%',
-          },
-          {
-              field: 'Vigencia',
-              displayName: $translate.instant('CHEQUE_FINAL'),
-              headerCellClass:'text-info',
-              width: '15%'
+              width: '17%',
           },
           {
             name: $translate.instant('OPCIONES'),
             width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
-            width: '10%'
+            width: '12%'
           }
       ]
     }
+
+    $scope.$watch('tesoreriaGestionCheque.concepto[0]', function(oldValue, newValue) {
+        if (!angular.isUndefined(newValue)) {
+            financieraRequest.get('concepto', $.param({
+                query: "Id:" + newValue.Id,
+                fields: "Rubro",
+                limit: -1
+            })).then(function(response) {
+                $scope.tesoreriaGestionCheque.concepto[0].Rubro = response.data[0].Rubro;
+            });
+        }
+    }, true);
+
+
   });
