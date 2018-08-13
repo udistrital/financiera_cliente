@@ -10,6 +10,7 @@
           <div class="watermark" ng-show="opViewAll.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
         </div>
     </div>
+
     <div ng-if="mostrar_direc">
         <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info="informacion"></proceso>
     </div>
@@ -29,39 +30,94 @@
 
 </div>
 
-<div id="modal_informacion_en_estado" class="modal fade" role="dialog">
+<div id="modal_aprobacion_contable" class="modal fade" role="dialog">
    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
      <div class="modal-header">
        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
      </div>
      <div class="modal-body">
        <div class="panel panel-default">
-         <div class="panel-heading">
-           <h3 class="panel-title">{{'APROBACION' | translate}}</h3>
-         </div>
-         <div class="panel-body">
-              
-                <div ng-if="estadoclick.Id === 4">
-                    DIRECTIVA APROBACION PRESUPUESTAL
+
+              <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h3 class="page-header">{{'APROBACION_CONTABLE' | translate}}</h3>
+
+                    </div>
+                  </div>
                 </div>
 
-                <div ng-if="estadoclick.Id === 2"> 
-                    DIRECTIVA APROBACION CONTABLE
-                </div>          
+                    <br>
+                    <movimientos-contables-op-detalle codigodocumentoafectante="senDataEstado.OrdenPago[0].Id">
+
+                    </movimientos-contables-op-detalle>
+
 
                 <div class="row">
-                <div class="col-md-6 col-md-offset-4">
-                  <div class="col-md-3">
+                <div class="col-md-5 col-md-offset-5">
+
                  <button  ng-click='opViewAll.aprobar()' class="btn btn-outline btn-primary">{{'BTN.APROBAR' | translate}}</button>
-               </div>
-                <div class="col-md-3">
+
+
                <button  ng-click='opViewAll.desaprobar()' class="btn btn-outline btn-primary">{{'BTN.RECHAZAR' | translate}}</button>
-              </div>
-                </div>
+               </div>
             </div>
 
-             
-         </div>
+
+       </div>
+     </div>
+   </div>
+
+</div>
+
+<div id="modal_aprobacion_presupuestal" class="modal fade" role="dialog">
+   <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+     <div class="modal-header">
+       <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+     </div>
+
+     <div class="modal-body">
+       <div class="panel panel-default">
+
+              <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h3 class="page-header">{{'APROBACION_PRESUPUESTO' | translate}}</h3>
+
+                    </div>
+                  </div>
+                </div>
+
+                    <br>
+                  <!--Para que la informacion no aparezca sino al darle click -->
+                  <div ng-if="mostrar_leyenda_rp">
+                    <legend class="text-primary" ng-click="opViewAll.panelRp=!opViewAll.panelRp">
+                    {{'REGISTRO_PRESUPUESTAL' | translate}}
+                    <span class="fa fa-plus pull-right" ng-show="opViewAll.panelRp"></span>
+                    <span class="fa fa-minus pull-right" ng-show="!opViewAll.panelRp"></span>
+                  </legend class="text-primary">
+                  <rp-por-op op ="opViewAll.op_seleccionada_proceso.Id" panel="!opViewAll.panelRp">
+                  </rp-por-op>
+                  </div>
+
+                  <!--Cuando no se quiere leyenda que muestre el panel  -->
+                  <div ng-if="!mostrar_leyenda_rp">
+                  <rp-por-op op ="opViewAll.op_seleccionada_proceso.Id" panel="opViewAll.panelRp">
+                  </rp-por-op>
+                  </div>
+
+
+                <div class="row">
+                <div class="col-md-5 col-md-offset-5">
+
+                 <button  ng-click='opViewAll.aprobar()' class="btn btn-outline btn-primary">{{'BTN.APROBAR' | translate}}</button>
+
+
+               <button  ng-click='opViewAll.desaprobar()' class="btn btn-outline btn-primary">{{'BTN.RECHAZAR' | translate}}</button>
+               </div>
+            </div>
+
+
        </div>
      </div>
    </div>

@@ -8,7 +8,7 @@
  */
 angular.module('financieraClienteApp')
 
-  .directive('movimientosContablesOpDetalle', function(financieraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('movimientosContablesOpDetalle', function(financieraRequest, $timeout, $translate, uiGridConstants, $interval) {
     return {
       restrict: 'E',
       scope: {
@@ -138,10 +138,9 @@ angular.module('financieraClienteApp')
           return self.retornar_movimientos;
         };
 
+      $scope.$watch('codigodocumentoafectante', function() {
 
-        $scope.$watch('codigodocumentoafectante', function() {
           self.refresh();
-
 
 
           if ($scope.codigodocumentoafectante !== undefined) {
@@ -173,6 +172,7 @@ angular.module('financieraClienteApp')
             });
           }
         });
+
 
 //sumas utilizadas para la seleccion de movimientos contables por orden de pago en devoluciones tributarias
 
