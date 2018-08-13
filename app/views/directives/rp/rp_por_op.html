@@ -1,0 +1,60 @@
+<div ng-if="panel" class="panel-body">
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'NO_CRP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.NumeroRegistroPresupuestal}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'VIGENCIA' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.Vigencia}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'RESPONSABLE' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.Responsable}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'ESTADO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.Estado.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.Compromiso.TipoCompromisoTesoral.Nombre}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'DESCRIPCION_COMPROMISO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.RegistroPresupuestal.Compromiso.Objeto}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'VALOR_CRP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control input_right">{{d_rpPorOp.valor_total_rp | currency}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'NO_CDP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'ESTADO' | translate}} {{'CDP' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-sm-1">{{'NECESIDAD_NO' | translate}}</label>
+      <div class="col-sm-5">
+        <span class="form-control">{{d_rpPorOp.solicitud.SolicitudDisponibilidad.Necesidad.Numero}}</span>
+      </div>
+      <label class="control-label col-sm-1">{{'OBJETO' | translate}}  {{'NECESIDAD' | translate}} </label>
+      <div class="col-sm-5">
+        <textarea class="form-control" rows="2" readonly> {{d_rpPorOp.solicitud.SolicitudDisponibilidad.Necesidad.Objeto}} </textarea>
+      </div>
+    </div>
+  </div>
+</div>
