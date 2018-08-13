@@ -26,6 +26,10 @@ angular.module('financieraClienteApp')
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
         ];
 
+        $scope.botonesOp = [
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'deleteOP', estado: true }
+        ];
+
         $scope.clase_load = {
             clase: "fa fa-spinner",
             animacion: "faa-spin animated"
@@ -336,8 +340,8 @@ angular.module('financieraClienteApp')
               name: $translate.instant('OPERACION'),
               enableFiltering: false,
               width: '12%',
-              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
-
+              headerCellClass: 'encabezado',
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrowOPAvance(fila,operacion)" grupobotones="grid.appScope.botonesOp" fila="row"></btn-registro></center>',
             }
           ],
           onRegisterApi: function(gridApi) {
@@ -423,6 +427,7 @@ angular.module('financieraClienteApp')
            }
         });
         }
+
         ctrl.removeRubro=function(rubro){
           var idx = ctrl.rubrosAfectados.indexOf(rubro);
           ctrl.rubrosAfectados.splice(idx,1);
@@ -451,6 +456,9 @@ angular.module('financieraClienteApp')
               ctrl.cargando = false;
 
               ctrl.gridOrdenesDePagoAvance.data = response.data;
+              angular.forEach(ctrl.gridOrdenesDePagoAvance.data,function(row){
+                  $scope.addRubro(row.Id);
+              });
           }
           });
       }
@@ -544,6 +552,18 @@ angular.module('financieraClienteApp')
                     break;
                 case "delete":
                     ctrl.delete_requisito();
+                    break;
+            }
+        };
+
+
+
+        $scope.loadrowOPAvance = function(row, operacion) {
+            ctrl.row_entity = row.entity;
+            ctrl.operacion = operacion;
+            switch (operacion) {
+                case "deleteOP":
+                    ctrl.delete_OPAvance();
                     break;
             }
         };
@@ -772,6 +792,32 @@ angular.module('financieraClienteApp')
                             ctrl.get_all_avance_legalizacion_practica();
                         }
                     });
+            })
+        };
+
+        ctrl.delete_OPAvance= function() {
+          console.log("row entity",ctrl.row_entity);
+            swal({
+                title: 'Está seguro ?',
+                text: $translate.instant('ELIMINARA') + ' ' + $translate.instant('ORDEN_DE_PAGO')+' '+ctrl.row_entity.OrdenPago.Consecutivo,
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: $translate.instant('BTN.BORRAR')
+            }).then(function() {
+              /*
+                financieraRequest.delete("avance_legalizacion", ctrl.row_entity.Id)
+                    .then(function(response) {
+                        if (response.status === 200) {
+                            swal(
+                                $translate.instant('ELIMINADO'),
+                                ctrl.row_entity.Estudiante.nombre + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                'success'
+                            );
+                            ctrl.get_all_avance_legalizacion_practica();
+                        }
+                    });*/
             })
         };
 
