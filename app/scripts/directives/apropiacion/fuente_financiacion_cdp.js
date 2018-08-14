@@ -67,7 +67,6 @@ angular.module('financieraClienteApp')
                     rubros_data.AnuladoRp = response.data.TotalAnuladoRp;
                     rubros_data.Anulado = response.data.TotalAnuladoCdp
                     rubros_data.Valor = response.data.Valor
-                    console.log(rubros_data.Saldo);
                   });
                 });
 
