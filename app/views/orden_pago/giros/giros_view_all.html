@@ -5,7 +5,10 @@
       <h3 class="panel-title">{{ 'GIROS' | translate }}</h3>
     </div>
     <div class="panel-default">
-      <div ng-if="!refresh" ui-grid="opGirosViewAll.gridGiros" ui-grid-auto-resize ui-grid-selection></div>
+      <div ng-if="!refresh" ui-grid="opGirosViewAll.gridGiros" ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
+        <div class="watermark" ng-show="!opGirosViewAll.hayData">{{'NO_DATA'| translate}}</div>
+        <div class="watermark" ng-show="opGirosViewAll.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+      </div>
     </div>
   </div>
 

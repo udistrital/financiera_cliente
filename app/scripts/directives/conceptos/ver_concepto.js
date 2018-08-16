@@ -25,19 +25,29 @@ angular.module('financieraClienteApp')
             financieraRequest.get('afectacion_concepto', $.param({
               query: "Concepto:" + self.v_concepto.Id
             })).then(function(response) {
-              self.afectaciones = response.data;
+              if(typeof(response.data) !== "string"){
+                 self.afectaciones = response.data;
+                 
+              }
+              
             });
             financieraRequest.get('concepto_cuenta_contable', $.param({
               query: "Concepto:" + self.v_concepto.Id
             })).then(function(response) {
-              self.cuentas = response.data;
+              
+              if(typeof(response.data) !== "string"){
+                 self.cuentas = response.data;
+                 console.log("ño")
+              }
+
+
             });
           });
         };
 
         $scope.$watch('codigoconcepto',function(){
           self.cargar_concepto();
-        }); 
+        });
       },
       controllerAs: 'd_verConcepto'
     };

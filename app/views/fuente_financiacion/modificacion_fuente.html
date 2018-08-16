@@ -11,6 +11,7 @@
           <h3 class="panel-title">{{'MODIFICACION_FUENTES_FINANCIAMIENTO' | translate }} </h3>
         </div>
 
+
         <div class="panel-body">
 
           <div class="col-md-12">
@@ -22,7 +23,7 @@
             </select>
           </div>
 
-          <div class="col-md-12">
+          <div class="col-md-12" ng-show="modificacionFuente.tipo_fuente">
             <p></p>
             <label for="">{{'TIPO_FUENTE_FINANCIAMIENTO' | translate }}:</label>
             <select ng-model="modificacionFuente.tipo_fuente_r" ng-options="n.Id as n.Nombre for n in modificacionFuente.tipo_fuente_financiamiento" value={{n.Id}} class="form-control" ng-change="modificacionFuente.cambiar_rubro()">
@@ -30,69 +31,53 @@
           </select>
           </div>
 
-          <div class="" ng-show="modificacionFuente.adicion || modificacionFuente.traslado">
-
-            <div class="col-md-12" ng-show="modificacionFuente.adicion">
-              <p></p>
-              <label for="fuente">{{'RUBRO' | translate }}:</label>
-              <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.adicion_rubro " ng-change="modificacionFuente.mostrar_fuentes()" data-live-search="true">
-              <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
-            </select>
-            </div>
-
-            <div class="col-md-12" ng-show="modificacionFuente.traslado">
-              <p></p>
-              <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
-              <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.adicion_fuente " ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
-              <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
-            </select>
-            </div>
-
-            <div class="col-md-12" ng-show="modificacionFuente.adicion">
-              <p></p>
-              <label for="monto">{{'INGRESE_VALOR_ADICION' | translate }}:</label>
-              <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
-            </div>
-
-            <div class="col-md-12" ng-show="modificacionFuente.traslado">
-              <p></p>
-              <label for="monto">{{'INGRESE_VALOR_TRASLADO' | translate }}:</label>
-              <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
-            </div>
-
-            <div class="col-md-12">
-              <p></p>
-              <label for="descripcion">{{'DESCRIPCION' | translate }}:</label>
-              <textarea class="form-control" type="text" id="descripcion" ng-model="modificacionFuente.nueva_fuente_apropiacion.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}"></textarea>
-            </div>
-
-            <div class="col-md-6">
-              <p></p>
-              <label for="tipo_documento">{{'TIPO_DOCUMENTO' | translate }}:</label>
-              <select data-size="10" ng-model="modificacionFuente.nueva_fuente_apropiacion.tipo_documento" ng-options="n.Id as n.Nombre for n in modificacionFuente.tipo_documento" value={{n.Id}} class="form-control">
-                <option value="">{{'SELECCIONE_TIPO' | translate }}</option>
-              </select>
-            </div>
-
-            <div class="col-md-6">
-              <p></p>
-              <label for="no_documento">{{'NO_DOCUMENTO' | translate }}:</label>
-              <input class="form-control" type="text" id="no_documento" ng-model="modificacionFuente.nueva_fuente_apropiacion.no_documento" placeholder="{{'INGRESE_NO_DOCUMENTO' | translate}}">
-            </div>
-
-            <div class="col-md-12">
-              <p></p>
-              <label for="fecha_documento">{{'FECHA_DOCUMENTO' | translate }}:</label>
-              <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.fecha_documento" md-placeholder="{{'INGRESE_FECHA_DOCUMENTO' | translate}}"></md-datepicker>
-            </div>
-
+          <div class="col-md-12" ng-show="modificacionFuente.tipo_fuente_r">
+            <p></p>
+            <label for="descripcion">{{'DESCRIPCION' | translate }}:</label>
+            <textarea class="form-control" type="text" id="descripcion" ng-model="modificacionFuente.nueva_fuente_apropiacion.Descripcion" placeholder="{{'INGRESE_DESCRIPCION' | translate}}"></textarea>
           </div>
 
-          <div class="col-md-12" ng-show="!modificacionFuente.traslado">
+          <div class="col-md-6" ng-show="modificacionFuente.nueva_fuente_apropiacion.Descripcion">
+            <p></p>
+            <label for="tipo_documento">{{'TIPO_DOCUMENTO' | translate }}:</label>
+            <select data-size="10" ng-model="modificacionFuente.nueva_fuente_apropiacion.tipo_documento" ng-options="n.Id as n.Nombre for n in modificacionFuente.tipo_documento" value={{n.Id}} class="form-control">
+              <option value="">{{'SELECCIONE_TIPO' | translate }}</option>
+            </select>
+          </div>
+
+          <div class="col-md-6" ng-show="modificacionFuente.nueva_fuente_apropiacion.tipo_documento">
+            <p></p>
+            <label for="no_documento">{{'NO_DOCUMENTO' | translate }}:</label>
+            <input class="form-control" type="text" id="no_documento" ng-model="modificacionFuente.nueva_fuente_apropiacion.no_documento" placeholder="{{'INGRESE_NO_DOCUMENTO' | translate}}">
+          </div>
+
+          <div class="col-md-12" ng-show="modificacionFuente.nueva_fuente_apropiacion.no_documento">
+            <p></p>
+            <label for="fecha_documento">{{'FECHA_DOCUMENTO' | translate }}:</label>
+            <md-datepicker ng-model="modificacionFuente.nueva_fuente_apropiacion.fecha_documento" md-placeholder="{{'INGRESE_FECHA_DOCUMENTO' | translate}}"></md-datepicker>
+          </div>
+
+          <div class="col-md-12" ng-show="modificacionFuente.traslado && modificacionFuente.nueva_fuente_apropiacion.fecha_documento">
+            <p></p>
+            <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
+            <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.adicion_fuente " ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.fuente_financiamiento"  value={{n.Id}}>{{n.Codigo}} : {{n.Nombre}}</option>
+          </select>
+          </div>
+
+          <div class="col-md-12" ng-show="modificacionFuente.adicion && modificacionFuente.nueva_fuente_apropiacion.fecha_documento">
+            <p></p>
+            <label for="fuente">{{'RUBRO' | translate }}:</label>
+            <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.adicion_rubro " ng-change="modificacionFuente.mostrar_fuentes()" data-live-search="true">
+            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
+          </select>
+          </div>
+
+          <div class="col-md-12" ng-show="!modificacionFuente.traslado && modificacionFuente.adicion_rubro">
             <p></p>
             <p></p>
             <label for="fuentes">{{'FUENTES_FINANCIAMIENTO' | translate }}:</label>
-            <div id="grid1" ui-grid="modificacionFuente.gridOptionsfuente" ui-grid-selection ui-grid-pagination class="grid"></div>
+            <div id="grid1" ui-grid="modificacionFuente.gridOptionsfuente" ui-grid-auto-resize ui-grid-selection ui-grid-pagination class="grid"></div>
           </div>
 
           <p></p>
@@ -105,7 +90,22 @@
 
     <div class="col-md-8">
 
-      <div class="panel panel-success" ng-show="modificacionFuente.adicion">
+      <div class="panel panel-success" ng-show="modificacionFuente.adicion_fuente || modificacionFuente.adicion_rubro">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">{{'VALOR' | translate }} </h3>
+        </div>
+
+      <div class="panel-body">
+        <div class="col-md-12">
+          <p></p>
+          <label for="monto">{{'INGRESE_VALOR_TOTAL' | translate }}:</label>
+          <input class="form-control input_right" type="text" id="monto" ui-money-mask="0" ng-model="modificacionFuente.nueva_fuente_apropiacion.Monto" placeholder="$">
+        </div>
+      </div>
+    </div>
+
+      <div class="panel panel-success" ng-show="modificacionFuente.adicion && modificacionFuente.adicion_rubro">
 
 
         <div class="panel-heading">
@@ -166,23 +166,15 @@
 
       </div>
 
-      <div class="panel panel-success" ng-show="modificacionFuente.traslado">
-
+      <div class="panel panel-success" ng-show="modificacionFuente.traslado && modificacionFuente.nueva_fuente_apropiacion.Monto">
 
         <div class="panel-heading">
-          <h3 class="panel-title">{{'FUENTES_FINANCIAMIENTO' | translate }} </h3>
+          <h3 class="panel-title">{{'RUBRO_ORIGEN' | translate }} </h3>
         </div>
 
         <div class="panel-body">
 
-          <div class="form-group col-md-12">
-            <legend class="text-default" disable>
-              {{'RUBRO_ORIGEN' | translate }}
-            </legend class="text-default">
-          </div>
-
-
-          <div class="col-md-12" ng-show="modificacionFuente.adicion_fuente">
+         <div class="col-md-12" ng-show="modificacionFuente.adicion_fuente">
             <p></p>
             <label for="fuente">{{'RUBRO_ORIGEN' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_origen " ng-change="modificacionFuente.buscar_dependencia()" data-live-search="true">
@@ -204,55 +196,46 @@
             <input class="form-control input_right" ui-money-mask="0" type="text" id="valor" type="number" ng-model="modificacionFuente.valor_origen" disabled>
           </div>
 
-          <div class="form-group col-md-12">
-            <p></p>
-            <legend class="text-default" disable>
-              {{'RUBRO_DESTINO' | translate }}
-            </legend class="text-default">
-          </div>
-
-          <div class="col-md-12">
-            <p></p>
-            <label for="fuente">{{'RUBRO_DESTINO' | translate }}:</label>
-            <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_destino" ng-change="modificacionFuente.actualizar()" data-live-search="true">
-            <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
-          </select>
-          </div>
-
-          <div class="col-md-12">
-            <p></p>
-            <label>{{'DEPENDENCIA' | translate }}:</label>
-            <select data-size="10" title="{{'SELECCIONE_DEPENDENCIA' | translate }}" ng-model="modificacionFuente.dependencia_destino" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} ng-change="modificacionFuente.actualizar()"
-              class="selectpicker form-control" data-live-search="true"></select>
           </div>
 
         </div>
 
-      </div>
+          <div class="panel panel-success" ng-show="modificacionFuente.traslado && modificacionFuente.dependencia_origen">
 
-      <div class="col-md-1">
+            <div class="panel-heading">
+              <h3 class="panel-title">{{'RUBRO_DESTINO' | translate }} </h3>
+            </div>
 
-      </div>
+          <div class="panel-body">
+              <div class="col-md-12">
+                <p></p>
+                <label for="fuente">{{'RUBRO_DESTINO' | translate }}:</label>
+                <select class="form-control selectpicker" title="{{'SELECCION_RUBRO' | translate }}" ng-model="modificacionFuente.fuente_destino" ng-change="modificacionFuente.actualizar()" data-live-search="true">
+                <option ng-repeat="n in modificacionFuente.apropiacion"  value={{n.Id}}>{{n.Rubro.Codigo}} : {{n.Rubro.Nombre}}</option>
+              </select>
+              </div>
 
-      <div class="panel panel-success col-md-10" ng-show="modificacionFuente.fuentes_seleccionadas.length > 0 || modificacionFuente.fuentes_traslado.length > 0">
+              <div class="col-md-12">
+                <p></p>
+                <label>{{'DEPENDENCIA' | translate }}:</label>
+                <select data-size="10" title="{{'SELECCIONE_DEPENDENCIA' | translate }}" ng-model="modificacionFuente.dependencia_destino" ng-options="n.Id as n.Nombre for n in modificacionFuente.dependencia" value={{n.Id}} ng-change="modificacionFuente.actualizar()"
+                  class="selectpicker form-control" data-live-search="true"></select>
+              </div>
 
-        <div class="panel-heading">
-          <h3 class="panel-title">{{'CREAR_FUENTE' | translate }} </h3>
+          </div>
+
         </div>
 
-        <div class="panel-body">
-
-          <div class="col-md-12" ng-show="modificacionFuente.adicion">
+      <div ng-show="modificacionFuente.fuentes_seleccionadas.length > 0 || modificacionFuente.fuentes_traslado.length > 0">
+          <div class="col-md-6 col-md-offset-3" ng-show="modificacionFuente.adicion">
             <p></p>
             <button ng-click='modificacionFuente.comprobar_adicion()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
           </div>
 
-          <div class="col-md-12" ng-show="modificacionFuente.traslado ">
+          <div class="col-md-6 col-md-offset-3" ng-show="modificacionFuente.traslado && modificacionFuente.dependencia_destino">
             <p></p>
             <button ng-click='modificacionFuente.comprobar_traslado()' class="btn btn-outline btn-success btn-md btn-block">{{'CREAR_FUENTE' | translate }}</button>
           </div>
-        </div>
-
       </div>
 
     </div>

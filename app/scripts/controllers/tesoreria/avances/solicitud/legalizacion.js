@@ -8,17 +8,21 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
         ctrl.row_entity = {};
+        ctrl.rubrosAfectados=[];
         $scope.encontrado = false;
         $scope.solicitud = $localStorage.avance;
+        ctrl.Vigencia=2018;
+        ctrl.UnidadEjecutora=1;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
         ];
+
         $scope.clase_load = {
             clase: "fa fa-spinner",
             animacion: "faa-spin animated"
@@ -70,7 +74,10 @@ angular.module('financieraClienteApp')
                     width: '8%',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrowcompras(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
-            ]
+            ],
+            onRegisterApi: function(gridApi){
+              ctrl.gridComprasApi=gridApi;
+            }
         };
 
         ctrl.gridOptionsPracticas = {
@@ -111,14 +118,247 @@ angular.module('financieraClienteApp')
                     width: '14%',
                 },
                 {
-                    //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '10%',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrowpracticas(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
-            ]
+            ],
+            onRegisterApi: function(gridApi){
+              ctrl.gridPracticasApi=gridApi;
+            }
         };
+
+        ctrl.gridOrdenesDePago = {
+          enableRowSelection: true,
+          enableSelectAll: false,
+          selectionRowHeaderWidth: 35,
+          multiSelect: false,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [25, 50, 75],
+          paginationPageSize: 10,
+
+          enableFiltering: true,
+          minRowsToShow: 10,
+          useExternalPagination: false,
+
+          columnDefs:[{
+              field: 'Id',
+              visible: false
+            },
+            {
+              field: 'OrdenPago.Consecutivo',
+              displayName: $translate.instant('CODIGO'),
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+              width: '8%',
+              displayName: $translate.instant('TIPO'),
+              filter: {
+                //term: 'OP-PROV',
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.tipos
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.Vigencia',
+              displayName: $translate.instant('VIGENCIA'),
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPagoEstadoOrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro',
+              displayName: $translate.instant('FECHA_CREACION'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
+              cellFilter: "date:'yyyy-MM-dd'",
+              width: '8%',
+            },
+            {
+              field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
+              displayName: $translate.instant('NO_CRP'),
+              width: '7%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'OrdenPago.FormaPago.CodigoAbreviacion',
+              width: '5%',
+              displayName: $translate.instant('FORMA_PAGO'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'Proveedor.Tipopersona',
+              width: '10%',
+              displayName: $translate.instant('TIPO_PERSONA'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'Proveedor.NomProveedor',
+              displayName: $translate.instant('NOMBRE'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              field: 'Proveedor.NumDocumento',
+              width: '10%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
+              displayName: $translate.instant('NO_DOCUMENTO')
+            },
+            {
+              field: 'OrdenPago.ValorBase',
+              width: '10%',
+              cellFilter: 'currency',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado',
+              displayName: $translate.instant('VALOR')
+            },
+            {
+              field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
+              width: '7%',
+              displayName: $translate.instant('ESTADO'),
+              filter: {
+                //term: 'Elaborado',
+                type: uiGridConstants.filter.SELECT,
+                selectOptions: $scope.estado_select
+
+              },
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+            },
+            {
+              name: $translate.instant('OPERACION'),
+              enableFiltering: false,
+              width: '5%',
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+
+            }
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridOPApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+              $scope.addRubro(row.entity.Id);
+            });
+          }
+        };
+
+        ctrl.gridReintegros = {
+                  enableRowSelection: true,
+                  enableSelectAll: false,
+                  selectionRowHeaderWidth: 35,
+                  multiSelect: false,
+                  enableRowHeaderSelection: false,
+                  paginationPageSizes: [5, 10, 15],
+                  paginationPageSize: 10,
+                  enableFiltering: true,
+                  minRowsToShow: 10,
+                  useExternalPagination: false,
+                  columnDefs:[{
+                      field: 'Reintegro.Id',
+                      visible: false
+                    },
+                    {
+                      field: 'Reintegro.Consecutivo',
+                      displayName: $translate.instant('CONSECUTIVO'),
+                      width: '25%',
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    },
+                    {
+                      field: 'Reintegro.Causal.Descripcion',
+                      width: '50%',
+                      displayName: $translate.instant('CAUSAL_REINTEGRO'),
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    },
+                    {
+                      field: 'Reintegro.Ingreso.IngresoConcepto.ValorAgregado',
+                      displayName: $translate.instant('VALOR'),
+                      width: '25%',
+                      cellClass: 'input_center',
+                      headerCellClass: 'encabezado'
+                    }
+                  ],
+                  onRegisterApi: function(gridApi) {
+                    ctrl.gridReintApi = gridApi;
+                  }
+                };
+
+        $scope.addRubro = function(idOp){
+          financieraRequest.get('concepto_orden_pago', $.param({
+            query:"OrdenDePago.Id:"+idOp,
+            limit:1
+          })
+        ).then(function(response) {
+          var rubro = response.data[0].Concepto.Rubro;
+         if (ctrl.rubrosAfectados.indexOf(rubro) === -1){
+           ctrl.rubrosAfectados.push(rubro);
+         }
+        });
+        }
+        ctrl.removeRubro=function(rubro){
+          var idx = ctrl.rubrosAfectados.indexOf(rubro);
+          ctrl.rubrosAfectados.splice(idx,1);
+        }
+        ctrl.cargarOrdenesPago = function(idCRP){
+          financieraRequest.get('orden_pago_registro_presupuestal', $.param({
+            query:"RegistroPresupuestal.Id:"+idCRP,
+            limit:-1
+          })
+          ).then(function(response) {
+            if(response.data === null){
+              ctrl.hayData = false;
+              ctrl.cargando = false;
+              ctrl.gridOrdenesDePago.data = [];
+            }else{
+
+              ctrl.hayData = true;
+              ctrl.cargando = false;
+
+              ctrl.gridOrdenesDePago.data = response.data;
+
+              angular.forEach(ctrl.gridOrdenesDePago.data, function(iterador) {
+
+                if(iterador.RegistroPresupuestal !== undefined){
+                  agoraRequest.get('informacion_proveedor',
+                  $.param({
+                    query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
+                  })
+                ).then(function(response) {
+                  if(response.data !== null){
+                    iterador.Proveedor = response.data[0];
+                  }
+
+                });
+              }
+            });
+          }
+          });
+      }
+        $scope.loadrow = function(row, operacion) {
+          self.operacion = operacion;
+          switch (operacion) {
+              case "ver":
+                ctrl.op_detalle(row);
+              break;
+              default:
+              break;
+          }
+      };
+
+      ctrl.op_detalle = function(row) {
+        var path = "/orden_pago/proveedor/ver/";
+        $location.url(path + row.entity.Id);
+      }
 
         ctrl.calcular_valor_impuesto = function() {
             var sum_impuestos = 0;
@@ -153,7 +393,6 @@ angular.module('financieraClienteApp')
                     $('#modal_practicas_academicas').modal('show');
                     break;
                 case "edit":
-                    console.log(ctrl.row_entity);
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_practicas_academicas').modal('show');
                     break;
@@ -172,7 +411,6 @@ angular.module('financieraClienteApp')
                     $('#modal_legalizacion_compras').modal('show');
                     break;
                 case "edit":
-                    console.log(ctrl.row_entity);
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
                     $('#modal_legalizacion_compras').modal('show');
                     break;
@@ -181,6 +419,10 @@ angular.module('financieraClienteApp')
                     break;
             }
         };
+
+        ctrl.agregarReintegro = function(){
+          $('#modal_add_reintegro').modal('show');
+        }
 
 
         ctrl.limpiar_practica = function() {
@@ -208,7 +450,6 @@ angular.module('financieraClienteApp')
                 wso2Request.get("bienestarProxy", parametros).then(function(response) {
                     $scope.estudiante_cargado = false;
                     if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                        console.log(response.data.datosCollection.datos[0]);
                         ctrl.LegalizacionPracticaAcademica.Estudiante = response.data.datosCollection.datos[0];
                     } else {
                         $scope.encontrado = "true";
@@ -216,7 +457,6 @@ angular.module('financieraClienteApp')
                 });
             }
         };
-
         ctrl.cargar_proveedor = function() {
             $scope.encontrado = false;
             ctrl.LegalizacionCompras.InformacionProveedor = null;
@@ -226,7 +466,6 @@ angular.module('financieraClienteApp')
                         limit: -1
                     }))
                 .then(function(response) {
-                    console.log(response.data);
                     if (response.data == null) {
                         $scope.encontrado = "true";
                     } else {
@@ -325,6 +564,27 @@ angular.module('financieraClienteApp')
             })
         };
 
+        ctrl.cargarReintegros=function(){
+          financieraRequest.get("reintegro_avance_legalizacion",
+                  $.param({
+                      query: "Avance.Id:"+$scope.solicitud.Id, //Impuesto RETE IVA
+                      limit: -1
+                  }))
+              .then(function(response) {
+                angular.forEach(response.data,function(row){
+                  financieraRequest.get("ingreso_concepto",
+                          $.param({
+                              query: "Ingreso.Id:"+row.Reintegro.Ingreso.Id,
+                              limit: 1
+                          }))
+                      .then(function(response) {
+                        row.Reintegro.Ingreso.IngresoConcepto = response.data[0]
+                      });
+                });
+                  ctrl.gridReintegros.data = response.data;
+              });
+        }
+        ctrl.cargarReintegros();
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
@@ -466,4 +726,47 @@ angular.module('financieraClienteApp')
             ctrl.row_entity = {};
         };
 
+        $scope.$watch('legalizacion.concepto[0]', function(newValue,oldValue) {
+                    if (!angular.isUndefined(newValue)) {
+                        financieraRequest.get('concepto', $.param({
+                            query: "Id:" + newValue.Id,
+                            fields: "Rubro",
+                            limit: -1
+                        })).then(function(response) {
+                            $scope.legalizacion.concepto[0].Rubro = response.data[0].Rubro;
+                        });
+                    }
+                }, true);
+
+
+      $scope.$watch('legalizacion.CRPSelecc',function(){
+        if(!angular.isUndefined(ctrl.CRPSelecc)){
+          ctrl.cargarOrdenesPago(ctrl.CRPSelecc.Id);
+        }
+      });
+      $scope.$watch('c', function() {
+          if($scope.c){
+            $interval( function() {
+                ctrl.gridOPApi.core.handleWindowResize();
+              }, 500, 2);
+
+
+          }
+        });
+
+        $scope.$watch('d', function() {
+          if($scope.d){
+            $interval( function() {
+                ctrl.gridComprasApi.core.handleWindowResize();
+              }, 500, 2);
+          }
+        });
+
+        $scope.$watch('e', function() {
+          if($scope.e){
+            $interval( function() {
+                ctrl.gridPracticasApi.core.handleWindowResize();
+              }, 500, 2);
+          }
+        });
     });

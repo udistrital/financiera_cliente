@@ -10,7 +10,10 @@
 angular.module('financieraClienteApp')
   .controller('IngresosSinSituacionFondosConsultaCtrl', function ($scope,$translate,financieraRequest, $localStorage,financieraMidRequest) {
     var ctrl = this;
-
+    ctrl.cargando = false;
+    ctrl.hayData = true;
+    ctrl.hayProceso = false;
+    console.log("hay",ctrl.hayProceso)
     $scope.botones = [
         {clase_color:"ver",clase_css:"fa fa-product-hunt fa-lg faa-shake animated-hover",titulo:$translate.instant("ESTADO"),operacion:"proceso",estado:true}
     ];
@@ -45,7 +48,7 @@ angular.module('financieraClienteApp')
               width: '17%'
           },
           {
-              field: 'EstadoIngresoSinSituacionFondos.Rubro.Codigo',
+              field: 'IngresoSinSituacionFondos.Rubro.Nombre',
               displayName: $translate.instant('RUBRO'),
               cellClass:'input_center',
               headerCellClass:'text-info',
@@ -63,25 +66,42 @@ angular.module('financieraClienteApp')
               name: $translate.instant('OPCIONES'),
               width: '17%',
               headerCellClass:'text-info',
-              cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
+              cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>'
           }
       ]
     };
 
     ctrl.consultaIngresos = function(){
+
+      ctrl.gridIngresoNoSF.data = [];
+      ctrl.cargando = true;
+      ctrl.hayData = true;
+
       financieraRequest.get('ingreso_sin_situacion_fondos_estado',$.param({
         query:"Activo:true",
         limit:-1,
         sortby: "Id",
         order: "asc"
       })).then(function(response){
-        angular.forEach(response.data,function(rowData){
-          financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
-                rowData.UnidadEjecutora = unidadEjec.data;
-              });
-        });
+
+        if(response.data === null || typeof(response.data) === "string"){
+          ctrl.gridIngresoNoSF.data = [];
+          ctrl.cargando = false;
+          ctrl.hayData = false;
+          
+        }else{
+          ctrl.gridIngresoNoSF.data = [];
+          ctrl.cargando = false;
+          ctrl.hayData = true;
+         
+          angular.forEach(response.data,function(rowData){
+            financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
+                  rowData.UnidadEjecutora = unidadEjec.data;
+                });
+          });
         ctrl.gridIngresoNoSF.data =  response.data;
-        console.log(response.data);
+
+      }
       })
     };
     ctrl.consultaIngresos();
@@ -96,7 +116,7 @@ angular.module('financieraClienteApp')
                 $scope.estados = [];
                 $scope.aristas = [];
                 ctrl.estados = response.data;
-                console.log("estados",ctrl.estados);
+
                 angular.forEach(ctrl.estados, function(estado) {
                     $scope.estados.push({
                         id: estado.Id,
@@ -120,6 +140,8 @@ angular.module('financieraClienteApp')
         switch (operacion) {
             case "proceso":
                 $scope.estado = $scope.solicitud.EstadoIngresoSinSituacionFondos;
+                ctrl.hayProceso = true;
+                $scope.informacion = $translate.instant('INGRESO') + ' '+row.entity.IngresoSinSituacionFondos.Id;
                 break;
             default:
         }

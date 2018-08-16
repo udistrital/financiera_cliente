@@ -65,6 +65,38 @@ angular.module('financieraClienteApp')
           }
         };
         var tmpl = '<div ng-if="!row.entity.editable">{{COL_FIELD * 100}}%</div><div ng-if="row.entity.editable"><input ng-model="MODEL_COL_FIELD"</div>';
+        self.gridHomologacion={
+          enableFiltering: true,
+          enableSorting: true,
+          enableRowSelection: true,
+          enableRowHeaderSelection: false,
+          paginationPageSizes: [5, 10, 15],
+          paginationPageSize: 5,
+          columnDefs:[
+          {
+              field: 'CodigoHomologado',
+              cellClass: 'input_center',
+              displayName: $translate.instant('CODIGO'),
+              width: '8%',
+              headerCellClass: 'text-info'
+          },
+          {
+              field: 'NombreHomologacion',
+              displayName: $translate.instant('DESCRIPCION'),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info'
+          },
+          {
+              field: 'Organizacion[0].Nombre',
+              displayName: $translate.instant("ENTIDAD"),
+              cellClass: 'input_center',
+              headerCellClass: 'text-info'
+          },
+        ],
+        onRegisterApi: function(gridApi) {
+              self.gridApi = gridApi;
+            }
+        };
         self.gridOptions = {
           enableFiltering: true,
           enableSorting: true,
@@ -354,7 +386,6 @@ angular.module('financieraClienteApp')
 
         self.arbol_operacion = function(nodo, operacion){
           self.operacion = operacion;
-
           switch (operacion) {
               case "ver":
               self.editar=false;
@@ -456,6 +487,11 @@ angular.module('financieraClienteApp')
               break;
               case "config":
                   break;
+              case "verHomologacion":
+                self.RubroAct = nodo;
+                self.consultarHomologacion();
+                $("#modalHomol").modal();
+                break;
               default:
           }
         }
@@ -518,10 +554,17 @@ angular.module('financieraClienteApp')
             if (leaf.Hijos) {
               self.expandedNodes.push(leaf);
               self.expandAllNodes(leaf.Hijos);
-
             }
           });
 
+        };
+
+        self.consultarHomologacion = function(){
+          financieraMidRequest.cancel();
+          self.gridHomologacion.data = [];
+          financieraMidRequest.get("rubro_homologado/GetAllRubrosHomologado/"+self.RubroAct.Id).then(function(response){
+              self.gridHomologacion.data = response.data;
+          });
         };
 
         /**

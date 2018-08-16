@@ -1,0 +1,16 @@
+<div class="panel panel-primary panel-body">
+    <h2 class="page-header text-center">{{'CONSULTA_CANCELACION_INVERSIONES'|translate}}</h2>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{'SELECCIONAR_CANCELACION_INVERSION'|translate}}</h3>
+        </div>
+        <div ui-grid="inversionesConsultaCancelacion.gridInversiones" ui-grid-auto-resize ui-grid-pagination></div>
+    </div>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
+    </div>
+    <div class="panel-footer">
+      <div align="center">
+      </div>
+    </div>
+</div>

@@ -3,21 +3,36 @@
     <h3 class="page-header">
         {{"CONTROL_SALDOS_INICIALES" | translate}}
     </h3></center>
-    <div class="row">
-      <div class="col-md-12">
-        <label>{{ 'VIGENCIA' | translate }}:</label>        
-        <select class="form-control form-control-inline" ng-model="saldosIniciales.vigencia_saldos" ng-options="v as v for v in saldosIniciales.vigencias track by v" >
-          <option value="">{{"TODOS" | translate}}</option>
-        </select>
-      </div>      
-    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div class="row">
+              <div class="col-md-4 col-md-offset-4">
+            <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
+            <br>
+            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="saldosIniciales.vigencia_saldos" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+              <option ng-repeat="option in saldosIniciales.vigencias" value="{{option}}">{{option}}</option>
+            </select>
+          </div>
+          </div>
+        </div>
+      </div>
+</div>
   <div class="panel-body">
-    <div class="mi-grid" id="mi-grid"  ui-grid="saldosIniciales.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+    <div class="mi-grid" id="mi-grid"  ui-grid="saldosIniciales.gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize>
+      <div class="watermark" ng-show="!saldosIniciales.hayData">{{'NO_DATA'| translate}}</div>
+      <div class="watermark" ng-show="saldosIniciales.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+    </div>
     <br>
+  </div>
+</div>
   </div>
 
   <div>
-    <center><button type="button" class="btn btn-outline btn-primary btn-sm" data-toggle="modal" data-target="#modalformP" ng-click="editar=false">{{"BTN.AGREGAR" | translate}}</button></button>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="saldosIniciales.crear_saldo()">{{"BTN.AGREGAR" | translate}}</button></button>
     </center>
   </div>
 
@@ -78,13 +93,13 @@
                   <div class="input-group date" data-provide="datepicker">
                     <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="saldosIniciales.nueva_fecha.FechaFin" md-min-date="saldosIniciales.nueva_fecha.FechaInicio" md-max-date="saldosIniciales.fechamax" ng-required></md-datepicker>
                   </div>
-                </fieldset>                
+                </fieldset>
               </div>
 
               <div class="col-md-12">
                 <br>
                 <fieldset class="form-group col-md-6">
-                  <label>{{ 'ENTIDAD' | translate }}*:</label><span> Universidad Distrital</span>
+                  <label>{{ 'ENTIDAD' | translate }}*:</label><span> Universidad Distrital Francisco José de Caldas</span>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">

@@ -1,16 +1,13 @@
-<div ng-if="!ordendevolucion.loadCircle">
-    <loadingcircle load="load"></loadingcircle>
-</div>
-<div class="panel panel-primary panel-body" ng-if="ordendevolucion.loadCircle">
+<div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'ORDEN_DEVOLUCION' | translate }}</h2>
 
 <div class="panel-body" >
-  <legend class="text-primary" ng-click="ordendevolucion.infDevol=!ordendevolucion.infDevol">
+  <legend class="text-primary">
     {{'DEVOLUCION'|translate}}
-    <span class="fa fa-plus pull-right" ng-show="!ordendevolucion.infDevol"></span>
-    <span class="fa fa-minus pull-right" ng-show="ordendevolucion.infDevol"></span>
   </legend class="text-primary">
-  <div ng-show="ordendevolucion.infDevol">
+  <div>
+
+    <form name="datosSolicitante">
     <div class=col-md-6>
         <div class="panel panel-default panel-body">
             <div class="panel panel-heading">
@@ -25,22 +22,32 @@
             </div>
             </div>
             <div class="col-md-6">
-            <form ng-submit="ordendevolucion.consultaPagos()" >
               <div class="form-group">
-                <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                <input type="text" class="form-control input_left"  ng-blur="ordendevolucion.consultaPagos()" ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                <label for="numdoc" class="control-label" style="display:block">{{'NO_DOCUMENTO'|translate}}</label>
+                  <div style="display:inline-block">
+                    <input type="text" class="form-control input_left"  ng-model="ordendevolucion.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                </div>
+                <button type="button" ng-click="ordendevolucion.consultaPagos()" class="fa fa-search btn btn-info btn-outline" ></button>
               </div>
-            </form>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                <span class="form-control">{{ordendevolucion.nombreSolicitante}}</span>
+                <div ng-if="!ordendevolucion.cargando_sol">
+                <span class="form-control" >{{ordendevolucion.nombreSolicitante}}</span>
+               </div>
+               <div  ng-if="ordendevolucion.cargando_sol">
+               <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+              </div>
               </div>
           </div>
+
+
       </div>
     </div>
+  </form>
 
+  <form name="datosBeneficiario">
     <div class=col-md-6>
         <div class="panel panel-default panel-body">
             <div class="panel panel-heading">
@@ -55,22 +62,32 @@
             </div>
             </div>
             <div class="col-md-6">
-              <form ng-submit="ordendevolucion.consultaBen()" >
+              <form >
               <div class="form-group">
-                <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                <input type="text" class="form-control input_left" ng-model="ordendevolucion.numdocBeneficiario" ng-blur="ordendevolucion.consultaBen()" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                <label for="numdoc" class="control-label" style="display:block">{{'NO_DOCUMENTO'|translate}}</label>
+              <div style="display:inline-block">
+                <input type="text" class="form-control input_left" ng-model="ordendevolucion.numdocBeneficiario" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+              </div>
+              <button type="button" ng-click="ordendevolucion.consultaBen()" class="fa fa-search btn btn-info btn-outline" ></button>
               </div>
               </form>
             </div>
           <div class="col-md-12">
             <div class="form-group">
               <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
+              <div  ng-if="!ordendevolucion.cargando_ben">
               <span class="form-control">{{ordendevolucion.nombreBeneficiario}}</span>
+            </div>
+            <div ng-if="ordendevolucion.cargando_ben">
+              <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+            </div>
             </div>
         </div>
       </div>
     </div>
+  </form>
 
+    <form name="datosOblig">
     <div class="col-md-6">
 
       <div class="panel panel-default">
@@ -107,7 +124,7 @@
 
           <div class="form-group">
             <label for="unidadejecutora">{{'RAZON_DEVOLUCION' | translate}}</label>
-            <select class="form-control" ng-model="ordendevolucion.razonDevolucion" ng-options="op as op.Nombre for op in ordendevolucion.razonesDevolucion">
+            <select class="form-control" ng-model="ordendevolucion.razonDevolucion" ng-options="op as op.Nombre for op in ordendevolucion.razonesDevolucion" required>
               <option value="">{{'RAZON_DEVOLUCION' | translate}}</option>
             </select>
           </div>
@@ -152,10 +169,11 @@
         </div>
       </div>
     </div>
+  </form>
 <div class="col-md-6">
     <div class="col-md-12">
       <div class="form-group">
-        <arbol-conceptos filtro="ordendevolucion.filtro_ingresos" seleccion="ordendevolucion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+        <arbol-conceptos filtro="ordendevolucion.filtro_ingresos" seleccion="ordendevolucion.concepto[0]" conceptosel="nodo" recargar="ordendevolucion.recargar" rdesc > </arbol-conceptos>
       </div>
     </div>
 </div>
@@ -225,7 +243,7 @@
         <div class="panel-body">
           <ul class="nav nav-tabs">
             <li ng-class="{active: selected == c.Id}" ng-repeat="c in ordendevolucion.concepto"><a href ng-click="ordendevolucion.selected=c.Id" data-toggle="tab">
-                                Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+                                {{'CONCEPTO' | translate}}: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
             </li>
           </ul>
           <!-- Tab panes -->

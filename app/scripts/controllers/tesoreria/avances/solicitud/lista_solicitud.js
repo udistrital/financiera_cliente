@@ -8,20 +8,23 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest,$sanitize) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
-
+        $scope.mostrar_direc = false;
         $scope.estados = [];
         $scope.estado_select = [];
         $scope.aristas = [];
         $scope.estadoclick = {};
 
+        ctrl.cargando = true;
+        ctrl.hayData = true;
+
         $scope.botones = [
             { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
             { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
-            { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('LEGALIZAR'), operacion: 'legalizar', estado: true }
+            { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.LEGALIZAR'), operacion: 'legalizar', estado: true }
 
         ];
 
@@ -40,6 +43,13 @@ angular.module('financieraClienteApp')
             return list.indexOf(item) > -1;
         };
 
+        ctrl.validatenoRowFound = function (item){
+          if(angular.equals(typeof(item),"string")){
+            return true;
+          }else{
+            return false;
+          }
+        }
         ctrl.get_solicitudes = function() {
             financieraRequest.get("solicitud_avance", $.param({
                     limit: -1,
@@ -47,12 +57,13 @@ angular.module('financieraClienteApp')
                     order: "asc"
                 }))
                 .then(function(response) {
+                  if(response.data !==  null){
                     angular.forEach(response.data, function(solicitud) {
                         financieraRequest.get("avance_estado_avance", $.param({
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
                                 sortby: "FechaRegistro",
                                 limit: -1,
-                                order: "desc"
+                                order: "asc"
                             }))
                             .then(function(estados) {
                                 solicitud.Estado = estados.data;
@@ -72,6 +83,9 @@ angular.module('financieraClienteApp')
                                 solicitud.Tipos = response.data;
                                 solicitud.Total = 0;
                                 angular.forEach(response.data, function(tipo) {
+                                  console.log(" tipo ",tipo," funcion ",ctrl.validatenoRowFound(tipo))
+                                    if(!ctrl.validatenoRowFound(tipo)){
+
                                     solicitud.Total += tipo.Valor;
                                     financieraRequest.get("requisito_tipo_avance", $.param({
                                             query: "TipoAvance:" + tipo.TipoAvance.Id + ",Activo:1",
@@ -85,6 +99,7 @@ angular.module('financieraClienteApp')
                                             var sol = 0;
                                             var leg = 0;
                                             angular.forEach(tipo.Requisitos, function(data) {
+                                              if(!ctrl.validatenoRowFound(data)){
                                                 data.SolicitudTipoAvance = { Id: tipo.Id };
                                                 data.RequisitoTipoAvance = { Id: data.Id };
                                                 if (data.RequisitoAvance.EtapaAvance.Id == 1) { //Solicitud
@@ -95,15 +110,27 @@ angular.module('financieraClienteApp')
                                                 }
                                                 tipo.n_solicitar = sol;
                                                 tipo.n_legalizar = leg;
+                                              }
                                             });
                                         });
+                                      }
                                 });
+
+
                             });
 
                     });
+                    ctrl.cargando = false;
+                    ctrl.hayData = true;
                     ctrl.gridOptions.data = response.data;
+                  }else{
+                    ctrl.cargando = false;
+                    ctrl.hayData = false;
+                    ctrl.gridOptions.data = {};
+                  }
                 });
         };
+
 
         ctrl.get_solicitudes();
         ctrl.gridOptions = {
@@ -117,54 +144,73 @@ angular.module('financieraClienteApp')
                     field: 'Consecutivo',
                     displayName: $translate.instant('CONSECUTIVO'),
                     width: '5%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 }, {
                     field: 'Vigencia',
                     displayName: $translate.instant('VIGENCIA'),
                     width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Objetivo',
                     displayName: $translate.instant('OBJETIVO'),
                     width: '15%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Tercero.documento',
                     displayName: $translate.instant('DOCUMENTO'),
-                    width: '10%'
+                    width: '10%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Tercero.nombres',
                     displayName: $translate.instant('NOMBRES'),
-                    width: '14%'
+                    width: '14%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Tercero.apellidos',
                     displayName: $translate.instant('APELLIDOS'),
-                    width: '14%'
+                    width: '14%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estado[0].Estados.Nombre',
                     displayName: $translate.instant('ESTADO'),
                     cellTemplate: '<div align="center">{{row.entity.Estado[0].EstadoAvance.Nombre}}</div>',
                     width: '8%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estado[0].FechaRegistro',
                     displayName: $translate.instant('FECHA'),
                     cellTemplate: '<div align="center"><span>{{row.entity.Estado[0].FechaRegistro| date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '8%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Total',
                     displayName: $translate.instant('VALOR'),
                     cellTemplate: '<div align="center"><span>{{row.entity.Total | currency}}</span></div>',
                     width: '8%',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '8%',
-
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
 
                 }
@@ -172,7 +218,6 @@ angular.module('financieraClienteApp')
         };
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
-            console.log($scope.solicitud);
             switch (operacion) {
                 case "ver":
                     $('#modal_ver').modal('show');
@@ -194,6 +239,8 @@ angular.module('financieraClienteApp')
                     break;
                 case "proceso":
                     $scope.estado = row.entity.Estado[0].EstadoAvance;
+                    $scope.informacion = $translate.instant('AVANCE_NO')+' '+row.entity.Consecutivo;
+                    $scope.mostrar_direc = true;
                     break;
                 default:
             }

@@ -18,7 +18,9 @@ angular.module('financieraClienteApp')
     $scope.aristas = [];
     $scope.estadoclick = {};
     $scope.senDataEstado = {};
-
+    $scope.mostrar_direc = false;
+    ctrl.cargando = true;
+    ctrl.hayData = true;
     $scope.botones = [
         { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
     ];
@@ -35,21 +37,21 @@ angular.module('financieraClienteApp')
               field: 'Id',
               displayName:$translate.instant('NUMERO_OPERACION'),
               cellClass: 'input_center',
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
               width: '20%'
           },
           {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               cellClass:'input_center',
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
               width: '20%'
           },
           {
               field: 'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
               cellClass:'input_center',
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
               width: '20%'
           },
           {
@@ -57,13 +59,14 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('VALOR'),
               width: '20%',
               cellFilter:"currency",
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
               cellClass: 'input_right'
           },
           {
               name: $translate.instant('OPCIONES'),
               width: '20%',
-              headerCellClass:'text-info',
+              headerCellClass:'encabezado',
+              cellClass: 'input_center',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
       ]
@@ -87,7 +90,13 @@ angular.module('financieraClienteApp')
                   rowData.Estado = est;
                 });
           });
+          ctrl.cargando = false;
+          ctrl.hayData = true;
           ctrl.gridOrdenes.data = response.data;
+        }else{
+          ctrl.cargando = false;
+          ctrl.hayData = false;
+          ctrl.gridOrdenes.data = [];
         }
       });
     };
@@ -144,6 +153,8 @@ angular.module('financieraClienteApp')
         switch (operacion) {
             case "proceso":
                 $scope.estado = $scope.solicitud.Estado ;
+                $scope.informacion = $translate.instant('RELACION_DEVOLUCION')+ ' '+ 'No'+' '+row.entity.Id;
+                $scope.mostrar_direc = true;
                 break;
             default:
         }

@@ -24,7 +24,7 @@ angular.module('financieraClienteApp')
         ctrl.gridPagos = {
 
             enableRowSelection: true,
-            enableSelectAll: true,
+            enableSelectAll: false,
             selectionRowHeaderWidth: 35,
             multiSelect: true,
             enableRowHeaderSelection: true,
@@ -70,37 +70,42 @@ angular.module('financieraClienteApp')
             columnDefs: [{
                     field: 'Numero_Recibo',
                     displayName: $translate.instant('NUMERO') + " " + $translate.instant('RECIBO'),
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
                     enableCellEdit: false,
                     width: '20%'
                 },
                 {
                     field: 'Periodo',
                     displayName: $translate.instant('PERIODO'),
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
                     enableCellEdit: false,
+                    cellClass: 'input_center',
                     width: '10%'
                 },
                 {
                     field: 'Fecha_Extraordinario',
                     displayName: $translate.instant('FECHA') + " "+$translate.instant('EXTRAORDINARIO'),
                     cellFilter: "date:'yyyy-MM-dd'",
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
                     enableCellEdit: false,
+                    cellClass: 'input_center',
                     width: '20%'
                 },
                 {
                     field: 'Fecha_Ordinario',
                     displayName: $translate.instant('FECHA') + " "+ $translate.instant('ORDINARIO'),
                     cellFilter: "date:'yyyy-MM-dd'",
-                    headerCellClass: 'text-info',
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
                     enableCellEdit: false,
                     width: '20%'
                 },
                 {
                     field: 'Pago',
                     displayName: $translate.instant('PAGO_REPORTADO'),
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
                     enableCellEdit: false,
                     width: '5%'
                 },
@@ -109,7 +114,7 @@ angular.module('financieraClienteApp')
                     displayName: $translate.instant('TOTAL'),
                     cellClass: 'input_right',
                     width: '15%',
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
                     type: 'number',
                     cellFilter: 'currency',
                     enableCellEdit: false,
@@ -119,7 +124,9 @@ angular.module('financieraClienteApp')
                 },
                 {
                     name: $translate.instant('OPCIONES'),
-                    width: '8%',
+                    width: '10%',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 },
             ]
@@ -147,7 +154,7 @@ angular.module('financieraClienteApp')
             columnDefs: [{
                     field: 'Descripcion',
                     displayName: $translate.instant('DESCRIPCION'),
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
                     enableCellEdit: false,
                     width: '50%'
                 },
@@ -156,7 +163,7 @@ angular.module('financieraClienteApp')
                     displayName: $translate.instant('VALOR'),
                     cellClass: 'input_right',
                     width: '50%',
-                    headerCellClass: 'text-info',
+                    headerCellClass: 'encabezado',
                     type: 'number',
                     cellFilter: 'currency',
                     enableCellEdit: false,

@@ -2,7 +2,7 @@
   <h2 class="page-header text-center">{{ 'INGRESOS_SIN_SF' | translate }}</h2>
 
 <div class="panel-body" >
-  <div class="col-md-6">
+  <div class="col-md-4">
   <div class="panel panel-default">
   <div class="panel-body">
 <form name="datosOblig">
@@ -22,19 +22,19 @@
 
     <div class="form-group">
       <label class="control-label">{{'VALOR'|translate}}</label>
-      <input class="form-control" type="text" ng-model="ingresosSinSitFnReg.valor" ui-money-mask="0" placeholder="{{'VALOR'|translate}}" required></input>
+      <input class="form-control input_right" type="text" ng-model="ingresosSinSitFnReg.valor" ui-money-mask="0" placeholder="$" required></input>
     </div>
 </form>
   </div>
 </div>
 </div>
-<div class="col-md-6">
+<div class="col-md-8">
     <rubros-consulta  botones="ingresosSinSitFnReg.botones" recargar="ingresosSinSitFnReg.recarga_arbol" ramasel="true" rubrosel="ingresosSinSitFnReg.rubroSeleccionado" filtro="ingresosSinSitFnReg.filtro_rubro"></rubros-consulta>
 </div>
 </div>
 <div class="panel-footer">
   <div align="center">
-    <button class="btn btn-outline btn-info" ng-click= "ingresosSinSitFnReg.registrar()">{{'BTN.REGISTRAR'|translate}}</button>
+    <button class="btn btn-outline btn-info" ng-disabled="ingresosSinSitFnReg.disabled" ng-click= "ingresosSinSitFnReg.registrar()">{{'BTN.REGISTRAR'|translate}}</button>
   </div>
 </div>
 </div>

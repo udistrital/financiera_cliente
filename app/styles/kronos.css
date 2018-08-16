@@ -174,6 +174,17 @@ sencillo {
 
 }
 
+.watermark_no_filter {
+    position: absolute;
+    top : 50px;
+    opacity: 0.25;
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+    z-index: 1000;
+
+}
+
 
 .encabezado {
   text-align: center;
@@ -184,3 +195,22 @@ sencillo {
   text-align: center;
   color: #31708F;
 }
+
+.texto_no_cuenta_especial {
+  text-align: center;
+  color: #5CB85C;
+}
+
+.texto_cuenta_especial {
+  text-align: center;
+  color: #31708F;
+}
+
+.proceso {
+  height:400px;
+  width:100%;
+}
+
+.vis-hidden{
+     visibility: hidden;
+  }

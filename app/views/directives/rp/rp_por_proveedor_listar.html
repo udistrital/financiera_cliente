@@ -1,25 +1,46 @@
-<legend class="text-primary" ng-click="a=!a">
-  {{'REGISTRO_PRESUPUESTAL' | translate}}
-  <span class="fa fa-plus pull-right" ng-show="!a"></span>
-  <span class="fa fa-minus pull-right" ng-show="a"></span>
-</legend class="text-primary">
-<div class="panel-body row" ng-if="a">
-  <div class="container" align="center">  
+
+<div class="panel-body row" ng-show="a === 'rps'">
+
+  <div class="container" align="center">
   <div class="col-md-12" >
     <div class="panel panel-default">
       <div class="panel-body">
-        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize></div>
+        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid">
+          <div class="watermark" ng-show="!d_rpPorProveedorListar.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="d_rpPorProveedorListar.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+        </div>
       </div>
     </div>
   </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div ng-if="!refresh" ui-grid="d_rpPorProveedorListar.gridOptions_rp_seleccionados" ui-grid-selection ui-grid-auto-resize></div>
-      </div>
-    </div>      
+
+</div>
+
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-8">
+                <h3 class="page-header">{{'REGISTRO_PRESUPUESTAL' | translate}} No {{d_rpPorProveedorListar.rp_seleccionado.NumeroRegistroPresupuestal}}</h3>
+
+              </div>
+
+              <div class="col-md-8">
+                <h3>
+                <small>{{'FECHA_REGISTRO' | translate}}: <span style="color: white">{{d_rpPorProveedorListar.rp_seleccionado.FechaRegistro | date: "yyyy-MM-dd"}}</span> </small><br>
+                </h3>
+              </div>
+
+            </div>
+
+          </div>
+            <div class="panel panel-body">
+                <ver-rp rp="d_rpPorProveedorListar.rp_seleccionado"></ver-rp>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

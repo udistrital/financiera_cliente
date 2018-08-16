@@ -20,31 +20,21 @@
         <div class="col-md-6">
         <div class="form-group">
           <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
-          <select ng-model="ingresoRegistroG.banco" ng-options="i.NomProveedor for i in ingresoRegistroG.bancos" class="form-control" required>
+          <select ng-model="ingresoRegistroG.banco" ng-options="i.Nombre for i in ingresoRegistroG.bancos" class="form-control" required>
             <option value="">{{'BANCO'|translate}}</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="noperacion" class="control-label">{{'TIPO_CUENTA'|translate}}</label>
-          <select ng-model="ingresoRegistroG.tipocuenta" ng-options="i.Nombre for i in ingresoRegistroG.tiposCuenta" class="form-control" required>
-            <option value="">{{'SELECCIONAR_TIPO_CUENTA'|translate}}</option>
-          </select>
+          <label class="control-label">{{'CUENTA'|translate}}</label>
+          <input type="text" class="form-control input_left" ng-model="ingresoRegistroG.numeroCuenta" placeholder="{{'CUENTA'|translate}}" ui-number-mask="0" required/>
         </div>
 </div>
 <div class="col-md-6">
   <div class="form-group">
-    <label for="noperacion" class="control-label">{{'SUCURSAL'|translate}}</label>
-    <select ng-model="ingresoRegistroG.sucursal" ng-options="i.Nombre for i in ingresoRegistroG.sucursales" class="form-control" required>
-      <option value="">{{'SELECCIONAR_SUCURSAL'|translate}}</option>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="numeroCuenta">{{'CUENTA'|translate}}</label>
-    <br>
-    <select ng-model="ingresoRegistroG.cuentaBancaria" ng-options="i.NumeroCuenta for i in ingresoRegistroG.cuentasBancarias" class="form-control" required>
-      <option value="">{{'SELECCIONAR_CUENTA'|translate}}</option>
+    <label for="noperacion" class="control-label">{{'TIPO_CUENTA'|translate}}</label>
+    <select ng-model="ingresoRegistroG.tipocuenta" ng-options="i.Nombre for i in ingresoRegistroG.tiposCuenta" class="form-control" required>
+      <option value="">{{'SELECCIONAR_TIPO_CUENTA'|translate}}</option>
     </select>
   </div>
 </div>

@@ -10,6 +10,8 @@
 angular.module('financieraClienteApp')
 .controller('GestionCompromisosCtrl', function($scope, financieraRequest, $translate) {
   var self = this;
+  self.cargando = false;
+  self.hayData = true;
 
   $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
@@ -74,57 +76,75 @@ angular.module('financieraClienteApp')
         field: 'Id',
         displayName: $translate.instant('NO'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '4%'
+        width: '4%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'Vigencia',
         displayName: $translate.instant('VIGENCIA'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '7%'
+        width: '7%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'Objeto',
         displayName: $translate.instant('OBJETO'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '50%'
+        width: '50%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'FechaInicio',
         displayName: $translate.instant('FECHA_INICIO'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         cellFilter: "date:'yyyy-MM-dd'",
-        width: '9%'
+        width: '9%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'FechaFin',
         displayName: $translate.instant('FECHA_FIN'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         cellFilter: "date:'yyyy-MM-dd'",
-        width: '9%'
+        width: '9%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'EstadoCompromiso.Nombre',
         displayName: $translate.instant('ESTADO'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '7%'
+        width: '7%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         field: 'TipoCompromisoTesoral.Nombre',
         displayName: $translate.instant('TIPO'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '7%'
+        width: '7%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         visible:false,
         field: 'TipoCompromisoTesoral.CategoriaCompromiso.Nombre',
         displayName: $translate.instant('CATEGORIA'),
         headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-        width: '6%'
+        width: '6%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
       },
       {
         name: $translate.instant('OPCIONES'),
         enableFiltering: false,
         width: '7%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado',
         cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(row,operacion)" grupobotones="grid.appScope.botones"></btn-registro></center>'
       }
     ]
@@ -143,11 +163,25 @@ angular.module('financieraClienteApp')
 
 
   self.cargar = function() {
+    self.gridOptions.data = [];
+    self.cargando = true;
+    self.hayData = true;
+
     financieraRequest.get("compromiso", $.param({
       limit: -1,
       query: "TipoCompromisoTesoral.CategoriaCompromiso.Nombre:"+self.filtro_categoria.Nombre+",UnidadEjecutora:"+1 //CAMBIAR SEGUN USUARIO LOGUEADO
     })).then(function(response) {
-      self.gridOptions.data =(response.data != null)?response.data:[];
+    
+      if (typeof(response.data) === "string") {
+          self.hayData = false;
+          self.cargando = false;
+          self.gridOptions.data = [];
+      }else {
+          self.hayData = true;
+          self.cargando = false;
+          self.gridOptions.data = response.data;
+        }
+
     });
   };
 
