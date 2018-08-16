@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
     ];
     ctrl.listasCargadas = false;
+    ctrl.respEnc=true;
     ctrl.gridChequeras = {
       enableFiltering: true,
       enableSorting: true,
@@ -108,26 +109,86 @@ angular.module('financieraClienteApp')
 
     ctrl.obtenerSucursales = function(){
       ctrl.sucursales = [];
-      financieraMidRequest.get('gestion_sucursales/ListarSucursalesBanco/'+ctrl.banco.Id).then(function(response){
-        if (response.data != null) {
-            ctrl.sucursales = response.data;
-        }
-      });
+      if(!angular.isUndefined(ctrl.banco)){
+        financieraMidRequest.get('gestion_sucursales/ListarSucursalesBanco/'+ctrl.banco.Id).then(function(response){
+          if (response.data != null) {
+              ctrl.sucursales = response.data;
+          }
+        });
+      }
+
+    }
+
+    ctrl.consultarCuentas = function(){
+      ctrl.cuentasBancarias = [];
+      if (!angular.isUndefined(ctrl.sucursal)){
+        financieraRequest.get('cuenta_bancaria',$.param({
+          query:"Sucursal:"+ctrl.sucursal.OrganizacionHija.Id
+        })).then(function(response){
+          if (response.data != null && response.data.indexOf("no row found")<0) {
+            ctrl.cuentasBancarias = response.data;
+          }
+        });
+      }
+
     }
 
     ctrl.consultaResponsable = function(){
+      ctrl.cargandoResponsable=true;
       agoraRequest.get('supervisor_contrato',$.param({
-        query:"Documento:" + ctrl.fila.Devolucion.Solicitante,
+        query:"Documento:" + ctrl.numdocResponsable+",Cargo__icontains:tesorer",
         limit:-1
       })).then(function(response){
-          if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
-              ctrl.nombreSolicitante = response.data[0].Nombre;
-              ctrl.cargando_sol = false;
+          if(!angular.isUndefined(response.data) && typeof(response.data) !== "string" && response.data !=null){
+              ctrl.nombreResponsable = response.data[0].Nombre;
+              ctrl.respEnc=true;
+              ctrl.cargandoResponsable = false;
           }else{
-            ctrl.nombreSolicitante = $translate.instant('NO_ENCONTRADO');
-            ctrl.cargando_sol = false;
+            ctrl.nombreResponsable = $translate.instant('NO_ENCONTRADO');
+            ctrl.cargandoResponsable = false;
+            ctrl.respEnc=false;
           }
         });
+    }
+
+    ctrl.camposObligatorios = function() {
+      var respuesta;
+      ctrl.MensajesAlerta = '';
+
+      if($scope.chequera.$invalid){
+        angular.forEach($scope.chequera.$error,function(controles,error){
+          angular.forEach(controles,function(control){
+            control.$setDirty();
+          });
+        });
+
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
+      }
+
+      if(angular.isUndefined(ctrl.nombreResponsable)|| ctrl.nombreResponsable.length === 0){
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_RESP_NO_ENC") + "</li>";
+          ctrl.respEnc=false;
+      }
+
+
+      if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+        respuesta = true;
+      } else {
+        respuesta =  false;
+      }
+
+      return respuesta;
+    };
+
+    ctrl.registrarChequera = function(){
+      if(ctrl.camposObligatorios()){
+
+      }else{
+        swal({ title:'¡Error!',
+              html:'<ol align="left">'+ctrl.MensajesAlerta+'</ol>',
+              type:'error'
+          });
+      }
     }
 
 
