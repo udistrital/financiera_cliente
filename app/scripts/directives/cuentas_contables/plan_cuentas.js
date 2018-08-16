@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html', //url del template de la directiva
       controller: function($scope, $attrs, $translate) {
         var self = this;
-
+        self.esconder_botones = false;
         /**
          * @ngdoc function
          * @name financieraClienteApp.directive:planCuentas#seleccionar_cuenta
@@ -46,6 +46,8 @@ angular.module('financieraClienteApp')
          */
         self.seleccionar_cuenta = function(cuenta) {
           $scope.seleccion = cuenta;
+          self.algo_fue_seleccionado = true;
+          self.esconder_botones = true;
         };
 
         //Opciones para el componente angular-tree-control
@@ -83,10 +85,16 @@ angular.module('financieraClienteApp')
             financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
               $scope.arbol = [];
               if (response.data !== null) {
+                var cuentaPadre
+                if(angular.isArray($scope.filtro)){
+                  angular.forEach($scope.filtro,function(){
+                    cuentaPadre = filtro.CuentaPadre
+                  });
+                }
                 if (!angular.isUndefined($scope.filtro) && !angular.isUndefined($scope.filtro.CuentaPadre)  && !angular.isUndefined($scope.filtro.CuentaHijo)) {
                   self.cuentaPadre = $scope.filtro.CuentaPadre.Id;
                   self.cuentaHijo = $scope.filtro.CuentaHijo.Id;
-                  var posP = response.data.map(function(d) { return d['Id']; }).indexOf(self.cuentaPadre);                  
+                  var posP = response.data.map(function(d) { return d['Id']; }).indexOf(self.cuentaPadre);
                   var posH = response.data[posP].Hijos.map(function(d) { return d['Id']; }).indexOf(self.cuentaHijo);
                   $scope.arbol = response.data[posP].Hijos[posH];
                 } else {

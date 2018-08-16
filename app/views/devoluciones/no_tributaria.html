@@ -1,8 +1,4 @@
-<div ng-if="!devolucionesnoTributaria.loadCircle">
-    <loadingcircle load="load"></loadingcircle>
-</div>
-
-<div class="panel panel-primary panel-body" ng-show="devolucionesnoTributaria.loadCircle">
+<div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'ORDEN_DEVOLUCION' | translate }} {{'TRIBUTARIA'|translate}}</h2>
 <div class="panel-body" >
     <legend class="text-primary" ng-click="devolucionesnoTributaria.infOrdenPago=!devolucionesnoTributaria.infOrdenPago">
@@ -39,15 +35,25 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                  <label for="numdoc" class="control-label">{{'NO_DOCUMENTO'|translate}}</label>
-                  <input type="text" class="form-control input_left"  ng-blur="devolucionesnoTributaria.consultaPagos()" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                  <label for="numdoc" class="control-label" style="display:block" >{{'NO_DOCUMENTO'|translate}}</label>
+                  <div style="display:inline-block">
+                    <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.numdocSoli" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                  </div>
+                    <button type="button" ng-click="devolucionesnoTributaria.consultaPagos()" class="fa fa-search btn btn-info btn-outline" ></button>
                 </div>
             </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                <span class="form-control">{{devolucionesnoTributaria.nombreSolicitante}}</span>
+                <div ng-if="!devolucionesnoTributaria.cargando_sol">
+                  <span class="form-control">{{devolucionesnoTributaria.nombreSolicitante}}</span>
+                </div>
+                <div  ng-if="devolucionesnoTributaria.cargando_sol">
+                  <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
+               </div>
+
               </div>
+
           </div>
         </form>
       </div>
@@ -96,10 +102,7 @@
           </div>
 
         </div>
-
           <div class="col-md-6">
-
-
             <div class="form-group">
               <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
               <select ng-model="devolucionesnoTributaria.banco" ng-options="i.NombrePerfilEntidad for i in devolucionesnoTributaria.bancos" class="form-control" required>
@@ -144,37 +147,51 @@
   </form>
     <div class="col-md-6">
       <div class="form-group">
-        <arbol-conceptos filtro="devolucionesnoTributaria.filtro_ingresos" seleccion="devolucionesnoTributaria.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+        <arbol-conceptos filtro="devolucionesnoTributaria.filtro_ingresos" seleccion="concepto" conceptosel="nodo" multiselect="true"> </arbol-conceptos>
       </div>
     </div>
 </div>
     <div class="col-md-12">
-      <div class="row" ng-show="devolucionesnoTributaria.concepto[0]">
+      <div class="row" ng-show="concepto.length > 0">
         <div class="panel-default panel-body">
           <div class="panel panel-heading">
             <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
           </div>
-          <ul class="list-unstyled">
-            <li><b>{{'RUBRO' | translate}}:</b> {{devolucionesnoTributaria.concepto[0].Rubro.Codigo+" / "+devolucionesnoTributaria.concepto[0].Rubro.Nombre}}
+          <div class="col-md-6">
+          <ul class="list-unstyled" ng-repeat="con in concepto track by con.Id">
+            <li><b>{{'RUBRO' | translate}}:</b> {{con.Rubro.Codigo + " / "+ con.Rubro.Nombre }}
               <ul>
                 <li>
                   <div class="col-md-4" style="width:148px">
                     <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                   </div>
                   <div class="col-md-4" style="width:200px">
-                    <input class="form-control" id="total" type="text" ng-model="devolucionesnoTributaria.sumadebitos" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" ng-disabled ="true"style="height:25px">
+                    <input class="form-control" id="total" type="text" ng-model="con.valorAfectacion" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
                   </div>
                 </li>
               </ul>
             </li>
           </ul>
         </div>
+
+        <div ng-show= "devolucionesnoTributaria.validaDevolPr" class="col-md-6 text-success" align="center">
+          <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
+          <br><small>{{"TOTAL_DEVOLUCION_RUBRO" | translate}}</small>
+        </div>
+
+        <div ng-show= "!devolucionesnoTributaria.validaDevolPr" class="col-md-6 text-danger" align="center">
+          <span class="glyphicon glyphicon glyphicon-remove-circle fa-3x" aria-hidden="true"></span>
+          <br><small>{{"TOTAL_DEVOLUCION_RUBRO_ADVERTENCIA" | translate}}</small>
+        </div>
+
+
+        </div>
       </div>
     </div>
 </div>
 </div>
 
-  <div class="panel-body" ng-show="devolucionesnoTributaria.concepto[0]">
+  <div class="panel-body" ng-show="concepto.length > 0">
     <legend class="text-primary" ng-click="c=!c">
       {{'CUENTAS_CONTABLES' | translate}}
       <span class="fa fa-plus pull-right" ng-show="!c"></span>
@@ -184,14 +201,14 @@
       <div class="col-sm-12">
         <div class="panel-body">
           <ul class="nav nav-tabs">
-            <li ng-class="{active: selected == c.Id}" ng-repeat="c in devolucionesnoTributaria.concepto"><a href ng-click="devolucionesnoTributaria.selected=c.Id" data-toggle="tab">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="devolucionesnoTributaria.selected=c.Id" data-toggle="tab">
                                 Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
             </li>
           </ul>
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane fade in active" ng-repeat="c in devolucionesnoTributaria.concepto" ng-show="devolucionesnoTributaria.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="devolucionesnoTributaria.movs" monto="devolucionesnoTributaria.sumadebitos" editable validatemov="c.validado">
+            <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="devolucionesnoTributaria.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="c.valorAfectacion" editable validatemov="c.validado">
               </movimientos-contables>
             </div>
           </div>
@@ -210,7 +227,7 @@
 
 
 
-  <div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div id="modalCuentas" class="modal fade col-md-12" role="dialog">
     <div class="modal-content col-md-offset-1 col-md-10">
         <div class="modal-header">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
@@ -220,14 +237,13 @@
                 <h3 class="page-header">{{'SELECCIONAR_CUENTA_CONTABLE'|translate}}</h3>
             </div>
             <div class="panel-body">
-    <legend class="text-primary" ng-click="panelDetalleCuentas=!panelDetalleCuentas">
-      {{'CUENTAS_CONTABLES' | translate}}
-      <span class="fa fa-plus pull-right" ng-show="!panelDetalleCuentas"></span>
-      <span class="fa fa-minus pull-right" ng-show="panelDetalleCuentas"></span>
-    </legend class="text-primary">
-    <div ng-if="panelDetalleCuentas" class="panel-body">
-      <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos">
-      </movimientos-contables-op-detalle>
+              <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos"
+              inputpestanaabierta="true">
+              </movimientos-contables-op-detalle>
+            </div>
+  <div class="panel-footer">
+    <div align="center">
+      <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.aceptar()"> {{ 'BTN.SELECCIONAR' | translate }} </button>
     </div>
   </div>
 </div>

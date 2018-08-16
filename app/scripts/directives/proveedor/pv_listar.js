@@ -18,6 +18,11 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/proveedor/pv_listar.html',
       controller: function($scope) {
         var self = this;
+        self.cargando = true;
+        self.hayData = true;
+        self.banco_proveedor = {};
+        self.tel_proveedor = {};
+
         self.gridOptions_proveedor = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
@@ -40,16 +45,22 @@ angular.module('financieraClienteApp')
               field: 'NumDocumento',
               displayName: $translate.instant('NO_DOCUMENTO'),
               width: '21%',
-              cellClass: 'input_center'
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'NomProveedor',
-              displayName: $translate.instant('NOMBRE')
+              displayName: $translate.instant('NOMBRE'),
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
             },
             {
               field: 'Tipopersona',
               displayName: $translate.instant('TIPO_PERSONA'),
-              width: '20%'
+              width: '20%',
+              cellClass: 'input_center',
+              headerCellClass: 'encabezado'
+
             }
           ]
         };
@@ -59,7 +70,18 @@ angular.module('financieraClienteApp')
             query: "Estado.ValorParametro:ACTIVO",
             limit: -1
           })).then(function(response) {
-          self.gridOptions_proveedor.data = response.data;
+
+            if (response.data === null) {
+                self.hayData = false;
+                self.cargando = false;
+                  self.gridOptions_proveedor.data = [];
+            } else {
+                self.hayData = true;
+                self.cargando = false;
+                self.gridOptions_proveedor.data = response.data;
+            }
+
+
         });
         //
         self.gridOptions_proveedor.onRegisterApi = function(gridApi) {
@@ -74,8 +96,8 @@ angular.module('financieraClienteApp')
               self.get_tel_provee($scope.outputproveedor.Id)
             } else {
               $scope.outputproveedor = {};
-              self.banco_proveedor = {};
-              self.tel_proveedor = {};
+              self.banco_proveedor.NombrePerfilEntidad = $translate.instant('NO_ENCONTRADO');
+              self.tel_proveedor.IdTelefono.NumeroTel = $translate.instant('NO_ENCONTRADO');
             }
           });
         };
@@ -83,20 +105,25 @@ angular.module('financieraClienteApp')
         //
         $scope.$watch('inputpestanaabierta', function() {
           if ($scope.inputpestanaabierta) {
-            $scope.a = true;
+            $scope.a = $scope.inputpestanaabierta;
+
           }
         })
         //
         self.get_info_banco = function(id_banco) {
-          coreRequest.get('banco',
+          agoraRequest.get('informacion_persona_juridica_tipo_entidad',
             $.param({
-              query: "Id:" + id_banco,
+              query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
-            if (response.data != null) {
-            self.banco_proveedor = response.data[0];
-            }
+              if(response.data === null){
+                self.banco_proveedor.NombrePerfilEntidad = $translate.instant('NO_ENCONTRADO');
+              }else{
+                self.banco_proveedor.NombrePerfilEntidad = response.data[0].NombrePerfilEntidad ;
+              }
+
           });
         }
+        //
         //
         self.get_tel_provee = function(id_prove) {
           agoraRequest.get('proveedor_telefono',

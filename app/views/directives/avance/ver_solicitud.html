@@ -58,6 +58,17 @@
                 <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Objetivo" rows="5" disabled></textarea>
                 <label for="dep_destino" class="control-label">{{"JUSTIFICACION" | translate}}</label>
                 <textarea class="form-control" ng-model="d_verSolicitud.solicitud.Justificacion" rows="5" disabled></textarea>
+                <div class="form-group">
+                  <label for="dep_presupuesto" class="control-label">{{"INFORMACION_PRESUPUESTAL" | translate}}</label>
+                <div style="width:50%" ui-grid="d_verSolicitud.gridInfPresupuesto"></div>
+              </div>
+              <div cclass="form-group">
+                  <label for="dep_presupuesto" class="control-label">{{"SELECCIONE_CRP" | translate}}</label>
+              <div style="width=100%" ui-grid="d_verSolicitud.gridCRP" ui-grid-pagination ui-grid-selection ui-grid-auto-resize >
+                <div class="watermark" ng-show="!d_verSolicitud.hayDataCRP">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="d_verSolicitud.cargandoCRP">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+              </div>
             </div>
             <div class="col-md-6">
                 <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
@@ -92,6 +103,8 @@
         </div>
     </div>
 </fieldset>
+
+
 
 <fieldset class="form-group" ng-if="d_verSolicitud.tipo_avance">
     <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"TIPO_AVANCE" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_detalle_avances"></span></legend>

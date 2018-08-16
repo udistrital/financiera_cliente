@@ -12,10 +12,14 @@ angular.module('financieraClienteApp')
 
     var self = this;
     self.HomologacionConcepto = {};
-    self.HomologacionConcepto.Vigencia = 0;
+    self.HomologacionConcepto.Vigencia = "AAAA";
     self.HomologacionConcepto.SeguridadSocial = false;
     self.camposFacultades = false;
     self.campoSeguridadSocial = false;
+    self.cargando_con_kronos = true;
+    self.hayData_con_kronos = true;
+    self.cargando_con_titan = true;
+    self.hayData_con_titan = true;
 
     titanRequest.get('nomina',
       $.param({
@@ -88,11 +92,13 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO') + " " + $translate.instant('CONCEPTO') + " Kronos",
           width: '20%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Nombre',
           displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CONCEPTO') + " Kronos",
-          width: '80%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         }
       ],
     };
@@ -116,7 +122,15 @@ angular.module('financieraClienteApp')
         order: "asc",
       })
     ).then(function(response) {
+      if(response.data === null){
+        self.hayData_con_kronos = false;
+        self.cargando_con_kronos = false;
+        self.gridConcepto.data = [];
+      }else{
+        self.hayData_con_kronos = true;
+        self.cargando_con_kronos = false;
       self.gridConcepto.data = response.data;
+    }
     });
     //
     self.gridConceptoTitan = {
@@ -135,11 +149,14 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO') + " " + $translate.instant('CONCEPTO') + " Titan",
           width: '20%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'AliasConcepto',
           displayName: $translate.instant('NOMBRE') + " " + $translate.instant('CONCEPTO') + " Titan",
           width: '80%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         }
       ],
     };
@@ -164,7 +181,15 @@ angular.module('financieraClienteApp')
         order: "asc",
       })
     ).then(function(response) {
-      self.gridConceptoTitan.data = response.data;
+      if(response.data === null){
+        self.hayData_con_titan = false;
+        self.cargando_con_titan = false;
+        self.gridConceptoTitan.data = [];
+      }else{
+        self.hayData_con_titan = true;
+        self.cargando_con_titan = false;
+         self.gridConceptoTitan.data = response.data;
+      }
     });
     // Funcion encargada de validar la obligatoriedad de los campos
     self.camposObligatorios = function() {
@@ -200,11 +225,16 @@ angular.module('financieraClienteApp')
     }
     self.checkVigencia = function(p_vigencia) {
       var respuesta;
-      if (p_vigencia.length != 4) {
+
+      if(p_vigencia !== undefined){
+      if (p_vigencia.toString().length != 4) {
         respuesta =  false;
       } else {
         respuesta =  true;
       }
+    }else{
+      respuesta = false;
+    }
       return respuesta;
     }
     // Registra
@@ -230,7 +260,7 @@ angular.module('financieraClienteApp')
           })
       } else {
         swal({
-          title: 'Error!',
+          title: '¡Error!',
           html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
           type: 'error'
         })

@@ -14,7 +14,9 @@ angular.module('financieraClienteApp')
     ctrl.concepto = [];
     ctrl.Request={};
     ctrl.pactoVenta = false;
-
+    ctrl.panel_abierto = "ninguno";
+    ctrl.open = false;
+    $scope.formulario = {};
     $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {
                 if (!angular.isUndefined(newValue)) {
                     financieraRequest.get('concepto', $.param({
@@ -117,19 +119,49 @@ angular.module('financieraClienteApp')
 
     ctrl.cargarInfoPadre();
 
+    ctrl.camposObligatorios = function() {
+      var respuesta;
+      ctrl.MensajesAlerta = '';
+
+      if($scope.formulario.datosOblig === undefined){
+        console.log("incomp1")
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS') + "</li>";
+      }else{
+          console.log("incomp2")
+        if($scope.formulario.datosOblig.$invalid){
+          angular.forEach($scope.formulario.datosOblig.$error,function(controles,error){
+            angular.forEach(controles,function(control){
+              control.$setDirty();
+            });
+          });
+            console.log("incomp3")
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" +  $translate.instant("CAMPOS_OBLIGATORIOS")+ "</li>";
+        }
+    }
+      if (angular.isUndefined(ctrl.concepto) || ctrl.concepto[0] == null) {
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('SELECCIONAR_CONCEPTO_INGRESO') + "</li>";
+      }else{
+        if (ctrl.concepto[0].validado===false){
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA')+ "</li>";
+        }
+      }
+
+
+      // Operar
+      if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+        respuesta = true;
+      } else {
+        respuesta =  false;
+      }
+
+      return respuesta;
+    };
+
     ctrl.registrarInversion = function() {
       ctrl.infoPadre = ingresoDoc.get();
 
 
-      if (angular.isUndefined(ctrl.concepto) || ctrl.concepto[0] == null) {
-          swal("", $translate.instant('SELECCIONAR_CONCEPTO_INGRESO'), "error");
-          return;
-      }
-
-      if (ctrl.concepto[0].validado===false){
-        swal("",$translate.instant('PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA'),"warning");
-        return;
-      }
+      if (ctrl.camposObligatorios()) {
         ctrl.inversion = {
           Inversion:{
             Vendedor:parseInt(ctrl.vendedor.Id),
@@ -182,8 +214,9 @@ angular.module('financieraClienteApp')
             if(response.data.Type === "error"){
                 swal('',$translate.instant(response.data.Code),response.data.Type);
             }else{
-              var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
-              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
+               var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant('S_543') + "</td></tr>" ;
+                templateAlert = templateAlert + "</table>";
 
               var tipoAlerta = response.data.Type;
 
@@ -215,6 +248,34 @@ angular.module('financieraClienteApp')
             }
           }
         })
+      }else {
+        // mesnajes de error campos obligatorios
+        swal({
+          title: '¡Error!',
+          html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
+          type: 'error'
+        })
+      }
+    };
+
+    ctrl.abrir_panel = function(nombre){
+
+      if(ctrl.panel_abierto === nombre && ctrl.open === true){
+          ctrl.open = false;
+          ctrl.panel_abierto = "ninguno"
+      }else{
+        ctrl.panel_abierto = nombre;
+        if(ctrl.open === false){
+          ctrl.open = true;
+      }else{
+          if(ctrl.open === true){
+            ctrl.open = false;
+
+          }
+        }
+      }
+
+
     };
 
     $scope.$watch('actaComprainv.concepto[0]', function(oldValue, newValue) {

@@ -8,8 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate,financieraMidRequest) {
+  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest,$translate,financieraMidRequest,$location) {
     var ctrl  = this;
+    ctrl.disabled = false;
 
     ctrl.cargarListas = function(){
 
@@ -32,15 +33,7 @@ angular.module('financieraClienteApp')
     ctrl.cargarListas();
 
     ctrl.validateFields = function(){
-      if(angular.isUndefined(ctrl.rubroSeleccionado)){
-        swal("", $translate.instant("E_RB003"),"error");
-        return;
-      }
 
-      if (ctrl.rubroSeleccionado.Hijos != null) {
-        swal("",$translate.instant("E_ISF001"),"error");
-        return;
-      }
       if($scope.datosOblig.$invalid){
         angular.forEach($scope.datosOblig.$error,function(controles,error){
           angular.forEach(controles,function(control){
@@ -49,15 +42,27 @@ angular.module('financieraClienteApp')
         });
 
         swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
-        return;
+        return false;
 
+      }
+
+      if(angular.isUndefined(ctrl.rubroSeleccionado)){
+        swal("", $translate.instant("E_RB003"),"error");
+        return false;
+      }
+
+      if (ctrl.rubroSeleccionado.Hijos != null) {
+        swal("",$translate.instant("E_ISF001"),"error");
+        return false;
       }
     }
 
     ctrl.registrar = function(){
       var request = {};
-        ctrl.validateFields();
 
+      var validar_campos = ctrl.validateFields();
+      if(validar_campos != false){
+        ctrl.disabled = true;
         request = {
           IngresoSinSituacionFondos:{
             Rubro:{},
@@ -67,17 +72,34 @@ angular.module('financieraClienteApp')
             ValorIngreso:ctrl.valor
           }
         }
+
+
         request.IngresoSinSituacionFondos.Rubro.Id = parseInt(ctrl.rubroSeleccionado.Id);
-        console.log("request ",request);
         financieraMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
+
+          if(response.data===null){
+            swal("",$translate.instant("E_ISF002"),"error");
+          }
+
+          /* Se deja pendiente ya que api no retorna estructura de error
           if(response.data.Type==="error"){
             swal("",$translate.instant(response.data.Code),response.data.Type);
-          }else{
-            var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th>";
-            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" ;
-            swal('',templateAlert,response.data.Type);
           }
+          */
+          else{
+            var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td></tr>" ;
+            swal('',templateAlert,response.data.Type).then(function(){
+              $scope.$apply(function(){
+                  $location.path('/ingresos_sin_situacion_fondos/consulta');
+              });
+            });
+
+          }
+          ctrl.disabled = false;
         });
+
+      }
     }
 
   });

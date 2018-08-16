@@ -1,9 +1,9 @@
 
   <div class="panel panel-default">
-    <div class="panel-heading" ng-show="!vhead">
+    <div class="panel-heading" ng-if="!vhead">
       <h3 class="panel-title">{{"IMPUESTOS_DESCUENTOS" | translate}}</h3>
     </div>
       <div>
-      <div class="mi-grid" id="mi-grid"  ui-grid="d_verDescuentos.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+      <div id="my-grid" style="width:100%"ui-grid="d_verDescuentos.gridOptions" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
     </div>
   </div>

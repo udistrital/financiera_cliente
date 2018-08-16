@@ -1,0 +1,79 @@
+<div class="panel panel-primary panel-body">
+
+  <center>
+    <h3 class="page-header">
+        {{"CONTROL_SALDOS_INICIALES" | translate}}
+    </h3></center>
+
+    <div class="row">
+       <div class="col-md-8">
+           <div class="panel-body" ng-if="agregarSaldosIniciales.plan_maestro !=undefined">
+                 <plan-cuentas filtro="agregarSaldosIniciales.filtro_padre" seleccion="agregarSaldosIniciales.padre" recargar="agregarSaldosIniciales.recargar_arbol" planid="agregarSaldosIniciales.plan_maestro.Id" rdesc >
+           </div>
+      </div>
+
+       <div class="col-md-4" style="margin-top: 5%">
+          <div  class="panel panel-default panel-body shadow-box" ng-show="agregarSaldosIniciales.Modificable==false && agregarSaldosIniciales.padre" >
+            <form id="saldoForm" name="saldoForm">
+
+              <div class="col-sm-6">
+              <br>
+              <label for="val_base_retencion">{{ 'SALDO' | translate }}*:</label>
+              </div>
+
+              <div class="col-sm-6">
+                <input class="form-control input_right" ng-model="agregarSaldosIniciales.valor_inicial" ui-money-mask="0" required="true"></input>
+                <br>
+              </div>
+
+              <div class="col-sm-6">
+              <label for="val_base_retencion">{{ 'CUENTA_CONTABLE' | translate }}*:</label>
+              </div>
+              <div class="col-sm-6">
+                <input class="form-control input_right" ng-model="agregarSaldosIniciales.padre.Codigo" required="true" disabled></input>
+                  <br>
+              </div>
+
+              <div class="col-sm-6">
+                <label>{{ 'ENTIDAD' | translate }}*:</label><span> Universidad Distrital Francisco José de Caldas</span>
+              </div>
+              <div class="col-sm-6">
+                <label>{{ 'RESPONSABLE' | translate }}*:</label><span> JACQUELINE ORTIZ ARENAS (Jefe de Tesoreria)</span>
+
+              </div>
+
+                <div class="col-sm-6">
+                <br>
+                <label>{{ 'VIGENCIA' | translate }}*:</label>
+                </div>
+                <div class="col-sm-6">
+                <br>
+                <select class="form-control" ng-model="agregarSaldosIniciales.nueva_fecha.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }" required>
+                  <option ng-repeat="option in agregarSaldosIniciales.vigencias" value="{{option}}">{{option}}</option>
+                </select>
+                <br>
+              </div>
+
+              <div class="form-group col-md-12" ng-show="agregarSaldosIniciales.nueva_fecha.Vigencia!=undefined">
+
+                <div class="form-group col-md-6">
+                <label>{{ 'FECHA_INICIO' | translate }}*:</label>
+                <div class="input-group date" data-provide="datepicker">
+                  <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="agregarSaldosIniciales.nueva_fecha.FechaInicio"  md-min-date="agregarSaldosIniciales.fechamin" md-max-date="agregarSaldosIniciales.fechamax" required></md-datepicker>
+                </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                <label>{{ 'FECHA_FIN' | translate }}*:</label>
+                <div class="input-group date" data-provide="datepicker">
+                  <md-datepicker md-current-view="year" md-placeholder="Fecha" ng-model="agregarSaldosIniciales.nueva_fecha.FechaFin" md-min-date="agregarSaldosIniciales.nueva_fecha.FechaInicio" md-max-date="agregarSaldosIniciales.fechamax" required></md-datepicker>
+                </div>
+              </div>
+              </div>
+
+              <center><button class="btn btn-outline btn-primary" ng-click=agregarSaldosIniciales.crear_saldo()>{{'BTN.CONFIRMAR' | translate}} </button></center>
+            </form>
+          </div>
+       </div>
+    </div>
+</div>

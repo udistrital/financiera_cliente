@@ -7,9 +7,9 @@
 
   <div class="row">
     <div ng-class="{'col-md-12 sticky':!rvdesc}" class="pre-scrollable">
-    <div ng-class="{'col-md-6':rvdesc}">
+    <div ng-class="{'col-md-6':rvdesc}" ng-show="((!d_arbolConceptos.algo_fue_seleccionado && !d_arbolConceptos.multiSelect) || d_arbolConceptos.multiSelect)">
       <treecontrol class=" tree-classic" tree-model="d_arbolConceptos.arbol_conceptos" options="d_arbolConceptos.treeOptions" on-selection="showSelected(node); showc=true" selected-node="conceptosel" filter-expression="filtro" order-by="'Codigo'" reverse-order="{{false}}">
-        <span class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
+        <span ng-class="text-info">{{node.Codigo}} :</span> {{node.Nombre}}
       </treecontrol>
     </div>
     <loading load="load" tam="2"/>
@@ -32,11 +32,52 @@
         </div>
 
     </div>
+
+    <div ng-class="{'col-md-6':rvdesc, 'col-md-6 col-md-offset-3': d_arbolConceptos.algo_fue_seleccionado === true}" class="panel panel-info panel-body row sticky shadow-box pre-scrollable" ng-show="d_arbolConceptos.algo_fue_seleccionado && !d_arbolConceptos.multiSelect">
+      <span class="pull-right text-danger" ng-click="d_arbolConceptos.hideShowWindow()">X</span>
+        <h2 class="text-primary">{{d_arbolConceptos.temp.Nombre}}</h2>
+        <p class="text-muted">{{d_arbolConceptos.temp.Descripcion}}</p>
+        <dl>
+          <dt>{{"CODIGO" | translate}}: {{d_arbolConceptos.temp.Codigo}}</dt>
+          <dt>{{"FECHA" | translate}}</dt>
+          <dd>- {{"FECHA_CREACION" | translate}} : {{d_arbolConceptos.temp.FechaCreacion | date:"yyyy-MM-dd":"UTC"}}</dd>
+          <dd>- {{"FECHA_EXPIRACION" | translate}}: {{d_arbolConceptos.temp.FechaExpiracion | date:"yyyy-MM-dd":"UTC"}}</dd>
+        </dl>
+    </div>
+
+
+    <div ng-class="{'col-md-6':rvdesc, 'col-md-offset-3':d_arbolConceptos.algo_fue_seleccionado}" class="panel panel-default panel-body row sticky shadow-box pre-scrollable" ng-show="d_arbolConceptos.algo_fue_seleccionado && d_arbolConceptos.multiSelect">
+      <div class="panel panel-heading">
+      <h4 class="text-center panel-title" ><span>{{"CONCEPTOS_SELECCIONADOS" | translate}} </span><span class="pull-right text-danger" ng-click="d_arbolConceptos.hideShowWindow()">X</span><br/></h4>
+      </div>
+      <table class="table table-condensed table-bordered table-striped">
+        <tbody class="table-hover">
+          <tr>
+            <th colspan="1" class="text-center info">
+              <label>{{"CODIGO" | translate}}</label>
+            </th>
+            <th colspan="2" class="text-center info">
+              <label>{{"NOMBRE" | translate}}</label>
+            </th>
+          </tr>
+          <tr ng-repeat="concepto in seleccion">
+            <td colspan="1" class="text-center">
+              <label>{{concepto.Codigo}}</label>
+            </td>
+            <td colspan="2" class="text-center">
+              {{concepto.Nombre}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
     </div>
   </div>
 
-  <div ng-show="seleccion!=undefined || conceptosel!=undefined;">
-    <center><button type="button" class="btn btn-danger btn-outline" ng-click="seleccion=undefined; conceptosel=undefined; showc=false">{{"BTN.CANCELAR" | translate}}</button></center>
+  <div ng-show="d_arbolConceptos.algo_fue_seleccionado === true">
+    <center><button type="button" class="btn btn-danger btn-outline" ng-click="d_arbolConceptos.hideShowWindow()">{{"BTN.CANCELAR" | translate}}</button></center>
   </div>
 
   <div id="modalConceptos" class="modal fade" role="dialog">

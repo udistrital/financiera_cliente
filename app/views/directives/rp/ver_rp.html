@@ -1,0 +1,81 @@
+<div class="panel-body">
+
+
+
+    <div class="col-md-12 row line">
+      <div class="col-md-12">
+        <h3 class="page-header">
+          {{'INFORMACION_GENERAL' | translate}}
+        </h3>
+
+      </div>
+
+      <div class="panel-body col-md-12">
+
+          <label class="encabezado">{{'VIGENCIA' | translate}}: </label> {{d_verRp.rp.Vigencia}}</dd>
+          <br>
+          <label class="encabezado">{{'RESPONSABLE' | translate}} : </label> {{d_verRp.rp.Responsable}}</dd>
+          <br>
+          <label class="encabezado">{{'ESTADO' | translate}}: </label> {{d_verRp.rp.Estado.Nombre}}</dd>
+          <br>
+          <label class="encabezado">{{'VALOR_CRP' | translate}}: </label> {{d_verRp.rp.valor_total_rp | currency}}</dd>
+      </div>
+
+    </div>
+
+  <div class="col-md-12 row line">
+    <div class="col-md-12">
+      <h3 class="page-header">
+        {{'COMPROMISO' | translate}}
+      </h3>
+
+    </div>
+
+    <div class="panel-body col-md-12">
+
+        <label class="encabezado">{{'NOMBRE' | translate}}: </label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Nombre}}</dd>
+        <br>
+        <label class="encabezado">{{'DESCRIPCION' | translate}} : </label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestal.TipoCompromiso.TipoCompromisoTesoral.Descripcion}}</dd>
+
+    </div>
+
+  </div>
+
+  <div class="col-md-12 row line">
+    <div class="col-md-12">
+      <h3 class="page-header">
+        {{'NECESIDAD' | translate}}
+      </h3>
+    </div>
+
+    <div class="panel-body col-md-12">
+
+        <label class="encabezado">{{'NO' | translate}}:</label> {{d_verRp.rp.necesidadInfo.SolicitudDisponibilidad.Necesidad.Numero}}</dd>
+        <br>
+        <label class="encabezado">{{'NECESIDAD' | translate}} :</label> {{d_verRp.rp.necesidadInfo.SolicitudDisponibilidad.Necesidad.Objeto}}</dd>
+
+    </div>
+
+  </div>
+
+  <div class="col-md-12 row line">
+    <div class="col-md-12">
+      <h3 class="page-header">
+        {{'Reportes.CDP' | translate}}
+      </h3>
+    </div>
+
+    <div class="panel-body col-md-12">
+
+        <label class="encabezado">{{'NO_CDP' | translate}}:</label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</dd>
+        <br>
+        <label class="encabezado">{{'ESTADO' | translate}} {{'CDP' | translate}}:</label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</dd>
+
+    </div>
+
+  </div>
+
+
+
+
+</div>

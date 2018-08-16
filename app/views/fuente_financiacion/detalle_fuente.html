@@ -1,7 +1,7 @@
 <div class="panel panel-primary panel-body">
 
   <h2 class="page-header text-center">{{ 'TITULO_FUENTES_DETALLE' | translate }}</h2>
-
+  <!--
   <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
       <div class="panel-body">
@@ -22,7 +22,8 @@
       </div>
     </div>
   </div>
-
+-->
+{{detalleFuente.fuente_seleccionada.Nombre}}
   <div class="panel-body" ng-show="detalleFuente.fuente">
     <div class="col-md-12">
 
@@ -31,19 +32,19 @@
           <h4 class="panel-title">{{'FUENTE_FINANCIAMIENTO' | translate}}</h4>
         </div>
         <div class="panel-body">
-          <div class="col-md-10 col-md-offset-1">
+          <div class="col-md-7 col-md-offset-3">
             <table class="table">
               <tr>
                 <th>{{'CODIGO' | translate}}: </th>
-                <td>{{detalleFuente.fuente_seleccionada.Codigo }}</td>
+                <td>{{detalleFuente.Codigo }}</td>
               </tr>
               <tr>
                 <th>{{ 'NOMBRE' | translate }}: </th>
-                <td>{{detalleFuente.fuente_seleccionada.Nombre}}</td>
+                <td>{{detalleFuente.Nombre}}</td>
               </tr>
               <tr>
                 <th>{{ 'TIPO' | translate }}: </th>
-                <td>{{ detalleFuente.fuente_seleccionada.TipoFuenteFinanciamiento.Nombre }}</td>
+                <td>{{ detalleFuente.TipoFuenteFinanciamiento}}</td>
               </tr>
               <tr>
                 <th>{{ 'VALOR' | translate }}: </th>
@@ -51,7 +52,12 @@
               </tr>
               <tr>
                 <th>{{ 'VALOR_CDP' | translate }}: </th>
-                <td>{{ detalleFuente.valor_cdp | currency}}</td>
+                <td ng-if="detalleFuente.calculando_cdp === true" >
+                   <i class="fa fa-spin fa-spinner"></i>
+                </td>
+                <td ng-if="detalleFuente.calculando_cdp === false" >
+                  {{ detalleFuente.valor_cdp | currency}}
+                </td>
               </tr>
               <tr>
                 <th>{{ 'VALOR_DISPONIBLE' | translate }}: </th>
@@ -63,21 +69,40 @@
           <div class="panel-body">
           </div>
 
-          <h4 class="text-info">{{'CDP' | translate}}</h4>
+          <legend class="text-primary" ng-click="detalleFuente.mostrar_CDP()">{{'LISTA_CDP' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_CDP"></span> <span class="fa fa-minus pull-right" ng-show="info_CDP"></span></legend>
 
-          <div class="modal-body">
-            <div ui-grid="detalleFuente.gridOptionCDP" ui-grid-auto-resize class="grid"></div>
+          <div class="panel-body" ng-if="detalleFuente.info_CDP">
+            <div class="row" ng-if="true">
+              <div ui-grid="detalleFuente.gridOptionCDP" ui-grid-pagination ui-grid-auto-resize class="grid">
+                <div class="watermark" ng-show="!detalleFuente.hayData_disp">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_disp">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+            </div>
           </div>
-          <hr>
-          <h4 class="text-info">{{'CRP' | translate}}</h4>
-          <div class="modal-body">
-            <div ui-grid="detalleFuente.gridOptionCRP" ui-grid-auto-resize class="grid"></div>
+
+          <legend class="text-primary" ng-click="detalleFuente.mostrar_CRP()">{{'LISTA_RP' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_CRP"></span> <span class="fa fa-minus pull-right" ng-show="info_CRP"></span></legend>
+
+          <div class="panel-body" ng-if="detalleFuente.info_CRP">
+            <div class="row" ng-if="true">
+              <div ui-grid="detalleFuente.gridOptionCRP" ui-grid-pagination ui-grid-auto-resize class="grid">
+                <div class="watermark" ng-show="!detalleFuente.hayData_rp">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_rp">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+            </div>
           </div>
-          <hr>
-          <h4 class="text-info">{{'OP' | translate}}</h4>
-          <div class="modal-body">
-            <div ui-grid="detalleFuente.gridOptionOP" ui-grid-auto-resize class="grid"></div>
+
+          <legend class="text-primary" ng-click="detalleFuente.mostrar_OP()">{{'OP_TITULO' | translate}} <span class="fa fa-plus pull-right" ng-show="!info_OP"></span> <span class="fa fa-minus pull-right" ng-show="info_OP"></span></legend>
+
+          <div class="panel-body" ng-if="detalleFuente.info_OP">
+            <div class="row" ng-if="true">
+              <div ui-grid="detalleFuente.gridOptionOP" ui-grid-pagination ui-grid-auto-resize class="grid">
+                <div class="watermark" ng-show="!detalleFuente.hayData_op">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="detalleFuente.cargando_op">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>

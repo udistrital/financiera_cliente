@@ -15,47 +15,42 @@
                             <br>
                             <select class="form-control" ng-model="ingresoRegistro.facultadSelec" ng-options="o as o.Nombre for o in ingresoRegistro.codigo_facultad"></select>
                         </div>
-                        <div class="col-md-2" ng-show="!otro">
+                        <div class="col-md-3" ng-show="!otro">
                             <label for="tipo_ingreso">{{'FECHA_INICIO' | translate}}</label>
                             <br>
                             <md-datepicker ng-model="ingresoRegistro.fechaInicio" md-placeholder="{{'FECHA_INICIO' | translate}}"></md-datepicker>
                         </div>
-                        <div class="col-md-2" ng-show="!otro">
+                        <div class="col-md-3" ng-show="!otro">
                             <label for="tipo_ingreso">{{'FECHA_FINAL' | translate}}</label>
                             <br>
                             <md-datepicker ng-model="ingresoRegistro.fechaFin" md-placeholder="{{'FECHA_FINAL' | translate}}"></md-datepicker>
                         </div>
-                        <div class="col-md-2">
-                            <br>
-                            <center>
-                                <a type="button" name="button" ng-click="ingresoRegistro.ejecutarIngresos()" ng-class="{false:'fa fa-search btn btn-info btn-outline',true:'fa fa-check btn btn-info btn-outline'}[otro]" aria-hidden="true"></a>
-                            </center>
-                        </div>
-                    </div>
+                      </div>
                 </div>
             </div>
         </div>
     </div>
-    <div ng-if="!datos">
-        <loadingcircle load="load">
-    </div>
 
-
-    </loadingcircle>
-    <div class="panel panel-primary panel-body" ng-show="datos ">
+    <div class="panel panel-primary panel-body"  ng-if="ingresoRegistro.ver_grid">
         <div class="panel-body">
             <legend class="text-primary" ng-click="b=!b">
                 {{'TABLA_INGRESOS_BANCO' | translate}}
                 <span class="fa fa-plus pull-right" ng-show="b"></span>
                 <span class="fa fa-minus pull-right" ng-show="!b"></span>
             </legend>
-            <div ng-show="!b " ui-grid="ingresoRegistro.gridOptions" ui-grid-pagination ui-grid-auto-resize></div>
+            <div ng-if="!b" ui-grid="ingresoRegistro.gridOptions" ui-grid-pagination ui-grid-auto-resize>
+              <div class="watermark" ng-show="!ingresoRegistro.hayData">{{'NO_DATA'| translate}}</div>
+              <div class="watermark" ng-show="ingresoRegistro.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+            </div>
+        </div>
             <legend class="text-primary" ng-click="a=!a">
                 {{'DATOS_REG_INGRESO' | translate}}
                 <span class="fa fa-plus pull-right" ng-show="!a"></span>
                 <span class="fa fa-minus pull-right" ng-show="a"></span>
             </legend>
-            <div ng-show="a">
+
+          <div class="panel-body">
+            <div ng-if="a">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
@@ -79,10 +74,18 @@
                         <arbol-conceptos filtro="ingresoRegistro.filtro_ingresos" seleccion="ingresoRegistro.concepto[0]" conceptosel="nodo"></arbol-conceptos>
                     </div>
                 </div>
+              </div>
+            </div>
 
-                <div class="row" ng-show="ingresoRegistro.concepto[0]">
-                    <label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label>
-                    <ul class="list-unstyled">
+                <div class="panel-body" ng-if="ingresoRegistro.concepto[0]">
+                <legend class="text-primary" ng-click="r=!r">
+                    {{'AFECTACION_PRESUPUESTAL' | translate}}
+                    <span class="fa fa-plus pull-right" ng-show="r"></span>
+                    <span class="fa fa-minus pull-right" ng-show="!r"></span>
+                </legend>
+
+                <div ng-if="!r">
+                  <ul class="list-unstyled">
                         <hr class="hr-primary">
                         <li><b>{{'RUBRO' | translate}}:</b> {{ingresoRegistro.concepto[0].Rubro.Codigo+" / "+ingresoRegistro.concepto[0].Rubro.Nombre}}
                             <ul>
@@ -90,16 +93,17 @@
                             </ul>
                         </li>
                     </ul>
+                  </div>
                 </div>
-            </div>
-          </div>
-          <div class="panel-body" ng-show="ingresoRegistro.concepto[0]">
+
+
+          <div class="panel-body" ng-if="ingresoRegistro.concepto[0]">
             <legend class="text-primary" ng-click="c=!c">
                 {{'CUENTAS_CONTABLES' | translate}}
                 <span class="fa fa-plus pull-right" ng-show="!c"></span>
                 <span class="fa fa-minus pull-right" ng-show="c"></span>
             </legend class="text-primary">
-            <div class="panel-body row" ng-show="c">
+            <div class="panel-body row" ng-if="c">
                 <div class=" col-sm-12">
                     <div class="panel-body">
                         <ul class="nav nav-tabs">
@@ -117,11 +121,9 @@
                     </div>
                 </div>
             </div>
-
-            <div class="form-group text-center">
+          </div>
+            <div class="form-group text-center" ng-if="ingresoRegistro.concepto[0]">
                 <a type="button" class="btn btn-outline btn-success" ng-click="ingresoRegistro.registrarIngreso()"> Registrar </a>
             </div>
+            </div>
         </div>
-    </div>
-</div>
-</div>

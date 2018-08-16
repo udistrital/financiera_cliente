@@ -39,23 +39,28 @@ angular.module('financieraClienteApp')
             direction: 'asc',
             priority: 0
           },
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'OrdenPago.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
           width: '8%',
           displayName: $translate.instant('TIPO'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'OrdenPago.Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro',
           displayName: $translate.instant('FECHA_CREACION'),
           cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           cellFilter: "date:'yyyy-MM-dd'",
           width: '8%',
         },
@@ -63,26 +68,34 @@ angular.module('financieraClienteApp')
           field: 'OrdenPago.RegistroPresupuestal.NumeroRegistroPresupuestal',
           displayName: $translate.instant('NO_CRP'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'OrdenPago.FormaPago.CodigoAbreviacion',
           width: '5%',
-          displayName: $translate.instant('FORMA_PAGO')
+          displayName: $translate.instant('FORMA_PAGO'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.Tipopersona',
           width: '10%',
-          displayName: $translate.instant('TIPO_PERSONA')
+          displayName: $translate.instant('TIPO_PERSONA'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.NomProveedor',
-          displayName: $translate.instant('NOMBRE')
+          displayName: $translate.instant('NOMBRE'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.NumDocumento',
           width: '10%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
@@ -90,6 +103,7 @@ angular.module('financieraClienteApp')
           width: '10%',
           cellFilter: 'currency',
           cellClass: 'input_right',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('VALOR'),
 
           aggregationType: uiGridConstants.aggregationTypes.sum,
@@ -99,7 +113,9 @@ angular.module('financieraClienteApp')
         {
           field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
           width: '7%',
-          displayName: $translate.instant('ESTADO')
+          displayName: $translate.instant('ESTADO'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
       ]
     };

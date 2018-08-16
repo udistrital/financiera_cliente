@@ -1,15 +1,9 @@
-<legend class="text-primary" ng-click="a=!a">
-	{{'RUBROS' | translate}} {{'MSN_Y' | translate}} {{'CONCEPTOS' | translate}}
-	<span class="fa fa-plus pull-right" ng-show="!a"></span>
-	<span class="fa fa-minus pull-right" ng-show="a"></span>
-</legend class="text-primary">
-
-<div class="panel-body row" ng-if="a">
+<div class="panel-body row" ng-if="a === 'rubros_conceptos'">
 	<div class="panel-body">
-		<div ng-if="!refresh"  ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_rubros" ui-grid-pinning ui-grid-selection ui-grid-auto-resize ui-grid-expandable></div>
+		<div ng-if="!refresh"  ui-grid="d_rubrosPorRpSeleccionMultiple.gridOptions_conceptos" ui-grid-pinning ui-grid-selection ui-grid-auto-resize>
+			<div class="watermark_no_filter" ng-show="!d_rubrosPorRpSeleccionMultiple.hayData">{{'NO_DATA'| translate}}</div>
+			<div class="watermark_no_filter" ng-show="d_rubrosPorRpSeleccionMultiple.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+		</div>
 	</div>
 </div>
-
-<script type="text/ng-template"  id="expandableRowUpc.html">
-	<div ui-grid="row.entity.subGridOptions" class="grid" ui-grid-selection ui-grid-auto-resize style="height:200px;"></div>
-</script>

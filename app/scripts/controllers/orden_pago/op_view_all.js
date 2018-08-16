@@ -11,52 +11,75 @@ angular.module('financieraClienteApp')
   .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window) {
 
     var ctrl = this;
+    ctrl.cargando = true;
+    ctrl.hayData = true;
+
+    $scope.mostrar_direc = false;
     $scope.estados = [];
     $scope.tipos = [];
+    $scope.mostrar_leyenda_rp = false;
+    ctrl.panelRp = true;
     $scope.estado_select = [];
     $scope.aristas = [];
     $scope.estadoclick = {};
     $scope.senDataEstado = {};
+    ctrl.modal_a_abrir;
     $scope.senDataEstado.Usuario = {
       'Id': 1
     }
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+      { clase_color: "ver", clase_css: "fa fa-product-hunt fa-lg  faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+    ];
     //
     ctrl.gridOrdenesDePago = {
-      enableRowSelection: true,
-      enableSelectAll: true,
+      enableRowSelection: false,
+      enableSelectAll: false,
       selectionRowHeaderWidth: 35,
-      multiSelect: true,
-      enableRowHeaderSelection: true,
-      showColumnFooter: true,
+      multiSelect: false,
+      enableRowHeaderSelection: false,
       paginationPageSizes: [10, 50, 100],
       paginationPageSize: null,
 
       enableFiltering: true,
-      enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
       minRowsToShow: 10,
       useExternalPagination: false,
 
       onRegisterApi: function(gridApi) {
         ctrl.gridApi = gridApi;
-        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
-        });
+
       }
     };
 
-    $scope.funcion = function() {
-      $scope.estadoclick = $localStorage.nodeclick;
-      var data = ctrl.gridApi.selection.getSelectedRows();
-      var numero = data.length;
-      if (numero > 0) {
-        $scope.senDataEstado.OrdenPago = data;
-        $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
-        financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
+    $scope.loadrow = function(row, operacion) {
+      ctrl.operacion = operacion;
+      switch (operacion) {
+          case "ver":
+            ctrl.op_detalle(row);
+          break;
+
+          case "editar":
+            ctrl.op_editar(row);
+          break;
+
+          case "proceso":
+            $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+            ctrl.op_seleccionada_proceso = row.entity;
+            $scope.informacion = $translate.instant('ORDEN_DE_PAGO')+ ' '+ 'No'+' '+row.entity.Consecutivo;
+            $scope.mostrar_direc = true;
+          break;
+          default:
+      }
+  };
+
+
+    ctrl.aprobar = function(){
+       financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
           .then(function(data) {
+
             $scope.resultado = data;
             swal({
-              title: 'Orden de Pago',
+              title: $translate.instant('ORDEN_DE_PAGO'),
               text: $translate.instant($scope.resultado.data.Code),
               type: $scope.resultado.data.Type,
             }).then(function() {
@@ -64,13 +87,41 @@ angular.module('financieraClienteApp')
               //$window.location.href = '#/orden_pago/ver_todos';
             })
           })
-      } else {
-        swal(
-          '',
-          'Debe seleccionar almenos una orden de pago',
-          'warning'
-        );
-      }
+    };
+
+    ctrl.desaprobar = function(){
+      swal({
+              title: '¡Rechazado!',
+              text: "No se ha realizado la aprobación del estado",
+              type: 'error',
+            }).then(function() {
+               $(ctrl.modal_a_abrir).modal('hide')
+              //$window.location.href = '#/orden_pago/ver_todos';
+            })
+
+    };
+
+    $scope.funcion = function() {
+
+      $scope.estadoclick = $localStorage.nodeclick;
+      var data = [];
+      data[0] = ctrl.op_seleccionada_proceso;
+
+        $scope.senDataEstado.OrdenPago = data;
+        $scope.senDataEstado.NuevoEstado = $localStorage.nodeclick;
+
+        if($scope.estadoclick.Id === 2){
+          ctrl.modal_a_abrir = '#modal_aprobacion_contable'
+            $(ctrl.modal_a_abrir).modal('show');
+
+
+        }
+
+        if($scope.estadoclick.Id === 4){
+           ctrl.modal_a_abrir = '#modal_aprobacion_presupuestal'
+           $(ctrl.modal_a_abrir).modal('show');
+        }
+
     };
 
     $scope.$watch('estado_select', function() {
@@ -82,7 +133,8 @@ angular.module('financieraClienteApp')
           field: 'Consecutivo',
           displayName: $translate.instant('CODIGO'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
@@ -92,18 +144,22 @@ angular.module('financieraClienteApp')
             //term: 'OP-PROV',
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.tipos
-          }
+          },
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
           displayName: $translate.instant('FECHA_CREACION'),
           cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           cellFilter: "date:'yyyy-MM-dd'",
           width: '8%',
         },
@@ -111,33 +167,42 @@ angular.module('financieraClienteApp')
           field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
           displayName: $translate.instant('NO_CRP'),
           width: '7%',
-          cellClass: 'input_center'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'FormaPago.CodigoAbreviacion',
           width: '5%',
-          displayName: $translate.instant('FORMA_PAGO')
+          displayName: $translate.instant('FORMA_PAGO'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.Tipopersona',
           width: '10%',
-          displayName: $translate.instant('TIPO_PERSONA')
+          displayName: $translate.instant('TIPO_PERSONA'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.NomProveedor',
-          displayName: $translate.instant('NOMBRE')
+          displayName: $translate.instant('NOMBRE'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           field: 'Proveedor.NumDocumento',
           width: '10%',
           cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
           field: 'ValorBase',
           width: '10%',
           cellFilter: 'currency',
-          cellClass: 'input_right',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
           displayName: $translate.instant('VALOR')
         },
         {
@@ -149,19 +214,19 @@ angular.module('financieraClienteApp')
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.estado_select
 
-          }
+          },
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
         },
         {
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPERACION'),
           enableFiltering: false,
           width: '5%',
-          cellTemplate: '<center>' +
-            '<a class="ver" ng-click="grid.appScope.opViewAll.op_detalle(row)">' +
-            '<i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.VER\' | translate }}"></i></a> ' +
-            '<a class="editar" ng-click="grid.appScope.opViewAll.op_editar(row);" data-toggle="modal" data-target="#myModal">' +
-            '<i data-toggle="tooltip" title="{{\'BTN.EDITAR\' | translate }}" class="fa fa-pencil fa-lg  faa-shake animated-hover" aria-hidden="true"></i></a> ' +
-            '</center>'
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+
         }
       ];
     });
@@ -176,19 +241,43 @@ angular.module('financieraClienteApp')
         $location.url(path_update + row.entity.Id);
       }
     }
+
+
+
     // data OP
     financieraRequest.get('orden_pago', 'limit=-1').then(function(response) {
+
+
+    if(response.data === null){
+
+      ctrl.hayData = false;
+      ctrl.cargando = false;
+      ctrl.gridOrdenesDePago.data = [];
+
+
+    }else{
+
+      ctrl.hayData = true;
+      ctrl.cargando = false;
+
       ctrl.gridOrdenesDePago.data = response.data;
       // data proveedor
       angular.forEach(ctrl.gridOrdenesDePago.data, function(iterador) {
+
+      if(iterador.RegistroPresupuestal !== undefined){
         agoraRequest.get('informacion_proveedor',
           $.param({
             query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
           })
         ).then(function(response) {
-          iterador.Proveedor = response.data[0];
+          if(response.data !== null){
+            iterador.Proveedor = response.data[0];
+          }
+
         });
+      }
       });
+    }
     });
     // datos tipos OP para filtros
     financieraRequest.get("tipo_orden_pago",
@@ -212,10 +301,26 @@ angular.module('financieraClienteApp')
         order: "asc"
       }))
       .then(function(response) {
+        ctrl.temp_estados_op = [];
+        ctrl.temp_estados_giro = [];
         $scope.estados = [];
+        $scope.estados_giro = [];
         $scope.aristas = [];
-        ctrl.estados = response.data;
-        angular.forEach(ctrl.estados, function(estado) {
+
+         angular.forEach(response.data, function(iterador) {
+
+             if(iterador.NumeroOrden >= 8){
+
+              ctrl.temp_estados_giro.push(iterador)
+
+            }else{
+             ctrl.temp_estados_op.push(iterador)
+
+            }
+
+         });
+
+        angular.forEach(ctrl.temp_estados_op, function(estado) {
           $scope.estados.push({
             id: estado.Id,
             label: estado.Nombre
@@ -231,16 +336,8 @@ angular.module('financieraClienteApp')
             to: 2
           },
           {
-            from: 1,
-            to: 3
-          },
-          {
             from: 2,
             to: 4
-          },
-          {
-            from: 2,
-            to: 5
           },
           {
             from: 4,

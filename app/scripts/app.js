@@ -503,6 +503,11 @@ angular
               controller: 'BancosSaldosInicialesCtrl',
               controllerAs: 'saldosIniciales'
             })
+             .when('/bancos/agregar_saldos_iniciales', {
+                templateUrl: 'views/bancos/agregar_saldos_iniciales.html',
+                controller: 'BancosAgregarSaldosInicialesCtrl',
+                controllerAs: 'agregarSaldosIniciales'
+              })
             .when('/ingresos/ingreso_registroG/:tipoIngreso', {
               templateUrl: 'views/ingresos/ingreso_registrog.html',
               controller: 'IngresosIngresoRegistrogCtrl',
@@ -592,6 +597,31 @@ angular
               templateUrl: 'views/devoluciones/parametros/razon_devolucion.html',
               controller: 'DevolucionesParametrosRazonDevolucionCtrl',
               controllerAs: 'devolParamRazonDevolucion'
+            })
+            .when('/inversiones/cancelacion/:idInversion', {
+              templateUrl: 'views/inversiones/cancelacion.html',
+              controller: 'InversionesCancelacionCtrl',
+              controllerAs: 'inversionesCancelacion'
+            })
+            .when('/homologacion_rubro/crear', {
+              templateUrl: 'views/homologacion_rubro/crear.html',
+              controller: 'HomologacionRubroCrearCtrl',
+              controllerAs: 'homologacionRubroCrear'
+            })
+            .when('/inversiones/consulta_cancelacion', {
+              templateUrl: 'views/inversiones/consulta_cancelacion.html',
+              controller: 'InversionesConsultaCancelacionCtrl',
+              controllerAs: 'inversionesConsultaCancelacion'
+            })
+            .when('/tesoreria/reintegros', {
+              templateUrl: 'views/tesoreria/reintegros.html',
+              controller: 'TesoreriaReintegrosCtrl',
+              controllerAs: 'tesoreriaReintegros'
+            })
+            .when('/tesoreria/parametros/causal_reintegro', {
+              templateUrl: 'views/tesoreria/parametros/causal_reintegro.html',
+              controller: 'TesoreriaParametrosCausalReintegroCtrl',
+              controllerAs: 'tesoreriaCausalReintegro'
             })
             .otherwise({
                 redirectTo: '/'

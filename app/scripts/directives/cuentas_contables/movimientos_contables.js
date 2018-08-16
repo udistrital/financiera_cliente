@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate) {
+    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q) {
         return {
             restrict: 'E',
             scope: {
@@ -44,9 +44,12 @@ angular.module('financieraClienteApp')
             },
             controller: function($scope, $attrs) {
                 $scope.show_descs = 'impydesc' in $attrs;
+                $scope.show_selcuent = 'selcuentas' in $attrs
                 var self = this;
+                self.btnselec=$translate.instant('BTN.SELECCIONAR');
                 self.descuentos_nuevos = [];
                 self.posactual = 0;
+                self.cargarCuentas = true;
                 financieraRequest.get('forma_pago',
                   $.param({
                     limit: 0
@@ -68,12 +71,15 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    console.log("no cuenta esp")
+                                    return 'texto_no_cuenta_especial';
+
                                 } else {
-                                    return 'text-info';
+                                    console.log("cuenta esp")
+                                    return 'texto_cuenta_especial';
                                 }
                             },
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
                             },
@@ -85,14 +91,14 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('DESCRIPCION'),
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    return 'texto_no_cuenta_especial';
                                 } else {
-                                    return 'text-info';
+                                    return 'texto_cuenta_especial';
                                 }
                             },
                             cellTemplate: '<div ng-if="row.entity.TipoCuentaEspecial!=undefined"><strong>[{{row.entity.TipoCuentaEspecial.Nombre}} ' + $translate.instant('NO') + '{{row.entity.Id}}]</strong>. {{row.entity.CuentaContable.Nombre}} <div ng-if="row.entity.TipoCuentaEspecial.CuentaEspecialImpuesto == true">'+$translate.instant('VALOR_BASE_RETENCION') +':{{row.entity.ValorBase | currency }}</div> </div>' +
                                 '<div ng-if="row.entity.TipoCuentaEspecial==undefined"> {{row.entity.CuentaContable.Nombre}} </div>',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
@@ -103,7 +109,7 @@ angular.module('financieraClienteApp')
                             field: 'Debito',
                             displayName: $translate.instant('DEBITO'),
                             cellClass: 'input_right',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellTemplate: '<div>{{row.entity.Debito | currency:undefined:0}}</div>',
                             width: '15%',
                             enableCellEdit: true,
@@ -132,7 +138,7 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CREDITO'),
                             cellClass: 'input_right',
                             width: '15%',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             type: 'number',
                             cellFilter: 'number',
                             enableCellEdit: true,
@@ -157,12 +163,12 @@ angular.module('financieraClienteApp')
                         {
                             field: 'CuentaContable.Naturaleza',
                             displayName: $translate.instant('NATURALEZA'),
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    return 'text-success';
+                                    return 'texto_no_cuenta_especial';
                                 } else {
-                                    return 'text-info';
+                                    return 'texto_cuenta_especial';
                                 }
                             },
                             enableCellEdit: false,
@@ -258,8 +264,8 @@ angular.module('financieraClienteApp')
                     columnDefs: [{
                             field: 'CuentaContable.Codigo',
                             displayName: $translate.instant('CODIGO'),
-                            cellClass: 'text-info',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.NivelClasificacion.Nombre;
                             },
@@ -269,8 +275,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'Descripcion',
                             displayName: $translate.instant('DESCRIPCION'),
-                            cellClass: 'text-info',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTooltip: function(row) {
                                 return row.entity.CuentaContable.Nombre + ": \n" + row.entity.CuentaContable.Descripcion;
                             },
@@ -281,8 +287,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'Debito',
                             displayName: $translate.instant('DEBITO'),
-                            cellClass: 'input_right',
-                            headerCellClass: 'text-info',
+                            cellClass: 'input_center',
+                            headerCellClass: 'encabezado',
                             cellTemplate: '<div>{{row.entity.Debito | currency:undefined:0}}</div>',
                             width: '15%',
                             enableCellEdit: true,
@@ -290,11 +296,14 @@ angular.module('financieraClienteApp')
                                var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
+
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
+
                                     } else {
                                         respuesta = true;
+
                                     }
                                 }
 
@@ -311,7 +320,8 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CREDITO'),
                             cellClass: 'input_right',
                             width: '15%',
-                            headerCellClass: 'text-info',
+                            headerCellClass: 'encabezado',
+                            cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             type: 'number',
                             cellFilter: 'number',
                             enableCellEdit: true,
@@ -319,16 +329,18 @@ angular.module('financieraClienteApp')
                                 var respuesta;
                                 if ($scope.row.entity.TipoCuentaEspecial == undefined) {
                                     respuesta = true;
+
                                 } else {
                                     if ($scope.row.entity.TipoCuentaEspecial.Nombre === "Impuesto" || $scope.row.entity.TipoCuentaEspecial.Nombre === "Endoso") {
                                         respuesta = false;
+
                                     } else {
                                         respuesta = true;
+
                                     }
                                 }
                                 return respuesta;
                             },
-                            cellTemplate: '<div>{{row.entity.Credito | currency:undefined:0}}</div>',
                             aggregationType: uiGridConstants.aggregationTypes.sum,
                             footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
                             footerCellClass: 'input_right'
@@ -336,8 +348,8 @@ angular.module('financieraClienteApp')
                         {
                             field: 'CuentaContable.Naturaleza',
                             displayName: $translate.instant('NATURALEZA'),
-                            headerCellClass: 'text-info',
-                            cellClass: 'text-info',
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                             enableCellEdit: false,
                             width: '15%'
                         },
@@ -346,6 +358,8 @@ angular.module('financieraClienteApp')
                             //enableFiltering: false,
                             width: '10%',
                             enableCellEdit: false,
+                            headerCellClass: 'encabezado',
+                            cellClass: 'input_center',
                             cellTemplate: '<center>' +
                                 '<a ng-if="row.entity.TipoCuentaEspecial.Nombre == grid.appScope.d_movimientosContables.Endosar" href="" class="endosar" ng-click="grid.appScope.d_movimientosContables.actualizar_posicion(row.entity)" data-toggle="modal" data-target="#modalEndosar" >' +
                                 '<i class="fa fa-gear fa-lg  faa-shake animated-hover" aria-hidden="true" data-toggle="tooltip" title="{{\'BTN.ENDOSAR\' | translate }}"></i></a> ' +
@@ -384,11 +398,12 @@ angular.module('financieraClienteApp')
                             self.ValorMaximo = self.calcular_descuento(item,$scope.outputvalorbruto);
                         } else {
                             if ($scope.outputformapagoop != undefined)
-                            { 
+                            {
                              item.FormaPago = $scope.outputformapagoop;
                             }
                             if (item.TipoCuentaEspecial.Nombre !== "Descuento") {
-                                item.TipoCuentaEspecial.CuentaEspecialImpuesto = true; 
+                                self.itemImpuesto = item;
+                                item.TipoCuentaEspecial.CuentaEspecialImpuesto = true;
                             }
                         }
                         item.CuentaEspecial = { Id: item.Id };
@@ -399,6 +414,22 @@ angular.module('financieraClienteApp')
                         }
                     }
                 };
+
+                self.agregar_cuenta= function(item) {
+                  var movimiento={};
+                  if(!angular.isUndefined(item)){
+                    delete item.Hijos;
+                    movimiento.CuentaContable = item;
+                    movimiento.Concepto = self.concepto_movs;
+                    movimiento.Debito=0;
+                    movimiento.Credito=0;
+                    if (self.gridOptionsMovimientos.data.indexOf(item) < 0) {
+                        $scope.movimientos.unshift(movimiento);
+                        self.cargar_cuentas_grid();
+                    }
+                  }
+                }
+
                 self.asignar_endoso = function(item){
                     var pos = self.gridOptionsDescuentos.data.indexOf(item);
                     self.gridOptionsDescuentos.data[pos].Credito = item.ValorInicialEndoso;
@@ -413,7 +444,7 @@ angular.module('financieraClienteApp')
                 }
                 self.validar_valor_base = function(item){
                     if (item != undefined) {
-                        return item.ValorBase != undefined ;                        
+                        return item.ValorBase != undefined ;
                     }
                     else {
                         return false;
@@ -421,10 +452,10 @@ angular.module('financieraClienteApp')
                 }
                 self.calcular_descuento= function (item, valor){
                     return Math.round(item.Porcentaje * valor) ;
-                }                
+                }
                 self.asignar_valor_base = function(item){
                     var pos = self.gridOptionsDescuentos.data.indexOf(item);
-                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {                       
+                    if (self.gridOptionsDescuentos.data[pos].ValorBase != undefined) {
                         self.gridOptionsDescuentos.data[pos].Credito = self.calcular_descuento(item,self.gridOptionsDescuentos.data[pos].ValorBase);
                     }
 
@@ -456,15 +487,19 @@ angular.module('financieraClienteApp')
                 };
 
                 self.cargar_cuentas_concepto = function() {
-                    if ($scope.conceptoid != undefined) {
-                        financieraRequest.get('concepto_cuenta_contable', $.param({
+                  var  servicioPromesa;
+                    if ($scope.conceptoid != undefined && angular.isUndefined($scope.movimientos)) {
+                      servicioPromesa =  financieraRequest.get('concepto_cuenta_contable', $.param({
                             query: "Concepto:" + $scope.conceptoid,
                             limit: 0
                         })).then(function(response) {
                             $scope.movimientos = response.data;
-                            self.cargar_cuentas_grid();
                         });
                     }
+                    $q.all([servicioPromesa]).then(function() {
+                        self.cargar_cuentas_grid();
+                    });
+
                 };
 
 
@@ -531,7 +566,7 @@ angular.module('financieraClienteApp')
                         self.suma2 = self.suma2 + self.gridOptionsMovimientos.data[i].Credito;
                     }
                     }
-                    if (self.gridOptionsMovsAcreedores.data.length > 0) {
+                    if (!angular.isUndefined(self.gridOptionsMovsAcreedores.data) && self.gridOptionsMovsAcreedores.data.length > 0) {
                         for (var j = 0; j < self.gridOptionsMovsAcreedores.data.length; j++) {
                             self.suma3 = self.suma3 + self.gridOptionsMovsAcreedores.data[j].Debito;
                             self.suma4 = self.suma4 + self.gridOptionsMovsAcreedores.data[j].Credito;
@@ -550,6 +585,18 @@ angular.module('financieraClienteApp')
                         $scope.validatemov = false;
                     }
                 }, true);
+
+                self.cargar_plan_maestro = function() {
+                  if (self.cargarCuentas) {
+                    financieraRequest.get("plan_cuentas", $.param({
+                      query: "PlanMaestro:" + true
+                    })).then(function(response) {
+                      self.plan_maestro = response.data[0]; //Se carga data devuelta por el servicio en la variable del controlador plan_maestro
+                    });
+                    self.cargarCuentas=false;
+                  }
+
+                };
 
                 /**
                  * @ngdoc event
@@ -576,6 +623,10 @@ angular.module('financieraClienteApp')
                     if (!angular.isUndefined($scope.outputvalorbruto) && !angular.isUndefined($scope.cuen) && $scope.outputvalorbruto > 0) {
                         self.valorMaximo = self.calcular_descuento($scope.cuen,$scope.outputvalorbruto);
                     }
+                });
+
+                $scope.$watch('d_movimientosContables.padre', function() {
+                    console.log("cuenta seleccionada",self.padre);
                 });
             },
             controllerAs: 'd_movimientosContables'
