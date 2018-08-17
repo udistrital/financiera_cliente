@@ -7,7 +7,7 @@
       <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
   </div>
   <div class="panel-footer" align="center">
-    <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#creacionChequera" ng-click="tesoreriaGestionChequera.listasCargadas = true;tesoreriaGestionChequera.consultarListas()">{{'NUEVO'|translate}}</button>
+    <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#creacionChequera" ng-click="tesoreriaGestionChequera.chequera.listasCargadas = true;tesoreriaGestionChequera.consultarListas()">{{'NUEVO'|translate}}</button>
   </div>
 </div>
 <div id="creacionChequera" class="modal fade col-md-12" role="dialog">
@@ -30,7 +30,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                               <label for="tipodoc" class="control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
-                              <select ng-model="tesoreriaGestionChequera.tipoDocResp" ng-options="i.ValorParametro for i in tesoreriaGestionChequera.tiposdoc" class="form-control">
+                              <select ng-model="tesoreriaGestionChequera.chequera.tipoDocResp" ng-options="i.ValorParametro for i in tesoreriaGestionChequera.chequera.tiposdoc" class="form-control">
                                 <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
                               </select>
                             </div>
@@ -39,7 +39,7 @@
                             <div class="form-group">
                               <label for="numdoc" class="control-label" style="display:block">{{'NO_DOCUMENTO'|translate}}</label>
                               <div style="display:inline-block">
-                                <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.numdocResponsable" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0"/>
+                                <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.chequera.numdocResponsable" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0"/>
                               </div>
                               <button type="button" ng-click="tesoreriaGestionChequera.consultaResponsable()" class="fa fa-search btn btn-info btn-outline" ></button>
                             </div>
@@ -47,10 +47,10 @@
                           <div class="col-md-12">
                             <div class="form-group">
                               <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                              <div ng-class="{'has-error':!tesoreriaGestionChequera.respEnc}" ng-if="!tesoreriaGestionChequera.cargandoResponsable">
-                                <span class="form-control">{{tesoreriaGestionChequera.nombreResponsable}}</span>
+                              <div ng-class="{'has-error':!tesoreriaGestionChequera.chequera.respEnc}" ng-if="!tesoreriaGestionChequera.chequera.cargandoResponsable">
+                                <span class="form-control">{{tesoreriaGestionChequera.chequera.nombreResponsable}}</span>
                               </div>
-                              <div ng-if="tesoreriaGestionChequera.cargandoResponsable">
+                              <div ng-if="tesoreriaGestionChequera.chequera.cargandoResponsable">
                                 <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
                               </div>
                             </div>
@@ -59,7 +59,7 @@
                       </form>
                       <div class="form_group">
                         <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-                        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="tesoreriaGestionChequera.observaciones" required></textarea>
+                        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="tesoreriaGestionChequera.chequera.observaciones" required></textarea>
                       </div>
             </div>
             <div class="col-md-6">
@@ -67,43 +67,47 @@
                 <div class="col-md-6">
                     <div class="form-group">
                       <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-                      <select class="form-control" ng-model="tesoreriaGestionChequera.unidadejecutora" ng-options="op as op.Nombre for op in tesoreriaGestionChequera.unidadesejecutoras" required>
+                      <select class="form-control" ng-model="tesoreriaGestionChequera.chequera.unidadejecutora" ng-options="op as op.Nombre for op in tesoreriaGestionChequera.chequera.unidadesejecutoras" required>
                         <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label>{{'CHEQUE_FINAL'|translate}}</label>
-                      <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.valorSolicitado" placeholder="{{'CHEQUE_FINAL'|translate}}" ui-number-mask="0" required/>
+                      <label>{{'CHEQUE_INICIAL'|translate}}</label>
+                      <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.chequera.numeroChequeInicial" placeholder="{{'CHEQUE_INICIAL'|translate}}" ui-number-mask="0" required/>
                     </div>
                     <div class="form-group">
-                      <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
-                      <select ng-model="tesoreriaGestionChequera.banco" ng-options="i.Nombre for i in tesoreriaGestionChequera.bancos" ng-change= "tesoreriaGestionChequera.obtenerSucursales()" class="form-control" required>
-                        <option  value="">{{'BANCO'|translate}}</option>
-                      </select>
+                      <label class="control-label">{{'Num_Cheques'|translate}}</label>
+                      <span class="form-control">{{tesoreriaGestionChequera.chequera.numCheques}}</span>
                     </div>
                     <div class="form-group">
-                      <label for="banco" class="control-label">{{'CUENTA_BANCARIA'|translate}}</label>
-                      <select ng-model="tesoreriaGestionChequera.cuentaBancaria" ng-options="i.Nombre for i in tesoreriaGestionChequera.cuentasBancarias" class="form-control" required>
-                        <option disabled value="">{{'CUENTA_BANCARIA'|translate}}</option>
+                      <label for="banco" class="control-label">{{'SUCURSAL'|translate}}</label>
+                      <select ng-model="tesoreriaGestionChequera.chequera.sucursal" ng-options="i.OrganizacionHija.Nombre for i in tesoreriaGestionChequera.chequera.sucursales track by i.Id"
+                              ng-change= "tesoreriaGestionChequera.consultarCuentas()" class="form-control" required>
+                        <option disabled value="">{{'SUCURSAL'|translate}}</option>
                       </select>
                     </div>
                 </div>
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="control-label">{{'VIGENCIA'|translate}}</label>
-                      <select ng-model="tesoreriaGestionChequera.vigencia" ng-options="i for i in tesoreriaGestionChequera.anos" class="form-control" required>
+                      <select ng-model="tesoreriaGestionChequera.chequera.vigencia" ng-options="i for i in tesoreriaGestionChequera.chequera.anos" class="form-control" required>
                         <option  value="">{{'VIGENCIA'|translate}}</option>
                       </select>
                     </div>
                     <div class="form-group">
-                      <label>{{'CHEQUE_INICIAL'|translate}}</label>
-                      <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.valorSolicitado" placeholder="{{'CHEQUE_INICIAL'|translate}}" ui-number-mask="0" required/>
+                      <label>{{'CHEQUE_FINAL'|translate}}</label>
+                      <input type="text" class="form-control input_left" ng-model="tesoreriaGestionChequera.chequera.numeroChequeFinal" placeholder="{{'CHEQUE_FINAL'|translate}}" ui-number-mask="0" required/>
                     </div>
                     <div class="form-group">
-                      <label for="banco" class="control-label">{{'SUCURSAL'|translate}}</label>
-                      <select ng-model="tesoreriaGestionChequera.sucursal" ng-options="i.OrganizacionHija.Nombre for i in tesoreriaGestionChequera.sucursales track by i.Id"
-                              ng-change= "tesoreriaGestionChequera.consultarCuentas()" class="form-control" required>
-                        <option disabled value="">{{'SUCURSAL'|translate}}</option>
+                      <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
+                      <select ng-model="tesoreriaGestionChequera.chequera.banco" ng-options="i.Nombre for i in tesoreriaGestionChequera.chequera.bancos" ng-change= "tesoreriaGestionChequera.obtenerSucursales()" class="form-control" required>
+                        <option  value="">{{'BANCO'|translate}}</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="banco" class="control-label">{{'CUENTA_BANCARIA'|translate}}</label>
+                      <select ng-model="tesoreriaGestionChequera.chequera.cuentaBancaria" ng-options="i.Nombre for i in tesoreriaGestionChequera.chequera.cuentasBancarias" class="form-control" required>
+                        <option disabled value="">{{'CUENTA_BANCARIA'|translate}}</option>
                       </select>
                     </div>
                   </div>
