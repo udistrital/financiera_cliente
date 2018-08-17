@@ -13,8 +13,10 @@ angular.module('financieraClienteApp')
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
     ];
-    ctrl.listasCargadas = false;
-    ctrl.respEnc=true;
+    ctrl.chequera = {};
+    ctrl.chequera.numCheques = 0;
+    ctrl.chequera.listasCargadas = false;
+    ctrl.chequera.respEnc=true;
     ctrl.gridChequeras = {
       enableFiltering: true,
       enableSorting: true,
@@ -73,33 +75,33 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.consultarListas = function(){
-      if(ctrl.listasCargadas){
+      if(ctrl.chequera.listasCargadas){
         financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
           var year = parseInt(response.data);
-          ctrl.anos = [];
+          ctrl.chequera.anos = [];
           for (var i = 0; i < 5; i++) {
-            ctrl.anos.push(year - i);
+            ctrl.chequera.anos.push(year - i);
           }
         });
 
         financieraRequest.get('unidad_ejecutora', $.param({
             limit: -1
         })).then(function(response) {
-            ctrl.unidadesejecutoras = response.data;
+            ctrl.chequera.unidadesejecutoras = response.data;
         });
 
         agoraRequest.get('parametro_estandar',$.param({
           query:"ClaseParametro:Tipo Documento",
           limit:-1
         })).then(function(response){
-          ctrl.tiposdoc = response.data;
+          ctrl.chequera.tiposdoc = response.data;
         });
 
         organizacionRequest.get('organizacion/', $.param({
             limit: -1,
             query: "TipoOrganizacion.CodigoAbreviacion:EB",
         })).then(function(response) {
-          ctrl.bancos = response.data;
+          ctrl.chequera.bancos = response.data;
         });
 
 
@@ -108,11 +110,11 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.obtenerSucursales = function(){
-      ctrl.sucursales = [];
-      if(!angular.isUndefined(ctrl.banco)){
-        financieraMidRequest.get('gestion_sucursales/ListarSucursalesBanco/'+ctrl.banco.Id).then(function(response){
+      ctrl.chequera.sucursales = [];
+      if(!angular.isUndefined(ctrl.chequera.banco)){
+        financieraMidRequest.get('gestion_sucursales/ListarSucursalesBanco/'+ctrl.chequera.banco.Id).then(function(response){
           if (response.data != null) {
-              ctrl.sucursales = response.data;
+              ctrl.chequera.sucursales = response.data;
           }
         });
       }
@@ -120,13 +122,13 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.consultarCuentas = function(){
-      ctrl.cuentasBancarias = [];
-      if (!angular.isUndefined(ctrl.sucursal)){
+      ctrl.chequera.cuentasBancarias = [];
+      if (!angular.isUndefined(ctrl.chequera.sucursal)){
         financieraRequest.get('cuenta_bancaria',$.param({
-          query:"Sucursal:"+ctrl.sucursal.OrganizacionHija.Id
+          query:"Sucursal:"+ctrl.chequera.sucursal.OrganizacionHija.Id
         })).then(function(response){
           if (response.data != null && response.data.indexOf("no row found")<0) {
-            ctrl.cuentasBancarias = response.data;
+            ctrl.chequera.cuentasBancarias = response.data;
           }
         });
       }
@@ -134,19 +136,19 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.consultaResponsable = function(){
-      ctrl.cargandoResponsable=true;
+      ctrl.chequera.cargandoResponsable=true;
       agoraRequest.get('supervisor_contrato',$.param({
-        query:"Documento:" + ctrl.numdocResponsable+",Cargo__icontains:tesorer",
+        query:"Documento:" + ctrl.chequera.numdocResponsable+",Cargo__icontains:tesorer",
         limit:-1
       })).then(function(response){
           if(!angular.isUndefined(response.data) && typeof(response.data) !== "string" && response.data !=null){
-              ctrl.nombreResponsable = response.data[0].Nombre;
-              ctrl.respEnc=true;
-              ctrl.cargandoResponsable = false;
+              ctrl.chequera.nombreResponsable = response.data[0].Nombre;
+              ctrl.chequera.respEnc=true;
+              ctrl.chequera.cargandoResponsable = false;
           }else{
-            ctrl.nombreResponsable = $translate.instant('NO_ENCONTRADO');
-            ctrl.cargandoResponsable = false;
-            ctrl.respEnc=false;
+            ctrl.chequera.nombreResponsable = $translate.instant('NO_ENCONTRADO');
+            ctrl.chequera.cargandoResponsable = false;
+            ctrl.chequera.respEnc=false;
           }
         });
     }
@@ -165,11 +167,14 @@ angular.module('financieraClienteApp')
         ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
       }
 
-      if(angular.isUndefined(ctrl.nombreResponsable)|| ctrl.nombreResponsable.length === 0){
+      if(angular.isUndefined(ctrl.chequera.nombreResponsable)|| ctrl.chequera.nombreResponsable.length === 0){
           ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_RESP_NO_ENC") + "</li>";
           ctrl.respEnc=false;
       }
 
+      if (ctrl.chequera.numCheques<=0){
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("VALOR_CHEQUE_INICIAL_MAYOR") + "</li>";
+      }
 
       if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
         respuesta = true;
@@ -182,7 +187,33 @@ angular.module('financieraClienteApp')
 
     ctrl.registrarChequera = function(){
       if(ctrl.camposObligatorios()){
-
+        var request = {
+          Chequera:{
+            UnidadEjecutora:ctrl.chequera.unidadejecutora.Id,
+            Responsable:ctrl.chequera.numdocResponsable,
+            Vigencia:ctrl.chequera.vigencia,
+            Observaciones:ctrl.chequera.observaciones,
+            NumeroChequeInicial:ctrl.chequera.numeroChequeInicial,
+            NumeroChequeFinal:ctrl.chequera.numeroChequeFinal,
+            CuentaBancaria:ctrl.chequera.cuentaBancaria
+          },
+          Usuario:111111
+        }
+        financieraMidRequest.post('gestion_cheques/CreateChequera',request).then(function(response){
+          if (response.data.Type != undefined) {
+              if (response.data.Type === "error") {
+                  swal('', $translate.instant(response.data.Code), response.data.Type);
+              } else {
+                  var templateAlert = $translate.instant('S_CHEQ_01') +  response.data.Body.Chequera.Consecutivo;
+                  swal({title:'',
+                        html:templateAlert,
+                        type:response.data.Type
+                  });
+                  $('#creacionChequera').modal('hide');
+                  ctrl.limpiarChequera();
+              }
+          }
+        });
       }else{
         swal({ title:'¡Error!',
               html:'<ol align="left">'+ctrl.MensajesAlerta+'</ol>',
@@ -190,8 +221,64 @@ angular.module('financieraClienteApp')
           });
       }
     }
+    $scope.$watch('[tesoreriaGestionChequera.chequera.numeroChequeInicial,tesoreriaGestionChequera.chequera.numeroChequeFinal]',function(newValue){
+        ctrl.chequera.numCheques = ctrl.validarNum(newValue[1])-ctrl.validarNum(newValue[0]);
+    },true);
+    ctrl.validarNum = function(numero){
+      if(angular.isUndefined(numero)) {
+         numero = 0;
+      }
+      return numero;
+    }
+    ctrl.limpiarChequera = function(){
+      $scope.chequera.$setPristine();
+      ctrl.chequera = {};
+      ctrl.chequera.respEnc=false;
+      ctrl.chequera.numCheques = 0;
+    }
 
+    ctrl.cargarEstados = function() {
+        financieraRequest.get("estado_chequera", $.param({
+                sortby: "NumeroOrden",
+                limit: -1,
+                order: "asc"
+            }))
+            .then(function(response) {
+                $scope.estados = [];
+                $scope.aristas = [];
+                ctrl.estados = response.data;
+                angular.forEach(ctrl.estados, function(estado) {
+                    $scope.estados.push({
+                        id: estado.Id,
+                        label: estado.Nombre
+                    });
+                    $scope.estado_select.push({
+                        value: estado.Nombre,
+                        label: estado.Nombre,
+                        estado: estado
+                    });
+                });
+                $scope.aristas = [{
+                        from: 1,
+                        to: 2
+                    },
+                    {
+                        from: 1,
+                        to: 3
+                    },
+                    {
+                        from: 2,
+                        to: 4
+                    },
+                    {
+                        from: 2,
+                        to: 5
+                    }
+                ];
+            });
+    };
 
+    ctrl.cargarEstados();
 
 
   });
