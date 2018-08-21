@@ -27,10 +27,15 @@ angular.module('financieraClienteApp')
     $scope.senDataEstado.Usuario = {
       'Id': 1
     }
-    $scope.botones = [
+    $scope.botones_estados_op = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "ver", clase_css: "fa fa-product-hunt fa-lg  faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
     ];
+
+    $scope.botones_estados_giro = [
+         { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+         { clase_color: "ver", clase_css: "fa fa-glide faa-shake animated-hover", titulo: $translate.instant('GIRO'), operacion: 'giro', estado: true },
+];
     //
     ctrl.gridOrdenesDePago = {
       enableRowSelection: false,
@@ -63,11 +68,75 @@ angular.module('financieraClienteApp')
           break;
 
           case "proceso":
+            $scope.estados = [];
             $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
             ctrl.op_seleccionada_proceso = row.entity;
             $scope.informacion = $translate.instant('ORDEN_DE_PAGO')+ ' '+ 'No'+' '+row.entity.Consecutivo;
             $scope.mostrar_direc = true;
+            $scope.mostrar_direc_giros = false;
+            angular.forEach(ctrl.temp_estados_op, function(estado) {
+              $scope.estados.push({
+                id: estado.Id,
+                label: estado.Nombre
+              });
+              $scope.estado_select.push({
+                value: estado.Nombre,
+                label: estado.Nombre,
+                estado: estado
+              });
+            });
+
+            $scope.aristas = [{
+                from: 1,
+                to: 2
+              },
+              {
+                from: 2,
+                to: 4
+              },
+              {
+                from: 4,
+                to: 6
+              },
+              {
+                from: 6,
+                to: 7
+              }
+            ];
+
           break;
+
+          case "giro":
+
+            $scope.estados = [];
+            $scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
+            ctrl.op_seleccionada_proceso = row.entity;
+            $scope.informacion = $translate.instant('ORDEN_DE_PAGO')+ ' '+ 'No'+' '+row.entity.Consecutivo;
+            $scope.mostrar_direc = true;
+            angular.forEach(ctrl.temp_estados_giro, function(estado) {
+                      $scope.estados.push({
+                        id: estado.Id,
+                        label: estado.Nombre
+                      });
+                      $scope.estado_select.push({
+                        value: estado.Nombre,
+                        label: estado.Nombre,
+                        estado: estado
+                      });
+                    });
+
+                    $scope.aristas = [{
+                        from: 8,
+                        to: 9
+                      },
+                      {
+                        from: 9,
+                        to: 10
+                      }
+                    ];
+
+          break;
+
           default:
       }
   };
@@ -115,12 +184,16 @@ angular.module('financieraClienteApp')
             $(ctrl.modal_a_abrir).modal('show');
 
 
+        }else{
+          if($scope.estadoclick.Id === 4){
+             ctrl.modal_a_abrir = '#modal_aprobacion_presupuestal'
+             $(ctrl.modal_a_abrir).modal('show');
+          }else{
+            ctrl.aprobar();
+          }
         }
 
-        if($scope.estadoclick.Id === 4){
-           ctrl.modal_a_abrir = '#modal_aprobacion_presupuestal'
-           $(ctrl.modal_a_abrir).modal('show');
-        }
+
 
     };
 
@@ -164,13 +237,6 @@ angular.module('financieraClienteApp')
           width: '8%',
         },
         {
-          field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
-          displayName: $translate.instant('NO_CRP'),
-          width: '7%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
-        },
-        {
           field: 'FormaPago.CodigoAbreviacion',
           width: '5%',
           displayName: $translate.instant('FORMA_PAGO'),
@@ -207,7 +273,7 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
-          width: '7%',
+          width: '10%',
           displayName: $translate.instant('ESTADO'),
           filter: {
             //term: 'Elaborado',
@@ -222,10 +288,11 @@ angular.module('financieraClienteApp')
           //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
           name: $translate.instant('OPERACION'),
           enableFiltering: false,
-          width: '5%',
+          width: '9%',
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
-          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+           cellTemplate: '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Elaborado\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Aprobado\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Generado\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estados_giro" fila="row"></btn-registro><center></a>'+
+          '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Elaborado\' && row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Aprobado\' && row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Generado\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estados_op" fila="row"></btn-registro><center></a>'
 
         }
       ];
@@ -235,12 +302,7 @@ angular.module('financieraClienteApp')
       var path = "/orden_pago/proveedor/ver/";
       $location.url(path + row.entity.Id);
     }
-    ctrl.op_editar = function(row) {
-      if (row.entity.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion == 'OP-PROV') {
-        var path_update = "/orden_pago/proveedor/actualizar/";
-        $location.url(path_update + row.entity.Id);
-      }
-    }
+
 
 
 
@@ -303,9 +365,6 @@ angular.module('financieraClienteApp')
       .then(function(response) {
         ctrl.temp_estados_op = [];
         ctrl.temp_estados_giro = [];
-        $scope.estados = [];
-        $scope.estados_giro = [];
-        $scope.aristas = [];
 
          angular.forEach(response.data, function(iterador) {
 
@@ -320,33 +379,5 @@ angular.module('financieraClienteApp')
 
          });
 
-        angular.forEach(ctrl.temp_estados_op, function(estado) {
-          $scope.estados.push({
-            id: estado.Id,
-            label: estado.Nombre
-          });
-          $scope.estado_select.push({
-            value: estado.Nombre,
-            label: estado.Nombre,
-            estado: estado
-          });
-        });
-        $scope.aristas = [{
-            from: 1,
-            to: 2
-          },
-          {
-            from: 2,
-            to: 4
-          },
-          {
-            from: 4,
-            to: 6
-          },
-          {
-            from: 6,
-            to: 7
-          }
-        ];
       });
   });
