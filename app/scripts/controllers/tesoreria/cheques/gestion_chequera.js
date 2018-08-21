@@ -8,11 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaChequesGestionChequeraCtrl', function ($scope,$translate,agoraRequest,financieraRequest,organizacionRequest,financieraMidRequest) {
+  .controller('TesoreriaChequesGestionChequeraCtrl', function ($scope,$translate,agoraRequest,financieraRequest,organizacionRequest,financieraMidRequest,gridApiService,$localStorage) {
     var ctrl = this;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
     ];
+    $scope.estado_select = [];
+    $scope.estados = [];
     ctrl.chequera = {};
     ctrl.chequera.numCheques = 0;
     ctrl.chequera.listasCargadas = false;
@@ -27,52 +29,90 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       selectionRowHeaderWidth: 35,
       enableRowHeaderSelection: false,
+      multiSelect:false,
       columnDefs: [
           {
-              field: 'CodigoHomologado',
+              field: 'Consecutivo',
               displayName: $translate.instant('CONSECUTIVO'),
               headerCellClass:'text-info',
-              width: '12%'
+              width: '5%'
           },
           {
-              field: 'NombreHomologado',
+              field: 'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '10%',
           },
           {
               field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
               headerCellClass:'text-info',
-              width: '12%'
+              width: '6%'
           },
           {
-              field: 'NombreHomologado',
+              field: 'CuentaBancaria.Nombre',
+              displayName: $translate.instant('BANCO'),
+              headerCellClass:'text-info',
+              width: '18%',
+          },
+          {
+              field: 'Sucursal.Nombre',
+              displayName: $translate.instant('SUCURSAL'),
+              headerCellClass:'text-info',
+              width: '18%',
+          },
+          {
+              field: 'CuentaBancaria.Nombre',
               displayName: $translate.instant('CUENTA_BANCARIA'),
               headerCellClass:'text-info',
               width: '18%',
           },
           {
-              field: 'NombreHomologado',
+              field: 'NumeroChequeInicial',
               displayName: $translate.instant('CHEQUE_INICIAL'),
               headerCellClass:'text-info',
-              width: '15%',
+              width: '10%',
           },
           {
-              field: 'Vigencia',
+              field: 'NumeroChequeFinal',
               displayName: $translate.instant('CHEQUE_FINAL'),
               headerCellClass:'text-info',
-              width: '15%'
+              width: '10%'
           },
           {
             name: $translate.instant('OPCIONES'),
             width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
-            width: '10%'
+            width: '5%'
           }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApi = gridApi;
+        gridApi = gridApiService.pagination(gridApi,ctrl.consultarChequeras,$scope);
+
+      },
     }
+
+    ctrl.consultarChequeras = function(offset,query){
+      financieraMidRequest.cancel();
+
+      financieraRequest.get("chequera/GetChequeraRecordsNumber",$.param({
+        query:query
+      })).then(function(response){
+          ctrl.gridChequeras.totalItems = response.data.Body;
+      });
+
+      financieraMidRequest.get("gestion_cheques/GetAllChequera",$.param({
+        limit: ctrl.gridChequeras.paginationPageSize,
+        offset:offset,
+        query:query
+      })).then(function(response){
+          ctrl.gridChequeras.data=response.data;
+      });
+    }
+
+    ctrl.consultarChequeras(0,'');
 
     ctrl.consultarListas = function(){
       if(ctrl.chequera.listasCargadas){
@@ -244,20 +284,22 @@ angular.module('financieraClienteApp')
                 order: "asc"
             }))
             .then(function(response) {
-                $scope.estados = [];
-                $scope.aristas = [];
-                ctrl.estados = response.data;
-                angular.forEach(ctrl.estados, function(estado) {
-                    $scope.estados.push({
-                        id: estado.Id,
-                        label: estado.Nombre
-                    });
-                    $scope.estado_select.push({
-                        value: estado.Nombre,
-                        label: estado.Nombre,
-                        estado: estado
-                    });
-                });
+
+              $scope.estados = [];
+              $scope.aristas = [];
+              ctrl.estados = response.data;
+              angular.forEach(ctrl.estados, function(estado) {
+                  $scope.estados.push({
+                      id: estado.NumeroOrden,
+                      label: estado.Nombre
+                  });
+                  $scope.estado_select.push({
+                      value: estado.NumeroOrden,
+                      label: estado.Nombre,
+                      estado: estado
+                  });
+              });
+
                 $scope.aristas = [{
                         from: 1,
                         to: 2
@@ -269,10 +311,6 @@ angular.module('financieraClienteApp')
                     {
                         from: 2,
                         to: 4
-                    },
-                    {
-                        from: 2,
-                        to: 5
                     }
                 ];
             });
@@ -280,5 +318,39 @@ angular.module('financieraClienteApp')
 
     ctrl.cargarEstados();
 
+    $scope.loadrow = function(row, operacion) {
+        $scope.solicitud = row.entity;
+        switch (operacion) {
+            case "proceso":
+                $scope.estado = $scope.solicitud.Estado ;
+                $scope.informacion = $translate.instant('CHEQUERA')+ ' '+ 'No'+' '+row.entity.Consecutivo;
+                $scope.mostrar_direc = true;
+                break;
+            default:
+        }
+    }
+
+    $scope.funcion = function(element) {
+        $scope.estadoclick = $localStorage.nodeclick;
+        ctrl.Request = {
+          ChequeraEstadoChequera:{Estado:$scope.estadoclick.estado,
+                                  Usuario:111111,
+                                  Activo:true
+                                },
+          Chequera:$scope.solicitud
+        };
+              financieraRequest.post('chequera_estado_chequera/AddEstadoChequera', ctrl.Request).then(function(response) {
+                if(response.data.Type != undefined){
+                  if(response.data.Type === "error"){
+                      swal('',$translate.instant(response.data.Code),response.data.Type);
+                    }else{
+                      swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                        ctrl.consultarChequeras(0,'');
+                        $scope.estado = $scope.estadoclick.estado;
+                      })
+                    }
+                  }
+                });
+  }
 
   });
