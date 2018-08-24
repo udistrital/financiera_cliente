@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
         ctrl.Vigencia=2018;
         ctrl.UnidadEjecutora=1;
         ctrl.movContablesEnc = false;
+        ctrl.notLoadConcepto = false;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
             { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
@@ -796,7 +797,6 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.delete_OPAvance= function() {
-          console.log("row entity",ctrl.row_entity);
             swal({
                 title: 'Está seguro ?',
                 text: $translate.instant('ELIMINARA') + ' ' + $translate.instant('ORDEN_DE_PAGO')+' '+ctrl.row_entity.OrdenPago.Consecutivo,
@@ -806,18 +806,18 @@ angular.module('financieraClienteApp')
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-              /*
-                financieraRequest.delete("avance_legalizacion", ctrl.row_entity.Id)
+
+                financieraRequest.delete("orden_pago_avance_legalizacion", ctrl.row_entity.Id)
                     .then(function(response) {
                         if (response.status === 200) {
                             swal(
                                 $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Estudiante.nombre + ' ' + $translate.instant('FUE_ELIMINADO'),
+                                 $translate.instant('ORDEN_DE_PAGO')+' '+ctrl.row_entity.OrdenPago.Consecutivo+ ' ' + $translate.instant('FUE_ELIMINADO'),
                                 'success'
                             );
-                            ctrl.get_all_avance_legalizacion_practica();
+                            ctrl.cargarOrdenesPagoAvance(0,'');
                         }
-                    });*/
+                    });
             })
         };
 
@@ -953,8 +953,13 @@ angular.module('financieraClienteApp')
           query: "Avance.Id:"+$scope.solicitud.Id,
           limit: -1
         })).then(function(response){
-          ctrl.concepto[0] = response.data[0].Concepto;
-          $scope.nodo = response.data[0].Concepto;
+          if(!ctrl.revisarNoRow(response.data) && response.data != null){
+            ctrl.concepto[0] = response.data[0].Concepto;
+            $scope.nodo = response.data[0].Concepto;
+            ctrl.notLoadConcepto = true;
+            console.log("valor not load concepto legalizacion",ctrl.notLoadConcepto);
+          }
+
         });
       }
       ctrl.getConceptoAvance();
