@@ -235,7 +235,8 @@ angular.module('financieraClienteApp')
             Observaciones:ctrl.chequera.observaciones,
             NumeroChequeInicial:ctrl.chequera.numeroChequeInicial,
             NumeroChequeFinal:ctrl.chequera.numeroChequeFinal,
-            CuentaBancaria:ctrl.chequera.cuentaBancaria
+            CuentaBancaria:ctrl.chequera.cuentaBancaria,
+            ChequesDisponibles:ctrl.chequera.numCheques
           },
           Usuario:111111
         }
