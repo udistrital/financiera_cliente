@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaChequesGestionChequeCtrl', function ($scope,$translate,financieraRequest,gridApiService,financieraMidRequest) {
+  .controller('TesoreriaChequesGestionChequeCtrl', function ($scope,$translate,financieraRequest,gridApiService,financieraMidRequest,$interval,uiGridConstants) {
     var ctrl = this;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
@@ -114,13 +114,96 @@ angular.module('financieraClienteApp')
           }
       ],
       onRegisterApi: function(gridApi) {
-        ctrl.gridApi = gridApi;
-        gridApi = gridApiService.pagination(gridApi,ctrl.ObtenerChequeras,$scope);
+        ctrl.gridApiChequeras = gridApi;
+        ctrl.gridApiChequeras = gridApiService.pagination(gridApi,ctrl.ObtenerChequeras,$scope);
       },
       isRowSelectable: function(row){
         return row.entity.Chequera.ChequesDisponibles > 0;
       }
     }
+
+
+    ctrl.gridOrdenesDePago = {
+      enableRowSelection: false,
+      enableSelectAll: false,
+      selectionRowHeaderWidth: 35,
+      multiSelect: false,
+      enableRowHeaderSelection: false,
+      paginationPageSizes: [10, 50, 100],
+      paginationPageSize: null,
+
+      enableFiltering: true,
+      minRowsToShow: 10,
+      useExternalPagination: false,
+
+      columnDefs:[
+        {
+          field: 'Consecutivo',
+          displayName: $translate.instant('CODIGO'),
+          width: '14%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+          width: '14%',
+          displayName: $translate.instant('TIPO'),
+          filter: {
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: $scope.tipos
+          },
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'Vigencia',
+          displayName: $translate.instant('VIGENCIA'),
+          width: '14%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
+          displayName: $translate.instant('FECHA_CREACION'),
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          cellFilter: "date:'yyyy-MM-dd'",
+          width: '14%',
+        },
+        {
+          field: 'ValorBase',
+          width: '14%',
+          cellFilter: 'currency',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          displayName: $translate.instant('VALOR')
+        },
+        {
+          field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
+          width: '14%',
+          displayName: $translate.instant('ESTADO'),
+          filter: {
+            //term: 'Elaborado',
+            type: uiGridConstants.filter.SELECT,
+            selectOptions: $scope.estado_select
+
+          },
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado'
+        },
+        {
+          name: $translate.instant('OPERACION'),
+          enableFiltering: false,
+          width: '14%',
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+
+        }
+      ],
+
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiOP = gridApi;
+      }
+    };
 
     ctrl.ObtenerChequeras = function(offset,query){
       financieraMidRequest.cancel();
@@ -142,6 +225,24 @@ angular.module('financieraClienteApp')
   }
   ctrl.ObtenerChequeras(0,'');
 
+  ctrl.cargarOp = function(offset,query){
+    financieraRequest.get('orden_pago', $.param({
+      query:query,
+      limit: ctrl.gridOrdenesDePago.paginationPageSize,
+      offset:offset
+    })).then(function(response) {
+    if(response.data === null){
+      ctrl.hayDataOP = false;
+      ctrl.cargandoOP = false;
+      ctrl.gridOrdenesDePago.data = [];
+    }else{
+      ctrl.hayDataOP = true;
+      ctrl.cargandoOP = false;
+      ctrl.gridOrdenesDePago.data = response.data;
+    }
+    });
+  }
+ctrl.cargarOp(0,'FormaPago.CodigoAbreviacion:CH');
     $scope.$watch('tesoreriaGestionCheque.concepto[0]', function(oldValue, newValue) {
         if (!angular.isUndefined(newValue)) {
             financieraRequest.get('concepto', $.param({
@@ -156,13 +257,18 @@ angular.module('financieraClienteApp')
 
     $scope.loadrowChequera = function(row, operacion) {
         $scope.chequera = row.entity.Chequera;
-        console.log("chequera enviada",$scope.chequera)
         switch (operacion) {
             case "ver":
                 $("#datosChequera").modal();
                 break;
             default:
         }
+    }
+
+    ctrl.ajustarGrid = function() {
+      $interval( function() {
+          ctrl.gridApiChequeras.core.handleWindowResize();
+        }, 500, 2);
     }
 
   });
