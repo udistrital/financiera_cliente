@@ -47,7 +47,7 @@
                   <select ng-model="chequera.banco" ng-options="i.Nombre for i in chequera.bancos" ng-change= "d_tesoreriaVerEditarChequera.obtenerSucursales()" class="form-control" ng-show="!ver" required>
                     <option  value="">{{'BANCO'|translate}}</option>
                   </select>
-                    <input type="text" class="form-control input_left" ng-model="chequera.Banco.Nombre" ui-number-mask="0" ng-show="ver" disabled/>
+                    <input type="text" class="form-control input_left" ng-model="chequera.Banco.Nombre"  ng-show="ver" disabled/>
                 </div>
                 <div class="form-group">
                   <label for="banco" class="control-label">{{'CUENTA_BANCARIA'|translate}}</label>
@@ -60,9 +60,7 @@
               <div class="col-md-12"  ng-show="ver">
                 <div class="form-group">
                   <label for="numdoc"  class="control-label">{{'RESPONSABLE'|translate}}</label>
-                  <div ng-class="{'has-error':!chequera.respEnc}">
-                    <span class="form-control">{{chequera.nombreResponsable}}</span>
-                  </div>
+                    <span class="form-control">{{chequera.Responsable.Nombre}}</span>
                 </div>
                 <div class="form_group">
                   <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>

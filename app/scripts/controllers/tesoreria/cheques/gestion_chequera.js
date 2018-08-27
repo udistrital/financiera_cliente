@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
               width: '6%'
           },
           {
-              field: 'CuentaBancaria.Nombre',
+              field: 'Banco.Nombre',
               displayName: $translate.instant('BANCO'),
               headerCellClass:'text-info',
               width: '18%',
@@ -88,8 +88,8 @@ angular.module('financieraClienteApp')
           }
       ],
       onRegisterApi: function(gridApi) {
-        ctrl.gridApi = gridApi;
-        gridApi = gridApiService.pagination(gridApi,ctrl.consultarChequeras,$scope);
+        ctrl.gridApiChequeras = gridApi;
+        ctrl.gridApiChequeras = gridApiService.pagination(gridApi,ctrl.consultarChequeras,$scope);
 
       },
     }

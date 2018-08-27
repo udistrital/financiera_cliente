@@ -7,7 +7,7 @@
       <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
   </div>
   <div class="panel-footer" align="center">
-    <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#creacionCheque">{{'NUEVO'|translate}}</button>
+    <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#creacionCheque" ng-click="tesoreriaGestionCheque.ajustarGrid()">{{'NUEVO'|translate}}</button>
   </div>
 </div>
 <div id="creacionCheque" class="modal fade col-md-12" role="dialog">
@@ -36,7 +36,7 @@
                     <div class=col-md-6>
                       <div class="form_group">
                         <label for="observaciones">{{'DIAS_VENCIMIENTO' | translate}}</label>
-                        <input type="text" class="form-control input_left" ng-model="ordendevolucion.valorSolicitado" placeholder="{{'DIAS_VENCIMIENTO'|translate}}" ui-number-mask="0" required/>
+                        <input type="text" class="form-control input_left" ng-model="tesoreriaGestionCheque.valorSolicitado" placeholder="{{'DIAS_VENCIMIENTO'|translate}}" ui-number-mask="0" required/>
                       </div>
                     </div>
                     <div class=col-md-6>
@@ -54,7 +54,7 @@
                     <div class=col-md-12>
                       <div class="form_group">
                         <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
-                        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="ordendevolucion.observaciones"></textarea>
+                        <textarea name="observaciones" class="form-control" rows="4" cols="40" ng-model="tesoreriaGestionCheque.observaciones"></textarea>
                       </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                           <div class="col-md-6">
                             <div class="form-group">
                             <label for="tipodoc" class="control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
-                            <select ng-model="ordendevolucion.tipoDocBen" ng-options="i.ValorParametro for i in ordendevolucion.tiposdoc" class="form-control" required>
+                            <select ng-model="tesoreriaGestionCheque.tipoDocBen" ng-options="i.ValorParametro for i in tesoreriaGestionCheque.tiposdoc" class="form-control" required>
                               <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
                             </select>
                           </div>
@@ -88,23 +88,35 @@
                             <div class="form-group">
                               <label for="numdoc" class="control-label" style="display:block">{{'NO_DOCUMENTO'|translate}}</label>
                             <div style="display:inline-block">
-                              <input type="text" class="form-control input_left" ng-model="ordendevolucion.numdocBeneficiario" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
+                              <input type="text" class="form-control input_left" ng-model="tesoreriaGestionCheque.numdocBeneficiario" placeholder="{{'NO_DOCUMENTO'|translate}}" ui-number-mask="0" required/>
                             </div>
-                            <button type="button" ng-click="ordendevolucion.consultaBen()" class="fa fa-search btn btn-info btn-outline" ></button>
+                            <button type="button" ng-click="tesoreriaGestionCheque.consultaBen()" class="fa fa-search btn btn-info btn-outline" ></button>
                             </div>
                           </div>
                         <div class="col-md-12">
                           <div class="form-group">
                             <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-                            <div  ng-if="!ordendevolucion.cargando_ben">
-                            <span class="form-control">{{ordendevolucion.nombreBeneficiario}}</span>
+                            <div  ng-if="!tesoreriaGestionCheque.cargando_ben">
+                            <span class="form-control">{{tesoreriaGestionCheque.nombreBeneficiario}}</span>
                           </div>
-                          <div ng-if="ordendevolucion.cargando_ben">
+                          <div ng-if="tesoreriaGestionCheque.cargando_ben">
                             <span class="form-control">{{'CARGANDO' | translate}} <i class="fa fa-spin fa-spinner"></i> </span>
                           </div>
                           </div>
                       </div>
                     </div>
+
+                    <div class="panel panel-default panel-body">
+                        <div class="panel panel-heading" >
+                            <h4 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h4>
+                        </div>
+
+                        <div ui-grid="tesoreriaGestionCheque.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                          <div class="watermark" ng-show="!tesoreriaGestionCheque.hayDataOP">{{'NO_DATA'| translate}}</div>
+                          <div class="watermark" ng-show="tesoreriaGestionCheque.cargandoOP">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+                        </div>
+                    </div>
+
                   </div>
                   </div>
                 </form>
