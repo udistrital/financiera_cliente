@@ -32,14 +32,21 @@
       </div>
       <label class="col-sm-1 control-label">{{'ANO' | translate }}</label>
       <div class="col-sm-3">
-        <input ng-model="anoSelect" type="text" class="form-control input_right" placeholder="AAAA" maxlength="4" ng-change="d_liquidacionVerTodas.consultar()" required/>
+        <select ng-model="anoSelect" class="form-control" ng-change="d_liquidacionVerTodas.consultar()" required>
+        <option ng-repeat="option in d_liquidacionVerTodas.years" value="{{option}}">{{option}}</option>
+        </select>
       </div>
     </div>
   </div>
-  <loadingcircle load="load"></loadingcircle>
-  <div class="col-md-6" ng-if="!load">
-    <div class="panel panel-default">
-      <div ng-if="!refresh" ui-grid="d_liquidacionVerTodas.gridOptionsPreliquidacionPersonas" ui-grid-selection ui-grid-auto-resize ui-grid-pagination></div>
+  
+  <div class="col-md-6">
+    <div class="panel panel-default" ng-if="d_liquidacionVerTodas.fue_consultado">
+      <div ui-grid="d_liquidacionVerTodas.gridOptionsPreliquidacionPersonas" ui-grid-selection ui-grid-auto-resize ui-grid-pagination>
+        
+          <div class="watermark" ng-show="!d_liquidacionVerTodas.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="d_liquidacionVerTodas.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+
+      </div>
     </div>
   </div>
 
