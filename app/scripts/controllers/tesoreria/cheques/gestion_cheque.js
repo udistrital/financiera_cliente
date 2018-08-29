@@ -13,7 +13,8 @@ angular.module('financieraClienteApp')
     ctrl.totalChequesOP = 0;
     ctrl.cheque={};
     ctrl.encontrado_ben=true;
-
+    ctrl.chequeraSel = undefined;
+    ctrl.OPSeleccionada = undefined;
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
     ];
@@ -22,7 +23,7 @@ angular.module('financieraClienteApp')
     ];
     ctrl.cheque.fechaCreacion = new Date();
     ctrl.cheque.fechaVencimiento = new Date();
-
+    ctrl.OPSeleccionada = undefined;
     ctrl.OPValidada = true;
     ctrl.gridCheque = {
       enableFiltering: true,
@@ -122,6 +123,13 @@ angular.module('financieraClienteApp')
       onRegisterApi: function(gridApi) {
         ctrl.gridApiChequeras = gridApi;
         ctrl.gridApiChequeras = gridApiService.pagination(gridApi,ctrl.ObtenerChequeras,$scope);
+        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+          if(row.isSelected){
+            ctrl.chequeraSel = row.entity;
+          }else{
+            ctrl.chequeraSel = undefined;
+          }
+        });
       },
       isRowSelectable: function(row){
         return row.entity.Chequera.ChequesDisponibles > 0;
@@ -206,8 +214,10 @@ angular.module('financieraClienteApp')
             ctrl.totalChequesOP = ctrl.getSumValue(row.entity.Id);
             if(ctrl.totalChequesOP>0 && ctrl.totalChequesOP < row.entity.ValorBase){
               ctrl.OPValidada = true;
+              ctrl.OPSeleccionada = row.entity;
             }else{
               ctrl.OPValidada = false;
+              ctrl.OPSeleccionada = undefined;
             }
           }
         });
@@ -342,6 +352,14 @@ ctrl.cargarTiposDoc();
           ctrl.encontrado_ben=false;
       }
 
+      if (angular.isUndefined(ctrl.chequeraSel)){
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_CHEQUERA") + "</li>";
+      }
+
+      if(angular.isUndefined(ctrl.OPSeleccionada)){
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("ORDEN_PAGO_SELECCIOANR") + "</li>";
+      }
+
       if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
         respuesta = true;
       } else {
@@ -352,15 +370,18 @@ ctrl.cargarTiposDoc();
     }
 
     ctrl.crearCheque = function(){
-      if(ctrl.camposObligatorios()){
+      $q.all([ctrl.consultaSumaOP]).then(function(){
+        if(ctrl.camposObligatorios()){
 
-      }else{
-        swal({
-          title:'¡Error!',
-          html:'<ol align="left">'+ctrl.MensajesAlerta+"</ol>",
-          type:'error'
-        });
-      }
+        }else{
+          swal({
+            title:'¡Error!',
+            html:'<ol align="left">'+ctrl.MensajesAlerta+"</ol>",
+            type:'error'
+          });
+        }
+      });
+
 
     }
 

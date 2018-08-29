@@ -19,10 +19,6 @@ angular.module('financieraClienteApp')
       controller:function($scope,$attrs){
         var ctrl = this;
         $scope.ver = 'ver' in $attrs;
-        $scope.$watch('chequerallega',function(){
-          console.log("chequera llega",$scope.chequerallega);
-          ctrl.chequera = $scope.chequerallega;
-        });
       },
       controllerAs:'d_tesoreriaVerEditarChequera'
     };
