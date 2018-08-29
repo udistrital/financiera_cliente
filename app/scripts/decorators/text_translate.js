@@ -728,7 +728,7 @@ var text_es = {
     TIPO_NECESIDAD: "Tipo Necesidad",
     TIPO_ICA: "ICA",
     TIPO_IVA: "IVA",
-    TIPO_RENTA: "Rete Fuente",
+    TIPO_RENTA: "ReteFuente",
     TIPO_RECIBO: "Tipo de Recibo",
     TITULO_APP: "GENERATOR-OAS",
     TITULO: "Título",

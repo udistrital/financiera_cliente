@@ -58,7 +58,7 @@ angular.module('financieraClienteApp')
           })
         }
       })
-    } 
+    }
 
     //funcion calcularTotalAfectacion
     self.calcularTotalAfectacion = function(pConceptos) {
@@ -73,6 +73,7 @@ angular.module('financieraClienteApp')
 
     // funcion agrupa la afectación de los conceptos por rubro y valida que no supere el saldo de rubro
     self.afectaciónPorConceptoNoSuperaSaldoRubro = function(pConceptos){
+      console.log("Conceptos", pConceptos)
       self.afectacionEnRubros = {};
       self.saldoDeRubros = {};
       angular.forEach(pConceptos, function(concepto) {
