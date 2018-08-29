@@ -623,6 +623,16 @@ angular
               controller: 'TesoreriaParametrosCausalReintegroCtrl',
               controllerAs: 'tesoreriaCausalReintegro'
             })
+            .when('/tesoreria/cheques/gestion_chequera', {
+              templateUrl: 'views/tesoreria/cheques/gestion_chequera.html',
+              controller: 'TesoreriaChequesGestionChequeraCtrl',
+              controllerAs: 'tesoreriaGestionChequera'
+            })
+            .when('/tesoreria/cheques/gestion_cheque', {
+              templateUrl: 'views/tesoreria/cheques/gestion_cheque.html',
+              controller: 'TesoreriaChequesGestionChequeCtrl',
+              controllerAs: 'tesoreriaGestionCheque'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -14,7 +14,6 @@ angular.module('financieraClienteApp')
     $scope.estado_select = [];
     $scope.estados = [];
     $scope.tipos = [];
-    $scope.estado_select = [];
     $scope.aristas = [];
     $scope.estadoclick = {};
     $scope.senDataEstado = {};

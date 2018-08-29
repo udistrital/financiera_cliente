@@ -93,7 +93,6 @@ angular.module('financieraClienteApp')
 
     $scope.loadrow = function(row, operacion) {
       ctrl.fila = row.entity;
-      console.log("fila",ctrl.fila);
       switch (operacion) {
           case "ver":
               ctrl.cargarSolicitanteBen();
