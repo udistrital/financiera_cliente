@@ -16,8 +16,8 @@ angular.module('financieraClienteApp')
                 node: '=?',
                 nodeclick: '=',
                 eventclick: '&',
-                info: '=?'
-
+                info: '=?',
+                properties:'=?'
             },
 
             templateUrl: 'views/directives/proceso.html',
@@ -25,15 +25,25 @@ angular.module('financieraClienteApp')
 
             },
             controller: function($scope, $localStorage,$attrs) {
+                $scope.selecEstado = 'selecestado' in $attrs;
 
-                  
                 $scope.clicknode = function(params) {
+                  var estadoSelecc;
                     var data = {
                         Estado: { Id: this.getNodeAt(params.pointer.DOM) }
                     };
                     if ($scope.childrens.indexOf(data.Estado.Id) !== -1) {
                         $scope.nodeclick = data.Estado;
                         $localStorage.nodeclick = data.Estado;
+                        if($scope.selecEstado){
+                          estadoSelecc = $scope.properties.filter(function(element){
+                            if(element.value===data.Estado.Id){
+                              return true;
+                            }
+                            return false;
+                          });
+                          $localStorage.nodeclick=estadoSelecc[0];
+                        }
                         $scope.eventclick();
                     }
                 };
@@ -122,7 +132,7 @@ angular.module('financieraClienteApp')
 
                 $scope.$watch('node', function() {
                     if (!angular.isUndefined($scope.node) ) {
-                        drawNetwork();
+                        self.drawNetwork();
                     }
                 });
 
