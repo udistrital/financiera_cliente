@@ -22,9 +22,9 @@ angular.module('financieraClienteApp')
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
     ];
     ctrl.cheque.fechaCreacion = new Date();
-    ctrl.cheque.fechaVencimiento = new Date();
-    ctrl.OPSeleccionada = undefined;
+    ctrl.cheque.FechaVencimiento = new Date();
     ctrl.OPValidada = true;
+    ctrl.cheque.Consecutivo = 0;
     ctrl.gridCheque = {
       enableFiltering: true,
       enableSorting: true,
@@ -125,9 +125,11 @@ angular.module('financieraClienteApp')
         ctrl.gridApiChequeras = gridApiService.pagination(gridApi,ctrl.ObtenerChequeras,$scope);
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
           if(row.isSelected){
-            ctrl.chequeraSel = row.entity;
+            ctrl.chequeraSel = row.entity.Chequera;
+            ctrl.getChequeNumber(ctrl.chequeraSel.Id,ctrl.chequeraSel.NumeroChequeInicial);
           }else{
             ctrl.chequeraSel = undefined;
+            ctrl.cheque.Consecutivo = 0;
           }
         });
       },
@@ -211,30 +213,40 @@ angular.module('financieraClienteApp')
         ctrl.gridApiOP = gridApiService.pagination(gridApi,ctrl.cargarOp,$scope);
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
           if(row.isSelected){
-            ctrl.totalChequesOP = ctrl.getSumValue(row.entity.Id);
-            if(ctrl.totalChequesOP>0 && ctrl.totalChequesOP < row.entity.ValorBase){
-              ctrl.OPValidada = true;
-              ctrl.OPSeleccionada = row.entity;
-            }else{
-              ctrl.OPValidada = false;
-              ctrl.OPSeleccionada = undefined;
-            }
+            ctrl.getSumValue(row.entity);
           }
         });
       }
 
     };
 
-    ctrl.getSumValue = function (Id){
+    ctrl.getSumValue = function (row){
       ctrl.validandoOP = true;
-      ctrl.consultaSumaOP = financieraRequest.get("cheque/GetChequeSumaOP/"+Id)
+      ctrl.consultaSumaOP = financieraRequest.get("cheque/GetChequeSumaOP/"+row.Id)
       .then(function(response){
         ctrl.validandoOP = false;
-        if (angular.equals(response.Type,"success")) {
-          return response.Body;
+        if (angular.equals(response.data.Type,"success")) {
+          ctrl.totalChequesOP  = response.data.Body;
+          if(ctrl.totalChequesOP < row.ValorBase){
+            ctrl.OPValidada = true;
+            ctrl.OPSeleccionada = row;
+          }else{
+            ctrl.OPValidada = false;
+            ctrl.OPSeleccionada = undefined;
+          }
         }else{
           ctrl.OPValidada = false;
-          return -1;
+          ctrl.totalChequesOP = -1;
+        }
+      });
+    }
+    ctrl.getChequeNumber = function(IdChequera,chequeInicial){
+      ctrl.numeroCheque = financieraRequest.get("cheque/GetNextChequeNumber/"+IdChequera)
+      .then(function(response){
+        if (angular.equals(response.data.Type,"success")) {
+          ctrl.cheque.Consecutivo=response.data.Body + chequeInicial;
+        }else{
+          ctrl.cheque.Consecutivo = 0;
         }
       });
     }
@@ -290,7 +302,7 @@ ctrl.cargarTiposDoc = function(){
 ctrl.cargarTiposDoc();
     $scope.$watch('tesoreriaGestionCheque.cheque.diasVencimiento',function(newValue){
       if(!angular.isUndefined(newValue)){
-        ctrl.cheque.fechaVencimiento = new Date(ctrl.cheque.fechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
       }
     },true)
 
@@ -315,7 +327,7 @@ ctrl.cargarTiposDoc();
         if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
            ctrl.encontrado_ben = true;
             ctrl.cargando_ben = false;
-            ctrl.cheque.IdBeneficiario = response.data[0].Id;
+            ctrl.cheque.Beneficiario = response.data[0].Id;
             ctrl.cheque.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
           }else{
             agoraRequest.get('informacion_persona_juridica',$.param({
@@ -326,7 +338,7 @@ ctrl.cargarTiposDoc();
                    ctrl.encontrado_ben = true;
                     ctrl.cargando_ben = false;
                     ctrl.cheque.nombreBeneficiario = response.data[0].NomProveedor;
-                    ctrl.cheque.IdBeneficiario = response.data[0].Id;
+                    ctrl.cheque.Beneficiario = response.data[0].Id;
                 }
             });
           }
@@ -370,9 +382,32 @@ ctrl.cargarTiposDoc();
     }
 
     ctrl.crearCheque = function(){
-      $q.all([ctrl.consultaSumaOP]).then(function(){
+      $q.all([ctrl.consultaSumaOP,ctrl.numeroCheque]).then(function(){
         if(ctrl.camposObligatorios()){
-
+          var request = {
+            Cheque:ctrl.cheque,
+            Usuario:111111
+          }
+          request.Cheque.OrdenPago = ctrl.OPSeleccionada;
+          request.Cheque.Chequera = ctrl.chequeraSel;
+          financieraMidRequest.post('gestion_cheques/CreateCheque',request).then(function(response){
+            if (response.data.Type != undefined) {
+                if (response.data.Type === "error") {
+                    swal('', $translate.instant(response.data.Code), response.data.Type);
+                } else {
+                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                  templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Cheque.Consecutivo + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                  templateAlert = templateAlert + "</table>";
+                    swal({title:'',
+                          html:templateAlert,
+                          type:response.data.Type
+                    });
+                    $('#creacionCheque').modal('hide');
+                    //ctrl.limpiarCheque();
+                }
+            }
+          });
+          console.log("request cheque",request);
         }else{
           swal({
             title:'¡Error!',

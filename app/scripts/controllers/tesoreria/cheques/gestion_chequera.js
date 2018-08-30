@@ -245,7 +245,9 @@ angular.module('financieraClienteApp')
               if (response.data.Type === "error") {
                   swal('', $translate.instant(response.data.Code), response.data.Type);
               } else {
-                  var templateAlert = $translate.instant('S_CHEQ_01') +  response.data.Body.Chequera.Consecutivo;
+                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                  templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Chequera.Consecutivo + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                  templateAlert = templateAlert + "</table>";
                   swal({title:'',
                         html:templateAlert,
                         type:response.data.Type
@@ -333,6 +335,7 @@ angular.module('financieraClienteApp')
 
     $scope.funcion = function(element) {
         $scope.estadoclick = $localStorage.nodeclick;
+
         ctrl.Request = {
           ChequeraEstadoChequera:{Estado:$scope.estadoclick.estado,
                                   Usuario:111111,
@@ -340,9 +343,12 @@ angular.module('financieraClienteApp')
                                 },
           Chequera:$scope.solicitud
         };
+        ctrl.Request.Chequera.Responsable= ctrl.Request.Chequera.Responsable.Id;
+        ctrl.Request.Chequera.UnidadEjecutora= ctrl.Request.Chequera.UnidadEjecutora.Id;
               financieraRequest.post('chequera_estado_chequera/AddEstadoChequera', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){
+                      console.log("error",response.data);
                       swal('',$translate.instant(response.data.Code),response.data.Type);
                     }else{
                       swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
