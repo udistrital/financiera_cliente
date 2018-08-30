@@ -1049,4 +1049,12 @@ angular.module('financieraClienteApp')
               }, 500, 2);
           }
         });
+
+        $scope.$watch('g', function() {
+          if($scope.g){
+            $interval( function() {
+                ctrl.gridReintApi.core.handleWindowResize();
+              }, 500, 2);
+          }
+        });
     });

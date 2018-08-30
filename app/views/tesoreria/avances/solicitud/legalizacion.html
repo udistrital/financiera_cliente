@@ -194,6 +194,7 @@
                     <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
                     <md-datepicker ng-model="legalizacion.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
                 </div>
+                <!--modal-date></modal-date-->
 
                 <br>
                 <div class="row">
@@ -322,7 +323,7 @@
       <div class="modal-header panel-heading">
           <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
       </div>
-      <tesoreria-reintegros avance="solicitud"></tesoreria-reintegros>
+      <tesoreria-reintegros avance="solicitud" g="false"></tesoreria-reintegros>
 </div>
 </div>
 
