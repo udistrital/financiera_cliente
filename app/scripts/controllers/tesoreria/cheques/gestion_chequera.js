@@ -348,7 +348,6 @@ angular.module('financieraClienteApp')
               financieraRequest.post('chequera_estado_chequera/AddEstadoChequera', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){
-                      console.log("error",response.data);
                       swal('',$translate.instant(response.data.Code),response.data.Type);
                     }else{
                       swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
