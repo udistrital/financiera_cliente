@@ -456,10 +456,14 @@ angular.module('financieraClienteApp')
               ctrl.hayData = true;
               ctrl.cargando = false;
 
-              ctrl.gridOrdenesDePagoAvance.data = response.data;
-              angular.forEach(ctrl.gridOrdenesDePagoAvance.data,function(row){
-                  $scope.addRubro(row.Id);
-              });
+
+              if (typeof(response.data)!=="string") {
+                ctrl.gridOrdenesDePagoAvance.data = response.data;
+                angular.forEach(ctrl.gridOrdenesDePagoAvance.data,function(row){
+                    $scope.addRubro(row.Id);
+                });
+              }
+
           }
           });
       }
@@ -758,17 +762,20 @@ angular.module('financieraClienteApp')
                       limit: -1
                   }))
               .then(function(response) {
-                angular.forEach(response.data,function(row){
-                  financieraRequest.get("ingreso_concepto",
-                          $.param({
-                              query: "Ingreso.Id:"+row.Reintegro.Ingreso.Id,
-                              limit: 1
-                          }))
-                      .then(function(response) {
-                        row.Reintegro.Ingreso.IngresoConcepto = response.data[0]
-                      });
-                });
-                  ctrl.gridReintegros.data = response.data;
+                if(typeof(response.data)!=="string"){
+                  angular.forEach(response.data,function(row){
+                    financieraRequest.get("ingreso_concepto",
+                            $.param({
+                                query: "Ingreso.Id:"+row.Reintegro.Ingreso.Id,
+                                limit: 1
+                            }))
+                        .then(function(response) {
+                          row.Reintegro.Ingreso.IngresoConcepto = response.data[0]
+                        });
+                  });
+                    ctrl.gridReintegros.data = response.data;
+                }
+
               });
         }
         ctrl.cargarReintegros();
@@ -985,7 +992,7 @@ angular.module('financieraClienteApp')
       ctrl.getMovimientosContables();
       ctrl.revisarNoRow = function(obj){
         if(typeof(obj)==="string"){
-        if(response.data.indexOf("no row found")>=0) {
+        if(obj.indexOf("no row found")>=0) {
           return true;
         }
         }
@@ -1039,6 +1046,14 @@ angular.module('financieraClienteApp')
           if($scope.e){
             $interval( function() {
                 ctrl.gridPracticasApi.core.handleWindowResize();
+              }, 500, 2);
+          }
+        });
+
+        $scope.$watch('g', function() {
+          if($scope.g){
+            $interval( function() {
+                ctrl.gridReintApi.core.handleWindowResize();
               }, 500, 2);
           }
         });
