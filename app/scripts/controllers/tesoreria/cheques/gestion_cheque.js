@@ -8,22 +8,26 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaChequesGestionChequeCtrl', function ($scope,$translate,financieraRequest,gridApiService,financieraMidRequest,$interval,uiGridConstants,$window,$q,agoraRequest) {
+  .controller('TesoreriaChequesGestionChequeCtrl', function ($scope,$translate,financieraRequest,gridApiService,financieraMidRequest,$interval,uiGridConstants,$window,$q,agoraRequest,$localStorage) {
     var ctrl = this;
     ctrl.totalChequesOP = 0;
     ctrl.cheque={};
     ctrl.encontrado_ben=true;
-
+    ctrl.chequeraSel = undefined;
+    ctrl.OPSeleccionada = undefined;
     $scope.botones = [
-      { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
+      { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+      { clase_color: "editar", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
     ];
     $scope.botonesChequera = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
     ];
+    $scope.estado_select = [];
+    $scope.estados = [];
     ctrl.cheque.fechaCreacion = new Date();
-    ctrl.cheque.fechaVencimiento = new Date();
-
+    ctrl.cheque.FechaVencimiento = new Date();
     ctrl.OPValidada = true;
+    ctrl.cheque.Consecutivo = 0;
     ctrl.gridCheque = {
       enableFiltering: true,
       enableSorting: true,
@@ -34,36 +38,38 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       selectionRowHeaderWidth: 35,
       enableRowHeaderSelection: false,
+      multiSelect:false,
       columnDefs: [
           {
-              field: 'CodigoHomologado',
+              field: 'Consecutivo',
               displayName: $translate.instant('CONSECUTIVO'),
               headerCellClass:'text-info',
               width: '14%'
           },
           {
-              field: 'NombreHomologado',
+              field: 'Chequera.Consecutivo',
               displayName: $translate.instant('CHEQUERA'),
               headerCellClass:'text-info',
               width: '20%',
           },
           {
-              field: 'Vigencia',
+              field: 'OrdenPago.Consecutivo',
               displayName: $translate.instant('ORDEN_PAGO'),
               headerCellClass:'text-info',
               width: '14%'
           },
           {
-              field: 'NombreHomologado',
+              field: 'Beneficiario',
               displayName: $translate.instant('BENEFICIARIO'),
               headerCellClass:'text-info',
               width: '20%',
           },
           {
-              field: 'NombreHomologado',
+              field: 'FechaVencimiento',
               displayName: $translate.instant('FECHA_VENCIMIENTO'),
               headerCellClass:'text-info',
               width: '17%',
+              cellFilter: "date:'yyyy-MM-dd'"
           },
           {
             name: $translate.instant('OPCIONES'),
@@ -72,7 +78,11 @@ angular.module('financieraClienteApp')
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
             width: '12%'
           }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiCheques = gridApi;
+        ctrl.gridApiCheques = gridApiService.pagination(gridApi,ctrl.consultarCheques,$scope);
+      },
     }
 
     ctrl.gridChequeras = {
@@ -122,6 +132,15 @@ angular.module('financieraClienteApp')
       onRegisterApi: function(gridApi) {
         ctrl.gridApiChequeras = gridApi;
         ctrl.gridApiChequeras = gridApiService.pagination(gridApi,ctrl.ObtenerChequeras,$scope);
+        gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+          if(row.isSelected){
+            ctrl.chequeraSel = row.entity.Chequera;
+            ctrl.getChequeNumber(ctrl.chequeraSel.Id,ctrl.chequeraSel.NumeroChequeInicial);
+          }else{
+            ctrl.chequeraSel = undefined;
+            ctrl.cheque.Consecutivo = 0;
+          }
+        });
       },
       isRowSelectable: function(row){
         return row.entity.Chequera.ChequesDisponibles > 0;
@@ -203,28 +222,41 @@ angular.module('financieraClienteApp')
         ctrl.gridApiOP = gridApiService.pagination(gridApi,ctrl.cargarOp,$scope);
         gridApi.selection.on.rowSelectionChanged($scope, function(row) {
           if(row.isSelected){
-            ctrl.totalChequesOP = ctrl.getSumValue(row.entity.Id);
-            if(ctrl.totalChequesOP>0 && ctrl.totalChequesOP < row.entity.ValorBase){
-              ctrl.OPValidada = true;
-            }else{
-              ctrl.OPValidada = false;
-            }
+            ctrl.getSumValue(row.entity);
           }
         });
       }
 
     };
 
-    ctrl.getSumValue = function (Id){
+
+    ctrl.getSumValue = function (row){
       ctrl.validandoOP = true;
-      ctrl.consultaSumaOP = financieraRequest.get("cheque/GetChequeSumaOP/"+Id)
+      ctrl.consultaSumaOP = financieraRequest.get("cheque/GetChequeSumaOP/"+row.Id)
       .then(function(response){
         ctrl.validandoOP = false;
-        if (angular.equals(response.Type,"success")) {
-          return response.Body;
+        if (angular.equals(response.data.Type,"success")) {
+          ctrl.totalChequesOP  = response.data.Body;
+          if(ctrl.totalChequesOP < row.ValorBase){
+            ctrl.OPValidada = true;
+            ctrl.OPSeleccionada = row;
+          }else{
+            ctrl.OPValidada = false;
+            ctrl.OPSeleccionada = undefined;
+          }
         }else{
           ctrl.OPValidada = false;
-          return -1;
+          ctrl.totalChequesOP = -1;
+        }
+      });
+    }
+    ctrl.getChequeNumber = function(IdChequera,chequeInicial){
+      ctrl.numeroCheque = financieraRequest.get("cheque/GetNextChequeNumber/"+IdChequera)
+      .then(function(response){
+        if (angular.equals(response.data.Type,"success")) {
+          ctrl.cheque.Consecutivo=response.data.Body + chequeInicial;
+        }else{
+          ctrl.cheque.Consecutivo = 0;
         }
       });
     }
@@ -249,6 +281,44 @@ angular.module('financieraClienteApp')
     });
   }
   ctrl.ObtenerChequeras(0,'');
+
+  ctrl.consultarCheques = function(offset,query){
+
+    financieraRequest.get("cheque/GetChequeRecordsNumber",$.param({
+      query:query
+    })).then(function(response){
+        ctrl.gridCheque.totalItems = response.data.Body;
+    });
+
+
+    financieraMidRequest.get("gestion_cheques/GetAllCheque",$.param({
+      limit: ctrl.gridCheque.paginationPageSize,
+      offset:offset,
+      query:query
+    })).then(function(response){
+      ctrl.gridCheque.data = response.data;
+    });
+
+  }
+
+    ctrl.consultarCheques(0,'');
+
+    $scope.loadrow = function(row, operacion) {
+        $scope.solicitud = row.entity;
+        switch (operacion) {
+            case "proceso":
+                $scope.estado = $scope.solicitud.Estado ;
+                $scope.informacion = $translate.instant('CHEQUE')+ ' '+ 'No'+' '+row.entity.Consecutivo;
+                $scope.mostrar_direc = true;
+                break;
+            case "ver":
+                $scope.cheque = row.entity;
+                console.log("Cheque",$scope.cheque);
+                $("#datosCheque").modal();
+                break;
+            default:
+        }
+    }
 
   ctrl.cargarOp = function(offset,query){
     financieraRequest.get('orden_pago', $.param({
@@ -280,7 +350,7 @@ ctrl.cargarTiposDoc = function(){
 ctrl.cargarTiposDoc();
     $scope.$watch('tesoreriaGestionCheque.cheque.diasVencimiento',function(newValue){
       if(!angular.isUndefined(newValue)){
-        ctrl.cheque.fechaVencimiento = new Date(ctrl.cheque.fechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
       }
     },true)
 
@@ -305,7 +375,7 @@ ctrl.cargarTiposDoc();
         if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
            ctrl.encontrado_ben = true;
             ctrl.cargando_ben = false;
-            ctrl.cheque.IdBeneficiario = response.data[0].Id;
+            ctrl.cheque.Beneficiario = response.data[0].Id;
             ctrl.cheque.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
           }else{
             agoraRequest.get('informacion_persona_juridica',$.param({
@@ -316,7 +386,7 @@ ctrl.cargarTiposDoc();
                    ctrl.encontrado_ben = true;
                     ctrl.cargando_ben = false;
                     ctrl.cheque.nombreBeneficiario = response.data[0].NomProveedor;
-                    ctrl.cheque.IdBeneficiario = response.data[0].Id;
+                    ctrl.cheque.Beneficiario = response.data[0].Id;
                 }
             });
           }
@@ -342,6 +412,14 @@ ctrl.cargarTiposDoc();
           ctrl.encontrado_ben=false;
       }
 
+      if (angular.isUndefined(ctrl.chequeraSel)){
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_CHEQUERA") + "</li>";
+      }
+
+      if(angular.isUndefined(ctrl.OPSeleccionada)){
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("ORDEN_PAGO_SELECCIOANR") + "</li>";
+      }
+
       if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
         respuesta = true;
       } else {
@@ -352,16 +430,61 @@ ctrl.cargarTiposDoc();
     }
 
     ctrl.crearCheque = function(){
-      if(ctrl.camposObligatorios()){
+      $q.all([ctrl.consultaSumaOP,ctrl.numeroCheque]).then(function(){
+        if(ctrl.camposObligatorios()){
+          var request = {
+            Cheque:ctrl.cheque,
+            Usuario:111111
+          }
+          request.Cheque.OrdenPago = ctrl.OPSeleccionada;
+          request.Cheque.Chequera = ctrl.chequeraSel;
+          request.Cheque.Beneficiario = parseInt(request.Cheque.Beneficiario);
+          financieraMidRequest.post('gestion_cheques/CreateCheque',request).then(function(response){
+            if (response.data.Type != undefined) {
+                if (response.data.Type === "error") {
+                    swal('', $translate.instant(response.data.Code), response.data.Type);
+                } else {
+                  console.log("respuesta creacion cheque",response.data);
+                  var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                  templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Cheque.Consecutivo + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                  templateAlert = templateAlert + "</table>";
+                    swal({title:'',
+                          html:templateAlert,
+                          type:response.data.Type
+                    });
+                    $('#creacionCheque').modal('hide');
+                    ctrl.limpiarCheque();
+                    ctrl.consultarCheques(0,'');
+                    ctrl.ObtenerChequeras(0,'');
+                }
+            }
+          });
+        }else{
+          swal({
+            title:'¡Error!',
+            html:'<ol align="left">'+ctrl.MensajesAlerta+"</ol>",
+            type:'error'
+          });
+        }
+      });
 
-      }else{
-        swal({
-          title:'¡Error!',
-          html:'<ol align="left">'+ctrl.MensajesAlerta+"</ol>",
-          type:'error'
-        });
-      }
 
+    }
+
+
+    ctrl.limpiarCheque = function(){
+      $scope.cheque.$setPristine();
+      $scope.datosBeneficiario.$setPristine();
+      ctrl.cheque = {};
+      ctrl.encontrado_ben=true;
+      ctrl.chequeraSel = undefined;
+      ctrl.OPSeleccionada = undefined;
+      ctrl.totalChequesOP = 0;
+      ctrl.cheque.Consecutivo = 0;
+      ctrl.gridApiOP.selection.clearSelectedRows();
+      ctrl.gridApiChequeras.selection.clearSelectedRows();
+      ctrl.cheque.fechaCreacion = new Date();
+      ctrl.cheque.FechaVencimiento = new Date();
     }
 
     ctrl.ajustarGrid = function() {
@@ -369,6 +492,82 @@ ctrl.cargarTiposDoc();
           ctrl.gridApiChequeras.core.handleWindowResize();
         }, 500, 2);
     }
+
+    ctrl.cargarEstados = function() {
+        financieraRequest.get("estado_cheque", $.param({
+                sortby: "NumeroOrden",
+                limit: -1,
+                order: "asc"
+            }))
+            .then(function(response) {
+
+              $scope.estados = [];
+              $scope.aristas = [];
+              ctrl.estados = response.data;
+              angular.forEach(ctrl.estados, function(estado) {
+                  $scope.estados.push({
+                      id: estado.NumeroOrden,
+                      label: estado.Nombre
+                  });
+                  $scope.estado_select.push({
+                      value: estado.NumeroOrden,
+                      label: estado.Nombre,
+                      estado: estado
+                  });
+              });
+
+                $scope.aristas = [{
+                        from: 1,
+                        to: 2
+                    },
+                    {
+                        from: 2,
+                        to: 3
+                    },
+                    {
+                        from: 3,
+                        to: 4
+                    },
+                    {
+                        from: 2,
+                        to: 5
+                    },
+                    {
+                        from: 3,
+                        to: 7
+                    },
+                    {
+                        from: 3,
+                        to: 6
+                    },
+                ];
+            });
+    }
+
+    ctrl.cargarEstados();
+
+    $scope.funcion = function(element) {
+        $scope.estadoclick = $localStorage.nodeclick;
+        ctrl.Request = {
+          ChequeEstadoCheque:{Estado:$scope.estadoclick.estado,
+                                  Usuario:111111,
+                                  Activo:true
+                                },
+          Cheque:$scope.solicitud
+        };
+            financieraRequest.post('cheque_estado_cheque/AddEstadoCheque', ctrl.Request).then(function(response) {
+                if(response.data.Type != undefined){
+                  if(response.data.Type === "error"){
+                      swal('',$translate.instant(response.data.Code),response.data.Type);
+                    }else{
+                      swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                        ctrl.consultarCheques(0,'');
+                        $scope.estado = $scope.estadoclick.estado;
+                      })
+                    }
+                  }
+                });
+  }
 
     ctrl.opDetalle = function(row) {
       $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');

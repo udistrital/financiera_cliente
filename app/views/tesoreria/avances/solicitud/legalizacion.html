@@ -146,12 +146,11 @@
     </div>
 </div>
 
-<div id="modal_legalizacion_compras" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
-    <style>
-        .md-datepicker-calendar-pane {
-            z-index: 1200
-        }
-    </style>
+<div id="modal_legalizacion_compras" class="modal fade" role="dialog" style="padding-top:2%">
+        <style>
+          .md-datepicker-calendar-pane{
+          z-index: 1200}
+        </style>
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header panel-heading">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
@@ -195,6 +194,8 @@
                     <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
                     <md-datepicker ng-model="legalizacion.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
                 </div>
+                <!--modal-date></modal-date-->
+
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-3 control-label">{{'NO_FACTURA' | translate }}:</label>
@@ -322,7 +323,7 @@
       <div class="modal-header panel-heading">
           <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
       </div>
-      <tesoreria-reintegros avance="solicitud"></tesoreria-reintegros>
+      <tesoreria-reintegros avance="solicitud" g="false"></tesoreria-reintegros>
 </div>
 </div>
 

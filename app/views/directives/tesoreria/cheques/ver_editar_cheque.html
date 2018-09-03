@@ -1,0 +1,51 @@
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <h3 class="page-header"><span>{{'INFORMACION_CHEQUE' | translate}}</span></h3>
+      </div>
+      <form name="infochequera">
+      <div class="panel-body">
+        <div ng-class="{'col-md-6':!ver}">
+            <div class="col-md-6">
+                <div class="form-group">
+                  <label for="unidadejecutora">{{'CONSECUTIVO' | translate}}</label>
+                    <input type="text" class="form-control input_left" ng-model="cheque.Consecutivo" ng-show="ver" disabled/>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">{{'ORDEN_PAGO'|translate}}</label>
+                  <span class="form-control" disabled >
+                    <a href="" ng-click="d_tesoreriaVerEditarCheque.opDetalle()">{{cheque.OrdenPago.Consecutivo}}</a>
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="banco" class="control-label">{{'FECHA_VENCIMIENTO'|translate}}</label>
+                    <input type="text" class="form-control input_left" ng-model="cheque.FechaVencimiento" ng-show="ver" disabled ui-date-mask="YYYY-MM-DD"/>
+                </div>
+            </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>{{'CHEQUERA'|translate}}</label>
+                  <span class="form-control" disabled >
+                    <a href="" ng-click="d_tesoreriaVerEditarCheque.chequeraDetalle()">{{cheque.Chequera.Consecutivo}}</a>
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="numdoc"  class="control-label">{{'BENEFICIARIO'|translate}}</label>
+                    <span class="form-control" disabled>{{cheque.Beneficiario}}</span>
+                </div>
+              </div>
+              <div class="col-md-12"  ng-show="ver">
+                <div class="form_group">
+                  <label for="observaciones">{{'OBSERVACIONES' | translate}}</label>
+                  <textarea name="observaciones" ng-model="cheque.Observaciones" class="form-control" rows="4" cols="40" disabled></textarea>
+                </div>
+              </div>
+
+        </div>
+        </div>
+        </form>
+        <!--div class="panel-footer">
+          <div align="center">
+            <button  class="btn btn-outline btn-info" ng-click="d_tesoreriaVerEditarchequeregistrarChequera()"> {{ 'BTN.REGISTRAR' | translate }} </button>
+          </div>
+        </div-->
+  </div>
