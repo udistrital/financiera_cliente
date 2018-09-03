@@ -16,7 +16,8 @@ angular.module('financieraClienteApp')
     ctrl.chequeraSel = undefined;
     ctrl.OPSeleccionada = undefined;
     $scope.botones = [
-      { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true }
+      { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+      { clase_color: "editar", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
     ];
     $scope.botonesChequera = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
@@ -58,7 +59,7 @@ angular.module('financieraClienteApp')
               width: '14%'
           },
           {
-              field: 'Beneficiario.Nombre',
+              field: 'Beneficiario',
               displayName: $translate.instant('BENEFICIARIO'),
               headerCellClass:'text-info',
               width: '20%',
@@ -310,6 +311,11 @@ angular.module('financieraClienteApp')
                 $scope.informacion = $translate.instant('CHEQUE')+ ' '+ 'No'+' '+row.entity.Consecutivo;
                 $scope.mostrar_direc = true;
                 break;
+            case "ver":
+                $scope.cheque = row.entity;
+                console.log("Cheque",$scope.cheque);
+                $("#datosCheque").modal();
+                break;
             default:
         }
     }
@@ -449,6 +455,7 @@ ctrl.cargarTiposDoc();
                     $('#creacionCheque').modal('hide');
                     ctrl.limpiarCheque();
                     ctrl.consultarCheques(0,'');
+                    ctrl.ObtenerChequeras(0,'');
                 }
             }
           });
@@ -476,6 +483,8 @@ ctrl.cargarTiposDoc();
       ctrl.cheque.Consecutivo = 0;
       ctrl.gridApiOP.selection.clearSelectedRows();
       ctrl.gridApiChequeras.selection.clearSelectedRows();
+      ctrl.cheque.fechaCreacion = new Date();
+      ctrl.cheque.FechaVencimiento = new Date();
     }
 
     ctrl.ajustarGrid = function() {
