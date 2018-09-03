@@ -1,7 +1,10 @@
 <div class="panel panel-primary panel-body">
   <h2 class="page-header text-center">{{ 'INFORMACION_CHEQUE' | translate }}</h2>
   <div class="panel-body">
-      <div ui-grid="tesoreriaGestionCheque.gridCheque" ui-grid-pagination ui-grid-selection></div>
+      <div ui-grid="tesoreriaGestionCheque.gridCheque" ui-grid-pagination ui-grid-selection>
+        <div class="watermark" ng-show="!tesoreriaGestionCheque.hayDataCheque">{{'NO_DATA'| translate}}</div>
+        <div class="watermark" ng-show="tesoreriaGestionCheque.cargandoCheque">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+      </div>
   </div>
   <div ng-if="mostrar_direc">
       <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"  info="informacion" properties="estado_select" selecestado></proceso>
@@ -115,7 +118,10 @@
                         <h4 class="text-left panel-title"><span>{{'INFORMACION_CHEQUERA' | translate}}</span></h4>
                       </div>
                       <div class = "panel-body">
-                        <div ui-grid="tesoreriaGestionCheque.gridChequeras" ui-grid-pagination ui-grid-selection></div>
+                        <div ui-grid="tesoreriaGestionCheque.gridChequeras" ui-grid-pagination ui-grid-selection>
+                          <div class="watermark" ng-show="!tesoreriaGestionCheque.hayDataChequera">{{'NO_DATA'| translate}}</div>
+                          <div class="watermark" ng-show="tesoreriaGestionCheque.cargandoChequera">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+                        </div>
 
                           <div class="row">
                             <div class = "col-md-2" style="padding-top:2%">
