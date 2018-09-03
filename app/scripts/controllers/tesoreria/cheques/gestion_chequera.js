@@ -254,6 +254,7 @@ angular.module('financieraClienteApp')
                   });
                   $('#creacionChequera').modal('hide');
                   ctrl.limpiarChequera();
+                  ctrl.consultarChequeras(0,'');
               }
           }
         });
