@@ -104,7 +104,7 @@ angular.module('financieraClienteApp')
 
 
           if (row2.isSelected) {
-            console.log("conceptos directiva", )
+            //console.log("conceptos directiva", )
             $scope.outputconceptos.push(row2.entity);
             console.log("outputconcepto", $scope.outputconceptos)
           } else {
