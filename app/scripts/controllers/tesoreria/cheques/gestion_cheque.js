@@ -372,7 +372,9 @@ ctrl.cargarTiposDoc = function(){
 ctrl.cargarTiposDoc();
     $scope.$watch('tesoreriaGestionCheque.cheque.diasVencimiento',function(newValue){
       if(!angular.isUndefined(newValue)){
-        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.fechaCreacion);
+        ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.FechaVencimiento.getDate() + newValue);
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento);
       }
     },true)
 
