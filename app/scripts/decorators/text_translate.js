@@ -516,7 +516,7 @@ var text_es = {
     NUEVA: "Nueva",
     NUEVO_CONCEPTO: "Nuevo Concepto",
     NUEVO_OP_PROVEEDOR: "Nuevo OP Proveedor",
-    NUM_CHEQUES:"Número de Cheques",
+    NUM_CHEQUES:"Número Cheques",
     HORA_CATEDRA: "Hora Cátedra",
     NUEVO_OP_SEGURIDAD_SOCIAL: "Nuevo OP Seguridad Social",
     NUEVO_PLAN_CUENTAS: "Crear Nuevo Plan de cuentas",

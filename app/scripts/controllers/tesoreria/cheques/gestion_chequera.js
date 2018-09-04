@@ -53,19 +53,19 @@ angular.module('financieraClienteApp')
               field: 'Banco.Nombre',
               displayName: $translate.instant('BANCO'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '15%',
           },
           {
               field: 'Sucursal.Nombre',
               displayName: $translate.instant('SUCURSAL'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '15%',
           },
           {
               field: 'CuentaBancaria.Nombre',
               displayName: $translate.instant('CUENTA_BANCARIA'),
               headerCellClass:'text-info',
-              width: '18%',
+              width: '15%',
           },
           {
               field: 'NumeroChequeInicial',
@@ -78,6 +78,12 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('CHEQUE_FINAL'),
               headerCellClass:'text-info',
               width: '10%'
+          },
+          {
+              cellTemplate:'<span>{{row.entity.NumeroChequeFinal - row.entity.NumeroChequeInicial}}</span>',
+              name: $translate.instant('NUM_CHEQUES'),
+              headerCellClass:'text-info',
+              width: '9%'
           },
           {
             name: $translate.instant('OPCIONES'),
@@ -96,7 +102,6 @@ angular.module('financieraClienteApp')
 
     ctrl.consultarChequeras = function(offset,query){
       financieraMidRequest.cancel();
-
       financieraRequest.get("chequera/GetChequeraRecordsNumber",$.param({
         query:query
       })).then(function(response){
