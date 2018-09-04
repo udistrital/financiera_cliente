@@ -54,12 +54,12 @@ angular.module('financieraClienteApp')
           },
           {
               field: 'OrdenPago.Consecutivo',
-              displayName: $translate.instant('ORDEN_PAGO'),
+              displayName: $translate.instant('ORDEN_DE_PAGO'),
               headerCellClass:'text-info',
               width: '14%'
           },
           {
-              field: 'Beneficiario',
+              field: 'Beneficiario.Nombre',
               displayName: $translate.instant('BENEFICIARIO'),
               headerCellClass:'text-info',
               width: '20%',
@@ -264,9 +264,11 @@ angular.module('financieraClienteApp')
 
     ctrl.ObtenerChequeras = function(offset,query){
       financieraMidRequest.cancel();
+      ctrl.cargandoChequera = true;
+      ctrl.hayDataChequera = true;
 
       if (angular.isUndefined(query) || query === ""){
-        query = "Estado.NumeroOrden:1";
+        query = "Estado.NumeroOrden:2";
       }else {
         query = query + ",Estado.NumeroOrden:1";
       }
@@ -277,12 +279,22 @@ angular.module('financieraClienteApp')
         query:query,
         bDisponibles:true
       })).then(function(response){
-          ctrl.gridChequeras.data=response.data;
+          if(response.data==null){
+            ctrl.cargandoChequera = false;
+            ctrl.hayDataChequera = false;
+          }else{
+            ctrl.cargandoChequera = true;
+            ctrl.hayDataChequera = false;
+            ctrl.gridChequeras.data=response.data;
+          }
+
     });
   }
   ctrl.ObtenerChequeras(0,'');
 
   ctrl.consultarCheques = function(offset,query){
+    ctrl.cargandoCheque = true;
+    ctrl.hayDataCheque = true;
 
     financieraRequest.get("cheque/GetChequeRecordsNumber",$.param({
       query:query
@@ -290,13 +302,21 @@ angular.module('financieraClienteApp')
         ctrl.gridCheque.totalItems = response.data.Body;
     });
 
-
+    //Tarda debido a servicio de administrativa_amazon_api en el crud
     financieraMidRequest.get("gestion_cheques/GetAllCheque",$.param({
       limit: ctrl.gridCheque.paginationPageSize,
       offset:offset,
       query:query
     })).then(function(response){
-      ctrl.gridCheque.data = response.data;
+      if(response.data == null){
+        ctrl.hayDataCheque = false;
+        ctrl.cargandoCheque = false;
+      }else{
+        ctrl.hayDataCheque = true;
+        ctrl.cargandoCheque = false;
+        ctrl.gridCheque.data = response.data;
+      }
+
     });
 
   }
@@ -321,6 +341,8 @@ angular.module('financieraClienteApp')
     }
 
   ctrl.cargarOp = function(offset,query){
+    ctrl.hayDataOP = true;
+    ctrl.cargandoOP = true;
     financieraRequest.get('orden_pago', $.param({
       query:query,
       limit: ctrl.gridOrdenesDePago.paginationPageSize,
@@ -350,7 +372,9 @@ ctrl.cargarTiposDoc = function(){
 ctrl.cargarTiposDoc();
     $scope.$watch('tesoreriaGestionCheque.cheque.diasVencimiento',function(newValue){
       if(!angular.isUndefined(newValue)){
-        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.fechaCreacion.getDate() + newValue));
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.fechaCreacion);
+        ctrl.cheque.FechaVencimiento.setDate(ctrl.cheque.FechaVencimiento.getDate() + newValue);
+        ctrl.cheque.FechaVencimiento = new Date(ctrl.cheque.FechaVencimiento);
       }
     },true)
 
@@ -378,9 +402,9 @@ ctrl.cargarTiposDoc();
             ctrl.cheque.Beneficiario = response.data[0].Id;
             ctrl.cheque.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
           }else{
-            agoraRequest.get('informacion_persona_juridica',$.param({
-              query:"Id:" + ctrl.cheque.numdocBeneficiario,
-              limit:-1
+            agoraRequest.get('informacion_proveedor',$.param({
+              query:"NumDocumento:" + ctrl.cheque.numdocBeneficiario,
+              limit:1
             })).then(function(response){
                 if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
                    ctrl.encontrado_ben = true;
@@ -444,7 +468,6 @@ ctrl.cargarTiposDoc();
                 if (response.data.Type === "error") {
                     swal('', $translate.instant(response.data.Code), response.data.Type);
                 } else {
-                  console.log("respuesta creacion cheque",response.data);
                   var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
                   templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Cheque.Consecutivo + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
                   templateAlert = templateAlert + "</table>";
