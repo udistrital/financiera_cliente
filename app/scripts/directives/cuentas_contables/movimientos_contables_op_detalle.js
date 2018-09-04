@@ -195,7 +195,6 @@ angular.module('financieraClienteApp')
               $scope.debitos=$scope.debitos - row.entity.Debito;
               $scope.creditos=$scope.creditos - row.entity.Credito;
             }
-            console.log("Suma debitos",$scope.debitos,"suma credito",$scope.creditos);
           });
 
           gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
@@ -208,7 +207,16 @@ angular.module('financieraClienteApp')
                 });
             });
 
-        };
+        }
+        $scope.$watch('inputpestanaabierta', function() {
+          console.log('input prestana abierta',$scope.inputpestanaabierta);
+            if($scope.inputpestanaabierta){
+              $interval( function() {
+                console.log("actualiza tamaño cuentas");
+                  self.gridApi.core.handleWindowResize();
+                }, 500, 2);
+            }
+          },true);
 
         //self.gridOptions_movimientos.multiSelect = false;
         //
