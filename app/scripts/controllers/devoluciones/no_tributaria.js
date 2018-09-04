@@ -236,7 +236,7 @@ $scope.loadrow = function(row, operacion) {
   ctrl.operacion = operacion;
   switch (operacion) {
       case "seleccionar":
-      $("#modalCuentas").modal();
+          $("#modalCuentas").modal();
           ctrl.IdOrden = row.entity.Id;
           break;
       case "ver":
