@@ -80,8 +80,8 @@ angular.module('financieraClienteApp')
               width: '10%'
           },
           {
-              cellTemplate:'<span>{{row.entity.NumeroChequeFinal - row.entity.NumeroChequeInicial}}</span>',
-              name: $translate.instant('NUM_CHEQUES'),
+              field: 'ChequesDisponibles',
+              displayName: $translate.instant('CHEQUES_DISPONIBLES'),
               headerCellClass:'text-info',
               width: '9%'
           },
