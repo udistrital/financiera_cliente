@@ -283,8 +283,8 @@ angular.module('financieraClienteApp')
             ctrl.cargandoChequera = false;
             ctrl.hayDataChequera = false;
           }else{
-            ctrl.cargandoChequera = true;
-            ctrl.hayDataChequera = false;
+            ctrl.cargandoChequera = false;
+            ctrl.hayDataChequera = true;
             ctrl.gridChequeras.data=response.data;
           }
 

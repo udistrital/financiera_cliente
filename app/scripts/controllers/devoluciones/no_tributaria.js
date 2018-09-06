@@ -8,13 +8,16 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location,$window) {
+  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location,$window,gridApiService,$interval,$filter) {
 
     var ctrl = this;
 
     ctrl.seleccionMov = true;
     ctrl.FechaOficio = new Date();
     $scope.concepto=[];
+    ctrl.pestOpen = true;
+
+    ctrl.cuentasAsociadas = [];
 
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.SELECCIONAR'), operacion: 'seleccionar', estado: true },
@@ -119,13 +122,78 @@ angular.module('financieraClienteApp')
         },
 
       ],
-      //onRegisterApi: function(gridApi) {
-        //ctrl.gridApi = gridApi;
-        //gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          //$scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
-        //});
-      //}
     };
+
+    ctrl.gridCuentasAsociadas = {
+      enableFiltering: true,
+      enableSorting: true,
+      enableRowSelection: true,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
+      useExternalPagination: true,
+      enableSelectAll: false,
+      selectionRowHeaderWidth: 35,
+      enableRowHeaderSelection: false,
+      multiSelect:false,
+      showColumnFooter: true,
+      enableCellEditOnFocus: true,
+      columnDefs: [
+          {
+              field: 'OrdenPago.Consecutivo',
+              displayName: $translate.instant('ORDEN_DE_PAGO'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '14%'
+            },
+          {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTA_CONTABLE'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '14%'
+          },
+          {
+              field: 'Credito',
+              displayName: $translate.instant('VALOR'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              cellFilter: "currency",
+              width: '20%',
+          },
+          {
+              field: 'ValorBase',
+              displayName: $translate.instant('VALOR_BASE'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              cellFilter: "currency",
+              width: '14%'
+          },
+          {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '20%',
+          },
+          {
+              field: 'ValorDevol',
+              displayName: $translate.instant('VALOR_DEVOLUCION'),
+              headerCellClass:'text-info',
+              cellTemplate: '<div>{{row.entity.ValorDevol | currency:undefined:0}}</div>',
+              width: '17%',
+              enableCellEdit:true,
+              cellFilter: "number",
+              type: 'number',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+              footerCellClass: 'input_right'
+          }
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiCtasAsociadas = gridApi;
+        ctrl.gridApiCtasAsociadas = gridApiService.pagination(gridApi,ctrl.consultarCuentasAsociadas,$scope);
+      },
+    }
 
     ctrl.consultarListas= function(){
       financieraRequest.get('forma_pago',
@@ -205,7 +273,7 @@ angular.module('financieraClienteApp')
      angular.forEach($scope.concepto,function(concepto){
        afectacionTotal += concepto.valorAfectacion;
      });
-     if(afectacionTotal === ctrl.sumacreditos){
+     if(afectacionTotal === ctrl.valorSolicitado){
        ctrl.validaDevolPr = true;
      }
    },true);
@@ -236,8 +304,9 @@ $scope.loadrow = function(row, operacion) {
   ctrl.operacion = operacion;
   switch (operacion) {
       case "seleccionar":
+          ctrl.Op = row.entity;
+          ctrl.pestOpen = true;
           $("#modalCuentas").modal();
-          ctrl.IdOrden = row.entity.Id;
           break;
       case "ver":
           $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');
@@ -340,12 +409,19 @@ ctrl.validateFields = function(){
     return validationClear;
 
 }
+  $scope.$watch('devolucionesnoTributaria.gridApiCtasAsociadas.grid.columns[5].getAggregationValue()',function(value){
+    ctrl.valorSolicitado = value;
+  },true);
+
 ctrl.crearDevolucion = function(){
   var templateAlert;
+  return;
   if  (!ctrl.validateFields()){
     swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
     return;
   }
+
+
 
   ctrl.DevolucionTributaria={
     DevolucionTributaria:{
@@ -402,7 +478,46 @@ ctrl.crearDevolucion = function(){
   }
 
   ctrl.aceptar = function(){
+    angular.forEach(ctrl.cuentasAsociadas,function(cuenta){
+      if (cuenta.CuentaEspecial!=null){
+        financieraRequest.get('orden_pago_cuenta_especial',$.param({
+          query:"OrdenPago.Id:"+cuenta.CodigoDocumentoAfectante+",CuentaEspecial.Id:"+cuenta.CuentaEspecial.Id,
+          fields:"ValorBase,OrdenPago",
+          limit:1
+        })).then(function(response){
+          if(!angular.isUndefined(response.data) &&  response.data.length > 0){
+              cuenta.ValorBase = response.data[0].ValorBase;
+              cuenta.OrdenPago = response.data[0].OrdenPago;
+          }
+          $("#modalCuentas").modal('hide');
+          ctrl.pestOpen=false;
+        });
+      }
+      cuenta.OrdenPago = ctrl.Op;
+      cuenta.ValorDevol = 0;
+    });
+    angular.forEach(ctrl.gridCuentasAsociadas.data,function(cuenta){
+      ctrl.cuentasAsociadas = $filter('filter')(ctrl.cuentasAsociadas,function(item) {
+        if (item.Id === cuenta.Id){
+          return false;
+        }
+          return true;
+        },true);
+    })
+
+    angular.forEach(ctrl.cuentasAsociadas,function(cuenta){
+      ctrl.gridCuentasAsociadas.data.push(cuenta);
+    });
     $("#modalCuentas").modal('hide');
+    ctrl.pestOpen=false;
   }
+
+  $scope.$watch('d', function(newvalue) {
+      if(newvalue){
+        $interval( function() {
+            ctrl.gridApiCtasAsociadas.core.handleWindowResize();
+          }, 500, 2);
+      }
+    },true);
 
   });

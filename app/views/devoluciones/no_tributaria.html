@@ -86,7 +86,7 @@
 
             <div class="form-group">
               <label>{{'VALOR_SOLICITADO'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.sumacreditos" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-number-mask="0" required/>
+              <input type="text" class="form-control input_left" ng-model="devolucionesnoTributaria.valorSolicitado" placeholder="{{'VALOR_SOLICITADO'|translate}}" ui-number-mask="0" required disabled>
             </div>
 
           <div class="form-group">
@@ -217,6 +217,17 @@
     </div>
   </div>
 
+  <div class="panel-body">
+    <legend class="text-primary" ng-click="d=!d">
+      {{'CUENTAS_ASOCIADAS' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!d"></span>
+      <span class="fa fa-minus pull-right" ng-show="d"></span>
+    </legend class="text-primary">
+    <div class="panel-body row" ng-show="d">
+        <div ui-grid="devolucionesnoTributaria.gridCuentasAsociadas" ui-grid-auto-resize ui-grid-pagination ui-grid-edit ui-grid-cellnav></div>
+    </div>
+  </div>
+
     <div class="panel-footer">
       <div align="center">
         <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.crearDevolucion()"> {{ 'BTN.REGISTRAR' | translate }} </button>
@@ -230,23 +241,22 @@
   <div id="modalCuentas" class="modal fade col-md-12" role="dialog">
     <div class="modal-content col-md-offset-1 col-md-10">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="devolucionesnoTributaria.pestOpen=false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="page-header">{{'SELECCIONAR_CUENTA_CONTABLE'|translate}}</h3>
             </div>
             <div class="panel-body">
-              <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.IdOrden" selection="devolucionesnoTributaria.seleccionMov" debitos="devolucionesnoTributaria.sumadebitos" creditos="devolucionesnoTributaria.sumacreditos"
-              inputpestanaabierta="true">
+              <movimientos-contables-op-detalle codigodocumentoafectante="devolucionesnoTributaria.Op.Id" selection="devolucionesnoTributaria.seleccionMov" inputpestanaabierta="devolucionesnoTributaria.pestOpen" cuentaselecc="devolucionesnoTributaria.cuentasAsociadas" devolt>
               </movimientos-contables-op-detalle>
             </div>
-  <div class="panel-footer">
-    <div align="center">
-      <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.aceptar()"> {{ 'BTN.SELECCIONAR' | translate }} </button>
+            <div class="panel-footer">
+              <div align="center">
+                <button  class="btn btn-outline btn-info" ng-click="devolucionesnoTributaria.aceptar()"> {{ 'BTN.SELECCIONAR' | translate }} </button>
+              </div>
+            </div>
+        </div>
     </div>
   </div>
-</div>
-</div>
-</div>
 </div>
