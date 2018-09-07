@@ -398,7 +398,7 @@ angular.module('financieraClienteApp')
 
 
       var data = {
-        Codigo: self.nueva_fuente.Codigo,
+        Codigo: self.nueva_fuente.Codigo.toString(),
         Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion,
         TipoFuenteFinanciamiento: {
