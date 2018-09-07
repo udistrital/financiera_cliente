@@ -79,16 +79,20 @@ angular.module('financieraClienteApp')
             }
           ],
           onRegisterApi : function(gridApi) {
-
-            $scope.gridApiCuentas = gridApi;
+            self.gridApriCuentas= gridApi;
             if(self.devolucionesTrib){
               gridApi.selection.on.rowSelectionChanged($scope, function(row) {
                   $scope.cuentaselecc = gridApi.selection.getSelectedRows();
+                  //gridApi.selection.clearSelectedRows();
               });
               gridApi.selection.on.rowSelectionChangedBatch($scope,function(row){
                 $scope.cuentaselecc = gridApi.selection.getSelectedRows();
+
               });
             }
+          },
+          isRowSelectable: function(row){
+            return row.entity.Credito > 0;
           }
         };
 
@@ -187,13 +191,16 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch('inputpestanaabierta', function(newvalue) {
-          console.log('inputpestanaabierta',newvalue);
+
             if(newvalue){
               $interval( function() {
-                  $scope.gridApiCuentas.core.handleWindowResize();
+                  self.gridApriCuentas.core.handleWindowResize();
                 }, 500, 2);
             }else{
-              $scope.gridApiCuentas.selection.clearSelectedRows();
+              console.log('inputpestanacerrada');
+
+              self.gridApriCuentas.selection.clearSelectedRows();
+
             }
           },true);
         //self.gridOptions_movimientos.multiSelect = false;

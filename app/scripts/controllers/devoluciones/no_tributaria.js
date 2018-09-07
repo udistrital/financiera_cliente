@@ -176,10 +176,10 @@ angular.module('financieraClienteApp')
               width: '20%',
           },
           {
-              field: 'ValorDevol',
+              field: 'ValorDevolucion',
               displayName: $translate.instant('VALOR_DEVOLUCION'),
               headerCellClass:'text-info',
-              cellTemplate: '<div>{{row.entity.ValorDevol | currency:undefined:0}}</div>',
+              cellTemplate: '<div>{{row.entity.ValorDevolucion | currency:undefined:0}}</div>',
               width: '17%',
               enableCellEdit:true,
               cellFilter: "number",
@@ -236,6 +236,15 @@ angular.module('financieraClienteApp')
           limit: -1
       })).then(function(response) {
           ctrl.razonesDevolucion = response.data;
+      });
+      
+      coreRequest.get('documento',
+        $.param({
+          query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True,TipoDocumento.CodigoAbreviacion:TD-ING",
+          limit: -1
+        })
+      ).then(function(response) {
+        ctrl.documentos = response.data;
       });
 
       agoraRequest.get('parametro_estandar',$.param({
@@ -387,7 +396,8 @@ ctrl.consultaPagos = function(){
 };
 
 ctrl.validateFields = function(){
-  var validationClear = true;
+  var respuesta;
+  ctrl.MensajesAlerta='';
 
   if($scope.datosSolicitante.$invalid){
     angular.forEach($scope.datosSolicitante.$error,function(controles,error){
@@ -395,7 +405,16 @@ ctrl.validateFields = function(){
         control.$setDirty();
       });
     });
-    validationClear = false;
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_BENEFICIARIO") + "</li>";
+  }
+
+  if($scope.datosDocumento.$invalid){
+    angular.forEach($scope.datosDocumento.$error,function(controles,error){
+      angular.forEach(controles,function(control){
+        control.$setDirty();
+      });
+    });
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_BENEFICIARIO") + "</li>";
   }
 
   if($scope.datosDevolucion.$invalid){
@@ -404,9 +423,20 @@ ctrl.validateFields = function(){
         control.$setDirty();
       });
     });
-    validationClear = false;
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
   }
-    return validationClear;
+
+  if(ctrl.gridCuentasAsociadas.data.length===0){
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_ASOCIAR_CUENTAS") + "</li>";
+  }
+
+  if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+    respuesta = true;
+  } else {
+    respuesta =  false;
+  }
+
+  return respuesta;
 
 }
   $scope.$watch('devolucionesnoTributaria.gridApiCtasAsociadas.grid.columns[5].getAggregationValue()',function(value){
@@ -415,14 +445,15 @@ ctrl.validateFields = function(){
 
 ctrl.crearDevolucion = function(){
   var templateAlert;
-  return;
+  var cuentaAsociada;
   if  (!ctrl.validateFields()){
-    swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+    swal({
+      title:"!Error!",
+      html:'<ol aling="left">'+ctrl.MensajesAlerta+'</ol>',
+      type:"error"
+    });
     return;
   }
-
-
-
   ctrl.DevolucionTributaria={
     DevolucionTributaria:{
         FormaPago:ctrl.formaPago,
@@ -438,13 +469,9 @@ ctrl.crearDevolucion = function(){
         Oficio:ctrl.oficio,
         FechaOficio:ctrl.FechaOficio
       },
-      EstadoDevolTribut:{
-        EstadoDevolucion:{Id:8}
-      },
-      TotalInversion: ctrl.valorSolicitado,
       Concepto: $scope.concepto
     };
-
+    console.log("devolucion tributaria",ctrl.DevolucionTributaria);
     if (angular.isUndefined(ctrl.IdSolicitante)){
       ctrl.IdSolicitante = ctrl.numdocSoli;
     }
@@ -456,7 +483,13 @@ ctrl.crearDevolucion = function(){
          ctrl.DevolucionTributaria.Movimientos.push(data);
        });
      });
+     ctrl.DevolucionTributaria.MovimientosAsociados=[];
+     angular.forEach(ctrl.gridCuentasAsociadas.data,function(cuenta){
+       cuentaAsociada = {MovimientoContable:{Id:cuenta.Id},
+                          ValorDevolucion:cuenta.ValorDevolucion}
+      ctrl.DevolucionTributaria.MovimientosAsociados.push(cuentaAsociada);
 
+     });
 
 
     financieraRequest.post('devolucion_tributaria/AddDevolucionTributaria',ctrl.DevolucionTributaria).then(function(response) {
@@ -466,9 +499,7 @@ ctrl.crearDevolucion = function(){
               templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
               templateAlert = templateAlert + "</table>";
               ctrl.DevolucionTributaria.DevolucionTributaria.Id = response.data.Body.Id;
-              financieraRequest.post('devolucion_tributaria_estado_devolucion/AddEstadoDevolTributaria',ctrl.DevolucionTributaria).then(function(response) {
-                    $location.path('/devoluciones/consulta_devoluciones_tributarias');
-              });
+              $location.path('/devoluciones/consulta_devoluciones_tributarias');
             }else{
               templateAlert=$translate.instant(response.data.Code);
             }
@@ -494,7 +525,7 @@ ctrl.crearDevolucion = function(){
         });
       }
       cuenta.OrdenPago = ctrl.Op;
-      cuenta.ValorDevol = 0;
+      cuenta.ValorDevolucion = 0;
     });
     angular.forEach(ctrl.gridCuentasAsociadas.data,function(cuenta){
       ctrl.cuentasAsociadas = $filter('filter')(ctrl.cuentasAsociadas,function(item) {
