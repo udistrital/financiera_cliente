@@ -5,7 +5,7 @@
   <span class="fa fa-minus pull-right" ng-show="inputpestanaabierta"></span>
 </legend class="text-primary">
 
-<div class = "panel-body" ng-show="inputpestanaabierta">
+<div class = "panel-body" ng-if="inputpestanaabierta">
   <div class="col-md-12 form-group ">
   <div class="panel panel-default shadow-box">
     <div ui-grid="d_movimientosContablesOpDetalle.gridOptions_movimientos"  ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
