@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
 
     ctrl.seleccionMov = true;
-    ctrl.FechaOficio = new Date();
+    ctrl.fechaDocumento = new Date();
     $scope.concepto=[];
     ctrl.pestOpen = true;
 
@@ -237,7 +237,7 @@ angular.module('financieraClienteApp')
       })).then(function(response) {
           ctrl.razonesDevolucion = response.data;
       });
-      
+
       coreRequest.get('documento',
         $.param({
           query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True,TipoDocumento.CodigoAbreviacion:TD-ING",
@@ -464,14 +464,19 @@ ctrl.crearDevolucion = function(){
           TipoCuenta:ctrl.tipocuenta.Id,
           NumeroCuenta:ctrl.numeroCuenta.toString()
         },
-        Observaciones:ctrl.observaciones,
+        Justificacion:ctrl.observaciones,
         Acta:ctrl.soporte.Id,
         Oficio:ctrl.oficio,
-        FechaOficio:ctrl.FechaOficio
+        Solicitante:ctrl.numdocSoli
+      },
+      DocumentoGenerador:{
+          NumDocumento:ctrl.numDocDevol,
+          FechaDocumento:ctrl.fechaDocumento,
+          TipoDocumento:ctrl.documentoSelec.Id
       },
       Concepto: $scope.concepto
     };
-    console.log("devolucion tributaria",ctrl.DevolucionTributaria);
+
     if (angular.isUndefined(ctrl.IdSolicitante)){
       ctrl.IdSolicitante = ctrl.numdocSoli;
     }
