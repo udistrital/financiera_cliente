@@ -30,6 +30,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: true,
       enableSelectAll: true,
+      useExternalPagination:true,
       selectionRowHeaderWidth: 35,
       columnDefs: [{
               field: 'Solicitante',
@@ -113,8 +114,9 @@ angular.module('financieraClienteApp')
           query:query,
         })).then(function(response){
           if(response.data != null){
-          ctrl.gridDevoluciones.data = response.data;
-          console.log(ctrl.gridDevoluciones.data);
+          ctrl.gridDevoluciones.data = response.data.Devolutions;
+          ctrl.gridDevoluciones.totalItems = response.data.RegCuantity;
+          console.log(ctrl.gridDevoluciones.data,"Cantidad registros ",response.data.RegCuantity," query ",query);
           }
         });
         };
@@ -163,7 +165,6 @@ angular.module('financieraClienteApp')
         };
 
       ctrl.cargarEstados();
-      ctrl.consultarDevoluciones();
       $scope.loadrow = function(row, operacion) {
           $scope.devolucion = row.entity;
           switch (operacion) {
@@ -171,12 +172,26 @@ angular.module('financieraClienteApp')
                   $scope.estado = $scope.devolucion.Estado;
                   break;
               case "ver":
+                      ctrl.getAccountanInfo();
                       $("#modalDevolucion").modal();
                       break;
               default:
           }
       };
 
+      ctrl.getAccountanInfo = function(){
+        ctrl.movimientosAsociados=undefined;
+        ctrl.conceptos = undefined;
+        ctrl.devolucion = undefined;
+        financieraMidRequest.get('devoluciones/GetTributaDevolutionAccountantInf/'+$scope.devolucion.Id).
+        then(function(response){
+          if (response.data != null) {
+            ctrl.movimientosAsociados = response.data.MovimientosAsociados;
+            ctrl.conceptos = response.data.Conceptos;
+            ctrl.devolucion = $scope.devolucion;
+          }
+        });
+      }
       $scope.funcion = function() {
           $scope.estadoclick = $localStorage.nodeclick;
           ctrl.Request = {

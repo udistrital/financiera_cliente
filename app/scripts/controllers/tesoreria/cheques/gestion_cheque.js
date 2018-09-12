@@ -580,7 +580,6 @@ ctrl.cargarTiposDoc();
         };
         ctrl.Request.Cheque.Beneficiario = ctrl.Request.Cheque.Beneficiario.Id;
         ctrl.Request.Cheque.Chequera = {Id:ctrl.Request.Cheque.Chequera.Id};
-        console.log("cambio de estado",ctrl.Request.Cheque);
             financieraRequest.post('cheque_estado_cheque/AddEstadoCheque', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){

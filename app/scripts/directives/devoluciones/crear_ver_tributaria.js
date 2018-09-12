@@ -11,10 +11,12 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          devolucion:'='
+          devolucion:'=',
+          movimientosasociados:'=?',
+          conceptos:'=?'
         },
       templateUrl: 'views/directives/devoluciones/crear_ver_tributaria.html',
-      controller:function($scope,$translate,uiGridConstants,gridApiService){
+      controller:function($scope,$translate,uiGridConstants,gridApiService,$interval){
         var ctrl = this;
         ctrl.gridCuentasAsociadas = {
           enableFiltering: true,
@@ -38,14 +40,14 @@ angular.module('financieraClienteApp')
                   width: '14%'
                 },
               {
-                  field: 'CuentaContable.Codigo',
+                  field: 'MovimientoContable.CuentaContable.Codigo',
                   displayName: $translate.instant('CUENTA_CONTABLE'),
                   headerCellClass:'text-info',
                   enableCellEdit:false,
                   width: '14%'
               },
               {
-                  field: 'Credito',
+                  field: 'MovimientoContable.Credito',
                   displayName: $translate.instant('VALOR'),
                   headerCellClass:'text-info',
                   enableCellEdit:false,
@@ -61,7 +63,7 @@ angular.module('financieraClienteApp')
                   width: '14%'
               },
               {
-                  field: 'CuentaContable.Naturaleza',
+                  field: 'MovimientoContable.CuentaContable.Naturaleza',
                   displayName: $translate.instant('NATURALEZA'),
                   headerCellClass:'text-info',
                   enableCellEdit:false,
@@ -86,6 +88,25 @@ angular.module('financieraClienteApp')
             ctrl.gridApiCtasAsociadas = gridApiService.pagination(gridApi,ctrl.consultarCuentasAsociadas,$scope);
           },
         }
+
+        $scope.$watch('movimientosasociados',function(){
+          ctrl.gridCuentasAsociadas.data = $scope.movimientosasociados;
+        },true);
+
+        $scope.$watch('d', function() {
+            if($scope.d){
+              $interval( function() {
+                  ctrl.gridApiCtasAsociadas.core.handleWindowResize();
+                }, 500, 2);
+            }
+          });
+
+          $scope.$watch('devolucion', function() {
+              ctrl.infDevol=false;
+              $scope.d = false;
+              $scope.c = false;
+            },true);
+
       },
       controllerAs:'d_devolucionesVerTributaria'
     };
