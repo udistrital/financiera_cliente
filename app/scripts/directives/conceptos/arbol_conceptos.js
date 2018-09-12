@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
 
 
         self.multiSelect = "multiselect" in $attrs;
-
+        self.algo_fue_seleccionado="seleccionini" in $attrs;
 
         financieraRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
@@ -44,7 +44,6 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch("notloadconcepto",function(){
-          console.log("not load concepto ",$scope.notloadconcepto);
           if ($scope.notloadconcepto) {
             self.temp = $scope.conceptosel;
             self.algo_fue_seleccionado=true;

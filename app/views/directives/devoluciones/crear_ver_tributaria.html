@@ -24,9 +24,7 @@
            <div class="col-md-12">
              <div class="form-group">
                <label for="numdoc" class="control-label">{{'NOMBRE'|translate}}</label>
-               <div ng-if="!d_devolucionesVerTributaria.cargando_sol">
-                 <span class="form-control">{{devolucion.SOlictante.NomProveedor}}</span>
-               </div>
+                 <span class="form-control" enabled>{{devolucion.Solicitante.NomProveedor}}</span>
              </div>
          </div>
      </div>
@@ -35,23 +33,23 @@
    <div class="col-md-6">
                  <div class="panel panel-default panel-body">
                    <div class="panel panel-heading">
-                     <h4 class="text-center panel-title"><span>{{'INFORMACION_DOCUMENTO_ING'|translate}}</span><br ng-show="!vtitle" /></h4>
+                     <h4 class="text-center panel-title"><span>{{'INFORMACION_DOCUMENTO_ING'|translate}}</span></h4>
                    </div>
                    <div class="col-md-6">
                      <div class="form-group">
                        <label for="tipoDocumento">{{'TIPO_DOCUMENTO'|translate}}</label>
-                       <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.TipoDocumento.Nombre"  ui-number-mask="0" required disabled>
+                       <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.TipoDocumento.Nombre" disabled>
                      </div>
                      <div class="form-group">
                        <label for="fechaDocumento">{{'FECHA_DOCUMENTO'|translate}}</label>
                        <br>
-                       <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.FechaDocumento"  required disabled>
+                       <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.FechaDocumento" ui-date-mask="YYYY-MM-DD"  disabled>
                      </div>
                    </div>
                    <div class="col-md-6">
                      <div class="form-group">
                        <label for="numeroDocumento">{{'NUMERO'|translate}}</label>
-                         <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.NumDocumento" ui-number-mask="0" required disabled/>
+                         <input type="text" class="form-control input_left" ng-model="devolucion.DocumentoGenerador.NumDocumento" ui-number-mask="0"  disabled/>
                        </input>
                      </div>
 
@@ -70,44 +68,44 @@
 
            <div class="form-group">
              <label for="formaPago" class="control-label">{{'FORMA_PAGO'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="devolucion.formaPago.Nombre" placeholder="{{''|translate}}" required disabled>
+              <input type="text" class="form-control input_left" ng-model="devolucion.FormaPago.Nombre" placeholder="{{''|translate}}"  disabled>
            </div>
 
 
            <div class="form-group">
              <label for="noperacion" class="control-label">{{'TIPO_CUENTA'|translate}}</label>
-             <input type="text" class="form-control input_left" ng-model="devolucion.tipoCuenta" placeholder="{{''|translate}}" required disabled>
+             <input type="text" class="form-control input_left" ng-model="devolucion.CuentaDevolucion.TipoCuenta.Nombre" placeholder="{{''|translate}}"  disabled>
            </div>
 
            <div class="form-group">
              <label>{{'VALOR_SOLICITADO'|translate}}</label>
-             <input type="text" class="form-control input_left" ng-model="devolucion.ValorDevolucion"  ui-number-mask="0" required disabled>
+             <input type="text" class="form-control input_left" ng-model="devolucion.ValorDevolucion"  ui-number-mask="0"  disabled>
            </div>
 
          <div class="form-group">
            <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-           <input type="text" class="form-control input_left" ng-model="devolucion.UnidadEjecutora.Nombre"  ui-number-mask="0" required disabled>
+           <input type="text" class="form-control input_left" ng-model="devolucion.UnidadEjecutora.Nombre"  disabled>
          </div>
        </div>
          <div class="col-md-6">
            <div class="form-group">
              <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
-              <input type="text" class="form-control input_left" ng-model="devolucion.CuentaDevolucion.Banco" placeholder="{{''|translate}}" ui-number-mask="0" required disabled>
+              <input type="text" class="form-control input_left" ng-model="devolucion.CuentaDevolucion.Banco" placeholder="{{''|translate}}" ui-number-mask="0"  disabled>
            </div>
 
            <div class="form-group">
              <label class="control-label">{{'CUENTA'|translate}}</label>
-             <input type="text" class="form-control input_left" ng-model="devolucion.CuentaDevolucion.NumeroCuenta" placeholder="{{''|translate}}" ui-number-mask="0" required disabled>
+             <input type="text" class="form-control input_left" ng-model="devolucion.CuentaDevolucion.NumeroCuenta" placeholder="{{''|translate}}" ui-number-mask="0"  disabled>
            </div>
 
            <div class="form-group">
              <label class="control-label">{{'SOPORTE'|translate}}</label>
-             <input type="text" class="form-control input_left" ng-model="devolucion.Acta.Nombre" placeholder="{{''|translate}}" ui-number-mask="0" required disabled>
+             <input type="text" class="form-control input_left" ng-model="devolucion.Acta.Nombre"  disabled>
            </div>
 
            <div class="form-group">
              <label class="control-label">{{'VIGENCIA'|translate}}</label>
-             <input type="text" class="form-control input_left" ng-model="devolucion.Vigencia" placeholder="{{''|translate}}" ui-number-mask="0" required disabled>
+             <input type="text" class="form-control input_left" ng-model="devolucion.Vigencia" placeholder="{{''|translate}}" ui-number-mask="0"  disabled>
            </div>
          </div>
 
@@ -122,18 +120,18 @@
 
    <div class="col-md-6">
      <div class="col-md-12">
-       <arbol-conceptos filtro="d_devolucionesVerTributaria.filtro_ingresos" seleccion="concepto" conceptosel="nodo" multiselect="true"> </arbol-conceptos>
+       <arbol-conceptos filtro="d_devolucionesVerTributaria.filtro_ingresos" seleccion="conceptos" conceptosel="nodo" multiselect="true" seleccionini> </arbol-conceptos>
      </div>
    </div>
 
    <div class="col-md-12">
-     <div class="row" ng-show="concepto.length > 0">
+     <div class="row">
        <div class="panel-default panel-body">
          <div class="panel panel-heading">
            <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}</span></h4>
          </div>
          <div class="col-md-6">
-         <ul class="list-unstyled" ng-repeat="con in concepto track by con.Id">
+         <ul class="list-unstyled" ng-repeat="con in conceptos track by con.Id">
            <li><b>{{'RUBRO' | translate}}:</b> {{con.Rubro.Codigo + " / "+ con.Rubro.Nombre }}
              <ul>
                <li>
@@ -141,20 +139,12 @@
                    <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                  </div>
                  <div class="col-md-4" style="width:200px">
-                   <input class="form-control" id="total" type="text" ng-model="con.valorAfectacion" ui-money-mask="0" placeholder="{{'VALOR_AFECTACION' | translate}}" style="height:25px">
+                   <input class="form-control" id="total" type="text" ng-model="con.ValorDevolucion" ui-money-mask="0" style="height:25px" disabled>
                  </div>
                </li>
              </ul>
            </li>
          </ul>
-       </div>
-       <div ng-show= "d_devolucionesVerTributaria.validaDevolPr" class="col-md-6 text-success" align="center">
-         <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
-         <br><small>{{"TOTAL_DEVOLUCION_RUBRO" | translate}}</small>
-       </div>
-       <div ng-show= "!d_devolucionesVerTributaria.validaDevolPr" class="col-md-6 text-danger" align="center">
-         <span class="glyphicon glyphicon glyphicon-remove-circle fa-3x" aria-hidden="true"></span>
-         <br><small>{{"TOTAL_DEVOLUCION_RUBRO_ADVERTENCIA" | translate}}</small>
        </div>
        </div>
      </div>
@@ -162,7 +152,7 @@
 </div>
 </div>
 
- <div class="panel-body" ng-show="concepto.length > 0">
+ <div class="panel-body">
    <legend class="text-primary" ng-click="c=!c">
      {{'CUENTAS_CONTABLES' | translate}}
      <span class="fa fa-plus pull-right" ng-show="!c"></span>
@@ -172,14 +162,13 @@
      <div class="col-sm-12">
        <div class="panel-body">
          <ul class="nav nav-tabs">
-           <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="d_devolucionesVerTributaria.selected=c.Id" data-toggle="tab">
+           <li ng-class="{active: selected == c.Id}" ng-repeat="c in conceptos"><a href ng-click="d_devolucionesVerTributaria.selected=c.Id" data-toggle="tab">
                                Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
            </li>
          </ul>
-         <!-- Tab panes -->
          <div class="tab-content">
-           <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="d_devolucionesVerTributaria.selected==c.Id">
-             <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="c.valorAfectacion" editable validatemov="c.validado">
+           <div class="tab-pane fade in active" ng-repeat="c in conceptos" ng-if="d_devolucionesVerTributaria.selected==c.Id">
+             <movimientos-contables conceptoid="c.Id" movimientos="c.MovimientoContable" monto="c.ValorDevolucion" validatemov="c.validado">
              </movimientos-contables>
            </div>
          </div>
