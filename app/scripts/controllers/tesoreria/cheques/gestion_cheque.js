@@ -283,8 +283,8 @@ angular.module('financieraClienteApp')
             ctrl.cargandoChequera = false;
             ctrl.hayDataChequera = false;
           }else{
-            ctrl.cargandoChequera = true;
-            ctrl.hayDataChequera = false;
+            ctrl.cargandoChequera = false;
+            ctrl.hayDataChequera = true;
             ctrl.gridChequeras.data=response.data;
           }
 
@@ -578,6 +578,8 @@ ctrl.cargarTiposDoc();
                                 },
           Cheque:$scope.solicitud
         };
+        ctrl.Request.Cheque.Beneficiario = ctrl.Request.Cheque.Beneficiario.Id;
+        ctrl.Request.Cheque.Chequera = {Id:ctrl.Request.Cheque.Chequera.Id};
             financieraRequest.post('cheque_estado_cheque/AddEstadoCheque', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){
