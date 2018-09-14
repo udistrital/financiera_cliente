@@ -519,29 +519,6 @@ angular.module('financieraClienteApp')
         var path = "/orden_pago/proveedor/ver/";
         $location.url(path + row.entity.Id);
       }
-        ctrl.calcular_valor_impuesto = function() {
-            var sum_impuestos = 0;
-            for (var i in ctrl.Impuesto) {
-                if (i === "rete_iva") {
-                    if (!angular.isUndefined(ctrl.Impuesto.IVA)) {
-                        ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor;
-                    } else {
-                        ctrl.Impuesto[i].Valor = 0;
-                    }
-                } else {
-                    ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.LegalizacionCompras.Valor;
-                }
-                if (!angular.isUndefined(ctrl.Impuesto[i].Valor) && i !== "IVA") {
-                    sum_impuestos += ctrl.Impuesto[i].Valor;
-                }
-            }
-            if (angular.isUndefined(ctrl.Impuesto.IVA)) {
-                ctrl.subtotal = ctrl.LegalizacionCompras.Valor;
-            } else {
-                ctrl.subtotal = ctrl.LegalizacionCompras.Valor + (ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor);
-            }
-            ctrl.Total = ctrl.subtotal - sum_impuestos;
-        };
 
         $scope.loadrowpracticas = function(row, operacion) {
             ctrl.row_entity = row.entity;
@@ -578,8 +555,8 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.limpiar_compras();
-                    $('#modal_legalizacion_compras').modal('show');
+                    //ctrl.limpiar_compras();
+                    $location.path('/tesoreria/avances/solicitud/legalizacion_evento_compra');
                     break;
                 case "edit":
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
@@ -620,10 +597,6 @@ angular.module('financieraClienteApp')
             $scope.encontrado = false;
             ctrl.LegalizacionPracticaAcademica = null;
         };
-        ctrl.limpiar_compras = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionCompras = null;
-        };
 
 
         ctrl.cargar_estudiante = function() {
@@ -648,89 +621,6 @@ angular.module('financieraClienteApp')
                 });
             }
         };
-        ctrl.cargar_proveedor = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionCompras.InformacionProveedor = null;
-            administrativaRequest.get("informacion_proveedor",
-                    $.param({
-                        query: "NumDocumento:" + ctrl.LegalizacionCompras.Tercero,
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    if (response.data == null) {
-                        $scope.encontrado = "true";
-                    } else {
-                        ctrl.LegalizacionCompras.InformacionProveedor = response.data[0];
-
-                    }
-                });
-        };
-
-        ctrl.cargar_impuestos = function() {
-            ctrl.Impuesto = {};
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:3", //Impuesto IVA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.iva = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:4", //Impuesto ICA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.ica = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:5", //Impuesto RENTA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.renta = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:19", //Impuesto ESTAMPILLA UD
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_ud = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:21", //Impuesto ESTAMPILLA PROCULTURA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_procultura = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:22", //Impuesto ESTAMPILLA PRO-ADULTO MAYOR
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_proadulto_mayor = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:56", //Impuesto RETE IVA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.rete_iva = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-        };
-        ctrl.cargar_impuestos();
-
         ctrl.delete_compra = function() {
             swal({
                 title: 'Está seguro ?',
