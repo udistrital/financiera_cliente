@@ -91,6 +91,7 @@ ctrl.cargarTipoDocumento = function() {
 
 $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
             if (!angular.isUndefined(newValue)) {
+              ctrl.movs = undefined
                 financieraRequest.get('concepto', $.param({
                     query: "Id:" + newValue.Id,
                     fields: "Rubro",

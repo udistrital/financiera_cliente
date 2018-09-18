@@ -176,10 +176,88 @@
                           </div>
                         </div>
                         <br>
-                        <center>
-                          <input type="reset" ng-click="legalizacionEvtCompra.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacionEvtCompra.operacion ==='add'" />
-                          <input type="submit" class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
-                        </center>
       </form>
     </div>
+
+    <div class="panel-body" >
+      <legend class="text-primary" ng-click="ic = !ic" >
+        {{'CONCEPTOS' | translate}}
+        <span class="fa fa-plus pull-right" ng-show="!ic"></span>
+        <span class="fa fa-minus pull-right" ng-show="ic"></span>
+      </legend class="text-primary">
+      <div ng-if="ic" >
+
+        <div class="col-md-12" form-group >
+           <fieldset class="form-group">
+          <arbol-conceptos filtro="legalizacionEvtCompra.filtro_ingresos" seleccion="legalizacionEvtCompra.concepto[0]" conceptosel="nodo" recargar="legalizacionEvtCompra.recargar" rdesc > </arbol-conceptos>
+         </fieldset>
+        </div>
+
+
+    </div>
+  </div>
+
+  <div class="panel-body" >
+    <legend class="text-primary" ng-show="legalizacionEvtCompra.concepto[0]" ng-click="ap=!ap">
+      {{'AFECTACION_PRESUPUESTAL' | translate}}
+      <span class="fa fa-plus pull-right" ng-show="!ap"></span>
+      <span class="fa fa-minus pull-right" ng-show="ap"></span>
+    </legend class="text-primary">
+      <div class="col-md-12" ng-if="ap">
+        <div class="row">
+          <!--label for="afectacion">{{'AFECTACION_PRESUPUESTAL' | translate}}</label-->
+          <div class="panel-default panel-body">
+            <ul class="list-unstyled">
+              <li><b>{{'RUBRO' | translate}}:</b> {{legalizacionEvtCompra.concepto[0].Rubro.Codigo+" / "+legalizacionEvtCompra.concepto[0].Rubro.Nombre}}
+                <ul>
+                  <li>
+                    <div class="col-md-4" style="width:148px">
+                      <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
+                    </div>
+                    <div class="col-md-4" style="width:200px">
+                      <span class="form-control" style="height:25px">{{legalizacionEvtCompra.ValorNetoGirar|currency}}</span>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="panel-body" >
+          <legend class="text-primary" ng-show="legalizacionEvtCompra.concepto[0]"  ng-click="inc=!inc">
+            {{'CUENTAS_CONTABLES' | translate}}
+            <span class="fa fa-plus pull-right" ng-show="!inc"></span>
+            <span class="fa fa-minus pull-right" ng-show="inc"></span>
+          </legend class="text-primary">
+
+        <div class="col-sm-12" ng-show="inc">
+          <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li ng-class="{active: selected == c.Id}" ng-repeat="c in legalizacionEvtCompra.concepto"><a href ng-click="legalizacionEvtCompra.selected=c.Id" data-toggle="tab">
+                                  Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+              </li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div class="tab-pane fade in active" ng-repeat="c in legalizacionEvtCompra.concepto" ng-show="legalizacionEvtCompra.selected==c.Id">
+                <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="legalizacionEvtCompra.ValorNetoGirar" editable impuestos= "legalizacionEvtCompra.Impuesto" validatemov="c.validado">
+                </movimientos-contables>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <center>
+          <input  ng-click="legalizacionEvtCompra.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="legalizacionEvtCompra.operacion ==='add'" />
+          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" />
+        </center>
+      </div>
   </div>
