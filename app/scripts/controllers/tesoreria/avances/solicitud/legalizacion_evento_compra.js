@@ -13,6 +13,9 @@ angular.module('financieraClienteApp')
     ctrl.LegalizacionCompras = { Valor: 0 };
     ctrl.seleccion = [];
     ctrl.Impuesto = [];
+    ctrl.concepto = [];
+    ctrl.Total = 0;
+    ctrl.subtotal = 0;
     ctrl.gridImpuestos = {
         paginationPageSizes: [5, 10, 15],
         paginationPageSize: 5,
@@ -85,6 +88,7 @@ angular.module('financieraClienteApp')
                }else{
                  ctrl.Impuesto.splice(ctrl.seleccion.indexOf(row.entity), 1);
                }
+               ctrl.calcular_valor_impuesto ();
                 });
             }
     ctrl.cargar_impuestos = function() {
@@ -101,7 +105,8 @@ angular.module('financieraClienteApp')
     ctrl.cargar_impuestos();
     ctrl.calcular_valor_impuesto = function() {
         var sum_impuestos = 0;
-        console.log("Impuestos",ctrl.Impuesto)
+        ctrl.Total = 0;
+        ctrl.subtotal = 0;
         for (var i in ctrl.Impuesto) {
             if (i === "rete_iva") {
                 if (!angular.isUndefined(ctrl.Impuesto.IVA)) {
@@ -111,7 +116,6 @@ angular.module('financieraClienteApp')
                 }
             } else {
                 ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.LegalizacionCompras.Valor;
-                console.log("impuesto i",ctrl.Impuesto[i]);
             }
             if (!angular.isUndefined(ctrl.Impuesto[i].Valor) && i !== "IVA") {
                 sum_impuestos += ctrl.Impuesto[i].Valor;
@@ -154,5 +158,21 @@ angular.module('financieraClienteApp')
 
                 }
             });
-    };
+    }
+    $scope.$watch('legalizacionEvtCompra.concepto[0].Id', function(newValue,oldValue) {
+                if (!angular.isUndefined(newValue)) {
+                  $scope.movimientos = undefined;
+                    financieraRequest.get('concepto', $.param({
+                        query: "Id:" + newValue.Id,
+                        fields: "Rubro",
+                        limit: -1
+                    })).then(function(response) {
+                        $scope.legalizacionEvtCompra.concepto[0].Rubro = response.data[0].Rubro;
+                    });
+                }
+            }, true);
+
+            $scope.$watch('legalizacionEvtCompra.concepto[0].movimientos', function(newValue) {
+              console.log("movimientos Contables 2" ,newValue);
+            },true);
   });

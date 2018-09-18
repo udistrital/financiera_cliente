@@ -130,14 +130,12 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
             if (!angular.isUndefined(newValue)) {
+              ctrl.movs = undefined;
                 financieraRequest.get('concepto', $.param({
                     query: "Id:" + newValue.Id,
                     fields: "Rubro",
                     limit: -1
                 })).then(function(response) {
-
-                    console.log(newValue);
-                    console.log(response.data[0].Rubro);
                     $scope.ingresoRegistro.concepto[0].Rubro = response.data[0].Rubro;
                 });
             }

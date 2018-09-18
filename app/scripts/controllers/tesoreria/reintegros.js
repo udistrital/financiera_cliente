@@ -198,6 +198,7 @@ angular.module('financieraClienteApp')
 
    $scope.$watch('tesoreriaReintegros.concepto[0]', function(newValue,oldValue) {
                if (!angular.isUndefined(newValue)) {
+                 ctrl.movs = undefined;
                    financieraRequest.get('concepto', $.param({
                        query: "Id:" + newValue.Id,
                        fields: "Rubro",
