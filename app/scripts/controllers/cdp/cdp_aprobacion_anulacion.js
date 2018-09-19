@@ -105,18 +105,22 @@ angular.module('financieraClienteApp')
         self.gridOptions.multiSelect = false;
 
         self.actualizarLista = function(offset, query) {
-
-          self.gridOptions.data = [];
-          self.cargando = true;
-          self.hayData = true;
+            financieraMidRequest.cancel();
+            //financieraRequest.cancel();
+           
+            self.gridOptions.data.length=0; 
+            self.gridOptions.data = [];
+            self.cargando = true;
+            self.hayData = true;
 
             if(query !== ""){
               query = query + ",AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
             }else{
-              query = "&query=AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia;
+              query = "&query=AnulacionDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Vigencia:"+ self.Vigencia+",TipoAnulacion.Nombre__not_in:Fenecido";
             }
             financieraRequest.get('anulacion_disponibilidad/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
+                    self.gridOptions.data.length=0; 
                     self.hayData = false;
                     self.cargando = false;
                     self.gridOptions.data = [];
@@ -130,6 +134,7 @@ angular.module('financieraClienteApp')
                         data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
                     });
                 });
+                
 
                   self.gridOptions.data = response.data;
 
@@ -154,7 +159,6 @@ angular.module('financieraClienteApp')
       };
 
         self.cargarListaAnulaciones = function() {
-
           self.gridOptions.data = [];
           self.cargando = true;
           self.hayData = true;
@@ -190,7 +194,10 @@ angular.module('financieraClienteApp')
                 angular.forEach(grid.columns, function(value, key) {
                     if (value.filters[0].term) {
                         var formtstr = value.colDef.name.replace('[0]','');
-                        query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                        if(formtstr !== "Tipo"){
+                          query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
+                            
+                        }
 
                     }
                 });
@@ -358,7 +365,7 @@ angular.module('financieraClienteApp')
                     } else {
                         swal('', $translate.instant(response.data.Code) + ' ' + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, '');
                         });
                     }
 
@@ -369,7 +376,7 @@ angular.module('financieraClienteApp')
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
-            financieraRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
+            financieraMidRequest.post('disponibilidad/AprobarAnulacion', self.anulacion).then(function(response) {
 
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
@@ -377,7 +384,7 @@ angular.module('financieraClienteApp')
                     } else {
                         swal('', $translate.instant(response.data.Code) + ' ' + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, '');
                         });
                     }
 
@@ -446,7 +453,7 @@ angular.module('financieraClienteApp')
                 term: ""
             };
             self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
-            financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(self.offset, self.customfilter);
@@ -456,7 +463,8 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch("cdpAprobacionAnulacion.Vigencia", function() {
-            financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            if(self.Vigencia !== undefined){
+                financieraRequest.get("anulacion_disponibilidad/TotalAnulacionDisponibilidad/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.gridOptions.totalItems = response.data;
                         self.actualizarLista(self.offset, self.customfilter);
@@ -476,6 +484,7 @@ angular.module('financieraClienteApp')
                 self.Vigencia,
                 12, 0
             );*/
+            }
         }, true);
 
     });

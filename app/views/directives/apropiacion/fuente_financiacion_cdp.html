@@ -10,7 +10,11 @@
                 <li>{{fuente.FuenteFinanciamiento.Codigo + " / "+fuente.FuenteFinanciamiento.Nombre + " "}}
                   <ul>
                     <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
-                    <li><b>{{'TOTAL_COMPROMETIDO' | translate}}:</b> {{" "+fuente.Comprometido|currency}}</li>
+                    <li><b>{{'TOTAL_COMPROMETIDO' | translate}}:</b> {{" "+fuente.Comprometido|currency}}
+                      <ul type="circle">
+                          <li><b>{{'TOTAL_ANULADO_RP' | translate}}:</b> {{" "+fuente.AnuladoRp|currency}}</b></li>
+                      </ul>
+                    </li>
                     <li><b>{{'TOTAL_ANULADO' | translate}}:</b> {{" "+fuente.Anulado|currency}}</li>
                     <li><b>{{'SALDO' | translate}}:</b> {{" "+fuente.Saldo|currency}}</li>
                   </ul>
@@ -24,7 +28,11 @@
               <ul ng-repeat="fuente in item">
 
                 <li><b>{{'VALOR_AFECTACION' | translate}}:</b> {{" "+fuente.Valor|currency}}</li>
-                <li><b>{{'TOTAL_COMPROMETIDO' | translate}}:</b> {{" "+fuente.Comprometido|currency}}</li>
+                <li><b>{{'TOTAL_COMPROMETIDO' | translate}}:</b> {{" "+fuente.Comprometido|currency}}
+                  <ul type="circle">
+                      <li><b>{{'TOTAL_ANULADO_RP' | translate}}:</b> {{" "+fuente.AnuladoRp|currency}}</b></li>
+                  </ul>
+                </li>
                 <li><b>{{'TOTAL_ANULADO' | translate}}:</b> {{" "+fuente.Anulado|currency}}</li>
                 <li><b>{{'SALDO' | translate}}:</b> {{" "+fuente.Saldo|currency}}</li>
           </li>

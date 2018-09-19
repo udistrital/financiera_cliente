@@ -7,7 +7,7 @@
  * # apropiacion/fuenteFinanciacionCdp
  */
 angular.module('financieraClienteApp')
-  .directive('fuenteFinanciacionCdp', function (financieraRequest) {
+  .directive('fuenteFinanciacionCdp', function (financieraRequest, financieraMidRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -58,11 +58,15 @@ angular.module('financieraClienteApp')
                     Apropiacion : rubros_data.Apropiacion,
                     FuenteFinanciacion : rubros_data.FuenteFinanciamiento
                   };
-                  financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                  console.log(rp);
+                  financieraMidRequest.get('disponibilidad/SaldoCdp/'+ rp.Disponibilidad.Id+'/'+ rp.Apropiacion.Rubro.Codigo,$.param({
+                    fuente: rp.FuenteFinanciacion.Codigo
+                  })).then(function(response){
                     rubros_data.Saldo  = response.data.saldo;
-                    rubros_data.Comprometido = response.data.comprometido;
-                    rubros_data.Anulado = response.data.anulado;
-                    console.log(rubros_data.Saldo);
+                    rubros_data.Comprometido = response.data.TotalComprometidoRp;
+                    rubros_data.AnuladoRp = response.data.TotalAnuladoRp;
+                    rubros_data.Anulado = response.data.TotalAnuladoCdp
+                    rubros_data.Valor = response.data.Valor
                   });
                 });
 
