@@ -15,16 +15,17 @@ angular.module('financieraClienteApp')
         codigodocumentoafectante:'=?',
         panel:'=?',
         selection:'=?',
-        debitos:'=?',
-        creditos:'=?',
-        inputpestanaabierta:'=?'
+        inputpestanaabierta:'=?',
+        cuentaselecc:'=?'
       },
-
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables_op_detalle.html',
-      controller: function($scope) {
+      controller: function($scope,$attrs) {
         var self = this;
         self.cargando = false;
         self.hayData = true;
+        self.abierta = $scope.abierta;
+        self.devolucionesTrib = 'devolt' in $attrs;
+
 
         self.gridOptions_movimientos = {
           paginationPageSizes: [5, 15, 20],
@@ -33,8 +34,7 @@ angular.module('financieraClienteApp')
           enableSorting: true,
           enableRowSelection: false,
           enableRowHeaderSelection: false,
-          enableSelectAll: true,
-          selectionRowHeaderWidth: 35,
+          enableSelectAll: false,
           columnDefs: [{
               field: 'Id',
               visible: false
@@ -77,16 +77,32 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
             }
-          ]
+          ],
+          onRegisterApi : function(gridApi) {
+            self.gridApriCuentas= gridApi;
+            if(self.devolucionesTrib){
+              gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+                  $scope.cuentaselecc = gridApi.selection.getSelectedRows();
+                  //gridApi.selection.clearSelectedRows();
+              });
+              gridApi.selection.on.rowSelectionChangedBatch($scope,function(row){
+                $scope.cuentaselecc = gridApi.selection.getSelectedRows();
+
+              });
+            }
+          },
+          isRowSelectable: function(row){
+            return row.entity.Credito > 0;
+          }
         };
 
         self.activateSelection = function(){
           if ($scope.selection = true) {
-            self.gridOptions_movimientos.enableRowHeaderSelection = true;
             self.gridOptions_movimientos.enableSelectAll= true;
-            enableRowSelection: false;
+            self.gridOptions_movimientos.enableRowSelection = true;
           }
         }
+
         self.activateSelection();
         // refrescar
         self.refresh = function() {
@@ -174,42 +190,19 @@ angular.module('financieraClienteApp')
         });
 
 
-//sumas utilizadas para la seleccion de movimientos contables por orden de pago en devoluciones tributarias
+        $scope.$watch('inputpestanaabierta', function(newvalue) {
 
-        self.gridOptions_movimientos.onRegisterApi = function(gridApi) {
-          //set gridApi on scope
-          self.gridApi = gridApi;
-
-
-          gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            if (angular.isUndefined($scope.debitos)){
-                $scope.debitos=0;
-            }
-            if (angular.isUndefined($scope.creditos)){
-                $scope.creditos=0;
-            }
-            if(row.isSelected){
-              $scope.debitos=$scope.debitos + row.entity.Debito;
-              $scope.creditos=$scope.creditos + row.entity.Credito;
+            if(newvalue){
+              $interval( function() {
+                  self.gridApriCuentas.core.handleWindowResize();
+                }, 500, 2);
             }else{
-              $scope.debitos=$scope.debitos - row.entity.Debito;
-              $scope.creditos=$scope.creditos - row.entity.Credito;
+              console.log('inputpestanacerrada');
+
+              self.gridApriCuentas.selection.clearSelectedRows();
+
             }
-            console.log("Suma debitos",$scope.debitos,"suma credito",$scope.creditos);
-          });
-
-          gridApi.selection.on.rowSelectionChangedBatch($scope, function(row) {
-            $scope.sumaDebitos=0;
-            gridApi.selection.getSelectedGridRows().forEach(function(row) {
-                  if(row.isSelected){
-                    $scope.debitos=$scope.debitos + row.entity.Debito;
-                    $scope.creditos=$scope.creditos + row.entity.Credito;
-                  }
-                });
-            });
-
-        };
-
+          },true);
         //self.gridOptions_movimientos.multiSelect = false;
         //
       },

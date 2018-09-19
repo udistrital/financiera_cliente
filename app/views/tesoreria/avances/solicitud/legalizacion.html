@@ -5,13 +5,14 @@
 
         <fieldset class="form-group">
           <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="!c"></span> <span class="fa fa-minus pull-right" ng-show="c"></span></legend>
-          <div class="panel-body" ng-show="c">
+          <div class="panel panel-default" ng-show="c">
+          <div class="panel-body">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
                 </div>
 
-                <div style="width=100%" ui-grid="legalizacion.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                <div style="width:100%" ui-grid="legalizacion.gridOrdenesDePagoAvance" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
                   <div class="watermark" ng-show="!legalizacion.hayData">{{'NO_DATA'| translate}}</div>
                   <div class="watermark" ng-show="legalizacion.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
                 </div>
@@ -25,15 +26,15 @@
                         </h4>
                         </div>
                         <ul class="list-unstyled">
-                          <li style= "display: inline-block" ng-repeat = "rubro in legalizacion.rubrosAfectados track by rubro.Id"><span><b>{{'RUBRO' | translate}}:</b> {{rubro.Codigo+" / "+rubro.Nombre}}
-                            <button ng-click="legalizacion.removeRubro(rubro)" type="button" class="btn btn-outline btn-xs pull-left">&times</button></span>
+                          <li style= "display: inline-block" ng-repeat = "item in legalizacion.rubrosAfectados track by rubro.Id">
+                            <span><b>{{'RUBRO' | translate}}:</b> {{item.rubro.Codigo+" / "+item.rubro.Nombre}} </span>
                             <ul>
                               <li>
                                 <div class="col-md-4" style="width:148px">
                                   <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
                                 </div>
                                 <div class="col-md-4" style="width:200px">
-                                  <span class="form-control" style="height:25px">{{rubro.valor|currency}}</span>
+                                  <span class="form-control" style="height:25px">{{item.valorAfectacion|currency}}</span>
                                 </div>
                               </li>
                             </ul>
@@ -44,7 +45,12 @@
                   </div>
 
             </div>
+
           </div>
+          <div class="panel-footer">
+              <div align="center"> <button ng-click="legalizacion.agregarOP()" class="btn btn-info btn-outline">{{ 'BTN.NUEVO' | translate }}</button></div>
+          </div>
+        </div>
         </fieldset>
 
         <fieldset class="form-group">
@@ -106,42 +112,45 @@
             <span class="fa fa-plus pull-right" ng-show="!h"></span>
             <span class="fa fa-minus pull-right" ng-show="h"></span>
           </legend class="text-primary">
-          <div class="panel-body row" ng-if="h">
-            <fieldset class="form-group">
-              <div class="col-md-6">
-                <div class="form-group">
-                  <arbol-conceptos filtro="legalizacion.filtro_ingresos" seleccion="legalizacion.concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+          <div class="panel panel-default" ng-show="h">
+            <div class="panel-body row">
+              <fieldset class="form-group">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <arbol-conceptos filtro="legalizacion.filtro_ingresos" seleccion="legalizacion.concepto[0]" conceptosel="nodo" notloadconcepto="legalizacion.notLoadConcepto"> </arbol-conceptos>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="col-sm-12" ng-show='legalizacion.concepto[0]'>
+                <div class="panel-body">
+                  <ul class="nav nav-tabs">
+                    <li ng-class="{active: selected == c.Id}" ng-repeat="c in legalizacion.concepto"><a href ng-click="legalizacion.selected=c.Id" data-toggle="tab">
+                                        Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+                    </li>
+                    </ul>
+                                    <!-- Tab panes -->
+                        <div class="tab-content">
+                          <div class="tab-pane fade in active" ng-repeat="c in legalizacion.concepto" ng-show="legalizacion.selected==c.Id">
+                            <movimientos-contables conceptoid="c.Id" movimientos="legalizacion.movs" monto="solicitud.Total" editable validatemov="legalizacion.movValidado" selcuentas ventanadespl="h" >
+                            </movimientos-contables>
+                          </div>
+                        </div>
+                  </div>
                 </div>
               </div>
-            </fieldset>
-            <div class=" col-sm-12">
-              <div class="panel-body">
-                <ul class="nav nav-tabs">
-                  <li ng-class="{active: selected == c.Id}" ng-repeat="c in legalizacion.concepto"><a href ng-click="legalizacion.selected=c.Id" data-toggle="tab">
-                                      Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
-                                    </li>
-                                  </ul>
-                                  <!-- Tab panes -->
-                                  <div class="tab-content">
-                                    <div class="tab-pane fade in active" ng-repeat="c in legalizacion.concepto" ng-show="legalizacion.selected==c.Id">
-                                      <movimientos-contables conceptoid="c.Id" movimientos="legalizacion.movs" monto="legalizacion.valor" editable validatemov="c.validado" selcuentas>
-                                      </movimientos-contables>
-                                    </div>
-                                  </div>
-                  </div>
-            </div>
-          </div>
-
+              <div class="panel-footer">
+                <div align="center"> <button ng-click="legalizacion.addAccountingInf()" class="btn btn-info btn-outline">{{ 'BTN.AGREGAR' | translate }}</button></div>
+              </div>
+        </div>
       </fieldset>
     </div>
 </div>
 
-<div id="modal_legalizacion_compras" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
-    <style>
-        .md-datepicker-calendar-pane {
-            z-index: 1200
-        }
-    </style>
+<div id="modal_legalizacion_compras" class="modal fade" role="dialog" style="padding-top:2%">
+        <style>
+          .md-datepicker-calendar-pane{
+          z-index: 1200}
+        </style>
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header panel-heading">
             <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
@@ -185,6 +194,8 @@
                     <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
                     <md-datepicker ng-model="legalizacion.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}"></md-datepicker>
                 </div>
+                <!--modal-date></modal-date-->
+
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-3 control-label">{{'NO_FACTURA' | translate }}:</label>
@@ -312,7 +323,36 @@
       <div class="modal-header panel-heading">
           <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
       </div>
-      <tesoreria-reintegros avance="solicitud"></tesoreria-reintegros>
+      <tesoreria-reintegros avance="solicitud" g="false"></tesoreria-reintegros>
+</div>
+</div>
+
+<div id="modal_add_ordenPago" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+      <div class="modal-header panel-heading">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+      <fieldset class="form-group">
+        <legend class="text-primary" ng-click="opm=!opm">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="opm"></span> <span class="fa fa-minus pull-right" ng-show="!opm"></span></legend>
+        <div class="panel-body" ng-show="!opm">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+              </div>
+
+              <div style="width:100%" ui-grid="legalizacion.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                <div class="watermark" ng-show="!legalizacion.hayData">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="legalizacion.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+
+          </div>
+        </div>
+      </fieldset>
+      <div class="panel-footer">
+          <div align="center"> <button ng-click="legalizacion.guardarOPAvance()" class="btn btn-info btn-outline">{{ 'BTN.AGREGAR' | translate }}</button></div>
+      </div>
+    </div>
 </div>
 </div>
 

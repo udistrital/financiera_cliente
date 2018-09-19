@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q) {
+    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q,$interval) {
         return {
             restrict: 'E',
             scope: {
@@ -31,7 +31,8 @@ angular.module('financieraClienteApp')
                 monto: '=?',
                 outputvalorbruto: '=?',
                 outputformapagoop: '=?',
-                validatemov: '=?'
+                validatemov: '=?',
+                ventanadespl:'=?'
             },
             templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
             link: function(scope, element, attrs) {
@@ -174,7 +175,10 @@ angular.module('financieraClienteApp')
                             enableCellEdit: false,
                             width: '15%'
                         }
-                    ]
+                    ],
+                    onRegisterApi:function(gridApi){
+                      self.gridApiMovimientos = gridApi;
+                    }
                 };
 
                 //grid para movimientos acreedores
@@ -418,6 +422,7 @@ angular.module('financieraClienteApp')
                 self.agregar_cuenta= function(item) {
                   var movimiento={};
                   if(!angular.isUndefined(item)){
+                    self.padre = null;
                     delete item.Hijos;
                     movimiento.CuentaContable = item;
                     movimiento.Concepto = self.concepto_movs;
@@ -625,9 +630,13 @@ angular.module('financieraClienteApp')
                     }
                 });
 
-                $scope.$watch('d_movimientosContables.padre', function() {
-                    console.log("cuenta seleccionada",self.padre);
-                });
+                $scope.$watch('ventanadespl', function(newValue) {
+                  if(newValue){
+                    $interval( function() {
+                        self.gridApiMovimientos.core.handleWindowResize();
+                      }, 500, 2);
+                  }
+                },true);
             },
             controllerAs: 'd_movimientosContables'
         };

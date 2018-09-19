@@ -7,7 +7,7 @@
  * # nomina/liquidacion/verTodas
  */
 angular.module('financieraClienteApp')
-  .directive('liquidacionVerTodas', function(financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
+  .directive('liquidacionVerTodas', function(financieraRequest,financieraMidRequest, administrativaRequest, titanRequest, $timeout, $translate, uiGridConstants) {
     return {
       restrict: 'E',
       scope: {
@@ -27,6 +27,22 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
           self.nomina = response.data;
         })
+
+        //
+
+        financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+            .then(function(response) { //error con el success
+                self.vigenciaActual = parseInt(response.data);
+                var dif = self.vigenciaActual - 1995;
+                var range = [];
+                range.push(self.vigenciaActual);
+                for (var i = 1; i < dif; i++) {
+                    range.push(self.vigenciaActual - i);
+                }
+                self.years = range;
+                
+            });
+
         // Resumen
         self.gridOptionsResumenMovimientosContables = {
           enableRowHeaderSelection: false,
@@ -188,6 +204,7 @@ angular.module('financieraClienteApp')
               field: 'Contrato',
               displayName: $translate.instant('CONTRATO'),
               width: '15%',
+              headerCellClass: 'encabezado',
               cellClass: function(_, row) {
                 if (row.entity.Aprobado == false) {
                   return 'input_center text-danger';
@@ -200,6 +217,7 @@ angular.module('financieraClienteApp')
               field: 'VigenciaContrato',
               displayName: $translate.instant('VIGENCIA') + ' ' + $translate.instant('CONTRATO'),
               width: '15%',
+              headerCellClass: 'encabezado',
               cellClass: function(_, row) {
                 if (row.entity.Aprobado == false) {
                   return 'input_center text-danger';
@@ -212,6 +230,7 @@ angular.module('financieraClienteApp')
               field: 'infoPersona.nombre_completo',
               displayName: $translate.instant('NOMBRE'),
               width: '40%',
+              headerCellClass: 'encabezado',
               cellClass: function(_, row) {
                 if (row.entity.Aprobado == false) {
                   return 'input_center text-danger';
@@ -224,6 +243,7 @@ angular.module('financieraClienteApp')
               field: 'infoPersona.Documento.numero',
               displayName: $translate.instant('NO_DOCUMENTO'),
               width: '30%',
+              headerCellClass: 'encabezado',
               cellClass: function(_, row) {
                 if (row.entity.Aprobado == false) {
                   return 'input_center text-danger';
@@ -255,10 +275,16 @@ angular.module('financieraClienteApp')
 
         // para desarrollo
         self.consultar = function() {
-          if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined && $scope.anoSelect.length == 4) {
+          
+          console.log($scope.nominaSelect, $scope.anoSelect, $scope.mesSelect)
+          if ($scope.nominaSelect != undefined && $scope.mesSelect != undefined && $scope.anoSelect != undefined) {
+            self.gridOptionsPreliquidacionPersonas.data = [];
             $scope.ouputdatanominaselect.idNomina = $scope.nominaSelect;
             $scope.ouputdatanominaselect.mesLiquidacion = $scope.mesSelect;
             $scope.ouputdatanominaselect.anioLiquidacion = $scope.anoSelect;
+            self.cargando = true;
+            self.hayData  = true;
+            self.fue_consultado = true;
             $scope.mostrar = false;
             $scope.mostraDetalleError = false;
             self.gridOptionsConceptos.data = {};
@@ -272,11 +298,15 @@ angular.module('financieraClienteApp')
               })
             ).then(function(response) {
               if (response.data == null) {
+                self.cargando = false;
+                self.hayData  = false;
                 self.gridOptionsPreliquidacionPersonas.data = {};
                 $scope.ouputdataresumencarge = {};
                 self.gridOptionsResumenMovimientosContables.data = {};
                 self.gridOptionsResumenConceptos.data = {};
               } else {
+                self.cargando = false;
+                self.hayData  = true;
                 self.gridOptionsPreliquidacionPersonas.data = response.data.DetalleCargueOp;
                 $scope.ouputdataresumencarge = response.data;
                 self.gridOptionsResumenMovimientosContables.data = response.data.ResumenCargueOp.ResumenContable;
@@ -285,6 +315,9 @@ angular.module('financieraClienteApp')
             })
           }
         }
+
+        
+
         // refrescar
         self.refresh = function() {
           $scope.refresh = true;

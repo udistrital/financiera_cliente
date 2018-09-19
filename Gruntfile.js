@@ -464,7 +464,7 @@ module.exports = function(grunt) {
               dryRun: false,
               sonar: {
                 host: {
-                  url: 'http://localhost:9000'
+                  url: 'http://10.20.0.77:9000'
                 },
                 projectKey: 'financiera_cliente',
                 projectName: 'financiera_cliente',

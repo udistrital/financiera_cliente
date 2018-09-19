@@ -17,7 +17,8 @@ angular.module('financieraClienteApp')
         recargar: '=?',
         rdesc: '=?',
         nohead: '=?',
-        btnselnom: '=?'
+        btnselnom: '=?',
+        notloadconcepto:'=?'
       },
       templateUrl: "views/directives/conceptos/arbol_conceptos.html",
       controller: function($scope,$attrs) {
@@ -27,7 +28,7 @@ angular.module('financieraClienteApp')
 
 
         self.multiSelect = "multiselect" in $attrs;
-
+        self.algo_fue_seleccionado="seleccionini" in $attrs;
 
         financieraRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
@@ -42,14 +43,19 @@ angular.module('financieraClienteApp')
         },true);
 
 
+        $scope.$watch("notloadconcepto",function(){
+          if ($scope.notloadconcepto) {
+            self.temp = $scope.conceptosel;
+            self.algo_fue_seleccionado=true;
+          }
+        },true);
+
         $scope.$watch("conceptosel",function(){
           console.log("concepto seleccionado ",$scope.conceptosel);
             if (self.multiSelect && !angular.isUndefined($scope.conceptosel)){
               self.algo_fue_seleccionado=false;
             }
         },true);
-
-
         $scope.vtitle=!('nohead' in $attrs);
         $scope.btnsel=('btnselnom' in $attrs)?$scope.btnselnom:$translate.instant('BTN.SELECCIONAR');
         self.treeOptions = {
