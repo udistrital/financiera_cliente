@@ -123,7 +123,13 @@ angular.module('financieraClienteApp')
             $scope.ramasel = $path();
         };
 
-
+        $scope.$watch("cuentasel", function() {
+          if ($scope.cuentasel === null || angular.isUndefined($scope.cuentasel)) {
+            console.log("cambia valor cuenta seleccionada",$scope.cuentasel);
+            self.algo_fue_seleccionado=false;
+            self.esconder_botones = false;
+          }
+        }, true);
 
       },
       controllerAs: 'd_planCuentas' //alias del controlador de la directiva

@@ -1,4 +1,4 @@
-<div ng-if="!panel">
+<div ng-show="!panel">
 <legend class="text-primary" ng-click="inputpestanaabierta=!inputpestanaabierta">
   {{'CUENTAS_CONTABLES' | translate}}
   <span class="fa fa-plus pull-right" ng-show="!inputpestanaabierta"></span>
@@ -8,7 +8,7 @@
 <div class = "panel-body" ng-if="inputpestanaabierta">
   <div class="col-md-12 form-group ">
   <div class="panel panel-default shadow-box">
-    <div ui-grid="d_movimientosContablesOpDetalle.gridOptions_movimientos"  ui-grid-auto-resize ui-grid-pagination ui-grid-selection>
+    <div ui-grid="d_movimientosContablesOpDetalle.gridOptions_movimientos"  ui-grid-auto-resize ui-grid-selection ui-grid-pagination>
       <div class="watermark" ng-show="!d_movimientosContablesOpDetalle.hayData">{{'NO_DATA'| translate}}</div>
       <div class="watermark" ng-show="d_movimientosContablesOpDetalle.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
     </div>
@@ -18,7 +18,7 @@
 </div>
 
 
-<div ng-if="panel" >
+<div ng-show="panel" >
 
 <div class = "panel-body">
   <div class="col-md-12 form-group ">

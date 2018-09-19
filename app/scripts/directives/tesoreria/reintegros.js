@@ -12,9 +12,10 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           avance: '=?',
+          g:'=?'
         },
       templateUrl: 'views/directives/tesoreria/reintegros.html',
-      controller:function($scope,$translate,uiGridConstants,financieraMidRequest,gridApiService,financieraRequest){
+      controller:function($scope,$translate,uiGridConstants,financieraMidRequest,gridApiService,financieraRequest,$interval){
         var ctrl = this;
         ctrl.reintegroAvance = [];
         ctrl.gridReintegros = {
@@ -108,6 +109,16 @@ angular.module('financieraClienteApp')
 
               $scope.$watch('avance', function() {
                 ctrl.avance = $scope.avance;
+              });
+
+
+              $scope.$watch('g', function() {
+                if(!$scope.g || angular.isUndefined($scope.g)){
+                  console.log("valor g",$scope.g);
+                  $interval( function() {
+                      ctrl.gridReintApi.core.handleWindowResize();
+                    }, 500, 2);
+                }
               });
       },
       controllerAs:'d_tesoreriaReintegros'
