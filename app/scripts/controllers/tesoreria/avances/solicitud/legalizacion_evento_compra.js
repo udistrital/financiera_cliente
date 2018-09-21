@@ -8,12 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval) {
+  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage) {
     var ctrl = this;
     ctrl.LegalizacionCompras = { Valor: 0 };
-    ctrl.seleccion = [];
     ctrl.Impuesto = [];
     ctrl.concepto = [];
+    ctrl.LegalizacionCompras.FechaCompra = new Date();
+    $scope.solicitud = $localStorage.avance;
     ctrl.Total = 0;
     ctrl.subtotal = 0;
     ctrl.gridImpuestos = {
@@ -84,9 +85,8 @@ angular.module('financieraClienteApp')
                 if(row.isSelected) {
                   row.entity.Valor = row.entity.Porcentaje * ctrl.LegalizacionCompras.Valor
                  ctrl.Impuesto.push(row.entity);
-                 console.log("agrega",ctrl.Impuesto);
                }else{
-                 ctrl.Impuesto.splice(ctrl.seleccion.indexOf(row.entity), 1);
+                 ctrl.Impuesto.splice(ctrl.Impuesto.indexOf(row.entity), 1);
                }
                ctrl.calcular_valor_impuesto ();
                 });
@@ -121,10 +121,13 @@ angular.module('financieraClienteApp')
                 sum_impuestos += ctrl.Impuesto[i].Valor;
             }
         }
-        if (angular.isUndefined(ctrl.Impuesto.IVA)) {
+        ctrl.IVA = ctrl.Impuesto.find(function(item){
+          return(item.TipoCuentaEspecial.Id===3);
+        });
+        if (angular.isUndefined(ctrl.IVA)) {
             ctrl.subtotal = ctrl.LegalizacionCompras.Valor;
         } else {
-            ctrl.subtotal = ctrl.LegalizacionCompras.Valor + (ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor);
+            ctrl.subtotal = ctrl.LegalizacionCompras.Valor + (ctrl.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor);
         }
         ctrl.Total = ctrl.subtotal - sum_impuestos;
     };
@@ -152,27 +155,96 @@ angular.module('financieraClienteApp')
                 }))
             .then(function(response) {
                 if (response.data == null) {
-                    $scope.encontrado = "true";
+                    $scope.encontrado = true;
                 } else {
-                    ctrl.LegalizacionCompras.InformacionProveedor = response.data[0];
+                    ctrl.InformacionProveedor = response.data[0];
 
                 }
             });
     }
     $scope.$watch('legalizacionEvtCompra.concepto[0].Id', function(newValue,oldValue) {
                 if (!angular.isUndefined(newValue)) {
-                  $scope.movimientos = undefined;
                     financieraRequest.get('concepto', $.param({
-                        query: "Id:" + newValue.Id,
+                        query: "Id:" + newValue,
                         fields: "Rubro",
                         limit: -1
                     })).then(function(response) {
-                        $scope.legalizacionEvtCompra.concepto[0].Rubro = response.data[0].Rubro;
+                        ctrl.concepto[0].Rubro = response.data[0].Rubro;
                     });
                 }
             }, true);
 
-            $scope.$watch('legalizacionEvtCompra.concepto[0].movimientos', function(newValue) {
-              console.log("movimientos Contables 2" ,newValue);
-            },true);
+    ctrl.camposObligatorios = function() {
+      var respuesta;
+      ctrl.MensajesAlerta = '';
+
+      if($scope.compras.$invalid){
+        angular.forEach($scope.compras.$error,function(controles,error){
+          angular.forEach(controles,function(control){
+            control.$setDirty();
+          });
+        });
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
+      }
+
+      if(ctrl.Impuesto.length === 0){
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("SELECCIONAR_IMPUESTOS") + "</li>";
+      }
+
+      if(angular.isUndefined(ctrl.concepto[0])){
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_CONCEPTO") + "</li>";
+      }else{
+        if (ctrl.concepto[0].validado === false) {
+          ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("PRINCIPIO_PARTIDA_DOBLE_ADVERTENCIA") + "</li>";
+        }
+      }
+
+      if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+        respuesta = true;
+      } else {
+        respuesta =  false;
+      }
+
+      return respuesta;
+     }
+
+     ctrl.guardar = function(){
+       var request ={};
+       var templateAlert;
+       if(!ctrl.camposObligatorios()){
+         swal({
+           title:'¡Error!',
+           html:'<ol align="left">'+ctrl.MensajesAlerta+"</ol>",
+           type:'error'
+         });
+         return;
+       }
+       ctrl.LegalizacionCompras.TipoAvanceLegalizacion = { Id: 2 };
+       request.Avance = { Id: $scope.solicitud.Id };
+       ctrl.LegalizacionCompras.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
+       if (!angular.isUndefined(ctrl.LegalizacionCompras.TrmFechaCompra)) {
+           ctrl.LegalizacionCompras.TrmFechaCompra = parseFloat(ctrl.LegalizacionCompras.TrmFechaCompra);
+       }
+       request.Movimientos = []
+       angular.forEach(ctrl.concepto[0].movimientos, function(data) {
+         delete data.Id;
+         request.Movimientos.push(data);
+       });
+       request.AvanceLegalizacionTipo = ctrl.LegalizacionCompras;
+       request.Concepto=ctrl.concepto[0];
+
+       console.log(request);
+      financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
+          .then(function(info) {
+              console.log(info);
+              if(angular.equals(info.data.Type,"success")){
+                templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('LEGALIZACION') + "</th><th>" + $translate.instant('LEGALIZACION_EVENTO_COMPRA') + "</th>"+ "</th><th>" + $translate.instant('DETALLE');
+                templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.AvanceLegalizacion.Legalizacion + "</td>" + "<td>" + response.data.Body.Id+ "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                templateAlert = templateAlert + "</table>";
+                $location.path('/tesoreria/avances/legalizacion');
+              }
+
+          });
+     }
+
   });
