@@ -426,13 +426,23 @@ angular.module('financieraClienteApp')
                   if(!angular.isUndefined(item)){
                     self.padre = null;
                     delete item.Hijos;
-                    movimiento.CuentaContable = item;
+                    if (!angular.isUndefined(item.CuentaContable)){
+                      movimiento.CuentaContable = item.CuentaContable;
+                    }else{
+                      movimiento.CuentaContable = item;
+                    }
+                    if(!angular.isUndefined(item.CuentaEspecial)){
+                      movimiento.CuentaEspecial = item.CuentaEspecial;
+                    }
                     movimiento.Concepto = self.concepto_movs;
                     movimiento.Debito=0;
                     movimiento.Credito=0;
-                    if (self.gridOptionsMovimientos.data.indexOf(item) < 0) {
-                        $scope.movimientos.unshift(movimiento);
-                        self.cargar_cuentas_grid();
+                    var findedElement =  $scope.movimientos.find(function(element){
+                      return element.CuentaContable.Id === movimiento.CuentaContable.Id;
+                    });
+                    if(angular.isUndefined(findedElement)){
+                      $scope.movimientos.push(movimiento);
+                      self.cargar_cuentas_grid();
                     }
                   }
                 }
@@ -485,7 +495,7 @@ angular.module('financieraClienteApp')
 
                 self.cargar_concepto = function() {
                     if ($scope.conceptoid != undefined) {
-                        financieraRequest.get('concepto', $.param({
+                        self.getConcepto = financieraRequest.get('concepto', $.param({
                             query: 'Id:' + $scope.conceptoid
                         })).then(function(response) {
                             self.concepto_movs = response.data[0];
@@ -620,25 +630,37 @@ angular.module('financieraClienteApp')
                 }, true);
 
                 $scope.$watch('impuestos', function(newValue,oldValue) {
-                    if(!angular.isUndefined(self.servicioPromesa)){
-                      $q.all([self.servicioPromesa]).then(function() {
-                        console.log("imp y desc ",newValue);
-                        if (!angular.isUndefined(newValue)) {
-                            angular.forEach(oldValue,function(item){
-                              if(newValue.indexOf(item)=== -1){
-                                 $scope.movimientos.filter(function(valMov,index,array){
-                                  if (valMov.CuentaContable.Id != item.CuentaContable.Id){
-                                    array.splice(index,1);
-                                  }
+                    if(!angular.isUndefined(self.servicioPromesa)&&!angular.isUndefined(self.getConcepto)&&!angular.isUndefined(newValue)){
+                      $q.all([self.servicioPromesa,self.getConcepto]).then(function() {
+                        if(newValue.length<oldValue.length){
+                          var idsA = newValue.map( function(x){ return x.CuentaContable.Id; }).sort();
+                          var idsB = oldValue.map( function(x){ return x.CuentaContable.Id; }).sort();
+                          if (idsA.length > 0)  {
+                            angular.forEach(idsB,function(item){
+                              if(!idsA.includes(item)) {
+                                 $scope.movimientos = $scope.movimientos.filter(function(valMov){
+                                  return (valMov.CuentaContable.Id != item);
                                 });
-                              }
-                                self.cargar_cuentas_grid();
+                               }
                               });
-
-                            angular.forEach(newValue,function(item){
-                              self.agregar_cuenta(item.CuentaContable);
-                            });
+                          }else{
+                            $scope.movimientos = $scope.movimientos.filter(function(valMov){
+                             if (valMov.CuentaContable.Id === idsB[0]){
+                               return false;
+                             }else{
+                               return true;
+                             }
+                           });
                           }
+                          self.cargar_cuentas_grid();
+                        }else{
+                          angular.forEach(newValue,function(item){
+                            console.log(item)
+                            item.CuentaEspecial = {Id:item.Id}
+                            self.agregar_cuenta(item);
+                          });
+                        }
+
                         });
                     }
                 }, true);
