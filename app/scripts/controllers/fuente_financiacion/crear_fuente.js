@@ -397,7 +397,7 @@ angular.module('financieraClienteApp')
 
 
 
-      var data = {
+      var FuenteData = {
         Codigo: self.nueva_fuente.Codigo.toString(),
         Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion,
@@ -406,22 +406,30 @@ angular.module('financieraClienteApp')
         }
 
       }
-      financieraRequest.post("fuente_financiamiento", data).then(function(response) {
-        self.fuente_financiamiento = response.data;
-        self.id = response.data.Id;
-        self.asignar_rubros(self.id, documento);
-      });
+
+      var AfectacionFuenteData = self.asignar_rubros(0, documento);
+      var DataToSend = {
+        FuenteFinanciamiento: FuenteData,
+        AfectacionFuente: AfectacionFuenteData
+      };
+      console.log("Data to Send: ", DataToSend);
+      // financieraRequest.post("fuente_financiamiento", data).then(function(response) {
+      //   self.fuente_financiamiento = response.data;
+      //   self.id = response.data.Id;
+      //   self.asignar_rubros(self.id, documento);
+      // });
 
       self.cerrar_ventana();
     };
 
     self.asignar_rubros = function(id, documento) {
-
+      var afectacionArr = [];
       for (i = 0; i < self.rubros_seleccionados.length; i++) {
         for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-          self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento);
+          afectacionArr.push(self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento));
         }
       }
+      return afectacionArr;
     };
 
 
@@ -437,12 +445,14 @@ angular.module('financieraClienteApp')
           Id: parseInt(fuente)
         }
       }
-      financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
-        self.fuente_financiamiento_apropiacion = response.data;
-        self.id = response.data.Id;
-        self.crear_Movimiento_apropiacion(self.id, valor, documento);
+      data.MovimientoFuenteFinanciamientoApropiacion = self.crear_Movimiento_apropiacion(0, valor, documento);
+      return data;
+      // financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
+      //   self.fuente_financiamiento_apropiacion = response.data;
+      //   self.id = response.data.Id;
+      //   self.crear_Movimiento_apropiacion(self.id, valor, documento);
 
-      });
+      // });
     };
 
     self.crear_Movimiento_apropiacion = function(apropiacion, valor, documento) {
@@ -458,16 +468,17 @@ angular.module('financieraClienteApp')
           Id: parseInt(apropiacion)
         }
       }
-      financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
-        self.movimiento_fuente_financiamiento_apropiacion = response.data;
-        if (response.data) {
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-            $window.location.href = '#/fuente_financiacion/consulta_fuente';
-          });
-        } else {
-          swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
-        }
-      });
+      return data;
+      // financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
+      //   self.movimiento_fuente_financiamiento_apropiacion = response.data;
+      //   if (response.data) {
+      //     swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+      //       $window.location.href = '#/fuente_financiacion/consulta_fuente';
+      //     });
+      //   } else {
+      //     swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
+      //   }
+      // });
     };
 
     self.actualizar = function() {
