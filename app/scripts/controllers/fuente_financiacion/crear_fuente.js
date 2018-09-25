@@ -413,11 +413,16 @@ angular.module('financieraClienteApp')
         AfectacionFuente: AfectacionFuenteData
       };
       console.log("Data to Send: ", DataToSend);
-      // financieraRequest.post("fuente_financiamiento", data).then(function(response) {
-      //   self.fuente_financiamiento = response.data;
-      //   self.id = response.data.Id;
-      //   self.asignar_rubros(self.id, documento);
-      // });
+      financieraRequest.post("fuente_financiamiento/RegistrarFuenteFinanciamientoTr", DataToSend).then(function(response) {
+        console.log("Response: ", response.data);
+        if (response.data) {
+              swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+                $window.location.href = '#/fuente_financiacion/consulta_fuente';
+              });
+            } else {
+              swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
+            }
+      });
 
       self.cerrar_ventana();
     };
@@ -443,9 +448,10 @@ angular.module('financieraClienteApp')
         },
         FuenteFinanciamiento: {
           Id: parseInt(fuente)
-        }
+        },
+        MovimientoFuenteFinanciamientoApropiacion: []
       }
-      data.MovimientoFuenteFinanciamientoApropiacion = self.crear_Movimiento_apropiacion(0, valor, documento);
+      data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(0, valor, documento));
       return data;
       // financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
       //   self.fuente_financiamiento_apropiacion = response.data;
