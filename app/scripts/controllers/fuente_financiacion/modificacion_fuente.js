@@ -764,11 +764,13 @@ angular.module('financieraClienteApp')
         }
       }
 
-      coreRequest.post("documento", data).then(function(response) {
+      // coreRequest.post("documento", data).then(function(response) {
         self.id = response.data.Id;
-        self.crear_fuente_apropiacion(self.fuente_origen, self.adicion_fuente, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)), self.id);
-        self.crear_fuente_apropiacion(self.fuente_destino, self.adicion_fuente, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto), self.id);
-      });
+        var DataToSend = [];
+        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_origen, self.adicion_fuente, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)), self.id));
+        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_destino, self.adicion_fuente, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto), self.id));
+        console.log("Data To Send: ", DataToSend);
+      // });
 
     };
 
