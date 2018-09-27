@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelect
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelect', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants) {
+  .directive('opMultiSelect', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, $interval) {
     return {
       restrict: 'E',
       scope: {
@@ -17,24 +17,25 @@ angular.module('financieraClienteApp')
       },
       templateUrl: 'views/directives/orden_pago/op_multi_select.html',
       controller: function($scope) {
-        var self = this;
-        self.hayData_detalle = true;
-        self.cargando_detalle = true;
+        var ctrl = this;
+        ctrl.hayData_detalle = true;
+        ctrl.cargando_detalle = true;
         //
-        self.cargar_vigencia = function() {
+        ctrl.cargar_vigencia = function() {
           financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
-            self.vigencia_calendarios = parseInt(response.data);
+            ctrl.vigencia_calendarios = parseInt(response.data);
             var year = parseInt(response.data) + 1;
-            self.vigencias = [];
+            ctrl.vigencias = [];
             for (var i = 0; i < 5; i++) {
-              self.vigencias.push(year - i);
+              ctrl.vigencias.push(year - i);
             }
           });
         };
-        self.cargar_vigencia();
+        ctrl.cargar_vigencia();
         //
         $scope.outputvisible = true;
-        self.confirmar = function() {
+        ctrl.confirmar = function() {
+          ctrl.ajustarGrid(ctrl.gridOptions_op);
           if ($scope.outputopselect.length > 0) {
             $scope.outputvisible = false;
           } else {
@@ -51,36 +52,36 @@ angular.module('financieraClienteApp')
             limit: -1,
           })
         ).then(function(response) {
-          self.tipoOrdenPagoData = response.data;
+          ctrl.tipoOrdenPagoData = response.data;
         })
         financieraRequest.get('forma_pago',
           $.param({
             limit: -1,
           })
         ).then(function(response) {
-          self.formaPagoData = response.data;
+          ctrl.formaPagoData = response.data;
         })
         //
-        self.consultar = function() {
-          if (self.tipoOrdenPagoSelect != undefined && self.formaPagoSelect != undefined && $scope.inputestado != undefined && self.vigenciaSelect != undefined) {
+        ctrl.consultar = function() {
+          if (ctrl.tipoOrdenPagoSelect != undefined && ctrl.formaPagoSelect != undefined && $scope.inputestado != undefined && ctrl.vigenciaSelect != undefined) {
             financieraRequest.get("orden_pago/GetOrdenPagoByEstado/",
               $.param({
                 codigoEstado: $scope.inputestado,
-                vigencia: self.vigenciaSelect,
-                tipoOp: self.tipoOrdenPagoSelect.Id,
-                formaPago: self.formaPagoSelect.Id,
+                vigencia: ctrl.vigenciaSelect,
+                tipoOp: ctrl.tipoOrdenPagoSelect.Id,
+                formaPago: ctrl.formaPagoSelect.Id,
               })
             ).then(function(response) {
-              self.refresh();
+              ctrl.refresh();
               if (response.data != null) {
-                self.gridOptions_op.data = response.data;
-                self.hayData_detalle = true;
-                self.cargando_detalle = false;
+                ctrl.gridOptions_op.data = response.data;
+                ctrl.hayData_detalle = true;
+                ctrl.cargando_detalle = false;
                 // data
-                angular.forEach(self.gridOptions_op.data, function(iterador) {
+                angular.forEach(ctrl.gridOptions_op.data, function(iterador) {
                   agoraRequest.get('informacion_proveedor',
                     $.param({
-                      query: "Id:" + iterador.RegistroPresupuestal.Beneficiario,
+                      query: "Id:" + iterador.OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.Beneficiario, //SubaTours Example TODO:22487
                     })
                   ).then(function(response) {
                     iterador.Proveedor = response.data[0];
@@ -91,21 +92,21 @@ angular.module('financieraClienteApp')
                 })
                 // data proveedor
               } else {
-                self.gridOptions_op.data = null;
-                self.hayData_detalle = false;
-                self.cargando_detalle = false;
-                self.refresh();
+                ctrl.gridOptions_op.data = null;
+                ctrl.hayData_detalle = false;
+                ctrl.cargando_detalle = false;
+                ctrl.refresh();
               }
             });
           } else {
-            self.gridOptions_op.data = null;
-            self.hayData_detalle = false;
-            self.cargando_detalle = false;
-            self.refresh();
+            ctrl.gridOptions_op.data = null;
+            ctrl.hayData_detalle = false;
+            ctrl.cargando_detalle = false;
+            ctrl.refresh();
           }
         }
         //
-        self.gridOptions_op = {
+        ctrl.gridOptions_op = {
           showColumnFooter: false,
           enableRowSelection: true,
           enableRowHeaderSelection: true,
@@ -154,7 +155,7 @@ angular.module('financieraClienteApp')
               width: '8%',
             },
             {
-              field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
+              field: 'OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
               width: '7%',
               cellClass: 'input_center',
@@ -202,25 +203,33 @@ angular.module('financieraClienteApp')
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
             },
-          ]
+          ],
+          onRegisterApi: function(gridApi) {
+            ctrl.gridOptions_op  = gridApi;
+          },          
         };
-        self.gridOptions_op.multiSelect = true;
-        self.gridOptions_op.enablePaginationControls = true;
-        self.gridOptions_op.onRegisterApi = function(gridApi) {
-          self.gridApi = gridApi;
+        ctrl.gridOptions_op.multiSelect = true;
+        ctrl.gridOptions_op.enablePaginationControls = true;
+        ctrl.gridOptions_op.onRegisterApi = function(gridApi) {
+          ctrl.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            $scope.outputopselect = self.gridApi.selection.getSelectedRows();
+            $scope.outputopselect = ctrl.gridApi.selection.getSelectedRows();
           });
         };
+        ctrl.ajustarGrid = function(gridApi) {
+          $interval( function() {
+              gridApi.core.handleWindowResize();
+            }, 500, 2);
+        };
         // refrescar
-        self.refresh = function() {
+        ctrl.refresh = function() {
           $scope.refresh = true;
           $timeout(function() {
             $scope.refresh = false;
           }, 0);
         };
 
-        self.consultar();
+        ctrl.consultar();
         // fin
       },
       controllerAs: 'd_opMultiSelect'
