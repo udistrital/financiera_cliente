@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          avance: '=?',
+          avancelegalizacion: '=?',
           g:'=?'
         },
       templateUrl: 'views/directives/tesoreria/reintegros.html',
@@ -61,7 +61,7 @@ angular.module('financieraClienteApp')
                     gridApi.selection.on.rowSelectionChanged($scope, function(row) {
                       var reintegroAvnc = {}
                       reintegroAvnc={Reintegro:{Id:row.entity.Id},
-                                      Avance:{Id:ctrl.avance.Id}};
+                                      AvanceLegalizacion:{Id:ctrl.avanceLegalizacion.Id}};
                       if(row.isSelected){
                         ctrl.reintegroAvance.push(reintegroAvnc);
                       }else{
@@ -108,13 +108,12 @@ angular.module('financieraClienteApp')
               }
 
               $scope.$watch('avance', function() {
-                ctrl.avance = $scope.avance;
+                ctrl.avanceLegalizacion = $scope.avance_legalizacion;
               });
 
 
               $scope.$watch('g', function() {
                 if(!$scope.g || angular.isUndefined($scope.g)){
-                  console.log("valor g",$scope.g);
                   $interval( function() {
                       ctrl.gridReintApi.core.handleWindowResize();
                     }, 500, 2);

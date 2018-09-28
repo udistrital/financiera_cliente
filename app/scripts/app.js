@@ -645,8 +645,13 @@ angular
             })
             .when('/tesoreria/avances/solicitud/legalizacion_practica_academica', {
               templateUrl: 'views/tesoreria/avances/solicitud/legalizacion_practica_academica.html',
-              controller: 'TesoreriaAvancesSolicitudLegalizacionPracticaAcademicaCtrl',
-              controllerAs: 'tesoreria/avances/solicitud/legalizacionPracticaAcademica'
+              controller: 'legalizacionPracAcademicaCtrl',
+              controllerAs: 'legalizacionPracAcademica'
+            })
+            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion', {
+              templateUrl: 'views/tesoreria/avances/solicitud/ev_legalizacion_tipo.html',
+              controller: 'EvLegalizacionTipoCtrl',
+              controllerAs: 'evlegalizaciontipo'
             })
             .otherwise({
                 redirectTo: '/'

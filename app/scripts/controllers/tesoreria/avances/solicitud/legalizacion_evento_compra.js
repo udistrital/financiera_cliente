@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage) {
+  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage,$location) {
     var ctrl = this;
     ctrl.LegalizacionCompras = { Valor: 0 };
     ctrl.Impuesto = [];
@@ -108,7 +108,7 @@ angular.module('financieraClienteApp')
         ctrl.Total = 0;
         ctrl.subtotal = 0;
         for (var i in ctrl.Impuesto) {
-            if (i === "rete_iva") {
+            if (ctrl.Impuesto[i].Id === 56) {
                 if (!angular.isUndefined(ctrl.Impuesto.IVA)) {
                     ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor;
                 } else {
@@ -117,7 +117,7 @@ angular.module('financieraClienteApp')
             } else {
                 ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.LegalizacionCompras.Valor;
             }
-            if (!angular.isUndefined(ctrl.Impuesto[i].Valor) && i !== "IVA") {
+            if (!angular.isUndefined(ctrl.Impuesto[i].Valor) && ctrl.Impuesto[i].TipoCuentaEspecial.Id !== 3) {
                 sum_impuestos += ctrl.Impuesto[i].Valor;
             }
         }
@@ -221,7 +221,6 @@ angular.module('financieraClienteApp')
        }
        ctrl.LegalizacionCompras.TipoAvanceLegalizacion = { Id: 2 };
        request.Avance = { Id: $scope.solicitud.Id };
-       ctrl.LegalizacionCompras.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
        if (!angular.isUndefined(ctrl.LegalizacionCompras.TrmFechaCompra)) {
            ctrl.LegalizacionCompras.TrmFechaCompra = parseFloat(ctrl.LegalizacionCompras.TrmFechaCompra);
        }
@@ -231,17 +230,22 @@ angular.module('financieraClienteApp')
          request.Movimientos.push(data);
        });
        request.AvanceLegalizacionTipo = ctrl.LegalizacionCompras;
+       request.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
        request.Concepto=ctrl.concepto[0];
-
-       console.log(request);
+       request.TipoDocAfectanteNO = 8;
       financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
           .then(function(info) {
-              console.log(info);
               if(angular.equals(info.data.Type,"success")){
                 templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('LEGALIZACION') + "</th><th>" + $translate.instant('LEGALIZACION_EVENTO_COMPRA') + "</th>"+ "</th><th>" + $translate.instant('DETALLE');
-                templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.AvanceLegalizacion.Legalizacion + "</td>" + "<td>" + response.data.Body.Id+ "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                templateAlert = templateAlert + "<tr class='success'><td>" + info.data.Body.AvanceLegalizacion.Legalizacion + "</td>" + "<td>" + info.data.Body.Id+ "</td>" + "<td>" + $translate.instant(info.data.Code) + "</td></tr>" ;
                 templateAlert = templateAlert + "</table>";
-                $location.path('/tesoreria/avances/legalizacion');
+                swal('',templateAlert,info.data.Type).then(function() {
+                  $scope.$apply(function(){
+                      $location.path('/tesoreria/avances/legalizacion');
+                  });
+                })
+              }else{
+                swal('',info.data.Code,info.data.Type);
               }
 
           });
