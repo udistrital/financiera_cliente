@@ -24,7 +24,9 @@ angular.module('financieraClienteApp')
         ctrl.hayData_cb = true;
         ctrl.cargando_cb = true;
         //
+
         ctrl.regresar = function() {
+          ctrl.ajustarGrid(ctrl.gridApi);
           $scope.inputvisible = !$scope.inputvisible;
         }
         ctrl.gridOptions_op_detail = {
@@ -291,6 +293,18 @@ angular.module('financieraClienteApp')
             })
           }
         }
+        ctrl.ajustarGrid = function(gridApi) {
+          $interval( function() {
+            gridApi.core.handleWindowResize();
+          }, 500, 2);
+      };
+      $scope.$watch('inputvisible', function() {
+        if($scope.inputvisible && ctrl.gridApi != undefined){
+          $interval( function() {
+              ctrl.gridApi.core.handleWindowResize();
+            }, 500, 2);
+        }
+      });      
         // fin
       },
       controllerAs: 'd_opMultiSelectDetail'
