@@ -143,7 +143,7 @@ angular.module('financieraClienteApp')
         ctrl.gridOptions_cuenta_bancaria = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
-          paginationPageSizes: [15, 30, 45],
+          paginationPageSizes: [15, 30, 45, 100, 200],
           enableFiltering: true,
           minRowsToShow: 8,
           useExternalPagination: false,
