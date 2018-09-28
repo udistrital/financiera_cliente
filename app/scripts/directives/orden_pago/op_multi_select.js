@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelect
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelect', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, $interval) {
+  .directive('opMultiSelect', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, $interval, gridApiService) {
     return {
       restrict: 'E',
       scope: {
@@ -61,17 +61,26 @@ angular.module('financieraClienteApp')
           ctrl.formaPagoData = response.data;
         })
         //
-        ctrl.consultar = function() {
+        ctrl.consultar = function(offset,query) {
+          
           if (ctrl.tipoOrdenPagoSelect != undefined && ctrl.formaPagoSelect != undefined && $scope.inputestado != undefined && ctrl.vigenciaSelect != undefined) {
-            financieraRequest.get("orden_pago/GetOrdenPagoByEstado/",
-              $.param({
-                codigoEstado: $scope.inputestado,
-                vigencia: ctrl.vigenciaSelect,
-                tipoOp: ctrl.tipoOrdenPagoSelect.Id,
-                formaPago: ctrl.formaPagoSelect.Id,
-              })
+            var querybase = 
+            $.param({
+              codigoEstado: $scope.inputestado,
+              vigencia: ctrl.vigenciaSelect,
+              tipoOp: ctrl.tipoOrdenPagoSelect.Id,
+              formaPago: ctrl.formaPagoSelect.Id,
+              limit:ctrl.gridOptions_op.paginationPageSize,
+              offset:offset
+            });
+            if(angular.isUndefined(query)||query.trim().length===0){
+              query = querybase;
+            }else{
+              query = query+"&"+querybase;
+            }            
+            financieraRequest.get("orden_pago/GetOrdenPagoByEstado",query
             ).then(function(response) {
-              ctrl.refresh();
+              //ctrl.refresh();
               if (response.data != null) {
                 ctrl.gridOptions_op.data = response.data;
                 ctrl.hayData_detalle = true;
@@ -110,8 +119,8 @@ angular.module('financieraClienteApp')
           enableRowSelection: true,
           enableRowHeaderSelection: true,
 
-          paginationPageSizes: [15, 30, 45],
-          paginationPageSize: 15,
+          paginationPageSizes: [2, 4, 6],
+          paginationPageSize: 2,
 
           enableFiltering: true,
           enableSelectAll: true,
@@ -211,6 +220,7 @@ angular.module('financieraClienteApp')
         ctrl.gridOptions_op.enablePaginationControls = true;
         ctrl.gridOptions_op.onRegisterApi = function(gridApi) {
           ctrl.gridApi = gridApi;
+          ctrl.gridApi = gridApiService.pagination(ctrl.gridApi, ctrl.consultar, $scope);
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.outputopselect = ctrl.gridApi.selection.getSelectedRows();
           });
@@ -228,7 +238,7 @@ angular.module('financieraClienteApp')
           }, 0);
         };
 
-        ctrl.consultar();
+        ctrl.consultar(0,'');
         $scope.$watch('outputvisible', function() {
           if($scope.outputvisible){
             $interval( function() {
