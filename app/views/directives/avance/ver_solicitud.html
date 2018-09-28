@@ -1,3 +1,4 @@
+
 <fieldset class="form-group">
     <legend class="text-primary" ng-click="info_terceros=!info_terceros">{{"INFORMACION_TERCERO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_terceros"></span> <span class="fa fa-minus pull-right" ng-show="info_terceros"></span></legend>
 
@@ -125,12 +126,15 @@
                     </ol>
                 </div>
                 <div class="col-md-4">
-                    <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
+                    <h3>{{"VALOR "|translate}}: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
                 </div>
             </div>
         </div>
         <div class="row" align="center">
-            <h3>TOTAL: </h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.Total | currency}}</h5></span>
+            <h3>{{"TOTAL"|translate}}:</h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.Total | currency}}</h5></span>
+        </div>
+        <div class="row" align="center">
+            <h3>{{"VALOR_LEGALIZADO" | translate}}:</h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.valorLegalizado|currency}}</h5></span>
         </div>
     </div>
 </fieldset>

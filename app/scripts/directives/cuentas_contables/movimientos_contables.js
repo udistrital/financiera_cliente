@@ -421,7 +421,7 @@ angular.module('financieraClienteApp')
                     }
                 };
 
-                self.agregar_cuenta= function(item) {
+                self.agregar_cuenta= function(item,showSwal) {
                   var movimiento={};
                   if(!angular.isUndefined(item)){
                     self.padre = null;
@@ -443,6 +443,20 @@ angular.module('financieraClienteApp')
                     if(angular.isUndefined(findedElement)){
                       $scope.movimientos.push(movimiento);
                       self.cargar_cuentas_grid();
+                    }
+                    if(showSwal===true){
+                      swal({
+                          title: '',
+                          text: $translate.instant('AGREGAR_MAS_CUENTAS'),
+                          type: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: $translate.instant('BTN.ACEPTAR'),
+                          cancelButtonText: $translate.instant('BTN.CANCELAR')
+                      }).then(function(result) {}, function(dismiss) {
+                            $('#modalSeleccionCuentas').modal('hide');
+                          });
                     }
                   }
                 }

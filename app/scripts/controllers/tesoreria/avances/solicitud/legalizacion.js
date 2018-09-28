@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest,$window, $translate, $localStorage,$q, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
@@ -24,7 +24,8 @@ angular.module('financieraClienteApp')
         ctrl.notLoadConcepto = false;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'look', estado: true }
         ];
 
         $scope.botonesOp = [
@@ -35,6 +36,7 @@ angular.module('financieraClienteApp')
             clase: "fa fa-spinner",
             animacion: "faa-spin animated"
         };
+
         ctrl.legalizacionCompras = { Valor: 0 };
         ctrl.subtotal = 0;
         ctrl.gridOptionsCompras = {
@@ -52,28 +54,33 @@ angular.module('financieraClienteApp')
                     field: 'Tercero',
                     displayName: $translate.instant('DOCUMENTO') + " " + $translate.instant('TERCERO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'NumeroFactura',
                     displayName: $translate.instant('NO_FACTURA'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'InformacionProveedor[0].NomProveedor',
                     displayName: $translate.instant('NOMBRE'),
                     width: '39%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'FechaCompra',
                     displayName: $translate.instant('FECHA_COMPRA'),
                     cellTemplate: '<div align="center"><span>{{row.entity.FechaCompra | date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '10%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
@@ -103,32 +110,38 @@ angular.module('financieraClienteApp')
                     field: 'Tercero',
                     displayName: $translate.instant('CODIGO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estudiante.numero_documento',
                     displayName: $translate.instant('DOCUMENTO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estudiante.nombre',
                     displayName: $translate.instant('NOMBRE'),
                     width: '39%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Dias',
                     displayName: $translate.instant('Dias'),
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '10%',
+                    headerCellClass: 'encabezado',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrowpracticas(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ],
@@ -525,8 +538,7 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.limpiar_practica();
-                    $('#modal_practicas_academicas').modal('show');
+                    $location.path('/tesoreria/avances/solicitud/legalizacion_practica_academica');
                     break;
                 case "edit":
                     ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
@@ -535,6 +547,11 @@ angular.module('financieraClienteApp')
                 case "delete":
                     ctrl.delete_requisito();
                     break;
+                case "look":
+                  $localStorage.legalizacion = row.entity;
+                  console.log("legalizacion practica academica",$localStorage.legalizacion )
+                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
+                break;
             }
         };
 
@@ -565,6 +582,11 @@ angular.module('financieraClienteApp')
                 case "delete":
                     ctrl.delete_requisito();
                     break;
+                case 'look':
+                    $localStorage.legalizacion = row.entity;
+                    $localStorage.legalizacion.ver = true;
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
+                    break;
             }
         };
 
@@ -591,36 +613,6 @@ angular.module('financieraClienteApp')
           }
         }
 
-
-
-        ctrl.limpiar_practica = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionPracticaAcademica = null;
-        };
-
-
-        ctrl.cargar_estudiante = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionPracticaAcademica.Estudiante = null;
-            if (ctrl.LegalizacionPracticaAcademica.Tercero.length === 11) {
-                $scope.estudiante_cargado = true;
-                var parametros = [{
-                    name: "Información básica",
-                    value: "info_basica"
-                }, {
-                    name: "codigo estudiante",
-                    value: ctrl.LegalizacionPracticaAcademica.Tercero
-                }];
-                wso2Request.get("bienestarProxy", parametros).then(function(response) {
-                    $scope.estudiante_cargado = false;
-                    if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                        ctrl.LegalizacionPracticaAcademica.Estudiante = response.data.datosCollection.datos[0];
-                    } else {
-                        $scope.encontrado = "true";
-                    }
-                });
-            }
-        };
         ctrl.delete_compra = function() {
             swal({
                 title: 'Está seguro ?',
@@ -648,7 +640,7 @@ angular.module('financieraClienteApp')
         ctrl.cargarReintegros=function(){
           financieraRequest.get("reintegro_avance_legalizacion",
                   $.param({
-                      query: "Avance.Id:"+$scope.solicitud.Id, //Impuesto RETE IVA
+                      query: "AvanceLegalizacion.Id:"+$scope.solicitud.avancelegalizacion.Id, //Impuesto RETE IVA
                       limit: -1
                   }))
               .then(function(response) {
@@ -668,7 +660,6 @@ angular.module('financieraClienteApp')
 
               });
         }
-        ctrl.cargarReintegros();
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
@@ -719,63 +710,47 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.get_all_avance_legalizacion_practica = function() {
-            financieraRequest.get("avance_legalizacion", $.param({
-                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:1",
+            financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
+                  if(response.data != null){
                     ctrl.gridOptionsPracticas.data = response.data;
-                    console.log(ctrl.gridOptionsPracticas.data);
-                    angular.forEach(ctrl.gridOptionsPracticas.data, function(estudiante) {
-                        var parametros = [{
-                            name: "Información básica",
-                            value: "info_basica"
-                        }, {
-                            name: "codigo",
-                            value: estudiante.Tercero
-                        }];
-                        wso2Request.get("bienestarProxy", parametros).then(function(response) {
-                            $scope.estudiante_cargado = false;
-                            if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                                estudiante.Estudiante = response.data.datosCollection.datos[0];
-                            }
-                        });
-                    });
+                  }
                 });
         };
-
-        ctrl.get_all_avance_legalizacion_practica();
 
         ctrl.get_all_avance_legalizacion_compra = function() {
-            financieraRequest.get("avance_legalizacion", $.param({
-                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:2",
+            financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:2",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
+                  if (response.data!=null){
                     ctrl.gridOptionsCompras.data = response.data;
                     ctrl.LegalizacionCompras = response.data;
-                    angular.forEach(ctrl.LegalizacionCompras, function(legalizacion) {
-                        legalizacion.InformacionProveedor = null;
-                        administrativaRequest.get("informacion_proveedor",
-                                $.param({
-                                    query: "NumDocumento:" + legalizacion.Tercero,
-                                    limit: -1
-                                }))
-                            .then(function(response) {
-                                legalizacion.InformacionProveedor = response.data;
-                            });
-                    });
-                    console.log("__________________________");
-                    console.log(ctrl.gridOptionsCompras.data);
+                  }
                 });
         };
-
-        ctrl.get_all_avance_legalizacion_compra();
-
+        ctrl.cargarLegalizaciones = function(){
+          financieraMidRequest.get('legalizacion_avance/GetLegalizacionInformation/'+$scope.solicitud.Id,null).then(
+            function(response){
+              if(response.data != null){
+                $scope.solicitud.avancelegalizacion = response.data.avanceLegalizacion[0];
+                $scope.solicitud.valorLegalizado = response.data.Total;
+                ctrl.get_all_avance_legalizacion_practica();
+                ctrl.get_all_avance_legalizacion_compra();
+                ctrl.cargarReintegros();
+              }
+            }
+          );
+        }
+        ctrl.cargarLegalizaciones();
         ctrl.add_edit_compras = function() {
             var lista_impuestos = [];
             for (var i in ctrl.Impuesto) {
@@ -845,6 +820,8 @@ angular.module('financieraClienteApp')
                         });
                     }
                 }, true);
+
+/* pasar a consulta por tipo
       ctrl.getConceptoAvance = function(){
         financieraRequest.get('concepto_avance_legalizacion',$.param({
           query: "Avance.Id:"+$scope.solicitud.Id,
@@ -854,12 +831,10 @@ angular.module('financieraClienteApp')
             ctrl.concepto[0] = response.data[0].Concepto;
             $scope.nodo = response.data[0].Concepto;
             ctrl.notLoadConcepto = true;
-            console.log("valor not load concepto legalizacion",ctrl.notLoadConcepto);
           }
-
         });
       }
-      ctrl.getConceptoAvance();
+
       ctrl.getMovimientosContables = function(){
         financieraRequest.get('tipo_documento_afectante',$.param({
           query: "CodigoAbreviacion:DA-LA",
@@ -879,7 +854,7 @@ angular.module('financieraClienteApp')
 
         });
       }
-      ctrl.getMovimientosContables();
+
       ctrl.revisarNoRow = function(obj){
         if(typeof(obj)==="string"){
         if(obj.indexOf("no row found")>=0) {
@@ -888,6 +863,7 @@ angular.module('financieraClienteApp')
         }
       return false;
       }
+*/
 
       ctrl.addAccountingInf = function(){
         if (!ctrl.movValidado){
