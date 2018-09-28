@@ -35,7 +35,6 @@ angular.module('financieraClienteApp')
         //
         $scope.outputvisible = true;
         ctrl.confirmar = function() {
-          ctrl.ajustarGrid(ctrl.gridOptions_op);
           if ($scope.outputopselect.length > 0) {
             $scope.outputvisible = false;
           } else {
@@ -217,7 +216,7 @@ angular.module('financieraClienteApp')
           });
         };
         ctrl.ajustarGrid = function(gridApi) {
-          $interval( function() {
+            $interval( function() {
               gridApi.core.handleWindowResize();
             }, 500, 2);
         };
@@ -230,6 +229,13 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.consultar();
+        $scope.$watch('outputvisible', function() {
+          if($scope.outputvisible){
+            $interval( function() {
+                ctrl.gridApi.core.handleWindowResize();
+              }, 500, 2);
+          }
+        });
         // fin
       },
       controllerAs: 'd_opMultiSelect'
