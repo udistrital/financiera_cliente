@@ -106,6 +106,8 @@ angular.module('financieraClienteApp')
       ctrl.LegalizacionPracticaAcademica.TipoAvanceLegalizacion = { Id: 1 };
       request.Avance = { Id: $scope.solicitud.Id };
       request.Valor = parseFloat(ctrl.LegalizacionPracticaAcademica.Valor);
+      request.ValorLegalizadoAvance = $scope.solicitud.valorLegalizado;
+      request.ValorTotalAvance = $scope.solicitud.Total;
       request.Movimientos = []
       angular.forEach(ctrl.concepto[0].movimientos, function(data) {
         delete data.Id;
@@ -117,6 +119,7 @@ angular.module('financieraClienteApp')
       console.log(request);
      financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
          .then(function(info) {
+           console.log(info);
              if(angular.equals(info.data.Type,"success")){
                templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('LEGALIZACION') + "</th><th>" + $translate.instant('LEGALIZACION_PRACTICA_ACADEMICA') + "</th>"+ "</th><th>" + $translate.instant('DETALLE');
                templateAlert = templateAlert + "<tr class='success'><td>" + info.data.Body.AvanceLegalizacion.Legalizacion + "</td>" + "<td>" + info.data.Body.Id+ "</td>" + "<td>" + $translate.instant(info.data.Code) + "</td></tr>" ;
