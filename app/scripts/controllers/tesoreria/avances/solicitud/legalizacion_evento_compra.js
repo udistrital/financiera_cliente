@@ -233,6 +233,7 @@ angular.module('financieraClienteApp')
        request.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
        request.Concepto=ctrl.concepto[0];
        request.TipoDocAfectanteNO = 8;
+       request.Usuario = 111111;
       financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
           .then(function(info) {
               if(angular.equals(info.data.Type,"success")){
