@@ -1,8 +1,8 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'DEVOLUCION_TRIBUTARIA' | translate }}</h2>
+  <h2 class="page-header text-center">{{ 'LEGALIZACION_AVANCE' | translate }}</h2>
   <div class="panel-body" >
     <legend class="text-primary" ng-click="gestionLegalizacion.infDevol=!gestionLegalizacion.infDevol">
-      {{ 'INFORMACION_DEVOLUCION' | translate }}
+      {{ 'INFORMACION_LEGALIZACIONES' | translate }}
       <span class="fa fa-plus pull-right" ng-show="gestionLegalizacion.infDevol"></span>
       <span class="fa fa-minus pull-right" ng-show="!gestionLegalizacion.infDevol"></span>
     </legend class="text-primary">
@@ -13,4 +13,19 @@
         <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
     </div>
   </div>
+</div>
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'VER_SOLICITUD' | translate }}
+            </div>
+            <div class="panel panel-body">
+                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+            </div>
+        </div>
+    </div>
 </div>

@@ -108,7 +108,7 @@ angular.module('financieraClienteApp')
                   network = new vis.Network(container, data, options);
 
                   network.on('click', $scope.clicknode);
-
+                  if (!angular.isUndefined($scope.node) ) {
                   $scope.childrens = network.getConnectedNodes($scope.node.Id, 'to');
                   angular.forEach($scope.childrens, function(node) {
                       var clickedNode = nodes.get(node);
@@ -127,13 +127,11 @@ angular.module('financieraClienteApp')
                       size: 60,
                       color: '#2ECC71'
                   };
-                  nodes.update(node_active);
+                  nodes.update(node_active);}
                 };
 
                 $scope.$watch('node', function() {
-                    if (!angular.isUndefined($scope.node) ) {
                         self.drawNetwork();
-                    }
                 });
 
             },
