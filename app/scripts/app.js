@@ -655,8 +655,8 @@ angular
             })
             .when('/tesoreria/avances/solicitud/gestion_legalizacion', {
               templateUrl: 'views/tesoreria/avances/solicitud/gestion_legalizacion.html',
-              controller: 'TesoreriaAvancesSolicitudGestionLegalizacionCtrl',
-              controllerAs: 'tesoreria/avances/solicitud/gestionLegalizacion'
+              controller: 'GestionLegalizacionCtrl',
+              controllerAs: 'gestionLegalizacion'
             })
             .otherwise({
                 redirectTo: '/'
