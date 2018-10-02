@@ -151,5 +151,9 @@ angular.module('financieraClienteApp')
                 }
               });
 }
+$scope.verAvance = function(row){
+  $('#modal_ver').modal('show');
+
+}
 
   });

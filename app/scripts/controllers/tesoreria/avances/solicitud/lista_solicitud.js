@@ -83,7 +83,6 @@ angular.module('financieraClienteApp')
                                 solicitud.Tipos = response.data;
                                 solicitud.Total = 0;
                                 angular.forEach(response.data, function(tipo) {
-                                  console.log(" tipo ",tipo," funcion ",ctrl.validatenoRowFound(tipo))
                                     if(!ctrl.validatenoRowFound(tipo)){
 
                                     solicitud.Total += tipo.Valor;
