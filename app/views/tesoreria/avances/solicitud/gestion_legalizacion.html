@@ -1,14 +1,16 @@
-<br>
-<div class="panel panel-default">
-    <div class="panel-heading">
-        tesoreria/avances/solicitud/gestion_legalizacion.
+<div class="panel panel-primary panel-body">
+  <h2 class="page-header text-center">{{ 'DEVOLUCION_TRIBUTARIA' | translate }}</h2>
+  <div class="panel-body" >
+    <legend class="text-primary" ng-click="gestionLegalizacion.infDevol=!gestionLegalizacion.infDevol">
+      {{ 'INFORMACION_DEVOLUCION' | translate }}
+      <span class="fa fa-plus pull-right" ng-show="gestionLegalizacion.infDevol"></span>
+      <span class="fa fa-minus pull-right" ng-show="!gestionLegalizacion.infDevol"></span>
+    </legend class="text-primary">
+    <div ng-if="!gestionLegalizacion.infDevol">
+      <div ui-grid="gestionLegalizacion.gridLegalizaciones" ui-grid-auto-resize ui-grid-pagination></div>
     </div>
-    <div class="panel-body">
-        <p>
-          Ahora puede empezar a construir la vista de tesoreria/avances/solicitud/gestion_legalizacion.
-        </p>
+    <div>
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
     </div>
-    <div class="panel-footer">
-        Panel Footer
-    </div>
+  </div>
 </div>
