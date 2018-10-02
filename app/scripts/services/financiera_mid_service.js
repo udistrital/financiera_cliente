@@ -21,7 +21,7 @@ angular.module('financieraMidService', [])
         // Service logic
         var path = CONF.GENERAL.FINANCIERA_MID_SERVICE;
         var cancelSearch ; //defer object
-      
+
         // Public API here
         return {
             /**
@@ -35,7 +35,13 @@ angular.module('financieraMidService', [])
              */
             get: function(tabla, params) {
                 cancelSearch = $q.defer(); //create new defer for new request
-                return $http.get(path+tabla+"/?"+params,{timeout:cancelSearch.promise});
+                var get
+                if (angular.isUndefined(params)||params===null){
+                  get = path+tabla,{timeout:cancelSearch.promise};
+                }else {
+                  get = path+tabla+"/?"+params,{timeout:cancelSearch.promise};
+                }
+                return $http.get(get);
             },
             /**
              * @ngdoc function

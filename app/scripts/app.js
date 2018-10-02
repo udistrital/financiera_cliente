@@ -638,6 +638,26 @@ angular
               controller: 'TesoreriaChequesInfoChequeraCtrl',
               controllerAs: 'tesoreriaInfoChequera'
             })
+            .when('/tesoreria/avances/solicitud/legalizacion_evento_compra', {
+              templateUrl: 'views/tesoreria/avances/solicitud/legalizacion_evento_compra.html',
+              controller: 'legalizacionEvtCompraCtrl',
+              controllerAs: 'legalizacionEvtCompra'
+            })
+            .when('/tesoreria/avances/solicitud/legalizacion_practica_academica', {
+              templateUrl: 'views/tesoreria/avances/solicitud/legalizacion_practica_academica.html',
+              controller: 'legalizacionPracAcademicaCtrl',
+              controllerAs: 'legalizacionPracAcademica'
+            })
+            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion', {
+              templateUrl: 'views/tesoreria/avances/solicitud/ev_legalizacion_tipo.html',
+              controller: 'EvLegalizacionTipoCtrl',
+              controllerAs: 'evlegalizaciontipo'
+            })
+            .when('/tesoreria/avances/solicitud/gestion_legalizacion', {
+              templateUrl: 'views/tesoreria/avances/solicitud/gestion_legalizacion.html',
+              controller: 'GestionLegalizacionCtrl',
+              controllerAs: 'gestionLegalizacion'
+            })
             .otherwise({
                 redirectTo: '/'
             });
