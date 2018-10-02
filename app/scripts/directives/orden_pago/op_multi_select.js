@@ -87,16 +87,18 @@ angular.module('financieraClienteApp')
                 ctrl.cargando_detalle = false;
                 // data
                 angular.forEach(ctrl.gridOptions_op.data, function(iterador) {
-                  agoraRequest.get('informacion_proveedor',
-                    $.param({
-                      query: "Id:" + iterador.OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.Beneficiario, //SubaTours Example TODO:22487
-                    })
-                  ).then(function(response) {
-                    iterador.Proveedor = response.data[0];
-                  });
-                  financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
-                    iterador.ValorTotal = response.data;
-                  });
+                  if (iterador.OrdenPagoRegistroPresupuestal[0] != undefined) {
+                    agoraRequest.get('informacion_proveedor',
+                      $.param({
+                        query: "Id:" + iterador.OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.Beneficiario, //SubaTours Example TODO:22487
+                      })
+                    ).then(function(response) {
+                      iterador.Proveedor = response.data[0];
+                    });
+                    financieraRequest.post('orden_pago/ValorTotal/' + iterador.Id).then(function(response) {
+                      iterador.ValorTotal = response.data;
+                    });
+                  }
                 })
                 // data proveedor
               } else {
@@ -119,8 +121,8 @@ angular.module('financieraClienteApp')
           enableRowSelection: true,
           enableRowHeaderSelection: true,
 
-          paginationPageSizes: [2, 4, 6],
-          paginationPageSize: 2,
+          paginationPageSizes: [15, 30, 50, 100],
+          paginationPageSize: 15,
 
           enableFiltering: true,
           enableSelectAll: true,
