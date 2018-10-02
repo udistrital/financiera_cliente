@@ -8,6 +8,7 @@
  * Decorator of the financieraClienteApp
  */
 var text_es = {
+    A_S002: "Apropiación Actualizada",
     ABONO_CUENTA: "Abono en Cuenta",
     ACH: "ACH",
     ACTIVO: "Activo",
@@ -48,6 +49,7 @@ var text_es = {
     ANULACION_CDP_TITULO_FORM: "Anulación de CDP",
     ANULACION_PARCIAL: "Parcial",
     ANULACION_RP: "Información de anulación de RP",
+    TOTAL_ANULADO_RP: "Total Anulado Rp",
     ANULACION_TOTAL: "Total",
     ANULAR: "Anular",
     ANULAR_PRESUPUESTO: "Anular Presupuesto",
@@ -230,6 +232,7 @@ var text_es = {
     ETAPA: "Etapa",
     E_0458: "Los datos enviados son erróneos",
     E_0459: "No se pudo registrar la información",
+    E_0460: "No se pudo Eliminar",
     E_04566: "No es posible modificar el registro debido a que este ha sido usado en otras transacciones",
     E_0471: "No es posible realizar actualización debido al estado del registro",
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",
@@ -909,6 +912,7 @@ var text_en = {
     ARBOL_RUBROS_HOMMOLOGADO:"Arbol Rubros Homologados",
     ALERTA_RECHAZO_CORRECTO: "Rejection correctly recorded",
     ANULACION_RP: "RP Information Annulment",
+    TOTAL_ANULADO_RP: "Total Rp Voided",
     BANCO_GIRADOR: "Issuer Bank",
     BANCO_RECEPTOR: "Receiver Bank",
     BENEFICIARIO: "Beneficiary",
