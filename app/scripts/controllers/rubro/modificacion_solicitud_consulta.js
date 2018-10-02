@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,$scope,$translate,$filter,$window) {
+  .controller('RubroModificacionSolicitudConsultaCtrl', function (financieraRequest,financieraMidRequest,$scope,$translate,$filter,$window) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora = 1;
@@ -205,7 +205,7 @@ angular.module('financieraClienteApp')
   };
 
   self.generarModificacion = function(){
-  	financieraRequest.post('movimiento_apropiacion/AprobarMovimietnoApropiacion', self.data).then(function(response) {
+  	financieraMidRequest.post('movimiento_apropiacion/AprobarMovimietnoApropiacion', self.data).then(function(response) {
     		console.log(response.data);
              self.alerta = response.data;
           console.log(self.alerta);

@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
     self.UnidadEjecutora = 1;
     self.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-      { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
+      { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editapr', estado: true },
     ];
     self.botonespadre = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.Vigencia =  parseInt(response.data);
-      financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
+      /*financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
         UnidadEjecutora: self.UnidadEjecutora,
         Vigencia: parseInt(response.data)
       })) 
@@ -29,7 +29,7 @@ angular.module('financieraClienteApp')
         self.InfoAprobacion =  response.data.Data;
         self.Aprobado = response.data.Aprobado;
         console.log(self.InfoAprobacion);
-      });
+      });*/
     });
 
     self.AprobarPresupuesto = function(){

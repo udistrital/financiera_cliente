@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window) {
+  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window, $interval) {
     return {
       restrict: 'E',
       scope: {
@@ -17,17 +17,19 @@ angular.module('financieraClienteApp')
 
       templateUrl: 'views/directives/orden_pago/op_multi_select_detail.html',
       controller: function($scope) {
-        var self = this;
-        self.giro = {};
-        self.hayData_detalle = true;
-        self.cargando_detalle = true;
-        self.hayData_cb = true;
-        self.cargando_cb = true;
+        var ctrl = this;
+        ctrl.giro = {};
+        ctrl.hayData_detalle = true;
+        ctrl.cargando_detalle = true;
+        ctrl.hayData_cb = true;
+        ctrl.cargando_cb = true;
         //
-        self.regresar = function() {
+
+        ctrl.regresar = function() {
+          ctrl.ajustarGrid(ctrl.gridApi);
           $scope.inputvisible = !$scope.inputvisible;
         }
-        self.gridOptions_op_detail = {
+        ctrl.gridOptions_op_detail = {
           showColumnFooter: true,
           enableRowSelection: false,
           enableRowHeaderSelection: false,
@@ -76,7 +78,7 @@ angular.module('financieraClienteApp')
               width: '8%',
             },
             {
-              field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
+              field: 'OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.NumeroRegistroPresupuestal',
               displayName: $translate.instant('NO_CRP'),
               width: '7%',
               cellClass: 'input_center',
@@ -130,18 +132,18 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-        self.gridOptions_op_detail.enablePaginationControls = true;
-        self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
-          self.gridApi = gridApi;
+        ctrl.gridOptions_op_detail.enablePaginationControls = true;
+        ctrl.gridOptions_op_detail.onRegisterApi = function(gridApi) {
+          ctrl.gridApi = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             $scope.outputopselect = row.entity;
           });
         };
         // cuentas bancarias
-        self.gridOptions_cuenta_bancaria = {
+        ctrl.gridOptions_cuenta_bancaria = {
           enableRowSelection: true,
           enableRowHeaderSelection: false,
-          paginationPageSizes: [15, 30, 45],
+          paginationPageSizes: [15, 30, 45, 100, 200],
           enableFiltering: true,
           minRowsToShow: 8,
           useExternalPagination: false,
@@ -176,14 +178,14 @@ angular.module('financieraClienteApp')
             },
           ]
         };
-        self.gridOptions_cuenta_bancaria.multiSelect = false;
-        self.gridOptions_cuenta_bancaria.onRegisterApi = function(gridApi) {
-          self.gridApi2 = gridApi;
+        ctrl.gridOptions_cuenta_bancaria.multiSelect = false;
+        ctrl.gridOptions_cuenta_bancaria.onRegisterApi = function(gridApi) {
+          ctrl.gridApi2 = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-            if (self.gridApi2.selection.getSelectedRows()[0] != undefined) {
-              self.giro.CuentaBancaria = self.gridApi2.selection.getSelectedRows()[0];
+            if (ctrl.gridApi2.selection.getSelectedRows()[0] != undefined) {
+              ctrl.giro.CuentaBancaria = ctrl.gridApi2.selection.getSelectedRows()[0];
             } else {
-              delete self.giro['CuentaBancaria']
+              delete ctrl.giro['CuentaBancaria']
             }
           });
         };
@@ -194,16 +196,16 @@ angular.module('financieraClienteApp')
           })).then(function(response) {
 
           if(response.data === null){
-            self.gridOptions_cuenta_bancaria.data = [];
-            self.hayData_cb = false;
-            self.cargando_cb = false;
+            ctrl.gridOptions_cuenta_bancaria.data = [];
+            ctrl.hayData_cb = false;
+            ctrl.cargando_cb = false;
           }
           else{
-          self.gridOptions_cuenta_bancaria.data = response.data;
-          self.hayData_cb = true;
-          self.cargando_cb = false;
+          ctrl.gridOptions_cuenta_bancaria.data = response.data;
+          ctrl.hayData_cb = true;
+          ctrl.cargando_cb = false;
           //data sucursal, banco
-          angular.forEach(self.gridOptions_cuenta_bancaria.data, function(iterador) {
+          angular.forEach(ctrl.gridOptions_cuenta_bancaria.data, function(iterador) {
             coreRequest.get('sucursal',
               $.param({
                 query: "Id:" + iterador.Sucursal,
@@ -215,7 +217,7 @@ angular.module('financieraClienteApp')
         }
         });
         // refrescar
-        self.refresh = function() {
+        ctrl.refresh = function() {
           $scope.refresh = true;
           $timeout(function() {
             $scope.refresh = false;
@@ -225,34 +227,34 @@ angular.module('financieraClienteApp')
         $scope.$watch('inputopselect', function() {
           if (Object.keys($scope.inputopselect).length > 0) {
 
-            self.hayData_detalle = true;
-            self.cargando_detalle = false;
-            self.gridOptions_op_detail.data = [];
-            self.gridOptions_op_detail.data = $scope.inputopselect;
-            self.giro.ValorTotal = 0;
-            self.giro.FormaPago = self.gridOptions_op_detail.data[0].FormaPago;
-            self.giro.Vigencia = self.gridOptions_op_detail.data[0].Vigencia;
+            ctrl.hayData_detalle = true;
+            ctrl.cargando_detalle = false;
+            ctrl.gridOptions_op_detail.data = [];
+            ctrl.gridOptions_op_detail.data = $scope.inputopselect;
+            ctrl.giro.ValorTotal = 0;
+            ctrl.giro.FormaPago = ctrl.gridOptions_op_detail.data[0].FormaPago;
+            ctrl.giro.Vigencia = ctrl.gridOptions_op_detail.data[0].Vigencia;
             // calculo totales
-            angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
-              self.giro.ValorTotal = self.giro.ValorTotal + iterador.ValorTotal;
+            angular.forEach(ctrl.gridOptions_op_detail.data, function(iterador) {
+              ctrl.giro.ValorTotal = ctrl.giro.ValorTotal + iterador.ValorTotal;
             })
           }else{
 
-              self.hayData_detalle = false;
-              self.cargando_detalle = false;
-            self.gridOptions_op_detail.data = [];
+              ctrl.hayData_detalle = false;
+              ctrl.cargando_detalle = false;
+            ctrl.gridOptions_op_detail.data = [];
 
           }
         }, true)
         // Funcion encargada de validar la obligatoriedad de los campos
-        self.camposObligatorios = function() {
+        ctrl.camposObligatorios = function() {
           var respuesta;
-          self.MensajesAlerta = '';
-          if (self.giro.CuentaBancaria == undefined) {
-            self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
+          ctrl.MensajesAlerta = '';
+          if (ctrl.giro.CuentaBancaria == undefined) {
+            ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('MSN_DEBE_NOMINA') + "</li>";
           }
           // Operar
-          if (self.MensajesAlerta == undefined || self.MensajesAlerta.length == 0) {
+          if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
             respuesta =  true;
           } else {
             respuesta =  false;
@@ -261,24 +263,24 @@ angular.module('financieraClienteApp')
           return respuesta;
         }
 
-        self.confirmar = function() {
-          if (self.camposObligatorios()) {
-            self.dataGiroSend = {};
-            self.dataGiroSend.Giro = self.giro;
-            self.dataGiroSend.OrdenPago = $scope.inputopselect;
+        ctrl.confirmar = function() {
+          if (ctrl.camposObligatorios()) {
+            ctrl.dataGiroSend = {};
+            ctrl.dataGiroSend.Giro = ctrl.giro;
+            ctrl.dataGiroSend.OrdenPago = $scope.inputopselect;
             console.log("registrar");
-            console.log(self.dataGiroSend);
+            console.log(ctrl.dataGiroSend);
             console.log("registrar");
-            financieraRequest.post('giro/RegistrarGiro', self.dataGiroSend)
+            financieraRequest.post('giro/RegistrarGiro', ctrl.dataGiroSend)
               .then(function(response) {
-                self.resultado = response.data;
+                ctrl.resultado = response.data;
                 console.log("Resultado");
-                console.log(self.resultado);
+                console.log(ctrl.resultado);
                 console.log("Resultado");
                 swal({
                   title: $translate.instant('GIRO'),
-                  text: $translate.instant(self.resultado.Code) + self.resultado.Body,
-                  type: self.resultado.Type,
+                  text: $translate.instant(ctrl.resultado.Code) + ctrl.resultado.Body,
+                  type: ctrl.resultado.Type,
                 }).then(function() {
                   $window.location.href = '#/orden_pago/giros/ver_todos';
                 })
@@ -286,11 +288,23 @@ angular.module('financieraClienteApp')
           } else {
             swal({
               title: 'Error!',
-              html: '<ol align="left">' + self.MensajesAlerta + '</ol>',
+              html: '<ol align="left">' + ctrl.MensajesAlerta + '</ol>',
               type: 'error'
             })
           }
         }
+        ctrl.ajustarGrid = function(gridApi) {
+          $interval( function() {
+            gridApi.core.handleWindowResize();
+          }, 500, 2);
+      };
+      $scope.$watch('inputvisible', function() {
+        if($scope.inputvisible && ctrl.gridApi != undefined){
+          $interval( function() {
+              ctrl.gridApi.core.handleWindowResize();
+            }, 500, 2);
+        }
+      });      
         // fin
       },
       controllerAs: 'd_opMultiSelectDetail'
