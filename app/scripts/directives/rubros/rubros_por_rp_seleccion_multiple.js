@@ -106,7 +106,6 @@ angular.module('financieraClienteApp')
           if (row2.isSelected) {
             //console.log("conceptos directiva", )
             $scope.outputconceptos.push(row2.entity);
-            console.log("outputconcepto", $scope.outputconceptos)
           } else {
             var i = $scope.outputconceptos.indexOf(row2.entity)
             $scope.outputconceptos.splice(i, 1);
@@ -157,6 +156,7 @@ angular.module('financieraClienteApp')
                 var rpData = {
                   Rp: iterador.RegistroPresupuestal,
                   Apropiacion: iterador.DisponibilidadApropiacion.Apropiacion,
+                  DisponibilidadApropiacion: iterador.DisponibilidadApropiacion,
                   FuenteFinanciacion: iterador.DisponibilidadApropiacion.FuenteFinanciamiento
                 };
                 financieraRequest.post('registro_presupuestal/SaldoRp', rpData
@@ -170,7 +170,7 @@ angular.module('financieraClienteApp')
                   self.cargando = false;
                   iterador.Saldo = response.data.saldo;
                   self.arreglo_total_conceptos = [];
-                  self.get_conceptos(iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id, iterador.Saldo);
+                  self.get_conceptos(iterador.DisponibilidadApropiacion.Apropiacion.Rubro.Id, iterador.Saldo, rpData);
                   self.gridOptions_conceptos.data = self.arreglo_total_conceptos;
                 }
 
@@ -189,7 +189,7 @@ angular.module('financieraClienteApp')
 
 },true); // watch
 
-self.get_conceptos = function(rubro, saldo){
+self.get_conceptos = function(rubro, saldo, rpData){
 
   financieraRequest.get('concepto',
   $.param({
@@ -199,6 +199,7 @@ self.get_conceptos = function(rubro, saldo){
   ).then(function(response) {
       angular.forEach(response.data, function(iterador) {
         iterador.Saldo = saldo;
+        iterador.RpData = rpData;
         self.arreglo_total_conceptos.push(iterador);
       });
 
