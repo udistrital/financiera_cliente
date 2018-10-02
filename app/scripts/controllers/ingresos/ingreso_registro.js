@@ -128,20 +128,18 @@ angular.module('financieraClienteApp')
             }
         }, true);
 
-        $scope.$watch('ingresoRegistro.concepto[0]', function(oldValue, newValue) {
+        $scope.$watch('ingresoRegistro.concepto[0]', function(newValue,oldValue) {
             if (!angular.isUndefined(newValue)) {
+              ctrl.movs = undefined;
                 financieraRequest.get('concepto', $.param({
                     query: "Id:" + newValue.Id,
                     fields: "Rubro",
                     limit: -1
                 })).then(function(response) {
-
-                    console.log(newValue);
-                    console.log(response.data[0].Rubro);
-                    $scope.ingresoRegistro.concepto[0].Rubro = response.data[0].Rubro;
+                    ctrl.concepto[0].Rubro = response.data[0].Rubro;
                 });
             }
-        }, true);
+        }, false);
 
         ctrl.registrarIngreso = function() {
             if (ctrl.unidadejecutora == null) {
@@ -167,7 +165,6 @@ angular.module('financieraClienteApp')
                     delete data.Id;
                 });
                 ctrl.ingreso.Movimientos = ctrl.movs;
-                console.log(ctrl.ingreso);
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
                     if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {

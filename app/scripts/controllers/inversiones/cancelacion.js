@@ -31,6 +31,7 @@ angular.module('financieraClienteApp')
     ctrl.cargar_listas();
 
    $scope.$watch('inversionesCancelacion.concepto[0]', function(newValue,oldValue) {
+              ctrl.movs = undefined;
                if (!angular.isUndefined(newValue)) {
                    financieraRequest.get('concepto', $.param({
                        query: "Id:" + newValue.Id,

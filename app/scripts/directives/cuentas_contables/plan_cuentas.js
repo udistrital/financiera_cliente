@@ -125,7 +125,6 @@ angular.module('financieraClienteApp')
 
         $scope.$watch("cuentasel", function() {
           if ($scope.cuentasel === null || angular.isUndefined($scope.cuentasel)) {
-            console.log("cambia valor cuenta seleccionada",$scope.cuentasel);
             self.algo_fue_seleccionado=false;
             self.esconder_botones = false;
           }
