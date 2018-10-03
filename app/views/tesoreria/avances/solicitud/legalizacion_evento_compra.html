@@ -6,6 +6,15 @@
       <form class="form-horizontal" name="compras" ng-submit="compras.$valid && legalizacionEvtCompra.add_edit_compras()">
         <br>
         <div class="row">
+          <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
+          <div class="col-sm-6">
+          <select ng-model="legalizacionEvtCompra.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in tesoreriaGestionChequera.chequera.tiposdoc" class="form-control" required>
+            <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
+          </select>
+        </div>
+      </div>
+      <br>
+        <div class="row">
           <label for="CodigoAbreviacion" class="col-sm-3 control-label">{{'DOCUMENTO_NIT' | translate }}:</label>
           <div class="col-sm-6">
             <input name="CodigoAbreviacion" type="text" ng-model="legalizacionEvtCompra.LegalizacionCompras.Tercero" class="form-control" required />
