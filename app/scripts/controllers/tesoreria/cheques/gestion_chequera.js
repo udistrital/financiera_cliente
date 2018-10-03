@@ -183,7 +183,7 @@ angular.module('financieraClienteApp')
     ctrl.consultaResponsable = function(){
       ctrl.chequera.cargandoResponsable=true;
       agoraRequest.get('supervisor_contrato',$.param({
-        query:"Documento:" + ctrl.chequera.numdocResponsable+",Cargo__icontains:tesorer",
+        query:"Documento:" + ctrl.chequera.numdocResponsable,
         limit:-1
       })).then(function(response){
           if(!angular.isUndefined(response.data) && typeof(response.data) !== "string" && response.data !=null){
