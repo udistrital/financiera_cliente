@@ -61,7 +61,7 @@
             <p></p>
             <label for="fuente">{{'FUENTE_FINANCIAMIENTO' | translate }}:</label>
             <select class="form-control selectpicker" title="{{'SELECCIONE_FUENTE_FINANCIAMIENTO' | translate }}" ng-model="modificacionFuente.adicion_fuente " ng-change="modificacionFuente.mostrar_rubros()" data-live-search="true">
-            <option ng-repeat="y in modificacionFuente.fuente_financiamiento"  value={{y.Id}}>{{y.Nombre}} :</option>
+            <option ng-repeat="y in modificacionFuente.fuente_financiamiento"  value={{y.Id}}>{{y.Codigo}} : {{y.Nombre}}</option>
           </select>
         
         </div>
