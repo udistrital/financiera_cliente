@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage,$location) {
+  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage,$location,financieraMidRequest,agoraRequest) {
     var ctrl = this;
     ctrl.LegalizacionCompras = { Valor: 0 };
     ctrl.Impuesto = [];
@@ -145,22 +145,40 @@ angular.module('financieraClienteApp')
         }
       });
 
+      ctrl.consultarListas = function(){
+        agoraRequest.get('parametro_estandar',$.param({
+          query:"ClaseParametro:Tipo Documento",
+          limit:-1
+        })).then(function(response){
+          ctrl.LegalizacionCompras.tiposdoc = response.data;
+        });
+      }
+    ctrl.consultarListas();
     ctrl.cargar_proveedor = function() {
         $scope.encontrado = false;
         ctrl.LegalizacionCompras.InformacionProveedor = null;
-        administrativaRequest.get("informacion_proveedor",
+        if (angular.isUndefined(ctrl.LegalizacionCompras.tipoDocTercero)) {
+          swal('',$translate.instant("SELECCIONAR_TIPO_DOCUMENTO"),'error');
+          return;
+        }
+        financieraMidRequest.get("administrativa_personas/GetPersona",$.param({
+          numberId:ctrl.LegalizacionCompras.Tercero,
+          typeId:ctrl.LegalizacionCompras.tipoDocTercero.Id,
+        })).then(function(response){
+          if (response.data == null) {
+              $scope.encontrado = true;
+          } else {
+              ctrl.InformacionProveedor = response.data;
+          }
+        });
+/*        administrativaRequest.get("informacion_proveedor",
                 $.param({
                     query: "NumDocumento:" + ctrl.LegalizacionCompras.Tercero,
                     limit: -1
                 }))
             .then(function(response) {
-                if (response.data == null) {
-                    $scope.encontrado = true;
-                } else {
-                    ctrl.InformacionProveedor = response.data[0];
 
-                }
-            });
+            });*/
     }
     $scope.$watch('legalizacionEvtCompra.concepto[0].Id', function(newValue,oldValue) {
                 if (!angular.isUndefined(newValue)) {

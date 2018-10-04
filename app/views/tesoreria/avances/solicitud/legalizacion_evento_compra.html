@@ -8,7 +8,7 @@
         <div class="row">
           <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_DOCUMENTO'|translate}}</label>
           <div class="col-sm-6">
-          <select ng-model="legalizacionEvtCompra.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in tesoreriaGestionChequera.chequera.tiposdoc" class="form-control" required>
+          <select ng-model="legalizacionEvtCompra.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in legalizacionEvtCompra.LegalizacionCompras.tiposdoc" class="form-control" required>
             <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
           </select>
         </div>
