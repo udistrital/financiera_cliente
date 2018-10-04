@@ -658,6 +658,11 @@ angular
               controller: 'GestionLegalizacionCtrl',
               controllerAs: 'gestionLegalizacion'
             })
+            .when('/tesoreria/avances/solicitud/gestion_subtipo', {
+              templateUrl: 'views/tesoreria/avances/solicitud/gestion_subtipo.html',
+              controller: 'GestionSubtipoAvanceLegCtrl',
+              controllerAs: 'gestionSubtipoAvanceLeg'
+            })
             .otherwise({
                 redirectTo: '/'
             });
