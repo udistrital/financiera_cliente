@@ -37,28 +37,36 @@
                 <div class="row">
                     <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ABREVIACION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="gestionSubtipoAvanceLeg.CodigoAbreviacion" class="form-control" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="gestionSubtipoAvanceLeg.parameter.CodigoAbreviacion" class="form-control" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="nombre" class="col-sm-2 control-label">{{'NOMBRE' | translate }}:</label>
                     <div class="col-sm-9">
-                        <input name="CodigoAbreviacion" type="text" ng-model="gestionSubtipoAvanceLeg.Nombre" class="form-control" maxlength="50" ng-required="true" />
+                        <input name="CodigoAbreviacion" type="text" ng-model="gestionSubtipoAvanceLeg.parameter.Nombre" class="form-control" maxlength="50" ng-required="true" />
                     </div>
                 </div>
                 <br>
                 <div class="row">
                     <label for="descripcion" class="col-sm-2 control-label">{{'DESCRIPCION' | translate }}:</label>
                     <div class="col-sm-9">
-                        <textarea name="descripcion" ng-model="gestionSubtipoAvanceLeg.Descripcion" rows=7 class="form-control" maxlength="250" required="true"></textarea>
+                        <textarea name="descripcion" ng-model="gestionSubtipoAvanceLeg.parameter.Descripcion" rows=7 class="form-control" maxlength="250" required="true"></textarea>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <label for="descripcion" class="col-sm-2 control-label">{{'ENTRADA_ALMACEN' | translate }}:</label>
+                    <div class="col-sm-9">
+                      <md-checkbox ng-model="gestionSubtipoAvanceLeg.parameter.AplicaEntradaAlmacen" class="blue">
+                      </md-checkbox>
                     </div>
                 </div>
                 <br>
                 <div class="row" ng-if="gestionSubtipoAvanceLeg.operacion =='editar'">
                     <label for="descripcion" class="col-sm-2 control-label">{{'ACTIVO' | translate }}:</label>
                     <div class="col-sm-9">
-                        <md-checkbox ng-model="gestionSubtipoAvanceLeg.Activo" class="blue">
+                        <md-checkbox ng-model="gestionSubtipoAvanceLeg.parameter.Activo" class="blue">
                         </md-checkbox>
                     </div>
                 </div>

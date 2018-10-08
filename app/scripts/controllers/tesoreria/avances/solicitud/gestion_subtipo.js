@@ -8,11 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionSubtipoAvanceLegCtrl', function () {
+  .controller('GestionSubtipoAvanceLegCtrl', function ($scope,$translate,financieraRequest) {
     var ctrl = this;
     ctrl.hayData = true;
     ctrl.cargando = true;
     var emptyData = [];
+    ctrl.parameter={};
     $scope.botones=[
       {clase_color:"editar",clase_css:"fa fa-pencil fa-lg animated-hover",titulo:$translate.instant("BTN.EDITAR"),operacion:"editar",estado:true},
       {clase_color:"borrar",clase_css:"fa fa-trash fa-lg animated-hover",titulo:$translate.instant("BTN.BORRAR"),operacion:"eliminar",estado:true}
@@ -40,14 +41,22 @@ angular.module('financieraClienteApp')
             {
                 field: 'Descripcion',
                 displayName: $translate.instant('DESCRIPCION'),
-                width: '60%',
+                width: '50%',
                 cellClass: 'input_center',
                 headerCellClass:'encabezado'
             },
             {
                 field: 'Activo',
-                displayName: $translate.instant('ENTRADA_ALMACEN'),
+                displayName: $translate.instant('ACTIVO'),
                 cellTemplate: '<div class="middle"><md-checkbox aria-label="activo" ng-disabled="true" ng-model="row.entity.Activo" class="blue"></md-checkbox></div>',
+                width: '10%',
+                cellClass: 'input_center',
+                headerCellClass:'encabezado'
+            },
+            {
+                field: 'AplicaEntradaAlmacen',
+                displayName: $translate.instant('ENTRADA_ALMACEN'),
+                cellTemplate: '<div class="middle"><md-checkbox aria-label="activo" ng-disabled="true" ng-model="row.entity.AplicaEntradaAlmacen" class="blue"></md-checkbox></div>',
                 width: '10%',
                 cellClass: 'input_center',
                 headerCellClass:'encabezado'
@@ -64,17 +73,11 @@ angular.module('financieraClienteApp')
         onRegisterApi: function(gridApi){ $scope.gridApi = gridApi;}
     };
     ctrl.getParametros = function(){
-      var querySet="";
-      if($scope.nombreparametro==="documento"&& $scope.nombreservicio ==="coreRequest"){
-        querySet = "TipoDocumento.Id:5";
-      }
-      financieraRequest.get($scope.nombreparametro,$.param({
-        query:querySet,
+      financieraRequest.get('avance_legalizacion_sub_tipo',$.param({
         limit:-1,
         sortby:"Id",
         order:"asc"
       })).then(function(response){
-
         if (response.data===null) {
           ctrl.hayData = false;
           ctrl.cargando = false;
@@ -99,18 +102,16 @@ angular.module('financieraClienteApp')
               ctrl.eliminar();
               break;
           case "agregar":
-              ctrl.CodigoAbreviacion = "";
-              ctrl.Nombre = "";
-              ctrl.Descripcion = "";
+              ctrl.parameter = {};
               $('#modalEdit').modal('show');
               break;
           case "editar":
               ctrl.row_entity = row.entity
-              ctrl.CodigoAbreviacion = row.entity.CodigoAbreviacion;
-              ctrl.Nombre = row.entity.Nombre;
-              ctrl.Descripcion = row.entity.Descripcion;
-              ctrl.Activo = row.entity.Activo;
-              ctrl.FechaRegistro = row.entity.FechaRegistro;
+              ctrl.parameter.CodigoAbreviacion = row.entity.CodigoAbreviacion;
+              ctrl.parameter.Nombre = row.entity.Nombre;
+              ctrl.parameter.Descripcion = row.entity.Descripcion;
+              ctrl.parameter.Activo = row.entity.Activo;
+              ctrl.parameter.FechaRegistro = row.entity.FechaRegistro;
               $('#modalEdit').modal('show');
               break;
           default:
@@ -129,7 +130,6 @@ angular.module('financieraClienteApp')
 
         swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
         return false;
-
       }
 
     };
@@ -172,11 +172,6 @@ angular.module('financieraClienteApp')
 
 
       if(validar_campos != false){
-      ctrl.parameter={
-        CodigoAbreviacion: ctrl.CodigoAbreviacion,
-        Nombre: ctrl.Nombre,
-        Descripcion: ctrl.Descripcion
-      };
       if($scope.nombreparametro==="documento"&& $scope.nombreservicio ==="coreRequest"){
         ctrl.parameter.TipoDocumento = {Id:5};
       }
@@ -199,7 +194,7 @@ angular.module('financieraClienteApp')
         break;
         case "agregar":
         ctrl.parameter.Activo = true;
-        financieraRequest.post($scope.nombreparametro,ctrl.parameter)
+        financieraRequest.post('avance_legalizacion_sub_tipo',ctrl.parameter)
             .then(function(response) {
                 if (response.statusText === "Created") {
                     swal(
@@ -218,10 +213,10 @@ angular.module('financieraClienteApp')
 
   ctrl.reset = function (){
 
-    ctrl.CodigoAbreviacion = "";
-    ctrl.Nombre = "";
-    ctrl.Descripcion = "";
-    ctrl.Activo = "";
-    ctrl.FechaRegistro = "";
+    ctrl.parameter.CodigoAbreviacion = "";
+    ctrl.parameter.Nombre = "";
+    ctrl.parameter.Descripcion = "";
+    ctrl.parameter.Activo = "";
+    ctrl.parameter.FechaRegistro = "";
   };
   });
