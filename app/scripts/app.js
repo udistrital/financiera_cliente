@@ -648,7 +648,7 @@ angular
               controller: 'legalizacionPracAcademicaCtrl',
               controllerAs: 'legalizacionPracAcademica'
             })
-            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion', {
+            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion/:ver', {
               templateUrl: 'views/tesoreria/avances/solicitud/ev_legalizacion_tipo.html',
               controller: 'EvLegalizacionTipoCtrl',
               controllerAs: 'evlegalizaciontipo'

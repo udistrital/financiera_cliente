@@ -550,7 +550,6 @@ angular.module('financieraClienteApp')
                     break;
                 case "look":
                   $localStorage.legalizacion = row.entity;
-                  console.log("legalizacion practica academica",$localStorage.legalizacion )
                   $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
                 break;
             }
@@ -573,20 +572,18 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    //ctrl.limpiar_compras();
                     $location.path('/tesoreria/avances/solicitud/legalizacion_evento_compra');
                     break;
                 case "edit":
-                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
-                    $('#modal_legalizacion_compras').modal('show');
+                    $localStorage.legalizacion = row.entity;
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+false, '_blank', 'location=yes');
                     break;
                 case "delete":
                     ctrl.delete_requisito();
                     break;
                 case 'look':
                     $localStorage.legalizacion = row.entity;
-                    $localStorage.legalizacion.ver = true;
-                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+true, '_blank', 'location=yes');
                     break;
             }
         };

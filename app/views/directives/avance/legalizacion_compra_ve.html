@@ -8,7 +8,7 @@
         <div class="row">
           <label for="CodigoAbreviacion" class="col-sm-3 control-label">{{'DOCUMENTO_NIT' | translate }}:</label>
           <div class="col-sm-6">
-            <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Tercero" class="form-control" required />
+            <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Tercero" class="form-control" required ng-disabled="ver" />
           </div>
             <div class="col-sm-1">
               <center>
@@ -26,33 +26,33 @@
           <div class="row">
             <label for="nombre" class="col-sm-3 control-label">{{'NOMBRE' | translate }}:</label>
             <div class="col-sm-8">
-              <span class="form-control">{{d_legalizacionCompraVe.InformacionProveedor.NomProveedor}}</span>
+              <span class="form-control">{{d_legalizacionCompraVe.LegalizacionCompras.InformacionProveedor[0].NomProveedor}}</span>
             </div>
           </div>
           <br>
           <div class="row">
             <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
-            <md-datepicker ng-model="d_legalizacionCompraVe.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}" required></md-datepicker>
+            <md-datepicker ng-model="d_legalizacionCompraVe.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}" required ng-disabled = "!ver"></md-datepicker>
           </div>
           <br>
           <div class="row">
             <label for="descripcion" class="col-sm-3 control-label">{{'NO_FACTURA' | translate }}:</label>
             <div class="col-sm-6">
-              <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.NumeroFactura" class="form-control input_right" required />
+              <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.NumeroFactura" class="form-control input_right" required ng-disabled = "!ver"/>
                     </div>
             </div>
             <br>
             <div class="row">
               <label for="descripcion" class="col-sm-3 control-label">{{'VALOR_FACTURA_COMPRA' | translate }}:</label>
               <div class="col-sm-6">
-                <input name="CodigoAbreviacion" ng-change="d_legalizacionCompraVe.calcular_valor_impuesto()" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Valor" ui-money-mask="0" class="form-control input_right" required />
+                <input name="CodigoAbreviacion" ng-change="d_legalizacionCompraVe.calcular_valor_impuesto()" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Valor" ui-money-mask="0" class="form-control input_right" required ng-disabled = "!ver"/>
                     </div>
               </div>
               <br>
               <div class="row">
                 <label for="descripcion" class="col-sm-3 control-label">{{'TRM_COMPRA' | translate }}:</label>
                 <div class="col-sm-6">
-                  <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.TrmFechaCompra" ui-percentage-mask class="form-control input_right" required />
+                  <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.TrmFechaCompra" ui-money-mask="0" class="form-control input_right" required ng-disabled = "!ver"/>
                     </div>
                   <div class="col-sm-3">
                     <label for="descripcion"><small>{{'TRM_COMPRA_DESCRIPCION' | translate }}</small></label>
@@ -183,8 +183,8 @@
 
       <div class="panel-footer">
         <center>
-          <input  ng-click="d_legalizacionCompraVe.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="d_legalizacionCompraVe.operacion ==='add'" />
-          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_legalizacionCompraVe.guardar()" />
+          <input  ng-click="d_legalizacionCompraVe.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="ver" />
+          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_legalizacionCompraVe.guardar()" ng-if="ver" />
         </center>
       </div>
   </div>

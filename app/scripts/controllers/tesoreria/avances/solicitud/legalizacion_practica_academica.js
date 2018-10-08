@@ -104,6 +104,7 @@ angular.module('financieraClienteApp')
         return;
       }
       ctrl.LegalizacionPracticaAcademica.TipoAvanceLegalizacion = { Id: 1 };
+      ctrl.LegalizacionPracticaAcademica.Subtipo= {Id:1};
       request.Avance = { Id: $scope.solicitud.Id };
       request.Valor = parseFloat(ctrl.LegalizacionPracticaAcademica.Valor);
       request.ValorLegalizadoAvance = $scope.solicitud.valorLegalizado;
