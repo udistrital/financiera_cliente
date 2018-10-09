@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/avance/legalizacion_compra_ve.html',
       controller:function($scope,$attrs,financieraRequest,$translate,$interval){
         var ctrl = this;
-        $scope.ver = JSON.parse($scope.ver);
+        ctrl.ver = JSON.parse($scope.ver);
         ctrl.concepto = [];
         ctrl.LegalizacionCompras = $scope.legalizacion;
         ctrl.Impuesto = [];
