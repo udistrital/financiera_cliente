@@ -131,10 +131,8 @@ angular.module('financieraClienteApp')
           minRowsToShow: 15,
           useExternalPagination: false,
 
-          columnDefs: [{
-              field: 'Id',
-              visible: false
-            },
+          columnDefs: [
+            {field: 'Id',     visible: false},
             {
               field: 'Consecutivo',
               displayName: $translate.instant('CODIGO'),
@@ -242,10 +240,8 @@ angular.module('financieraClienteApp')
 
         ctrl.consultar(0,'');
         $scope.$watch('outputvisible', function() {
-          if($scope.outputvisible){
-            $interval( function() {
-                ctrl.gridApi.core.handleWindowResize();
-              }, 500, 2);
+          if($scope.outputvisible && ctrl.gridApi){
+            ctrl.ajustarGrid(ctrl.gridApi);
           }
         });
         // fin
