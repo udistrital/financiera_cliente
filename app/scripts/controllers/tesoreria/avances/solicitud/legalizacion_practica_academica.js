@@ -104,6 +104,7 @@ angular.module('financieraClienteApp')
         return;
       }
       ctrl.LegalizacionPracticaAcademica.TipoAvanceLegalizacion = { Id: 1 };
+      ctrl.LegalizacionPracticaAcademica.Subtipo= {Id:1};
       request.Avance = { Id: $scope.solicitud.Id };
       request.Valor = parseFloat(ctrl.LegalizacionPracticaAcademica.Valor);
       request.ValorLegalizadoAvance = $scope.solicitud.valorLegalizado;
@@ -117,7 +118,6 @@ angular.module('financieraClienteApp')
       request.Concepto=ctrl.concepto[0];
       request.TipoDocAfectanteNO = 9;
       request.Usuario = 111111;
-      console.log(request);
      financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
          .then(function(info) {
              if(angular.equals(info.data.Type,"success")){

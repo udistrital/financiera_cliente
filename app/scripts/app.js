@@ -648,7 +648,7 @@ angular
               controller: 'legalizacionPracAcademicaCtrl',
               controllerAs: 'legalizacionPracAcademica'
             })
-            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion', {
+            .when('/tesoreria/avances/solicitud/ev_legalizacion_tipo/:tipoAvanceLegalizacion/:ver', {
               templateUrl: 'views/tesoreria/avances/solicitud/ev_legalizacion_tipo.html',
               controller: 'EvLegalizacionTipoCtrl',
               controllerAs: 'evlegalizaciontipo'
@@ -657,6 +657,11 @@ angular
               templateUrl: 'views/tesoreria/avances/solicitud/gestion_legalizacion.html',
               controller: 'GestionLegalizacionCtrl',
               controllerAs: 'gestionLegalizacion'
+            })
+            .when('/tesoreria/avances/solicitud/gestion_subtipo', {
+              templateUrl: 'views/tesoreria/avances/solicitud/gestion_subtipo.html',
+              controller: 'GestionSubtipoAvanceLegCtrl',
+              controllerAs: 'gestionSubtipoAvanceLeg'
             })
             .otherwise({
                 redirectTo: '/'
