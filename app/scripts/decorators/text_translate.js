@@ -723,6 +723,7 @@ var text_es = {
     TASA_NOMINAL: "Tasa Nominal",
     TASA:"Tasa",
     TELEFONO: "Teléfono",
+    TERCERO: "Tercero",
     TIPO: "Tipo",
     TIPO_ACTIVIDAD:"Tipo de Actividad",
     TIPO_ANULACION: "Tipo de Anulación",
