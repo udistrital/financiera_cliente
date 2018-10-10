@@ -121,11 +121,21 @@ angular.module('financieraClienteApp')
               $scope.estado = $scope.legalizacion.Estado;
               break;
           case "ver":
-
+                  ctrl.getAccountantInfo();
+                  $('#modal_verLeg').modal('show');
                   break;
           default:
       }
   };
+
+  ctrl.getAccountantInfo = function(){
+    financieraMidRequest.get('legalizacion_avance/GetLegalizacionAccountantInformation/'+$scope.legalizacion.Id).then(function(response){
+      if (response.data != null) {
+        ctrl.movimientosAsociados = response.data.InformacionContable;
+        ctrl.conceptos = response.data.Conceptos;
+      }
+    });
+  }
 
   $scope.funcion = function() {
       $scope.estadoclick = $localStorage.nodeclick;
@@ -155,5 +165,6 @@ $scope.verAvance = function(row){
   $('#modal_ver').modal('show');
 
 }
+
 
   });
