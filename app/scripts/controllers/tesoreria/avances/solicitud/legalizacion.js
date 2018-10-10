@@ -550,7 +550,6 @@ angular.module('financieraClienteApp')
                     break;
                 case "look":
                   $localStorage.legalizacion = row.entity;
-                  console.log("legalizacion practica academica",$localStorage.legalizacion )
                   $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
                 break;
             }
@@ -573,20 +572,18 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    //ctrl.limpiar_compras();
                     $location.path('/tesoreria/avances/solicitud/legalizacion_evento_compra');
                     break;
                 case "edit":
-                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
-                    $('#modal_legalizacion_compras').modal('show');
+                    $localStorage.legalizacion = row.entity;
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+false, '_blank', 'location=yes');
                     break;
                 case "delete":
-                    ctrl.delete_requisito();
+                    ctrl.delete_compra();
                     break;
                 case 'look':
                     $localStorage.legalizacion = row.entity;
-                    $localStorage.legalizacion.ver = true;
-                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+true, '_blank', 'location=yes');
                     break;
             }
         };
@@ -617,24 +614,25 @@ angular.module('financieraClienteApp')
         ctrl.delete_compra = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Id,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-                financieraRequest.delete("requisito_avance", ctrl.row_entity.Id)
-                    .then(function(response) {
-                        if (response.status === 200) {
-                            swal(
-                                $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
-                                'success'
-                            );
-                            ctrl.get_all_avances();
-                        }
-                    });
+              ctrl.row_entity.EstadoAvanceLegalizacionTipo = {Id:2};
+                financieraRequest.put('avance_legalizacion_tipo',ctrl.row_entity.Id,ctrl.row_entity)
+                .then(function(response){
+                  if (response.status === 200) {
+                      swal(
+                          $translate.instant('ELIMINADO'),
+                          ctrl.row_entity.Id + ' ' + $translate.instant('FUE_ELIMINADO'),
+                          'success'
+                      );
+                      ctrl.get_all_avance_legalizacion_compra();
+                  }
+                });
             })
         };
 
@@ -664,24 +662,25 @@ angular.module('financieraClienteApp')
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Estudiante.nombre,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Id,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-                financieraRequest.delete("avance_legalizacion", ctrl.row_entity.Id)
-                    .then(function(response) {
-                        if (response.status === 200) {
-                            swal(
-                                $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Estudiante.nombre + ' ' + $translate.instant('FUE_ELIMINADO'),
-                                'success'
-                            );
-                            ctrl.get_all_avance_legalizacion_practica();
-                        }
-                    });
+              ctrl.row_entity.EstadoAvanceLegalizacionTipo = {Id:2};
+              financieraRequest.put('avance_legalizacion_tipo',ctrl.row_entity.Id,ctrl.row_entity)
+              .then(function(response){
+                if (response.status === 200) {
+                    swal(
+                        $translate.instant('ELIMINADO'),
+                        ctrl.row_entity.Id + ' ' + $translate.instant('FUE_ELIMINADO'),
+                        'success'
+                    );
+                    ctrl.get_all_avance_legalizacion_practica();
+                }
+              });
             })
         };
 
@@ -712,21 +711,23 @@ angular.module('financieraClienteApp')
 
         ctrl.get_all_avance_legalizacion_practica = function() {
             financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
-                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:1",
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:1,EstadoAvanceLegalizacionTipo.NumeroOrden:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
-                  if(response.data != null){
-                    ctrl.gridOptionsPracticas.data = response.data;
+                  if (response.data != null){
+                      ctrl.gridOptionsPracticas.data = response.data;
+                  }else{
+                    ctrl.gridOptionsPracticas.data = [];
                   }
                 });
         };
 
         ctrl.get_all_avance_legalizacion_compra = function() {
             financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
-                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:2",
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:2,EstadoAvanceLegalizacionTipo.NumeroOrden:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
@@ -735,7 +736,10 @@ angular.module('financieraClienteApp')
                   if (response.data!=null){
                     ctrl.gridOptionsCompras.data = response.data;
                     ctrl.LegalizacionCompras = response.data;
-                  }
+                  }else{
+                      ctrl.gridOptionsCompras.data = [];
+                    }
+
                 });
         };
         ctrl.cargarLegalizaciones = function(){
@@ -774,10 +778,8 @@ angular.module('financieraClienteApp')
                     console.log(ctrl.LegalizacionCompras);
                     financieraRequest.post("avance_legalizacion/AddAvanceLegalizacionCompra", ctrl.LegalizacionCompras)
                         .then(function(info) {
-                            console.log(info);
                             ctrl.get_all_avance_legalizacion_compra();
                         });
-                    //$('#modal_legalizacion_compras').modal('hide');
                     break;
                 default:
             }

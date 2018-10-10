@@ -33,7 +33,8 @@ angular.module('financieraClienteApp')
                 outputformapagoop: '=?',
                 validatemov: '=?',
                 ventanadespl:'=?',
-                impuestos:'=?'
+                impuestos:'=?',
+                tercero:'=?'
             },
             templateUrl: 'views/directives/cuentas_contables/movimientos_contables.html',
             link: function(scope, element, attrs) {

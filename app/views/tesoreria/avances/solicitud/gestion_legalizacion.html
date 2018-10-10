@@ -1,8 +1,8 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'DEVOLUCION_TRIBUTARIA' | translate }}</h2>
+  <h2 class="page-header text-center">{{ 'LEGALIZACION_AVANCE' | translate }}</h2>
   <div class="panel-body" >
     <legend class="text-primary" ng-click="gestionLegalizacion.infDevol=!gestionLegalizacion.infDevol">
-      {{ 'INFORMACION_DEVOLUCION' | translate }}
+      {{ 'INFORMACION_LEGALIZACIONES' | translate }}
       <span class="fa fa-plus pull-right" ng-show="gestionLegalizacion.infDevol"></span>
       <span class="fa fa-minus pull-right" ng-show="!gestionLegalizacion.infDevol"></span>
     </legend class="text-primary">
@@ -13,4 +13,53 @@
         <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)"></proceso>
     </div>
   </div>
+</div>
+<div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div class="modal-content col-md-offset-2 col-md-8">
+        <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{'VER_SOLICITUD' | translate }}
+            </div>
+            <div class="panel panel-body">
+                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal_verLeg" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+    <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+    </div>
+    <div class="col-md-12">
+      <arbol-conceptos filtro="" seleccion="gestionLegalizacion.conceptos" conceptosel="nodo" multiselect="true" seleccionini> </arbol-conceptos>
+    </div>
+    <div class="panel-body">
+      <legend class="text-primary" ng-click="c=!c">
+        {{'CUENTAS_CONTABLES' | translate}}
+        <span class="fa fa-plus pull-right" ng-show="!c"></span>
+        <span class="fa fa-minus pull-right" ng-show="c"></span>
+      </legend class="text-primary">
+      <div class="panel-body row" ng-show="c">
+        <div class="col-sm-12">
+          <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li ng-class="{active: selected == c.Id}" ng-repeat="c in gestionLegalizacion.conceptos"><a href ng-click="gestionLegalizacion.selected=c.Id" data-toggle="tab">
+                                  Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade in active" ng-repeat="c in gestionLegalizacion.movimientosAsociados" ng-if="gestionLegalizacion.selected==c.Id">
+                <movimientos-contables conceptoid="c.Id" movimientos="c.MovimientoContable" monto="c.ValorDevolucion" validatemov="c.validado" tercero="c.Tercero">
+                </movimientos-contables>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
 </div>

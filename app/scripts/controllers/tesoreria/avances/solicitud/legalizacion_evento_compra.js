@@ -8,12 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage,$location) {
+  .controller('legalizacionEvtCompraCtrl', function ($scope,financieraRequest,$translate,$interval,administrativaRequest,$localStorage,$location,financieraMidRequest,agoraRequest,arkaRequest) {
     var ctrl = this;
     ctrl.LegalizacionCompras = { Valor: 0 };
     ctrl.Impuesto = [];
     ctrl.concepto = [];
     ctrl.LegalizacionCompras.FechaCompra = new Date();
+    ctrl.LegalizacionCompras.EntradaAlmacen = 0;
     $scope.solicitud = $localStorage.avance;
     ctrl.Total = 0;
     ctrl.subtotal = 0;
@@ -79,6 +80,56 @@ angular.module('financieraClienteApp')
             }
         ]
     };
+
+    ctrl.gridEntradasAlmacen = {
+        paginationPageSizes: [5, 10, 15],
+        paginationPageSize: 5,
+        enableRowSelection: true,
+        enableRowHeaderSelection: true,
+        enableFiltering: true,
+        enableHorizontalScrollbar: 0,
+        enableVerticalScrollbar: 0,
+        useExternalPagination: false,
+        enableSelectAll: false,
+        columnDefs: [{
+                field: 'Vigencia',
+                displayName: $translate.instant('VIGENCIA'),
+                headerCellClass: 'encabezado',
+                cellClass: 'input_center',
+                width: '25%'
+            },
+            {
+                field: 'NumeroContrato',
+                displayName: $translate.instant('CONTRATO'),
+                width: '25%',
+                headerCellClass: 'encabezado',
+                cellClass: 'input_center',
+            },
+            {
+                field: 'TipoContrato.Descripcion',
+                displayName: $translate.instant('TIPO_CONTRATO'),
+                width: '25%',
+                headerCellClass: 'encabezado',
+                cellClass: 'input_center',
+            },
+            {
+                field: 'NumeroFactura',
+                displayName: $translate.instant('NO_FACTURA'),
+                width: '25%',
+                headerCellClass: 'encabezado',
+                cellClass: 'input_center',
+            }
+        ],
+        onRegisterApi : function (gridApi) {
+          ctrl.gridEntradasAlmacenApi = gridApi;
+            gridApi.selection.on.rowSelectionChanged($scope,function(row){
+              if(row.isSelected) {
+                ctrl.LegalizacionCompras.EntradaAlmacen = row.entity.Id;
+              }
+            });
+        }
+    };
+
     ctrl.gridImpuestos.onRegisterApi = function (gridApi) {
                 ctrl.gridImpuestosApi = gridApi;
                 gridApi.selection.on.rowSelectionChanged($scope,function(row){
@@ -145,22 +196,63 @@ angular.module('financieraClienteApp')
         }
       });
 
+      $scope.$watch('entAl', function() {
+          if($scope.entAl){
+            $interval( function() {
+                ctrl.gridEntradasAlmacenApi.core.handleWindowResize();
+              }, 500, 2);
+
+
+          }
+        });
+
+      ctrl.consultarListas = function(){
+        agoraRequest.get('parametro_estandar',$.param({
+          query:"ClaseParametro:Tipo Documento",
+          limit:-1
+        })).then(function(response){
+          ctrl.tiposdoc = response.data;
+        });
+        financieraRequest.get('avance_legalizacion_sub_tipo',$.param({
+          query:"NumeroOrden__not_in:1",
+          limit:-1
+        })).then(function(response){
+          if (!angular.isUndefined(response.data) && response.data != null) {
+            ctrl.subtipos =  response.data;
+          }
+        }
+
+        );
+      }
+    ctrl.consultarListas();
     ctrl.cargar_proveedor = function() {
         $scope.encontrado = false;
         ctrl.LegalizacionCompras.InformacionProveedor = null;
-        administrativaRequest.get("informacion_proveedor",
+        if (angular.isUndefined(ctrl.LegalizacionCompras.tipoDocTercero)) {
+          swal('',$translate.instant("SELECCIONAR_TIPO_DOCUMENTO"),'error');
+          return;
+        }
+        financieraMidRequest.get("administrativa_personas/GetPersona",$.param({
+          numberId:ctrl.LegalizacionCompras.Tercero,
+          typeId:ctrl.LegalizacionCompras.tipoDocTercero.Id,
+        })).then(function(response){
+          if (response.data == null) {
+              $scope.encontrado = true;
+          } else {
+              ctrl.InformacionProveedor = response.data;
+              arkaRequest.get('entrada',
                 $.param({
-                    query: "NumDocumento:" + ctrl.LegalizacionCompras.Tercero,
-                    limit: -1
-                }))
-            .then(function(response) {
-                if (response.data == null) {
-                    $scope.encontrado = true;
-                } else {
-                    ctrl.InformacionProveedor = response.data[0];
-
+                  query: 'Proveedor:' + ctrl.InformacionProveedor.NumDocumento,
+                  limit: -1,
+                })
+              ).then(function(response) {
+                if (!angular.isUndefined(response.data) && response.data != null) {
+                  ctrl.LegalizacionCompras.EntradaAlmacen = 0;
+                  ctrl.gridEntradasAlmacen.data = response.data;
                 }
-            });
+              });
+          }
+        });
     }
     $scope.$watch('legalizacionEvtCompra.concepto[0].Id', function(newValue,oldValue) {
                 if (!angular.isUndefined(newValue)) {
@@ -199,6 +291,11 @@ angular.module('financieraClienteApp')
         }
       }
 
+
+      if (ctrl.LegalizacionCompras.Subtipo.AplicaEntradaAlmacen===true &&   ctrl.LegalizacionCompras.EntradaAlmacen === 0){
+         ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_ENTRADA_ALMACEN") + "</li>";
+      }
+
       if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
         respuesta = true;
       } else {
@@ -231,9 +328,12 @@ angular.module('financieraClienteApp')
        });
        request.AvanceLegalizacionTipo = ctrl.LegalizacionCompras;
        request.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
+       request.ValorLegalizadoAvance = $scope.solicitud.valorLegalizado;
+       request.ValorTotalAvance = $scope.solicitud.Total;
        request.Concepto=ctrl.concepto[0];
        request.TipoDocAfectanteNO = 8;
        request.Usuario = 111111;
+       console.log("request ",request);
       financieraRequest.post("avance_legalizacion_tipo/AddEntireAvanceLegalizacionTipo", request)
           .then(function(info) {
               if(angular.equals(info.data.Type,"success")){
