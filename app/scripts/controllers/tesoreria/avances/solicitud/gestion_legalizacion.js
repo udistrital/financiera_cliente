@@ -129,6 +129,8 @@ angular.module('financieraClienteApp')
   };
 
   ctrl.getAccountantInfo = function(){
+    ctrl.movimientosAsociados = undefined;
+    ctrl.conceptos = undefined;
     financieraMidRequest.get('legalizacion_avance/GetLegalizacionAccountantInformation/'+$scope.legalizacion.Id).then(function(response){
       if (response.data != null) {
         ctrl.movimientosAsociados = response.data.InformacionContable;

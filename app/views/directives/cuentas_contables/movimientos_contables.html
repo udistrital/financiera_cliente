@@ -9,6 +9,8 @@
          <a href="" class="ver" data-toggle="modal" data-target="#modalConceptos{{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}}">
              <i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" title="{{'BTN.VER' | translate }}"></i>
          </a>
+         <span ng-if="tercero!==undefined" style="color: black panel-title"> {{"TERCERO"|translate}} {{tercero.tipo_documento}}:
+          {{tercero.numero_documento}} </span>
       </div>
 
       <div class="col-md-4">
