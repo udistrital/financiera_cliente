@@ -7,7 +7,7 @@
  * # ordenPago/opMultiSelectDetail
  */
 angular.module('financieraClienteApp')
-  .directive('opMultiSelectDetail', function(financieraRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window, $interval) {
+  .directive('opMultiSelectDetail', function(financieraRequest, financieraMidRequest, agoraRequest, $timeout, $translate, uiGridConstants, coreRequest, $window, $interval) {
     return {
       restrict: 'E',
       scope: {
@@ -271,7 +271,7 @@ angular.module('financieraClienteApp')
             console.log("registrar");
             console.log(ctrl.dataGiroSend);
             console.log("registrar");
-            financieraRequest.post('giro/RegistrarGiro', ctrl.dataGiroSend)
+            financieraMidRequest.post('giro/CreateGiro', ctrl.dataGiroSend)
               .then(function(response) {
                 ctrl.resultado = response.data;
                 console.log("Resultado");
@@ -304,7 +304,7 @@ angular.module('financieraClienteApp')
               ctrl.gridApi.core.handleWindowResize();
             }, 500, 2);
         }
-      });      
+      });
         // fin
       },
       controllerAs: 'd_opMultiSelectDetail'
