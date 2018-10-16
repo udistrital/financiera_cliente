@@ -257,6 +257,7 @@ angular.module('financieraClienteApp')
             }).then(function() {
                 var data = {
                     ProcesoExterno: $scope.solicitud.Id,
+                    Consecutivo: $scope.solicitud.Consecutivo,
                     TipoNecesidad: { Id: 3 }
                 };
                 administrativaPruebasRequest.post("necesidad_proceso_externo", data)
