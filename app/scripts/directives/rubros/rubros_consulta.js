@@ -199,7 +199,7 @@ angular.module('financieraClienteApp')
     };
 
           self.actualizarListaProductos = function(offset,query){
-            financieraRequest.get('producto/', query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            financieraRequest.get('producto/', 'limit=-1'+query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
                     self.gridOptionsProductos.data = [];
                 } else {
@@ -309,7 +309,7 @@ angular.module('financieraClienteApp')
                             }
                           });
 
-                          console.log(response.data);
+                          console.log("Data: ",response.data);
                         }
                       });
 
@@ -329,10 +329,13 @@ angular.module('financieraClienteApp')
         self.AgregarProducto = function () {
               var Pr = null;
               Pr = self.ProdutoRubro;
+              
               angular.forEach(Pr, function (data) {
                 data.ValorDistribucion = parseInt(data.ValorDistribucion);
                 data.Rubro = $scope.data;
               });
+              console.log("Producto a Registrar: ", Pr);
+
               financieraRequest.post("producto_rubro/AddProductoRubrotr", Pr[0]).then(function(response){
                 if (response.data.Type === "error"){
                   swal('',$translate.instant(response.data.Code),response.data.Type);
