@@ -135,7 +135,9 @@ angular.module('financieraClienteApp')
                 ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
             });
         };
-
+        ctrl.modal_agregar_banco = function (){
+            $("#addBanco").modal("show");
+        }
         ctrl.cargar_bancos = function (){
         organizacionRequest.get('organizacion/', $.param({
             limit: -1,

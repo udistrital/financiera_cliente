@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
       useExternalPagination: true,
       enableSelectAll: false,
       selectionRowHeaderWidth: 35,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       multiSelect:false,
       columnDefs: [
           {
@@ -126,7 +126,7 @@ angular.module('financieraClienteApp')
             width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrowChequera(fila,operacion)" grupobotones="grid.appScope.botonesChequera" fila="row"></btn-registro>',
-            width: '20%'
+            width: '15%'
           }
       ],
       onRegisterApi: function(gridApi) {
@@ -153,7 +153,7 @@ angular.module('financieraClienteApp')
       enableSelectAll: false,
       selectionRowHeaderWidth: 35,
       multiSelect: false,
-      enableRowHeaderSelection: false,
+      enableRowHeaderSelection: true,
       paginationPageSizes: [5, 10, 15],
       paginationPageSize: null,
 
@@ -205,10 +205,9 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
-          width: '17%',
+          width: '13%',
           displayName: $translate.instant('ESTADO'),
           filter: {
-            //term: 'Elaborado',
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.estado_select
 
@@ -343,6 +342,7 @@ angular.module('financieraClienteApp')
   ctrl.cargarOp = function(offset,query){
     ctrl.hayDataOP = true;
     ctrl.cargandoOP = true;
+    query = query + ',FormaPago.CodigoAbreviacion:CH'
     financieraRequest.get('orden_pago', $.param({
       query:query,
       limit: ctrl.gridOrdenesDePago.paginationPageSize,
@@ -359,7 +359,7 @@ angular.module('financieraClienteApp')
     }
     });
   }
-ctrl.cargarOp(0,'FormaPago.CodigoAbreviacion:CH');
+ctrl.cargarOp(0,'');
 
 ctrl.cargarTiposDoc = function(){
      agoraRequest.get('parametro_estandar',$.param({
