@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
+  .controller('crearFuenteCtrl', function($scope, financieraRequest, financieraMidRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
 
     var self = this;
     var i;
@@ -308,7 +308,7 @@ angular.module('financieraClienteApp')
 
       self.registrar = true;
 
-      
+
       if (self.nueva_fuente.Codigo === null || self.nueva_fuente.Codigo === "" || self.nueva_fuente.Codigo === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_CODIGO'), "error");
       } else if (self.nueva_fuente.Nombre === null || self.nueva_fuente.Nombre === "" || self.nueva_fuente.Nombre === undefined) {
@@ -413,7 +413,7 @@ angular.module('financieraClienteApp')
         AfectacionFuente: AfectacionFuenteData
       };
       console.log("Data to Send: ", DataToSend);
-      financieraRequest.post("fuente_financiamiento/RegistrarFuenteFinanciamientoTr", DataToSend).then(function(response) {
+      financieraMidRequest.post("fuente_financiamiento/RegistrarFuente", DataToSend).then(function(response) {
         console.log("Response: ", response.data);
         if (response.data) {
               swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
