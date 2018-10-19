@@ -6,9 +6,27 @@
       <form class="form-horizontal" name="compras" ng-submit="compras.$valid && d_legalizacionCompraVe.add_edit_compras()">
         <br>
         <div class="row">
+          <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_DOCUMENTO'|translate}}:</label>
+          <div class="col-sm-6">
+          <select ng-model="legalizacionEvtCompra.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in legalizacionEvtCompra.tiposdoc" class="form-control" required>
+            <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
+          </select>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_ACTIVIDAD'|translate}}:</label>
+        <div class="col-sm-6">
+        <select ng-model="d_legalizacionCompraVe.LegalizacionCompras.Subtipo" ng-options="i.Nombre for i in d_legalizacionCompraVe.subtipos track by i.Id" class="form-control" required>
+          <option value="">{{'TIPO_ACTIVIDAD'|translate}}</option>
+        </select>
+      </div>
+    </div>
+    <br>
+        <div class="row">
           <label for="CodigoAbreviacion" class="col-sm-3 control-label">{{'DOCUMENTO_NIT' | translate }}:</label>
           <div class="col-sm-6">
-            <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Tercero" class="form-control" ng-disabled="ver" required/>
+            <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Tercero" class="form-control" ng-disabled="d_legalizacionCompraVe.ver" required/>
           </div>
             <div class="col-sm-1">
               <center>
@@ -32,33 +50,49 @@
           <br>
           <div class="row">
             <label for="tipo_ingreso" class="col-sm-3 control-label">{{'FECHA_COMPRA_EVENTO' | translate}}:</label>
-            <md-datepicker ng-model="d_legalizacionCompraVe.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}" ng-disabled = "ver" required></md-datepicker>
+            <md-datepicker ng-model="d_legalizacionCompraVe.LegalizacionCompras.FechaCompra" md-placeholder="{{'FECHA' | translate}}" ng-disabled="d_legalizacionCompraVe.ver" required></md-datepicker>
           </div>
           <br>
           <div class="row">
             <label for="descripcion" class="col-sm-3 control-label">{{'NO_FACTURA' | translate }}:</label>
             <div class="col-sm-6">
-              <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.NumeroFactura" class="form-control input_right" ng-disabled = "ver" required/>
+              <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.NumeroFactura" class="form-control input_right" ng-disabled="d_legalizacionCompraVe.ver" required/>
                     </div>
             </div>
             <br>
             <div class="row">
               <label for="descripcion" class="col-sm-3 control-label">{{'VALOR_FACTURA_COMPRA' | translate }}:</label>
               <div class="col-sm-6">
-                <input name="CodigoAbreviacion" ng-change="d_legalizacionCompraVe.calcular_valor_impuesto()" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Valor" ui-money-mask="0" class="form-control input_right" ng-disabled = "ver" required/>
+                <input name="CodigoAbreviacion" ng-change="d_legalizacionCompraVe.calcular_valor_impuesto()" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.Valor" ui-money-mask="0" class="form-control input_right" ng-disabled="d_legalizacionCompraVe.ver" required/>
                     </div>
               </div>
               <br>
               <div class="row">
                 <label for="descripcion" class="col-sm-3 control-label">{{'TRM_COMPRA' | translate }}:</label>
                 <div class="col-sm-6">
-                  <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.TrmFechaCompra" ui-money-mask="0" class="form-control input_right" ng-disabled = "ver" required/>
+                  <input name="CodigoAbreviacion" type="text" ng-model="d_legalizacionCompraVe.LegalizacionCompras.TrmFechaCompra" ui-money-mask="0" class="form-control input_right" ng-disabled="d_legalizacionCompraVe.ver" required/>
                     </div>
                   <div class="col-sm-3">
                     <label for="descripcion"><small>{{'TRM_COMPRA_DESCRIPCION' | translate }}</small></label>
                   </div>
                 </div>
                 <br>
+                <div class="row">
+                    <legend class="text-primary" ng-click="entAl = !entAl" ng-show="d_legalizacionCompraVe.LegalizacionCompras.Subtipo.AplicaEntradaAlmacen" >
+                      {{'ENTRADA_ALMACEN' | translate}}
+                      <span class="fa fa-plus pull-right" ng-show="!entAl"></span>
+                      <span class="fa fa-minus pull-right" ng-show="entAl"></span>
+                    </legend>
+                    <div class="panel panel-default" ng-show="entAl" >
+                      <div class="col-md-12" >
+                         <fieldset class="form-group">
+                             <div id="my-grid" ui-grid="d_legalizacionCompraVe.gridEntradasAlmacen" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
+                         </fieldset>
+                      </div>
+                  </div>
+                </div>
+                  <br>
+                  <div class="row">
                         <legend class="text-primary" ng-click="d=!d">{{'IMPUESTOS'| translate}}
                           <span class="fa fa-plus pull-right" ng-show="!d"></span>
                           <span class="fa fa-minus pull-right" ng-show="d"></span>
@@ -67,6 +101,7 @@
                             <div>
                             <div id="my-grid" ui-grid="d_legalizacionCompraVe.gridImpuestos" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
                             </div>
+                        </div>
                           <br>
                          <div class="col-md-12">
                            <div class="panel panel-default panel-body col-md-6" ng-repeat="item in d_legalizacionCompraVe.Impuesto track by $index">

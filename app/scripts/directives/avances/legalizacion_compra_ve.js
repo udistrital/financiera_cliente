@@ -15,7 +15,7 @@ angular.module('financieraClienteApp')
           ver:'=?',
         },
       templateUrl: 'views/directives/avance/legalizacion_compra_ve.html',
-      controller:function($scope,$attrs,financieraRequest,$translate,$interval){
+      controller:function($scope,$attrs,financieraRequest,$translate,$interval,agoraRequest){
         var ctrl = this;
         ctrl.ver = JSON.parse($scope.ver);
         ctrl.concepto = [];
@@ -97,6 +97,25 @@ angular.module('financieraClienteApp')
               ctrl.calcular_valor_impuesto();
             });
         }
+        ctrl.consultarListas = function(){
+          agoraRequest.get('parametro_estandar',$.param({
+            query:"ClaseParametro:Tipo Documento",
+            limit:-1
+          })).then(function(response){
+            ctrl.tiposdoc = response.data;
+          });
+          financieraRequest.get('avance_legalizacion_sub_tipo',$.param({
+            query:"NumeroOrden__not_in:1",
+            limit:-1
+          })).then(function(response){
+            if (!angular.isUndefined(response.data) && response.data != null) {
+              ctrl.subtipos =  response.data;
+            }
+          }
+
+          );
+        }
+      ctrl.consultarListas();
 
         ctrl.getConcepto=function(){
           financieraRequest.get('concepto_avance_legalizacion_tipo',$.param({
