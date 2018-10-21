@@ -19,6 +19,8 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var ctrl = this;
         ctrl.giro = {};
+        var currentTime = new Date();
+        var year = currentTime.getFullYear()
         ctrl.hayData_detalle = true;
         ctrl.cargando_detalle = true;
         ctrl.hayData_cb = true;
@@ -268,18 +270,15 @@ angular.module('financieraClienteApp')
             ctrl.dataGiroSend = {};
             ctrl.dataGiroSend.Giro = ctrl.giro;
             ctrl.dataGiroSend.OrdenPago = $scope.inputopselect;
-            console.log("registrar");
-            console.log(ctrl.dataGiroSend);
-            console.log("registrar");
             financieraMidRequest.post('giro/CreateGiro', ctrl.dataGiroSend)
               .then(function(response) {
                 ctrl.resultado = response.data;
-                console.log("Resultado");
-                console.log(ctrl.resultado);
-                console.log("Resultado");
+                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') +' '+ $translate.instant('GIRO')+ "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                templateAlert = templateAlert + "<tr class='success'><td>" + ctrl.resultado.Body + "</td>" + "<td>" + year + "</td><td>" + $translate.instant(ctrl.resultado.Code) + "</td></tr>" ;
+                templateAlert = templateAlert + "</table>";
                 swal({
-                  title: $translate.instant('GIRO'),
-                  text: $translate.instant(ctrl.resultado.Code) + ctrl.resultado.Body,
+                  title: '',
+                  html: templateAlert,
                   type: ctrl.resultado.Type,
                 }).then(function() {
                   $window.location.href = '#/orden_pago/giros/ver_todos';
