@@ -11,12 +11,14 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope:{
-          legalizacion :'=?'
+          legalizacion :'=?',
+          ver:'=?'
         },
 
       templateUrl: 'views/directives/avance/legalizacion_practica_ve.html',
       controller:function($scope,financieraRequest){
         var ctrl = this;
+        ctrl.ver = JSON.parse($scope.ver);
         $scope.encontrado = true;
         ctrl.concepto = [];
         ctrl.LegalizacionPracticaAcademica = $scope.legalizacion;

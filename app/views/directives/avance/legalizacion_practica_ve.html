@@ -11,7 +11,7 @@
             <div class="row">
                 <label for="CodigoAbreviacion" class="col-sm-2 control-label">{{'CODIGO_ESTUDIANTE' | translate }}:</label>
                 <div class="col-sm-6">
-                    <input name="CodigoAbreviacion" type="text" ng-change="d_avancesLegaPracticaVe.cargar_estudiante()" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Tercero" class="form-control" ng-required="true" />
+                    <input name="CodigoAbreviacion" type="text" ng-change="d_avancesLegaPracticaVe.cargar_estudiante()" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Tercero" class="form-control" ng-disabled="d_avancesLegaPracticaVe.ver" ng-required="true" />
                 </div>
                 <div class="col-sm-3" ng-if="!encontrado">
                     <loading load="!encontrado && !estudiante_cargado" tam=1 clase="clase_load"></loading>
@@ -24,14 +24,14 @@
             <div class="row">
                 <label for="descripcion" class="col-sm-2 control-label">{{'VALOR' | translate }}:</label>
                 <div class="col-sm-9">
-                    <input name="CodigoAbreviacion" type="text" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control input_right" ng-required="true" />
+                    <input name="CodigoAbreviacion" type="text" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Valor" ui-money-mask="0" class="form-control input_right" ng-disabled="d_avancesLegaPracticaVe.ver" ng-required="true" />
                 </div>
             </div>
             <br>
             <div class="row">
                 <label for="descripcion" class="col-sm-2 control-label">{{'NO_DIAS' | translate }}:</label>
                 <div class="col-sm-9">
-                    <input name="CodigoAbreviacion" type="text" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Dias" class="form-control" ng-required="true" />
+                    <input name="CodigoAbreviacion" type="text" ng-model="d_avancesLegaPracticaVe.LegalizacionPracticaAcademica.Dias" class="form-control" ng-disabled="d_avancesLegaPracticaVe.ver" ng-required="true" />
                 </div>
             </div>
             <br>
@@ -121,8 +121,7 @@
 
       <div class="panel-footer">
         <center>
-          <input  ng-click="d_avancesLegaPracticaVe.limpiar_practica()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}"/>
-          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_avancesLegaPracticaVe.guardar()" />
+          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_avancesLegaPracticaVe.guardar()" ng-if="!d_avancesLegaPracticaVe.ver" />
         </center>
       </div>
 </div>

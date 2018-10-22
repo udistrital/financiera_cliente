@@ -8,14 +8,22 @@
  * Factory in the financieraClienteApp.
  */
 angular.module('arkaService', [])
-    .factory('arkaRequest', function($http, CONF) {
+    .factory('arkaRequest', function($http,$q, CONF) {
         // Service logic
         // ...
         var path = CONF.GENERAL.ARKA_SERVICE;
+        var cancelSearch ; //defer object
         // Public API here
         return {
             get: function(tabla, params) {
-                return $http.get(path + tabla + "/?" + params);
+              cancelSearch = $q.defer(); //create new defer for new request
+              var get
+              if (angular.isUndefined(params)||params===null){
+                get = path+tabla,{timeout:cancelSearch.promise};
+              }else {
+                get = path+tabla+"/?"+params,{timeout:cancelSearch.promise};
+              }
+              return $http.get(get);
             },
             post: function(tabla, elemento) {
                 return $http.post(path + tabla, elemento);

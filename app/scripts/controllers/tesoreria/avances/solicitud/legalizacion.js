@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Tercero',
+                    field: 'InformacionProveedor.NumDocumento',
                     displayName: $translate.instant('DOCUMENTO') + " " + $translate.instant('TERCERO'),
                     width: '12%',
                     headerCellClass: 'encabezado'

@@ -8,7 +8,7 @@
         <div class="row">
           <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_DOCUMENTO'|translate}}:</label>
           <div class="col-sm-6">
-          <select ng-model="legalizacionEvtCompra.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in legalizacionEvtCompra.tiposdoc" class="form-control" required>
+          <select ng-model="d_legalizacionCompraVe.LegalizacionCompras.tipoDocTercero" ng-options="i.ValorParametro for i in d_legalizacionCompraVe.tiposdoc track by i.Id" class="form-control" ng-disabled="d_legalizacionCompraVe.ver" required>
             <option value="">{{'SELECCIONAR_TIPO_DOCUMENTO'|translate}}</option>
           </select>
         </div>
@@ -17,7 +17,7 @@
       <div class="row">
         <label for="tipodoc" class="col-sm-3 control-label">{{'TIPO_ACTIVIDAD'|translate}}:</label>
         <div class="col-sm-6">
-        <select ng-model="d_legalizacionCompraVe.LegalizacionCompras.Subtipo" ng-options="i.Nombre for i in d_legalizacionCompraVe.subtipos track by i.Id" class="form-control" required>
+        <select ng-model="d_legalizacionCompraVe.LegalizacionCompras.Subtipo" ng-options="i.Nombre for i in d_legalizacionCompraVe.subtipos track by i.Id" class="form-control" ng-disabled="d_legalizacionCompraVe.ver" required>
           <option value="">{{'TIPO_ACTIVIDAD'|translate}}</option>
         </select>
       </div>
@@ -30,7 +30,7 @@
           </div>
             <div class="col-sm-1">
               <center>
-                <a type="button" name="button" ng-click="d_legalizacionCompraVe.cargar_proveedor()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true"></a>
+                <a type="button" name="button" ng-click="d_legalizacionCompraVe.cargar_proveedor()" class="fa fa-search btn btn-info btn-outline" aria-hidden="true" ng-if="!d_legalizacionCompraVe.ver"></a>
               </center>
             </div>
             <div class="col-sm-2">
@@ -44,7 +44,7 @@
           <div class="row">
             <label for="nombre" class="col-sm-3 control-label">{{'NOMBRE' | translate }}:</label>
             <div class="col-sm-8">
-              <span class="form-control">{{d_legalizacionCompraVe.LegalizacionCompras.InformacionProveedor[0].NomProveedor}}</span>
+              <span class="form-control">{{d_legalizacionCompraVe.LegalizacionCompras.InformacionProveedor.NomProveedor}}</span>
             </div>
           </div>
           <br>
@@ -218,8 +218,7 @@
 
       <div class="panel-footer">
         <center>
-          <input  ng-click="d_legalizacionCompraVe.limpiar_compra()" class="btn btn-info btn-outline" value="{{'BTN.LIMPIAR' | translate }}" ng-if="!ver" />
-          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_legalizacionCompraVe.guardar()" ng-if="!ver" />
+          <input class="btn btn-success btn-outline" value="{{'BTN.GUARDAR' | translate }}" ng-click="d_legalizacionCompraVe.guardar()" ng-if="!d_legalizacionCompraVe.ver" />
         </center>
       </div>
   </div>

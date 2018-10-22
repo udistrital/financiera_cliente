@@ -15,12 +15,63 @@ angular.module('financieraClienteApp')
           ver:'=?',
         },
       templateUrl: 'views/directives/avance/legalizacion_compra_ve.html',
-      controller:function($scope,$attrs,financieraRequest,$translate,$interval,agoraRequest){
+      controller:function($scope,$attrs,financieraRequest,$translate,$interval,agoraRequest,arkaRequest){
         var ctrl = this;
         ctrl.ver = JSON.parse($scope.ver);
         ctrl.concepto = [];
         ctrl.LegalizacionCompras = $scope.legalizacion;
+        ctrl.LegalizacionCompras.Tercero = ctrl.LegalizacionCompras.InformacionProveedor.NumDocumento;
+        ctrl.LegalizacionCompras.tipoDocTercero = ctrl.LegalizacionCompras.InformacionProveedor.tipoDocTercero;
+        ctrl.LegalizacionCompras.FechaCompra = new Date(ctrl.LegalizacionCompras.FechaCompra);
         ctrl.Impuesto = [];
+        ctrl.gridEntradasAlmacen = {
+            paginationPageSizes: [5, 10, 15],
+            paginationPageSize: 5,
+            enableRowSelection: true,
+            enableFiltering: true,
+            enableRowHeaderSelection:true,
+            enableHorizontalScrollbar: 0,
+            enableVerticalScrollbar: 0,
+            useExternalPagination: false,
+            enableSelectAll: false,
+            columnDefs: [{
+                    field: 'Vigencia',
+                    displayName: $translate.instant('VIGENCIA'),
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
+                    width: '25%'
+                },
+                {
+                    field: 'NumeroContrato',
+                    displayName: $translate.instant('CONTRATO'),
+                    width: '25%',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
+                },
+                {
+                    field: 'TipoContrato.Descripcion',
+                    displayName: $translate.instant('TIPO_CONTRATO'),
+                    width: '25%',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
+                },
+                {
+                    field: 'NumeroFactura',
+                    displayName: $translate.instant('NO_FACTURA'),
+                    width: '25%',
+                    headerCellClass: 'encabezado',
+                    cellClass: 'input_center',
+                }
+            ],
+            onRegisterApi : function (gridApi) {
+              ctrl.gridEntradasAlmacenApi = gridApi;
+                gridApi.selection.on.rowSelectionChanged($scope,function(row){
+                  if(row.isSelected) {
+                    ctrl.LegalizacionCompras.EntradaAlmacen = row.entity.Id;
+                  }
+                });
+            }
+        };
         ctrl.gridImpuestos = {
             paginationPageSizes: [5, 10, 15],
             paginationPageSize: 5,
@@ -86,6 +137,12 @@ angular.module('financieraClienteApp')
         ctrl.gridImpuestos.onRegisterApi = function (gridApi) {
                     ctrl.gridImpuestosApi = gridApi;
             }
+        ctrl.activateSelection =function(){
+          if(ctrl.ver){
+            ctrl.gridEntradasAlmacen.enableRowHeaderSelection= false;
+          }
+        }
+        ctrl.activateSelection();
         ctrl.cargarImpuestos=function(){
             financieraRequest.get('avance_legalizacion_tipo/GetTaxesMovsLegalization',$.param({
               noTipoDoc:8,
@@ -127,7 +184,49 @@ angular.module('financieraClienteApp')
               ctrl.cargarImpuestos();
           });
         }
+        ctrl.getEntradasAlmacen=function(){
+          arkaRequest.get('entrada',
+            $.param({
+              query: 'Id:' + ctrl.LegalizacionCompras.EntradaAlmacen,
+              limit: -1,
+            })
+          ).then(function(response) {
+            if (!angular.isUndefined(response.data) && response.data != null) {
+              ctrl.gridEntradasAlmacen.data = response.data;
+            }
+          });
+        }
+        ctrl.getEntradasAlmacen();
         ctrl.getConcepto();
+        ctrl.cargar_proveedor = function() {
+            $scope.encontrado = false;
+            ctrl.LegalizacionCompras.InformacionProveedor = null;
+            if (angular.isUndefined(ctrl.LegalizacionCompras.tipoDocTercero)) {
+              swal('',$translate.instant("SELECCIONAR_TIPO_DOCUMENTO"),'error');
+              return;
+            }
+            financieraMidRequest.get("administrativa_personas/GetPersona",$.param({
+              numberId:ctrl.LegalizacionCompras.Tercero,
+              typeId:ctrl.LegalizacionCompras.tipoDocTercero.Id,
+            })).then(function(response){
+              if (response.data == null) {
+                  $scope.encontrado = true;
+              } else {
+                  ctrl.InformacionProveedor = response.data;
+                  arkaRequest.get('entrada',
+                    $.param({
+                      query: 'Proveedor:' + ctrl.InformacionProveedor.NumDocumento,
+                      limit: -1,
+                    })
+                  ).then(function(response) {
+                    if (!angular.isUndefined(response.data) && response.data != null) {
+                      ctrl.LegalizacionCompras.EntradaAlmacen = 0;
+                      ctrl.gridEntradasAlmacen.data = response.data;
+                    }
+                  });
+              }
+            });
+        }
         ctrl.calcular_valor_impuesto = function() {
             var sum_impuestos = 0;
             ctrl.Total = 0;
