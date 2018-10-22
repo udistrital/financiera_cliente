@@ -10,8 +10,6 @@
 angular.module('financieraClienteApp').controller('consultaFuenteCtrl', function($window, $scope, $translate,$location,$route, financieraMidRequest, financieraRequest, oikosRequest, coreRequest, $localStorage) {
 
   var self = this;
-  var i;
-  var j;
   self.cargando = false;
   self.hayData = true;
   self.cargando_apropiaciones = false;

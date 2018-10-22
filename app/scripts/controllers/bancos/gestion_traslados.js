@@ -139,11 +139,11 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.aprobar_traslado = function(){
-      alert("aprobar este traslado")
+      //alert("aprobar este traslado")
     };
 
     ctrl.generar_acta = function(){
-      alert("generar acta")
+      //alert("generar acta")
     };
 
     ctrl.mostrar_modal_solicitud_traslado = function(){
@@ -185,11 +185,11 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.solicitar_traslado = function (){
-      alert("solicitar traslado")
+      //alert("solicitar traslado")
     };
 
     ctrl.cargar_cuentas_bancarias = function(){
-       var objeto_banco_seleccionado= JSON.parse(ctrl.selectBanco);
+      // var objeto_banco_seleccionado= JSON.parse(ctrl.selectBanco);
       //BUSCAR CON ID y llenar grid
     };
   });

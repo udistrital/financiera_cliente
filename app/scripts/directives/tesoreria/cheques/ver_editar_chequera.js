@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
       templateUrl: 'views/directives/tesoreria/cheques/ver_editar_chequera.html',
 
       controller:function($scope,$attrs){
-        var ctrl = this;
+        //var ctrl = this;
         $scope.ver = 'ver' in $attrs;
       },
       controllerAs:'d_tesoreriaVerEditarChequera'

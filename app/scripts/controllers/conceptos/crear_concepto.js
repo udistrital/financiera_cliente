@@ -204,7 +204,6 @@ angular.module('financieraClienteApp')
       enableFiltering: true,
       enableSorting: true,
       columnDefs: [{
-          headerCellClass: 'text-success',
           displayName: $translate.instant('CODIGO'),
           field: 'Codigo',
           cellTooltip: function(row) {
@@ -215,7 +214,6 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
         },
         {
-          headerCellClass: 'text-success',
           displayName: $translate.instant('NOMBRE'),
           field: 'Nombre',
           cellTooltip: function(row) {
