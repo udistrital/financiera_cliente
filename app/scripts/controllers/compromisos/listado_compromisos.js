@@ -75,7 +75,6 @@ angular.module('financieraClienteApp')
       {
         field: 'Id',
         displayName: $translate.instant('NO'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '4%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -83,7 +82,6 @@ angular.module('financieraClienteApp')
       {
         field: 'Vigencia',
         displayName: $translate.instant('VIGENCIA'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '7%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -91,7 +89,6 @@ angular.module('financieraClienteApp')
       {
         field: 'Objeto',
         displayName: $translate.instant('OBJETO'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '50%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -99,7 +96,6 @@ angular.module('financieraClienteApp')
       {
         field: 'FechaInicio',
         displayName: $translate.instant('FECHA_INICIO'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         cellFilter: "date:'yyyy-MM-dd'",
         width: '9%',
         cellClass: 'input_center',
@@ -108,7 +104,6 @@ angular.module('financieraClienteApp')
       {
         field: 'FechaFin',
         displayName: $translate.instant('FECHA_FIN'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         cellFilter: "date:'yyyy-MM-dd'",
         width: '9%',
         cellClass: 'input_center',
@@ -117,7 +112,6 @@ angular.module('financieraClienteApp')
       {
         field: 'EstadoCompromiso.Nombre',
         displayName: $translate.instant('ESTADO'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '7%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -125,7 +119,6 @@ angular.module('financieraClienteApp')
       {
         field: 'TipoCompromisoTesoral.Nombre',
         displayName: $translate.instant('TIPO'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '7%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -134,7 +127,6 @@ angular.module('financieraClienteApp')
         visible:false,
         field: 'TipoCompromisoTesoral.CategoriaCompromiso.Nombre',
         displayName: $translate.instant('CATEGORIA'),
-        headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
         width: '6%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
@@ -171,7 +163,7 @@ angular.module('financieraClienteApp')
       limit: -1,
       query: "TipoCompromisoTesoral.CategoriaCompromiso.Nombre:"+self.filtro_categoria.Nombre+",UnidadEjecutora:"+1 //CAMBIAR SEGUN USUARIO LOGUEADO
     })).then(function(response) {
-    
+
       if (typeof(response.data) === "string") {
           self.hayData = false;
           self.cargando = false;

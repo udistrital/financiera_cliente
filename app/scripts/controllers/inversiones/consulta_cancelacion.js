@@ -126,6 +126,9 @@ angular.module('financieraClienteApp')
     $scope.loadrow = function(row, operacion) {
         $scope.cancelacion = row.entity;
         switch (operacion) {
+          case "otro":
+
+              break;
             case "proceso":
                 $scope.estado = $scope.cancelacion.EstadoCancelacionInversion ;
                 break;

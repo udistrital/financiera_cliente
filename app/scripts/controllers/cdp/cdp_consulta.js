@@ -369,7 +369,6 @@ angular.module('financieraClienteApp')
             var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
             var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
             var query = '';
-            var vigencia_busqueda = "";
             if (inicio !== undefined && fin !== undefined) {
 
                   query = 'rangoinicio=' + inicio + "&rangofin=" + fin;

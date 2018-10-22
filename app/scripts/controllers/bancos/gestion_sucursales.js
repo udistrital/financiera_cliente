@@ -201,7 +201,7 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.editar_sucursal = function(row){
-          alert("editar sucursal");
+          //alert("editar sucursal");
     };
 
   });
