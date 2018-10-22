@@ -211,7 +211,7 @@ angular.module('financieraClienteApp')
                          })).then(function(response){
                              if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
                                  ctrl.nombreBeneficiario = response.data[0].Nombre;
-                                 v
+                                 
                              }else{
                                  ctrl.nombreBeneficiario = $translate.instant('NO_ENCONTRADO');
                                  ctrl.cargando_ben = false;

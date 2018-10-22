@@ -20,7 +20,6 @@ angular.module('financieraClienteApp')
     templateUrl: 'views/directives/rubros/rubros_por_rp_seleccion_multiple.html',
     controller: function($scope) {
       var self = this;
-      var expandableScope = {};
       self.cargando = true;
       self.hayData = true;
       // refrescar
@@ -179,11 +178,11 @@ angular.module('financieraClienteApp')
               });
               //se incluye consulta para obtener saldo en el objeto
             });
-          }; // iterador
+          } // iterador
         })
       }); //tehen
 
-    };
+    }
   }
 
 

@@ -158,6 +158,9 @@ angular.module('financieraClienteApp')
         ctrl.cargar_info_presupuestal();
         $scope.loadrow = function(row, operacion) {
             switch (operacion) {
+              case "otro":
+
+              break;
                 case "vercrp":
                   ctrl.verCRP(row.entity);
                     break;
