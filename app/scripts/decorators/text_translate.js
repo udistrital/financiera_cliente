@@ -840,7 +840,6 @@ var text_es = {
         CREAR_RELACION_DEVOLUCION:"Crear Relación Devolución",
         CREAR_INGRESO:"Crear Ingreso",
         BORRAR: "Borrar",
-        CANCELAR: "Cancelar",
         CERRAR:"Cerrar",
         CONFIGURAR: "Configurar",
         CONFIRMAR: "Confirmar",

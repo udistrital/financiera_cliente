@@ -185,7 +185,7 @@ angular.module('financieraClienteApp')
         }else{
             ctrl.CuentaContableSeleccionada = row.entity
         }
-      
+
       });
     };
 
@@ -381,7 +381,7 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.editar_cuenta_bancaria = function(row){
-          alert("editar cuenta_bancaria");
+          //alert("editar cuenta_bancaria");
     };
 
   });

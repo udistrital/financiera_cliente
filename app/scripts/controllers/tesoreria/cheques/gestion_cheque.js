@@ -123,7 +123,6 @@ angular.module('financieraClienteApp')
           },
           {
             name: $translate.instant('OPCIONES'),
-            width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrowChequera(fila,operacion)" grupobotones="grid.appScope.botonesChequera" fila="row"></btn-registro>',
             width: '20%'
@@ -381,6 +380,9 @@ ctrl.cargarTiposDoc();
     $scope.loadrowChequera = function(row, operacion) {
         $scope.chequera = row.entity.Chequera;
         switch (operacion) {
+            case "otro":
+
+            break;
             case "ver":
                 $("#datosChequera").modal();
                 break;

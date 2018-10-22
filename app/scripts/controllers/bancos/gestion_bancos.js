@@ -335,7 +335,7 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.desvincular_sucursal = function() {
-            alert("desvinculando sucursal")
+          //  alert("desvinculando sucursal")
         };
 
         ctrl.mostrar_sucursales = function() {
@@ -357,7 +357,7 @@ angular.module('financieraClienteApp')
 
         ctrl.vincular_sucursal = function() {
             if($scope.sucursal_seleccionada == null){
-              alert("seleccione sucursal")
+            //  alert("seleccione sucursal")
             }else{
 
             organizacionRequest.get('tipo_relacion_organizaciones/', $.param({

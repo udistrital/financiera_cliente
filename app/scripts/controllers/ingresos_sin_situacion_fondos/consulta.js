@@ -88,12 +88,12 @@ angular.module('financieraClienteApp')
           ctrl.gridIngresoNoSF.data = [];
           ctrl.cargando = false;
           ctrl.hayData = false;
-          
+
         }else{
           ctrl.gridIngresoNoSF.data = [];
           ctrl.cargando = false;
           ctrl.hayData = true;
-         
+
           angular.forEach(response.data,function(rowData){
             financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
                   rowData.UnidadEjecutora = unidadEjec.data;
@@ -138,6 +138,9 @@ angular.module('financieraClienteApp')
     $scope.loadrow = function(row, operacion) {
       $scope.solicitud = row.entity;
         switch (operacion) {
+            case "otro":
+
+              break;
             case "proceso":
                 $scope.estado = $scope.solicitud.EstadoIngresoSinSituacionFondos;
                 ctrl.hayProceso = true;

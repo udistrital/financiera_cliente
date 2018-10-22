@@ -457,24 +457,24 @@ module.exports = function(grunt) {
 
         //sonar
         sonarRunner: {
-          analysis: {
-            options: {
-              debug: true,
-              separator: '\n',
-              dryRun: false,
-              sonar: {
-                host: {
-                  url: 'http://10.20.0.77:9000'
-                },
-                projectKey: 'financiera_cliente',
-                projectName: 'financiera_cliente',
-                projectVersion: '0.02',
-                sources: ['app','test'].join(','),
-                language: 'js',
-                sourceEncoding: 'UTF-8'
-              }
+            analysis: {
+                options: {
+                    debug: true,
+                    separator: '\n',
+                    dryRun: false,
+                    sonar: {
+                        host: {
+                            url: 'http://localhost:9000'
+                        },
+                        projectKey: 'financiera_cliente',
+                        projectName: 'financiera_cliente',
+                        projectVersion: '0.02',
+                        sources: ['app', 'test'].join(','),
+                        language: 'js',
+                        sourceEncoding: 'UTF-8'
+                    }
+                }
             }
-          }
         },
         // fin sonar
 
