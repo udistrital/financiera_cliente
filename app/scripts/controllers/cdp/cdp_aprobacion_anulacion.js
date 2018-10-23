@@ -107,8 +107,8 @@ angular.module('financieraClienteApp')
         self.actualizarLista = function(offset, query) {
             financieraMidRequest.cancel();
             //financieraRequest.cancel();
-           
-            self.gridOptions.data.length=0; 
+
+            self.gridOptions.data.length=0;
             self.gridOptions.data = [];
             self.cargando = true;
             self.hayData = true;
@@ -120,7 +120,7 @@ angular.module('financieraClienteApp')
             }
             financieraRequest.get('anulacion_disponibilidad/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
-                    self.gridOptions.data.length=0; 
+                    self.gridOptions.data.length=0;
                     self.hayData = false;
                     self.cargando = false;
                     self.gridOptions.data = [];
@@ -134,7 +134,7 @@ angular.module('financieraClienteApp')
                         data.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
                     });
                 });
-                
+
 
                   self.gridOptions.data = response.data;
 
@@ -196,7 +196,7 @@ angular.module('financieraClienteApp')
                         var formtstr = value.colDef.name.replace('[0]','');
                         if(formtstr !== "Tipo"){
                           query = query + '&query='+ formtstr + '__icontains:' + value.filters[0].term;
-                            
+
                         }
 
                     }
@@ -271,15 +271,13 @@ angular.module('financieraClienteApp')
             self.cdp = row.entity.AnulacionDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad;
             self.anulacion = row.entity;
             self.resumen = self.formatoResumenAfectacion(self.anulacion.AnulacionDisponibilidadApropiacion);
-        ;
+
             financieraRequest.get('disponibilidad_apropiacion', 'limit=-1&query=Disponibilidad.Id:' + self.cdp.Id).then(function(response) {
                 self.rubros = response.data;
                 angular.forEach(self.rubros, function(data) {
-                    if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
-
-                    } else {
+                    if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
                         $scope.apropiaciones.push(data.Apropiacion.Id);
-                    }
+                    } 
 
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada

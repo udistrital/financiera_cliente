@@ -420,7 +420,7 @@ angular.module('financieraClienteApp')
      * carga los datos de las solicitudes que van de forma masiva y los envia para su correspondiente verificacion y posible aprobacion y expedicion.
      */
     self.RegistrarMasivo = function() {
-      var dataCargueMasivo = [];
+    
 
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {

@@ -133,9 +133,7 @@ angular.module('financieraClienteApp')
                         });
 
                       });
-                      if($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
-
-                      }else{
+                      if($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) === -1) {
                         $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
                       }
 
@@ -202,10 +200,8 @@ angular.module('financieraClienteApp')
             self.alerta_anulacion_rp = response.data;
             angular.forEach(self.alerta_anulacion_rp, function(data){
 
-              if (data === "error" || data === "success"){
-
-              }else{
-                self.alerta = self.alerta +"<li align='left'>" +data +"</li>";
+              if (data !== "error" || data !== "success"){
+                  self.alerta = self.alerta +"<li align='left'>" +data +"</li>";
               }
 
             });
