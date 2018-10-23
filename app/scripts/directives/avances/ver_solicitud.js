@@ -129,7 +129,7 @@ angular.module('financieraClienteApp')
                       query: "proceso_externo:" + $scope.sol.Id + ",TipoNecesidad.NumeroOrden:3",
                       limit: -1
                   })).then(function(response){
-                    if(response.data[0].Necesidad!=null){}else{
+                    if(response.data[0].Necesidad === null){
                       response.data = [{"Id": 3,"Necesidad":{"Id":102587,"Numero":101}}];
                       ctrl.necesidadinfoPresupuestal = response.data[0].Necesidad;
                       financieraMidRequest.get("disponibilidad/DisponibilidadByNecesidad/"+ ctrl.necesidadinfoPresupuestal.Id,'').then(function(response){

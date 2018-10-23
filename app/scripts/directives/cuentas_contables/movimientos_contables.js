@@ -660,11 +660,13 @@ angular.module('financieraClienteApp')
                               });
                           }else{
                             $scope.movimientos = $scope.movimientos.filter(function(valMov){
+                            var retorno
                              if (valMov.CuentaContable.Id === idsB[0]){
-                               return false;
+                               retorno = false;
                              }else{
-                               return true;
+                               retorno = true;
                              }
+                             return retorno
                            });
                           }
                           self.cargar_cuentas_grid();

@@ -214,13 +214,9 @@ angular.module('financieraClienteApp')
             financieraRequest.get('disponibilidad_apropiacion', 'limit=0&query=Disponibilidad.Id:' + row.entity.Id).then(function(response) {
                 self.gridOptions_rubros.data = response.data;
                 angular.forEach(self.gridOptions_rubros.data, function(data) {
-                    if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
-
-                    } else {
-                        $scope.apropiaciones.push(data.Apropiacion.Id);
-                    }
-
-
+                    if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
+                      $scope.apropiaciones.push(data.Apropiacion.Id);
+                    } 
 
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
