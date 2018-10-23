@@ -158,10 +158,8 @@ angular.module('financieraClienteApp')
           argoRequest.get('fuente_financiacion_rubro_necesidad','query=Necesidad.Id:'+self.data.SolicitudDisponibilidad.Necesidad.Id).then(function(response) {
 
             angular.forEach(response.data, function(data){
-              if($scope.apropiaciones.indexOf(data.Apropiacion) !== -1) {
-
-              }else{
-                $scope.apropiaciones.push(data.Apropiacion);
+              if($scope.apropiaciones.indexOf(data.Apropiacion) === -1) {
+                  $scope.apropiaciones.push(data.Apropiacion);
               }
               });
           });

@@ -221,7 +221,7 @@ angular.module('financieraClienteApp')
     };
 
     self.RegistrarMasivo = function() {
-      var dataCargueMasivo = [];
+
       self.cargandoMasivo = true;
 
       var promise = self.cargarDatos();

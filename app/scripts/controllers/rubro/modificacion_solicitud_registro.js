@@ -39,16 +39,11 @@ angular.module('financieraClienteApp')
     });
 
     self.agregarRubro = function(){
-    	if (self.rubroCuentaCreditosel == undefined || self.rubroCuentaCreditosel == null){
-    		swal('', $translate.instant("E_MODP002") , "error").then(function() {
-                        });
-    	}else if (self.tipoModificacion == undefined || self.tipoModificacion == null){
-    		swal('', $translate.instant("E_MODP002") , "error").then(function() {
-                        });
-    	}else if (self.valor == undefined || self.valor == null || self.valor <= 0){
-    		swal('', $translate.instant("E_MODP002") , "error").then(function() {
-                        });
-    	}else if (self.tipoModificacion.CuentaContraCredito && (self.rubrosel == undefined || self.rubrosel == null)){
+    	if ( self.rubroCuentaCreditosel == undefined || self.rubroCuentaCreditosel == null ||
+          self.tipoModificacion == undefined || self.tipoModificacion == null ||
+          self.valor == undefined || self.valor == null || self.valor <= 0 ||
+          self.tipoModificacion.CuentaContraCredito && (self.rubrosel == undefined || self.rubrosel == null)
+      ){
     		swal('', $translate.instant("E_MODP002") , "error").then(function() {
                         });
     	}else if(self.saldomov == undefined || self.saldomov == null){
