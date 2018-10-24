@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
                                 sortby: "FechaRegistro",
                                 limit: -1,
-                                order: "asc"
+                                order: "desc"
                             }))
                             .then(function(estados) {
                                 solicitud.Estado = estados.data;
@@ -248,7 +248,7 @@ angular.module('financieraClienteApp')
         ctrl.solicitud_necesidad = function() {
             swal({
                 title: $translate.instant('SOLICITUD_NECESIDAD'),
-                text: $translate.instant('AVANCE_NO') + $scope.solicitud.Consecutivo + $translate.instant('PARA') + $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
+                text: $translate.instant('AVANCE_NO') + $scope.solicitud.Consecutivo + " "+$translate.instant('PARA') +" "+ $scope.solicitud.Tercero.nombres + " " + $scope.solicitud.Tercero.apellidos,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -260,6 +260,7 @@ angular.module('financieraClienteApp')
                     Consecutivo: $scope.solicitud.Consecutivo,
                     TipoNecesidad: { Id: 3 }
                 };
+                console.log(data);
                 administrativaPruebasRequest.post("necesidad_proceso_externo", data)
                     .then(function(response) {
                         if (response.status === 200) {
@@ -273,7 +274,6 @@ angular.module('financieraClienteApp')
 
         $scope.funcion = function() {
             $scope.estadoclick = $localStorage.nodeclick;
-            console.log($scope.estadoclick);
             switch ($scope.estadoclick.Id) {
                 case (3):
                     $('#modal_validar').modal('show');

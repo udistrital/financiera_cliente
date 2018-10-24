@@ -34,36 +34,42 @@
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'NOMBRE' | translate }}:</label>
-                  <span class="form-control"> {{gestionSucursales.NombreSucursal}}</span>
+                  <input name="nombresuc" type="text" ng-model="gestionSucursales.sucursal.Organizacion.Nombre" class="form-control input_rigth" required/>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'DIRECCION' | translate }}:</label>
-                  <span class="form-control"> {{gestionSucursales.Direccion}}</span>
+                    <input name="direccion" type="text" ng-model="gestionSucursales.sucursal.Direccion" class="form-control input_right" required />
                 </fieldset>
               </div>
 
               <div class="col-md-12">
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'TELEFONO' | translate }}:</label>
-                  <span class="form-control"> {{gestionSucursales.Telefono}}</span>
+                  <input name="telSuc" type="text" ng-model="gestionSucursales.sucursal.Telefono.Valor" class="form-control input_right" required/>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'PAIS' | translate }}:</label>
-                  <span class="form-control"> {{gestionSucursales.Paisl}}</span>
+                  <select ng-model="gestionSucursales.PaisEd" ng-options="i.Nombre for i in gestionSucursales.Paises track by i.Id" class="form-control" required>
+                    <option value="">{{'SELECCIONE'|translate}}</option>
+                  </select>
                 </fieldset>
               </div>
 
               <div class="col-md-12">
               <fieldset class="form-group col-md-6">
                 <label>{{ 'DEPARTAMENTO' | translate }}:</label>
-                <span class="form-control"> {{gestionSucursales.Departamento}}</span>
+                <select ng-model="gestionSucursales.DepartamentoEd" ng-options="i.Nombre for i in gestionSucursales.Departamentos track by i.Id" class="form-control" required>
+                  <option value="">{{'SELECCIONE'|translate}}</option>
+                </select>
              </fieldset>
 
               <fieldset class="form-group col-md-6">
                 <label>{{ 'CIUDAD' | translate }}:</label>
-                <span class="form-control"> {{gestionSucursales.Ciudad}}</span>
+                <select ng-model="gestionSucursales.CiudadEd" ng-options="i.Nombre for i in gestionSucursales.Ciudades track by i.Id" class="form-control" required>
+                  <option value="">{{'SELECCIONE'|translate}}</option>
+                </select>
               </fieldset>
             </div>
 
