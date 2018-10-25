@@ -39,7 +39,7 @@
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'DIRECCION' | translate }}:</label>
-                    <input name="direccion" type="text" ng-model="gestionSucursales.sucursal.Direccion" class="form-control input_right" required />
+                    <input name="direccion" type="text" ng-model="gestionSucursales.sucursal.Direccion.Valor" class="form-control input_right" required />
                 </fieldset>
               </div>
 
@@ -102,27 +102,25 @@
               <form name="formplan" ng-submit="formplan.$valid">
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'NOMBRE' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{NOMBRE | translate}}" ng-model="gestionSucursales.NombreSucursal" required>
+                  <input type="text" class="form-control" placeholder="{{NOMBRE | translate}}" ng-model="gestionSucursales.sucursalCr.Nombre" required>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'DIRECCION' | translate }}:</label>
-                  <input type="text" class="form-control" placeholder="{{DIRECCION | translate}}" ng-model="gestionSucursales.Direccion" required>
+                  <input type="text" class="form-control" placeholder="{{DIRECCION | translate}}" ng-model="gestionSucursales.sucursalCr.Direccion.Valor" required>
                   </fieldset>
               </div>
 
               <div class="col-md-12">
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'TELEFONO' | translate }}:</label>
-                  <input type="number" class="form-control" placeholder="{{TELEFONO | translate}}" ng-model="gestionSucursales.Telefono" required>
-
+                  <input name="telSuc" type="text" ng-model="gestionSucursales.sucursalCr.Telefono.Valor" class="form-control input_right" required/>
                 </fieldset>
 
                 <fieldset class="form-group col-md-6">
                   <label>{{ 'PAIS' | translate }}:</label>
-                  <select class="form-control" ng-model="gestionSucursales.selectPaises" required>
-                    <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                    <option ng-repeat="tpais in gestionSucursales.Paises"  value="{{tpais}}">{{tpais.Nombre}}</option>
+                  <select ng-model="gestionSucursales.sucursalCr.Pais" ng-options="i.Nombre for i in gestionSucursales.Paises track by i.Id" class="form-control" required>
+                    <option value="">{{'SELECCIONE'|translate}}</option>
                   </select>
                 </fieldset>
               </div>
@@ -130,17 +128,15 @@
               <div class="col-md-12">
               <fieldset class="form-group col-md-6">
                 <label>{{ 'DEPARTAMENTO' | translate }}:</label>
-                <select class="form-control" ng-model="gestionSucursales.selectDepartamento" required>
-                  <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                  <option ng-repeat="tdep in gestionSucursales.Departamentos"  value="{{tdep}}">{{tdep.Nombre}}</option>
+                <select ng-model="gestionSucursales.sucursalCr.Departamento" ng-options="i.Nombre for i in gestionSucursales.Departamentos track by i.Id" class="form-control" required>
+                  <option value="">{{'SELECCIONE'|translate}}</option>
                 </select>
              </fieldset>
 
               <fieldset class="form-group col-md-6">
                 <label>{{ 'CIUDAD' | translate }}:</label>
-                <select class="form-control" ng-model="gestionSucursales.selectCiudad" required>
-                  <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                  <option ng-repeat="tciudad in gestionSucursales.Ciudades"  value="{{tciudad}}">{{tciudad.Nombre}}</option>
+                <select ng-model="gestionSucursales.sucursalCr.Ciudad" ng-options="i.Nombre for i in gestionSucursales.Ciudades track by i.Id" class="form-control" required>
+                  <option value="">{{'SELECCIONE'|translate}}</option>
                 </select>
               </fieldset>
             </div>

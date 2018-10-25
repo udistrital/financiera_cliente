@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_sucursal', estado: true },
     ];
 
-
+    ctrl.sucursalCr = {};
     ctrl.Sucursales = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
@@ -39,10 +39,9 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'Direccion',
           name: $translate.instant('DIRECCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-          cellTemplate:'<div ng-if="row.entity.Direccion">{{row.entity.Direccion}}</div><div ng-if="!row.entity.Direccion">No Registrado</div>',
+          cellTemplate:'<div ng-if="row.entity.Direccion">{{row.entity.Direccion.Valor}}</div><div ng-if="!row.entity.Direccion">No Registrado</div>',
 
         },
         {
@@ -63,8 +62,7 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'Ciudad',
-          displayName: $translate.instant('CIUDAD'),
+          name: $translate.instant('CIUDAD'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
           cellTemplate:'<div ng-if="row.entity.Ciudad">{{row.entity.Ciudad.Nombre}}</div><div ng-if="!row.entity.Ciudad">No Registrado</div>',
         },
@@ -136,7 +134,7 @@ angular.module('financieraClienteApp')
     ctrl.mostrar_modal_edicion_sucursal = function(){
        ctrl.PaisEd =   ctrl.sucursal.Pais;
        ctrl.DepartamentoEd = ctrl.sucursal.Departamento;
-       ctrl.CiudadEd = ctrl.sucursal.CiudadEd;
+       ctrl.CiudadEd = ctrl.sucursal.Ciudad;
         $("#modal_editar_sucursal").modal("show");
     };
 
@@ -148,9 +146,9 @@ angular.module('financieraClienteApp')
 
       if(ctrl.NombreSucursal && ctrl.Telefono && ctrl.Direccion && ctrl.selectPaises && ctrl.selectDepartamento && ctrl.selectCiudad){
 
-      var objeto_paises = JSON.parse(ctrl.selectPaises)
-      var objeto_departamentos = JSON.parse(ctrl.selectDepartamento)
-      var objeto_ciudades = JSON.parse(ctrl.selectCiudad)
+      var objeto_paises = ctrl.PaisEd
+      var objeto_departamentos = ctrl.DepartamentoEd
+      var objeto_ciudades = ctrl.CiudadEd
 
       var informacion_sucursal = {
         Nombre       : ctrl.NombreSucursal,
@@ -203,7 +201,47 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.editar_sucursal = function(){
-      financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.sucursal.Organizacion.Id,ctrl.sucursal).then(function(response){
+      console.log(ctrl.sucursal);
+      if(ctrl.sucursal.Pais === null){
+        if (!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
+          ctrl.sucursal.Pais = {
+            Lugar:ctrl.PaisEd.Id
+          }
+        }
+      }else{
+        if(!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
+          ctrl.sucursal.Pais.UbicacionEnte.Lugar = ctrl.PaisEd.Id;
+          ctrl.sucursal.Pais = ctrl.sucursal.Pais.UbicacionEnte;
+        }
+      }
+
+      if(ctrl.sucursal.Departamento === null){
+        if (!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
+          ctrl.sucursal.Departamento = {
+            Lugar:ctrl.DepartamentoEd.Id
+          }
+        }
+      }else{
+        if(!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
+          ctrl.sucursal.Departamento.UbicacionEnte.Lugar = ctrl.DepartamentoEd.Id;
+          ctrl.sucursal.Departamento = ctrl.sucursal.Departamento.UbicacionEnte;
+        }
+      }
+
+
+      if(ctrl.sucursal.Ciudad === null){
+        if (!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
+          ctrl.sucursal.Ciudad = {
+            Lugar:ctrl.CiudadEd.Id
+          }
+        }
+      }else{
+        if(!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
+          ctrl.sucursal.Ciudad.UbicacionEnte.Lugar = ctrl.CiudadEd.Id;
+          ctrl.sucursal.Ciudad = ctrl.sucursal.Ciudad.UbicacionEnte;
+        }
+      }
+      financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.sucursal.Organizacion.Ente,ctrl.sucursal).then(function(response){
         console.log(response);
       })
     };
