@@ -163,7 +163,7 @@ angular.module('financieraClienteApp')
       });
 
       for (i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
-        if (self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id) {
+        if (self.tipo_fuente_r.Id == self.tipo_fuente_financiamiento[i].Id) {
           if (self.tipo_fuente_financiamiento[i].Nombre == "Inversión") {
             self.inversion = true;
             self.funcionamiento = false;
@@ -395,16 +395,13 @@ angular.module('financieraClienteApp')
     self.crear_fuente = function(documento) {
 
 
-
+      console.log("Tipo Fuente: ", self.tipo_fuente_r)
 
       var FuenteData = {
         Codigo: self.nueva_fuente.Codigo.toString(),
         Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion,
-        TipoFuenteFinanciamiento: {
-          Id: parseInt(self.tipo_fuente_r)
-        }
-
+        TipoFuenteFinanciamiento : self.tipo_fuente_r
       }
 
       var AfectacionFuenteData = self.asignar_rubros(0, documento);
