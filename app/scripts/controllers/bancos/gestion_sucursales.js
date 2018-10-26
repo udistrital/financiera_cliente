@@ -144,22 +144,7 @@ angular.module('financieraClienteApp')
 
     ctrl.agregar_sucursal = function(row){
 
-      if(ctrl.NombreSucursal && ctrl.Telefono && ctrl.Direccion && ctrl.selectPaises && ctrl.selectDepartamento && ctrl.selectCiudad){
-
-      var objeto_paises = ctrl.PaisEd
-      var objeto_departamentos = ctrl.DepartamentoEd
-      var objeto_ciudades = ctrl.CiudadEd
-
-      var informacion_sucursal = {
-        Nombre       : ctrl.NombreSucursal,
-        Direccion     :ctrl.Direccion,
-        Telefono     : ctrl.Telefono.toString(),
-        Pais          : objeto_paises.Id.toString(),
-        Departamento  : objeto_departamentos.Id.toString(),
-        Ciudad        : objeto_ciudades.Id.toString(),
-      }
-
-      financieraMidRequest.post('gestion_sucursales/insertar_sucursal', informacion_sucursal).then(function(response) {
+      financieraMidRequest.post('gestion_sucursales/insertar_sucursal', ctrl.sucursalCr).then(function(response) {
 
           if (typeof(response.data) == "object") {
               swal({
@@ -189,15 +174,6 @@ angular.module('financieraClienteApp')
           }
       });
 
-    }else {
-                swal({
-                    html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#449D44",
-                    confirmButtonText: $translate.instant('VOLVER'),
-                })
-            }
     };
 
     ctrl.editar_sucursal = function(){
