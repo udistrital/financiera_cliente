@@ -8,12 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpGirosViewAllCtrl', function ($scope, financieraRequest, $window, $translate, $location, coreRequest, uiGridConstants) {
+  .controller('OpGirosViewAllCtrl', function ($scope, financieraRequest, financieraMidRequest, gridApiService, $window, $filter, $translate, $location, coreRequest, uiGridConstants) {
     var self = this;
+    self.offset = 0;
     self.selectEstadoGiro = [];
-    self.cargando = true;
+    self.cargando = false;
     self.hayData = true;
-
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
 
-      paginationPageSizes: [10, 20],
+      paginationPageSizes: [10, 20, 30],
       paginationPageSize: 10,
 
       enableFiltering: true,
@@ -116,9 +116,11 @@ angular.module('financieraClienteApp')
     self.gridGiros.enablePaginationControls = true;
     self.gridGiros.onRegisterApi = function (gridApi) {
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-        $scope.outputopselect = self.gridApi.selection.getSelectedRows();
-      });
+      self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
+      // gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+      //   $scope.outputopselect = self.gridApi.selection.getSelectedRows();
+      // });
+
     };
     // data GridGiros
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
@@ -133,33 +135,33 @@ angular.module('financieraClienteApp')
         self.years = range;
         self.Vigencia = self.vigenciaActual;
         self.cargarListaGiro(0,'');
-        financieraRequest.get('giro',
-          $.param({
-            query: "Vigencia:"+self.Vigencia,
-            limit: -1
-          })
-        ).then(function (response) {
+        // financieraRequest.get('giro',
+        //   $.param({
+        //     query: "Vigencia:"+self.Vigencia,
+        //     limit: -1
+        //   })
+        // ).then(function (response) {
 
-          if (response.data === null) {
-            self.gridGiros.data = [];
-            self.hayData = false;
-            self.cargando = false;
-          }
-          else {
-            self.hayData = true;
-            self.cargando = false;
-            self.gridGiros.data = response.data;
-            angular.forEach(self.gridGiros.data, function (iterador) {
-              coreRequest.get('sucursal',
-                $.param({
-                  query: "Id:" + iterador.CuentaBancaria.Sucursal,
-                  limit: 1,
-                })).then(function (response) {
-                  iterador.Sucursal = response.data[0];
-                });
-            });
-          }
-        });
+        //   if (response.data === null) {
+        //     self.gridGiros.data = [];
+        //     self.hayData = false;
+        //     self.cargando = false;
+        //   }
+        //   else {
+        //     self.hayData = true;
+        //     self.cargando = false;
+        //     self.gridGiros.data = response.data;
+        //     angular.forEach(self.gridGiros.data, function (iterador) {
+        //       coreRequest.get('sucursal',
+        //         $.param({
+        //           query: "Id:" + iterador.CuentaBancaria.Sucursal,
+        //           limit: 1,
+        //         })).then(function (response) {
+        //           iterador.Sucursal = response.data[0];
+        //         });
+        //     });
+        //   }
+        // });
       });
     // dataFilter
     // datos Estados Giros
@@ -186,15 +188,31 @@ angular.module('financieraClienteApp')
       if (inicio !== undefined && fin !== undefined) {
         query = 'rangoinicio='+inicio+"&rangofin="+fin;
       }
-      self.cargarListaGiro(0,"&"+query);
+      self.cargarListaGiro(0, "&" + query);
     };
 
     self.cargarListaGiro = function (offset,query) {
-      if($location.search().vigencia !== undefined){
-        query = '&query=';
-        self.Vigencia = $location.search().vigencia;
-        
+      if($location.search().vigencia !== undefined && $location.search().numero){
+        query = '&query=Consecutivo:'+$location.search().numero;
+        self.Vigencia = $location.search().vigencia; 
       }
+      financieraMidRequest.cancel();
+      self.gridGiros.data = [];
+      self.cargando = true;
+      self.hayData = true;
+      financieraMidRequest.get('giro/ListarGiros/'+self.Vigencia +'&limit='+self.gridGiros.paginationPageSize+'&offset='+offset+query).then(function (response) {
+        if (response.data.Type !== undefined){
+          self.hayData = false;
+          self.cargando = false;
+          self.gridGiros.data = [];
+        }else{
+          console.log(response.data);
+          self.hayData = true;
+          self.cargando = false;
+          self.gridGiros.data = response.data;
+          console.log(response.data);
+        }
+      });      
       
       
     }
