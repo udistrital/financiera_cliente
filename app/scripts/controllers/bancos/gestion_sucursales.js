@@ -80,20 +80,15 @@ angular.module('financieraClienteApp')
     ctrl.Sucursales.enablePaginationControls = true;
     ctrl.Sucursales.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-       //hacer algo al seleccionar
-      });
     };
 
-    financieraMidRequest.get('gestion_sucursales/listar_sucursales','').then(function(response) {
-      if (response.data == null) {
-          //PONER MARCA DE AGUA DE QUE NO HAY
-      } else {
-          ctrl.Sucursales.data = response.data;
-      }
+    ctrl.cargarSucursales = function(){
+      financieraMidRequest.get('gestion_sucursales/listar_sucursales',null).then(function(response) {
+            ctrl.Sucursales.data = response.data;
+      });
+    }
+    ctrl.cargarSucursales();
 
-
-    });
      ctrl.cargarUbicaciones = function(){
        ubicacionesRequest.get('lugar', $.param({
            limit: -1,
@@ -136,6 +131,7 @@ angular.module('financieraClienteApp')
        ctrl.DepartamentoEd = ctrl.sucursal.Departamento;
        ctrl.CiudadEd = ctrl.sucursal.Ciudad;
         $("#modal_editar_sucursal").modal("show");
+        ctrl.request = ctrl.sucursal;
     };
 
     ctrl.mostrar_modal_agregar_sucursal = function(row){
@@ -155,7 +151,7 @@ angular.module('financieraClienteApp')
                   confirmButtonText: $translate.instant('VOLVER'),
               }).then(function() {
                   $('#modal_agregar_sucursal').modal('hide');
-                  $window.location.reload()
+                  ctrl.cargarSucursales();
               })
 
           }
@@ -177,49 +173,62 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.editar_sucursal = function(){
-      console.log(ctrl.sucursal);
-      if(ctrl.sucursal.Pais === null){
+      console.log("request ",ctrl.request);
+      if(ctrl.request.Pais === null){
         if (!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
-          ctrl.sucursal.Pais = {
+          ctrl.request.Pais = {
             Lugar:ctrl.PaisEd.Id
           }
         }
       }else{
+
         if(!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
-          ctrl.sucursal.Pais.UbicacionEnte.Lugar = ctrl.PaisEd.Id;
-          ctrl.sucursal.Pais = ctrl.sucursal.Pais.UbicacionEnte;
+          ctrl.request.Pais.UbicacionEnte.Lugar = ctrl.PaisEd.Id;
+          ctrl.request.Pais = ctrl.request.Pais.UbicacionEnte;
         }
       }
 
-      if(ctrl.sucursal.Departamento === null){
+      if(ctrl.request.Departamento === null){
         if (!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
-          ctrl.sucursal.Departamento = {
+          ctrl.request.Departamento = {
             Lugar:ctrl.DepartamentoEd.Id
           }
         }
       }else{
         if(!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
-          ctrl.sucursal.Departamento.UbicacionEnte.Lugar = ctrl.DepartamentoEd.Id;
-          ctrl.sucursal.Departamento = ctrl.sucursal.Departamento.UbicacionEnte;
+          ctrl.request.Departamento.UbicacionEnte.Lugar = ctrl.DepartamentoEd.Id;
+          ctrl.request.Departamento = ctrl.request.Departamento.UbicacionEnte;
         }
       }
 
 
-      if(ctrl.sucursal.Ciudad === null){
+      if(ctrl.request.Ciudad === null){
         if (!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
-          ctrl.sucursal.Ciudad = {
+          ctrl.request.Ciudad = {
             Lugar:ctrl.CiudadEd.Id
           }
         }
       }else{
         if(!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
-          ctrl.sucursal.Ciudad.UbicacionEnte.Lugar = ctrl.CiudadEd.Id;
-          ctrl.sucursal.Ciudad = ctrl.sucursal.Ciudad.UbicacionEnte;
+          ctrl.request.Ciudad.UbicacionEnte.Lugar = ctrl.CiudadEd.Id;
+          ctrl.request.Ciudad = ctrl.request.Ciudad.UbicacionEnte;
         }
       }
-      financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.sucursal.Organizacion.Ente,ctrl.sucursal).then(function(response){
+      console.log(ctrl.request);
+      financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.request.Organizacion.Ente,ctrl.request).then(function(response){
         console.log(response);
+        if(response.data != null){
+          swal({
+              html: $translate.instant(response.data.Code),
+              type: response.data.Type,
+          }).then(function() {
+          //  if (response.data.Type==="success"){
+          //      $("#modal_editar_sucursal").modal("hide");
+          //      ctrl.cargarSucursales();
+          //  }
+        })
+        }
+
       })
     };
-
   });
