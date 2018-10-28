@@ -200,7 +200,7 @@ angular.module('financieraClienteApp')
       self.gridGiros.data = [];
       self.cargando = true;
       self.hayData = true;
-      financieraMidRequest.get('giro/ListarGiros/'+self.Vigencia +'&limit='+self.gridGiros.paginationPageSize+'&offset='+offset+query).then(function (response) {
+      financieraMidRequest.get('giro/ListarGiros/'+self.Vigencia,'&limit='+self.gridGiros.paginationPageSize+'&offset='+offset+query).then(function (response) {
         if (response.data.Type !== undefined){
           self.hayData = false;
           self.cargando = false;
@@ -245,6 +245,27 @@ angular.module('financieraClienteApp')
       var path = "/homologacion_concepto/actualizar/"
       $location.url(path + row.entity.Id)
     }
+
+
+        $scope.$watch("opGirosViewAll.Vigencia", function() {
+
+                self.cargarListaGiro(0, '');
+                if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+                    //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+
+                    self.fechaInicio = undefined;
+                    self.fechaFin = undefined;
+                }
+                self.fechamin = new Date(
+                    self.Vigencia,
+                    0, 1
+                );
+                self.fechamax = new Date(
+                    self.Vigencia,
+                    12, 0
+                );
+
+        }, true);    
 
     //f
   });
