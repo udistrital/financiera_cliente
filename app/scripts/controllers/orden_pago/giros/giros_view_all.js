@@ -120,7 +120,6 @@ angular.module('financieraClienteApp')
       // gridApi.selection.on.rowSelectionChanged($scope, function (row) {
       //   $scope.outputopselect = self.gridApi.selection.getSelectedRows();
       // });
-
     };
     // data GridGiros
     financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
@@ -206,14 +205,13 @@ angular.module('financieraClienteApp')
           self.cargando = false;
           self.gridGiros.data = [];
         }else{
-          console.log(response.data);
+          //console.log(response.data);
           self.hayData = true;
           self.cargando = false;
           self.gridGiros.data = response.data;
-          console.log(response.data);
+          //console.log(response.data);
         }
       });      
-      
       
     }
     $scope.loadrow = function (row, operacion) {
@@ -246,26 +244,25 @@ angular.module('financieraClienteApp')
       $location.url(path + row.entity.Id)
     }
 
+    $scope.$watch("opGirosViewAll.Vigencia", function() {
 
-        $scope.$watch("opGirosViewAll.Vigencia", function() {
-
-                self.cargarListaGiro(0, '');
-                if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+      self.cargarListaGiro(0, '');
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
                     //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
 
                     self.fechaInicio = undefined;
                     self.fechaFin = undefined;
-                }
-                self.fechamin = new Date(
+                  }
+                  self.fechamin = new Date(
                     self.Vigencia,
                     0, 1
-                );
-                self.fechamax = new Date(
+                    );
+                  self.fechamax = new Date(
                     self.Vigencia,
                     12, 0
-                );
+                    );
 
-        }, true);    
+                }, true);    
 
     //f
   });
