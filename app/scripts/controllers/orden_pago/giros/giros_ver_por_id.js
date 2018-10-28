@@ -148,10 +148,15 @@ angular.module('financieraClienteApp')
       self.FormaPago = self.gridOptions_op_detail.data[0].OrdenPago.FormaPago;
       // data for ordenes
       angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
+        if (iterador.CuentaEspecial.Id == 0) {
+
         self.ValorTotal = self.ValorTotal + iterador.OrdenPago.ValorBase;
+        console.log(iterador);
+        console.log(iterador.CuentaEspecial.Id);
         agoraRequest.get('informacion_proveedor',
           $.param({
-            query: "Id:" + iterador.OrdenPago.RegistroPresupuestal.Beneficiario,
+            query: "Id:" + iterador.OrdenPago.OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.Beneficiario,
+
           })
         ).then(function(response) {
           iterador.Proveedor = response.data[0];
@@ -164,6 +169,8 @@ angular.module('financieraClienteApp')
         ).then(function(response) {
           iterador.OrdenPago.OrdenPagoEstadoOrdenPago = response.data[0].OrdenPagoEstadoOrdenPago;
         })
+        }
+
       })
       // data proveedor
 
