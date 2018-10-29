@@ -15,6 +15,7 @@ angular.module('financieraClienteApp')
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_cuenta_bancaria', estado: true },
+      {clase_color:"borrar",clase_css:"fa fa-trash fa-lg animated-hover",titulo:$translate.instant("BTN.BORRAR"),operacion:"eliminar",estado:true}
 
     ];
 
@@ -185,7 +186,7 @@ angular.module('financieraClienteApp')
         }else{
             ctrl.CuentaContableSeleccionada = row.entity
         }
-      
+
       });
     };
 

@@ -169,11 +169,10 @@ angular.module('financieraClienteApp')
 
           }
       });
+    }
 
-    };
 
     ctrl.editar_sucursal = function(){
-      console.log("request ",ctrl.request);
       if(ctrl.request.Pais === null){
         if (!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
           ctrl.request.Pais = {
@@ -222,13 +221,13 @@ angular.module('financieraClienteApp')
               html: $translate.instant(response.data.Code),
               type: response.data.Type,
           }).then(function() {
-          //  if (response.data.Type==="success"){
-          //      $("#modal_editar_sucursal").modal("hide");
-          //      ctrl.cargarSucursales();
-          //  }
+            if (response.data.Type==="success"){
+                $("#modal_editar_sucursal").modal("hide");
+                ctrl.cargarSucursales();
+            }
         })
         }
 
       })
-    };
+    }
   });

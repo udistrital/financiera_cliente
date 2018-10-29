@@ -164,16 +164,13 @@ angular.module('financieraClienteApp')
               });
 }
 $scope.verAvance = function(row){
-  console.log("info avance ",row);
   financieraMidRequest.get('avance/GetAvanceById',$.param({
     idAvance:row.Avance.Id,
     idAvceLeg:row.Id
   })).then(function(response){
     $scope.solicitud = response.data;
   });
-
   $('#modal_ver').modal('show');
-
 }
 
 
