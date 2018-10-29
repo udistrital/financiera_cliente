@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
+  .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
     var self = this;
     self.giroId = $routeParams.Id;
     //
@@ -127,9 +127,8 @@ angular.module('financieraClienteApp')
       });
     };
     // giros data
-    financieraRequest.get('giro',
+    financieraMidRequest.get('giro/GetGirosById/'+self.giroId,
       $.param({
-        query: "Id:" + self.giroId,
         limit: -1,
       })
     ).then(function(response) {

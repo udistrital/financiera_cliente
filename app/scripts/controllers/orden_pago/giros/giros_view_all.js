@@ -8,12 +8,12 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OpGirosViewAllCtrl', function($scope, financieraRequest, $window, $translate, $location, coreRequest, uiGridConstants) {
+  .controller('OpGirosViewAllCtrl', function ($scope, financieraRequest, financieraMidRequest, gridApiService, $window, $filter, $translate, $location, coreRequest, uiGridConstants) {
     var self = this;
+    self.offset = 0;
     self.selectEstadoGiro = [];
-    self.cargando = true;
+    self.cargando = false;
     self.hayData = true;
-
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
 
-      paginationPageSizes: [10, 20],
+      paginationPageSizes: [10, 20, 30],
       paginationPageSize: 10,
 
       enableFiltering: true,
@@ -34,118 +34,134 @@ angular.module('financieraClienteApp')
       useExternalPagination: false,
 
       columnDefs: [{
-          field: 'Id',
-          visible: false
-        },
-        {
-          field: 'Consecutivo',
-          displayName: $translate.instant('CODIGO'),
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
-        },
-        {
-          field: 'Vigencia',
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado',
-          displayName: $translate.instant('VIGENCIA'),
-        },
-        {
-          field: 'FechaRegistro',
-          width: '10%',
-          cellFilter: "date:'yyyy-MM-dd'",
-          displayName: $translate.instant('FECHA_CREACION'),
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
+        field: 'Id',
+        visible: false
+      },
+      {
+        field: 'Consecutivo',
+        displayName: $translate.instant('CONSECUTIVO'),
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'Vigencia',
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado',
+        displayName: $translate.instant('VIGENCIA'),
+        enableFiltering: false,
+      },
+      {
+        field: 'FechaRegistro',
+        width: '10%',
+        cellFilter: "date:'yyyy-MM-dd'",
+        displayName: $translate.instant('FECHA_CREACION'),
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
 
-        },
-        {
-          field: 'FormaPago.CodigoAbreviacion',
-          displayName: $translate.instant('FORMA_PAGO'),
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
-        },
-        {
-          field: 'ValorTotal',
-          displayName: $translate.instant('VALOR'),
-          width: '10%',
-          cellFilter: 'currency',
-          cellClass: 'input_right',
-          headerCellClass: 'encabezado'
-        },
-        {
-          field: 'CuentaBancaria.NumeroCuenta',
-          displayName: $translate.instant('CUENTA_BANCARIA'),
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
-        },
-        {
-          field: 'Sucursal.Banco.DenominacionBanco',
-          displayName: $translate.instant('BANCO'),
-          width: '20%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado'
-        },
-        {
-          field: 'GiroEstadoGiro[0].EstadoGiro.Nombre',
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado',
-          displayName: $translate.instant('ESTADO'),
-          filter: {
-            //term: 'Elaborado',
-            type: uiGridConstants.filter.SELECT,
-            selectOptions: self.selectEstadoGiro
-          }
-        },
-        {
-          name: $translate.instant('OPERACION'),
-          enableFiltering: false,
-          width: '10%',
-          cellClass: 'input_center',
-          headerCellClass: 'encabezado',
-          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
-        },
+      },
+      {
+        field: 'FormaPago.CodigoAbreviacion',
+        displayName: $translate.instant('FORMA_PAGO'),
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'ValorTotal',
+        displayName: $translate.instant('VALOR'),
+        width: '10%',
+        cellFilter: 'currency',
+        cellClass: 'input_right',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'CuentaBancaria.NumeroCuenta',
+        displayName: $translate.instant('CUENTA_BANCARIA'),
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'Sucursal.Banco.DenominacionBanco',
+        displayName: $translate.instant('BANCO'),
+        width: '20%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'GiroEstadoGiro[0].EstadoGiro.Nombre',
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado',
+        displayName: $translate.instant('ESTADO'),
+        filter: {
+          //term: 'Elaborado',
+          type: uiGridConstants.filter.SELECT,
+          selectOptions: self.selectEstadoGiro
+        }
+      },
+      {
+        name: $translate.instant('OPERACION'),
+        enableFiltering: false,
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado',
+        cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+      },
       ]
     };
     self.gridGiros.multiSelect = true;
     self.gridGiros.enablePaginationControls = true;
-    self.gridGiros.onRegisterApi = function(gridApi) {
+    self.gridGiros.onRegisterApi = function (gridApi) {
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-        $scope.outputopselect = self.gridApi.selection.getSelectedRows();
-      });
+      self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
+      // gridApi.selection.on.rowSelectionChanged($scope, function (row) {
+      //   $scope.outputopselect = self.gridApi.selection.getSelectedRows();
+      // });
     };
     // data GridGiros
-    financieraRequest.get('giro',
-      $.param({
-        limit: -1
-      })
-    ).then(function(response) {
+    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+      .then(function (response) { //error con el success
+        self.vigenciaActual = parseInt(response.data);
+        var dif = self.vigenciaActual - 1995;
+        var range = [];
+        range.push(self.vigenciaActual);
+        for (var i = 1; i < dif; i++) {
+          range.push(self.vigenciaActual - i);
+        }
+        self.years = range;
+        self.Vigencia = self.vigenciaActual;
+        self.cargarListaGiro(0,'');
+        // financieraRequest.get('giro',
+        //   $.param({
+        //     query: "Vigencia:"+self.Vigencia,
+        //     limit: -1
+        //   })
+        // ).then(function (response) {
 
-      if(response.data === null){
-        self.gridGiros.data = [];
-        self.hayData = false;
-        self.cargando = false;
-      }
-      else{
-        self.hayData = true;
-        self.cargando = false;
-      self.gridGiros.data = response.data;
-      angular.forEach(self.gridGiros.data, function(iterador) {
-        coreRequest.get('sucursal',
-          $.param({
-            query: "Id:" + iterador.CuentaBancaria.Sucursal,
-            limit: 1,
-          })).then(function(response) {
-          iterador.Sucursal = response.data[0];
-        })
-      })
-    }
-    })
+        //   if (response.data === null) {
+        //     self.gridGiros.data = [];
+        //     self.hayData = false;
+        //     self.cargando = false;
+        //   }
+        //   else {
+        //     self.hayData = true;
+        //     self.cargando = false;
+        //     self.gridGiros.data = response.data;
+        //     angular.forEach(self.gridGiros.data, function (iterador) {
+        //       coreRequest.get('sucursal',
+        //         $.param({
+        //           query: "Id:" + iterador.CuentaBancaria.Sucursal,
+        //           limit: 1,
+        //         })).then(function (response) {
+        //           iterador.Sucursal = response.data[0];
+        //         });
+        //     });
+        //   }
+        // });
+      });
     // dataFilter
     // datos Estados Giros
     financieraRequest.get("estado_giro",
@@ -154,8 +170,8 @@ angular.module('financieraClienteApp')
         limit: -1,
         order: "asc",
       })
-    ).then(function(response) {
-      angular.forEach(response.data, function(tipo) {
+    ).then(function (response) {
+      angular.forEach(response.data, function (tipo) {
         self.selectEstadoGiro.push({
           value: tipo.Nombre,
           label: tipo.Nombre,
@@ -163,36 +179,90 @@ angular.module('financieraClienteApp')
       });
     });
 
+    self.filtrarListaGiro = function(){
+      self.gridGiros.data = {};
+      var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
+      var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
+      var query = '';
+      if (inicio !== undefined && fin !== undefined) {
+        query = 'rangoinicio='+inicio+"&rangofin="+fin;
+      }
+      self.cargarListaGiro(0, "&" + query);
+    };
 
-    $scope.loadrow = function(row, operacion) {
+    self.cargarListaGiro = function (offset,query) {
+      if($location.search().vigencia !== undefined && $location.search().numero){
+        query = '&query=Consecutivo:'+$location.search().numero;
+        self.Vigencia = $location.search().vigencia; 
+      }
+      financieraMidRequest.cancel();
+      self.gridGiros.data = [];
+      self.cargando = true;
+      self.hayData = true;
+      financieraMidRequest.get('giro/ListarGiros/'+self.Vigencia,'&limit='+self.gridGiros.paginationPageSize+'&offset='+offset+query).then(function (response) {
+        if (response.data.Type !== undefined){
+          self.hayData = false;
+          self.cargando = false;
+          self.gridGiros.data = [];
+        }else{
+          //console.log(response.data);
+          self.hayData = true;
+          self.cargando = false;
+          self.gridGiros.data = response.data;
+          //console.log(response.data);
+        }
+      });      
+      
+    }
+    $scope.loadrow = function (row, operacion) {
       self.operacion = operacion;
       switch (operacion) {
         case "ver":
           self.detalle(row);
-        break;
+          break;
 
         case "otro":
 
-        break;
+          break;
         default:
       }
     };
     // refrescar
-    self.refresh = function() {
+    self.refresh = function () {
       $scope.refresh = true;
-      $timeout(function() {
+      $timeout(function () {
         $scope.refresh = false;
       }, 0);
     };
     //
-    self.detalle = function(row) {
+    self.detalle = function (row) {
       var path = "/orden_pago/giros/ver/"
       $location.url(path + row.entity.Id)
     }
-    self.editar = function(row) {
+    self.editar = function (row) {
       var path = "/homologacion_concepto/actualizar/"
       $location.url(path + row.entity.Id)
     }
+
+    $scope.$watch("opGirosViewAll.Vigencia", function() {
+
+      self.cargarListaGiro(0, '');
+      if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+                    //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+
+                    self.fechaInicio = undefined;
+                    self.fechaFin = undefined;
+                  }
+                  self.fechamin = new Date(
+                    self.Vigencia,
+                    0, 1
+                    );
+                  self.fechamax = new Date(
+                    self.Vigencia,
+                    12, 0
+                    );
+
+                }, true);    
 
     //f
   });
