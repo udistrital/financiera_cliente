@@ -68,6 +68,7 @@ angular.module('financieraClienteApp')
 
         $scope.vista_resumen= 'noresumen' in $attrs;
         $scope.rvdesc='rdesc' in $attrs;
+        $scope.alreadySel = 'alreadySel' in $attrs; 
         $scope.btnsel=('btnselnom' in $attrs)?$scope.btnselnom:$translate.instant('BTN.SELECCIONAR');
 
         /**
@@ -122,6 +123,16 @@ angular.module('financieraClienteApp')
          $scope.showSelected = function(node, $path) {
             $scope.ramasel = $path();
         };
+        self.ComprobarSeleccion = function(){
+          if($scope.alreadySel){
+            if ($scope.cuentasel != null || !angular.isUndefined($scope.cuentasel)) {
+              self.algo_fue_seleccionado=true;
+              self.esconder_botones = true
+              $scope.showc=true;
+            }
+          }
+        }
+        self.ComprobarSeleccion();
 
         $scope.$watch("cuentasel", function() {
           if ($scope.cuentasel === null || angular.isUndefined($scope.cuentasel)) {
