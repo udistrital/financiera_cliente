@@ -94,7 +94,7 @@ angular.module('financieraClienteApp')
         };
 
         self.actualizarListaProductos = function(offset,query){
-            financieraRequest.get('producto/', query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            financieraRequest.get('producto/', 'limit=-1'+ query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
                     self.gridOptionsProductos.data = [];
                 } else {
@@ -103,6 +103,7 @@ angular.module('financieraClienteApp')
             });
         };
         financieraRequest.get("producto/TotalProductos",'').then(function(response){
+          
             self.gridOptionsProductos.totalItems = response.data;
             self.actualizarListaProductos(self.offset, '');
         });

@@ -521,6 +521,9 @@ angular.module('financieraClienteApp')
         $scope.loadrow = function(row, operacion) {
           self.operacion = operacion;
           switch (operacion) {
+            case "otro":
+
+            break;
               case "ver":
                 ctrl.op_detalle(row);
               break;
@@ -561,6 +564,8 @@ angular.module('financieraClienteApp')
             ctrl.row_entity = row.entity;
             ctrl.operacion = operacion;
             switch (operacion) {
+              case "otro":
+                    break;
                 case "deleteOP":
                     ctrl.delete_OPAvance();
                     break;

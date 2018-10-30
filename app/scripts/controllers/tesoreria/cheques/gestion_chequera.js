@@ -87,7 +87,6 @@ angular.module('financieraClienteApp')
           },
           {
             name: $translate.instant('OPCIONES'),
-            width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
             width: '5%'
@@ -334,6 +333,9 @@ angular.module('financieraClienteApp')
                 $scope.estado = $scope.solicitud.Estado ;
                 $scope.informacion = $translate.instant('CHEQUERA')+ ' '+ 'No'+' '+row.entity.Consecutivo;
                 $scope.mostrar_direc = true;
+                break;
+            case "otro":
+
                 break;
             default:
         }

@@ -44,11 +44,13 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.validatenoRowFound = function (item){
+          var retorno;
           if(angular.equals(typeof(item),"string")){
-            return true;
+            retorno = true;
           }else{
-            return false;
+            retorno = false;
           }
+          return retorno
         }
         ctrl.get_solicitudes = function() {
             financieraRequest.get("solicitud_avance", $.param({

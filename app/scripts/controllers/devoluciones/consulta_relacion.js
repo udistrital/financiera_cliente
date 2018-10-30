@@ -151,6 +151,9 @@ angular.module('financieraClienteApp')
     $scope.loadrow = function(row, operacion) {
         $scope.solicitud = row.entity;
         switch (operacion) {
+          case "otro":
+              
+              break;
             case "proceso":
                 $scope.estado = $scope.solicitud.Estado ;
                 $scope.informacion = $translate.instant('RELACION_DEVOLUCION')+ ' '+ 'No'+' '+row.entity.Id;

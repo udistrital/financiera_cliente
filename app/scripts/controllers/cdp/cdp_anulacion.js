@@ -88,15 +88,13 @@ angular.module('financieraClienteApp')
         financieraRequest.get('disponibilidad_apropiacion','limit=-1&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
           self.gridOptions_rubros.data = response.data;
           angular.forEach(self.gridOptions_rubros.data, function(data){
-            if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
-
-            }else{
+            if($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
               $scope.apropiaciones.push(data.Apropiacion.Id);
             }
 
               console.log($scope.apropiaciones);
               console.log(self.cdp.Id);
-              
+
               var rp = {
                 Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                 Apropiacion : data.Apropiacion
@@ -166,10 +164,8 @@ angular.module('financieraClienteApp')
         financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
           self.alerta_anulacion_cdp = response.data;
           angular.forEach(self.alerta_anulacion_cdp, function(data){
-            if (data === "error" || data === "success"){
-
-            }else{
-              self.alerta = self.alerta +"<li>" +data +"</li>";
+            if (data !== "error" || data !== "success"){
+                self.alerta = self.alerta +"<li>" +data +"</li>";
             }
 
 
