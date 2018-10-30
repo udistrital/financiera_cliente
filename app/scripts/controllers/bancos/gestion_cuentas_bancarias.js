@@ -56,9 +56,9 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'EstadoActivo',
-          displayName: $translate.instant('ESTADO'),
+          name: $translate.instant('ESTADO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate:'<div ng-if="row.entity.EstadoActivo">{{"ACTIVO"|translate}}</div><div ng-if="!row.entity.EstadoActivo">{{"INACTIVO"|translate}}</div>',
 
         },
         {
@@ -150,6 +150,9 @@ angular.module('financieraClienteApp')
             case "editar_cuenta_bancaria":
                   ctrl.mostrar_modal_edicion_cuenta_bancaria(row);
                 break;
+            case "eliminar":
+                ctrl.deleteCuentaContable(row.entity);
+                break;
             case "otro":
                 break;
           default:
@@ -167,7 +170,8 @@ angular.module('financieraClienteApp')
 
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
         ctrl.cuentaBancariaEditar = row.entity;
-        ctrl.consultaSuc = financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.cuentaBancariaEditar.Banco.Id).then(function(response){
+        ctrl.banco = ctrl.cuentaBancariaEditar.Banco;
+        ctrl.consultaSuc = financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.banco.Id).then(function(response){
           if (response.data != null) {
               ctrl.sucursales = response.data;
           }
@@ -219,7 +223,9 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_cuentas_contables = function(){
+        ctrl.alreadySel = true;
         ctrl.formPresente = 'cuentas_contables'
+        ctrl.banco = undefined;
     }
 
     ctrl.mostrar_datos_basicos = function(){
@@ -333,6 +339,31 @@ angular.module('financieraClienteApp')
           })
           });
       }
-    };
+    }
+
+    ctrl.deleteCuentaContable = function(row) {
+      swal({
+        title: $translate.instant('BTN.CONFIRMAR'),
+        text: $translate.instant('ELIMINARA') + ' ' + row.NumeroCuenta,
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: $translate.instant('BTN.BORRAR')
+      }).then(function() {
+        row.EstadoActivo = false;
+        row.Sucursal = row.Sucursal.Id;
+        financieraRequest.put('cuenta_bancaria', row.Id,row).then(function(response) {
+                if(response.data.Type==="success"){
+                  $("#modal_editar_cuenta_bancaria").modal("hide");
+                  swal( $translate.instant('ELIMINADO'),
+                    row.NumeroCuenta + ' ' + $translate.instant('FUE_ELIMINADO'),
+                    'success');
+                }else{
+                  swal("Error", $translate.instant(response.data.Code),response.data.Type);
+                }
+          });
+      });
+    }
 
   });

@@ -31,7 +31,8 @@ angular.module('financieraClienteApp')
         noresumen: '@?',
         ramasel: '=?',
         rdesc:"=?",
-        btnselnom: '=?'
+        btnselnom: '=?',
+        alreadysel:'=?'
       },
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html', //url del template de la directiva
       controller: function($scope, $attrs, $translate) {
@@ -68,7 +69,6 @@ angular.module('financieraClienteApp')
 
         $scope.vista_resumen= 'noresumen' in $attrs;
         $scope.rvdesc='rdesc' in $attrs;
-        $scope.alreadySel = 'alreadySel' in $attrs; 
         $scope.btnsel=('btnselnom' in $attrs)?$scope.btnselnom:$translate.instant('BTN.SELECCIONAR');
 
         /**
@@ -86,7 +86,7 @@ angular.module('financieraClienteApp')
             financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
               $scope.arbol = [];
               if (response.data !== null) {
-              
+
                 if (!angular.isUndefined($scope.filtro) && !angular.isUndefined($scope.filtro.CuentaPadre)  && !angular.isUndefined($scope.filtro.CuentaHijo)) {
                   self.cuentaPadre = $scope.filtro.CuentaPadre.Id;
                   self.cuentaHijo = $scope.filtro.CuentaHijo.Id;
@@ -119,15 +119,19 @@ angular.module('financieraClienteApp')
             $scope.ramasel = $path();
         };
         self.ComprobarSeleccion = function(){
-          if($scope.alreadySel){
             if ($scope.cuentasel != null || !angular.isUndefined($scope.cuentasel)) {
               self.algo_fue_seleccionado=true;
               self.esconder_botones = true
               $scope.showc=true;
             }
-          }
+
         }
-        self.ComprobarSeleccion();
+
+        $scope.$watch("alreadysel", function() {
+            if($scope.alreadysel){
+              self.ComprobarSeleccion();
+            }
+        }, true);
 
         $scope.$watch("cuentasel", function() {
           if ($scope.cuentasel === null || angular.isUndefined($scope.cuentasel)) {
