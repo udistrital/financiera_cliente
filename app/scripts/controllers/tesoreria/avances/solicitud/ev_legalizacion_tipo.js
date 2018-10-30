@@ -13,5 +13,4 @@ angular.module('financieraClienteApp')
     ctrl.legalizacion = $localStorage.legalizacion;
     ctrl.tipolegalizacion = $routeParams.tipoAvanceLegalizacion;
     ctrl.ver = $routeParams.ver;
-    console.log("VER ",ctrl.ver);
   });

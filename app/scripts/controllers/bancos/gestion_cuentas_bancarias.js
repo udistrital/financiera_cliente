@@ -8,13 +8,16 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionCuentasBancariasCtrl', function(organizacionRequest, financieraRequest, $scope, $translate, $window,uiGridConstants) {
+  .controller('GestionCuentasBancariasCtrl', function(organizacionRequest, financieraMidRequest,financieraRequest, $scope, $translate, $window,uiGridConstants,$q) {
     var ctrl = this;
 
     ctrl.formPresente = 'datos_basicos';
 
+    $scope.btnagregar=$translate.instant('BTN.AGREGAR');
+
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_cuenta_bancaria', estado: true },
+      {clase_color:"borrar",clase_css:"fa fa-trash fa-lg animated-hover",titulo:$translate.instant("BTN.BORRAR"),operacion:"eliminar",estado:true}
 
     ];
 
@@ -65,7 +68,7 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'Sucursal',
+          field: 'Sucursal.Nombre',
           displayName: $translate.instant('SUCURSAL'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
@@ -135,79 +138,9 @@ angular.module('financieraClienteApp')
 
       });
     };
-
-
-    ctrl.CuentaContable = {
-      paginationPageSizes: [5, 10, 15, 20, 50],
-      paginationPageSize: 5,
-      enableRowSelection: true,
-      enableRowHeaderSelection: false,
-      enableFiltering: true,
-      enableHorizontalScrollbar: 0,
-      enableVerticalScrollbar: 0,
-      useExternalPagination: false,
-      enableSelectAll: false,
-      columnDefs: [{
-          field: 'Id',
-          visible:false,
-
-        },
-        {
-          field: 'Nombre',
-          displayName: $translate.instant('NOMBRE'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-
-        },
-        {
-          field: 'Naturaleza',
-          displayName: $translate.instant('NATURALEZA'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-
-        },
-        {
-          field: 'Codigo',
-          displayName: $translate.instant('CODIGO'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-
-        },
-        ]
-    };
-
-    ctrl.CuentaContable.multiSelect = false;
-    ctrl.CuentaContable.modifierKeysToMultiSelect = false;
-    ctrl.CuentaContable.enablePaginationControls = true;
-    ctrl.CuentaContable.onRegisterApi = function(gridApi) {
-      ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-
-        if(row.isSelected === false){
-          ctrl.CuentaContableSeleccionada = undefined;
-        }else{
-            ctrl.CuentaContableSeleccionada = row.entity
-        }
-
-      });
-    };
-
-
-    financieraRequest.get('cuenta_bancaria', $.param({
+    financieraMidRequest.get('cuentas_bancarias', $.param({
         limit: -1
       })).then(function(response) {
-
-        angular.forEach(response.data, function(data){
-          organizacionRequest.get('organizacion/', $.param({
-              limit: -1,
-              query: "TipoOrganizacion.CodigoAbreviacion:SU,Id:"+data.Sucursal,
-          })).then(function(response) {
-              if (response.data == null) {
-                    data.Sucursal = "No asignado";
-              } else {
-                  data.Sucursal = response.data[0].Nombre;
-              }
-
-          });
-        });
-
         ctrl.CuentasBancarias.data = response.data;
       });
 
@@ -223,34 +156,26 @@ angular.module('financieraClienteApp')
         }
     };
 
+    ctrl.cargar_plan_maestro = function() {
+      financieraRequest.get("plan_cuentas", $.param({
+        query: "PlanMaestro:" + true
+      })).then(function(response) {
+        ctrl.plan_maestro = response.data[0];
+      });
+    };
+    ctrl.cargar_plan_maestro();
 
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
-      organizacionRequest.get('organizacion/', $.param({
-          limit: -1,
-          query: "TipoOrganizacion.CodigoAbreviacion:SU",
-      })).then(function(response) {
-          if (response.data == null) {
-              //PONER MARCA DE AGUA DE QUE NO HAY
-          } else {
-              ctrl.Sucursales.data = response.data;
+        ctrl.cuentaBancariaEditar = row.entity;
+        ctrl.consultaSuc = financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.cuentaBancariaEditar.Banco.Id).then(function(response){
+          if (response.data != null) {
+              ctrl.sucursales = response.data;
           }
-
-      });
-
-        financieraRequest.get('tipo_cuenta_bancaria', $.param({
-            limit: -1
-          })).then(function(response) {
-            ctrl.TipoCuentaBancaria = response.data;
-          });
-
-        financieraRequest.get('cuenta_contable', $.param({
-              limit: -1
-            })).then(function(response) {
-              ctrl.CuentaContable.data = response.data;
-            });
-
-        $("#modal_editar_cuenta_bancaria").modal("show");
-    };
+        });
+        $q.all([ctrl.consultaSuc]).then(function(){
+          $("#modal_editar_cuenta_bancaria").modal("show");
+        });
+    }
 
     ctrl.mostrar_modal_agregar_cuenta_bancaria = function(row){
           financieraRequest.get('tipo_cuenta_bancaria', $.param({
@@ -265,7 +190,6 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_sucursales = function(){
-
       ctrl.SucursalSeleccionada = undefined;
       if(ctrl.agregar_nombre_cuenta_bancaria && ctrl.agregar_numero_cuenta_bancaria && ctrl.selectTipoCuenta){
         organizacionRequest.get('organizacion/', $.param({
@@ -295,35 +219,45 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_cuentas_contables = function(){
-
-      if(ctrl.SucursalSeleccionada === undefined){
-        swal({
-            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
-            type: "error",
-            showCancelButton: false,
-            confirmButtonColor: "#449D44",
-            confirmButtonText: $translate.instant('VOLVER'),
-        })
-      } else{
-        financieraRequest.get('cuenta_contable', $.param({
-              limit: -1
-            })).then(function(response) {
-          ctrl.CuentaContable.data = response.data;
-        });
-
         ctrl.formPresente = 'cuentas_contables'
-
-      }
-
-
-    };
+    }
 
     ctrl.mostrar_datos_basicos = function(){
       ctrl.formPresente = 'datos_basicos'
     };
 
+    ctrl.obtenerSucursales = function(){
+      ctrl.sucursales = [];
+      if(!angular.isUndefined(ctrl.banco)){
+        financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.banco.Id).then(function(response){
+          if (response.data != null) {
+              ctrl.sucursales = response.data;
+          }
+        });
+      }
+    }
+
+    ctrl.consultarListas = function(){
+        organizacionRequest.get('organizacion/', $.param({
+            limit: -1,
+            query: "TipoOrganizacion.CodigoAbreviacion:EB",
+        })).then(function(response) {
+          ctrl.bancos = response.data;
+        });
+
+        financieraRequest.get('tipo_cuenta_bancaria',
+          $.param({
+            limit:'-1'
+          })
+        ).then(function(response){
+          ctrl.TiposCuentaBancaria = response.data;
+        });
+    }
+
+    ctrl.consultarListas();
+
     ctrl.agregar_cuenta_bancaria = function(row){
-      if(ctrl.CuentaContableSeleccionada === undefined){
+      if(ctrl.cuentaBancariaEditar.CuentaContable === undefined){
         swal({
             html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
             type: "error",
@@ -381,7 +315,24 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.editar_cuenta_bancaria = function(row){
-          //alert("editar cuenta_bancaria");
+      if(ctrl.cuentaBancariaEditar.CuentaContable === undefined){
+        swal({
+            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
+            type: "error",
+            showCancelButton: false,
+            confirmButtonColor: "#449D44",
+            confirmButtonText: $translate.instant('VOLVER'),
+        })
+      } else{
+        ctrl.cuentaBancariaEditar.Sucursal = ctrl.cuentaBancariaEditar.Sucursal.Id;
+        financieraRequest.put('cuenta_bancaria', ctrl.cuentaBancariaEditar.Id,ctrl.cuentaBancariaEditar).then(function(response) {
+          swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
+                if(response.data.Type==="success"){
+                    $("#modal_editar_cuenta_bancaria").modal("hide");
+                }
+          })
+          });
+      }
     };
 
   });

@@ -16,6 +16,7 @@ angular.module('financieraClienteApp')
     ctrl.pactoVenta = false;
     ctrl.panel_abierto = "ninguno";
     ctrl.open = false;
+    ctrl.ValorNetoGirar = 0;
     $scope.formulario = {};
     $scope.$watch('actaComprainv.concepto[0]', function(newValue,oldValue) {
                 if (!angular.isUndefined(newValue)) {

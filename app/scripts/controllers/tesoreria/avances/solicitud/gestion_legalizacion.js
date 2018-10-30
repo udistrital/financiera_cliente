@@ -38,7 +38,7 @@ angular.module('financieraClienteApp')
               displayName: $translate.instant('AVANCE_NO'),
               headerCellClass: 'encabezado',
               width: '25%',
-                cellTemplate: '<div class="ngCellText" ><a href="" ng-click="grid.appScope.verAvance(row)">{{row.entity.Avance.Consecutivo}}</a></div>'
+                cellTemplate: '<div class="ngCellText" ><a href="" ng-click="grid.appScope.verAvance(row.entity)">{{row.entity.Avance.Consecutivo}}</a></div>'
           },
           {
               field: 'Legalizacion',
@@ -164,8 +164,13 @@ angular.module('financieraClienteApp')
               });
 }
 $scope.verAvance = function(row){
+  financieraMidRequest.get('avance/GetAvanceById',$.param({
+    idAvance:row.Avance.Id,
+    idAvceLeg:row.Id
+  })).then(function(response){
+    $scope.solicitud = response.data;
+  });
   $('#modal_ver').modal('show');
-
 }
 
 

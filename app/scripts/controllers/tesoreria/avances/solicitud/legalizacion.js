@@ -52,7 +52,7 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Tercero',
+                    field: 'InformacionProveedor.NumDocumento',
                     displayName: $translate.instant('DOCUMENTO') + " " + $translate.instant('TERCERO'),
                     width: '12%',
                     headerCellClass: 'encabezado'
@@ -64,7 +64,7 @@ angular.module('financieraClienteApp')
                     headerCellClass: 'encabezado'
                 },
                 {
-                    field: 'InformacionProveedor[0].NomProveedor',
+                    field: 'InformacionProveedor.NomProveedor',
                     displayName: $translate.instant('NOMBRE'),
                     width: '39%',
                     headerCellClass: 'encabezado'
@@ -545,16 +545,16 @@ angular.module('financieraClienteApp')
                     $location.path('/tesoreria/avances/solicitud/legalizacion_practica_academica');
                     break;
                 case "edit":
-                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
-                    $('#modal_practicas_academicas').modal('show');
-                    break;
+                  $localStorage.legalizacion = row.entity;
+                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+false, '_blank', 'location=yes');
+                  break;
                 case "delete":
                     ctrl.delete_requisito();
                     break;
                 case "look":
                   $localStorage.legalizacion = row.entity;
-                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden, '_blank', 'location=yes');
-                break;
+                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+true, '_blank', 'location=yes');
+                  break;
             }
         };
 
