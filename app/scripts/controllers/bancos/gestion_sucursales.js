@@ -127,11 +127,12 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_modal_edicion_sucursal = function(){
+      ctrl.request = {};
        ctrl.PaisEd =   ctrl.sucursal.Pais;
        ctrl.DepartamentoEd = ctrl.sucursal.Departamento;
        ctrl.CiudadEd = ctrl.sucursal.Ciudad;
+       angular.extend(ctrl.request,ctrl.sucursal);
         $("#modal_editar_sucursal").modal("show");
-        ctrl.request = ctrl.sucursal;
     };
 
     ctrl.mostrar_modal_agregar_sucursal = function(row){
@@ -213,9 +214,7 @@ angular.module('financieraClienteApp')
           ctrl.request.Ciudad = ctrl.request.Ciudad.UbicacionEnte;
         }
       }
-      console.log(ctrl.request);
       financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.request.Organizacion.Ente,ctrl.request).then(function(response){
-        console.log(response);
         if(response.data != null){
           swal({
               html: $translate.instant(response.data.Code),
