@@ -157,7 +157,7 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'InformacionPersonaJuridicaId.Id',
+                    field: 'Identificacion.NumeroIdentificacion',
                     sort: {
                         direction: uiGridConstants.DESC,
                         priority: 1
@@ -219,26 +219,7 @@ angular.module('financieraClienteApp')
             $("#addBanco").modal("show");
         }
         ctrl.cargar_bancos = function (){
-        organizacionRequest.get('organizacion/', $.param({
-            limit: -1,
-            query: "TipoOrganizacion.CodigoAbreviacion:EB",
-        })).then(function(response) {
-
-          angular.forEach(response.data, function(data){
-            financieraRequest.get('informacion_adicional_banco','limit=-1&query=Banco:'+data.Id).then(function(response) {
-              if(typeof(response.data) === "string"){
-                data.CodigoAch = 0
-                data.CodigoSuperintendencia = 0
-                data.IdInformacionAdicional = 0
-              }else{
-                data.CodigoAch = response.data[0].CodigoAch
-                data.CodigoSuperintendencia = response.data[0].CodigoSuperintendencia
-                data.IdInformacionAdicional = response.data[0].Id
-              }
-
-            });
-          });
-
+        financieraMidRequest.get('gestion_sucursales/ListarBancos/',null).then(function(response) {
             ctrl.Bancos.data = response.data;
         });
       }
