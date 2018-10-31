@@ -43,7 +43,7 @@ angular.module('financieraClienteApp')
           headerCellClass: 'encabezado'
         },
         {
-          field: 'OrdenPago.SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
+          field: 'TipoMov',
           width: '8%',
           displayName: $translate.instant('TIPO'),
           cellClass: 'input_center',
@@ -79,27 +79,27 @@ angular.module('financieraClienteApp')
           headerCellClass: 'encabezado'
         },
         {
-          field: 'Proveedor.Tipopersona',
+          field: 'InfoProveedor[0].Tipopersona',
           width: '10%',
           displayName: $translate.instant('TIPO_PERSONA'),
           cellClass: 'input_center',
           headerCellClass: 'encabezado'
         },
         {
-          field: 'Proveedor.NomProveedor',
+          field: 'InfoProveedor[0].NomProveedor',
           displayName: $translate.instant('NOMBRE'),
           cellClass: 'input_center',
           headerCellClass: 'encabezado'
         },
         {
-          field: 'Proveedor.NumDocumento',
+          field: 'InfoProveedor[0].NumDocumento',
           width: '10%',
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
           displayName: $translate.instant('NO_DOCUMENTO')
         },
         {
-          field: 'OrdenPago.ValorBase',
+          field: 'ValorBasePago',
           width: '10%',
           cellFilter: 'currency',
           cellClass: 'input_right',
