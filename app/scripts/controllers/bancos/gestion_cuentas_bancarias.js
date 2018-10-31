@@ -13,6 +13,8 @@ angular.module('financieraClienteApp')
 
     ctrl.formPresente = 'datos_basicos';
 
+    ctrl.cuentaCrear = {};
+
     $scope.btnagregar=$translate.instant('BTN.AGREGAR');
 
     $scope.botones = [
@@ -137,12 +139,17 @@ angular.module('financieraClienteApp')
 
 
       });
-    };
-    financieraMidRequest.get('cuentas_bancarias', $.param({
-        limit: -1
-      })).then(function(response) {
-        ctrl.CuentasBancarias.data = response.data;
-      });
+    }
+
+    ctrl.cargarBancos = function(){
+      financieraMidRequest.get('cuentas_bancarias', $.param({
+          limit: -1
+        })).then(function(response) {
+          ctrl.CuentasBancarias.data = response.data;
+        });
+    }
+
+    ctrl.cargarBancos();
 
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
@@ -169,7 +176,8 @@ angular.module('financieraClienteApp')
     ctrl.cargar_plan_maestro();
 
     ctrl.mostrar_modal_edicion_cuenta_bancaria = function(row){
-        ctrl.cuentaBancariaEditar = row.entity;
+      ctrl.cuentaBancariaEditar = {};
+        angular.extend(ctrl.cuentaBancariaEditar ,row.entity);
         ctrl.banco = ctrl.cuentaBancariaEditar.Banco;
         ctrl.consultaSuc = financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.banco.Id).then(function(response){
           if (response.data != null) {
@@ -177,6 +185,7 @@ angular.module('financieraClienteApp')
           }
         });
         $q.all([ctrl.consultaSuc]).then(function(){
+          ctrl.forma = "editar";
           $("#modal_editar_cuenta_bancaria").modal("show");
         });
     }
@@ -187,10 +196,40 @@ angular.module('financieraClienteApp')
               })).then(function(response) {
                 ctrl.TipoCuentaBancaria = response.data;
               });
-
-
+            ctrl.forma = "crear";
             $("#modal_agregar_cuenta_bancaria").modal("show");
+    };
 
+    ctrl.camposObligatorios = function() {
+      var respuesta;
+      ctrl.MensajesAlerta = '';
+
+      switch (ctrl.forma) {
+          case "editar":
+                $scope.form = $scope.formplanEdit;
+              break;
+          case "crear":
+                $scope.form = $scope.formplanCrear;
+              break;
+        default:
+      }
+
+      if($scope.form.$invalid){
+        angular.forEach($scope.form.$error,function(controles,error){
+          angular.forEach(controles,function(control){
+            control.$setDirty();
+          });
+        });
+        ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
+      }
+
+      if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+        respuesta = true;
+      } else {
+        respuesta =  false;
+      }
+
+      return respuesta;
     };
 
     ctrl.mostrar_sucursales = function(){
@@ -223,6 +262,13 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_cuentas_contables = function(){
+      if(!ctrl.camposObligatorios()){
+        swal({ title:'¡Error!',
+              html:'<ol align="left">'+ctrl.MensajesAlerta+'</ol>',
+              type:'error'
+          });
+        return
+      }
         ctrl.alreadySel = true;
         ctrl.formPresente = 'cuentas_contables'
         ctrl.banco = undefined;
@@ -258,12 +304,20 @@ angular.module('financieraClienteApp')
         ).then(function(response){
           ctrl.TiposCuentaBancaria = response.data;
         });
+
+        financieraRequest.get('unidad_ejecutora', $.param({
+            limit: -1
+        })).then(function(response) {
+            ctrl.unidadesejecutoras = response.data;
+        });
+
     }
 
     ctrl.consultarListas();
 
     ctrl.agregar_cuenta_bancaria = function(row){
-      if(ctrl.cuentaBancariaEditar.CuentaContable === undefined){
+      var templateAlert;
+      if(ctrl.cuentaCrear.CuentaContable === undefined){
         swal({
             html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
             type: "error",
@@ -272,49 +326,27 @@ angular.module('financieraClienteApp')
             confirmButtonText: $translate.instant('VOLVER'),
         })
       } else{
+      ctrl.cuentaCrear.NumeroCuenta  = ctrl.cuentaCrear.NumeroCuenta.toString();
+      ctrl.cuentaCrear.TipoRecurso = {Id: 1};
+      ctrl.cuentaCrear.Saldo = 0;
+      ctrl.cuentaCrear.EstadoActivo = true;
+      ctrl.cuentaCrear.Sucursal = ctrl.cuentaCrear.Sucursal.Id;
 
-        var objeto_tipo_cuenta = JSON.parse(ctrl.selectTipoCuenta)
-
-        var informacion_cuenta_bancaria = {
-          Nombre  :    ctrl.agregar_nombre_cuenta_bancaria,
-          NumeroCuenta  : (ctrl.agregar_numero_cuenta_bancaria).toString(),
-          EstadoActivo  :  Boolean(true),
-          Saldo  : 0,
-          TipoCuentaBancaria : { Id: objeto_tipo_cuenta.Id},
-          TipoRecurso : {Id: 1},
-          Sucursal  : ctrl.SucursalSeleccionada.Id,
-          UnidadEjecutora : {Id: 1},
-          CuentaContable: {Id: ctrl.CuentaContableSeleccionada.Id}
-      }
-
-        financieraRequest.post('cuenta_bancaria', informacion_cuenta_bancaria).then(function(response) {
-
-            if (typeof(response.data) == "object") {
-                swal({
-                    html: $translate.instant('INFORMACION_REG_CORRECTO'),
-                    type: "success",
-                    showCancelButton: false,
-                    confirmButtonColor: "#449D44",
-                    confirmButtonText: $translate.instant('VOLVER'),
-                }).then(function() {
-                    $('#modal_agregar_cuenta_bancaria').modal('hide');
-                    $window.location.reload()
-                })
-
+        financieraRequest.post('cuenta_bancaria',ctrl.cuentaCrear).then(function(response) {
+            if(response.data.Type === "success"){
+              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_CUENTA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.NumeroCuenta + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+              templateAlert = templateAlert + "</table>";
+              ctrl.cargarBancos();
+            }else{
+              templateAlert=$translate.instant(response.data.Code);
             }
-            if (typeof(response.data) == "string") {
-                swal({
-                    html: $translate.instant('INFORMACION_REG_INCORRECTO'),
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#449D44",
-                    confirmButtonText: $translate.instant('VOLVER'),
-                }).then(function() {
-                    $('#modal_agregar_cuenta_bancaria').modal('hide');
-                    $window.location.reload()
-                })
-
-            }
+              swal('',templateAlert,response.data.Type).then(function(){
+                if(response.data.Type === "success"){
+                  $('#modal_agregar_cuenta_bancaria').modal('hide');
+                  ctrl.cargarBancos();
+                }
+              });
         });
 
       }
@@ -334,6 +366,7 @@ angular.module('financieraClienteApp')
         financieraRequest.put('cuenta_bancaria', ctrl.cuentaBancariaEditar.Id,ctrl.cuentaBancariaEditar).then(function(response) {
           swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
                 if(response.data.Type==="success"){
+                    ctrl.cargarBancos();
                     $("#modal_editar_cuenta_bancaria").modal("hide");
                 }
           })
