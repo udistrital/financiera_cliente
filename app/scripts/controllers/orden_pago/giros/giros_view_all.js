@@ -84,12 +84,19 @@ angular.module('financieraClienteApp')
         headerCellClass: 'encabezado'
       },
       {
-        field: 'Sucursal.Banco.DenominacionBanco',
-        displayName: $translate.instant('BANCO'),
-        width: '20%',
+        field: 'Organizacion.Sucursal.Nombre',
+        displayName: $translate.instant('SUCURSAL'),
+        width: '10%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
       },
+      {
+        field: 'Organizacion.Banco.Nombre',
+        displayName: $translate.instant('BANCO'),
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },      
       {
         field: 'GiroEstadoGiro[0].EstadoGiro.Nombre',
         width: '10%',
@@ -134,33 +141,6 @@ angular.module('financieraClienteApp')
         self.years = range;
         self.Vigencia = self.vigenciaActual;
         self.cargarListaGiro(0,'');
-        // financieraRequest.get('giro',
-        //   $.param({
-        //     query: "Vigencia:"+self.Vigencia,
-        //     limit: -1
-        //   })
-        // ).then(function (response) {
-
-        //   if (response.data === null) {
-        //     self.gridGiros.data = [];
-        //     self.hayData = false;
-        //     self.cargando = false;
-        //   }
-        //   else {
-        //     self.hayData = true;
-        //     self.cargando = false;
-        //     self.gridGiros.data = response.data;
-        //     angular.forEach(self.gridGiros.data, function (iterador) {
-        //       coreRequest.get('sucursal',
-        //         $.param({
-        //           query: "Id:" + iterador.CuentaBancaria.Sucursal,
-        //           limit: 1,
-        //         })).then(function (response) {
-        //           iterador.Sucursal = response.data[0];
-        //         });
-        //     });
-        //   }
-        // });
       });
     // dataFilter
     // datos Estados Giros
@@ -209,6 +189,15 @@ angular.module('financieraClienteApp')
           self.hayData = true;
           self.cargando = false;
           self.gridGiros.data = response.data;
+            angular.forEach(self.gridGiros.data, function (iterador) {
+              financieraMidRequest.get('cuentas_bancarias',
+                $.param({
+                  query: "Sucursal:" + iterador.CuentaBancaria.Sucursal,
+                  limit: 1,
+                })).then(function (response) {
+                  iterador.Organizacion = response.data[0];
+                });
+            });          
           //console.log(response.data);
         }
       });      
