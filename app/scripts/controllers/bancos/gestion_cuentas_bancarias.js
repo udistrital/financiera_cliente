@@ -13,7 +13,7 @@ angular.module('financieraClienteApp')
 
     ctrl.formPresente = 'datos_basicos';
 
-    ctrl.cuentaCrear = {};
+
 
     $scope.btnagregar=$translate.instant('BTN.AGREGAR');
 
@@ -191,13 +191,18 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.mostrar_modal_agregar_cuenta_bancaria = function(row){
-          financieraRequest.get('tipo_cuenta_bancaria', $.param({
+          ctrl.getTipoCuenta = financieraRequest.get('tipo_cuenta_bancaria', $.param({
                 limit: -1
               })).then(function(response) {
                 ctrl.TipoCuentaBancaria = response.data;
               });
-            ctrl.forma = "crear";
-            $("#modal_agregar_cuenta_bancaria").modal("show");
+              $q.all([ctrl.getTipoCuenta]).then(function(){
+                ctrl.forma = "crear";
+                ctrl.cuentaCrear = {};
+                ctrl.cuentaCrear.Saldo=0;
+                $("#modal_agregar_cuenta_bancaria").modal("show");
+              });
+
     };
 
     ctrl.camposObligatorios = function() {
@@ -311,6 +316,12 @@ angular.module('financieraClienteApp')
             ctrl.unidadesejecutoras = response.data;
         });
 
+        financieraRequest.get('tipo_recurso', $.param({
+            limit: -1
+        })).then(function(response) {
+            ctrl.tiposRecurso = response.data;
+        });
+
     }
 
     ctrl.consultarListas();
@@ -327,11 +338,9 @@ angular.module('financieraClienteApp')
         })
       } else{
       ctrl.cuentaCrear.NumeroCuenta  = ctrl.cuentaCrear.NumeroCuenta.toString();
-      ctrl.cuentaCrear.TipoRecurso = {Id: 1};
-      ctrl.cuentaCrear.Saldo = 0;
       ctrl.cuentaCrear.EstadoActivo = true;
       ctrl.cuentaCrear.Sucursal = ctrl.cuentaCrear.Sucursal.Id;
-
+      ctrl.alreadySel = false;
         financieraRequest.post('cuenta_bancaria',ctrl.cuentaCrear).then(function(response) {
             if(response.data.Type === "success"){
               templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_CUENTA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
@@ -368,6 +377,7 @@ angular.module('financieraClienteApp')
                 if(response.data.Type==="success"){
                     ctrl.cargarBancos();
                     $("#modal_editar_cuenta_bancaria").modal("hide");
+                    ctrl.alreadySel = false;
                 }
           })
           });
