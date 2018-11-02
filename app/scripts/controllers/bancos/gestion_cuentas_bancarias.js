@@ -203,7 +203,7 @@ angular.module('financieraClienteApp')
                 $("#modal_agregar_cuenta_bancaria").modal("show");
               });
 
-    };
+    }
 
     ctrl.camposObligatorios = function() {
       var respuesta;
@@ -235,35 +235,6 @@ angular.module('financieraClienteApp')
       }
 
       return respuesta;
-    };
-
-    ctrl.mostrar_sucursales = function(){
-      ctrl.SucursalSeleccionada = undefined;
-      if(ctrl.agregar_nombre_cuenta_bancaria && ctrl.agregar_numero_cuenta_bancaria && ctrl.selectTipoCuenta){
-        organizacionRequest.get('organizacion/', $.param({
-            limit: -1,
-            query: "TipoOrganizacion.CodigoAbreviacion:SU",
-        })).then(function(response) {
-            if (response.data == null) {
-                //PONER MARCA DE AGUA DE QUE NO HAY
-            } else {
-                ctrl.Sucursales.data = response.data;
-            }
-
-        });
-
-        ctrl.formPresente = 'sucursales';
-
-      }else{
-        swal({
-            html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
-            type: "error",
-            showCancelButton: false,
-            confirmButtonColor: "#449D44",
-            confirmButtonText: $translate.instant('VOLVER'),
-        })
-      }
-
     };
 
     ctrl.mostrar_cuentas_contables = function(){
@@ -340,7 +311,6 @@ angular.module('financieraClienteApp')
       ctrl.cuentaCrear.NumeroCuenta  = ctrl.cuentaCrear.NumeroCuenta.toString();
       ctrl.cuentaCrear.EstadoActivo = true;
       ctrl.cuentaCrear.Sucursal = ctrl.cuentaCrear.Sucursal.Id;
-      ctrl.alreadySel = false;
         financieraRequest.post('cuenta_bancaria',ctrl.cuentaCrear).then(function(response) {
             if(response.data.Type === "success"){
               templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_CUENTA') + "</th><th>"+$translate.instant('TIPO_CUENTA')+"</th><th>"
@@ -379,7 +349,6 @@ angular.module('financieraClienteApp')
           swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
                 if(response.data.Type==="success"){
                     ctrl.cargarBancos();
-                    ctrl.alreadySel = false;
                     ctrl.initEditar();
                 }
           })
@@ -391,6 +360,7 @@ angular.module('financieraClienteApp')
       ctrl.formPresente = 'datos_basicos';
       ctrl.cuentaCrear = {};
       ctrl.cuentaCrear.Saldo=0;
+      ctrl.alreadySel = false;
       $scope.formplanCrear.$setPristine();
       $("#modal_agregar_cuenta_bancaria").modal("hide");
     }
@@ -399,6 +369,7 @@ angular.module('financieraClienteApp')
       ctrl.formPresente = 'datos_basicos';
       ctrl.cuentaBancariaEditar = {};
       $scope.formplanEdit.$setPristine();
+      ctrl.alreadySel = false;
       $("#modal_editar_cuenta_bancaria").modal("hide");
     }
 
