@@ -167,13 +167,13 @@ angular.module('financieraClienteApp')
               headerCellClass: 'encabezado'
             },
             {
-              field: 'SucursalData[0].Nombre',
+              field: 'Sucursal.Nombre',
               displayName: $translate.instant('SUCURSAL'),
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
             },
             {
-              field: 'SucursalData[0].Banco.DenominacionBanco',
+              field: 'Banco.Nombre',
               displayName: $translate.instant('BANCO'),
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
@@ -185,13 +185,14 @@ angular.module('financieraClienteApp')
           ctrl.gridApi2 = gridApi;
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if (ctrl.gridApi2.selection.getSelectedRows()[0] != undefined) {
-              ctrl.giro.CuentaBancaria = ctrl.gridApi2.selection.getSelectedRows()[0];
+              ctrl.giro.CuentaBancaria = {Id : ctrl.gridApi2.selection.getSelectedRows()[0].Id};
+              console.log("cuentas bancarias", ctrl.giro.CuentaBancaria);
             } else {
               delete ctrl.giro['CuentaBancaria']
             }
           });
         };
-        financieraRequest.get('cuenta_bancaria',
+        financieraMidRequest.get('cuentas_bancarias',
           $.param({
             query: "EstadoActivo:true", //unidad ejecutora entra por usuario logueado
             limit: -1,
@@ -207,15 +208,6 @@ angular.module('financieraClienteApp')
           ctrl.hayData_cb = true;
           ctrl.cargando_cb = false;
           //data sucursal, banco
-          angular.forEach(ctrl.gridOptions_cuenta_bancaria.data, function(iterador) {
-            coreRequest.get('sucursal',
-              $.param({
-                query: "Id:" + iterador.Sucursal,
-                limit: -1,
-              })).then(function(response) {
-              iterador.SucursalData = response.data;
-            })
-          })
         }
         });
         // refrescar

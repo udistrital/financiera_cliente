@@ -105,10 +105,6 @@ angular.module('financieraClienteApp')
           cellClass: 'input_right',
           headerCellClass: 'encabezado',
           displayName: $translate.instant('VALOR'),
-
-          aggregationType: uiGridConstants.aggregationTypes.sum,
-          footerCellFilter: 'currency',
-          footerCellClass: 'input_right'
         },
         {
           field: 'OrdenPago.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
@@ -134,40 +130,29 @@ angular.module('financieraClienteApp')
     ).then(function(response) {
       self.giros = response.data[0];
       // data sucursal y banco
-      coreRequest.get('sucursal',
+      financieraMidRequest.get('cuentas_bancarias',
         $.param({
-          query: "Id:" + self.giros.CuentaBancaria.Sucursal,
-          limit: -1,
+          query: "Sucursal:" + self.giros.CuentaBancaria.Sucursal,
+          limit: 1,
         })).then(function(response) {
-        self.giros.SucursalData = response.data[0];
+        self.giros.Organizacion = response.data[0];
       })
       //
       self.gridOptions_op_detail.data = self.giros.GiroDetalle;
       self.ValorTotal = 0;
+      self.ValorTotalCuentasEspeciales = 0;
       self.FormaPago = self.gridOptions_op_detail.data[0].OrdenPago.FormaPago;
       // data for ordenes
       angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
         if (iterador.CuentaEspecial.Id == 0) {
 
-        self.ValorTotal = self.ValorTotal + iterador.OrdenPago.ValorBase;
+        self.ValorTotal = self.ValorTotal + iterador.ValorBasePago;
         console.log(iterador);
         console.log(iterador.CuentaEspecial.Id);
-        agoraRequest.get('informacion_proveedor',
-          $.param({
-            query: "Id:" + iterador.OrdenPago.OrdenPagoRegistroPresupuestal[0].RegistroPresupuestal.Beneficiario,
-
-          })
-        ).then(function(response) {
-          iterador.Proveedor = response.data[0];
-        });
-        financieraRequest.get('orden_pago',
-          $.param({
-            query: "Id:" + iterador.OrdenPago.Id,
-            limit: 1,
-          })
-        ).then(function(response) {
-          iterador.OrdenPago.OrdenPagoEstadoOrdenPago = response.data[0].OrdenPagoEstadoOrdenPago;
-        })
+        }
+        else {
+          self.ValorTotalCuentasEspeciales = self.ValorTotalCuentasEspeciales + iterador.ValorBasePago;
+          console.log(iterador.CuentaEspecial.Id);  
         }
 
       })
