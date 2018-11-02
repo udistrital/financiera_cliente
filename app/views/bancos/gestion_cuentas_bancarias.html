@@ -20,7 +20,7 @@
   <div id="modal_editar_cuenta_bancaria" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
       <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" ng-click="gestionCuentasBancarias.formPresente = 'datos_basicos'" data-dismiss="modal">&times</button><br>
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" ng-click="gestionCuentasBancarias.initEditar" data-dismiss="modal">&times</button><br>
       </div>
       <div class="modal-body">
         <div class="panel panel-default">
@@ -42,13 +42,27 @@
             </fieldset>
 
             <fieldset class="form-group">
+              <label for="agregarnumerocuentabancaria">{{'SALDO' | translate}}:</label>
+              <input type="text" class="form-control" id="saldo" placeholder="{{SALDO | translate}}" ui-money-mask="0" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.Saldo" required>
+            </fieldset>
+
+            <fieldset class="form-group">
               <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
               <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoCuentaBancaria" ng-options="tcuenta.Nombre for tcuenta in gestionCuentasBancarias.TiposCuentaBancaria track by tcuenta.Id" class="form-control" required>
                 <option  value="">{{'SELECCIONE'|translate}}</option>
               </select>
             </fieldset>
+
           </div>
           <div class="col-md-6">
+
+            <fieldset class="form-group">
+              <label for="agregartipocuenta">{{'TIPO_RECURSO' | translate}}:</label>
+              <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoRecurso" ng-options="i.Nombre for i in gestionCuentasBancarias.tiposRecurso track by i.Id" class="form-control" required>
+                <option  value="">{{'SELECCIONE'|translate}}</option>
+              </select>
+            </fieldset>
+
             <fieldset class="form-group">
               <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
               <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by ip.Id" required ng-show="!ver">
@@ -111,7 +125,7 @@
   <div id="modal_agregar_cuenta_bancaria" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
       <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" ng-click="gestionCuentasBancarias.formPresente = 'datos_basicos'" data-dismiss="modal">&times</button><br>
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" ng-click="gestionCuentasBancarias.initAgregar()">&times</button><br>
       </div>
       <div class="modal-body">
         <div class="panel panel-default">
@@ -120,7 +134,7 @@
           </div>
 
           <div ng-show="gestionCuentasBancarias.formPresente==='datos_basicos'" class="panel-body">
-          <form name="formplanCrear" ng-submit="formplan.$valid">
+          <form name="formplanCrear" ng-submit="formplanCrear.$valid">
             <div class="col-md-6">
             <fieldset class="form-group">
               <label for="agregarnombrecuentabancaria">{{'NOMBRE' | translate}}:</label>
@@ -133,13 +147,28 @@
             </fieldset>
 
             <fieldset class="form-group">
+              <label for="agregarnumerocuentabancaria">{{'SALDO' | translate}}:</label>
+              <input type="text" class="form-control" id="saldo" placeholder="{{SALDO | translate}}" ui-money-mask="0" ng-model="gestionCuentasBancarias.cuentaCrear.Saldo" required>
+            </fieldset>
+
+            <fieldset class="form-group">
               <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
               <select ng-model="gestionCuentasBancarias.cuentaCrear.TipoCuentaBancaria" ng-options="tcuenta.Nombre for tcuenta in gestionCuentasBancarias.TiposCuentaBancaria track by tcuenta.Id" class="form-control" required>
                 <option  value="">{{'SELECCIONE'|translate}}</option>
               </select>
             </fieldset>
+
+
+
           </div>
           <div class="col-md-6">
+
+          <fieldset class="form-group">
+            <label for="agregartiporecurso">{{'TIPO_RECURSO' | translate}}:</label>
+            <select ng-model="gestionCuentasBancarias.cuentaCrear.TipoRecurso" ng-options="i.Nombre for i in gestionCuentasBancarias.tiposRecurso track by i.Id" class="form-control" required>
+              <option  value="">{{'SELECCIONE'|translate}}</option>
+            </select>
+          </fieldset>
 
           <fieldset class="form-group">
             <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>

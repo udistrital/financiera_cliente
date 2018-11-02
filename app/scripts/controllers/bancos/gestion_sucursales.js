@@ -92,7 +92,7 @@ angular.module('financieraClienteApp')
      ctrl.cargarUbicaciones = function(){
        ubicacionesRequest.get('lugar', $.param({
            limit: -1,
-           query: "TipoLugar.NumeroOrden:0",
+           query: "TipoLugar.NumeroOrden:1",
          })).then(function(response) {
            ctrl.Paises = response.data;
          });

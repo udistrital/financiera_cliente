@@ -164,7 +164,7 @@ angular.module('financieraClienteApp')
                     },
                     displayName: $translate.instant('NIT'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '15%'
+                    width: '20%'
                 },
                 {
                     field: 'Nombre',
@@ -184,15 +184,8 @@ angular.module('financieraClienteApp')
                   field: 'CodigoAch',
                   displayName: $translate.instant('CODIGO_ACH'),
                   headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '15%',
+                  width: '20%',
                   cellFilter: "filtro_codigo_ach:row.entity"
-                },
-                {
-                    field: 'Estado',
-                    displayName: $translate.instant('ACTIVO'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '10%',
-                    cellFilter: "filtro_estado_banco:row.entity"
                 },
                 {
                     field: 'Opciones',
