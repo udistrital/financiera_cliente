@@ -356,6 +356,7 @@ angular.module('financieraClienteApp')
                 if(response.data.Type === "success"){
                   $('#modal_agregar_cuenta_bancaria').modal('hide');
                   ctrl.cargarBancos();
+                  ctrl.initAgregar();
                 }
               });
         });
