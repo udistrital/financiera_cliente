@@ -343,8 +343,10 @@ angular.module('financieraClienteApp')
       ctrl.alreadySel = false;
         financieraRequest.post('cuenta_bancaria',ctrl.cuentaCrear).then(function(response) {
             if(response.data.Type === "success"){
-              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_CUENTA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
-              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.NumeroCuenta + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_CUENTA') + "</th><th>"+$translate.instant('TIPO_CUENTA')+"</th><th>"
+              templateAlert = templateAlert + $translate.instant('DETALLE') + "</th>";
+              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.NumeroCuenta + "</td>" + "<td>" + response.data.Body.TipoCuentaBancaria.Nombre + "</td>"
+              templateAlert = templateAlert + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
               templateAlert = templateAlert + "</table>";
               ctrl.cargarBancos();
             }else{
@@ -376,12 +378,27 @@ angular.module('financieraClienteApp')
           swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
                 if(response.data.Type==="success"){
                     ctrl.cargarBancos();
-                    $("#modal_editar_cuenta_bancaria").modal("hide");
                     ctrl.alreadySel = false;
+                    ctrl.initEditar();
                 }
           })
           });
       }
+    }
+
+    ctrl.initAgregar = function(){
+      ctrl.formPresente = 'datos_basicos';
+      ctrl.cuentaCrear = {};
+      ctrl.cuentaCrear.Saldo=0;
+      $scope.formplanCrear.$setPristine();
+      $("#modal_agregar_cuenta_bancaria").modal("hide");
+    }
+
+    ctrl.initEditar = function(){
+      ctrl.formPresente = 'datos_basicos';
+      ctrl.cuentaBancariaEditar = {};
+      $scope.formplanEdit.$setPristine();
+      $("#modal_editar_cuenta_bancaria").modal("hide");
     }
 
     ctrl.deleteCuentaContable = function(row) {
