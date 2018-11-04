@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
+  .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, gridApiService, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
     var self = this;
     self.giroId = $routeParams.Id;
     //
@@ -17,8 +17,8 @@ angular.module('financieraClienteApp')
       enableRowSelection: false,
       enableRowHeaderSelection: false,
 
-      paginationPageSizes: [15, 30, 45],
-      paginationPageSize: null,
+      paginationPageSizes: [10, 30, 50],
+      paginationPageSize: 10,
 
       enableFiltering: true,
       enableSelectAll: true,
@@ -118,17 +118,26 @@ angular.module('financieraClienteApp')
     self.gridOptions_op_detail.enablePaginationControls = true;
     self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-        $scope.outputopselect = row.entity;
-      });
+      self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
+      // gridApi.selection.on.rowSelectionChanged($scope, function(row) {
+      //   $scope.outputopselect = row.entity;
+      // });
     };
+    
+
+    self.cargarListaGiro = function (offset,query) {
+    financieraMidRequest.cancel();
     // giros data
     financieraMidRequest.get('giro/GetGirosById/'+self.giroId,
       $.param({
-        limit: -1,
+        limit: self.gridOptions_op_detail.paginationPageSize,
+        offset: offset,
+        query: query,
       })
     ).then(function(response) {
-      self.giros = response.data[0];
+      self.gridOptions_op_detail.data = response.data;
+      if (self.giros == undefined || self.giros == ''){
+      self.giros = self.gridOptions_op_detail.data[0].Giro;
       // data sucursal y banco
       financieraMidRequest.get('cuentas_bancarias',
         $.param({
@@ -137,8 +146,9 @@ angular.module('financieraClienteApp')
         })).then(function(response) {
         self.giros.Organizacion = response.data[0];
       })
+      }
       //
-      self.gridOptions_op_detail.data = self.giros.GiroDetalle;
+      //self.gridOptions_op_detail.data = self.giros.GiroDetalle;
       self.ValorTotal = 0;
       self.ValorTotalCuentasEspeciales = 0;
       self.FormaPago = self.gridOptions_op_detail.data[0].OrdenPago.FormaPago;
@@ -147,8 +157,8 @@ angular.module('financieraClienteApp')
         if (iterador.CuentaEspecial.Id == 0) {
 
         self.ValorTotal = self.ValorTotal + iterador.ValorBasePago;
-        console.log(iterador);
-        console.log(iterador.CuentaEspecial.Id);
+        // console.log(iterador);
+        // console.log(iterador.CuentaEspecial.Id);
         }
         else {
           self.ValorTotalCuentasEspeciales = self.ValorTotalCuentasEspeciales + iterador.ValorBasePago;
@@ -159,6 +169,9 @@ angular.module('financieraClienteApp')
       // data proveedor
 
 
-    })
+    })      
+    }
+    self.cargarListaGiro(0,'');    
+
     //
   });
