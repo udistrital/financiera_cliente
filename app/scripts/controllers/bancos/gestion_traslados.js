@@ -11,13 +11,14 @@ angular.module('financieraClienteApp')
   .controller('GestionTrasladosCtrl', function(administrativaRequest,financieraRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
     var ctrl = this;
     ctrl.formPresente = 'concepto_a_elegir';
-
+    $scope.concepto=[];
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver_traslado', estado: true },
-      { clase_color: "editar", clase_css: "fa fa-check fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.APROBAR'), operacion: 'aprobar_traslado', estado: true },
-        { clase_color: "editar", clase_css: "fa fa-file fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.GENERAR_ACTA'), operacion: 'generar_acta', estado: true },
+      { clase_color: "proceso", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.PROCESO'), operacion: 'proceso', estado: true },
     ];
 
+    $scope.valorAfectacion=0;
+    $scope.validado = 0;
 
     ctrl.Traslados = {
       paginationPageSizes: [5, 10, 15, 20, 50],
@@ -32,7 +33,7 @@ angular.module('financieraClienteApp')
       columnDefs: [{
           field: 'Id',
           displayName: 'Id',
-
+          visible: false
         },
         {
           field: 'NumeroTraslado',

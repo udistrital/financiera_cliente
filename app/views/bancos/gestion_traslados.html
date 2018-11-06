@@ -43,26 +43,51 @@
       <div class="modal-body">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h3>
+            <h1 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h1>
           </div>
           <br>
+
           <div ng-show="gestionTraslados.formPresente==='concepto_a_elegir'">
-
-            <label>{{'ELEGIR' | translate}} {{'CONCEPTO' | translate}}:</label>
             <br>
-            <div class="row">
-            <div class="col-md-12">
-              <br>
-              <div ui-grid="gestionTraslados.ConceptosTesorales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize  class="myGrid"></div>
-              <br>
-            </div>
-
-            <div align="center">
-
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              <div class="panel-body">
+                <legend class="text-primary" ng-click="ic = !ic" >
+                  {{'CONCEPTOS' | translate}}
+                  <span class="fa fa-plus pull-right" ng-show="!ic"></span>
+                  <span class="fa fa-minus pull-right" ng-show="ic"></span>
+                </legend>
+                <div class="col-md-12" ng-show="!ic">
+                      <arbol-conceptos filtro="" seleccion="concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+                </div>
+                <div class="col-md-12" ng-show="concepto[0]">
+                    <legend class="text-primary" ng-click="c=!c">
+                      {{'CUENTAS_CONTABLES' | translate}}
+                      <span class="fa fa-plus pull-right" ng-show="!c"></span>
+                      <span class="fa fa-minus pull-right" ng-show="c"></span>
+                    </legend class="text-primary">
+                    <div class="panel-body row" ng-show="c">
+                      <div class="col-sm-12">
+                        <div class="panel-body">
+                            <ul class="nav nav-tabs">
+                              <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="gestionTraslados.selected=c.Id" data-toggle="tab">
+                                                  Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+                              </li>
+                            </ul>
+                                            <!-- Tab panes -->
+                            <div class="tab-content">
+                              <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="gestionTraslados.selected==c.Id">
+                                <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="valorAfectacion" editable validatemov="validado">
+                                </movimientos-contables>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
               </div>
 
-          </div>
+            <div align="center">
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+              </div>
           </div>
 
           <div ng-show="gestionTraslados.formPresente==='datos_basicos'" class="panel-body">

@@ -67,7 +67,7 @@
 
                   <fieldset class="form-group">
                     <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-                    <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by ip.Id" required ng-show="!ver">
+                    <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by op.Id" required ng-show="!ver">
                       <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                     </select>
                   </fieldset>
