@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}}</h3>
     </div>
-    <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-selection></div>
+    <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
     <br/>
     <div class="form-horizontal">
       <div class="form-group">
