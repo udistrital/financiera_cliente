@@ -28,89 +28,75 @@
             <h3 class="panel-title">{{ 'EDITAR_CUENTA_BANCARIA' | translate }}</h3>
           </div>
 
-          <div ng-show="gestionCuentasBancarias.formPresente==='datos_basicos'" class="panel-body">
-          <form name="formplanEdit" ng-submit="formplanEdit.$valid">
-            <div class="col-md-6">
-            <fieldset class="form-group">
-              <label for="agregarnombrecuentabancaria">{{'NOMBRE' | translate}}:</label>
-              <input type="text" class="form-control" id="agregar_nombre_cuenta_bancaria" placeholder="{{NOMBRE | translate}}" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.Nombre" required>
-            </fieldset>
+            <div ng-show="gestionCuentasBancarias.formPresente==='datos_basicos'" class="panel-body">
+              <form name="formplanEdit" ng-submit="formplanEdit.$valid">
+                <div class="col-md-6">
+                  <fieldset class="form-group">
+                    <label for="agregarnombrecuentabancaria">{{'NOMBRE' | translate}}:</label>
+                    <input type="text" class="form-control" id="agregar_nombre_cuenta_bancaria" placeholder="{{NOMBRE | translate}}" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.Nombre" required>
+                  </fieldset>
 
-            <fieldset class="form-group">
-              <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
-              <input type="text" class="form-control" id="agregar_numero_cuenta_bancaria" placeholder="{{NUMERO_CUENTA | translate}}" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.NumeroCuenta" required>
-            </fieldset>
+                  <fieldset class="form-group">
+                    <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
+                    <input type="text" class="form-control" id="agregar_numero_cuenta_bancaria" placeholder="{{NUMERO_CUENTA | translate}}" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.NumeroCuenta" required>
+                  </fieldset>
 
-            <fieldset class="form-group">
-              <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
-              <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoCuentaBancaria" ng-options="tcuenta.Nombre for tcuenta in gestionCuentasBancarias.TiposCuentaBancaria track by tcuenta.Id" class="form-control" required>
-                <option  value="">{{'SELECCIONE'|translate}}</option>
-              </select>
-            </fieldset>
+                  <fieldset class="form-group">
+                    <label for="agregartipocuenta">{{'TIPO_CUENTA' | translate}}:</label>
+                    <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoCuentaBancaria" ng-options="tcuenta.Nombre for tcuenta in gestionCuentasBancarias.TiposCuentaBancaria track by tcuenta.Id" class="form-control" required>
+                      <option  value="">{{'SELECCIONE'|translate}}</option>
+                    </select>
+                  </fieldset>
 
-            <fieldset class="form-group">
-              <label for="sucursal" class="control-label">{{'SUCURSAL'|translate}}</label>
-              <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.Sucursal" ng-options="i.Nombre for i in gestionCuentasBancarias.sucursales track by i.Id" class="form-control" required>
-                <option disabled value="">{{'SUCURSAL'|translate}}</option>
-              </select>
-            </fieldset>
+                  <fieldset class="form-group">
+                    <label for="sucursal" class="control-label">{{'SUCURSAL'|translate}}</label>
+                    <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.Sucursal" ng-options="i.Nombre for i in gestionCuentasBancarias.sucursales track by i.Id" class="form-control" required>
+                      <option disabled value="">{{'SUCURSAL'|translate}}</option>
+                    </select>
+                  </fieldset>
 
-          </div>
-          <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
 
-            <fieldset class="form-group">
-              <label for="agregartipocuenta">{{'TIPO_RECURSO' | translate}}:</label>
-              <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoRecurso" ng-options="i.Nombre for i in gestionCuentasBancarias.tiposRecurso track by i.Id" class="form-control" required>
-                <option  value="">{{'SELECCIONE'|translate}}</option>
-              </select>
-            </fieldset>
+                  <fieldset class="form-group">
+                    <label for="agregartipocuenta">{{'TIPO_RECURSO' | translate}}:</label>
+                    <select ng-model="gestionCuentasBancarias.cuentaBancariaEditar.TipoRecurso" ng-options="i.Nombre for i in gestionCuentasBancarias.tiposRecurso track by i.Id" class="form-control" required>
+                      <option  value="">{{'SELECCIONE'|translate}}</option>
+                    </select>
+                  </fieldset>
 
-            <fieldset class="form-group">
-              <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-              <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by ip.Id" required ng-show="!ver">
-                <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
-              </select>
-            </fieldset>
+                  <fieldset class="form-group">
+                    <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
+                    <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by ip.Id" required ng-show="!ver">
+                      <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
+                    </select>
+                  </fieldset>
 
-          <fieldset class="form-group">
-            <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
-            <select ng-model="gestionCuentasBancarias.banco" ng-options="i.Nombre for i in gestionCuentasBancarias.bancos track by i.Id" ng-change= "gestionCuentasBancarias.obtenerSucursales()" class="form-control" required>
-              <option  value="">{{'BANCO'|translate}}</option>
-            </select>
-          </fieldset>
-        </div>
+                  <fieldset class="form-group">
+                    <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
+                    <select ng-model="gestionCuentasBancarias.banco" ng-options="i.Nombre for i in gestionCuentasBancarias.bancos track by i.Id" ng-change= "gestionCuentasBancarias.obtenerSucursales()" class="form-control" required>
+                      <option  value="">{{'BANCO'|translate}}</option>
+                    </select>
+                  </fieldset>
+                </div>
+                <br>
+
+              </form>
+              <div class="col-md-12">
+                <center><button  ng-click='gestionCuentasBancarias.mostrar_cuentas_contables()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
+              </div>
+            </div>
+
+          <div ng-show="gestionCuentasBancarias.formPresente==='cuentas_contables'">
             <br>
-
-          </form>
-          <div class="col-md-12">
-            <center><button  ng-click='gestionCuentasBancarias.mostrar_cuentas_contables()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
-          </div>
-        </div>
-
-        <div ng-show="gestionCuentasBancarias.formPresente==='sucursales'">
-          <br>
-          <label for="agregarsucursal">{{'SUCURSALES' | translate}}:</label>
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.Sucursales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_cuentas_contables()">{{"BTN.SIGUIENTE" | translate}}</button></button>
+            <plan-cuentas filtro="filtro_padre" seleccion="gestionCuentasBancarias.cuentaBancariaEditar.CuentaContable" cuentasel="gestionCuentasBancarias.cuentaBancariaEditar.CuentaContable" recargar="gestionCuentasBancarias.recargar_arbol" planid="gestionCuentasBancarias.plan_maestro.Id" rdesc btnselnom="btnagregar" alreadysel="gestionCuentasBancarias.alreadySel"></plan-cuentas>
+            <div class="col-md-12">
+              <center>
+                  <button class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button>
+                  <button class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.editar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button>
+              </center>
               </div>
-          </div>
-
-        </div>
-
-        <div ng-show="gestionCuentasBancarias.formPresente==='cuentas_contables'">
-          <br>
-          <plan-cuentas filtro="filtro_padre" seleccion="gestionCuentasBancarias.cuentaBancariaEditar.CuentaContable" cuentasel="gestionCuentasBancarias.cuentaBancariaEditar.CuentaContable" recargar="gestionCuentasBancarias.recargar_arbol" planid="gestionCuentasBancarias.plan_maestro.Id" rdesc btnselnom="btnagregar" alreadysel="gestionCuentasBancarias.alreadySel"/>
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.editar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
-          </div>
-        </div>
+            </div>
         </div>
       </div>
     </div>
@@ -179,40 +165,23 @@
               <option  value="">{{'BANCO'|translate}}</option>
             </select>
           </fieldset>
-
         </div>
-
           <br>
           <div class="col-md-12">
             <center><button  ng-click='gestionCuentasBancarias.mostrar_cuentas_contables()' class="btn btn-outline btn-primary">{{'BTN.SIGUIENTE' | translate}}</button></center>
           </div>
           </form>
-
-
-        </div>
-
-        <div ng-show="gestionCuentasBancarias.formPresente==='sucursales'">
-          <br>
-          <label for="agregarsucursal">{{'SUCURSALES' | translate}}:</label>
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionCuentasBancarias.Sucursales" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_cuentas_contables()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
-          </div>
-
         </div>
 
         <div ng-show="gestionCuentasBancarias.formPresente==='cuentas_contables'">
           <br>
-          <plan-cuentas filtro="filtro_padre" cuentasel="gestionCuentasBancarias.cuentaCrear.CuentaContable" recargar="gestionCuentasBancarias.recargar_arbol" planid="gestionCuentasBancarias.plan_maestro.Id" rdesc btnselnom="btnagregar"/>
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.agregar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
+          <plan-cuentas filtro="filtro_padre" cuentasel="gestionCuentasBancarias.cuentaCrear.CuentaContable" recargar="gestionCuentasBancarias.recargar_arbol" planid="gestionCuentasBancarias.plan_maestro.Id" rdesc btnselnom="btnagregar">
+          </plan-cuentas>
+          <div class="col-md-12">
+            <center>
+                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button>
+               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.agregar_cuenta_bancaria()">{{"BTN.SIGUIENTE" | translate}}</button>
+            </center>
           </div>
         </div>
         </div>
