@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window) {
+  .controller('OrdenPagoOpViewAllCtrl', function($scope, financieraRequest, financieraMidRequest, $localStorage, agoraRequest, $location, $translate, uiGridConstants, $window) {
 
     var ctrl = this;
     ctrl.cargando = true;
@@ -30,7 +30,14 @@ angular.module('financieraClienteApp')
     $scope.botones_estados_op = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
       { clase_color: "ver", clase_css: "fa fa-product-hunt fa-lg  faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+      { clase_color: "ver", clase_css: "fa fa-times fa-lg  faa-shake animated-hover", titulo: $translate.instant('ANULAR'), operacion: 'anular', estado: true },
+
     ];
+
+    $scope.botones_estado_anulado = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+
+       ];
 
     $scope.botones_estados_giro = [
          { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
@@ -65,6 +72,10 @@ angular.module('financieraClienteApp')
 
           case "editar":
             ctrl.op_editar(row);
+          break;
+
+          case "anular":
+            ctrl.op_anular(row);
           break;
 
           case "proceso":
@@ -292,7 +303,8 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
            cellTemplate: '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Elaborado\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Aprobado\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Giro-Generado\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estados_giro" fila="row"></btn-registro><center></a>'+
-          '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Elaborado\' && row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Aprobado\' && row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre!=\'Giro-Generado\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estados_op" fila="row"></btn-registro><center></a>'
+          '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Elaborado\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Aprobacion Contable\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Aprobacion Presupuestal\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Enviada\' || row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Radicada\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estados_op" fila="row"></btn-registro><center></a>' +
+          '<center><a ng-if="row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre==\'Anulada\'"> <btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones_estado_anulado" fila="row"></btn-registro><center></a>'
 
         }
       ];
@@ -304,6 +316,51 @@ angular.module('financieraClienteApp')
     }
 
 
+    ctrl.op_anular = function(row) {
+
+      swal({
+          html: $translate.instant('CONFIRMACION_ANULACION_OP') + row.entity.Consecutivo + "?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#449D44",
+          cancelButtonColor: "#C9302C",
+          confirmButtonText: $translate.instant('CONFIRMAR'),
+          cancelButtonText: $translate.instant('CANCELAR'),
+      }).then(function() {
+        var objeto_op = {
+          Id: parseInt(row.entity.Id)
+        }
+
+        financieraMidRequest.post('orden_pago/anulacion_orden_pago/', objeto_op).then(function(response) {
+
+
+
+          if (response.data.Type == "success"){
+            swal({
+                html: $translate.instant('ACTUALIZADO_CORRECTAMENTE'),
+                type: "success",
+                showCancelButton: false,
+                confirmButtonColor: "#449D44",
+                confirmButtonText: $translate.instant('VOLVER'),
+            }).then(function() {
+
+              $window.location.reload()
+            })
+          }else{
+            swal({
+                html: $translate.instant(response.data.Body),
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: "#449D44",
+                confirmButtonText: $translate.instant('VOLVER'),
+            }).then(function() {
+                $window.location.reload()
+            })
+          }
+        });
+      });
+
+    }
 
 
     // data OP
