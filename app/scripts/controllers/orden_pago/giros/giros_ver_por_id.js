@@ -119,9 +119,6 @@ angular.module('financieraClienteApp')
     self.gridOptions_op_detail.onRegisterApi = function(gridApi) {
       self.gridApi = gridApi;
       self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
-      // gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-      //   $scope.outputopselect = row.entity;
-      // });
     };
     
 
@@ -148,28 +145,20 @@ angular.module('financieraClienteApp')
       })
       }
       //
-      //self.gridOptions_op_detail.data = self.giros.GiroDetalle;
       self.ValorTotal = 0;
+      self.ValorTotalOp = 0;
       self.ValorTotalCuentasEspeciales = 0;
       self.FormaPago = self.gridOptions_op_detail.data[0].OrdenPago.FormaPago;
       // data for ordenes
-      angular.forEach(self.gridOptions_op_detail.data, function(iterador) {
-        if (iterador.CuentaEspecial.Id == 0) {
-
-        self.ValorTotal = self.ValorTotal + iterador.ValorBasePago;
-        // console.log(iterador);
-        // console.log(iterador.CuentaEspecial.Id);
-        }
-        else {
-          self.ValorTotalCuentasEspeciales = self.ValorTotalCuentasEspeciales + iterador.ValorBasePago;
-          console.log(iterador.CuentaEspecial.Id);  
-        }
-
-      })
+      financieraMidRequest.get('giro/GetSumGiro/'+self.giroId).then(function(response){
+        self.ValorTotalOp = response.data[0].total_op
+        self.ValorTotalCuentasEspeciales = response.data[0].total_cuentas_especiales;
+        self.ValorTotal = parseInt(self.ValorTotalOp) + parseInt(self.ValorTotalCuentasEspeciales); 
+      });
       // data proveedor
 
 
-    })      
+    });      
     }
     self.cargarListaGiro(0,'');    
 
