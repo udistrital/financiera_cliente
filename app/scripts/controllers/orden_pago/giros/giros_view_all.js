@@ -124,13 +124,10 @@ angular.module('financieraClienteApp')
     self.gridGiros.onRegisterApi = function (gridApi) {
       self.gridApi = gridApi;
       self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
-      // gridApi.selection.on.rowSelectionChanged($scope, function (row) {
-      //   $scope.outputopselect = self.gridApi.selection.getSelectedRows();
-      // });
     };
     // data GridGiros
-    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
-      .then(function (response) { //error con el success
+    financieraRequest.get("orden_pago/FechaActual/2006") 
+      .then(function (response) { 
         self.vigenciaActual = parseInt(response.data);
         var dif = self.vigenciaActual - 1995;
         var range = [];
@@ -185,7 +182,6 @@ angular.module('financieraClienteApp')
           self.cargando = false;
           self.gridGiros.data = [];
         }else{
-          //console.log(response.data);
           self.hayData = true;
           self.cargando = false;
           self.gridGiros.data = response.data;
@@ -198,7 +194,6 @@ angular.module('financieraClienteApp')
                   iterador.Organizacion = response.data[0];
                 });
             });          
-          //console.log(response.data);
         }
       });      
       
@@ -237,7 +232,6 @@ angular.module('financieraClienteApp')
 
       self.cargarListaGiro(0, '');
       if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
-                    //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
 
                     self.fechaInicio = undefined;
                     self.fechaFin = undefined;

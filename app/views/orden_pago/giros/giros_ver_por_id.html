@@ -8,18 +8,21 @@
     <br/>
     <div class="form-horizontal">
       <div class="form-group">
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'AC'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'CH'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'EF'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'ND'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
+        <label ng-show=" girosVerPorId.FormaPago.ValorTotal != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ORDEN_PAGO' | translate}}</label>
         <div class="col-sm-10">
-          <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotal  | currency:"$":2  }}</span>
+          <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotalOp  | currency:"$":2  }}</span>
         </div>
       </div>
       <div class="form-group">
         <label ng-show=" girosVerPorId.ValorTotalCuentasEspeciales != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'IMPUESTOS_DESCUENTOS' | translate}}</label>
         <div class="col-sm-10">
           <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotalCuentasEspeciales  | currency:"$":2  }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label ng-show=" girosVerPorId.ValorTotalCuentasEspeciales != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'GIRO' | translate}}</label>
+        <div class="col-sm-10">
+          <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotal  | currency:"$":2  }}</span>
         </div>
       </div>
     <div class="form-group">
