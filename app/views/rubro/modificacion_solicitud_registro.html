@@ -1,7 +1,7 @@
 <div class="panel panel-primary panel-body">
     <h2 class="page-header" align="center">{{'REGISTRO_SOLICITUD_MODIFICACION_PRES' | translate}}</h2>
     <div class="panel-body">
-        <div class="row" >
+        <div class="row">
             <legend class="text-primary" ng-click="b=!b">
                 {{'DATOS_SOLICITUD_MODIFICACION_PRES' | translate}}
                 <span class="fa fa-plus pull-right" ng-show="b"></span>
@@ -9,47 +9,68 @@
             </legend>
             <div class="col-md-6 col-md-offset-3" ng-show="!b ">
                 <div class="form-group">
-                             <label for="oficio">{{'NO_OFICIO' | translate}}</label>
-                            <br>
-                            <input type="text" name="oficio" ng-model="rubroModificacionSolicitudRegistro.oficio">
-                            <hr>
-                            <label for="oficio">{{'FECHA_OFICIO' | translate}}</label>
-                            <br>
-                            <md-datepicker ng-model="rubroModificacionSolicitudRegistro.fechaOficio" md-placeholder="{{'FECHA_OFICIO' | translate}}"></md-datepicker>
-                             <br>
-                             <hr>
-                            <label for="descripcion">{{'DESCRIPCION' | translate}}</label>
-                            <br>
-                            <textarea name="descripcion" class="form-control" rows="4" cols="40" ng-model="rubroModificacionSolicitudRegistro.descripcion">
+                    <label for="oficio">{{'NO_OFICIO' | translate}}</label>
+                    <br>
+                    <input type="text" name="oficio" ng-model="rubroModificacionSolicitudRegistro.oficio">
+                    <hr>
+                    <label for="oficio">{{'FECHA_OFICIO' | translate}}</label>
+                    <br>
+                    <md-datepicker ng-model="rubroModificacionSolicitudRegistro.fechaOficio" md-placeholder="{{'FECHA_OFICIO' | translate}}"></md-datepicker>
+                    <br>
+                    <hr>
+                    <label for="descripcion">{{'DESCRIPCION' | translate}}</label>
+                    <br>
+                    <textarea name="descripcion" class="form-control" rows="4" cols="40" ng-model="rubroModificacionSolicitudRegistro.descripcion">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             </textarea>
-                            <hr>
+                    <hr>
                 </div>
             </div>
         </div>
-        <div class="row" >
+        <div class="row">
             <legend class="text-primary" ng-click="a=!a">
-                    {{'RUBROS_SOLICITUD_MODIFICACION_PRES' | translate}}
-                    <span class="fa fa-plus pull-right" ng-show="!a"></span>
-                    <span class="fa fa-minus pull-right" ng-show="a"></span>
+                {{'RUBROS_SOLICITUD_MODIFICACION_PRES' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="!a"></span>
+                <span class="fa fa-minus pull-right" ng-show="a"></span>
             </legend>
             <div class="col-md-6" ng-show="a">
                 <ul class="nav nav-tabs">
-                            <li ng-class="{active: rubroModificacionSolicitudRegistro.selected == 1}"><a href ng-click="rubroModificacionSolicitudRegistro.selected=1" data-toggle="tab">
-                                {{"CUENTA_CREDITO" | translate}}</a>
-                            </li>
-                            <li ng-if="rubroModificacionSolicitudRegistro.tipoModificacion.CuentaContraCredito" ng-class="{active: rubroModificacionSolicitudRegistro.selected == 2}"><a href ng-click="rubroModificacionSolicitudRegistro.selected=2" data-toggle="tab">
-                                {{"CUENTA_CONTRA_CREDITO" | translate}}</a>
-                            </li>
-                        </ul>
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==1">
-                               <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botones" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubroCuentaCreditosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
-                            </div>
-                            <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==2">
-                               <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botonesccr" botonespadre="rubroModificacionSolicitudRegistro.botonespadre" recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubrosel" filtro="rubroModificacionSolicitudRegistro.filtro_rubro_contra_credito" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
-                            </div>
-                        </div>
+                    <li ng-class="{active: rubroModificacionSolicitudRegistro.selected == 1}"><a href ng-click="rubroModificacionSolicitudRegistro.selected=1"
+                            data-toggle="tab">
+                            {{"CUENTA_CREDITO" | translate}}</a>
+                    </li>
+                    <li ng-if="rubroModificacionSolicitudRegistro.tipoModificacion.CuentaContraCredito" ng-class="{active: rubroModificacionSolicitudRegistro.selected == 2}"><a
+                            href ng-click="rubroModificacionSolicitudRegistro.selected=2" data-toggle="tab">
+                            {{"CUENTA_CONTRA_CREDITO" | translate}}</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==1">
+                        <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botones" botonespadre="rubroModificacionSolicitudRegistro.botonespadre"
+                            recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubroCuentaCreditosel"
+                            filtro="rubroModificacionSolicitudRegistro.filtro_rubro" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+                    </div>
+                    <div class="tab-pane fade in active" ng-show="rubroModificacionSolicitudRegistro.selected==2">
+                        <apropiacion-consulta botones="rubroModificacionSolicitudRegistro.botonesccr" botonespadre="rubroModificacionSolicitudRegistro.botonespadre"
+                            recargar="rubroModificacionSolicitudRegistro.recarga_arbol" ramasel="false" rubrosel="rubroModificacionSolicitudRegistro.rubrosel"
+                            filtro="rubroModificacionSolicitudRegistro.filtro_rubro_contra_credito" vigencia="rubroModificacionSolicitudRegistro.Vigencia"></apropiacion-consulta>
+                    </div>
+                </div>
 
 
             </div>
@@ -58,34 +79,41 @@
                     <div class="panel panel-heading">
                         <h4 class="text-center panel-title">{{"INFORMACION_RUBROS_MODIFICACION_PRES" | translate}}</h4>
                     </div>
-                    <div >
+                    <div>
                         <div class="form-group">
-                        <label for="rubro">{{'CUENTA_CREDITO' | translate}} : </label>
-                        <br>
-                        <span name="rubro">{{rubroModificacionSolicitudRegistro.rubroCuentaCreditosel.Nombre}} / {{rubroModificacionSolicitudRegistro.rubroCuentaCreditosel.Codigo}}</span>
-                        <hr>
-                        <label for="rubro">{{'SALDO' | translate}} : </label>
-                        <span name="rubro">{{rubroModificacionSolicitudRegistro.rubroCuentaCredito.InfoSaldo.saldo|currency}}</span>
-                        <hr>
-                        <label ng-if="rubroModificacionSolicitudRegistro.rubrosel" for="rubro">{{'CUENTA_CONTRA_CREDITO' | translate}} : </label>
-                        <br>
-                        <span ng-if="rubroModificacionSolicitudRegistro.rubrosel" name="rubro">{{rubroModificacionSolicitudRegistro.rubrosel.Nombre}} / {{rubroModificacionSolicitudRegistro.rubrosel.Codigo}}</span>
-                        <hr ng-if="rubroModificacionSolicitudRegistro.rubrosel">
-                        <label ng-if="rubroModificacionSolicitudRegistro.rubrosel" for="rubro">{{'SALDO' | translate}} : </label>
-                        <span ng-if="rubroModificacionSolicitudRegistro.rubrosel" name="rubro">{{rubroModificacionSolicitudRegistro.rubro.InfoSaldo.saldo|currency}}</span>
-                        <hr ng-if="rubroModificacionSolicitudRegistro.rubrosel">
-                        <label for="unidadejecutora">{{'TIPO_MODIFICACION' | translate}} :</label>
-                        <select class="form-control" ng-model="rubroModificacionSolicitudRegistro.tipoModificacion" ng-options="o as o.Nombre for o in rubroModificacionSolicitudRegistro.tiposModificaciones">
-                        </select>
-                        <hr>
-                        <label for="valor_mod">{{'VALOR' | translate}} : </label>
-                        <br>
-                        <input type="valor_mod" name="valor_mod" class="form-control" ng-model="rubroModificacionSolicitudRegistro.valor" ui-money-mask="0">
-                        <hr>
-                    </div>
-                    <div class="form-group text-center">
-                        <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.agregarRubro()"> {{"AGREGAR" | translate}} </a>
-                    </div>
+                            <label for="rubro">{{'CUENTA_CREDITO' | translate}} : </label>
+                            <br>
+                            <span name="rubro">{{rubroModificacionSolicitudRegistro.rubroCuentaCreditosel.Nombre}} /
+                                {{rubroModificacionSolicitudRegistro.rubroCuentaCreditosel.Codigo}}</span>
+                            <hr>
+                            <label for="rubro">{{'SALDO' | translate}} : </label>
+                            <span name="rubro">{{rubroModificacionSolicitudRegistro.rubroCuentaCredito.InfoSaldo.saldo|currency}}</span>
+                            <hr>
+                            <label ng-if="rubroModificacionSolicitudRegistro.rubrosel" for="rubro">{{'CUENTA_CONTRA_CREDITO'
+                                | translate}} : </label>
+                            <br>
+                            <span ng-if="rubroModificacionSolicitudRegistro.rubrosel" name="rubro">{{rubroModificacionSolicitudRegistro.rubrosel.Nombre}}
+                                / {{rubroModificacionSolicitudRegistro.rubrosel.Codigo}}</span>
+                            <hr ng-if="rubroModificacionSolicitudRegistro.rubrosel">
+                            <label ng-if="rubroModificacionSolicitudRegistro.rubrosel" for="rubro">{{'SALDO' |
+                                translate}} : </label>
+                            <span ng-if="rubroModificacionSolicitudRegistro.rubrosel" name="rubro">{{rubroModificacionSolicitudRegistro.rubro.InfoSaldo.saldo|currency}}</span>
+                            <hr ng-if="rubroModificacionSolicitudRegistro.rubrosel">
+                            <label for="unidadejecutora">{{'TIPO_MODIFICACION' | translate}} :</label>
+                            <select class="form-control" ng-model="rubroModificacionSolicitudRegistro.tipoModificacion"
+                                ng-options="o as o.Nombre for o in rubroModificacionSolicitudRegistro.tiposModificaciones">
+                            </select>
+                            <hr>
+                            <label for="valor_mod">{{'VALOR' | translate}} : </label>
+                            <br>
+                            <input type="valor_mod" name="valor_mod" class="form-control" ng-model="rubroModificacionSolicitudRegistro.valor"
+                                ui-money-mask="0">
+                            <hr>
+                        </div>
+                        <div class="form-group text-center">
+                            <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.agregarRubro()">
+                                {{"AGREGAR" | translate}} </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -102,24 +130,63 @@
                 <label for="CuentaCredito">{{'CUENTA_CREDITO' | translate}} : </label>
                 <span name="CuentaCredito">{{data.CuentaCredito.Nombre}} / {{data.CuentaCredito.Codigo}}</span>
                 <br>
-                <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO' | translate}} : </label>
-                <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  name="CuentaContraCredito">{{data.CuentaContraCredito.Nombre}} / {{data.CuentaContraCredito.Codigo}}</span>
-                <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" >
+                <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO'
+                    | translate}} : </label>
+                <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" name="CuentaContraCredito">{{data.CuentaContraCredito.Nombre}}
+                    / {{data.CuentaContraCredito.Codigo}}</span>
+                <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito">
                 <label for="TipoMov">{{'TIPO_MODIFICACION' | translate}} : </label>
                 <span name="TipoMov">{{data.TipoMovimientoApropiacion.Nombre}}</span>
                 <br>
                 <label for="Valor">{{'VALOR' | translate}} : </label>
                 <span name="Valor">{{data.Valor | currency}}</span>
                 <br>
-                <a type="button" class="btn btn-outline btn-danger" ng-click="rubroModificacionSolicitudRegistro.quitarModificacion($index)"> {{"QUITAR" | translate}} </a>
+                <a type="button" class="btn btn-outline btn-danger" ng-click="rubroModificacionSolicitudRegistro.quitarModificacion($index)">
+                    {{"QUITAR" | translate}} </a>
                 <hr>
             </div>
+            <hr>
+            <div class="panel-body  col-md-6 col-md-offset-3">
+                <div class="panel panel-info panel-body">
+                    <div class="panel panel-heading">
+                        <h4 class="text-center panel-title">{{"COMPROBACION_APROBACION_INICIAL" | translate}}</h4>
+                    </div>
+                    <div>
+                        <center>
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        {{"RUBRO" | translate}}
+                                    </th>
+                                    <th>
+                                        {{'APROPIACION_INICIAL'|translate}}
+                                    </th>
+
+                                </tr>
+                                <tr ng-repeat="(key, value) in rubroModificacionSolicitudRegistro.saldoArbol">
+                                    <td>
+                                        {{key}}
+                                    </td>
+                                    <td>
+                                        {{value | currency}}
+                                    </td>
+                                </tr>
+                            </table>
+                            <label class="text text-info">{{'DIFERENCIA' | translate}} : {{rubroModificacionSolicitudRegistro.Diff | currency}}</label>
+                            <div class="text-center alert alert-danger" ng-if="!rubroModificacionSolicitudRegistro.balanceado">
+                                    {{'E_MODP008' | translate}}
+                            </div>
+                        </center>
+                    </div>
+                </div>
+            </div>
         </div>
-         <div class="form-group text-center" ng-if="rubroModificacionSolicitudRegistro.modificaciones.length != 0 && rubroModificacionSolicitudRegistro.descripcion && rubroModificacionSolicitudRegistro.oficio && rubroModificacionSolicitudRegistro.fechaOficio">
-                <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.registrarModificacion()"> {{"REGISTRAR" | translate}} </a>
-         </div>
-         <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="rubroModificacionSolicitudRegistro.modificaciones.length == 0 || rubroModificacionSolicitudRegistro.descripcion.length == 0 || rubroModificacionSolicitudRegistro.oficio.length == 0 || rubroModificacionSolicitudRegistro.fechaOficio == undefined">
-             {{'E_MODP001' | translate}}
-         </div>
+        <div class="form-group text-center" ng-if="rubroModificacionSolicitudRegistro.modificaciones.length != 0 && rubroModificacionSolicitudRegistro.descripcion && rubroModificacionSolicitudRegistro.oficio && rubroModificacionSolicitudRegistro.fechaOficio && rubroModificacionSolicitudRegistro.balanceado">
+            <a type="button" class="btn btn-outline btn-success" ng-click="rubroModificacionSolicitudRegistro.registrarModificacion()">
+                {{"REGISTRAR" | translate}} </a>
+        </div>
+        <div class="text-center alert alert-danger col-md-6 col-md-offset-3" ng-if="rubroModificacionSolicitudRegistro.modificaciones.length == 0 || rubroModificacionSolicitudRegistro.descripcion.length == 0 || rubroModificacionSolicitudRegistro.oficio.length == 0 || rubroModificacionSolicitudRegistro.fechaOficio == undefined || !rubroModificacionSolicitudRegistro.balanceado">
+            {{'E_MODP001' | translate}}
+        </div>
     </div>
 </div>

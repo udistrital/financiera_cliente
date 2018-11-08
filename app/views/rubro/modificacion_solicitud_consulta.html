@@ -10,8 +10,9 @@
                             <label for="select_vigencia" class="col-form-label">{{'VIGENCIA' | translate}} </label>
                             <br>
                             <!--input type="text" name="select_vigencia" disabled="true" ng-model="modificacionSolicitudConsulta.Vigencia" class="form-control"-->
-                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="modificacionSolicitudConsulta.Vigencia" ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
-                              <option ng-repeat="option in modificacionSolicitudConsulta.years" value="{{option}}">{{option}}</option>
+                            <select class="form-control" name="select_vigencia" id="select_vigencia" ng-model="modificacionSolicitudConsulta.Vigencia"
+                                ng-model-options="{ updateOn: 'default', debounce: { default: 500} }">
+                                <option ng-repeat="option in modificacionSolicitudConsulta.years" value="{{option}}">{{option}}</option>
                             </select>
                         </div>
                         <!-- <div class="col-md-3">
@@ -33,8 +34,8 @@
         </div>
 
         <div ui-grid="modificacionSolicitudConsulta.gridOptions" ui-grid-auto-fit-columns ui-grid-pagination class="myGrid">
-          <div class="watermark" ng-show="!modificacionSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
-          <div class="watermark" ng-show="modificacionSolicitudConsulta.cargando">{{'CARGANDO'| translate}}   <i class="fa fa-spin fa-spinner"></i></div>
+            <div class="watermark" ng-show="!modificacionSolicitudConsulta.hayData">{{'NO_DATA'| translate}}</div>
+            <div class="watermark" ng-show="modificacionSolicitudConsulta.cargando">{{'CARGANDO'| translate}} <i class="fa fa-spin fa-spinner"></i></div>
         </div>
 
     </div>
@@ -47,8 +48,11 @@
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="page-header">{{'REGISTRO_SOLICITUD_MODIFICACION_PRES' | translate}} No. {{modificacionSolicitudConsulta.data.NumeroMovimiento}} de {{modificacionSolicitudConsulta.data.Vigencia}}</h3>
-                <div align="right">{{'FECHA_MOVIMIENTO' | translate}}: {{modificacionSolicitudConsulta.data.FechaMovimiento | date:"yyyy-MM-dd":"UTC"}}</div>
+                <h3 class="page-header">{{'REGISTRO_SOLICITUD_MODIFICACION_PRES' | translate}} No.
+                    {{modificacionSolicitudConsulta.data.NumeroMovimiento}} de
+                    {{modificacionSolicitudConsulta.data.Vigencia}}</h3>
+                <div align="right">{{'FECHA_MOVIMIENTO' | translate}}:
+                    {{modificacionSolicitudConsulta.data.FechaMovimiento | date:"yyyy-MM-dd":"UTC"}}</div>
             </div>
             <div class="panel-body">
                 <h4 class="text-info">{{'DATOS_SOLICITUD_MODIFICACION_PRES' | translate}}</h4>
@@ -77,28 +81,74 @@
                 <hr>
                 <h4 class="text-info">{{'AFECTACION_PRESUPUESTAL' | translate}}</h4>
                 <hr>
-                <div ng-repeat="data in modificacionSolicitudConsulta.data.MovimientoApropiacionDisponibilidadApropiacion track by $index" class="form-group">
+                <div ng-repeat="data in modificacionSolicitudConsulta.data.MovimientoApropiacionDisponibilidadApropiacion track by $index"
+                    class="form-group">
                     <label for="CuentaCredito">{{'CUENTA_CREDITO' | translate}} : </label>
-                    <span name="CuentaCredito">{{data.CuentaCredito.Rubro.Nombre}} / {{data.CuentaCredito.Rubro.Codigo}}</span>
+                    <span name="CuentaCredito">{{data.CuentaCredito.Rubro.Nombre}} /
+                        {{data.CuentaCredito.Rubro.Codigo}}</span>
                     <br>
-                    <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO' | translate}} : </label>
-                    <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito"  name="CuentaContraCredito">{{data.CuentaContraCredito.Rubro.Nombre}} / {{data.CuentaContraCredito.Rubro.Codigo}}</span>
-                    <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" >
+                    <label ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" for="CuentaContraCredito">{{'CUENTA_CONTRA_CREDITO'
+                        | translate}} : </label>
+                    <span ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito" name="CuentaContraCredito">{{data.CuentaContraCredito.Rubro.Nombre}}
+                        / {{data.CuentaContraCredito.Rubro.Codigo}}</span>
+                    <br ng-if="data.TipoMovimientoApropiacion.CuentaContraCredito">
                     <label for="TipoMov">{{'TIPO_MODIFICACION' | translate}} : </label>
                     <span name="TipoMov">{{data.TipoMovimientoApropiacion.Nombre}}</span>
                     <br>
-                    <label ng-if="data.Disponibilidad"  for="Disponibilidad">{{'CDP_NUMERO' | translate}} : </label>
-                    <span ng-if="data.Disponibilidad"  name="Disponibilidad"><a ng-click="modificacionSolicitudConsulta.verDisponibilidad(data.Disponibilidad.NumeroDisponibilidad,data.Disponibilidad.Vigencia)">{{data.Disponibilidad.NumeroDisponibilidad}}</a> de {{data.Disponibilidad.Vigencia}}</span>
-                    <br ng-if="data.Disponibilidad" >
+                    <label ng-if="data.Disponibilidad" for="Disponibilidad">{{'CDP_NUMERO' | translate}} : </label>
+                    <span ng-if="data.Disponibilidad" name="Disponibilidad"><a ng-click="modificacionSolicitudConsulta.verDisponibilidad(data.Disponibilidad.NumeroDisponibilidad,data.Disponibilidad.Vigencia)">{{data.Disponibilidad.NumeroDisponibilidad}}</a>
+                        de {{data.Disponibilidad.Vigencia}}</span>
+                    <br ng-if="data.Disponibilidad">
                     <label for="Valor">{{'VALOR' | translate}} : </label>
                     <span name="Valor">{{data.Valor | currency}}</span>
                     <br>
                     <hr>
                 </div>
-                <center ng-if="modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Id == 1 && modificacionSolicitudConsulta.data.Vigencia ==  modificacionSolicitudConsulta.vigenciaActual">
-                    <button class="btn btn-success btn-outline" ng-click="modificacionSolicitudConsulta.generarModificacion()">{{ 'BTN.APROBAR' | translate }}</button>
-                    <button class="btn btn-danger btn-outline" ng-click="modificacionSolicitudConsulta.rechzarMoidficacion()">{{ 'BTN.RECHAZAR' | translate }}</button>
-                </center>
+                <hr>
+                <div class="panel-body  col-md-6 col-md-offset-3" ng-if="modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Id == 1">
+                    <div class="panel panel-info panel-body">
+                        <div class="panel panel-heading">
+                            <h4 class="text-center panel-title">{{"COMPROBACION_APROBACION_INICIAL" | translate}}</h4>
+                        </div>
+                        <div>
+                            <center>
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            {{"RUBRO" | translate}}
+                                        </th>
+                                        <th>
+                                            {{'APROPIACION_INICIAL'|translate}}
+                                        </th>
+
+                                    </tr>
+                                    <tr ng-repeat="(key, value) in modificacionSolicitudConsulta.saldoArbol">
+                                        <td>
+                                            {{key}}
+                                        </td>
+                                        <td>
+                                            {{value | currency}}
+                                        </td>
+                                    </tr>
+                                </table>
+                                <label class="text text-info">{{'DIFERENCIA' | translate}} :
+                                    {{modificacionSolicitudConsulta.Diff | currency}}</label>
+                                <div class="text-center alert alert-danger" ng-if="!modificacionSolicitudConsulta.balanceado">
+                                    {{'E_MODP008' | translate}}
+                                </div>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-md-offset-3">
+                    <center ng-if="modificacionSolicitudConsulta.balanceado && modificacionSolicitudConsulta.data.EstadoMovimientoApropiacion.Id == 1 && modificacionSolicitudConsulta.data.Vigencia ==  modificacionSolicitudConsulta.vigenciaActual">
+                        <button class="btn btn-success btn-outline" ng-click="modificacionSolicitudConsulta.generarModificacion()">{{
+                            'BTN.APROBAR' | translate }}</button>
+                        <button class="btn btn-danger btn-outline" ng-click="modificacionSolicitudConsulta.rechzarMoidficacion()">{{
+                            'BTN.RECHAZAR' | translate }}</button>
+                    </center>
+                </div>
+
             </div>
         </div>
     </div>
