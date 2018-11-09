@@ -12,17 +12,12 @@ angular.module('financieraClienteApp')
     var ctrl = this;
 
     ctrl.formPresente = 'datos_basicos';
-
-
-
     $scope.btnagregar=$translate.instant('BTN.AGREGAR');
-
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_cuenta_bancaria', estado: true },
       {clase_color:"borrar",clase_css:"fa fa-trash fa-lg animated-hover",titulo:$translate.instant("BTN.BORRAR"),operacion:"eliminar",estado:true}
 
     ];
-
 
     ctrl.CuentasBancarias = {
       paginationPageSizes: [5, 10, 15, 20, 50],
@@ -246,12 +241,15 @@ angular.module('financieraClienteApp')
         return
       }
         ctrl.alreadySel = true;
-        ctrl.formPresente = 'cuentas_contables'
+        ctrl.formPresente = 'cuentas_contables';
         ctrl.banco = undefined;
     }
 
     ctrl.mostrar_datos_basicos = function(){
       ctrl.formPresente = 'datos_basicos'
+      if (ctrl.forma = "editar"){
+        ctrl.banco = ctrl.cuentaBancariaEditar.Banco;
+      }
     };
 
     ctrl.obtenerSucursales = function(){

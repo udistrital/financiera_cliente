@@ -69,7 +69,7 @@ angular.module('financieraClienteApp')
         {
             field: 'Opciones',
             displayName: $translate.instant('OPCIONES'),
-            cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row.entity"></btn-registro><center>',
+            cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
             headerCellClass: 'text-info'
         }
       ]
@@ -115,10 +115,9 @@ angular.module('financieraClienteApp')
 
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
-        ctrl.sucursal = row;
         switch (operacion) {
             case "editar_sucursal":
-                  ctrl.mostrar_modal_edicion_sucursal();
+                  ctrl.mostrar_modal_edicion_sucursal(row);
                 break;
             case "otro":
                 break;
@@ -126,12 +125,11 @@ angular.module('financieraClienteApp')
         }
     };
 
-    ctrl.mostrar_modal_edicion_sucursal = function(){
-      ctrl.request = {};
-       ctrl.PaisEd =   ctrl.sucursal.Pais;
-       ctrl.DepartamentoEd = ctrl.sucursal.Departamento;
-       ctrl.CiudadEd = ctrl.sucursal.Ciudad;
-       angular.extend(ctrl.request,ctrl.sucursal);
+    ctrl.mostrar_modal_edicion_sucursal = function(row){
+       ctrl.request  = angular.copy(row.entity);
+       ctrl.PaisEd =   ctrl.request.Pais;
+       ctrl.DepartamentoEd = ctrl.request.Departamento;
+       ctrl.CiudadEd = ctrl.request.Ciudad;
         $("#modal_editar_sucursal").modal("show");
     };
 
@@ -139,41 +137,38 @@ angular.module('financieraClienteApp')
         $("#modal_agregar_sucursal").modal("show");
     };
 
+    ctrl.reInitCrear = function() {
+      $scope.formCrearSuc.$setPristine();
+      ctrl.sucursalCr = {};
+    }
+
     ctrl.agregar_sucursal = function(row){
-
+      var templateAlert;
       financieraMidRequest.post('gestion_sucursales/insertar_sucursal', ctrl.sucursalCr).then(function(response) {
-
-          if (typeof(response.data) == "object") {
-              swal({
-                  html: $translate.instant('INFORMACION_REG_CORRECTO'),
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
-                  $('#modal_agregar_sucursal').modal('hide');
-                  ctrl.cargarSucursales();
-              })
-
+        console.log(response.data);
+          if(response.data.Type === "success"){
+            templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Nombre + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
+            templateAlert = templateAlert + "</table>";
+          }else{
+            templateAlert=$translate.instant(response.data.Code);
           }
-          if (typeof(response.data) == "string") {
-              swal({
-                  html: $translate.instant('INFORMACION_REG_INCORRECTO'),
-                  type: "error",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
-
-
-              })
-
-          }
+            swal('',templateAlert,response.data.Type).then(function(){
+              if(response.data.Type === "success"){
+                $('#modal_agregar_sucursal').modal('hide');
+                ctrl.cargarSucursales();
+                ctrl.reInitCrear();
+              }
+            });
       });
     }
 
+    ctrl.reinitEditar = function(){
+      $scope.formEditarSuc.$setPristine();
+    }
 
     ctrl.editar_sucursal = function(){
+
       if(ctrl.request.Pais === null){
         if (!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
           ctrl.request.Pais = {
@@ -201,7 +196,6 @@ angular.module('financieraClienteApp')
         }
       }
 
-
       if(ctrl.request.Ciudad === null){
         if (!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
           ctrl.request.Ciudad = {
@@ -214,6 +208,7 @@ angular.module('financieraClienteApp')
           ctrl.request.Ciudad = ctrl.request.Ciudad.UbicacionEnte;
         }
       }
+
       financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.request.Organizacion.Ente,ctrl.request).then(function(response){
         if(response.data != null){
           swal({
@@ -223,10 +218,11 @@ angular.module('financieraClienteApp')
             if (response.data.Type==="success"){
                 $("#modal_editar_sucursal").modal("hide");
                 ctrl.cargarSucursales();
+                ctrl.reinitEditar();
             }
         })
         }
 
-      })
+      });
     }
   });

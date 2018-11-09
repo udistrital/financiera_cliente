@@ -1,183 +1,217 @@
 <div class="panel panel-primary panel-body">
-
   <h3 class="page-header">
         {{"TRASLADOS" | translate}}
   </h3>
-
   <div class="panel-body">
     <div>
       <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
     </div>
     <br>
-
   </div>
-
-  <div class="row">
-    <div align="center">
-        <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_modal_solicitud_traslado()">{{"BTN.SOLICITAR" | translate}}</button></button>
-
+    <div class="row">
+      <div align="center">
+        <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_modal_solicitud_traslado()">{{"BTN.SOLICITAR" | translate}}</button>
       </div>
-  </div>
+    </div>
 
-  <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
+    <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
       <div class="modal-content col-md-offset-2 col-md-8">
-          <div class="modal-header">
-              <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+        <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
           </div>
           <div class="panel panel-default">
-              <div class="panel-heading">
-                  {{'VER_TRASLADO' | translate }}
-              </div>
-              <div class="panel panel-body">
-                  <ver-traslados sol="solicitud" tipos="1"></ver-solicitud>
-              </div>
+            <div class="panel-heading">
+              {{'VER_TRASLADO' | translate }}
+            </div>
+            <div class="panel panel-body">
+              <ver-traslados sol="solicitud" tipos="1"></ver-traslados>
+            </div>
           </div>
+        </div>
       </div>
-  </div>
 
-  <div id="modal_solicitar_traslado" class="modal fade" role="dialog">
-    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
-      <div class="modal-header">
-        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
-      </div>
-      <div class="modal-body">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h1 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h1>
+      <div id="modal_solicitar_traslado" class="modal fade" role="dialog">
+        <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+          <div class="modal-header">
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
           </div>
-          <br>
-
-          <div ng-show="gestionTraslados.formPresente==='concepto_a_elegir'">
-            <br>
-              <div class="panel-body">
-                <legend class="text-primary" ng-click="ic = !ic" >
-                  {{'CONCEPTOS' | translate}}
-                  <span class="fa fa-plus pull-right" ng-show="!ic"></span>
-                  <span class="fa fa-minus pull-right" ng-show="ic"></span>
-                </legend>
-                <div class="col-md-12" ng-show="!ic">
-                      <arbol-conceptos filtro="" seleccion="concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+            <div class="modal-body">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">{{ 'SOLICITUD_TRASLADO' | translate }}</h1>
                 </div>
-                <div class="col-md-12" ng-show="concepto[0]">
+                <br>
+
+                <div ng-show="gestionTraslados.formPresente==='datos_basicos'" class="panel-body">
+                  <div class=panel-body>
+                  <form name="formplan" ng-submit="formplan.$valid">
+                    <fieldset class="form-group">
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="jefe_solicitante" class="control-label">{{"MODO_PAGO" | translate}}</label>
+                          <select ng-model="gestionTraslados.FormaPago" ng-options="i.Nombre for i in gestionTraslados.formaPagos track by i.Id" class="form-control" required>
+                              <option  value="">{{'SELECCIONE'|translate}}</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="dep_destino" class="control-label">{{"TIPO_MONEDA" | translate}}</label>
+                          <select ng-model="gestionTraslados.Subtipo" ng-options="i.Nombre for i in gestionTraslados.tiposMoneda track by i.Id" class="form-control" required>
+                              <option  value="">{{'SELECCIONE'|translate}}</option>
+                            </select>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="descripcion" class="col-sm-3 control-label">{{'TRM' | translate }}:</label>
+                          <input  type="text" ng-model="gestionTraslados.TRM" ui-money-mask="0" class="form-control input_right" required />
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label for="ordenador_gasto" class="control-label">{{"VALOR_USD" | translate}}</label>
+                            <input type="text" class="form-control" ui-money-mask="0" placeholder="{{VALOR | translate}}" ng-model="gestionTraslados.valorUSD" disabled required>
+                          </div>
+                        </div>
+
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="rol_ordenador_gasto" class="control-label">{{"VALOR" | translate}}</label>
+                              <input type="text" class="form-control" ui-money-mask="0" placeholder="{{VALOR | translate}}" ng-model="gestionTraslados.valor" required>
+                            </div>
+                          </div>
+                    </fieldset>
+                    <br>
+                  </form>
+                  </div>
+                  <div  class="panel-footer" align="center">
+                    <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.cuentas_traslado()">{{"BTN.SIGUIENTE" | translate}}</button>
+                  </div>
+                </div>
+
+                <div ng-show="gestionTraslados.formPresente==='cuentas_traslado'" class="panel-body">
+                  <div class="col-md-12">
+                    <legend class="text-primary" ng-click="icg = !icg">
+                      {{'CUENTA_GIRO' | translate}}
+                      <span class="fa fa-plus pull-right" ng-show="icg"></span>
+                      <span class="fa fa-minus pull-right" ng-show="!icg"></span>
+                    </legend>
+                  </div>
+                  <div class="col-md-12" ng-show="!icg">
+                    <div class="col-md-6">
+                      <fieldset class="form-group">
+                        <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
+                        <select ng-model="gestionTraslados.bancoGiro" ng-options="i.Nombre for i in gestionTraslados.bancos track by i.Id" ng-change= "gestionTraslados.obtenerSucursales(1)" class="form-control" required>
+                        <option  value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                      </fieldset>
+
+
+                      <fieldset class="form-group">
+                        <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
+                        <select ng-model="gestionTraslados.cuentaBancaria" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasGiro track by i.Id" class="form-control" required>
+                        <option  value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                      </fieldset>
+                    </div>
+
+                    <div class="col-md-6">
+                      <fieldset class="form-group">
+                        <label for="sucursal" class="control-label">{{'SUCURSAL'|translate}}</label>
+                        <select ng-model="gestionTraslados.SucursalGiro" ng-options="i.Nombre for i in gestionTraslados.sucursalesGiro track by i.Id" ng-change= "gestionTraslados.obtenerCuentasBancarias(1)" class="form-control" required>
+                        <option disabled value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                      </fieldset>
+                    </div>
+                  </div>
+
+                  <div class="col-md-12">
+                    <legend class="text-primary" ng-click="icr = !icr">
+                      {{'CUENTA_RECEPTORA' | translate}}
+                      <span class="fa fa-plus pull-right" ng-show="icr"></span>
+                      <span class="fa fa-minus pull-right" ng-show="!icr"></span>
+                    </legend>
+                  </div>
+                  <div class="panel-body" ng-show="!icr">
+                    <div class="col-md-6">
+                      <fieldset class="form-group">
+                        <label for="banco" class="control-label">{{'BANCO'|translate}}</label>
+                        <select ng-model="gestionTraslados.bancoRecib" ng-options="i.Nombre for i in gestionTraslados.bancos track by i.Id" ng-change= "gestionTraslados.obtenerSucursales(2)" class="form-control" required>
+                        <option  value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                      </fieldset>
+
+
+                      <fieldset class="form-group">
+                        <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
+                        <select ng-model="gestionTraslados.cuentaBancaria" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasRecib track by i.Id" class="form-control" required>
+                        <option  value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                      </fieldset>
+                    </div>
+
+                    <div class="col-md-6">
+                      <fieldset class="form-group">
+                        <label for="sucursal" class="control-label">{{'SUCURSAL'|translate}}</label>
+                        <select ng-model="gestionTraslados.SucursalRecib" ng-options="i.Nombre for i in gestionTraslados.sucursalesRecib track by i.Id" ng-change= "gestionTraslados.obtenerCuentasBancarias(2)" class="form-control" required>
+                          <option disabled value="">{{'SELECCIONE'|translate}}</option>
+                        </select>
+                      </fieldset>
+                    </div>
+                  </div>
+              </div>
+              <div  class="panel-footer" ng-show="gestionTraslados.formPresente==='cuentas_traslado'" align="center">
+                  <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button>
+                  <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_conceptos_tesorales()">{{"BTN.SIGUIENTE" | translate}}</button>
+              </div>
+
+              <div ng-show="gestionTraslados.formPresente==='concepto_a_elegir'">
+                <div class="panel-body">
+                  <legend class="text-primary" ng-click="ic = !ic">
+                    {{'CONCEPTOS' | translate}}
+                    <span class="fa fa-plus pull-right" ng-show="!ic"></span>
+                    <span class="fa fa-minus pull-right" ng-show="ic"></span>
+                  </legend>
+                  <div class="col-md-12" ng-show="!ic">
+                    <arbol-conceptos filtro="" seleccion="concepto[0]" conceptosel="nodo"> </arbol-conceptos>
+                  </div>
+                  <div class="col-md-12" ng-show="concepto[0]">
                     <legend class="text-primary" ng-click="c=!c">
                       {{'CUENTAS_CONTABLES' | translate}}
                       <span class="fa fa-plus pull-right" ng-show="!c"></span>
                       <span class="fa fa-minus pull-right" ng-show="c"></span>
-                    </legend class="text-primary">
+                    </legend>
                     <div class="panel-body row" ng-show="c">
                       <div class="col-sm-12">
                         <div class="panel-body">
-                            <ul class="nav nav-tabs">
-                              <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="gestionTraslados.selected=c.Id" data-toggle="tab">
+                          <ul class="nav nav-tabs">
+                            <li ng-class="{active: selected == c.Id}" ng-repeat="c in concepto"><a href ng-click="gestionTraslados.selected=c.Id" data-toggle="tab">
                                                   Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
-                              </li>
-                            </ul>
-                                            <!-- Tab panes -->
-                            <div class="tab-content">
-                              <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="gestionTraslados.selected==c.Id">
-                                <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="valorAfectacion" editable validatemov="validado">
-                                </movimientos-contables>
-                              </div>
+                            </li>
+                          </ul>
+                          <div class="tab-content">
+                            <div class="tab-pane fade in active" ng-repeat="c in concepto" ng-if="gestionTraslados.selected==c.Id">
+                              <movimientos-contables conceptoid="c.Id" movimientos="c.movimientos" monto="valorAfectacion" editable validatemov="validado">
+                              </movimientos-contables>
                             </div>
                           </div>
                         </div>
+                      </div>
                     </div>
+                  </div>
+                </div>
+                <div  class="panel-footer" align="center">
+                  <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.cuentas_traslado()">{{"BTN.REGRESAR" | translate}}</button>
+                  <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_conceptos_tesorales()">{{"BTN.SIGUIENTE" | translate}}</button>
                 </div>
               </div>
-
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
-          </div>
-
-          <div ng-show="gestionTraslados.formPresente==='datos_basicos'" class="panel-body">
-          <form name="formplan" ng-submit="formplan.$valid">
-            <fieldset class="form-group">
-
-              <div class="row">
-                  <div class="col-md-6">
-                      <label for="jefe_solicitante" class="control-label">{{"MODO_PAGO" | translate}}</label>
-                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.tipo_documento}}</span>
-                  </div>
-
-                  <div class="col-md-6">
-                      <label for="dep_destino" class="control-label">{{"TIPO_MONEDA" | translate}}</label>
-                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.documento}}</span>
-                  </div>
-
-                  <div class="col-md-6">
-                      <label for="jefe_solicitante" class="control-label">{{"TRM" | translate}}</label>
-                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.nombres}}</span>
-                  </div>
-
-                  <div class="col-md-6">
-                      <label for="ordenador_gasto" class="control-label">{{"VALOR_USD" | translate}}</label>
-                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.apellidos}}</span>
-                  </div>
-
-                  <div class="col-md-6">
-                      <label for="rol_ordenador_gasto" class="control-label">{{"VALOR" | translate}}</label>
-                      <span class="form-control">{{d_verTraslados.Traslados.Tercero.direccion}}</span>
-                  </div>
-
-              </div>
-            </fieldset>
-
-            <br>
-
-            <div class="row">
-                <div align="center">
-                    <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_conceptos_tesorales()">{{"BTN.REGRESAR" | translate}}</button></button>
-                     <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_girador()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-                </div>
             </div>
-          </form>
-
-
-        </div>
-
-        <div ng-show="gestionTraslados.formPresente==='banco_girador'">
-          <br>
-          <label for="agregarsucursal">{{'BANCO_GIRADOR' | translate}}:</label>
-
-          <select class="form-control" ng-model="gestionTraslados.selectBanco" required ng-change="gestionTraslados.cargar_cuentas_bancarias()">
-                 <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                 <option ng-repeat="tbanco in gestionTraslados.Bancos"  value="{{tbanco}}">{{tbanco.NombrePerfilEntidad}}</option>
-         </select>
-
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.CuentaBancaria" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_datos_basicos()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_receptor()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
           </div>
-
-        </div>
-
-        <div ng-show="gestionTraslados.formPresente==='banco_receptor'">
-          <br>
-          <label for="agregarcuentacontable">{{'BANCO_RECEPTOR' | translate}}:</label>
-
-          <select class="form-control" ng-model="gestionTraslados.selectBanco" required ng-change="gestionTraslados.cargar_cuentas_bancarias()">
-                 <option selected disabled>{{'SELECCIONE' | translate}}</option>
-                 <option ng-repeat="tbanco in gestionTraslados.Bancos"  value="{{tbanco}}">{{tbanco.NombrePerfilEntidad}}</option>
-         </select>
-
-          <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.CuentaBancaria" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
-
-          <div class="row">
-            <div align="center">
-                <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_banco_girador()">{{"BTN.REGRESAR" | translate}}</button></button>
-               <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.solicitar_traslado()">{{"BTN.SIGUIENTE" | translate}}</button></button>
-              </div>
-          </div>
-        </div>
         </div>
       </div>
     </div>
-
-  </div>
-
-</div>

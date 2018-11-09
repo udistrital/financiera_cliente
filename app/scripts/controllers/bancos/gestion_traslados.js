@@ -8,9 +8,9 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('GestionTrasladosCtrl', function(administrativaRequest,financieraRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route) {
+  .controller('GestionTrasladosCtrl', function(administrativaRequest,financieraRequest,financieraMidRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,organizacionRequest) {
     var ctrl = this;
-    ctrl.formPresente = 'concepto_a_elegir';
+    ctrl.formPresente = 'datos_basicos';
     $scope.concepto=[];
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver_traslado', estado: true },
@@ -169,19 +169,91 @@ angular.module('financieraClienteApp')
           });
     };
 
+    ctrl.consultarListas = function(){
+      financieraRequest.get('forma_pago',
+        $.param({
+          limit: 0
+        })
+      ).then(function(response) {
+        ctrl.formaPagos = response.data;
+      });
+      organizacionRequest.get('organizacion/', $.param({
+          limit: -1,
+          query: "TipoOrganizacion.CodigoAbreviacion:EB",
+      })).then(function(response) {
+        ctrl.bancos = response.data;
+      });
+    }
+
+    ctrl.obtenerSucursales = function(tipo){
+      ctrl.sucursales = [];
+      switch(tipo){
+        case 1:
+          ctrl.banco = ctrl.bancoGiro;
+          ctrl.SucursalRecib = undefined;
+          break;
+        case 2:
+          ctrl.banco = ctrl.bancoRecib;
+          ctrl.SucursalGiro = undefined;
+          break;
+        default:
+        break;
+      }
+      if(!angular.isUndefined(ctrl.banco)){
+        financieraMidRequest.get('gestion_sucursales/ListarSoloSucursalesBanco/'+ctrl.banco.Id).then(function(response){
+          if (response.data != null) {
+            switch(tipo){
+              case 1:
+                ctrl.sucursalesGiro = response.data;
+                break;
+              case 2:
+                ctrl.sucursalesRecib = response.data;
+                break;
+              default:
+              break;
+            }
+
+          }
+        });
+      }
+    }
+
+    ctrl.obtenerCuentasBancarias = function(tipo){
+      switch(tipo){
+        case 1:
+          ctrl.sucursal = ctrl.SucursalGiro;
+          break;
+        case 2:
+          ctrl.sucursal = ctrl.SucursalRecib;
+          break;
+        default:
+        break;
+      }
+      financieraRequest.get('cuenta_bancaria',$.param({
+        query:"Sucursal:"+ctrl.sucursal.Id,
+        limit:-1
+      })).then(function(response){
+        switch(tipo){
+          case 1:
+            ctrl.cuentasBancariasGiro = response.data;
+            break;
+          case 2:
+            ctrl.cuentasBancariasRecib = response.data;
+            break;
+          default:
+          break;
+        }
+      });
+    }
+
+    ctrl.consultarListas();
     ctrl.mostrar_banco_receptor = function(){
       ctrl.formPresente = 'banco_receptor';
     };
 
-    ctrl.mostrar_banco_girador = function(){
-      ctrl.formPresente = 'banco_girador';
+    ctrl.cuentas_traslado = function(){
+      ctrl.formPresente = 'cuentas_traslado';
 
-      administrativaRequest.get('informacion_persona_juridica_tipo_entidad/', $.param({
-          limit: -1,
-          query: "TipoEntidadId:1",
-        })).then(function(response) {
-          ctrl.Bancos = response.data;
-        });
 
     };
 
