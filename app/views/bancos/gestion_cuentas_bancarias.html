@@ -12,7 +12,7 @@
   </div>
 
   <div>
-    <center><button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_modal_agregar_cuenta_bancaria()">{{"AGREGAR_CUENTA_BANCARIA" | translate}}</button></button>
+    <center><button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionCuentasBancarias.mostrar_modal_agregar_cuenta_bancaria()">{{"AGREGAR_CUENTA_BANCARIA" | translate}}</button>
     </center>
   </div>
 
@@ -67,7 +67,7 @@
 
                   <fieldset class="form-group">
                     <label for="unidadejecutora">{{'UNIDAD_EJECUTORA' | translate}}</label>
-                    <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by ip.Id" required ng-show="!ver">
+                    <select class="form-control" ng-model="gestionCuentasBancarias.cuentaBancariaEditar.UnidadEjecutora" ng-options="op as op.Nombre for op in gestionCuentasBancarias.unidadesejecutoras track by op.Id" required ng-show="!ver">
                       <option value="">{{'UNIDAD_EJECUTORA' | translate}}</option>
                     </select>
                   </fieldset>
