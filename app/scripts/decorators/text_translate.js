@@ -119,6 +119,7 @@ var text_es = {
     CONFIRMACION_ACTIVO_TIPO_COMPROBANTE: "¿Desea activar el tipo de comprobante",
     CONFIRMACION_INACTIVO_TIPO_COMPROBANTE: "¿Desea inactivar el tipo de comprobante",
     CONFIRMACION_EDICION_TIPO_COMPROBANTE: "¿Desea editar el tipo de comprobante",
+    CONFIRMACION_ANULACION_OP: "¿Está seguro de querer anular la Orden de pago ",
     CONSECUTIVO: "Consecutivo",
     CONSULTA_APROBACION_INICIAL: "Consulta de Apropiación Inicial",
     CONSULTA_INGRESOS: "Consulta Ingresos",
