@@ -186,7 +186,6 @@ angular.module('financieraClienteApp')
           gridApi.selection.on.rowSelectionChanged($scope, function(row) {
             if (ctrl.gridApi2.selection.getSelectedRows()[0] != undefined) {
               ctrl.giro.CuentaBancaria = {Id : ctrl.gridApi2.selection.getSelectedRows()[0].Id};
-              console.log("cuentas bancarias", ctrl.giro.CuentaBancaria);
             } else {
               delete ctrl.giro['CuentaBancaria']
             }
