@@ -1,8 +1,8 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}} </h2>
+  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}} </h2>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}}</h3>
+      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}}</h3>
     </div>
     <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
     <br/>

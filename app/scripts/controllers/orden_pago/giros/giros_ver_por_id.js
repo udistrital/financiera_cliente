@@ -33,8 +33,8 @@ angular.module('financieraClienteApp')
         },
         {
           field: 'OrdenPago.Consecutivo',
-          displayName: $translate.instant('CODIGO'),
-          width: '7%',
+          displayName: $translate.instant('CONSECUTIVO') + ' ' +$translate.instant('GIRO'),
+          width: '10%',
           sort: {
             direction: 'asc',
             priority: 0
@@ -133,7 +133,7 @@ angular.module('financieraClienteApp')
       })
     ).then(function(response) {
       self.gridOptions_op_detail.data = response.data;
-      if (self.giros == undefined || self.giros == ''){
+      if (self.giros === undefined || self.giros === ''){
       self.giros = self.gridOptions_op_detail.data[0].Giro;
       // data sucursal y banco
       financieraMidRequest.get('cuentas_bancarias',
