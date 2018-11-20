@@ -11,7 +11,12 @@ angular.module('financieraClienteApp')
   .controller('GestionTrasladosCtrl', function(administrativaRequest,financieraRequest,financieraMidRequest,coreRequest, $scope, $translate, uiGridConstants, $location, $route,organizacionRequest) {
     var ctrl = this;
     ctrl.formPresente = 'datos_basicos';
+    $scope.mostrar_direc = false;
     $scope.concepto=[];
+    $scope.estados = [];
+    $scope.estado_select = [];
+    $scope.aristas = [];
+    $scope.estadoclick = {};
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver_traslado', estado: true },
       { clase_color: "proceso", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.PROCESO'), operacion: 'proceso', estado: true },
@@ -54,7 +59,7 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'Estado',
+          field: 'estado',
           displayName: $translate.instant('ESTADO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
@@ -132,20 +137,47 @@ angular.module('financieraClienteApp')
             case "ver_traslado":
                   $('#modal_ver').modal('show');
                 break;
-            case "aprobar_traslado":
-                  ctrl.aprobar_traslado(row);
+            case "proceso":
+                  $scope.mostrar_direc = true;
                 break;
           default:
         }
     };
 
-    ctrl.aprobar_traslado = function(){
-      //alert("aprobar este traslado")
-    };
+    ctrl.cargarEstados = function() {
 
-    ctrl.generar_acta = function(){
-      //alert("generar acta")
-    };
+          financieraRequest.get("estado_cancelacion_inversion", $.param({
+                  sortby: "NumeroOrden",
+                  limit: -1,
+                  order: "asc"
+              }))
+              .then(function(response) {
+                  $scope.estados = [];
+                  $scope.aristas = [];
+                  ctrl.estados = response.data;
+                  angular.forEach(ctrl.estados, function(estado) {
+                      $scope.estados.push({
+                          id: estado.Id,
+                          label: estado.Nombre
+                      });
+                      $scope.estado_select.push({
+                          value: estado.Nombre,
+                          label: estado.Nombre,
+                          estado: estado
+                      });
+                  });
+                  $scope.aristas = [{
+                          from: 1,
+                          to: 2
+                      },
+                      {
+                          from: 1,
+                          to: 3
+                      }
+                  ];
+              });
+    }
+    ctrl.cargarEstados();
 
     ctrl.mostrar_modal_solicitud_traslado = function(){
       $('#modal_solicitar_traslado').modal('show');
@@ -186,15 +218,14 @@ angular.module('financieraClienteApp')
     }
 
     ctrl.obtenerSucursales = function(tipo){
-      ctrl.sucursales = [];
       switch(tipo){
         case 1:
           ctrl.banco = ctrl.bancoGiro;
-          ctrl.SucursalRecib = undefined;
+          ctrl.SucursalGiro = undefined;
           break;
         case 2:
           ctrl.banco = ctrl.bancoRecib;
-          ctrl.SucursalGiro = undefined;
+          ctrl.SucursalRecib = undefined;
           break;
         default:
         break;
@@ -253,8 +284,6 @@ angular.module('financieraClienteApp')
 
     ctrl.cuentas_traslado = function(){
       ctrl.formPresente = 'cuentas_traslado';
-
-
     };
 
     ctrl.solicitar_traslado = function (){

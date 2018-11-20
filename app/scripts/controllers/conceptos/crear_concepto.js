@@ -78,13 +78,6 @@ angular.module('financieraClienteApp')
 
       }
 
-      /*
-      if(self.nuevo_concepto.FechaExpiracion === undefined && $scope.isconcepto){
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
-      }
-      */
-
-
       if($scope.isconcepto){
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
         if(self.tipos_afectacion[i].Ingreso || self.tipos_afectacion[i].Egreso){
@@ -99,7 +92,6 @@ angular.module('financieraClienteApp')
 
       if(self.rubro === undefined){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONAR_RUBRO')+ "</li>";
-
       }
 
 
@@ -141,9 +133,6 @@ angular.module('financieraClienteApp')
             Descripcion: self.nuevo_concepto.Descripcion,
             Clasificador: !($scope.isconcepto)
           }
-          //self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
-          //self.nuevo_concepto.FechaCreacion = new Date();
-          //self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
           var afectacion_concepto = {};
           var afectaciones = [];
           var cuentas = null;
@@ -172,8 +161,8 @@ angular.module('financieraClienteApp')
             Afectaciones: afectaciones,
             Cuentas: cuentas
           };
-
-          financieraRequest.post('tr_concepto', tr_concepto).then(function(response) {
+          console.log("concepto enviado ",tr_concepto);
+          /*financieraRequest.post('tr_concepto', tr_concepto).then(function(response) {
             if (response.data.Type == 'success') {
               swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
               self.recargar = !self.recargar;
@@ -185,7 +174,7 @@ angular.module('financieraClienteApp')
               swal("", $translate.instant(response.data.Code), response.data.Type);
             }
 
-          });
+          });*/
 
         });
 
