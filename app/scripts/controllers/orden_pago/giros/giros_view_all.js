@@ -39,14 +39,21 @@ angular.module('financieraClienteApp')
       },
       {
         field: 'Consecutivo',
-        displayName: $translate.instant('CONSECUTIVO'),
+        displayName: $translate.instant('NUMERO_SELECCION'),
+        width: '10%',
+        cellClass: 'input_center',
+        headerCellClass: 'encabezado'
+      },
+      {
+        field: 'GiroDetalle[0].OrdenPago.Consecutivo',
+        displayName: $translate.instant('CONSECUTIVO') + ' ' + $translate.instant('GIRO'),
         width: '10%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
       },
       {
         field: 'Vigencia',
-        width: '10%',
+        width: '6%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado',
         displayName: $translate.instant('VIGENCIA'),
@@ -64,7 +71,7 @@ angular.module('financieraClienteApp')
       {
         field: 'FormaPago.CodigoAbreviacion',
         displayName: $translate.instant('FORMA_PAGO'),
-        width: '10%',
+        width: '8%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado'
       },
@@ -99,7 +106,7 @@ angular.module('financieraClienteApp')
       },      
       {
         field: 'GiroEstadoGiro[0].EstadoGiro.Nombre',
-        width: '10%',
+        width: '5%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado',
         displayName: $translate.instant('ESTADO'),
@@ -112,7 +119,7 @@ angular.module('financieraClienteApp')
       {
         name: $translate.instant('OPERACION'),
         enableFiltering: false,
-        width: '10%',
+        width: '11%',
         cellClass: 'input_center',
         headerCellClass: 'encabezado',
         cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
