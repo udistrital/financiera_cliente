@@ -316,7 +316,7 @@ angular.module('financieraClienteApp')
          });
          return;
        }
-       ctrl.LegalizacionCompras.TipoAvanceLegalizacion = { Id: 2 };
+       ctrl.LegalizacionCompras.TipoAvanceLegalizacion = { Id: 2};
        request.Avance = { Id: $scope.solicitud.Id };
        if (!angular.isUndefined(ctrl.LegalizacionCompras.TrmFechaCompra)) {
            ctrl.LegalizacionCompras.TrmFechaCompra = parseFloat(ctrl.LegalizacionCompras.TrmFechaCompra);
@@ -326,7 +326,7 @@ angular.module('financieraClienteApp')
          delete data.Id;
          request.Movimientos.push(data);
        });
-       ctrl.LegalizacionCompras.Tercero=ctrl.InformacionProveedor.Id ;
+       ctrl.LegalizacionCompras.Tercero=ctrl.InformacionProveedor.Id + "" ;
        request.AvanceLegalizacionTipo = ctrl.LegalizacionCompras;
        request.Valor = parseFloat(ctrl.LegalizacionCompras.Valor);
        request.ValorLegalizadoAvance = $scope.solicitud.valorLegalizado;

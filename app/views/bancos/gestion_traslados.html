@@ -3,12 +3,14 @@
         {{"TRASLADOS" | translate}}
   </h3>
   <div class="panel-body">
-    <div>
+    <div class="form-group" >
       <div class="mi-grid" id="mi-grid" ui-grid="gestionTraslados.Traslados" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
     </div>
-    <br>
+    <div class="form-group" ng-if="mostrar_direc">
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info="informacion"></proceso>
+    </div>
   </div>
-    <div class="row">
+    <div class="panel-footer">
       <div align="center">
         <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionTraslados.mostrar_modal_solicitud_traslado()">{{"BTN.SOLICITAR" | translate}}</button>
       </div>
@@ -114,7 +116,7 @@
 
                       <fieldset class="form-group">
                         <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
-                        <select ng-model="gestionTraslados.cuentaBancaria" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasGiro track by i.Id" class="form-control" required>
+                        <select ng-model="gestionTraslados.cuentaBancariaGiro" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasGiro track by i.Id" class="form-control" required>
                         <option  value="">{{'SELECCIONE'|translate}}</option>
                       </select>
                       </fieldset>
@@ -149,7 +151,7 @@
 
                       <fieldset class="form-group">
                         <label for="agregarnumerocuentabancaria">{{'NUMERO_CUENTA' | translate}}:</label>
-                        <select ng-model="gestionTraslados.cuentaBancaria" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasRecib track by i.Id" class="form-control" required>
+                        <select ng-model="gestionTraslados.cuentaBancariaRecib" ng-options="i.Nombre for i in gestionTraslados.cuentasBancariasRecib track by i.Id" class="form-control" required>
                         <option  value="">{{'SELECCIONE'|translate}}</option>
                       </select>
                       </fieldset>
