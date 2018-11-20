@@ -42,6 +42,8 @@ angular.module('financieraClienteApp')
     $scope.botones_estados_giro = [
          { clase_color: "editar", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
          { clase_color: "ver", clase_css: "fa fa-glide faa-shake animated-hover", titulo: $translate.instant('GIRO'), operacion: 'giro', estado: true },
+         { clase_color: "ver", clase_css: "fa fa-times fa-lg  faa-shake animated-hover", titulo: $translate.instant('ANULAR'), operacion: 'anular', estado: true },
+
 ];
     //
     ctrl.gridOrdenesDePago = {
@@ -354,7 +356,7 @@ angular.module('financieraClienteApp')
                 confirmButtonColor: "#449D44",
                 confirmButtonText: $translate.instant('VOLVER'),
             }).then(function() {
-                $window.location.reload()
+              
             })
           }
         });
