@@ -135,7 +135,7 @@ angular.module('financieraClienteApp')
             {field: 'Id',     visible: false},
             {
               field: 'Consecutivo',
-              displayName: $translate.instant('CODIGO'),
+              displayName: $translate.instant('ORDEN_DE_PAGO'),
               width: '7%',
               cellClass: 'input_center',
               headerCellClass: 'encabezado'
