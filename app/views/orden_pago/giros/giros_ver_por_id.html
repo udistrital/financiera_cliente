@@ -1,8 +1,8 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}} </h2>
+  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}} </h2>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}}</h3>
+      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}}</h3>
     </div>
     <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
     <br/>
@@ -14,13 +14,13 @@
         </div>
       </div>
       <div class="form-group">
-        <label ng-show=" girosVerPorId.ValorTotalCuentasEspeciales != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'IMPUESTOS_DESCUENTOS' | translate}}</label>
+        <label class="control-label col-sm-2">{{'TOTAL' | translate}} {{'IMPUESTOS_DESCUENTOS' | translate}}</label>
         <div class="col-sm-10">
           <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotalCuentasEspeciales  | currency:"$":2  }}</span>
         </div>
       </div>
       <div class="form-group">
-        <label ng-show=" girosVerPorId.ValorTotalCuentasEspeciales != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'GIRO' | translate}}</label>
+        <label class="control-label col-sm-2">{{'TOTAL' | translate}} {{'GIRO' | translate}}</label>
         <div class="col-sm-10">
           <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotal  | currency:"$":2  }}</span>
         </div>

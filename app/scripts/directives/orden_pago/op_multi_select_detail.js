@@ -264,7 +264,7 @@ angular.module('financieraClienteApp')
             financieraMidRequest.post('giro/CreateGiro', ctrl.dataGiroSend)
               .then(function(response) {
                 ctrl.resultado = response.data;
-                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') +' '+ $translate.instant('GIRO')+ "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NUMERO_SELECCION')+ "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
                 templateAlert = templateAlert + "<tr class='success'><td>" + ctrl.resultado.Body + "</td>" + "<td>" + year + "</td><td>" + $translate.instant(ctrl.resultado.Code) + "</td></tr>" ;
                 templateAlert = templateAlert + "</table>";
                 swal({

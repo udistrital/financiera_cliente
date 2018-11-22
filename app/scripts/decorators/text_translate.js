@@ -558,6 +558,7 @@ var text_es = {
     NUMERO_CELULAR: "Número Celular",
     NUMERO_CUENTA:"Número de cuenta",
     NUMERO_ELABORACION: "No. de Elaboración",
+    NUMERO_SELECCION: "No. de Selección",
     NUMERO_TELEFONICO: "Número telefónico",
     NUMERO_TRASLADO: "Número de Traslado",
     NUMERO_OPERACION:"Número Operación",
