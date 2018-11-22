@@ -14,7 +14,7 @@ angular.module('financieraClienteApp')
     var i;
     var j;
     var k;
-
+    self.UnidadEjecutora = 1; //Tomar este valor de la autenticacion en el futuro
     financieraRequest.get("orden_pago/FechaActual/2006")
       .then(function(response) {
         self.year = parseInt(response.data);
@@ -70,7 +70,7 @@ angular.module('financieraClienteApp')
 
       for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Nombre == "Registro") {
-          self.tipo_movimiento = self.tipo[i].Id;
+          self.tipo_movimiento = self.tipo[i];
         }
       }
     });
@@ -109,7 +109,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
         self.select_id = row.entity;
-        self.comprobarRubro(row.entity.Id);
+        self.comprobarRubro(row.entity);
         self.actualizar();
       });
     };
@@ -141,7 +141,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
         self.select_id = row.entity;
-        self.comprobarRubro(row.entity.Id);
+        self.comprobarRubro(row.entity);
         self.actualizar();
       });
     };
@@ -188,7 +188,7 @@ angular.module('financieraClienteApp')
       return self.totalMonto;
     };
 
-    self.comprobarRubro = function(id) {
+    self.comprobarRubro = function(aprData) {
       var repetido = true;
       for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if ((self.rubros_seleccionados[i].Id) == id) {
@@ -198,10 +198,11 @@ angular.module('financieraClienteApp')
       if (repetido == true) {
         self.rubros_seleccionados.push(self.select_id);
         var data = {
-          Rubro: id,
+          Rubro: aprData.Id,
           Valor: "",
           Dependencia: "",
-          NomDependencia: ""
+          NomDependencia: "",
+          Codigo: aprData.Rubro.Codigo
         }
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado = [];
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado.push(data);
@@ -401,7 +402,8 @@ angular.module('financieraClienteApp')
         Codigo: self.nueva_fuente.Codigo.toString(),
         Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion,
-        TipoFuenteFinanciamiento : self.tipo_fuente_r
+        TipoFuenteFinanciamiento : self.tipo_fuente_r,
+        UnidadEjecutora: self.UnidadEjecutora
       }
 
       var AfectacionFuenteData = self.asignar_rubros(0, documento);
@@ -428,7 +430,8 @@ angular.module('financieraClienteApp')
       var afectacionArr = [];
       for (i = 0; i < self.rubros_seleccionados.length; i++) {
         for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-          afectacionArr.push(self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento));
+          console.log('Seleccionado ', self.rubros_seleccionados[i].seleccionado[j]);
+          afectacionArr.push(self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro,self.rubros_seleccionados[i].seleccionado[j].Codigo, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento));
         }
       }
       return afectacionArr;
@@ -436,7 +439,7 @@ angular.module('financieraClienteApp')
 
 
 
-    self.crear_fuente_apropiacion = function(fuente, rubro, dependencia, valor, documento) {
+    self.crear_fuente_apropiacion = function(fuente, rubro,codigoRubro, dependencia, valor, documento) {
 
       var data = {
         Dependencia: parseInt(dependencia),
@@ -446,6 +449,7 @@ angular.module('financieraClienteApp')
         FuenteFinanciamiento: {
           Id: parseInt(fuente)
         },
+        Rubro: codigoRubro,
         MovimientoFuenteFinanciamientoApropiacion: []
       }
       data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(0, valor, documento));
@@ -464,9 +468,7 @@ angular.module('financieraClienteApp')
         Valor: parseInt(valor),
         Fecha: self.fecha,
         TipoDocumento: parseInt(documento),
-        TipoMovimiento: {
-          Id: parseInt(self.tipo_movimiento)
-        },
+        TipoMovimiento: self.tipo_movimiento,
         FuenteFinanciamientoApropiacion: {
           Id: parseInt(apropiacion)
         }
