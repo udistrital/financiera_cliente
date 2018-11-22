@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest,$sanitize) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest,$sanitize,argoRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -201,9 +201,9 @@ angular.module('financieraClienteApp')
                 {
                     field: 'Total',
                     displayName: $translate.instant('VALOR'),
-                    cellTemplate: '<div align="center"><span>{{row.entity.Total | currency}}</span></div>',
+                    cellTemplate: '<div align="right"><span>{{row.entity.Total | currency}}</span></div>',
                     width: '8%',
-                    cellClass: 'input_center',
+                    cellClass: 'input_right',
                     headerCellClass: 'encabezado'
                 },
                 {
@@ -282,6 +282,7 @@ angular.module('financieraClienteApp')
                     break;
                 case (2):
                     $scope.estado = $scope.solicitud.EstadoIngreso;
+                    ctrl.saveEstadoAvance();
                     break;
                 case (4):
                     administrativaPruebasRequest.get("necesidad_proceso_externo",
@@ -295,11 +296,102 @@ angular.module('financieraClienteApp')
                             } else {
                                 $('#modal_aprobacion').modal('show');
                                 ctrl.necesidad_proceso_externo = response.data[0];
+                                if(!angular.isUndefined(ctrl.necesidad_proceso_externo.Necesidad)){
+                                  ctrl.InfoNecesidad = ctrl.necesidad_proceso_externo.Necesidad;
+                                  ctrl.getInfoNecesidad();
+                                }
                             }
                         });
+                    break;
+                  default:
+                      ctrl.saveEstadoAvance();
+                    break;
 
             }
         };
+
+        ctrl.AprobarAvance = function(){
+          if(ctrl.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion == "A"){
+            ctrl.saveEstadoAvance();
+            $('#modal_aprobacion').modal('hide');
+          }else{
+            swal('',$translate.instant("E_A08"),"error").then(function(){
+                $('#modal_aprobacion').modal('hide');
+            });
+          }
+        }
+
+        ctrl.saveEstadoAvance = function(){
+          var nombreEstado;
+          var estadoAvance= {
+            EstadoAvance : $scope.estadoclick,
+            SolicitudAvance : {Id:$scope.solicitud.Id},
+            Responsable : 11111111
+          }
+          financieraRequest.get("estado_avance/"+$scope.estadoclick.Id).
+          then(function(response){
+                nombreEstado = response.data.Nombre;
+              });
+          estadoAvance.Observaciones = "Solicitud cambia a " + nombreEstado;
+
+          financieraRequest.post('avance_estado_avance',estadoAvance).then(function(response){
+            if(response.data.Type != undefined){
+              if(response.data.Type === "error"){
+                  swal('',$translate.instant(response.data.Code),response.data.Type);
+                }else{
+                  swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                    ctrl.get_solicitudes();
+                    $scope.estado = $scope.estadoclick.estado;
+                  });
+                }
+              }
+          });
+        }
+
+        ctrl.getInfoNecesidad = function(){
+                        argoRequest.get('marco_legal_necesidad', $.param({
+                            query: "Necesidad:" + ctrl.InfoNecesidad.Id,
+                            fields: "MarcoLegal"
+                        })).then(function (response) {
+                            ctrl.marco_legal = response.data;
+                        });
+                        argoRequest.get('fuente_financiacion_rubro_necesidad', $.param({
+                            query: "Necesidad:" + ctrl.InfoNecesidad.Id,
+                            fields: "FuenteFinanciamiento,Apropiacion,MontoParcial"
+                        })).then(function (response) {
+                            var dateArrKeyHolder = [];
+                            var dateArr = [];
+                            angular.forEach(response.data, function (item) {
+                                dateArrKeyHolder[item.Apropiacion] = dateArrKeyHolder[item.Apropiacion] || {};
+                                var obj = dateArrKeyHolder[item.Apropiacion];
+                                if (Object.keys(obj).length === 0) {
+                                    dateArr.push(obj);
+                                }
+
+                                financieraRequest.get('apropiacion', $.param({
+                                    query: "Id:" + item.Apropiacion,
+                                    fields: "Rubro,Valor"
+                                })).then(function (response) {
+                                    obj.Apropiacion = response.data[0];
+                                  });
+
+
+                                    obj.Fuentes = obj.Fuentes || [];
+
+                                    var i_fuente = {};
+                                    if (ctrl.InfoNecesidad.TipoFinanciacionNecesidad.Id === 1) {
+                                        financieraRequest.get('fuente_financiamiento', $.param({
+                                            query: "Id:" + item.FuenteFinanciamiento
+                                        })).then(function (response) {
+                                            i_fuente.FuenteFinanciamiento = response.data[0];
+                                        });
+                                        i_fuente.MontoParcial = item.MontoParcial;
+                                        obj.Fuentes.push(i_fuente);
+                                    }
+                                });
+                                ctrl.ff_necesidad = dateArr;
+                              });
+        }
 
         ctrl.cargarEstados = function() {
             financieraRequest.get("estado_avance", $.param({
