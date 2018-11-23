@@ -163,10 +163,11 @@ angular.module('financieraClienteApp')
                 var roles = [];
                 angular.forEach(service.token.role, function(data){
                     console.log("data", data);
-                    if (data.split("@")[1] !== null && !angular.isUndefined(data.split("@")[1])){
-                        roles.push(data.split("@")[1]);
-                    }
+                   // if (data.split("@")[1] !== null && !angular.isUndefined(data.split("@")[1])){
+                        roles.push(data);
+                   // }
                 });
+                console.info(roles);
                 return roles;
             }
 

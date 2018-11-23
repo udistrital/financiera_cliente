@@ -123,18 +123,18 @@ var conf_local = {
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
-        AUTORIZATION_URL: 'https://10.20.0.162:9443/oauth2/authorize',
-        URL_USER_INFO: 'https://10.20.0.162:9443/oauth2/userinfo',
-        CLIENTE_ID: 'bfPMflsiPVN6WFjJZIpzjsLdlx8a',
-        CLIENT_SECRET: '4C_HkdaZsMF4Fthfm6D2n5joLzEa',
-        REDIRECT_URL: 'http://localhost:9000/',
-        RESPONSE_TYPE: 'code',
-        SCOPE: 'openid email',
-        BUTTON_CLASS: 'btn btn-warning btn-sm',
-        SIGN_OUT_URL: 'https://10.20.0.162:9443/oidc/logout',
-        SIGN_OUT_REDIRECT_URL: 'http://localhost:9000/',
-        SIGN_OUT_APPEND_TOKEN: 'true',
-        REFRESH_TOKEN: 'https://10.20.0.162:9443/oauth2/token',
+        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        CLIENTE_ID: "pszmROXqfec4pTShgF_fn2DAAX0a",
+        REDIRECT_URL: "http://localhost:9000/",
+        RESPONSE_TYPE: "code",
+        SCOPE: "openid email",
+        BUTTON_CLASS: "btn btn-warning btn-sm",
+        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "http://localhost:9000/",
+        SIGN_OUT_APPEND_TOKEN: "true",
+        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
 };
 
@@ -142,5 +142,5 @@ var conf_local = {
 
 angular.module('financieraClienteApp')
     .constant('CONF', {
-        GENERAL: conf_pruebas
+        GENERAL: conf_local
     });
