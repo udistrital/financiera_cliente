@@ -67,7 +67,7 @@
       <div class="panel panel-default">
           <div class="panel-heading">
               <h3 class="page-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
-              <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.SolicitudDisponibilidad.FechaSolicitud | date:"yyyy-MM-dd":"UTC"}}</div>
+              <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
           </div>
           <div class="panel-body">
 
