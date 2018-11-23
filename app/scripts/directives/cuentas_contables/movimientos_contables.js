@@ -28,6 +28,7 @@ angular.module('financieraClienteApp')
                 movimientos: '=?',
                 editable: '@?',
                 impydesc: '@?',
+                queryce:'=?',
                 monto: '=?',
                 outputvalorbruto: '=?',
                 outputformapagoop: '=?',
@@ -44,8 +45,14 @@ angular.module('financieraClienteApp')
                 } else {
                     attrs['editable'] = false;
                 }
+                if ('queryce' in attrs) {
+                    attrs['queryce'] = true;
+                } else {
+                    attrs['queryce'] = false;
+                }
             },
             controller: function($scope, $attrs) {
+                console.log("directiva scope queryce" + $scope.queryce);
                 $scope.show_descs = 'impydesc' in $attrs;
                 $scope.show_selcuent = 'selcuentas' in $attrs
                 var self = this;
@@ -75,11 +82,9 @@ angular.module('financieraClienteApp')
                             displayName: $translate.instant('CODIGO') + " " + $translate.instant('CUENTA'),
                             cellClass: function(_, row) {
                                 if (row.entity.TipoCuentaEspecial == undefined) {
-                                    console.log("no cuenta esp")
                                     return 'texto_no_cuenta_especial';
 
                                 } else {
-                                    console.log("cuenta esp")
                                     return 'texto_cuenta_especial';
                                 }
                             },
