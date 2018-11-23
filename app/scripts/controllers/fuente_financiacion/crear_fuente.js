@@ -412,7 +412,7 @@ angular.module('financieraClienteApp')
         AfectacionFuente: AfectacionFuenteData
       };
       console.log("Data to Send: ", DataToSend);
-      financieraMidRequest.post("fuente_financiamiento/RegistrarFuente", DataToSend).then(function(response) {
+      financieraMidRequest.post("fuente_financiamiento/RegistrarFuente/"+ self.UnidadEjecutora , DataToSend).then(function(response) {
         console.log("Response: ", response.data);
         if (response.data) {
               swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
