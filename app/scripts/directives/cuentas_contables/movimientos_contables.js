@@ -52,7 +52,6 @@ angular.module('financieraClienteApp')
                 }
             },
             controller: function($scope, $attrs) {
-                console.log("directiva scope queryce" + $scope.queryce);
                 $scope.show_descs = 'impydesc' in $attrs;
                 $scope.show_selcuent = 'selcuentas' in $attrs
                 var self = this;
@@ -677,7 +676,6 @@ angular.module('financieraClienteApp')
                           self.cargar_cuentas_grid();
                         }else{
                           angular.forEach(newValue,function(item){
-                            console.log(item)
                             item.CuentaEspecial = {Id:item.Id}
                             self.agregar_cuenta(item);
                           });

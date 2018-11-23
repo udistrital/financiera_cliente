@@ -132,7 +132,6 @@ angular.module('financieraClienteApp')
                  */
                 self.cargar = function() {
                     var query = "";
-                    console.log("directiva querys"+$scope.querys);
                     if('querys' in $attrs){
                         query = "limit=-1" + $scope.querys;
                     }
