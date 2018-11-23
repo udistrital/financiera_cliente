@@ -64,7 +64,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('FECHA_CREACION'),
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
-          cellFilter: "date:'yyyy-MM-dd'",
+          cellTemplate: '<span>{{row.entity.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
           width: '8%',
         },
         {
