@@ -209,7 +209,7 @@ angular.module('financieraClienteApp')
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
                           ctrl.consultarDevoluciones();
-                          $scope.estado = undefined;
+                          $scope.estado = response.data.Body.EstadoDevolucion;
                         })
                       }
                     }
