@@ -20,6 +20,7 @@ angular.module('financieraClienteApp')
     self.Proveedor = {};
     //self.OrdenPago.RegistroPresupuestal = {'Id': 103} // data tes
     self.Conceptos = {};
+    self.queryCuentasEspeciales = "&query=TipoCuentaEspecial__not_in:2";
     self.MensajesAlerta = null;
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',
@@ -109,11 +110,9 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         }
         // registrar OP Proveedor
-        console.log(self.dataOrdenPagoInsert);
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) {
             self.resultado = data;
-            console.log("resultado op", self.resultado.data.Body)
             var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('ORDEN_DE_PAGO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
             templateAlert = templateAlert + "<tr class='success'><td>" + self.resultado.data.Body + "</td>" + "<td>" + year + "</td><td>" + $translate.instant(self.resultado.data.Code) + "</td></tr>" ;
             templateAlert = templateAlert + "</table>";
