@@ -23,17 +23,25 @@ angular.module('financieraNotificacion', [])
  * Factory que permite gestionar los servicios de notificaciones, tanto de websocket, como tambien del api de notificaciones los metodos GET, PUT.
  */
 
-.factory('notificacion', function($websocket, $http, CONF) {
+.factory('notificacion', function($websocket, $http, CONF, token_service) {
     // Service logic
     // ...
-    var id = 3;
-    var path = CONF.GENERAL.CONFIGURACION_SERVICE;
-    var dataStream = $websocket(CONF.GENERAL.NOTIFICACION_WS + "?id=" + id + "&profiles=2");
+    var perfil = [];
+    var id = "";
+    if(token_service.live_token()){
+            perfil = token_service.getRoles();
+            id = token_service.token.sub;
+    }
+    
+    //console.log("Token ",$scope.token_service.token);
+    //var id = "utest01";
+    var path = CONF.GENERAL.NOTIFICACION_SERVICE;
+    console.log('Perfil ', perfil);
+    
+    var dataStream = $websocket(CONF.GENERAL.NOTIFICACION_WS + "?id=" + id + "&profiles="+ perfil);
     var log = [];
     dataStream.onMessage(function(message) {
-        console.log(message.data);
         log.unshift(JSON.parse(message.data));
-        console.log(log);
     });
     // Public API here
     var fabrica = {
@@ -83,6 +91,9 @@ angular.module('financieraNotificacion', [])
                     j += 1;
                 }
             });
+            if (j > 0) {
+                document.title = 'Kronos (' + j + ')';    
+            }
             return j;
         }
     };

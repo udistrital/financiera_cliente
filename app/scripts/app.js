@@ -67,21 +67,21 @@ angular
         "gridApiService"
     ])
 
-.run(function(amMoment) {
+    .run(function (amMoment) {
         amMoment.changeLocale('es');
     })
-    .config(['cfpLoadingBarProvider', 'uiSelectConfig', function(cfpLoadingBarProvider, uiSelectConfig) {
+    .config(['cfpLoadingBarProvider', 'uiSelectConfig', function (cfpLoadingBarProvider, uiSelectConfig) {
         cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
         uiSelectConfig.theme = 'select2';
         uiSelectConfig.resetSearchInput = true;
         uiSelectConfig.appendToBody = true;
     }])
-    .config(function($mdDateLocaleProvider) {
-        $mdDateLocaleProvider.formatDate = function(date) {
+    .config(function ($mdDateLocaleProvider) {
+        $mdDateLocaleProvider.formatDate = function (date) {
             return date ? moment.utc(date).format('YYYY-MM-DD') : '';
         };
     })
-    .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+    .config(['$locationProvider', '$routeProvider', function ($locationProvider, $routeProvider) {
         $locationProvider.hashPrefix("");
         $routeProvider
             .when('/', {
@@ -285,14 +285,14 @@ angular
                 controllerAs: 'opGirosViewAll'
             })
             .when('/orden_pago/giros/giros_crear', {
-              templateUrl: 'views/orden_pago/giros/giros_crear.html',
-              controller: 'GirosCrearCtrl',
-              controllerAs: 'girosCrear'
+                templateUrl: 'views/orden_pago/giros/giros_crear.html',
+                controller: 'GirosCrearCtrl',
+                controllerAs: 'girosCrear'
             })
             .when('/orden_pago/giros/ver/:Id', {
-              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
-              controller: 'GirosVerPorIdCtrl',
-              controllerAs: 'girosVerPorId'
+                templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+                controller: 'GirosVerPorIdCtrl',
+                controllerAs: 'girosVerPorId'
             })
             .when('/rp/rp_anulacion', {
                 templateUrl: 'views/rp/rp_anulacion.html',
@@ -383,10 +383,10 @@ angular
                 templateUrl: 'views/rp/rp_aprobacion_anulacion.html',
                 controller: 'RpRpAprobacionAnulacionCtrl',
                 controllerAs: 'rpAprobacionAnulacion'
-            })            .when('/orden_pago/giros/giros_ver_por_id', {
-              templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
-              controller: 'OrdenPagoGirosGirosVerPorIdCtrl',
-              controllerAs: 'ordenPago/giros/girosVerPorId'
+            }).when('/orden_pago/giros/giros_ver_por_id', {
+                templateUrl: 'views/orden_pago/giros/giros_ver_por_id.html',
+                controller: 'OrdenPagoGirosGirosVerPorIdCtrl',
+                controllerAs: 'ordenPago/giros/girosVerPorId'
             })
             .when('/compromisos/listado_compromisos', {
                 templateUrl: 'views/compromisos/listado_compromisos.html',
@@ -419,24 +419,24 @@ angular
                 controllerAs: 'editarCuenta'
             })
             .when('/homologacion_concepto/homologacion_concepto_ver_todas', {
-              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
-              controller: 'HomologacionConceptoVerTodasCtrl',
-              controllerAs: 'homologacionConceptoVerTodas'
+                templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_todas.html',
+                controller: 'HomologacionConceptoVerTodasCtrl',
+                controllerAs: 'homologacionConceptoVerTodas'
             })
             .when('/homologacion_concepto/homologacion_concepto_crear', {
-              templateUrl: 'views/homologacion_concepto/homologacion_concepto_crear.html',
-              controller: 'HomologacionConceptoCrearCtrl',
-              controllerAs: 'homologacionConceptoCrear'
+                templateUrl: 'views/homologacion_concepto/homologacion_concepto_crear.html',
+                controller: 'HomologacionConceptoCrearCtrl',
+                controllerAs: 'homologacionConceptoCrear'
             })
             .when('/homologacion_concepto/ver/:Id', {
-              templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
-              controller: 'HomologacionConceptoVerPorIdCtrl',
-              controllerAs: 'homologacionConceptoVerPorId'
+                templateUrl: 'views/homologacion_concepto/homologacion_concepto_ver_por_id.html',
+                controller: 'HomologacionConceptoVerPorIdCtrl',
+                controllerAs: 'homologacionConceptoVerPorId'
             })
             .when('/homologacion_concepto/actualizar/:Id', {
-              templateUrl: 'views/homologacion_concepto/homologacion_concepto_actualizar.html',
-              controller: 'HomologacionConceptoActualizarCtrl',
-              controllerAs: 'homologacionConceptoActualizar'
+                templateUrl: 'views/homologacion_concepto/homologacion_concepto_actualizar.html',
+                controller: 'HomologacionConceptoActualizarCtrl',
+                controllerAs: 'homologacionConceptoActualizar'
             })
             .when('/tesoreria/avances/legalizacion', {
                 templateUrl: 'views/tesoreria/avances/solicitud/legalizacion.html',
@@ -444,114 +444,114 @@ angular
                 controllerAs: 'legalizacion'
             })
             .when('/rubro/modificacion_solicitud_registro', {
-              templateUrl: 'views/rubro/modificacion_solicitud_registro.html',
-              controller: 'RubroModificacionSolicitudRegistroCtrl',
-              controllerAs: 'rubroModificacionSolicitudRegistro'
+                templateUrl: 'views/rubro/modificacion_solicitud_registro.html',
+                controller: 'RubroModificacionSolicitudRegistroCtrl',
+                controllerAs: 'rubroModificacionSolicitudRegistro'
             })
             .when('/rubro/modificacion_solicitud_consulta', {
-              templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
-              controller: 'RubroModificacionSolicitudConsultaCtrl',
-              controllerAs: 'modificacionSolicitudConsulta'
+                templateUrl: 'views/rubro/modificacion_solicitud_consulta.html',
+                controller: 'RubroModificacionSolicitudConsultaCtrl',
+                controllerAs: 'modificacionSolicitudConsulta'
             })
             .when('/reportes/reportes', {
-              templateUrl: 'views/reportes/reportes.html',
-              controller: 'ReportesReportesCtrl',
-              controllerAs: 'reportes'
+                templateUrl: 'views/reportes/reportes.html',
+                controller: 'ReportesReportesCtrl',
+                controllerAs: 'reportes'
             })
             .when('/reportes/presupuesto/listado_apropiaciones', {
-              templateUrl: 'views/reportes/presupuesto/listado_apropiaciones.html',
-              controller: 'ReporteListadoApropiacionesCtrl',
-              controllerAs: 'listadoApropiaciones'
+                templateUrl: 'views/reportes/presupuesto/listado_apropiaciones.html',
+                controller: 'ReporteListadoApropiacionesCtrl',
+                controllerAs: 'listadoApropiaciones'
             })
             .when('/reportes/presupuesto/c_d_p', {
-              templateUrl: 'views/reportes/presupuesto/c_d_p.html',
-              controller: 'ReportesPresupuestoCDPCtrl',
-              controllerAs: 'cDP'
+                templateUrl: 'views/reportes/presupuesto/c_d_p.html',
+                controller: 'ReportesPresupuestoCDPCtrl',
+                controllerAs: 'cDP'
             })
             .when('/reportes/presupuesto/r_p', {
-              templateUrl: 'views/reportes/presupuesto/r_p.html',
-              controller: 'ReportesPresupuestoRPCtrl',
-              controllerAs: 'rP'
+                templateUrl: 'views/reportes/presupuesto/r_p.html',
+                controller: 'ReportesPresupuestoRPCtrl',
+                controllerAs: 'rP'
             })
             .when('/comprobantes/consulta_comprobantes', {
-              templateUrl: 'views/comprobantes/consulta_comprobantes.html',
-              controller: 'ConsultaComprobantesCtrl',
-              controllerAs: 'consultaComprobantes'
+                templateUrl: 'views/comprobantes/consulta_comprobantes.html',
+                controller: 'ConsultaComprobantesCtrl',
+                controllerAs: 'consultaComprobantes'
             })
             .when('/comprobantes/detalle_comprobante', {
-              templateUrl: 'views/comprobantes/detalle_comprobante.html',
-              controller: 'DetalleComprobanteCtrl',
-              controllerAs: 'detalleComprobante'
+                templateUrl: 'views/comprobantes/detalle_comprobante.html',
+                controller: 'DetalleComprobanteCtrl',
+                controllerAs: 'detalleComprobante'
             })
             .when('/comprobantes/crear_comprobante', {
-              templateUrl: 'views/comprobantes/crear_comprobante.html',
-              controller: 'CrearComprobanteCtrl',
-              controllerAs: 'crearComprobante'
+                templateUrl: 'views/comprobantes/crear_comprobante.html',
+                controller: 'CrearComprobanteCtrl',
+                controllerAs: 'crearComprobante'
             })
             .when('/comprobantes/crear_tipo_comprobante', {
-              templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
-              controller: 'CrearTipoComprobanteCtrl',
-              controllerAs: 'crearTipoComprobante'
+                templateUrl: 'views/comprobantes/crear_tipo_comprobante.html',
+                controller: 'CrearTipoComprobanteCtrl',
+                controllerAs: 'crearTipoComprobante'
             })
             .when('/pac/cierre_periodo', {
-              templateUrl: 'views/pac/cierre_periodo.html',
-              controller: 'PacCierrePeriodoCtrl',
-              controllerAs: 'cierrePeriodo'
+                templateUrl: 'views/pac/cierre_periodo.html',
+                controller: 'PacCierrePeriodoCtrl',
+                controllerAs: 'cierrePeriodo'
             })
             .when('/bancos/saldos_iniciales', {
-              templateUrl: 'views/bancos/saldos_iniciales.html',
-              controller: 'BancosSaldosInicialesCtrl',
-              controllerAs: 'saldosIniciales'
+                templateUrl: 'views/bancos/saldos_iniciales.html',
+                controller: 'BancosSaldosInicialesCtrl',
+                controllerAs: 'saldosIniciales'
             })
-             .when('/bancos/agregar_saldos_iniciales', {
+            .when('/bancos/agregar_saldos_iniciales', {
                 templateUrl: 'views/bancos/agregar_saldos_iniciales.html',
                 controller: 'BancosAgregarSaldosInicialesCtrl',
                 controllerAs: 'agregarSaldosIniciales'
-              })
+            })
             .when('/ingresos/ingreso_registroG/:tipoIngreso', {
-              templateUrl: 'views/ingresos/ingreso_registrog.html',
-              controller: 'IngresosIngresoRegistrogCtrl',
-              controllerAs: 'ingresoRegistroG'
+                templateUrl: 'views/ingresos/ingreso_registrog.html',
+                controller: 'IngresosIngresoRegistrogCtrl',
+                controllerAs: 'ingresoRegistroG'
             })
             .when('/productos/producto_consulta', {
-              templateUrl: 'views/productos/producto_consulta.html',
-              controller: 'ProductosProductoConsultaCtrl',
-              controllerAs: 'productoConsulta'
+                templateUrl: 'views/productos/producto_consulta.html',
+                controller: 'ProductosProductoConsultaCtrl',
+                controllerAs: 'productoConsulta'
             })
             .when('/productos/producto_registro', {
-              templateUrl: 'views/productos/producto_registro.html',
-              controller: 'ProductosProductoRegistroCtrl',
-              controllerAs: 'productoRegistro'
+                templateUrl: 'views/productos/producto_registro.html',
+                controller: 'ProductosProductoRegistroCtrl',
+                controllerAs: 'productoRegistro'
             })
             .when('/inversiones/acta_compra', {
-              templateUrl: 'views/inversiones/acta_compra.html',
-              controller: 'InversionesActaCompraCtrl',
-              controllerAs: 'actaComprainv'
+                templateUrl: 'views/inversiones/acta_compra.html',
+                controller: 'InversionesActaCompraCtrl',
+                controllerAs: 'actaComprainv'
             })
             .when('/inversiones/consulta', {
-              templateUrl: 'views/inversiones/consulta.html',
-              controller: 'InversionesConsultaCtrl',
-              controllerAs: 'consultaInv'
+                templateUrl: 'views/inversiones/consulta.html',
+                controller: 'InversionesConsultaCtrl',
+                controllerAs: 'consultaInv'
             })
             .when('/devoluciones/orden', {
-              templateUrl: 'views/devoluciones/orden.html',
-              controller: 'DevolucionesOrdenCtrl',
-              controllerAs: 'ordendevolucion'
+                templateUrl: 'views/devoluciones/orden.html',
+                controller: 'DevolucionesOrdenCtrl',
+                controllerAs: 'ordendevolucion'
             })
             .when('/devoluciones/relacion', {
-              templateUrl: 'views/devoluciones/relacion.html',
-              controller: 'DevolucionesRelacionCtrl',
-              controllerAs: 'devolucionesrelacion'
+                templateUrl: 'views/devoluciones/relacion.html',
+                controller: 'DevolucionesRelacionCtrl',
+                controllerAs: 'devolucionesrelacion'
             })
             .when('/devoluciones/consulta_relacion', {
-              templateUrl: 'views/devoluciones/consulta_relacion.html',
-              controller: 'DevolucionesConsultaRelacionCtrl',
-              controllerAs: 'devolucionesconsultaRelacion'
+                templateUrl: 'views/devoluciones/consulta_relacion.html',
+                controller: 'DevolucionesConsultaRelacionCtrl',
+                controllerAs: 'devolucionesconsultaRelacion'
             })
             .when('/devoluciones/no_tributaria', {
-              templateUrl: 'views/devoluciones/no_tributaria.html',
-              controller: 'DevolucionesNoTributariaCtrl',
-              controllerAs: 'devolucionesnoTributaria'
+                templateUrl: 'views/devoluciones/no_tributaria.html',
+                controller: 'DevolucionesNoTributariaCtrl',
+                controllerAs: 'devolucionesnoTributaria'
             })
             .when('/bancos/gestion_sucursales', {
                 templateUrl: 'views/bancos/gestion_sucursales.html',
@@ -569,76 +569,79 @@ angular
                 controllerAs: 'gestionTraslados'
             })
             .when('/devoluciones/consulta_devoluciones_tributarias', {
-              templateUrl: 'views/devoluciones/consulta_devoluciones_tributarias.html',
-              controller: 'DevolucionesConsultaDevolucionesTributariasCtrl',
-              controllerAs: 'consultaDevolucionesTributarias'
+                templateUrl: 'views/devoluciones/consulta_devoluciones_tributarias.html',
+                controller: 'DevolucionesConsultaDevolucionesTributariasCtrl',
+                controllerAs: 'consultaDevolucionesTributarias'
             })
             .when('/ingresos_sin_situacion_fondos/consulta', {
-              templateUrl: 'views/ingresos_sin_situacion_fondos/consulta.html',
-              controller: 'IngresosSinSituacionFondosConsultaCtrl',
-              controllerAs: 'ingresosSinSitFndsCns'
+                templateUrl: 'views/ingresos_sin_situacion_fondos/consulta.html',
+                controller: 'IngresosSinSituacionFondosConsultaCtrl',
+                controllerAs: 'ingresosSinSitFndsCns'
             })
             .when('/ingresos_sin_situacion_fondos/registro', {
-              templateUrl: 'views/ingresos_sin_situacion_fondos/registro.html',
-              controller: 'IngresosSinSituacionFondosRegistroCtrl',
-              controllerAs: 'ingresosSinSitFnReg'
+                templateUrl: 'views/ingresos_sin_situacion_fondos/registro.html',
+                controller: 'IngresosSinSituacionFondosRegistroCtrl',
+                controllerAs: 'ingresosSinSitFnReg'
             })
             .when('/devoluciones/parametros/actas', {
-              templateUrl: 'views/devoluciones/parametros/actas.html',
-              controller: 'DevolucionesParametrosActasCtrl',
-              controllerAs: 'devolparamactas'
+                templateUrl: 'views/devoluciones/parametros/actas.html',
+                controller: 'DevolucionesParametrosActasCtrl',
+                controllerAs: 'devolparamactas'
             })
             .when('/inversiones/parametros/titulo', {
-              templateUrl: 'views/inversiones/parametros/titulo.html',
-              controller: 'InversionesParametrosTituloCtrl',
-              controllerAs: 'invParamTitulo'
+                templateUrl: 'views/inversiones/parametros/titulo.html',
+                controller: 'InversionesParametrosTituloCtrl',
+                controllerAs: 'invParamTitulo'
             })
             .when('/devoluciones/parametros/razon_devolucion', {
-              templateUrl: 'views/devoluciones/parametros/razon_devolucion.html',
-              controller: 'DevolucionesParametrosRazonDevolucionCtrl',
-              controllerAs: 'devolParamRazonDevolucion'
+                templateUrl: 'views/devoluciones/parametros/razon_devolucion.html',
+                controller: 'DevolucionesParametrosRazonDevolucionCtrl',
+                controllerAs: 'devolParamRazonDevolucion'
             })
             .when('/inversiones/cancelacion/:idInversion', {
-              templateUrl: 'views/inversiones/cancelacion.html',
-              controller: 'InversionesCancelacionCtrl',
-              controllerAs: 'inversionesCancelacion'
+                templateUrl: 'views/inversiones/cancelacion.html',
+                controller: 'InversionesCancelacionCtrl',
+                controllerAs: 'inversionesCancelacion'
             })
             .when('/homologacion_rubro/crear', {
-              templateUrl: 'views/homologacion_rubro/crear.html',
-              controller: 'HomologacionRubroCrearCtrl',
-              controllerAs: 'homologacionRubroCrear'
+                templateUrl: 'views/homologacion_rubro/crear.html',
+                controller: 'HomologacionRubroCrearCtrl',
+                controllerAs: 'homologacionRubroCrear'
             })
             .when('/inversiones/consulta_cancelacion', {
-              templateUrl: 'views/inversiones/consulta_cancelacion.html',
-              controller: 'InversionesConsultaCancelacionCtrl',
-              controllerAs: 'inversionesConsultaCancelacion'
+                templateUrl: 'views/inversiones/consulta_cancelacion.html',
+                controller: 'InversionesConsultaCancelacionCtrl',
+                controllerAs: 'inversionesConsultaCancelacion'
             })
             .when('/tesoreria/reintegros', {
-              templateUrl: 'views/tesoreria/reintegros.html',
-              controller: 'TesoreriaReintegrosCtrl',
-              controllerAs: 'tesoreriaReintegros'
+                templateUrl: 'views/tesoreria/reintegros.html',
+                controller: 'TesoreriaReintegrosCtrl',
+                controllerAs: 'tesoreriaReintegros'
             })
             .when('/tesoreria/parametros/causal_reintegro', {
-              templateUrl: 'views/tesoreria/parametros/causal_reintegro.html',
-              controller: 'TesoreriaParametrosCausalReintegroCtrl',
-              controllerAs: 'tesoreriaCausalReintegro'
+                templateUrl: 'views/tesoreria/parametros/causal_reintegro.html',
+                controller: 'TesoreriaParametrosCausalReintegroCtrl',
+                controllerAs: 'tesoreriaCausalReintegro'
             })
             .when('/tesoreria/cheques/gestion_chequera', {
-              templateUrl: 'views/tesoreria/cheques/gestion_chequera.html',
-              controller: 'TesoreriaChequesGestionChequeraCtrl',
-              controllerAs: 'tesoreriaGestionChequera'
+                templateUrl: 'views/tesoreria/cheques/gestion_chequera.html',
+                controller: 'TesoreriaChequesGestionChequeraCtrl',
+                controllerAs: 'tesoreriaGestionChequera'
             })
             .when('/tesoreria/cheques/gestion_cheque', {
-              templateUrl: 'views/tesoreria/cheques/gestion_cheque.html',
-              controller: 'TesoreriaChequesGestionChequeCtrl',
-              controllerAs: 'tesoreriaGestionCheque'
+                templateUrl: 'views/tesoreria/cheques/gestion_cheque.html',
+                controller: 'TesoreriaChequesGestionChequeCtrl',
+                controllerAs: 'tesoreriaGestionCheque'
             })
             .when('/tesoreria/cheques/info_chequera', {
-              templateUrl: 'views/tesoreria/cheques/info_chequera.html',
-              controller: 'TesoreriaChequesInfoChequeraCtrl',
-              controllerAs: 'tesoreriaInfoChequera'
+                templateUrl: 'views/tesoreria/cheques/info_chequera.html',
+                controller: 'TesoreriaChequesInfoChequeraCtrl',
+                controllerAs: 'tesoreriaInfoChequera'
+            })
+            .when('/no_permission', {
+                templateUrl: '404.html'
             })
             .otherwise({
                 redirectTo: '/'
-            });
+            })
     }]);
