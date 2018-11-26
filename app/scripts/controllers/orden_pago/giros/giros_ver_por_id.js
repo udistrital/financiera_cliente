@@ -11,6 +11,9 @@ angular.module('financieraClienteApp')
   .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, gridApiService, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
     var self = this;
     self.giroId = $routeParams.Id;
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
+    ];
     //
     self.gridOptions_op_detail = {
       showColumnFooter: true,
@@ -61,7 +64,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('FECHA_CREACION'),
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
-          cellFilter: "date:'yyyy-MM-dd'",
+          cellTemplate: '<span>{{row.entity.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
           width: '8%',
         },
         {
@@ -113,6 +116,14 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
           headerCellClass: 'encabezado'
         },
+        {
+          name: $translate.instant('OPERACION'),
+          enableFiltering: false,
+          width: '8%',
+          cellClass: 'input_center',
+          headerCellClass: 'encabezado',
+          cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
+        },        
       ]
     };
     self.gridOptions_op_detail.enablePaginationControls = true;
@@ -159,7 +170,31 @@ angular.module('financieraClienteApp')
 
 
     });      
-    }
+    };
+    $scope.loadrow = function(row, operacion) {
+      self.operacion = operacion;
+      switch (operacion) {
+          case "ver":
+          $("#myModal").modal();
+            $scope.movimientos = [];
+            self.data = null;
+            self.data = row.entity;
+/*           financieraRequest.get('movimiento_contable','query=TipoDocumentoAfectante:1'+',CodigoDocumentoAfectante:'+ self.data.OrdenPago.Id+'&sortby=id&order=asc').then(function(response) {
+
+            angular.forEach(response.data, function(data){
+              if($scope.movimientos.indexOf(data) === -1) {
+                  $scope.movimientos.push(data);
+              }
+              });
+          }); */
+              break;
+
+          case "otro":
+
+          break;
+          default:
+      }
+  };
     self.cargarListaGiro(0,'');    
 
     //

@@ -58,3 +58,22 @@
     </a>
   </div>
 </div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+      <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="page-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
+              <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+          </div>
+          <div class="panel-body">
+
+
+
+          </div>
+      </div>
+  </div>
+</div>
