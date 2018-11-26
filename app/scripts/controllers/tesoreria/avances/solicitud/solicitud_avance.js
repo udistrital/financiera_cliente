@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, academicaRequest, financieraRequest, $translate, $location) {
+    .controller('SolicitudAvanceCtrl', function($scope, modelsRequest, financieraRequest,financieraMidRequest, $translate, $location) {
         var ctrl = this;
         $scope.info_terceros = true;
         $scope.info_desc_avances = true;
@@ -117,17 +117,16 @@ angular.module('financieraClienteApp')
                 });
         };
         ctrl.get_tipos_avance();
-        ctrl.ver_seleccion = function($item, $model) {
-            ctrl.tercero = $item;
-            ctrl.tercero.dependencia = $translate.instant('NO_APLICA');
+        ctrl.BuscarTercero = function(){
+          financieraMidRequest.get('academica_personas/GetDocentebyId/',$.param({
+            Id:ctrl.tercero.documento
+          })).then(function(response){
+            if(response.data != null){
+              ctrl.tercero = response.data;
+              ctrl.tercero.dependencia = $translate.instant('NO_APLICA');
+            }
+          });
         }
-
-        var parametros = "";
-        academicaRequest.get(parametros)
-            .then(function(response) {
-                ctrl.terceros = response.data;
-
-            });
 
         ctrl.calcular_total = function() {
             ctrl.total = 0;
@@ -155,7 +154,7 @@ angular.module('financieraClienteApp')
               });
             });
 
-          
+
 
             ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant('CAMPOS_OBLIGATORIOS') + "</li>";
           }
