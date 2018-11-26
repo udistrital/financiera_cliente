@@ -77,7 +77,7 @@ angular.module('financieraClienteApp')
               width: '10%'
           },
           {
-              field: 'CuentaDevolucion.NumeroCuenta',
+              field: 'CuentaBancariaEnte.NumeroCuenta',
               displayName: $translate.instant('CUENTA'),
               headerCellClass: 'encabezado',
               width: '10%'

@@ -459,7 +459,7 @@ ctrl.crearDevolucion = function(){
         FormaPago:ctrl.formaPago,
         Vigencia:ctrl.vigencia,
         UnidadEjecutora:ctrl.unidadejecutora,
-        CuentaDevolucion:{
+        CuentaBancariaEnte:{
           Banco:ctrl.banco.Id,
           TipoCuenta:ctrl.tipocuenta.Id,
           NumeroCuenta:ctrl.numeroCuenta.toString()
@@ -495,7 +495,7 @@ ctrl.crearDevolucion = function(){
       ctrl.DevolucionTributaria.MovimientosAsociados.push(cuentaAsociada);
 
      });
-
+     console.log(ctrl.DevolucionTributaria);
 
     financieraRequest.post('devolucion_tributaria/AddDevolucionTributaria',ctrl.DevolucionTributaria).then(function(response) {
       if(response.data.Type != undefined){
