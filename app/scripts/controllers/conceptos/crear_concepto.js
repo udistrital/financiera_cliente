@@ -9,7 +9,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $location, $route) {
+  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $location, $route,$filter) {
 
     var self = this;
     //self.rubro = {};
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
 
       }
 
-      if(self.rubro === undefined){
+      if(self.rubro === undefined && self.rubroObligatorio){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONAR_RUBRO')+ "</li>";
       }
 
@@ -111,7 +111,6 @@ angular.module('financieraClienteApp')
     }
 
     self.crear_concepto_nuevo = function() {
-
       var validar_campos =self.validateFields();
       if(validar_campos != false){
         swal({
@@ -136,7 +135,6 @@ angular.module('financieraClienteApp')
           var afectacion_concepto = {};
           var afectaciones = [];
           var cuentas = null;
-
           if ($scope.isconcepto) {
             cuentas = angular.copy(self.cuentas);
             nuevo_concepto.Rubro = self.rubro;
@@ -314,6 +312,18 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('crearConcepto.cuenta_contable', function() {
       self.agregar_cuentas();
+    }, true);
+
+    $scope.$watch('crearConcepto.tipos_afectacion', function() {
+      console.log(self.tipos_afectacion);
+      if(!angular.isUndefined(self.tipos_afectacion)){
+        var obj = $filter('filter')(self.tipos_afectacion, {Nombre: "Presupuesto"}, true)[0];
+        if(obj.Ingreso || obj.Egreso){
+          self.rubroObligatorio=true;
+        }else{
+          self.rubroObligatorio=false;
+        }
+      }
     }, true);
 
   });
