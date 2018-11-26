@@ -64,6 +64,7 @@ angular
         "wso2Service",
         "requestService",
         "ingresoDocServ",
+        'implicitToken',
         "gridApiService"
     ])
 
