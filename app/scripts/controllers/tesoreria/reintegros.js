@@ -207,10 +207,11 @@ angular.module('financieraClienteApp')
                        $scope.tesoreriaReintegros.concepto[0].Rubro = response.data[0].Rubro;
                    });
                }
-           }, true);
+           }, false);
 
     ctrl.crearReintegro= function(){
-      var request
+      var request;
+      var templateAlert;
        if(ctrl.validateFields()){
          request = {
            Ingreso:{
@@ -240,22 +241,17 @@ angular.module('financieraClienteApp')
              delete data.Id;
          });
          request.Movimientos = ctrl.movs;
-         console.log(request);
          financieraMidRequest.post('reintegro/Create',request).then(function(response){
-          console.log(response);
-           if(response.data.Type==="error"){
-             swal("",$translate.instant(response.data.Code),response.data.Type);
-           }
-           else{
-             var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
-             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Reintegro.Consecutivo + "</td></tr>" ;
-             swal('',templateAlert,response.data.Type).then(function(){
-               $scope.$apply(function(){
-                   $location.path('/ingresos/ingreso_consulta');
-               });
-             });
+          if(response.data.Type==="error"){
+            templateAlert=$translate.instant(response.data.Code);
 
-           }
+          } else{
+            templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>"+$translate.instant('INGRESO_NO')+"</th><th>" + $translate.instant('DETALLE') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Reintegro.Consecutivo + "</td><td>" +response.data.Body.Ingreso.Consecutivo+ "</td><td>"+ $translate.instant(response.data.Code) + "</td></tr>" ;
+            templateAlert = templateAlert + "</table>";
+            $location.path('/ingresos/ingreso_consulta');
+          }
+          swal("",templateAlert,response.data.Type);
          });
 
        }

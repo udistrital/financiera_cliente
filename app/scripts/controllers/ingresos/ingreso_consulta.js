@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, wso2Request, pagosRequest, $filter, $scope, $translate, $localStorage) {
+    .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, wso2Request, pagosRequest, $filter, $scope, $translate, $localStorage,financieraMidRequest) {
         var ctrl = this;
         $scope.doc = 0;
         $scope.estados = [];
@@ -324,7 +324,7 @@ angular.module('financieraClienteApp')
             aprobardata.Movimientos = $scope.movimientos;
             console.log(aprobardata);
             console.log(aprobardata.Ingreso);
-            financieraRequest.post('ingreso/AprobacionPresupuestalIngreso', aprobardata).then(function(response) {
+            financieraMidRequest.post('ingreso/AprobacionPresupuestalIngreso', aprobardata).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
