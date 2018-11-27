@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,ingresoDoc,organizacionRequest) {
+  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,organizacionRequest,$localStorage) {
     var ctrl = this;
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
     ctrl.concepto = [];
     ctrl.fechaDocumento = new Date();
 
-    ctrl.FormaIngreso = ingresoDoc.get();
+    ctrl.FormaIngreso = $localStorage.FormaIngreso;
 
     ctrl.filtro_ingresos = "Ingreso";
 
@@ -89,7 +89,7 @@ ctrl.cargarTipoDocumento = function() {
 
   ctrl.cargarInfoBancos();
 
-$scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
+$scope.$watch('ingresoRegistroG.concepto[0]', function(newValue, oldValue) {
             if (!angular.isUndefined(newValue)) {
               ctrl.movs = undefined
                 financieraRequest.get('concepto', $.param({
@@ -100,7 +100,8 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                     $scope.ingresoRegistroG.concepto[0].Rubro = response.data[0].Rubro;
                 });
             }
-        }, true);
+        }, false);
+
 
         ctrl.registrarIngreso = function() {
           ctrl.registrar= true;
@@ -126,7 +127,6 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                     delete data.Id;
                 });
                 ctrl.ingreso.Movimientos = ctrl.movs;
-                console.log(ctrl.ingreso);
                 financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
                     if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
@@ -144,7 +144,6 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(oldValue, newValue) {
                     ctrl.tipoIngresoSelec = undefined;
                     ctrl.observaciones = undefined;
                     ctrl.unidadejecutora = undefined;
-                    ctrl.concepto = undefined;
                     ctrl.registrar= false;
                 });
         };

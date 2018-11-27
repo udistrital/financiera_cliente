@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, $location, financieraRequest, wso2Request, oikosRequest, $translate, $filter, ingresoDoc, $window) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location, financieraRequest, wso2Request, oikosRequest, $translate, $filter, $window,$localStorage) {
         var ctrl = this;
         //prueba de codigos de facultad
         ctrl.cargando = false;
@@ -16,7 +16,6 @@ angular.module('financieraClienteApp')
         ctrl.fechaInicio = new Date();
         ctrl.fechaFin = new Date();
         ctrl.filtro_ingresos = "Ingresos";
-        $scope.otro = false;
         ctrl.homologacion_facultad = [{
             old: 33,
             new: 14 //FACULTAD ING
@@ -52,6 +51,7 @@ angular.module('financieraClienteApp')
 
         ctrl.cargarTiposIngreso = function() {
             financieraRequest.get('forma_ingreso', $.param({
+                query:"Nombre__not_in:REINTEGROS",
                 limit: -1
             })).then(function(response) {
                 ctrl.tiposIngreso = response.data;
@@ -83,49 +83,28 @@ angular.module('financieraClienteApp')
 
         $scope.$watch('ingresoRegistro.tipoIngresoSelec', function() {
 
-            if (ctrl.tipoIngresoSelec != undefined) {
+            $scope.otro=true;
 
+            if (ctrl.tipoIngresoSelec != undefined) {
                 if (!angular.isUndefined(ctrl.tipoIngresoSelec) && (angular.equals("INSCRIPCIONES", ctrl.tipoIngresoSelec.Nombre) || angular.equals("CODIGO DE BARRAS", ctrl.tipoIngresoSelec.Nombre))) {
                     $scope.otro = false;
-                } else {
-                    $scope.otro = true;
                 }
 
             }
+            ctrl.ejecutarIngresos();
 
-            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
-                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
-                    ctrl.ejecutarIngresos();
-                }
-
-            }
         }, true);
 
         $scope.$watch('ingresoRegistro.facultadSelec.Id', function() {
-
-            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
-                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
-                    ctrl.ejecutarIngresos();
-                }
-            }
+            ctrl.ejecutarIngresos();
         }, true);
 
         $scope.$watch('ingresoRegistro.fechaInicio', function() {
-
-            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
-                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
-                    ctrl.ejecutarIngresos();
-                }
-            }
+            ctrl.ejecutarIngresos();
         }, true);
 
         $scope.$watch('ingresoRegistro.fechaFin', function() {
-
-            if (ctrl.facultadSelec != undefined && ctrl.tipoIngresoSelec != undefined) {
-                if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
-                    ctrl.ejecutarIngresos();
-                }
-            }
+            ctrl.ejecutarIngresos();
         }, true);
 
         $scope.$watch('ingresoRegistro.concepto[0]', function(newValue,oldValue) {
@@ -192,12 +171,19 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.ejecutarIngresos = function() {
+            $localStorage.FormaIngreso= ctrl.tipoIngresoSelec;
             if ($scope.otro) {
-                ingresoDoc.set(ctrl.tipoIngresoSelec);
-                $location.path('/ingresos/ingreso_registroG/' + ctrl.tipoIngresoSelec.Nombre);
+              if (!angular.isUndefined(ctrl.tipoIngresoSelec)) {
+                    $location.path('/ingresos/ingreso_registroG/' + ctrl.tipoIngresoSelec.Nombre);
+              }
             } else {
-                ctrl.ver_grid = true;
-                ctrl.consultarPagos();
+              if (!angular.isUndefined(ctrl.facultadSelec)  && !angular.isUndefined(ctrl.tipoIngresoSelec)) {
+                  if (ctrl.facultadSelec.Id !== null && ctrl.tipoIngresoSelec != null) {
+                    ctrl.ver_grid = true;
+                    ctrl.consultarPagos();
+                  }
+
+              }
             }
 
         }

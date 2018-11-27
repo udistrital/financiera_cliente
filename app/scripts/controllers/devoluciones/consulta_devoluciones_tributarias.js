@@ -116,7 +116,6 @@ angular.module('financieraClienteApp')
           if(response.data != null){
           ctrl.gridDevoluciones.data = response.data.Devolutions;
           ctrl.gridDevoluciones.totalItems = response.data.RegCuantity;
-          console.log(ctrl.gridDevoluciones.data,"Cantidad registros ",response.data.RegCuantity," query ",query);
           }
         });
         };
@@ -208,8 +207,9 @@ angular.module('financieraClienteApp')
                         swal('',$translate.instant(response.data.Code),response.data.Type);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                          ctrl.consultarDevoluciones();
-                          $scope.estado = undefined;
+                          $scope.devolucion.Estado = response.data.Body.EstadoDevolucion;
+                          $scope.estado = response.data.Body.EstadoDevolucion;
+                          ctrl.gridApiDevoluciones.core.handleWindowResize();
                         })
                       }
                     }
