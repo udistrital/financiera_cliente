@@ -135,7 +135,7 @@ var conf_local = {
         URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
         CLIENTE_ID: "1aTCvNz4kxA7_p8Z8E1NPtCxtx8a",
         REDIRECT_URL: "http://localhost:9000/",
-        RESPONSE_TYPE: "code",
+        RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
         SIGN_OUT_URL: "https://autenticacion.portaloas.udistrital.edu.co/oidc/logout",

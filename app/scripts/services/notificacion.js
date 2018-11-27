@@ -36,7 +36,6 @@ angular.module('financieraNotificacion', [])
     //console.log("Token ",$scope.token_service.token);
     //var id = "utest01";
     var path = CONF.GENERAL.NOTIFICACION_SERVICE;
-    console.log('Perfil ', perfil);
     
     var dataStream = $websocket(CONF.GENERAL.NOTIFICACION_WS + "?id=" + id + "&profiles="+ perfil);
     var log = [];

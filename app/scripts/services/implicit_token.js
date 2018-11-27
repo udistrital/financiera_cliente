@@ -21,7 +21,6 @@ if (window.localStorage.getItem('access_token') === null ||
     var req = new XMLHttpRequest();
     // consider using POST so query isn't logged
     var query = 'https://' + window.location.host + '?' + queryString;
-    // console.log(query);
     req.open('GET', query, true);
     if (params['id_token'] !== null && params['id_token'] !== undefined) {
         window.localStorage.setItem('access_token', params['access_token']);
@@ -29,7 +28,7 @@ if (window.localStorage.getItem('access_token') === null ||
         window.localStorage.setItem('state', params['state']);
         window.localStorage.setItem('expires_in', params['expires_in']);
     } else {
-        window.localStorage.clear();
+        window.localStorage.clear();     
     }
     req.onreadystatechange = function (e) {
         if (req.readyState === 4) {
@@ -85,14 +84,17 @@ angular.module('implicitToken', [])
                     url += '&nonce=' + encodeURIComponent(CONF.GENERAL.TOKEN.nonce);
                 }
                 url += '&state=' + encodeURIComponent(CONF.GENERAL.TOKEN.state);
-                window.location = url;
+                window.location = url;               
                 return url;
             },
             live_token: function () {
                 if (window.localStorage.getItem('id_token') === 'undefined' || window.localStorage.getItem('id_token') === null || service.logoutValid()) {
+                    
                     service.login();
+                    service.token = service.getPayload()
                     return false;
                 } else {
+
                     service.setting_bearer = {
                         headers: {
                             'Accept': 'application/json',
@@ -103,6 +105,7 @@ angular.module('implicitToken', [])
                     service.logout_url += '?id_token_hint=' + window.localStorage.getItem('id_token');
                     service.logout_url += '&post_logout_redirect_uri=' + CONF.GENERAL.TOKEN.SIGN_OUT_REDIRECT_URL;
                     service.logout_url += '&state=' + window.localStorage.getItem('state');
+                    service.token = service.getPayload()                    
                     return true;
                 }
             },
@@ -157,12 +160,9 @@ angular.module('implicitToken', [])
                 var roles = [];
                 angular.forEach(service.token.role, function (data) {
                     if (data.split("/")[0] !== null && !angular.isUndefined(data.split("/")[0])) {
-                        console.log("data", data);
-
                         roles.push(data.split("/")[0]);
                     }
                 });
-                console.info(roles);
                 return roles;
             }
         };
