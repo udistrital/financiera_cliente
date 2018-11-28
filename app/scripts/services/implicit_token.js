@@ -10,6 +10,7 @@
 // First, parse the query string
 if (window.localStorage.getItem('access_token') === null ||
     window.localStorage.getItem('access_token') === undefined) {
+    window.localStorage.clear(); 
     var params = {},
         queryString = location.hash.substring(1),
         regex = /([^&=]+)=([^&]*)/g;
