@@ -2,7 +2,7 @@
 
 angular.module('financieraClienteApp')
     .controller('menuCtrl', function($location, $window, $q, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
-        self.perfil = "Admin";
+        self.perfil = "ADMIN_KRONOS";
         //$scope.menuserv=configuracionRequest;
         $scope.language = {
             es: "btn btn-primary btn-circle btn-outline active",

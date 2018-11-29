@@ -14,6 +14,7 @@ angular.module('financieraClienteApp')
         seleccion: '=?',
         filtro: '=?',
         conceptosel: '=?',
+        cuentasel: '=?',
         recargar: '=?',
         rdesc: '=?',
         nohead: '=?',
@@ -25,6 +26,7 @@ angular.module('financieraClienteApp')
         var self = this;
         self.padre = {};
         self.arbol_conceptos = [];
+        self.cuentasel = [];
 
 
         self.multiSelect = "multiselect" in $attrs;
@@ -53,6 +55,11 @@ angular.module('financieraClienteApp')
         $scope.$watch("conceptosel",function(){
             if (self.multiSelect && !angular.isUndefined($scope.conceptosel)){
               self.algo_fue_seleccionado=false;
+            }
+        },true);
+        $scope.$watch("d_arbolConceptos.cuentasel",function(){
+            if (self.multiSelect && !angular.isUndefined(self.cuentasel)){
+              $scope.cuentasel = self.cuentasel;
             }
         },true);
         $scope.vtitle=!('nohead' in $attrs);
