@@ -156,7 +156,7 @@ angular.module('financieraClienteApp')
 
 
     ctrl.aprobar = function(){
-       financieraRequest.post("orden_pago_estado_orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
+       financieraMidRequest.post("orden_pago/WorkFlowOrdenPago", $scope.senDataEstado)
           .then(function(data) {
 
             $scope.resultado = data;
