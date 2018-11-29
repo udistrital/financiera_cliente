@@ -10,7 +10,54 @@
         <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info="informacion"></proceso>
     </div>
   </div>
-</div>
 <div class="panel-footer" align="center">
-    <button type="button" class="btn btn-outline btn-primary" ng-click="">{{"BTN.CREAR" | translate}}</button>
+    <button type="button" class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.abrirModal('modalCrear')">{{"BTN.CREAR" | translate}}</button>
+</div>
+</div>
+<div id="modalCrear" class="modal fade" role="dialog">
+  <div class="modal-content col-md-10 col-md-offset-1 margin-modal">
+      <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listadoTipoTransaccion.pestOpen=false">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            {{"INFORMACION_TIPO_TRANSACCION"|translate}}
+        </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-6">
+                  <label>{{'NOMBRE' | translate}}</label>
+                  <input class="form-control" ng-model="listadoTipoTransaccion.tipoTr.Nombre" type = "text"/>
+              </div>
+              <div class="col-md-6">
+                  <label>{{'DESCRIPCION' | translate}}</label>
+                  <input class="form-control" ng-model="listadoTipoTransaccion.tipoTr.Descripcion" type = "text"/>
+              </div>
+              <div class="col-md-6">
+                  <label>{{'CLASE' | translate}}</label>
+                  <select ng-model="listadoTipoTransaccion.tipoTr.ClaseTransaccion" ng-options="i.Nombre for i in listadoTipoTransaccion.tipoConceptoTesoral" class="form-control" id="claseTipoTr" required>
+                    <option value="">{{'SELECCIONE'|translate}}</option>
+                  </select>
+              </div>
+              <div class="col-md-6">
+                <div class="col-md-6">
+                  <md-input-container>
+                    <label>{{'FECHA_INICIO' | translate}}</label>
+                      <md-datepicker id="fecha_Inicio" ng-model="listadoTipoTransaccion.tipoTr.FechaInicio" required></md-datepicker>
+                  </md-input-container>
+                    </div>
+                    <div class="col-md-6">
+                      <md-input-container>
+                      <label>{{'FECHA_FIN' | translate}}</label>
+                      <md-datepicker ng-model="listadoTipoTransaccion.tipoTr.FechaFin"required></md-datepicker>
+                      </md-input-container>
+                    </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer"  align="center">
+            <button class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.registrar()">{{"BTN.REGISTRAR"|translate}}</button>
+          </div>
+      </div>
+  </div>
 </div>

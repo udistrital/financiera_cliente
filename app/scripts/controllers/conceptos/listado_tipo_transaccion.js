@@ -8,8 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate) {
+  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate,financieraRequest) {
     var ctrl = this;
+    ctrl.tipoTr = {};
+    ctrl.tipoTr.FechaInicio = new Date();
+    ctrl.tipoTr.FechaFin = new Date();
     ctrl.tipoTransaccion = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
@@ -51,4 +54,28 @@ angular.module('financieraClienteApp')
         }
       ]
     };
+    ctrl.abrirModal=function(modal){
+      $('#'+modal).modal();
+    }
+    ctrl.obtenerListas=function(){
+      financieraRequest.get("tipo_concepto").then(function(response) {
+        ctrl.tipoConceptoTesoral = response.data;
+      });
+    }
+    ctrl.obtenerListas();
+    ctrl.registrar = function(){
+      var request={};
+      var matches;
+      request.detalleTransaccion = ctrl.tipoTr;
+      matches = request.detalleTransaccion.Nombre.match(/\b(\w)/g);
+      request.CodigoAbreviacion =  matches.join('') + request.detalleTransaccion.Nombre.slice(-1);
+      request.version = {
+        FechaInicio:ctrl.tipoTr.FechaInicio,
+        FechaFin:ctrl.tipoTr.FechaFin,
+        NumeroVersion:1,
+        Descripcion:"Version Inicial"
+      };
+      console.log(request);
+    }
+
   });
