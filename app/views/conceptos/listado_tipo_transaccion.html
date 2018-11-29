@@ -1,0 +1,16 @@
+<div class="panel panel-primary panel-body">
+  <h3 class="page-header">
+        {{"TIPOS_TRANSACCION" | translate}}
+  </h3>
+  <div class="panel-body">
+    <div class="form-group" >
+      <div class="mi-grid" id="mi-grid" ui-grid="listadoTipoTransaccion.tipoTransaccion" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
+    </div>
+    <div class="form-group" ng-if="mostrar_direc">
+        <proceso edges="aristas" nodes="estados" node="estado" nodeclick="estadoclick" eventclick="funcion(estado)" info="informacion"></proceso>
+    </div>
+  </div>
+</div>
+<div class="panel-footer" align="center">
+    <button type="button" class="btn btn-outline btn-primary" ng-click="">{{"BTN.CREAR" | translate}}</button>
+</div>
