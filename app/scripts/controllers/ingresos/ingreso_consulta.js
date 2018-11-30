@@ -323,7 +323,6 @@ angular.module('financieraClienteApp')
             aprobardata.Ingreso = ctrl.ingresoSel;
             aprobardata.Movimientos = $scope.movimientos;
             console.log(aprobardata);
-            console.log(aprobardata.Ingreso);
             financieraMidRequest.post('ingreso/AprobacionPresupuestalIngreso', aprobardata).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type !== undefined) {
