@@ -6,7 +6,7 @@ angular.module('financieraClienteApp')
         $scope.token_service = token_service;
         $scope.$on('$routeChangeStart', function (scope, next, current) {
 
-            if ($scope.token_service.live_token()) {
+            if ($scope.token_service.live_token() && current !== undefined) {
 
                 console.log('roles ', self.perfil);
                 console.log('mu menu ', $rootScope.my_menu);

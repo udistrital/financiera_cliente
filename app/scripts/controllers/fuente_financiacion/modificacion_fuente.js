@@ -107,8 +107,10 @@ angular.module('financieraClienteApp')
       for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Id == self.tipo_fuente) {
           if (self.tipo[i].Nombre == "Traslado") {
+            self.tipo_modificacion = self.tipo[i];
             self.traslado = true;
           } else if (self.tipo[i].Nombre == "Adición") {
+            self.tipo_modificacion = self.tipo[i];
             self.adicion = true;
           }
         }
@@ -696,61 +698,52 @@ angular.module('financieraClienteApp')
 
     self.asignar_rubros = function(id, documento) {
       var afectacionArr = [];
+      
       for (i = 0; i < self.fuentes_seleccionadas.length; i++) {
         for (j = 0; j < self.fuentes_seleccionadas[i].seleccionado.length; j++) {
-          afectacionArr.push(self.crear_fuente_apropiacion(id, self.fuentes_seleccionadas[i].seleccionado[j].Fuente, self.fuentes_seleccionadas[i].seleccionado[j].Dependencia, self.fuentes_seleccionadas[i].seleccionado[j].Valor, documento));
+          afectacionArr.push(self.crear_fuente_apropiacion(id, self.fuentes_seleccionadas[i].seleccionado[j].Fuente,self.Codigo, self.fuentes_seleccionadas[i].seleccionado[j].Dependencia, self.fuentes_seleccionadas[i].seleccionado[j].Valor, documento));
         }
       }
       return afectacionArr;
     };
 
-    self.crear_fuente_apropiacion = function(apropiacion, fuente, dependencia, valor, documento) {
+    self.crear_fuente_apropiacion = function(fuente, rubro,codigoRubro, dependencia, valor, documento) {
 
       var data = {
         Dependencia: parseInt(dependencia),
         Apropiacion: {
-          Id: parseInt(apropiacion)
+          Id: parseInt(rubro)
         },
         FuenteFinanciamiento: {
           Id: parseInt(fuente)
         },
+        Rubro: codigoRubro,
         MovimientoFuenteFinanciamientoApropiacion: []
       }
-      data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(self.id, valor, self.tipo_fuente, documento));
+      data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(0, valor, documento));
       return data;
       // financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
       //   self.fuente_financiamiento_apropiacion = response.data;
       //   self.id = response.data.Id;
-      //   data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(self.id, valor, self.tipo_fuente, documento));
-      //   return data;
-      // });
+      //   self.crear_Movimiento_apropiacion(self.id, valor, documento);
 
+      // });
     };
 
-    self.crear_Movimiento_apropiacion = function(apropiacion, valor, tipo, documento) {
+    self.crear_Movimiento_apropiacion = function(apropiacion, valor, documento) {
 
       var data = {
         Valor: parseInt(valor),
         Fecha: self.fecha,
-        Descripcion: self.nueva_fuente_apropiacion.Descripcion,
         TipoDocumento: parseInt(documento),
-        TipoMovimiento: {
-          Id: parseInt(tipo)
-        },
+        TipoMovimiento: self.tipo_modificacion,
         FuenteFinanciamientoApropiacion: {
           Id: parseInt(apropiacion)
         }
       }
       return data;
       // financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
-      //   self.movimiento_fuente_financiamiento_apropiacion_serv = response.data;
-      //   self.id_movimiento.push(response.data);
-      //   if (self.traslado && self.id_movimiento.length == 2) {
-      //     self.id_movimiento[0].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[1].Id);
-      //     self.id_movimiento[1].MovimientoFuenteFinanciamientoApropiacion = parseInt(self.id_movimiento[0].Id);
-      //     self.traslado_movimiento(self.id_movimiento[0]);
-      //     self.traslado_movimiento(self.id_movimiento[1]);
-      //   }
+      //   self.movimiento_fuente_financiamiento_apropiacion = response.data;
       //   if (response.data) {
       //     swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
       //       $window.location.href = '#/fuente_financiacion/consulta_fuente';
@@ -760,6 +753,7 @@ angular.module('financieraClienteApp')
       //   }
       // });
     };
+
 
     // Registro
     self.id_movimiento = [];
