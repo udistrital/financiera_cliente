@@ -712,10 +712,10 @@ angular.module('financieraClienteApp')
       var data = {
         Dependencia: parseInt(dependencia),
         Apropiacion: {
-          Id: parseInt(rubro)
+          Id: parseInt(fuente)
         },
         FuenteFinanciamiento: {
-          Id: parseInt(fuente)
+          Id: parseInt(rubro)
         },
         Rubro: codigoRubro,
         MovimientoFuenteFinanciamientoApropiacion: []
