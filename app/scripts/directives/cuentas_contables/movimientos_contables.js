@@ -28,7 +28,6 @@ angular.module('financieraClienteApp')
                 movimientos: '=?',
                 editable: '@?',
                 impydesc: '@?',
-                queryce:'=?',
                 monto: '=?',
                 outputvalorbruto: '=?',
                 outputformapagoop: '=?',
@@ -44,11 +43,6 @@ angular.module('financieraClienteApp')
                     attrs['editable'] = true;
                 } else {
                     attrs['editable'] = false;
-                }
-                if ('queryce' in attrs) {
-                    attrs['queryce'] = true;
-                } else {
-                    attrs['queryce'] = false;
                 }
             },
             controller: function($scope, $attrs) {
