@@ -786,8 +786,8 @@ angular.module('financieraClienteApp')
         self.id = response.data.Id;
         //self.id = 0;
         var DataToSend = [];
-        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_origen, self.adicion_fuente, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)), self.id));
-        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_destino, self.adicion_fuente, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto), self.id));
+        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_origen, self.adicion_fuente, self.Codigo, self.dependencia_origen, (-1 * parseInt(self.nueva_fuente_apropiacion.Monto)), self.id));
+        DataToSend.push(self.crear_fuente_apropiacion(self.fuente_destino, self.adicion_fuente,self.Codigo1, self.dependencia_destino, parseInt(self.nueva_fuente_apropiacion.Monto), self.id));
         console.log("Data to Send: ", DataToSend);
         financieraMidRequest.post("fuente_financiamiento/RegistrarModificacionFuente", DataToSend).then(function(response) {
           if (response.data) {
