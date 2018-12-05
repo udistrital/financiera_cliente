@@ -95,18 +95,18 @@ var conf_pruebas = {
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     SPAGOBI_SERVICE: "https://intelligentia.udistrital.edu.co:8443/SpagoBI/restful-services/1.0/",
     TOKEN: {
-        AUTORIZATION_URL: "https://autenticacion.udistrital.edu.co/oauth2/authorize",
-        URL_USER_INFO: "https://autenticacion.udistrital.edu.co/oauth2/userinfo",
+        AUTORIZATION_URL: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize",
+        URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
         CLIENTE_ID: "1aTCvNz4kxA7_p8Z8E1NPtCxtx8a",
-        REDIRECT_URL: "http://kronos.portaloas.udistrital.edu.co/",
-        RESPONSE_TYPE: "code",
+        REDIRECT_URL: "http://localhost:9000/",
+        RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
-        SIGN_OUT_URL: "https://autenticacion.udistrital.edu.co/oidc/logout",
-        SIGN_OUT_REDIRECT_URL: "http://kronos.portaloas.udistrital.edu.co/",
+        SIGN_OUT_URL: "https://autenticacion.portaloas.udistrital.edu.co/oidc/logout",
+        SIGN_OUT_REDIRECT_URL: "http://10.20.0.254/kronos/",
         SIGN_OUT_APPEND_TOKEN: "true",
-        REFRESH_TOKEN: "https://autenticacion.udistrital.edu.co/oauth2/token",
-        CLIENT_SECRET: "kL8YZVnayCztbsWQQRkQ_x9FT9Ea"
+        REFRESH_TOKEN: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/token",
+        CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
     UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
 };
@@ -151,5 +151,5 @@ var conf_local = {
 
 angular.module('financieraClienteApp')
     .constant('CONF', {
-        GENERAL: conf_local
+        GENERAL: conf_pruebas
     });
