@@ -72,13 +72,14 @@
                             <div>
                                 <i ng-if="! notificacion.viewed" class="fa fa-comment fa-fw "></i>
                                 <i ng-if="notificacion.viewed" class="fa fa-check-circle"></i>
-                                <strong>{{notificacion.user}}</strong>
+                                <strong>{{notificacion.User}}</strong>
                                 <span class="pull-right text-muted">
-                  <em><span am-time-ago="notificacion.FechaCreacion"></span></em>
+                                <em><span am-time-ago="notificacion.FechaCreacion"></span></em>
                                 </span>
                             </div>
-                            <div ng-if="! notificacion.viewed">{{notificacion.message | limitTo:100}} ...</div>
-                            <div ng-if="notificacion.viewed">{{notificacion.message| limitTo:100}} ...</div>
+                            <br>
+                            <div ng-if="! notificacion.viewed">{{notificacion.Content.Message | limitTo:100}} ...</div>
+                            <div ng-if="notificacion.viewed">{{notificacion.Content.Message| limitTo:100}} ...</div>
                         </a>
                     </li>
                     <li class="divider"></li>

@@ -278,6 +278,7 @@ var text_es = {
     E_MODP006 :"No se Pudo registrar una de las disponibilidades para este movimiento",
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
     E_MODP007: "No se pudo aprobar la solicitud de Modificación Presupuestal",
+    E_MODP008: "El Arbol De Las Apropiaciones No Esta Balanceado Luego De Realizar Los Movimientos.",
     // op masivas
     E_OPM_0001: "No se encontraron ordenes de pago relacionadas a la liquidacion",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
