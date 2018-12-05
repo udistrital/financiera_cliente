@@ -98,7 +98,7 @@ var conf_pruebas = {
         AUTORIZATION_URL: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/authorize",
         URL_USER_INFO: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/userinfo",
         CLIENTE_ID: "1aTCvNz4kxA7_p8Z8E1NPtCxtx8a",
-        REDIRECT_URL: "http://localhost:9000/",
+        REDIRECT_URL: "http://10.20.0.254/kronos/",
         RESPONSE_TYPE: "id_token token",
         SCOPE: "openid email",
         BUTTON_CLASS: "btn btn-warning btn-sm",
