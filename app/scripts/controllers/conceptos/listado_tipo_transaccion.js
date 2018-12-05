@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate,financieraRequest) {
+  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate,financieraRequest,financieraMidRequest) {
     var ctrl = this;
     ctrl.tipoTr = {};
     ctrl.tipoTr.FechaInicio = new Date();
@@ -76,6 +76,7 @@ angular.module('financieraClienteApp')
         Descripcion:"Version Inicial"
       };
       console.log(request);
+      financieraMidRequest.post("tipo_transaccion/",request);
     }
 
   });
