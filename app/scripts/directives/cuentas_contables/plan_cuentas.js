@@ -31,7 +31,8 @@ angular.module('financieraClienteApp')
         noresumen: '@?',
         ramasel: '=?',
         rdesc:"=?",
-        btnselnom: '=?'
+        btnselnom: '=?',
+        alreadysel:'=?'
       },
       templateUrl: 'views/directives/cuentas_contables/plan_cuentas.html', //url del template de la directiva
       controller: function($scope, $attrs, $translate) {
@@ -85,12 +86,7 @@ angular.module('financieraClienteApp')
             financieraRequest.get("arbol_plan_cuentas/" + self.plan.Id, "").then(function(response) {
               $scope.arbol = [];
               if (response.data !== null) {
-                var cuentaPadre
-                if(angular.isArray($scope.filtro)){
-                  angular.forEach($scope.filtro,function(){
-                    cuentaPadre = filtro.CuentaPadre
-                  });
-                }
+
                 if (!angular.isUndefined($scope.filtro) && !angular.isUndefined($scope.filtro.CuentaPadre)  && !angular.isUndefined($scope.filtro.CuentaHijo)) {
                   self.cuentaPadre = $scope.filtro.CuentaPadre.Id;
                   self.cuentaHijo = $scope.filtro.CuentaHijo.Id;
@@ -122,10 +118,23 @@ angular.module('financieraClienteApp')
          $scope.showSelected = function(node, $path) {
             $scope.ramasel = $path();
         };
+        self.ComprobarSeleccion = function(){
+            if ($scope.cuentasel != null || !angular.isUndefined($scope.cuentasel)) {
+              self.algo_fue_seleccionado=true;
+              self.esconder_botones = true
+              $scope.showc=true;
+            }
+
+        }
+
+        $scope.$watch("alreadysel", function() {
+            if($scope.alreadysel){
+              self.ComprobarSeleccion();
+            }
+        }, true);
 
         $scope.$watch("cuentasel", function() {
           if ($scope.cuentasel === null || angular.isUndefined($scope.cuentasel)) {
-            console.log("cambia valor cuenta seleccionada",$scope.cuentasel);
             self.algo_fue_seleccionado=false;
             self.esconder_botones = false;
           }

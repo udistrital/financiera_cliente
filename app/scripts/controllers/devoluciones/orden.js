@@ -155,6 +155,7 @@ angular.module('financieraClienteApp')
 
    $scope.$watch('ordendevolucion.concepto[0]', function(newValue,oldValue) {
        if (!angular.isUndefined(newValue)) {
+            ctrl.movs=undefined;
            financieraRequest.get('concepto', $.param({
                query: "Id:" + newValue.Id,
                fields: "Rubro",
@@ -163,7 +164,7 @@ angular.module('financieraClienteApp')
                $scope.ordendevolucion.concepto[0].Rubro = response.data[0].Rubro;
            });
        }
-   }, true);
+   }, false);
 
    ctrl.consultaPagos = function(){
 
@@ -347,7 +348,7 @@ angular.module('financieraClienteApp')
            FormaPago:ctrl.formaPago,
            Vigencia:ctrl.vigencia,
            UnidadEjecutora:ctrl.unidadejecutora,
-           CuentaDevolucion:{
+           CuentaBancariaEnte:{
              Banco:ctrl.banco.Id,
              TipoCuenta:ctrl.tipocuenta.Id,
              NumeroCuenta:ctrl.numeroCuenta.toString()
@@ -373,7 +374,7 @@ angular.module('financieraClienteApp')
 
         ctrl.SolicitudDevolucion.SolicitudDevolucion.Beneficiario = parseInt(ctrl.IdBeneficiario);
         ctrl.SolicitudDevolucion.SolicitudDevolucion.Solicitante = parseInt(ctrl.IdSolicitante);
-        ctrl.SolicitudDevolucion.SolicitudDevolucion.CuentaDevolucion.Titular = ctrl.IdSolicitante;
+        ctrl.SolicitudDevolucion.SolicitudDevolucion.CuentaBancariaEnte.Titular = ctrl.IdSolicitante;
 
         console.log(ctrl.SolicitudDevolucion);
 

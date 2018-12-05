@@ -244,11 +244,9 @@ angular.module('financieraClienteApp')
                                 console.log(self.Necesidad);
 
                             });
-                            if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
-
-                            } else {
-                                $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
-                            }
+                            if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) === -1) {
+                              $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
+                            } 
 
                         });
 
@@ -281,7 +279,7 @@ angular.module('financieraClienteApp')
             });
         };
 
-  
+
 
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;

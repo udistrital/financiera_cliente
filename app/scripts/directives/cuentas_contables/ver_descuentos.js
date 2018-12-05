@@ -10,6 +10,7 @@
  * @param {object} seldesc descuento seleccionado
  * @param {boolean} noheader bandera para poner o quitar el panel head
  * @param {object} cuentasel cuenta seleccionada asociada al decuento
+ * @param {string} querys para agregar query adicional
  * @description
  * # verDescuentos
  * Directiva en la cual se muestra la estructura de cuentas de cualquier plan de cuentas que sea pasado por el scope de la misma
@@ -23,7 +24,8 @@ angular.module('financieraClienteApp')
             scope: {
                 seldesc: '=?',
                 cuentasel: '=?',
-                noheader: '=?'
+                noheader: '=?',
+                querys: '=?'
             },
             templateUrl: 'views/directives/cuentas_contables/ver_descuentos.html',
             controller: function($scope, $attrs) {
@@ -129,9 +131,14 @@ angular.module('financieraClienteApp')
                  * @description carga en el grid el listado de impuestos y descuentos
                  */
                 self.cargar = function() {
-                    financieraRequest.get("cuenta_especial", $.param({
-                        limit: -1
-                    })).then(function(response) {
+                    var query = "";
+                    if('querys' in $attrs){
+                        query = "limit=-1" + $scope.querys;
+                    }
+                    else {
+                        query = "limit=-1";
+                    }
+                    financieraRequest.get("cuenta_especial", query).then(function(response) {
                         self.gridOptions.data = response.data;
                         angular.forEach(self.gridOptions.data, function(value) {
                             administrativaRequest.get("informacion_proveedor", $.param({

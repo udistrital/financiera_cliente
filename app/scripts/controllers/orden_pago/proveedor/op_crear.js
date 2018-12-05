@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
             },
             'Valor': concepto.Afectacion,
             'RegistroPresupuestalDisponibilidadApropiacion': {
-              'Id': concepto.RpData.RpDisAp.DisponibilidadApropiacion.Id
+              'Id': concepto.RpData.DisponibilidadApropiacion.Id
             }
           });
           //  data movimientos contables
@@ -73,20 +73,20 @@ angular.module('financieraClienteApp')
 
     // funcion agrupa la afectación de los conceptos por rubro y valida que no supere el saldo de rubro
     self.afectaciónPorConceptoNoSuperaSaldoRubro = function(pConceptos){
-      console.log("Conceptos", pConceptos)
+      //console.log("Conceptos", pConceptos)
       self.afectacionEnRubros = {};
       self.saldoDeRubros = {};
       angular.forEach(pConceptos, function(concepto) {
         if (concepto.validado == true && concepto.Afectacion != 0) {
           // total afectacion
-          if(self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
-            self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
+          if(self.afectacionEnRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+          self.afectacionEnRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Afectacion;
           }else{
-            self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
+            self.afectacionEnRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = self.afectacionEnRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] + concepto.Afectacion;
           }
           // saldos
-          if(self.saldoDeRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
-            self.saldoDeRubros[concepto.RpData.RpDisAp.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.RpData.RpDisAp.Saldo;
+          if(self.saldoDeRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] == undefined){
+            self.saldoDeRubros[concepto.RpData.DisponibilidadApropiacion.Apropiacion.Rubro.Codigo] = concepto.Saldo;
           }
         }
       });
@@ -109,11 +109,9 @@ angular.module('financieraClienteApp')
           self.dataOrdenPagoInsert.Usuario = {'Id': 1}; // Con autenticación llegara el objeto
         }
         // registrar OP Proveedor
-        console.log(self.dataOrdenPagoInsert);
         financieraRequest.post("orden_pago/RegistrarOpProveedor", self.dataOrdenPagoInsert)
           .then(function(data) {
             self.resultado = data;
-            console.log("resultado op", self.resultado.data.Body)
             var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('ORDEN_DE_PAGO') + "</th><th>" + $translate.instant('VIGENCIA') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
             templateAlert = templateAlert + "<tr class='success'><td>" + self.resultado.data.Body + "</td>" + "<td>" + year + "</td><td>" + $translate.instant(self.resultado.data.Code) + "</td></tr>" ;
             templateAlert = templateAlert + "</table>";

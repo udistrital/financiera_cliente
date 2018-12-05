@@ -1,22 +1,31 @@
 <div class="panel panel-primary panel-body">
-  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}} </h2>
+  <h2 class="page-header text-center">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}} </h2>
   <div class="panel panel-default">
     <div class="panel-heading">
-      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NO' | translate }} {{girosVerPorId.giroId}}</h3>
+      <h3 class="panel-title">{{ 'GIROS' | translate }} {{ 'NUMERO_SELECCION' | translate }} {{girosVerPorId.giros.Consecutivo}}</h3>
     </div>
-    <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-selection></div>
+    <div ng-if="!refresh" ui-grid="girosVerPorId.gridOptions_op_detail" ui-grid-auto-resize ui-grid-selection ui-grid-pagination></div>
     <br/>
     <div class="form-horizontal">
       <div class="form-group">
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'AC'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ABONO_CUENTA' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'CH'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'CHEQUE' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'EF'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'EFECTIVO' | translate}}</label>
-        <label ng-show=" girosVerPorId.FormaPago.CodigoAbreviacion == 'ND'" class="control-label col-sm-2">{{'TOTAL' | translate}} {{'NOTA_DEVITO' | translate}}</label>
+        <label ng-show=" girosVerPorId.FormaPago.ValorTotal != 0 " class="control-label col-sm-2">{{'TOTAL' | translate}} {{'ORDEN_PAGO' | translate}}</label>
+        <div class="col-sm-10">
+          <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotalOp  | currency:"$":2  }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'TOTAL' | translate}} {{'IMPUESTOS_DESCUENTOS' | translate}}</label>
+        <div class="col-sm-10">
+          <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotalCuentasEspeciales  | currency:"$":2  }}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-sm-2">{{'TOTAL' | translate}} {{'GIRO' | translate}}</label>
         <div class="col-sm-10">
           <span class="form-control input_right" readonly>{{girosVerPorId.ValorTotal  | currency:"$":2  }}</span>
         </div>
       </div>
-      <div class="form-group">
+    <div class="form-group">
         <label for="formapago" class="col-sm-2 control-label">{{'CUENTA_BANCARIA' | translate }}</label>
         <div class=" col-sm-10">
           <table class="table table-bordered">
@@ -32,8 +41,8 @@
               <tr>
                 <td>{{girosVerPorId.giros.CuentaBancaria.NumeroCuenta}}</td>
                 <td>{{girosVerPorId.giros.CuentaBancaria.TipoCuentaBancaria.Nombre}}</td>
-                <td>{{girosVerPorId.giros.SucursalData.Nombre}}</td>
-                <td>{{girosVerPorId.giros.SucursalData.Banco.DenominacionBanco}}</td>
+                <td>{{girosVerPorId.giros.Organizacion.Sucursal.Nombre}}</td>
+                <td>{{girosVerPorId.giros.Organizacion.Banco.Nombre}}</td>
               </tr>
             </tbody>
           </table>
@@ -47,5 +56,39 @@
     <a ng-href="#/orden_pago/giros/ver_todos" data-toggle="modal" data-target="#myModal" class="btn btn-info btn-outline">
       {{ 'BTN.REGRESAR' | translate }}
     </a>
+  </div>
+</div>
+
+<div id="myModal" class="modal fade col-md-12" role="dialog">
+  <div class="modal-content col-md-offset-1 col-md-10">
+      <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="panel panel-default panel-body sticky shadow-box pre-scrollable" style="max-height: 75vh">
+        <div class="panel-heading">
+          <h3 class="modal-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
+          <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+        </div>
+      <div ng-if="girosVerPorId.cuentas.length > 0">
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in girosVerPorId.conceptos"><a href ng-click="girosVerPorId.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane fade in active" ng-repeat="c in girosVerPorId.conceptos" ng-show="girosVerPorId.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc >
+              </movimientos-contables>
+            </div>
+          </div>
+        </div>
+      </div>
+          <div class="modal-body">
+      <arbol-conceptos filtro="" seleccion="girosVerPorId.conceptos" cuentasel = "girosVerPorId.cuentas" conceptosel="nodo" multiselect="true" seleccionini> </arbol-conceptos>
+
+
+          </div>
+      </div>
   </div>
 </div>

@@ -9,6 +9,8 @@
          <a href="" class="ver" data-toggle="modal" data-target="#modalConceptos{{d_movimientosContables.gridOptionsMovimientos.data[0].Concepto.Codigo}}">
              <i class="fa fa-eye fa-lg  faa-shake animated-hover" aria-hidden="true" title="{{'BTN.VER' | translate }}"></i>
          </a>
+         <span ng-if="tercero!==undefined" style="color: black panel-title"> {{"TERCERO"|translate}} {{tercero.tipo_documento}}:
+          {{tercero.numero_documento}} </span>
       </div>
 
       <div class="col-md-4">
@@ -37,7 +39,7 @@
         <legend>{{"SELECCIONAR_CUENTA_CONTABLE" | translate}}</legend>
           <plan-cuentas filtro="filtro_padre" cuentasel="d_movimientosContables.padre" recargar="d_movimientosContables.recargar_arbol" planid="d_movimientosContables.plan_maestro.Id" rdesc btnselnom="d_movimientosContables.btnselec" />
         <div class="form-group">
-          <center><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_cuenta(d_movimientosContables.padre)">{{"AGREGAR" | translate}}</button></center>
+          <center><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_cuenta(d_movimientosContables.padre,true)">{{"AGREGAR" | translate}}</button></center>
         </div>
       </div>
 
@@ -51,7 +53,7 @@
 
       <div class="modal-body">
         <legend>{{"SELECCIONAR_DESCUENTOS" | translate}}</legend>
-        <ver-descuentos seldesc="cuen" /><br>
+        <ver-descuentos seldesc="cuen"  /><br>
         <div class="form-group">
           <centeR><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">{{"AGREGAR" | translate}}</button></center>
         </div>

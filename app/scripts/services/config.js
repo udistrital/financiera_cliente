@@ -127,7 +127,7 @@ var conf_local = {
     NOTIFICACION_WS: "ws://127.0.0.1:8080/ws/join",
     NOTIFICACION_SERVICE: "http://localhost:8080/api/",
     OIKOS_SERVICE: "http://10.20.0.254/oikos_api/v1/",
-    ORGANIZACION_SERVICE: "http://10.20.0.254/organizacion_crud/v1/",
+    ORGANIZACION_SERVICE: "http://localhost:8089/v1/",
     PAGOS_SERVICE: "http://jbpm.udistritaloas.edu.co:8280/services/academicaProxyService/ingresos_concepto/",
     TITAN_SERVICE: "http://10.20.0.254/titan_api_crud/v1/",
     TOKEN: {
@@ -144,7 +144,7 @@ var conf_local = {
         REFRESH_TOKEN: "https://autenticacion.portaloas.udistrital.edu.co/oauth2/token",
         CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
-    UBICACIONES_SERVICE: "http://pruebasapi.intranetoas.udistrital.edu.co:8085/v1/",
+    UBICACIONES_SERVICE: "http://127.0.0.1:8092/v1/",
 };
 
 

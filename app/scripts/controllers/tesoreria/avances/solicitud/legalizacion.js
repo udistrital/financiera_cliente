@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest, $translate, $localStorage, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
+    .controller('LegalizacionCtrl', function($scope, agoraRequest,financieraRequest, administrativaRequest,$window, $translate, $localStorage,$q, wso2Request,$interval,$location,uiGridConstants,financieraMidRequest,gridApiService) {
         var ctrl = this;
         ctrl.operacion = "";
         ctrl.row_entity = {};
@@ -22,9 +22,11 @@ angular.module('financieraClienteApp')
         ctrl.UnidadEjecutora=1;
         ctrl.movContablesEnc = false;
         ctrl.notLoadConcepto = false;
+        $scope.solicitud.valorLegalizado = 0;
         $scope.botones = [
             { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
-            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
+            { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'look', estado: true }
         ];
 
         $scope.botonesOp = [
@@ -35,6 +37,7 @@ angular.module('financieraClienteApp')
             clase: "fa fa-spinner",
             animacion: "faa-spin animated"
         };
+
         ctrl.legalizacionCompras = { Valor: 0 };
         ctrl.subtotal = 0;
         ctrl.gridOptionsCompras = {
@@ -49,31 +52,36 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'Tercero',
+                    field: 'InformacionProveedor.NumDocumento',
                     displayName: $translate.instant('DOCUMENTO') + " " + $translate.instant('TERCERO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'NumeroFactura',
                     displayName: $translate.instant('NO_FACTURA'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
-                    field: 'InformacionProveedor[0].NomProveedor',
+                    field: 'InformacionProveedor.NomProveedor',
                     displayName: $translate.instant('NOMBRE'),
                     width: '39%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'FechaCompra',
                     displayName: $translate.instant('FECHA_COMPRA'),
                     cellTemplate: '<div align="center"><span>{{row.entity.FechaCompra | date:"yyyy-MM-dd":"UTC"}}</span></div>',
                     width: '10%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     //<button class="btn primary" ng-click="grid.appScope.deleteRow(row)">Delete</button>
@@ -103,32 +111,38 @@ angular.module('financieraClienteApp')
                     field: 'Tercero',
                     displayName: $translate.instant('CODIGO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estudiante.numero_documento',
                     displayName: $translate.instant('DOCUMENTO'),
                     width: '12%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Estudiante.nombre',
                     displayName: $translate.instant('NOMBRE'),
                     width: '39%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Valor',
                     displayName: $translate.instant('VALOR'),
                     cellFilter: 'currency',
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     field: 'Dias',
                     displayName: $translate.instant('Dias'),
                     width: '14%',
+                    headerCellClass: 'encabezado'
                 },
                 {
                     name: $translate.instant('OPCIONES'),
                     enableFiltering: false,
                     width: '10%',
+                    headerCellClass: 'encabezado',
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrowpracticas(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
                 }
             ],
@@ -507,6 +521,9 @@ angular.module('financieraClienteApp')
         $scope.loadrow = function(row, operacion) {
           self.operacion = operacion;
           switch (operacion) {
+            case "otro":
+
+            break;
               case "ver":
                 ctrl.op_detalle(row);
               break;
@@ -519,45 +536,25 @@ angular.module('financieraClienteApp')
         var path = "/orden_pago/proveedor/ver/";
         $location.url(path + row.entity.Id);
       }
-        ctrl.calcular_valor_impuesto = function() {
-            var sum_impuestos = 0;
-            for (var i in ctrl.Impuesto) {
-                if (i === "rete_iva") {
-                    if (!angular.isUndefined(ctrl.Impuesto.IVA)) {
-                        ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor;
-                    } else {
-                        ctrl.Impuesto[i].Valor = 0;
-                    }
-                } else {
-                    ctrl.Impuesto[i].Valor = ctrl.Impuesto[i].Porcentaje * ctrl.LegalizacionCompras.Valor;
-                }
-                if (!angular.isUndefined(ctrl.Impuesto[i].Valor) && i !== "IVA") {
-                    sum_impuestos += ctrl.Impuesto[i].Valor;
-                }
-            }
-            if (angular.isUndefined(ctrl.Impuesto.IVA)) {
-                ctrl.subtotal = ctrl.LegalizacionCompras.Valor;
-            } else {
-                ctrl.subtotal = ctrl.LegalizacionCompras.Valor + (ctrl.Impuesto.IVA.Porcentaje * ctrl.LegalizacionCompras.Valor);
-            }
-            ctrl.Total = ctrl.subtotal - sum_impuestos;
-        };
 
         $scope.loadrowpracticas = function(row, operacion) {
             ctrl.row_entity = row.entity;
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.limpiar_practica();
-                    $('#modal_practicas_academicas').modal('show');
+                    $location.path('/tesoreria/avances/solicitud/legalizacion_practica_academica');
                     break;
                 case "edit":
-                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
-                    $('#modal_practicas_academicas').modal('show');
-                    break;
+                  $localStorage.legalizacion = row.entity;
+                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+false, '_blank', 'location=yes');
+                  break;
                 case "delete":
                     ctrl.delete_requisito();
                     break;
+                case "look":
+                  $localStorage.legalizacion = row.entity;
+                  $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+true, '_blank', 'location=yes');
+                  break;
             }
         };
 
@@ -567,6 +564,8 @@ angular.module('financieraClienteApp')
             ctrl.row_entity = row.entity;
             ctrl.operacion = operacion;
             switch (operacion) {
+              case "otro":
+                    break;
                 case "deleteOP":
                     ctrl.delete_OPAvance();
                     break;
@@ -578,15 +577,18 @@ angular.module('financieraClienteApp')
             ctrl.operacion = operacion;
             switch (operacion) {
                 case "add":
-                    ctrl.limpiar_compras();
-                    $('#modal_legalizacion_compras').modal('show');
+                    $location.path('/tesoreria/avances/solicitud/legalizacion_evento_compra');
                     break;
                 case "edit":
-                    ctrl.LegalizacionPracticaAcademica = ctrl.row_entity;
-                    $('#modal_legalizacion_compras').modal('show');
+                    $localStorage.legalizacion = row.entity;
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+false, '_blank', 'location=yes');
                     break;
                 case "delete":
-                    ctrl.delete_requisito();
+                    ctrl.delete_compra();
+                    break;
+                case 'look':
+                    $localStorage.legalizacion = row.entity;
+                    $window.open('#/tesoreria/avances/solicitud/ev_legalizacion_tipo/'+row.entity.TipoAvanceLegalizacion.NumeroOrden+'/'+true, '_blank', 'location=yes');
                     break;
             }
         };
@@ -614,151 +616,35 @@ angular.module('financieraClienteApp')
           }
         }
 
-
-
-        ctrl.limpiar_practica = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionPracticaAcademica = null;
-        };
-        ctrl.limpiar_compras = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionCompras = null;
-        };
-
-
-        ctrl.cargar_estudiante = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionPracticaAcademica.Estudiante = null;
-            if (ctrl.LegalizacionPracticaAcademica.Tercero.length === 11) {
-                $scope.estudiante_cargado = true;
-                var parametros = [{
-                    name: "Información básica",
-                    value: "info_basica"
-                }, {
-                    name: "codigo estudiante",
-                    value: ctrl.LegalizacionPracticaAcademica.Tercero
-                }];
-                wso2Request.get("bienestarProxy", parametros).then(function(response) {
-                    $scope.estudiante_cargado = false;
-                    if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                        ctrl.LegalizacionPracticaAcademica.Estudiante = response.data.datosCollection.datos[0];
-                    } else {
-                        $scope.encontrado = "true";
-                    }
-                });
-            }
-        };
-        ctrl.cargar_proveedor = function() {
-            $scope.encontrado = false;
-            ctrl.LegalizacionCompras.InformacionProveedor = null;
-            administrativaRequest.get("informacion_proveedor",
-                    $.param({
-                        query: "NumDocumento:" + ctrl.LegalizacionCompras.Tercero,
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    if (response.data == null) {
-                        $scope.encontrado = "true";
-                    } else {
-                        ctrl.LegalizacionCompras.InformacionProveedor = response.data[0];
-
-                    }
-                });
-        };
-
-        ctrl.cargar_impuestos = function() {
-            ctrl.Impuesto = {};
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:3", //Impuesto IVA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.iva = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:4", //Impuesto ICA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.ica = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "TipoCuentaEspecial.Id:5", //Impuesto RENTA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.renta = response.data;
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:19", //Impuesto ESTAMPILLA UD
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_ud = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:21", //Impuesto ESTAMPILLA PROCULTURA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_procultura = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:22", //Impuesto ESTAMPILLA PRO-ADULTO MAYOR
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.estampilla_proadulto_mayor = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-            financieraRequest.get("cuenta_especial",
-                    $.param({
-                        query: "Id:56", //Impuesto RETE IVA
-                        limit: -1
-                    }))
-                .then(function(response) {
-                    ctrl.Impuesto.rete_iva = response.data[0];
-                    console.log(ctrl.Impuesto);
-                });
-        };
-        ctrl.cargar_impuestos();
-
         ctrl.delete_compra = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.CodigoAbreviacion,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Id,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-                financieraRequest.delete("requisito_avance", ctrl.row_entity.Id)
-                    .then(function(response) {
-                        if (response.status === 200) {
-                            swal(
-                                $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.CodigoAbreviacion + ' ' + $translate.instant('FUE_ELIMINADO'),
-                                'success'
-                            );
-                            ctrl.get_all_avances();
-                        }
-                    });
+              ctrl.row_entity.EstadoAvanceLegalizacionTipo = {Id:2};
+                financieraRequest.put('avance_legalizacion_tipo',ctrl.row_entity.Id,ctrl.row_entity)
+                .then(function(response){
+                  if (response.status === 200) {
+                      swal(
+                          $translate.instant('ELIMINADO'),
+                          ctrl.row_entity.Id + ' ' + $translate.instant('FUE_ELIMINADO'),
+                          'success'
+                      );
+                      ctrl.get_all_avance_legalizacion_compra();
+                  }
+                });
             })
         };
 
         ctrl.cargarReintegros=function(){
           financieraRequest.get("reintegro_avance_legalizacion",
                   $.param({
-                      query: "Avance.Id:"+$scope.solicitud.Id, //Impuesto RETE IVA
+                      query: "AvanceLegalizacion.Id:"+$scope.solicitud.avancelegalizacion.Id, //Impuesto RETE IVA
                       limit: -1
                   }))
               .then(function(response) {
@@ -778,28 +664,28 @@ angular.module('financieraClienteApp')
 
               });
         }
-        ctrl.cargarReintegros();
         ctrl.delete_requisito = function() {
             swal({
                 title: 'Está seguro ?',
-                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Estudiante.nombre,
+                text: $translate.instant('ELIMINARA') + ' ' + ctrl.row_entity.Id,
                 type: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: $translate.instant('BTN.BORRAR')
             }).then(function() {
-                financieraRequest.delete("avance_legalizacion", ctrl.row_entity.Id)
-                    .then(function(response) {
-                        if (response.status === 200) {
-                            swal(
-                                $translate.instant('ELIMINADO'),
-                                ctrl.row_entity.Estudiante.nombre + ' ' + $translate.instant('FUE_ELIMINADO'),
-                                'success'
-                            );
-                            ctrl.get_all_avance_legalizacion_practica();
-                        }
-                    });
+              ctrl.row_entity.EstadoAvanceLegalizacionTipo = {Id:2};
+              financieraRequest.put('avance_legalizacion_tipo',ctrl.row_entity.Id,ctrl.row_entity)
+              .then(function(response){
+                if (response.status === 200) {
+                    swal(
+                        $translate.instant('ELIMINADO'),
+                        ctrl.row_entity.Id + ' ' + $translate.instant('FUE_ELIMINADO'),
+                        'success'
+                    );
+                    ctrl.get_all_avance_legalizacion_practica();
+                }
+              });
             })
         };
 
@@ -829,63 +715,52 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.get_all_avance_legalizacion_practica = function() {
-            financieraRequest.get("avance_legalizacion", $.param({
-                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:1",
+            financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:1,EstadoAvanceLegalizacionTipo.NumeroOrden:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
-                    ctrl.gridOptionsPracticas.data = response.data;
-                    console.log(ctrl.gridOptionsPracticas.data);
-                    angular.forEach(ctrl.gridOptionsPracticas.data, function(estudiante) {
-                        var parametros = [{
-                            name: "Información básica",
-                            value: "info_basica"
-                        }, {
-                            name: "codigo",
-                            value: estudiante.Tercero
-                        }];
-                        wso2Request.get("bienestarProxy", parametros).then(function(response) {
-                            $scope.estudiante_cargado = false;
-                            if (!angular.isUndefined(response.data.datosCollection.datos)) {
-                                estudiante.Estudiante = response.data.datosCollection.datos[0];
-                            }
-                        });
-                    });
+                  if (response.data != null){
+                      ctrl.gridOptionsPracticas.data = response.data;
+                  }else{
+                    ctrl.gridOptionsPracticas.data = [];
+                  }
                 });
         };
-
-        ctrl.get_all_avance_legalizacion_practica();
 
         ctrl.get_all_avance_legalizacion_compra = function() {
-            financieraRequest.get("avance_legalizacion", $.param({
-                    query: "avance.Id:" + $scope.solicitud.Id + ",TipoAvanceLegalizacion.Id:2",
+            financieraMidRequest.get("legalizacion_avance/GetAllLegalizacionTipo", $.param({
+                    query: "AvanceLegalizacion.Id:" + $scope.solicitud.avancelegalizacion.Id + ",TipoAvanceLegalizacion.Id:2,EstadoAvanceLegalizacionTipo.NumeroOrden:1",
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
+                  if (response.data!=null){
                     ctrl.gridOptionsCompras.data = response.data;
                     ctrl.LegalizacionCompras = response.data;
-                    angular.forEach(ctrl.LegalizacionCompras, function(legalizacion) {
-                        legalizacion.InformacionProveedor = null;
-                        administrativaRequest.get("informacion_proveedor",
-                                $.param({
-                                    query: "NumDocumento:" + legalizacion.Tercero,
-                                    limit: -1
-                                }))
-                            .then(function(response) {
-                                legalizacion.InformacionProveedor = response.data;
-                            });
-                    });
-                    console.log("__________________________");
-                    console.log(ctrl.gridOptionsCompras.data);
+                  }else{
+                      ctrl.gridOptionsCompras.data = [];
+                    }
+
                 });
         };
-
-        ctrl.get_all_avance_legalizacion_compra();
-
+        ctrl.cargarLegalizaciones = function(){
+          financieraMidRequest.get('legalizacion_avance/GetLegalizacionInformation/'+$scope.solicitud.Id,null).then(
+            function(response){
+              if(response.data != null){
+                $scope.solicitud.avancelegalizacion = response.data.avanceLegalizacion[0];
+                $scope.solicitud.valorLegalizado = response.data.Total;
+                ctrl.get_all_avance_legalizacion_practica();
+                ctrl.get_all_avance_legalizacion_compra();
+                ctrl.cargarReintegros();
+              }
+            }
+          );
+        }
+        ctrl.cargarLegalizaciones();
         ctrl.add_edit_compras = function() {
             var lista_impuestos = [];
             for (var i in ctrl.Impuesto) {
@@ -908,10 +783,8 @@ angular.module('financieraClienteApp')
                     console.log(ctrl.LegalizacionCompras);
                     financieraRequest.post("avance_legalizacion/AddAvanceLegalizacionCompra", ctrl.LegalizacionCompras)
                         .then(function(info) {
-                            console.log(info);
                             ctrl.get_all_avance_legalizacion_compra();
                         });
-                    //$('#modal_legalizacion_compras').modal('hide');
                     break;
                 default:
             }
@@ -955,6 +828,8 @@ angular.module('financieraClienteApp')
                         });
                     }
                 }, true);
+
+/* pasar a consulta por tipo
       ctrl.getConceptoAvance = function(){
         financieraRequest.get('concepto_avance_legalizacion',$.param({
           query: "Avance.Id:"+$scope.solicitud.Id,
@@ -964,12 +839,10 @@ angular.module('financieraClienteApp')
             ctrl.concepto[0] = response.data[0].Concepto;
             $scope.nodo = response.data[0].Concepto;
             ctrl.notLoadConcepto = true;
-            console.log("valor not load concepto legalizacion",ctrl.notLoadConcepto);
           }
-
         });
       }
-      ctrl.getConceptoAvance();
+
       ctrl.getMovimientosContables = function(){
         financieraRequest.get('tipo_documento_afectante',$.param({
           query: "CodigoAbreviacion:DA-LA",
@@ -989,7 +862,7 @@ angular.module('financieraClienteApp')
 
         });
       }
-      ctrl.getMovimientosContables();
+
       ctrl.revisarNoRow = function(obj){
         if(typeof(obj)==="string"){
         if(obj.indexOf("no row found")>=0) {
@@ -998,6 +871,7 @@ angular.module('financieraClienteApp')
         }
       return false;
       }
+*/
 
       ctrl.addAccountingInf = function(){
         if (!ctrl.movValidado){

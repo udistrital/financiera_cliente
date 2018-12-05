@@ -87,7 +87,6 @@ angular.module('financieraClienteApp')
           },
           {
             name: $translate.instant('OPCIONES'),
-            width: '*',
             headerCellClass:'text-info',
             cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>',
             width: '5%'
@@ -183,7 +182,7 @@ angular.module('financieraClienteApp')
     ctrl.consultaResponsable = function(){
       ctrl.chequera.cargandoResponsable=true;
       agoraRequest.get('supervisor_contrato',$.param({
-        query:"Documento:" + ctrl.chequera.numdocResponsable+",Cargo__icontains:tesorer",
+        query:"Documento:" + ctrl.chequera.numdocResponsable,
         limit:-1
       })).then(function(response){
           if(!angular.isUndefined(response.data) && typeof(response.data) !== "string" && response.data !=null){
@@ -334,6 +333,9 @@ angular.module('financieraClienteApp')
                 $scope.estado = $scope.solicitud.Estado ;
                 $scope.informacion = $translate.instant('CHEQUERA')+ ' '+ 'No'+' '+row.entity.Consecutivo;
                 $scope.mostrar_direc = true;
+                break;
+            case "otro":
+
                 break;
             default:
         }

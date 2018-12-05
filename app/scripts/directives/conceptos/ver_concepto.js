@@ -11,7 +11,8 @@ angular.module('financieraClienteApp')
     return {
       restrict: 'E',
       scope: {
-        codigoconcepto: '='
+        codigoconcepto: '=?',
+        cuentasconcepto: '=?'
       },
       templateUrl: 'views/directives/conceptos/ver_concepto.html',
       controller: function($scope) {
@@ -27,18 +28,21 @@ angular.module('financieraClienteApp')
             })).then(function(response) {
               if(typeof(response.data) !== "string"){
                  self.afectaciones = response.data;
-                 
+
               }
-              
+
             });
             financieraRequest.get('concepto_cuenta_contable', $.param({
               query: "Concepto:" + self.v_concepto.Id
             })).then(function(response) {
-              
+
               if(typeof(response.data) !== "string"){
                  self.cuentas = response.data;
-                 console.log("ño")
+                 if ($scope.cuentasconcepto !== undefined) {
+                  $scope.cuentasconcepto = self.cuentas;
+                 }
               }
+              
 
 
             });

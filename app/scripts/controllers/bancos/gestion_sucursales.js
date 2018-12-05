@@ -14,10 +14,9 @@ angular.module('financieraClienteApp')
 
     $scope.botones = [
       { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'editar_sucursal', estado: true },
-
     ];
 
-
+    ctrl.sucursalCr = {};
     ctrl.Sucursales = {
       paginationPageSizes: [5, 10, 15, 20, 50],
       paginationPageSize: 5,
@@ -34,40 +33,38 @@ angular.module('financieraClienteApp')
 
         },
         {
-          field: 'Nombre',
-          displayName: $translate.instant('NOMBRE'),
+          field: 'Organizacion.Nombre',
+          name: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
         },
         {
-          field: 'Direccion',
-          displayName: $translate.instant('DIRECCION'),
+          name: $translate.instant('DIRECCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate:'<div ng-if="row.entity.Direccion">{{row.entity.Direccion.Valor}}</div><div ng-if="!row.entity.Direccion">No Registrado</div>',
 
         },
         {
-          field: 'Telefono',
-          displayName: $translate.instant('TELEFONO'),
+          name: $translate.instant('TELEFONO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate:'<div ng-if="row.entity.Telefono">{{row.entity.Telefono.Valor}}</div><div ng-if="!row.entity.Telefono">No Registrado</div>',
+        },
+        {
+          name: $translate.instant('PAIS'),
+          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate:'<div ng-if="row.entity.Pais">{{row.entity.Pais.Nombre}}</div><div ng-if="!row.entity.Pais">No Registrado</div>',
 
         },
         {
-          field: 'Pais',
-          displayName: $translate.instant('PAIS'),
+          name: $translate.instant('DEPARTAMENTO'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+          cellTemplate:'<div ng-if="row.entity.Departamento">{{row.entity.Departamento.Nombre}}</div><div ng-if="!row.entity.Departamento">No Registrado</div>',
 
         },
         {
-          field: 'Departamento',
-          displayName: $translate.instant('DEPARTAMENTO'),
+          name: $translate.instant('CIUDAD'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-
-        },
-        {
-          field: 'Ciudad',
-          displayName: $translate.instant('CIUDAD'),
-          headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-
+          cellTemplate:'<div ng-if="row.entity.Ciudad">{{row.entity.Ciudad.Nombre}}</div><div ng-if="!row.entity.Ciudad">No Registrado</div>',
         },
         {
             field: 'Opciones',
@@ -83,20 +80,38 @@ angular.module('financieraClienteApp')
     ctrl.Sucursales.enablePaginationControls = true;
     ctrl.Sucursales.onRegisterApi = function(gridApi) {
       ctrl.gridApi = gridApi;
-      gridApi.selection.on.rowSelectionChanged($scope, function() {
-       //hacer algo al seleccionar
-      });
     };
 
-    financieraMidRequest.get('gestion_sucursales/listar_sucursales','').then(function(response) {
-      if (response.data == null) {
-          //PONER MARCA DE AGUA DE QUE NO HAY
-      } else {
-          ctrl.Sucursales.data = response.data;
-      }
+    ctrl.cargarSucursales = function(){
+      financieraMidRequest.get('gestion_sucursales/listar_sucursales',null).then(function(response) {
+            ctrl.Sucursales.data = response.data;
+      });
+    }
+    ctrl.cargarSucursales();
 
+     ctrl.cargarUbicaciones = function(){
+       ubicacionesRequest.get('lugar', $.param({
+           limit: -1,
+           query: "TipoLugar.NumeroOrden:1",
+         })).then(function(response) {
+           ctrl.Paises = response.data;
+         });
 
-    });
+         ubicacionesRequest.get('lugar', $.param({
+             limit: -1,
+             query: "TipoLugar.NumeroOrden:2",
+           })).then(function(response) {
+             ctrl.Departamentos = response.data;
+           });
+
+           ubicacionesRequest.get('lugar', $.param({
+               limit: -1,
+               query: "TipoLugar.NumeroOrden:3",
+             })).then(function(response) {
+               ctrl.Ciudades = response.data;
+             });
+     }
+     ctrl.cargarUbicaciones();
 
     $scope.loadrow = function(row, operacion) {
         ctrl.operacion = operacion;
@@ -111,97 +126,103 @@ angular.module('financieraClienteApp')
     };
 
     ctrl.mostrar_modal_edicion_sucursal = function(row){
+       ctrl.request  = angular.copy(row.entity);
+       ctrl.PaisEd =   ctrl.request.Pais;
+       ctrl.DepartamentoEd = ctrl.request.Departamento;
+       ctrl.CiudadEd = ctrl.request.Ciudad;
         $("#modal_editar_sucursal").modal("show");
     };
 
     ctrl.mostrar_modal_agregar_sucursal = function(row){
-
-      ubicacionesRequest.get('lugar', $.param({
-          limit: -1,
-          query: "TipoLugar.CodigoAbreviacion:PAIS",
-        })).then(function(response) {
-          ctrl.Paises = response.data;
-        });
-
-        ubicacionesRequest.get('lugar', $.param({
-            limit: -1,
-            query: "TipoLugar.CodigoAbreviacion:DEPARTAMENTO",
-          })).then(function(response) {
-            ctrl.Departamentos = response.data;
-          });
-
-          ubicacionesRequest.get('lugar', $.param({
-              limit: -1,
-              query: "TipoLugar.CodigoAbreviacion:CIUDAD",
-            })).then(function(response) {
-              ctrl.Ciudades = response.data;
-            });
-
         $("#modal_agregar_sucursal").modal("show");
-
-
     };
+
+    ctrl.reInitCrear = function() {
+      $scope.formCrearSuc.$setPristine();
+      ctrl.sucursalCr = {};
+    }
 
     ctrl.agregar_sucursal = function(row){
+      var templateAlert;
+      financieraMidRequest.post('gestion_sucursales/insertar_sucursal', ctrl.sucursalCr).then(function(response) {
+        console.log(response.data);
+          if(response.data.Type === "success"){
+            templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('NOMBRE') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Nombre + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
+            templateAlert = templateAlert + "</table>";
+          }else{
+            templateAlert=$translate.instant(response.data.Code);
+          }
+            swal('',templateAlert,response.data.Type).then(function(){
+              if(response.data.Type === "success"){
+                $('#modal_agregar_sucursal').modal('hide');
+                ctrl.cargarSucursales();
+                ctrl.reInitCrear();
+              }
+            });
+      });
+    }
 
-      if(ctrl.NombreSucursal && ctrl.Telefono && ctrl.Direccion && ctrl.selectPaises && ctrl.selectDepartamento && ctrl.selectCiudad){
+    ctrl.reinitEditar = function(){
+      $scope.formEditarSuc.$setPristine();
+    }
 
-      var objeto_paises = JSON.parse(ctrl.selectPaises)
-      var objeto_departamentos = JSON.parse(ctrl.selectDepartamento)
-      var objeto_ciudades = JSON.parse(ctrl.selectCiudad)
+    ctrl.editar_sucursal = function(){
 
-      var informacion_sucursal = {
-        Nombre       : ctrl.NombreSucursal,
-        Direccion     :ctrl.Direccion,
-        Telefono     : ctrl.Telefono.toString(),
-        Pais          : objeto_paises.Id.toString(),
-        Departamento  : objeto_departamentos.Id.toString(),
-        Ciudad        : objeto_ciudades.Id.toString(),
+      if(ctrl.request.Pais === null){
+        if (!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
+          ctrl.request.Pais = {
+            Lugar:ctrl.PaisEd.Id
+          }
+        }
+      }else{
+
+        if(!angular.isUndefined(ctrl.PaisEd) && ctrl.PaisEd != null){
+          ctrl.request.Pais.UbicacionEnte.Lugar = ctrl.PaisEd.Id;
+          ctrl.request.Pais = ctrl.request.Pais.UbicacionEnte;
+        }
       }
 
-      financieraMidRequest.post('gestion_sucursales/insertar_sucursal', informacion_sucursal).then(function(response) {
-
-          if (typeof(response.data) == "object") {
-              swal({
-                  html: $translate.instant('INFORMACION_REG_CORRECTO'),
-                  type: "success",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
-                  $('#modal_agregar_sucursal').modal('hide');
-                  $window.location.reload()
-              })
-
+      if(ctrl.request.Departamento === null){
+        if (!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
+          ctrl.request.Departamento = {
+            Lugar:ctrl.DepartamentoEd.Id
           }
-          if (typeof(response.data) == "string") {
-              swal({
-                  html: $translate.instant('INFORMACION_REG_INCORRECTO'),
-                  type: "error",
-                  showCancelButton: false,
-                  confirmButtonColor: "#449D44",
-                  confirmButtonText: $translate.instant('VOLVER'),
-              }).then(function() {
+        }
+      }else{
+        if(!angular.isUndefined(ctrl.DepartamentoEd) && ctrl.DepartamentoEd != null){
+          ctrl.request.Departamento.UbicacionEnte.Lugar = ctrl.DepartamentoEd.Id;
+          ctrl.request.Departamento = ctrl.request.Departamento.UbicacionEnte;
+        }
+      }
 
-
-              })
-
+      if(ctrl.request.Ciudad === null){
+        if (!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
+          ctrl.request.Ciudad = {
+            Lugar:ctrl.CiudadEd.Id
           }
-      });
+        }
+      }else{
+        if(!angular.isUndefined(ctrl.CiudadEd) && ctrl.CiudadEd != null){
+          ctrl.request.Ciudad.UbicacionEnte.Lugar = ctrl.CiudadEd.Id;
+          ctrl.request.Ciudad = ctrl.request.Ciudad.UbicacionEnte;
+        }
+      }
 
-    }else {
-                swal({
-                    html: $translate.instant('ALERTA_COMPLETAR_DATOS'),
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: "#449D44",
-                    confirmButtonText: $translate.instant('VOLVER'),
-                })
+      financieraMidRequest.put('gestion_sucursales/EditarSucursal',ctrl.request.Organizacion.Ente,ctrl.request).then(function(response){
+        if(response.data != null){
+          swal({
+              html: $translate.instant(response.data.Code),
+              type: response.data.Type,
+          }).then(function() {
+            if (response.data.Type==="success"){
+                $("#modal_editar_sucursal").modal("hide");
+                ctrl.cargarSucursales();
+                ctrl.reinitEditar();
             }
-    };
+        })
+        }
 
-    ctrl.editar_sucursal = function(row){
-          alert("editar sucursal");
-    };
-
+      });
+    }
   });
