@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate,financieraRequest,financieraMidRequest) {
+  .controller('ConceptosListadoTipoTransaccionCtrl', function ($scope,$translate,financieraRequest,financieraMidRequest,gridApiService) {
     var ctrl = this;
     ctrl.tipoTr = {};
     ctrl.tipoTr.FechaInicio = new Date();
@@ -21,7 +21,7 @@ angular.module('financieraClienteApp')
       enableFiltering: true,
       enableHorizontalScrollbar: 0,
       enableVerticalScrollbar: 0,
-      useExternalPagination: false,
+      useExternalPagination: true,
       enableSelectAll: false,
       columnDefs: [{
           field: 'Id',
@@ -29,19 +29,19 @@ angular.module('financieraClienteApp')
           visible: false
         },
         {
-          field: 'NumeroTraslado',
+          field: 'DetalleTipoTransaccion.Nombre',
           displayName: $translate.instant('NOMBRE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
         },
         {
-          field: 'Vigencia',
+          field: 'DetalleTipoTransaccion.Descripcion',
           displayName: $translate.instant('DESCRIPCION'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
         },
         {
-          field: 'Fecha',
+          field: 'DetalleTipoTransaccion.ClaseTransaccion.Nombre',
           displayName: $translate.instant('CLASE'),
           headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
@@ -52,7 +52,11 @@ angular.module('financieraClienteApp')
             cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro><center>',
             headerCellClass: 'text-info'
         }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiTipoTransaccion = gridApi;
+        ctrl.gridApiTipoTransaccion = gridApiService.pagination(gridApi,ctrl.consultarListadoTr,$scope);
+      }
     };
     ctrl.abrirModal=function(modal){
       $('#'+modal).modal();
@@ -75,8 +79,41 @@ angular.module('financieraClienteApp')
         NumeroVersion:1,
         Descripcion:"Version Inicial"
       };
-      console.log(request);
-      financieraMidRequest.post("tipo_transaccion/",request);
+
+      financieraMidRequest.post("tipo_transaccion/",request).then(function(response){
+        console.log(response);
+        var templateAlert;
+        if(response.data.Type === "success"){
+          templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.tipo_transaccion_version.Body.TipoTransaccion + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
+          templateAlert = templateAlert + "</table>";
+        }else{
+          templateAlert=$translate.instant(response.data.Code);
+        }
+          swal('',templateAlert,response.data.Type).then(function(){
+            if(response.data.Type === "success"){
+              $('#modalCrear').modal('hide');
+              ctrl.consultarListadoTr(0,'NumeroVersion:1');
+            }
+          });
+      });
     }
+
+    ctrl.consultarListadoTr = function(offset,query){
+      financieraMidRequest.get('tipo_transaccion/GetTipoTransaccionByVersion',$.param({
+        limit: ctrl.tipoTransaccion.paginationPageSize,
+        offset:offset,
+        query:query,
+        sortby:"Id",
+        order:"asc"
+      })).then(function(response){
+        if(response.data != null){
+        ctrl.tipoTransaccion.data = response.data.TipoTransaccion;
+        ctrl.tipoTransaccion.totalItems = response.data.RegCuantity;
+        }
+      });
+    }
+
+    ctrl.consultarListadoTr(0,'NumeroVersion:1');
 
   });
