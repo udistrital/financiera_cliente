@@ -8,10 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location,coreRequest) {
+  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location,coreRequest,$window) {
     var ctrl = this;
     ctrl.fechaOficio = new Date();
     ctrl.fechaConsignacion = new Date();
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
+    ];
     ctrl.gridOrdenesDePago = {
       showColumnFooter: true,
       paginationPageSizes: [10, 50, 100],
@@ -251,10 +254,21 @@ angular.module('financieraClienteApp')
             templateAlert = templateAlert + "</table>";
             $location.path('/ingresos/ingreso_consulta');
           }
-          swal("",templateAlert,response.data.Type);
+          swal($translate.instant('INFORMACION_REINTEGRO'),templateAlert,response.data.Type);
          });
 
        }
     }
+
+    $scope.loadrow = function(row, operacion) {
+        $scope.solicitud = row.entity;
+        switch (operacion) {
+            case "ver":
+                $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');
+                break;
+            default:
+        }
+    }
+
 
   });
