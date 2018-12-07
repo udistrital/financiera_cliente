@@ -82,14 +82,24 @@ angular.module('financieraClienteApp')
           }
         };
         self.hideShowWindow=function(){
-          if(self.multiSelect){
-            self.algo_fue_seleccionado=false;
-          }else{
-            $scope.seleccion=undefined;
-            $scope.conceptosel=undefined;
-            self.algo_fue_seleccionado=false;
-            $scope.showc=false;
-          }
+          swal({
+            title: $translate.instant('BTN.CONFIRMAR'),
+            text: $translate.instant('DESASOCIAR_CONCEPTO'),
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33'
+          }).then(function(inputValue) {
+            if(self.multiSelect){
+              self.algo_fue_seleccionado=false;
+            }else{
+              $scope.seleccion=undefined;
+              $scope.conceptosel=undefined;
+              self.algo_fue_seleccionado=false;
+              $scope.showc=false;
+            }
+          })
+
 
         }
         self.seleccionar_concepto = function(concepto) {

@@ -667,6 +667,11 @@ angular
               controller: 'GestionSubtipoAvanceLegCtrl',
               controllerAs: 'gestionSubtipoAvanceLeg'
             })
+            .when('/conceptos/listado_tipo_transaccion', {
+              templateUrl: 'views/conceptos/listado_tipo_transaccion.html',
+              controller: 'ConceptosListadoTipoTransaccionCtrl',
+              controllerAs: 'listadoTipoTransaccion'
+            })
             .otherwise({
                 redirectTo: '/'
             })

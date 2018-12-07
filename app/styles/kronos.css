@@ -237,3 +237,11 @@ sencillo {
 .panel.display-flex {
   width: 100%;
 }
+
+.md-datepicker-calendar-pane{
+        z-index: 1200;
+    }
+
+.margin-modal{
+  margin-top: 5%
+}
