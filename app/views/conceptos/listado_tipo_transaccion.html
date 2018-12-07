@@ -14,7 +14,7 @@
     <button type="button" class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.crearVersion=false;listadoTipoTransaccion.abrirModal('modalCrear')">{{"BTN.CREAR" | translate}}</button>
 </div>
 </div>
-<div id="modalVer" class="modal fade" role="dialog">
+<div id="modalVer" class="modal fade shadow-box pre-scrollable" role="dialog" style="max-height: 75vh">
   <div class="modal-content col-md-10 col-md-offset-1 margin-modal">
     <div class="modal-header">
         <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
@@ -36,7 +36,7 @@
             <div class="form-group">
               <div class="mi-grid" id="mi-grid" ui-grid="listadoTipoTransaccion.versiones" ui-grid-selection ui-grid-pagination ui-grid-auto-resize></div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" ng-if="listadoTipoTransaccion.versionSelec">
               <legend class="text-primary" ng-click="dtt=!dtt">
                 {{'DETALLE_TIPO_TRANSACCION' | translate}}
                 <span class="fa fa-plus pull-right" ng-show="!dtt"></span>
@@ -65,7 +65,7 @@
               </div>
             </div>
 
-              <div class="col-md-12">
+              <div class="col-md-12" ng-if="listadoTipoTransaccion.versionSelec">
                 <legend class="text-primary" ng-click="dv=!dv">
                   {{'DETALLE_VERSION' | translate}}
                   <span class="fa fa-plus pull-right" ng-show="!dv"></span>
@@ -104,12 +104,12 @@
                 </div>
               </div>
 
-              <div class="col-md-12"  align="center">
-                <button class="btn btn-outline btn-primary" ng-click="">{{"BTN.ACTUALIZAR"|translate}}</button>
+              <div class="col-md-12"  align="center" ng-if="listadoTipoTransaccion.versionSelec">
+                <button class="btn btn-outline btn-primary" ng-disabled="listadoTipoTransaccion.versionDefinitiva" ng-click="">{{"BTN.ACTUALIZAR"|translate}}</button>
               </div>
             </div>
             <div class="panel-footer"  align="center">
-              <button class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.crearVersion = true;listadoTipoTransaccion.abrirModal('modalCrear')">+ {{"VERSION"|translate}}</button>
+              <button class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.crearVersion = true;listadoTipoTransaccion.abrirModal('modalCrearVersion')">+ {{"VERSION"|translate}}</button>
             </div>
           </div>
         </div>
@@ -156,6 +156,91 @@
                       <md-datepicker ng-model="listadoTipoTransaccion.tipoTr.FechaFin"required></md-datepicker>
                       </md-input-container>
                     </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer"  align="center">
+            <button class="btn btn-outline btn-primary" ng-click="listadoTipoTransaccion.registrar()">{{"BTN.REGISTRAR"|translate}}</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div id="modalCrearVersion" class="modal fade" role="dialog">
+  <div class="modal-content col-md-10 col-md-offset-1 margin-modal">
+      <div class="modal-header">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+            {{"INFORMACION_TIPO_TRANSACCION"|translate}}
+        </div>
+          <div class="panel-body">
+            <div class="col-md-12">
+              <legend class="text-primary" ng-click="dtt=!dtt">
+                {{'DETALLE_TIPO_TRANSACCION' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="!dtt"></span>
+                <span class="fa fa-minus pull-right" ng-show="dtt"></span>
+              </legend>
+              <div class="col-md-12" ng-show="dtt">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>{{'NOMBRE' | translate}}</label>
+                      <input class="form-control" ng-model="listadoTipoTransaccion.tipoTr.Nombre" type = "text" ng-disabled="listadoTipoTransaccion.versionDefinitiva"/>
+                    </div>
+                    <div class="form-group">
+                      <label>{{'CLASE' | translate}}</label>
+                      <select ng-model="listadoTipoTransaccion.tipoTr.ClaseTransaccion" ng-options="i.Nombre for i in listadoTipoTransaccion.tipoConceptoTesoral track by i.Id" class="form-control" id="claseTipoTr" ng-disabled="listadoTipoTransaccion.versionDefinitiva" required>
+                        <option value="">{{'SELECCIONE'|translate}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>{{'DESCRIPCION' | translate}}</label>
+                      <textarea name="descripcionTT" class="form-control form" ng-model="listadoTipoTransaccion.tipoTr.Descripcion" rows="4" ng-disabled="listadoTipoTransaccion.versionDefinitiva" required>
+                      </textarea>
+                    </div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <legend class="text-primary" ng-click="dv=!dv">
+                {{'DETALLE_VERSION' | translate}}
+                <span class="fa fa-plus pull-right" ng-show="!dv"></span>
+                <span class="fa fa-minus pull-right" ng-show="dv"></span>
+              </legend>
+              <div class="col-md-12" ng-show="dv">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>{{'DESCRIPCION' | translate}}</label>
+                    <textarea name="descripcion" class="form-control form" ng-model="listadoTipoTransaccion.versionTr.Descripcion" rows="4" ng-disabled="listadoTipoTransaccion.versionDefinitiva" required>
+                    </textarea>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div class="col-md-4">
+                        <md-input-container>
+                          <label>{{'FECHA_INICIO' | translate}}</label>
+                          <md-datepicker id="fecha_Inicio" ng-model="listadoTipoTransaccion.versionTr.FechaInicio" ng-disabled="listadoTipoTransaccion.versionDefinitiva" required></md-datepicker>
+                        </md-input-container>
+                      </div>
+                        <div class="col-md-4">
+                          <md-input-container>
+                            <label>{{'FECHA_FIN' | translate}}</label>
+                            <md-datepicker ng-model="listadoTipoTransaccion.versionTr.FechaFin" ng-disabled="listadoTipoTransaccion.versionDefinitiva" required></md-datepicker>
+                          </md-input-container>
+                        </div>
+                        <div class="col-md-4">
+                          <label>{{'DEFINITIVA' | translate}}</label>
+                          <div class="col-md-12">
+                            <md-checkbox aria-label="Definitiva" ng-model="listadoTipoTransaccion.versionTr.Definitiva" ng-disabled="listadoTipoTransaccion.versionDefinitiva" class="blue"></md-checkbox>
+                          </div>
+                        </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

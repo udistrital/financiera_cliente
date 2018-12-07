@@ -119,7 +119,6 @@ angular.module('financieraClienteApp')
              ctrl.versionSelec = angular.copy(row.entity);
              ctrl.versionDefinitiva = ctrl.versionSelec.Version.Definitiva;
            }
-           console.log(ctrl.versionSelec);
            ctrl.versionSelec.Version.FechaFin = new Date(ctrl.versionSelec.Version.FechaFin);
            ctrl.versionSelec.Version.FechaInicio = new Date(ctrl.versionSelec.Version.FechaInicio);
       });
@@ -136,38 +135,51 @@ angular.module('financieraClienteApp')
     }
     ctrl.obtenerListas();
     ctrl.registrar = function(){
-      if(!ctrl.crearVersion){
-        financieraMidRequest.post("tipo_transaccion/",request).then(function(response){
-          console.log(response);
-          var templateAlert;
-          if(response.data.Type === "success"){
-            templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
-            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.tipo_transaccion_version.Body.TipoTransaccion + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
-            templateAlert = templateAlert + "</table>";
-          }else{
-            templateAlert=$translate.instant(response.data.Code);
-          }
-            swal('',templateAlert,response.data.Type).then(function(){
-              if(response.data.Type === "success"){
-                $('#modalCrear').modal('hide');
-                ctrl.consultarListadoTr(0,'NumeroVersion:1');
-              }
-            });
-        });
-      }
       var request={};
       var matches;
+      var route;
+      var templateAlert;
       request.detalleTransaccion = ctrl.tipoTr;
       matches = request.detalleTransaccion.Nombre.match(/\b(\w)/g);
-      request.CodigoAbreviacion =  matches.join('') + request.detalleTransaccion.Nombre.slice(-1);
-      request.version = {
-        FechaInicio:ctrl.tipoTr.FechaInicio,
-        FechaFin:ctrl.tipoTr.FechaFin,
-        NumeroVersion:1,
-        Descripcion:"Version Inicial"
-      };
+      if(!ctrl.crearVersion){
+        route = "tipo_transaccion/";
+        request.detalleTransaccion.CodigoAbreviacion =  matches.join('') + request.detalleTransaccion.Nombre.slice(-1);
+        request.version = {
+          FechaInicio:ctrl.tipoTr.FechaInicio,
+          FechaFin:ctrl.tipoTr.FechaFin,
+          NumeroVersion:1,
+          Descripcion:"Version Inicial"
+        };
+      }else{
+        if(!angular.isUndefined(ctrl.detalleTipoSelec)){
+          route = "tipo_transaccion/NewTipoTransaccionVersion";
+          request.tipoTransaccionVersion = ctrl.detalleTipoSelec.DetalleTipoTransaccion.TipoTransaccionVersion;
+          request.version = ctrl.versionTr;
+          console.log(request);
+        }
+      }
+      financieraMidRequest.post(route,request).then(function(response){
+        console.log(response);
+        if(response.data.Type === "success"){
+          templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.tipo_transaccion_version.Body.TipoTransaccion + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
+          templateAlert = templateAlert + "</table>";
+        }else{
+          templateAlert=$translate.instant(response.data.Code);
+        }
+          swal('',templateAlert,response.data.Type).then(function(){
+            if(response.data.Type === "success"){
 
-
+              if(!ctrl.crearVersion){
+                $('#modalCrear').modal('hide');
+                ctrl.consultarListadoTr(0,'NumeroVersion:1');
+              }else{
+                $('#modalCrearVersion').modal('hide');
+                ctrl.consultarVersiones(0,'TipoTransaccion:'+ctrl.detalleTipoSelec.DetalleTipoTransaccion.TipoTransaccionVersion.TipoTransaccion);
+              }
+            }
+          });
+      });
     }
 
     ctrl.consultarListadoTr = function(offset,query){
@@ -191,10 +203,11 @@ angular.module('financieraClienteApp')
 
     $scope.loadrow = function(row, operacion) {
       ctrl.operacion = operacion;
+      ctrl.detalleTipoSelec=row;
       switch (operacion) {
           case "ver":
               $('#modalVer').modal();
-              ctrl.consultarVersiones(0,'TipoTransaccion:'+row.DetalleTipoTransaccion.TipoTransaccionVersion.Id);
+              ctrl.consultarVersiones(0,'TipoTransaccion:'+row.DetalleTipoTransaccion.TipoTransaccionVersion.TipoTransaccion);
               break;
           default:
               break;
