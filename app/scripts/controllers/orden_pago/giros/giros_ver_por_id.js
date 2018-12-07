@@ -11,6 +11,8 @@ angular.module('financieraClienteApp')
   .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, gridApiService, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
     var self = this;
     self.giroId = $routeParams.Id;
+    self.conceptos = [];
+    self.cuentas = [];
     $scope.botones = [
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
@@ -195,7 +197,8 @@ angular.module('financieraClienteApp')
           default:
       }
   };
-    self.cargarListaGiro(0,'');    
+    self.cargarListaGiro(0,'');
+   
 
     //
   });

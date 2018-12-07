@@ -46,14 +46,14 @@ angular.module('financieraClienteApp')
       });
     };
 
-    $scope.$watch("datachangeevent", function() {  
+    $scope.$watch("rubroApropiacionPlaneacion.Vigencia", function() {  
       if (self.Vigencia !== undefined && self.Vigencia !== null){
         financieraMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial",$.param({
           UnidadEjecutora: self.UnidadEjecutora,
           Vigencia: self.Vigencia
         })) 
         .then(function(response) { //error con el success
-          console.log(response);
+          console.log('response ', response);
           self.InfoAprobacion =  response.data.Data;
           self.Aprobado = response.data.Aprobado;
         });

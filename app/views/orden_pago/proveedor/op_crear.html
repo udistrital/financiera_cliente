@@ -103,7 +103,7 @@
           <!-- Tab panes -->
           <div class="tab-content">
             <div class="tab-pane fade in active" ng-repeat="c in opCrear.Conceptos" ng-show="opCrear.selected==c.Id">
-              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc queryce ="opCrear.queryCuentasEspeciales" outputvalorbruto="opCrear.OrdenPago.ValorBase" outputformapagoop="opCrear.OrdenPago.FormaPago">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc outputvalorbruto="opCrear.OrdenPago.ValorBase" outputformapagoop="opCrear.OrdenPago.FormaPago">
               </movimientos-contables>
             </div>
           </div>

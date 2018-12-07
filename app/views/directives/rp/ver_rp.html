@@ -11,7 +11,8 @@
       </div>
 
       <div class="panel-body col-md-12">
-
+          <label class="encabezado">{{'NO' | translate}}: </label> {{d_verRp.rp.NumeroRegistroPresupuestal}}</dd>
+          <br>
           <label class="encabezado">{{'VIGENCIA' | translate}}: </label> {{d_verRp.rp.Vigencia}}</dd>
           <br>
           <label class="encabezado">{{'RESPONSABLE' | translate}} : </label> {{d_verRp.rp.Responsable}}</dd>
@@ -67,7 +68,7 @@
 
     <div class="panel-body col-md-12">
 
-        <label class="encabezado">{{'NO_CDP' | translate}}:</label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</dd>
+        <label class="encabezado">{{'NO_CDP' | translate}}:</label><a ng-click="d_verRp.verDisponibilidad(d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad, d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Vigencia)">{{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.NumeroDisponibilidad}}</a></dd>
         <br>
         <label class="encabezado">{{'ESTADO' | translate}} {{'CDP' | translate}}:</label> {{d_verRp.rp.RegistroPresupuestalDisponibilidadApropiacion[0].DisponibilidadApropiacion.Disponibilidad.Estado.Nombre}}</dd>
 

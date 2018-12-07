@@ -20,7 +20,6 @@ angular.module('financieraClienteApp')
     self.Proveedor = {};
     //self.OrdenPago.RegistroPresupuestal = {'Id': 103} // data tes
     self.Conceptos = {};
-    self.queryCuentasEspeciales = "&query=TipoCuentaEspecial__not_in:2";
     self.MensajesAlerta = null;
     // unidad ejecutora
     financieraRequest.get('unidad_ejecutora',

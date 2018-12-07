@@ -47,13 +47,13 @@
   </div>
 
   <div id="modalDescuentos{{conceptoid}}" class="modal fade">
-    <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">
+    <div class="modal-content col-md-10 col-md-offset-1 shadow-box pre-scrollable" style="margin-top: 5%; max-height: 75vh">
 
-      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
+      <button type="button" class="btn btn-outline btn-danger btn-xs pull-right sticky" data-dismiss="modal" style="margin-top:5px; margin-bottom:0px">&times</button><br>
 
       <div class="modal-body">
         <legend>{{"SELECCIONAR_DESCUENTOS" | translate}}</legend>
-        <ver-descuentos seldesc="cuen" querys="queryce" /><br>
+        <ver-descuentos seldesc="cuen"  /><br>
         <div class="form-group">
           <centeR><button type="button" class="btn btn-primary btn-outline" ng-click="d_movimientosContables.agregar_descuento(cuen)">{{"AGREGAR" | translate}}</button></center>
         </div>

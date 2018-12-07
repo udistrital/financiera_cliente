@@ -64,13 +64,28 @@
       <div class="modal-header">
           <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
       </div>
-      <div class="panel panel-default">
-          <div class="panel-heading">
-              <h3 class="page-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
-              <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+      <div class="panel panel-default panel-body sticky shadow-box pre-scrollable" style="max-height: 75vh">
+        <div class="panel-heading">
+          <h3 class="modal-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
+          <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
+        </div>
+      <div ng-if="girosVerPorId.cuentas.length > 0">
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+            <li ng-class="{active: selected == c.Id}" ng-repeat="c in girosVerPorId.conceptos"><a href ng-click="girosVerPorId.selected=c.Id" data-toggle="tab">Concepto: [ {{c.Codigo}} ]  {{c.Nombre}}</a>
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane fade in active" ng-repeat="c in girosVerPorId.conceptos" ng-show="girosVerPorId.selected==c.Id">
+              <movimientos-contables conceptoid="c.Id" movimientos="c.movs" monto="c.Afectacion" editable validatemov="c.validado" impydesc >
+              </movimientos-contables>
+            </div>
           </div>
-          <div class="panel-body">
-
+        </div>
+      </div>
+          <div class="modal-body">
+      <arbol-conceptos filtro="" seleccion="girosVerPorId.conceptos" cuentasel = "girosVerPorId.cuentas" conceptosel="nodo" multiselect="true" seleccionini> </arbol-conceptos>
 
 
           </div>
