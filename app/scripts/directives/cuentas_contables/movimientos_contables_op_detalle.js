@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope: {
         codigodocumentoafectante:'=?',
+        tipodocumento:'=?',
         panel:'=?',
         selection:'=?',
         inputpestanaabierta:'=?',
@@ -154,20 +155,30 @@ angular.module('financieraClienteApp')
           return self.retornar_movimientos;
         };
 
-      $scope.$watch('codigodocumentoafectante', function() {
+      $scope.$watch('[codigodocumentoafectante,tipodocumento]', function() {
+
 
           self.refresh();
 
 
-          if ($scope.codigodocumentoafectante !== undefined) {
+          if ($scope.codigodocumentoafectante !== undefined && $scope.tipodocumento !== undefined ) {
 
             self.gridOptions_movimientos.data = [];
             self.cargando = true;
             self.hayData = true;
+            switch ($scope.tipodocumento) {
+              case "1":
+                self.nombreDocumento = $translate.instant('ORDEN_PAGO')
+                break;
+              case "11":
+                self.nombreDocumento = $translate.instant('GIRO')
+                break;
+              default:
 
+            }
             financieraRequest.get('movimiento_contable',
               $.param({
-                query: "TipoDocumentoAfectante.Id:1,CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
+                query: "TipoDocumentoAfectante.Id:"+$scope.tipodocumento+",CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
                 limit: 0,
               })).then(function(response) {
 
@@ -187,7 +198,7 @@ angular.module('financieraClienteApp')
 
             });
           }
-        });
+        },true);
 
 
         $scope.$watch('inputpestanaabierta', function(newvalue) {
