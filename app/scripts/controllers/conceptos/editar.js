@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('conceptosEditarCtrl', function($scope, financieraRequest, $routeParams, $translate, $location) {
+  .controller('conceptosEditarCtrl', function($scope, financieraRequest,financieraMidRequest, $routeParams, $translate, $location) {
       var self = this;
       $scope.btnagregar=$translate.instant('BTN.AGREGAR');
       self.info_rubros = false;
@@ -17,6 +17,7 @@ angular.module('financieraClienteApp')
       self.info_basico = false;
       self.cargando = false;
       self.hayData = true;
+      self.tipoDetallesTipoT = [];
 
       self.cargar_concepto = function() {
         financieraRequest.get("concepto", $.param({
@@ -50,6 +51,13 @@ angular.module('financieraClienteApp')
               self.e_afectaciones = response.data;
             }
           });
+          financieraRequest.get("concepto_detalle_tipo_transaccion", $.param({
+            query: "Concepto.Id:" + self.e_concepto.Id
+          })).then(function(response) {
+            if (response.data != null) {
+                self.e_detalle = response.data[0].DetalleTipoTransaccionVersion;
+            }
+          });
 
           self.e_concepto.FechaExpiracion = new Date(self.e_concepto.FechaExpiracion);
           self.cuentas = [];
@@ -60,6 +68,13 @@ angular.module('financieraClienteApp')
           self.e_cuentas = angular.copy(self.cuentas);
         });
       };
+
+      financieraMidRequest.get("tipo_transaccion/GetTipoTransaccionByDefinitiveVersion").then(function(response) {
+        self.tiposTransaccion = response.data;
+        angular.forEach(self.tiposTransaccion,function(tipoTr){
+           self.tipoDetallesTipoT.push(tipoTr.DetalleTipoTransaccion)
+        });
+      });
 
       self.actualizar_codigo=function(){
 
@@ -225,7 +240,9 @@ angular.module('financieraClienteApp')
               Cuentas: add_cuentas,
               DelCuentas: del_cuentas
             };
-
+            if (!angular.isUndefined(self.e_detalle)){
+              tr_concepto.DetalleTipoTransaccion = self.e_detalle;
+            }
             financieraRequest.put('tr_concepto', self.e_concepto.Id, tr_concepto).then(function(response) {
               if (response.data.Type == 'success') {
                 swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
