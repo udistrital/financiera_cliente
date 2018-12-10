@@ -73,6 +73,7 @@ angular.module('financieraClienteApp')
       enableVerticalScrollbar: 0,
       useExternalPagination: true,
       enableSelectAll: false,
+      multiSelect:false,
       columnDefs: [{
           field: 'Id',
           displayName: 'Id',
@@ -155,11 +156,9 @@ angular.module('financieraClienteApp')
           route = "tipo_transaccion/NewTipoTransaccionVersion";
           request.tipoTransaccionVersion = ctrl.detalleTipoSelec.DetalleTipoTransaccion.TipoTransaccionVersion;
           request.version = ctrl.versionTr;
-          console.log(request);
         }
       }
       financieraMidRequest.post(route,request).then(function(response){
-        console.log(response);
         if(response.data.Type === "success"){
           templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
           templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.tipo_transaccion_version.Body.TipoTransaccion + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
@@ -213,6 +212,23 @@ angular.module('financieraClienteApp')
               break;
       }
     };
+    ctrl.actualizarVersion = function(){
+      var templateAlert;
+      financieraMidRequest.post("tipo_transaccion/UpdateTipoTransaccion",ctrl.versionSelec).then(function(response){
+        if(response.data.Type === "success"){
+          templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('VERSION') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+          templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Version.NumeroVersion + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>"
+          templateAlert = templateAlert + "</table>";
+        }else{
+          templateAlert=$translate.instant(response.data.Code);
+        }
+          swal('',templateAlert,response.data.Type).then(function(){
+            if(response.data.Type === "success"){
+              ctrl.consultarVersiones(0,'TipoTransaccion:'+ctrl.detalleTipoSelec.DetalleTipoTransaccion.TipoTransaccionVersion.TipoTransaccion);
+            }
+          });
+      });
+    }
 
     ctrl.consultarVersiones = function(offset,query){
       financieraMidRequest.get('tipo_transaccion/GetTipoTransaccionByTipo',$.param({

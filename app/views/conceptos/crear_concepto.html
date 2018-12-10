@@ -70,6 +70,13 @@
             </div>
           </div>
 
+          <div class="col-md-12 form-group ">
+            <label>{{"TIPO_TRANSACCION" | translate}}:</label>
+            <select ng-model="crearConcepto.nuevo_concepto.tipoTransaccion" ng-options="i.DetalleTipoTransaccion.Nombre for i in crearConcepto.tiposTransaccion" class="form-control" id="tipoTr" required>
+              <option value="">{{'SELECCIONE'|translate}}</option>
+            </select>
+            </div>
+
           </form>
         </div>
 
