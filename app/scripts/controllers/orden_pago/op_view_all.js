@@ -13,6 +13,7 @@ angular.module('financieraClienteApp')
     var ctrl = this;
     ctrl.cargando = true;
     ctrl.hayData = true;
+    ctrl.tipoDocumentoOp = "1";
 
     $scope.mostrar_direc = false;
     $scope.estados = [];
@@ -356,7 +357,7 @@ angular.module('financieraClienteApp')
                 confirmButtonColor: "#449D44",
                 confirmButtonText: $translate.instant('VOLVER'),
             }).then(function() {
-              
+
             })
           }
         });

@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location,$window,gridApiService,$interval,$filter) {
 
     var ctrl = this;
-
+    ctrl.tipoDocumentoOp = "1";
     ctrl.seleccionMov = true;
     ctrl.fechaDocumento = new Date();
     $scope.concepto=[];

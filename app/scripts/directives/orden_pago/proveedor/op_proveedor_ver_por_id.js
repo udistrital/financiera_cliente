@@ -21,6 +21,7 @@ angular.module('financieraClienteApp')
         var self = this;
         self.rubros = [];
         self.rps = [];
+        self.tipoDocumentoOp = "1";
         // paneles
         $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
         $scope.panelProveedor = !$scope.inputpestanaabierta;

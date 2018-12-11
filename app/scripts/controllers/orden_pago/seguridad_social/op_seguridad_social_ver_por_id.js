@@ -11,6 +11,7 @@ angular.module('financieraClienteApp')
   .controller('OpSeguridadSocialVerPorIdCtrl', function(financieraRequest, agoraRequest, coreRequest, $scope, $routeParams, financieraMidRequest) {
     var self = this;
     self.ordenPagoSeguridadSocuialId = $routeParams.Id;
+    self.tipoDocumentoOp = "1";
     // paneles
     $scope.panelUnidadEjecutora = true;
     $scope.panelProveedor = true;
