@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest, administrativaPruebasRequest,$sanitize,argoRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest,financieraMidRequest,administrativaPruebasRequest,$sanitize,argoRequest) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -53,28 +53,28 @@ angular.module('financieraClienteApp')
           return retorno
         }
         ctrl.get_solicitudes = function() {
-            financieraRequest.get("solicitud_avance", $.param({
+            financieraMidRequest.get("avance/GetSolicitudes", $.param({
                     limit: -1,
                     sortby: "Id",
                     order: "asc"
                 }))
                 .then(function(response) {
                   if(response.data !==  null){
-                    angular.forEach(response.data, function(solicitud) {
-                        financieraRequest.get("avance_estado_avance", $.param({
-                                query: "SolicitudAvance.Id:" + solicitud.Id,
-                                sortby: "FechaRegistro",
-                                limit: -1,
-                                order: "desc"
-                            }))
-                            .then(function(estados) {
-                                solicitud.Estado = estados.data;
-                            });
+                    /*angular.forEach(response.data, function(solicitud) {
+                        //financieraRequest.get("avance_estado_avance", $.param({
+                        //        query: "SolicitudAvance.Id:" + solicitud.Id,
+                        //        sortby: "FechaRegistro",
+                        //        limit: -1,
+                        //        order: "desc"
+                        //    }))
+                        //    .then(function(estados) {
+                        //        solicitud.Estado = estados.data;
+                        //    });
                         //aqui va la conexions con el beneficiario
-                        academicaRequest.get("documento=" + solicitud.Beneficiario)
-                            .then(function(response) {
-                                solicitud.Tercero = response.data[0];
-                            });
+                        //academicaRequest.get("documento=" + solicitud.Beneficiario)
+                        //    .then(function(response) {
+                        //        solicitud.Tercero = response.data[0];
+                        //    });
                         financieraRequest.get("solicitud_tipo_avance", $.param({
                                 query: "SolicitudAvance.Id:" + solicitud.Id,
                                 sortby: "Id",
@@ -83,10 +83,9 @@ angular.module('financieraClienteApp')
                             }))
                             .then(function(response) {
                                 solicitud.Tipos = response.data;
-                                solicitud.Total = 0;
-                                angular.forEach(response.data, function(tipo) {
+                                solicitud.Total = response.data.;
+                                  angular.forEach(response.data, function(tipo) {
                                     if(!ctrl.validatenoRowFound(tipo)){
-
                                     solicitud.Total += tipo.Valor;
                                     financieraRequest.get("requisito_tipo_avance", $.param({
                                             query: "TipoAvance:" + tipo.TipoAvance.Id + ",Activo:1",
@@ -120,7 +119,7 @@ angular.module('financieraClienteApp')
 
                             });
 
-                    });
+                    });*/
                     ctrl.cargando = false;
                     ctrl.hayData = true;
                     ctrl.gridOptions.data = response.data;
