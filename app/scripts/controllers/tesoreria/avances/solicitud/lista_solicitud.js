@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest,financieraMidRequest,administrativaPruebasRequest,$sanitize,argoRequest) {
+    .controller('ListaSolicitudCtrl', function(financieraRequest, $localStorage, $translate, $location, $scope, academicaRequest,financieraMidRequest,administrativaPruebasRequest,$sanitize,argoRequest,gridApiService ) {
         var ctrl = this;
         $scope.info_validar = false;
         $scope.selected = [];
@@ -43,96 +43,6 @@ angular.module('financieraClienteApp')
             return list.indexOf(item) > -1;
         };
 
-        ctrl.validatenoRowFound = function (item){
-          var retorno;
-          if(angular.equals(typeof(item),"string")){
-            retorno = true;
-          }else{
-            retorno = false;
-          }
-          return retorno
-        }
-        ctrl.get_solicitudes = function() {
-            financieraMidRequest.get("avance/GetSolicitudes", $.param({
-                    limit: -1,
-                    sortby: "Id",
-                    order: "asc"
-                }))
-                .then(function(response) {
-                  if(response.data !==  null){
-                    /*angular.forEach(response.data, function(solicitud) {
-                        //financieraRequest.get("avance_estado_avance", $.param({
-                        //        query: "SolicitudAvance.Id:" + solicitud.Id,
-                        //        sortby: "FechaRegistro",
-                        //        limit: -1,
-                        //        order: "desc"
-                        //    }))
-                        //    .then(function(estados) {
-                        //        solicitud.Estado = estados.data;
-                        //    });
-                        //aqui va la conexions con el beneficiario
-                        //academicaRequest.get("documento=" + solicitud.Beneficiario)
-                        //    .then(function(response) {
-                        //        solicitud.Tercero = response.data[0];
-                        //    });
-                        financieraRequest.get("solicitud_tipo_avance", $.param({
-                                query: "SolicitudAvance.Id:" + solicitud.Id,
-                                sortby: "Id",
-                                limit: -1,
-                                order: "asc"
-                            }))
-                            .then(function(response) {
-                                solicitud.Tipos = response.data;
-                                solicitud.Total = response.data.;
-                                  angular.forEach(response.data, function(tipo) {
-                                    if(!ctrl.validatenoRowFound(tipo)){
-                                    solicitud.Total += tipo.Valor;
-                                    financieraRequest.get("requisito_tipo_avance", $.param({
-                                            query: "TipoAvance:" + tipo.TipoAvance.Id + ",Activo:1",
-                                            limit: -1,
-                                            fields: "RequisitoAvance,TipoAvance,Id",
-                                            sortby: "TipoAvance",
-                                            order: "asc"
-                                        }))
-                                        .then(function(response) {
-                                            tipo.Requisitos = response.data;
-                                            var sol = 0;
-                                            var leg = 0;
-                                            angular.forEach(tipo.Requisitos, function(data) {
-                                              if(!ctrl.validatenoRowFound(data)){
-                                                data.SolicitudTipoAvance = { Id: tipo.Id };
-                                                data.RequisitoTipoAvance = { Id: data.Id };
-                                                if (data.RequisitoAvance.EtapaAvance.Id == 1) { //Solicitud
-                                                    sol++;
-                                                }
-                                                if (data.RequisitoAvance.EtapaAvance.Id == 2) { //Legalización
-                                                    leg++;
-                                                }
-                                                tipo.n_solicitar = sol;
-                                                tipo.n_legalizar = leg;
-                                              }
-                                            });
-                                        });
-                                      }
-                                });
-
-
-                            });
-
-                    });*/
-                    ctrl.cargando = false;
-                    ctrl.hayData = true;
-                    ctrl.gridOptions.data = response.data;
-                  }else{
-                    ctrl.cargando = false;
-                    ctrl.hayData = false;
-                    ctrl.gridOptions.data = {};
-                  }
-                });
-        };
-
-
-        ctrl.get_solicitudes();
         ctrl.gridOptions = {
             paginationPageSizes: [5, 15, 20],
             paginationPageSize: 5,
@@ -140,6 +50,7 @@ angular.module('financieraClienteApp')
             enableSorting: true,
             enableRowSelection: true,
             enableRowHeaderSelection: false,
+            useExternalPagination: true,
             columnDefs: [{
                     field: 'Consecutivo',
                     displayName: $translate.instant('CONSECUTIVO'),
@@ -214,8 +125,39 @@ angular.module('financieraClienteApp')
                     cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
 
                 }
-            ]
+            ],
+            onRegisterApi: function(gridApi) {
+              ctrl.gridApiOptions = gridApi;
+              ctrl.gridApiOptions = gridApiService.pagination(gridApi,ctrl.get_solicitudes,$scope);
+            }
         };
+
+        ctrl.get_solicitudes = function(offset,query) {
+            financieraMidRequest.get("avance/GetSolicitudes", $.param({
+                    limit: ctrl.gridOptions.paginationPageSize,
+                    offset:offset,
+                    query:query,
+                    sortby: "Id",
+                    order: "asc"
+                }))
+                .then(function(response) {
+                  if(response.data !==  null){
+                    ctrl.cargando = false;
+                    ctrl.hayData = true;
+                    ctrl.gridOptions.data = response.data.Solicitudes;
+                    ctrl.gridOptions.totalItems = response.data.RegCuantity;
+                  }else{
+                    ctrl.cargando = false;
+                    ctrl.hayData = false;
+                    ctrl.gridOptions.data = {};
+                    ctrl.gridOptions.totalItems = 0;
+                  }
+                });
+        };
+
+
+        ctrl.get_solicitudes(0,'');
+
         $scope.loadrow = function(row, operacion) {
             $scope.solicitud = row.entity;
             switch (operacion) {
