@@ -57,7 +57,7 @@ angular.module('financieraClienteApp')
             financieraMidRequest.get('disponibilidad/SolicitudById/' + ctrl.rp_detalle.DisponibilidadApropiacion.Disponibilidad.Solicitud, '')
               .then(function(response) {
                 if(response.data !== null){
-                  ctrl.solicitud = response.data[0];
+                  ctrl.solicitud = response.data;
                 }
 
               });
