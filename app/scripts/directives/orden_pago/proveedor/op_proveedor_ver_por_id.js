@@ -74,7 +74,6 @@ angular.module('financieraClienteApp')
           self.conceptos = [];
           self.cargando = true;
           self.hayData = true;
-          console.log("Hola soy tu op", $scope.opproveedorid);
           if ($scope.opproveedorid != undefined) {
             financieraRequest.get('concepto_orden_pago',
             $.param({
@@ -100,9 +99,6 @@ angular.module('financieraClienteApp')
               });
               //fin quitar repetidos
               self.conceptos = response.data;
-              console.log("Hola soy tu concepto", self.conceptos);
-              // recorrer para subgrip
-
             }
           });
 
@@ -132,7 +128,6 @@ angular.module('financieraClienteApp')
             })
           ).then(function(response) {
             self.proveedor = response.data;
-            console.log("proveeedor", self.proveedor)
             // datos banco
             self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
             //datos telefono
