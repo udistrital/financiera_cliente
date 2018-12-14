@@ -245,3 +245,8 @@ sencillo {
 .margin-modal{
   margin-top: 5%
 }
+
+.modal.in {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

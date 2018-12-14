@@ -15,14 +15,14 @@
 <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalVer = false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{'VER_SOLICITUD' | translate }}
             </div>
-            <div class="panel panel-body">
-                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+            <div class="panel panel-body" ng-if="listaSolicitud.modalVer">
+                <ver-solicitud sol="solicitud" tipos="1" seleccioncrp></ver-solicitud>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
 <div id="modal_validar" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalValidar=false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -39,7 +39,9 @@
             </div>
 
             <div class="panel panel-body">
+              <div class = "form-group" ng-if="listaSolicitud.modalValidar">
                 <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
+              </div>
                 <fieldset class="form-group">
                     <legend class="text-primary" ng-click="info_validar=!info_validar">{{'BTN.VERIFICAR'| translate}} <span class="fa fa-plus pull-right" ng-show="!info_validar"></span> <span class="fa fa-minus pull-right" ng-show="info_validar"></span></legend>
                     <div class="panel panel-default" ng-repeat="tipo in solicitud.Tipos" ng-show="!info_validar">
@@ -75,7 +77,7 @@
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
                       <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
-            </button>
+                    </button>
                 </div>
             </div>
         </div>
@@ -98,7 +100,7 @@
 <div id="modal_aprobacion" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalAprobacion=false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -107,8 +109,9 @@
               </h3>
             </div>
             <div class="panel-body">
-                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
-
+                <div class = "form-group" ng-if="listaSolicitud.modalAprobacion">
+                  <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+                </div>
                 <fieldset class="form-group">
                     <legend class="text-primary" ng-click="d=!d">{{'NECESIDAD'| translate}} <span class="fa fa-plus pull-right" ng-show="!d"></span>
                         <span class="fa fa-minus pull-right" ng-show="d"></span></legend>
