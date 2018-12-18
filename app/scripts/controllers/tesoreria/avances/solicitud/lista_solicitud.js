@@ -162,6 +162,7 @@ angular.module('financieraClienteApp')
             $scope.solicitud = row.entity;
             switch (operacion) {
                 case "ver":
+                    ctrl.modalVer = true;
                     $('#modal_ver').modal('show');
                     break;
                 case "estado":
@@ -219,6 +220,7 @@ angular.module('financieraClienteApp')
             $scope.estadoclick = $localStorage.nodeclick;
             switch ($scope.estadoclick.Id) {
                 case (3):
+                    ctrl.modalValidar = true;
                     $('#modal_validar').modal('show');
                     break;
                 case (2):
@@ -235,6 +237,7 @@ angular.module('financieraClienteApp')
                             if (response.data == null) {
                                 ctrl.solicitud_necesidad();
                             } else {
+                                ctrl.modalAprobacion = true;
                                 $('#modal_aprobacion').modal('show');
                                 ctrl.necesidad_proceso_externo = response.data[0];
                                 if(!angular.isUndefined(ctrl.necesidad_proceso_externo.Necesidad)){
@@ -255,9 +258,11 @@ angular.module('financieraClienteApp')
           if(ctrl.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion == "A"){
             ctrl.saveEstadoAvance();
             $('#modal_aprobacion').modal('hide');
+            ctrl.modalAprobacion = false;
           }else{
             swal('',$translate.instant("E_A08"),"error").then(function(){
                 $('#modal_aprobacion').modal('hide');
+                ctrl.modalAprobacion = false;
             });
           }
         }
@@ -399,8 +404,6 @@ angular.module('financieraClienteApp')
                 }
                 j++;
             });
-            //console.log("Indefinidos: " + i + ", seleccionados: " + j);
-            //console.log(st);
             if (i < st) {
                 error += "<li><label>" + $translate.instant('ERROR_OBSERVACIONES') + "</label></li>";
             }
@@ -418,7 +421,6 @@ angular.module('financieraClienteApp')
                 $scope.data = {};
                 $scope.envio = [];
                 angular.forEach($scope.selected, function(data) {
-                    //console.log(data);
                     var envio = {};
                     envio.RequisitoTipoAvance = data.RequisitoTipoAvance;
                     envio.SolicitudTipoAvance = data.SolicitudTipoAvance;
@@ -430,7 +432,7 @@ angular.module('financieraClienteApp')
 
                 financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
                     .then(function(response) {
-                        //console.log(response.data);
+                        console.log(response.data);
                         if (response.data.Type !== undefined) {
                             if (response.data.Type === "error") {
                                 swal('', $translate.instant(response.data.Code), response.data.Type);
@@ -439,10 +441,11 @@ angular.module('financieraClienteApp')
                             }
                             ctrl.get_solicitudes();
                             $('#modal_validar').modal('hide');
+                            ctrl.modalValidar = false;
+                            console.log($scope.estadoclick.estado);
+                            $scope.estado = response.data.Body;
                         }
                     });
-                //console.log($scope.data);
-
             }
         };
     });

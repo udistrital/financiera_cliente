@@ -370,7 +370,6 @@ angular
                 controller: 'AdminCalendarioCtrl',
                 controllerAs: 'adminCalendario'
             })
-            ///tesoreria/avances/lista_solicitud
             .when('/tesoreria/avances/solicitud/lista_solicitud', {
                 templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
                 controller: 'ListaSolicitudCtrl',

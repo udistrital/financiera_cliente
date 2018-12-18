@@ -12,7 +12,8 @@ angular.module('financieraClienteApp')
       restrict: 'E',
       scope:{
           avancelegalizacion: '=?',
-          g:'=?'
+          g:'=?',
+          resgitrareintegro:'=?'
         },
       templateUrl: 'views/directives/tesoreria/reintegros.html',
       controller:function($scope,$translate,uiGridConstants,financieraMidRequest,gridApiService,financieraRequest,$interval){
@@ -23,11 +24,10 @@ angular.module('financieraClienteApp')
                   enableSelectAll: false,
                   selectionRowHeaderWidth: 35,
                   multiSelect: false,
-                  enableRowHeaderSelection: false,
+                  enableRowHeaderSelection: true,
                   paginationPageSizes: [5, 10, 15],
                   paginationPageSize: 10,
                   enableFiltering: true,
-                  minRowsToShow: 10,
                   useExternalPagination: true,
                   columnDefs:[{
                       field: 'Id',
@@ -36,22 +36,21 @@ angular.module('financieraClienteApp')
                     {
                       field: 'Consecutivo',
                       displayName: $translate.instant('CONSECUTIVO'),
-                      width: '25%',
-                      cellClass: 'input_center',
+                      width: '*',
                       headerCellClass: 'encabezado'
                     },
                     {
                       field: 'Causal.Descripcion',
-                      width: '50%',
+                      width: '*',
                       displayName: $translate.instant('CAUSAL_REINTEGRO'),
-                      cellClass: 'input_center',
                       headerCellClass: 'encabezado'
                     },
                     {
                       field: 'Ingreso.IngresoConcepto.ValorAgregado',
                       displayName: $translate.instant('VALOR'),
-                      width: '25%',
-                      cellClass: 'input_center',
+                      width: '*',
+                      cellFilter: 'currency',
+                      cellClass: 'input_right',
                       headerCellClass: 'encabezado'
                     }
                   ],
@@ -61,7 +60,7 @@ angular.module('financieraClienteApp')
                     gridApi.selection.on.rowSelectionChanged($scope, function(row) {
                       var reintegroAvnc = {}
                       reintegroAvnc={Reintegro:{Id:row.entity.Id},
-                                      AvanceLegalizacion:{Id:ctrl.avanceLegalizacion.Id}};
+                                      AvanceLegalizacion:{Id:$scope.avancelegalizacion.Id}};
                       if(row.isSelected){
                         ctrl.reintegroAvance.push(reintegroAvnc);
                       }else{
@@ -100,17 +99,17 @@ angular.module('financieraClienteApp')
                     reintegroAvance:ctrl.reintegroAvance
                   }
                   financieraRequest.post('reintegro_avance_legalizacion/AddReintegroAvance',request).then(function(response) {
+                    console.log(response);
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
-                          ctrl.cargarReintegros(0,'');
+                          if(angular.equals(response.data.Type,"success")){
+                            $scope.resgitrareintegro=true;
+                            ctrl.cargarReintegros(0,'');
+                          }
+
                         });
                   });
                 }
               }
-
-              $scope.$watch('avance', function() {
-                ctrl.avanceLegalizacion = $scope.avance_legalizacion;
-              });
-
 
               $scope.$watch('g', function() {
                 if(!$scope.g || angular.isUndefined($scope.g)){
