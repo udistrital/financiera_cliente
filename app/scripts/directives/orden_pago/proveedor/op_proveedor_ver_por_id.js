@@ -20,8 +20,11 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.rubros = [];
+        self.conceptos = [];
         self.rps = [];
         self.tipoDocumentoOp = "1";
+        self.panel_abierto = "ninguno";
+        self.open = false;
         // paneles
         $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
         $scope.panelProveedor = !$scope.inputpestanaabierta;
@@ -67,6 +70,41 @@ angular.module('financieraClienteApp')
               }
             });
           }
+
+          self.conceptos = [];
+          self.cargando = true;
+          self.hayData = true;
+          if ($scope.opproveedorid != undefined) {
+            financieraRequest.get('concepto_orden_pago',
+            $.param({
+              query: "OrdenDePago.Id:" + $scope.opproveedorid,
+              limit: 0
+            })
+          ).then(function(response) {
+
+            if(response.data === null){
+              self.hayData = false;
+              self.cargando = false;
+              self.conceptos = [];
+
+              //quitar repetidos
+            }else{
+              self.hayData = true;
+              self.cargando = false;
+              var hash = {};
+              response.data = response.data.filter(function(current) {
+                var exists = !hash[current.RegistroPresupuestalDisponibilidadApropiacion.Id] || false;
+                hash[current.RegistroPresupuestalDisponibilidadApropiacion.Id] = true;
+                return exists;
+              });
+              //fin quitar repetidos
+              self.conceptos = response.data;
+            }
+          });
+
+
+        }
+
         })
 
         // documento
@@ -90,7 +128,6 @@ angular.module('financieraClienteApp')
             })
           ).then(function(response) {
             self.proveedor = response.data;
-            console.log("proveeedor", self.proveedor)
             // datos banco
             self.get_info_banco(self.proveedor[0].IdEntidadBancaria);
             //datos telefono
@@ -147,7 +184,29 @@ angular.module('financieraClienteApp')
           ).then(function(response) {
             self.entrada = response.data[0];
           });
-        }
+        };
+        self.abrir_panel = function(nombre){
+
+          if(self.panel_abierto === nombre && self.open === true){
+              self.open = false;
+              self.panel_abierto = "ninguno"
+          }else{
+            self.panel_abierto = nombre;
+            if(self.open === false){
+              self.open = true;
+          }else{
+              if(self.open === true){
+                self.open = false;
+
+              }
+            }
+          }
+
+
+
+        };
+
+
         //
       },
       controllerAs: 'd_opProveedorVerPorId'

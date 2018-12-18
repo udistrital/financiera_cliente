@@ -32,7 +32,8 @@ angular.module('financieraClienteApp')
         botones: '=?',
         botonespadre: '=?',
         vigencia: '=?',
-        recargaext: '=?'
+        recargaext: '=?',
+        datachangeevent: '=?'
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
@@ -520,11 +521,11 @@ angular.module('financieraClienteApp')
           var aprAregistrar = {};
           var estadoapr = {};
           var rubroapr = {};
-          estadoapr.Id = 1;
+          estadoapr.Id = 2;
           rubroapr = self.apropiacionsel;
           rubroapr.Nombre = self.apropiacionsel.Nombre;
           rubroapr.Codigo = self.apropiacionsel.Codigo;
-          aprAregistrar.Vigencia = $scope.vigencia;
+          aprAregistrar.Vigencia = parseInt($scope.vigencia);
           aprAregistrar.Estado = estadoapr;
           aprAregistrar.Rubro = rubroapr;
           aprAregistrar.Valor = parseInt(self.ValorAsignado);
