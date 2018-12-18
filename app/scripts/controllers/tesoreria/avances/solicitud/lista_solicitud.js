@@ -204,7 +204,6 @@ angular.module('financieraClienteApp')
                     Consecutivo: $scope.solicitud.Consecutivo,
                     TipoNecesidad: { Id: 3 }
                 };
-                console.log(data);
                 administrativaPruebasRequest.post("necesidad_proceso_externo", data)
                     .then(function(response) {
                         if (response.status === 200) {
@@ -242,6 +241,7 @@ angular.module('financieraClienteApp')
                                 ctrl.necesidad_proceso_externo = response.data[0];
                                 if(!angular.isUndefined(ctrl.necesidad_proceso_externo.Necesidad)){
                                   ctrl.InfoNecesidad = ctrl.necesidad_proceso_externo.Necesidad;
+                                  console.log(ctrl.InfoNecesidad);
                                   ctrl.getInfoNecesidad();
                                 }
                             }

@@ -345,7 +345,7 @@ angular.module('financieraClienteApp')
         ctrl.cargarLegalizaciones = function(){
           financieraMidRequest.get('legalizacion_avance/GetLegalizacionInformation/'+$scope.solicitud.Id,null).then(
             function(response){
-              if(response.data != null){
+              if(response.data != null && !angular.isUndefined(response.data.avanceLegalizacion)){
                 $scope.solicitud.avanceLegalizacion = response.data.avanceLegalizacion[0];
                 $scope.solicitud.valorLegalizado = response.data.Total;
                 ctrl.get_all_avance_legalizacion_practica();
@@ -468,7 +468,7 @@ angular.module('financieraClienteApp')
           }
         });
 
-        $scope.$watch('solicitud.registraReintegro', function() {
+        $scope.$watch('legalizacion.registraReintegro', function() {
           console.log(ctrl.registraReintegro);
           if(!angular.isUndefined(ctrl.registraReintegro) && ctrl.registraReintegro){
               ctrl.cargarReintegros();
