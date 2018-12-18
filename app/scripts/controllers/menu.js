@@ -7,20 +7,27 @@ angular.module('financieraClienteApp')
         $scope.$on('$routeChangeStart', function (scope, next, current) {
 
             var waitForMenu = function () {
-                if ($rootScope.my_menu != undefined) {
-                    if ($scope.token_service.live_token() && current != undefined ) {
-                        if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
-                            $location.path("/no_permission");
+                console.log('menu ', $rootScope.my_menu);
+                
+                if ($rootScope.my_menu !== undefined) {
+                    if ($rootScope.my_menu !== null) {
+                        if ($scope.token_service.live_token() && current != undefined) {
+
+                            if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
+                                $location.path("/no_permission");
+                            }
+                        } else if (current == undefined) {
+                            if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
+                                $location.path("/no_permission");
+                            }
                         }
-                    }  else if (current == undefined) {
-                        if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
-                            $location.path("/no_permission");
-                        }
-                    }                       
+                    } else {
+                        $location.path("/no_permission");
+                    }
                 } else {
                     setTimeout(waitForMenu, 250);
                 }
-            } 
+            }
             waitForMenu();
 
 
