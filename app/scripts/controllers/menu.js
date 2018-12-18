@@ -7,15 +7,21 @@ angular.module('financieraClienteApp')
         $scope.$on('$routeChangeStart', function (scope, next, current) {
 
             var waitForMenu = function () {
-                if ($rootScope.my_menu != undefined) {
-                    if ($scope.token_service.live_token() && current != undefined ) {
-                        if (!$scope.havePermission(next.originalPath, $rootScope.my_menu)) {
-                            $location.path("/no_permission");
+                
+                if ($rootScope.my_menu !== undefined) {
+                    if ($rootScope.my_menu !== null) {
+                        if ($scope.token_service.live_token() && current != undefined) {
+
+                            if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
+                                $location.path("/no_permission");
+                            }
+                        } else if (current == undefined) {
+                            if (!$scope.havePermission(next.templateUrl, $rootScope.my_menu)) {
+                                $location.path("/no_permission");
+                            }
                         }
-                    }  else if (current == undefined) {
-                        if (!$scope.havePermission(next.originalPath, $rootScope.my_menu)) {
-                            $location.path("/no_permission");
-                        }
+                    } else {
+                        $location.path("/no_permission");
                     }
                 } else {
                     setTimeout(waitForMenu, 250);
@@ -109,7 +115,7 @@ angular.module('financieraClienteApp')
 
         $scope.havePermission = function (viewPath, menu) {
             if (viewPath !== undefined && viewPath !== null) {
-                var currentPath = viewPath.substr(1);
+                var currentPath = viewPath.replace(".html", "").split("views/").pop();
                 var head = menu;
                 var permission = 0;
                 if (currentPath !== "main") {
