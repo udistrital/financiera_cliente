@@ -11,6 +11,8 @@ angular.module('financieraClienteApp')
   .controller('GirosVerPorIdCtrl', function($scope, financieraRequest, financieraMidRequest, gridApiService, uiGridConstants, agoraRequest, coreRequest, $routeParams, $timeout, $translate, $window) {
     var self = this;
     self.giroId = $routeParams.Id;
+    self.tipoDocumentoOp = "1";
+    self.tipoDocumentoGiro = "11";
     self.conceptos = [];
     self.cuentas = [];
     $scope.botones = [
@@ -125,7 +127,7 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
           headerCellClass: 'encabezado',
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
-        },        
+        },
       ]
     };
     self.gridOptions_op_detail.enablePaginationControls = true;
@@ -133,7 +135,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       self.gridApi = gridApiService.pagination(self.gridApi, self.cargarListaGiro, $scope);
     };
-    
+
 
     self.cargarListaGiro = function (offset,query) {
     financieraMidRequest.cancel();
@@ -166,12 +168,12 @@ angular.module('financieraClienteApp')
       financieraMidRequest.get('giro/GetSumGiro/'+self.giroId).then(function(response){
         self.ValorTotalOp = response.data[0].total_op
         self.ValorTotalCuentasEspeciales = response.data[0].total_cuentas_especiales;
-        self.ValorTotal = parseInt(self.ValorTotalOp) + parseInt(self.ValorTotalCuentasEspeciales); 
+        self.ValorTotal = parseInt(self.ValorTotalOp) + parseInt(self.ValorTotalCuentasEspeciales);
       });
       // data proveedor
 
 
-    });      
+    });
     };
     $scope.loadrow = function(row, operacion) {
       self.operacion = operacion;
@@ -198,7 +200,7 @@ angular.module('financieraClienteApp')
       }
   };
     self.cargarListaGiro(0,'');
-   
+
 
     //
   });

@@ -7,7 +7,6 @@ angular.module('financieraClienteApp')
         $scope.$on('$routeChangeStart', function (scope, next, current) {
 
             var waitForMenu = function () {
-                console.log('menu ', $rootScope.my_menu);
                 
                 if ($rootScope.my_menu !== undefined) {
                     if ($rootScope.my_menu !== null) {

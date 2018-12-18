@@ -57,6 +57,13 @@
             </div>
           </div>
 
+          <div class="col-md-12 form-group ">
+            <label>{{"TIPO_TRANSACCION" | translate}}:</label>
+            <select ng-model="conceptosEditar.e_detalle" ng-options="i.Nombre for i in conceptosEditar.tipoDetallesTipoT track by i.Id" class="form-control" id="tipoTr">
+              <option value="">{{'SELECCIONE'|translate}}</option>
+            </select>
+            </div>
+
 
 
       </form>

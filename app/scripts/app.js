@@ -370,7 +370,8 @@ angular
                 controller: 'AdminCalendarioCtrl',
                 controllerAs: 'adminCalendario'
             })
-            .when('/tesoreria/avances/lista_solicitud', {
+            ///tesoreria/avances/lista_solicitud
+            .when('/tesoreria/avances/solicitud/lista_solicitud', {
                 templateUrl: 'views/tesoreria/avances/solicitud/lista_solicitud.html',
                 controller: 'ListaSolicitudCtrl',
                 controllerAs: 'listaSolicitud'
@@ -666,6 +667,11 @@ angular
               templateUrl: 'views/tesoreria/avances/solicitud/gestion_subtipo.html',
               controller: 'GestionSubtipoAvanceLegCtrl',
               controllerAs: 'gestionSubtipoAvanceLeg'
+            })
+            .when('/conceptos/listado_tipo_transaccion', {
+              templateUrl: 'views/conceptos/listado_tipo_transaccion.html',
+              controller: 'ConceptosListadoTipoTransaccionCtrl',
+              controllerAs: 'listadoTipoTransaccion'
             })
             .otherwise({
                 redirectTo: '/'

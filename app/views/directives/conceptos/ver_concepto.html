@@ -113,6 +113,25 @@
         </div>
 
       </div>
+
+      <div class="col-md-12 row line" ng-if="d_verConcepto.detalleTipoTr">
+        <div class="col-md-2">
+          <label><h5>{{"TIPO_TRANSACCION" | translate}}:<h5></label>
+        </div>
+        <div class="panel panel-info panel-body shadow-box col-md-10">
+          <span>{{d_verConcepto.detalleTipoTr.Nombre}}</span>
+        </div>
+      </div>
+
+      <div class="col-md-12 row line" ng-if="!d_verConcepto.detalleTipoTr">
+        <div class="col-md-2">
+          <label><b>{{"TIPO_TRANSACCION" | translate}}:</b></label>
+        </div>
+        <div class="col-md-2">
+          <span>{{"NO_DATA" | translate}}</span>
+        </div>
+      </div>
+
     </div>
 
 

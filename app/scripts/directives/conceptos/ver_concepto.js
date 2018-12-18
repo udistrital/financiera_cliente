@@ -42,8 +42,14 @@ angular.module('financieraClienteApp')
                   $scope.cuentasconcepto = self.cuentas;
                  }
               }
-              
 
+              financieraRequest.get("concepto_detalle_tipo_transaccion", $.param({
+                query: "Concepto.Id:" + self.v_concepto.Id
+              })).then(function(response) {
+                if (response.data != null) {
+                    self.detalleTipoTr = response.data[0].DetalleTipoTransaccionVersion;
+                }
+              });
 
             });
           });
