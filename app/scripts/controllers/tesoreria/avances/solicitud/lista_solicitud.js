@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
         $scope.estado_select = [];
         $scope.aristas = [];
         $scope.estadoclick = {};
-
+        ctrl.aprobacionEstados = ['A','C'];
         ctrl.cargando = true;
         ctrl.hayData = true;
 
@@ -154,7 +154,20 @@ angular.module('financieraClienteApp')
                   }
                 });
         };
-
+        ctrl.getEstadosRow = function(row){
+          financieraRequest.get("avance_estado_avance/",
+                  $.param({
+                      query: "SolicitudAvance.Id:" + row.Id,
+                      limit: -1,
+                      sortby:"FechaRegistro",
+                      order:"desc"
+                  })).
+          then(function(response){
+            if(response.data != null){
+              row.Estado = response.data;
+            }
+          })
+        }
 
         ctrl.get_solicitudes(0,'');
 
@@ -253,7 +266,6 @@ angular.module('financieraClienteApp')
 
             }
         };
-      ctrl.aprobacionEstados = ['A','C'];
       ctrl.checkAprove =   function (estado) {
             if (estado == this.value ){
 		            return true;
@@ -292,7 +304,7 @@ angular.module('financieraClienteApp')
                         swal('',$translate.instant(response.data.Code),response.data.Type);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                          ctrl.get_solicitudes();
+                          ctrl.getEstadosRow($scope.solicitud);
                           $scope.estado = $scope.estadoclick;
                         });
                       }
@@ -436,7 +448,7 @@ angular.module('financieraClienteApp')
                 });
                 $scope.data.Requisitos = $scope.envio;
                 $scope.data.Solicitud = { Id: $scope.solicitud.Id };
-
+                ctrl.getEstadosRow($scope.solicitud);
                 financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
                     .then(function(response) {
                         if (response.data.Type !== undefined) {
@@ -445,7 +457,7 @@ angular.module('financieraClienteApp')
                             } else {
                                 swal('', $translate.instant(response.data.Code), response.data.Type);
                             }
-                            ctrl.get_solicitudes();
+
                             $('#modal_validar').modal('hide');
                             ctrl.modalValidar = false;
                             $scope.estado = response.data.Body;

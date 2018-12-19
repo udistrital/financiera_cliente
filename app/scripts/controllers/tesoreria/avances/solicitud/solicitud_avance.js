@@ -124,6 +124,18 @@ angular.module('financieraClienteApp')
             if(response.data != null){
               ctrl.tercero = response.data;
               ctrl.tercero.dependencia = $translate.instant('NO_APLICA');
+            }else{
+              financieraMidRequest.get('administrativa_personas/GetPersona/',$.param({
+                numberId:ctrl.tercero.documento
+              })).then(function(response){
+                if(response.data != null){
+                  ctrl.tercero.tipo_documento = response.data.TipoDocumento.ValorParametro;
+                  ctrl.tercero.nombres= response.data.Nombres;
+                  ctrl.tercero.apellidos= response.data.Apellidos;
+                  ctrl.tercero.direccion=response.data.Direccion;
+                  ctrl.tercero.correo=response.data.Correo;
+                }
+              });
             }
           });
         }
@@ -164,7 +176,6 @@ angular.module('financieraClienteApp')
 
             }
 
-          // Operar
           if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
             respuesta = true;
           } else {
