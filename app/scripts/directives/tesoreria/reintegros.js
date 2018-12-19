@@ -16,7 +16,7 @@ angular.module('financieraClienteApp')
           resgitrareintegro:'=?'
         },
       templateUrl: 'views/directives/tesoreria/reintegros.html',
-      controller:function($scope,$translate,uiGridConstants,financieraMidRequest,gridApiService,financieraRequest,$interval){
+      controller:function($scope,$translate,uiGridConstants,financieraMidRequest,gridApiService,financieraRequest,$interval,$localStorage){
         var ctrl = this;
         ctrl.reintegroAvance = [];
         ctrl.gridReintegros = {
@@ -59,8 +59,14 @@ angular.module('financieraClienteApp')
                     gridApi = gridApiService.pagination(gridApi,ctrl.cargarReintegros,$scope);
                     gridApi.selection.on.rowSelectionChanged($scope, function(row) {
                       var reintegroAvnc = {}
-                      reintegroAvnc={Reintegro:{Id:row.entity.Id},
-                                      AvanceLegalizacion:{Id:$scope.avancelegalizacion.Id}};
+                      reintegroAvnc={Reintegro:{Id:row.entity.Id}};
+
+                      if (!angular.isUndefined($scope.avancelegalizacion) && $scope.avancelegalizacion !=null){
+                        reintegroAvnc.AvanceLegalizacion={Id:$scope.avancelegalizacion.Id};
+                      }else {
+                        reintegroAvnc.SolicitudAvance={Id:$localStorage.avance.Id};
+                      }
+
                       if(row.isSelected){
                         ctrl.reintegroAvance.push(reintegroAvnc);
                       }else{
@@ -99,12 +105,11 @@ angular.module('financieraClienteApp')
                     reintegroAvance:ctrl.reintegroAvance
                   }
                   financieraRequest.post('reintegro_avance_legalizacion/AddReintegroAvance',request).then(function(response) {
-                    console.log(response);
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function(){
                           if(angular.equals(response.data.Type,"success")){
                             $scope.resgitrareintegro=true;
-                            ctrl.cargarReintegros(0,'');
                           }
+                          ctrl.cargarReintegros(0,'');
 
                         });
                   });

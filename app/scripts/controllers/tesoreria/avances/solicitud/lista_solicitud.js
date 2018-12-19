@@ -17,7 +17,7 @@ angular.module('financieraClienteApp')
         $scope.estado_select = [];
         $scope.aristas = [];
         $scope.estadoclick = {};
-
+        ctrl.aprobacionEstados = ['A','C'];
         ctrl.cargando = true;
         ctrl.hayData = true;
 
@@ -154,7 +154,20 @@ angular.module('financieraClienteApp')
                   }
                 });
         };
-
+        ctrl.getEstadosRow = function(row){
+          financieraRequest.get("avance_estado_avance/",
+                  $.param({
+                      query: "SolicitudAvance.Id:" + row.Id,
+                      limit: -1,
+                      sortby:"FechaRegistro",
+                      order:"desc"
+                  })).
+          then(function(response){
+            if(response.data != null){
+              row.Estado = response.data;
+            }
+          })
+        }
 
         ctrl.get_solicitudes(0,'');
 
@@ -204,7 +217,6 @@ angular.module('financieraClienteApp')
                     Consecutivo: $scope.solicitud.Consecutivo,
                     TipoNecesidad: { Id: 3 }
                 };
-                console.log(data);
                 administrativaPruebasRequest.post("necesidad_proceso_externo", data)
                     .then(function(response) {
                         if (response.status === 200) {
@@ -242,6 +254,7 @@ angular.module('financieraClienteApp')
                                 ctrl.necesidad_proceso_externo = response.data[0];
                                 if(!angular.isUndefined(ctrl.necesidad_proceso_externo.Necesidad)){
                                   ctrl.InfoNecesidad = ctrl.necesidad_proceso_externo.Necesidad;
+                                  console.log(ctrl.InfoNecesidad);
                                   ctrl.getInfoNecesidad();
                                 }
                             }
@@ -253,18 +266,25 @@ angular.module('financieraClienteApp')
 
             }
         };
+      ctrl.checkAprove =   function (estado) {
+            if (estado == this.value ){
+		            return true;
+            }
+        }
 
         ctrl.AprobarAvance = function(){
-          if(ctrl.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion == "A"){
+          var aprobado;
+          aprobado = ctrl.aprobacionEstados.find(ctrl.checkAprove,{value:ctrl.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion});
+          if(!angular.isUndefined(aprobado)){
             ctrl.saveEstadoAvance();
             $('#modal_aprobacion').modal('hide');
-            ctrl.modalAprobacion = false;
           }else{
             swal('',$translate.instant("E_A08"),"error").then(function(){
                 $('#modal_aprobacion').modal('hide');
-                ctrl.modalAprobacion = false;
+
             });
           }
+          ctrl.modalAprobacion = false;
         }
 
         ctrl.saveEstadoAvance = function(){
@@ -277,21 +297,20 @@ angular.module('financieraClienteApp')
           financieraRequest.get("estado_avance/"+$scope.estadoclick.Id).
           then(function(response){
                 nombreEstado = response.data.Nombre;
+                estadoAvance.Observaciones = "Solicitud cambia a " + nombreEstado;
+                financieraRequest.post('avance_estado_avance',estadoAvance).then(function(response){
+                  if(response.data.Type != undefined){
+                    if(response.data.Type === "error"){
+                        swal('',$translate.instant(response.data.Code),response.data.Type);
+                      }else{
+                        swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
+                          ctrl.getEstadosRow($scope.solicitud);
+                          $scope.estado = $scope.estadoclick;
+                        });
+                      }
+                    }
+                });
               });
-          estadoAvance.Observaciones = "Solicitud cambia a " + nombreEstado;
-
-          financieraRequest.post('avance_estado_avance',estadoAvance).then(function(response){
-            if(response.data.Type != undefined){
-              if(response.data.Type === "error"){
-                  swal('',$translate.instant(response.data.Code),response.data.Type);
-                }else{
-                  swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                    ctrl.get_solicitudes();
-                    $scope.estado = $scope.estadoclick.estado;
-                  });
-                }
-              }
-          });
         }
 
         ctrl.getInfoNecesidad = function(){
@@ -429,20 +448,18 @@ angular.module('financieraClienteApp')
                 });
                 $scope.data.Requisitos = $scope.envio;
                 $scope.data.Solicitud = { Id: $scope.solicitud.Id };
-
+                ctrl.getEstadosRow($scope.solicitud);
                 financieraRequest.post("solicitud_requisito_tipo_avance/TrValidarAvance", $scope.data)
                     .then(function(response) {
-                        console.log(response.data);
                         if (response.data.Type !== undefined) {
                             if (response.data.Type === "error") {
                                 swal('', $translate.instant(response.data.Code), response.data.Type);
                             } else {
                                 swal('', $translate.instant(response.data.Code), response.data.Type);
                             }
-                            ctrl.get_solicitudes();
+
                             $('#modal_validar').modal('hide');
                             ctrl.modalValidar = false;
-                            console.log($scope.estadoclick.estado);
                             $scope.estado = response.data.Body;
                         }
                     });
