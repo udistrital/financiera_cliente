@@ -541,8 +541,9 @@ angular.module('financieraClienteApp')
               }
 
             }
+            $scope.datachangeevent = !$scope.datachangeevent;
           });
-          $scope.datachangeevent = !$scope.datachangeevent;
+          
         };
 
 
