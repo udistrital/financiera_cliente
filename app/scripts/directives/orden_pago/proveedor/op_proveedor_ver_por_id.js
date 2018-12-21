@@ -44,6 +44,7 @@ angular.module('financieraClienteApp')
               $.param({
                 query: "Id:" + $scope.opproveedorid,
               })).then(function(response) {
+                console.log(response.data[0])
               self.orden_pago = response.data[0];
               $scope.outputopp = response.data[0];
               // documento

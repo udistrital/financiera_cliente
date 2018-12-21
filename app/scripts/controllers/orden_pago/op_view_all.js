@@ -166,7 +166,7 @@ angular.module('financieraClienteApp')
               text: $translate.instant($scope.resultado.data.Code),
               type: $scope.resultado.data.Type,
             }).then(function() {
-              $window.location.reload();
+              // $window.location.reload();
               //$window.location.href = '#/orden_pago/ver_todos';
             })
           })

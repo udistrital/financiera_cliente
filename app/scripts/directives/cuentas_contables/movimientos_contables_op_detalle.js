@@ -8,7 +8,7 @@
  */
 angular.module('financieraClienteApp')
 
-  .directive('movimientosContablesOpDetalle', function(financieraRequest, $timeout, $translate, uiGridConstants, $interval) {
+  .directive('movimientosContablesOpDetalle', function(financieraRequest, financieraMidRequest, $timeout, $translate, uiGridConstants, $interval) {
     return {
       restrict: 'E',
       scope: {
@@ -17,7 +17,8 @@ angular.module('financieraClienteApp')
         panel:'=?',
         selection:'=?',
         inputpestanaabierta:'=?',
-        cuentaselecc:'=?'
+        cuentaselecc:'=?',
+        resumen:'=?'
       },
       templateUrl: 'views/directives/cuentas_contables/movimientos_contables_op_detalle.html',
       controller: function($scope,$attrs) {
@@ -26,6 +27,7 @@ angular.module('financieraClienteApp')
         self.hayData = true;
         self.abierta = $scope.abierta;
         self.devolucionesTrib = 'devolt' in $attrs;
+        self.resumen = 'resumen' in $attrs;
 
 
         self.gridOptions_movimientos = {
@@ -176,27 +178,53 @@ angular.module('financieraClienteApp')
               default:
 
             }
-            financieraRequest.get('movimiento_contable',
+            if (self.resumen) {
+              financieraMidRequest.get('movimiento_contable/ResumenMovimientos',
+              $.param({
+                query: "TipoDocumentoAfectante:"+$scope.tipodocumento+",CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
+                limit: 0,
+              })).then(function(response) {
+                console.log(response.data);
+                if(response.data === null){
+                  self.hayData = false;
+                  self.cargando = false;
+                  self.gridOptions_movimientos.data = [];
+                }else{
+                  self.hayData = true;
+                  self.cargando = false;
+                  self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data);
+                  $scope.gridHeight = self.gridOptions_movimientos.rowHeight * 4 + (self.gridOptions_movimientos.data.length * self.gridOptions_movimientos.rowHeight);
+
+                }
+                //self.gridOptions_movimientos.data = response.data
+
+
+              });
+          }
+          else {
+
+              financieraRequest.get('movimiento_contable',
               $.param({
                 query: "TipoDocumentoAfectante.Id:"+$scope.tipodocumento+",CodigoDocumentoAfectante:" + $scope.codigodocumentoafectante,
                 limit: 0,
               })).then(function(response) {
+                console.log(response.data);
+                if(response.data === null){
+                  self.hayData = false;
+                  self.cargando = false;
+                  self.gridOptions_movimientos.data = [];
+                }else{
+                  self.hayData = true;
+                  self.cargando = false;
+                  self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data);
+                  $scope.gridHeight = self.gridOptions_movimientos.rowHeight * 4 + (self.gridOptions_movimientos.data.length * self.gridOptions_movimientos.rowHeight);
 
-              if(response.data === null){
-                self.hayData = false;
-                self.cargando = false;
-                self.gridOptions_movimientos.data = [];
-              }else{
-                self.hayData = true;
-                self.cargando = false;
-                self.gridOptions_movimientos.data = self.totalizar_cuentas_repetidas(response.data);
-                $scope.gridHeight = self.gridOptions_movimientos.rowHeight * 4 + (self.gridOptions_movimientos.data.length * self.gridOptions_movimientos.rowHeight);
-
-              }
-              //self.gridOptions_movimientos.data = response.data
+                }
+                //self.gridOptions_movimientos.data = response.data
 
 
-            });
+              });
+            }
           }
         },true);
 
