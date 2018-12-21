@@ -1,7 +1,8 @@
 <div ng-show="!panel">
 <legend class="text-primary" ng-click="inputpestanaabierta=!inputpestanaabierta">
   {{'CUENTAS_CONTABLES' | translate}}
-  <span ng-if="d_movimientosContablesOpDetalle.nombreDocumento"> {{d_movimientosContablesOpDetalle.nombreDocumento}}</span>
+  <span ng-if="d_movimientosContablesOpDetalle.nombreDocumento && d_movimientosContablesOpDetalle.resumen!= true"> {{d_movimientosContablesOpDetalle.nombreDocumento}}</span>
+  <span ng-if="d_movimientosContablesOpDetalle.resumen== true"> {{'RESUMEN' | translate}}</span>
   <span class="fa fa-plus pull-right" ng-show="!inputpestanaabierta"></span>
   <span class="fa fa-minus pull-right" ng-show="inputpestanaabierta"></span>
 </legend>

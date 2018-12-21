@@ -69,10 +69,15 @@
           <h3 class="modal-header">{{'DETALLE_GIRO_OP' | translate}} {{girosVerPorId.data.InfoProveedor[0].NomProveedor}} de {{girosVerPorId.data.InfoProveedor[0].NumDocumento}}</h3>
           <div align="right">{{'FECHA_SOLICITUD' | translate}} {{girosVerPorId.data.OrdenPago.OrdenPagoEstadoOrdenPago[0].FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</div>
         </div>
+        <div ng-if="girosVerPorId.data.CuentaEspecial.Id == 0">
         <movimientos-contables-op-detalle codigodocumentoafectante="girosVerPorId.data.OrdenPago.Id" tipodocumento="girosVerPorId.tipoDocumentoOp">
         </movimientos-contables-op-detalle>
+        <movimientos-contables-op-detalle codigodocumentoafectante="girosVerPorId.data.OrdenPago.Id" tipodocumento="girosVerPorId.tipoDocumentoOp" resumen="true">
+        </movimientos-contables-op-detalle>
+        </div>
         <movimientos-contables-op-detalle codigodocumentoafectante="girosVerPorId.data.OrdenPago.Id" tipodocumento="girosVerPorId.tipoDocumentoGiro">
         </movimientos-contables-op-detalle>
+
         </div>
 
       </div>
