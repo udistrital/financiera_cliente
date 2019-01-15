@@ -30,6 +30,10 @@ angular.module('financieraClienteApp')
         noresumen: '@?',
         ramasel: '=?',
         botones: '=?',
+        botonespadre: '=?',
+        vigencia: '=?',
+        recargaext: '=?',
+        datachangeevent: '=?'
       },
       templateUrl: 'views/directives/rubros/rubros_consulta.html',
       controller: function($scope, $translate) {
@@ -37,6 +41,7 @@ angular.module('financieraClienteApp')
         self.editar= false;
         self.padre = false;
         $scope.botonesProductos = [];
+        $scope.recargaext = false;
         self.ProdutoRubro = [];
         self.botonesEditar = [
           { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
@@ -46,7 +51,9 @@ angular.module('financieraClienteApp')
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,
-
+          isLeaf: function(node) {
+                      return node.IsLeaf;
+                  },
           injectClasses: {
             ul: "a1",
             li: "a2",
@@ -193,7 +200,7 @@ angular.module('financieraClienteApp')
     };
 
           self.actualizarListaProductos = function(offset,query){
-            financieraRequest.get('producto/', query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            financieraRequest.get('producto/', 'limit=-1'+query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
                     self.gridOptionsProductos.data = [];
                 } else {
@@ -213,7 +220,7 @@ angular.module('financieraClienteApp')
          * @description Recarga la estructura de los rubros haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
          */
         self.cargar_arbol = function() {
-          financieraRequest.get("rubro/ArbolRubros", $.param({
+         /* financieraRequest.get("rubro/ArbolRubros", $.param({
           UnidadEjecutora: self.UnidadEjecutora
         })).then(function(response) {
             $scope.arbol = [];
@@ -221,8 +228,15 @@ angular.module('financieraClienteApp')
               $scope.arbol = response.data;
 
             }
-          });
-
+          });*/
+          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            rama: ""
+          })).then(function(response) {
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
+            });
         };
 
 
@@ -296,7 +310,7 @@ angular.module('financieraClienteApp')
                             }
                           });
 
-                          console.log(response.data);
+                          console.log("Data: ",response.data);
                         }
                       });
 
@@ -308,7 +322,6 @@ angular.module('financieraClienteApp')
 
 
               break;
-
             default:
               break;
           }
@@ -317,10 +330,13 @@ angular.module('financieraClienteApp')
         self.AgregarProducto = function () {
               var Pr = null;
               Pr = self.ProdutoRubro;
+              
               angular.forEach(Pr, function (data) {
                 data.ValorDistribucion = parseInt(data.ValorDistribucion);
                 data.Rubro = $scope.data;
               });
+              console.log("Producto a Registrar: ", Pr);
+
               financieraRequest.post("producto_rubro/AddProductoRubrotr", Pr[0]).then(function(response){
                 if (response.data.Type === "error"){
                   swal('',$translate.instant(response.data.Code),response.data.Type);
@@ -359,6 +375,18 @@ angular.module('financieraClienteApp')
               });
 
         };
+        self.onSelectNode = function(node, expanded){
+          if (expanded && !node.Hijos){
+            console.log("Some Action ", node);  
+            financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+              rama: node.Codigo
+            })).then(function(response) {
+                if (response.data !== null) {
+                  node.Hijos = response.data[0].Hijos;
+                }
+              });        
+          }
+        }
 
         self.arbol_operacion = function(nodo, operacion){
           self.operacion = operacion;
@@ -412,9 +440,9 @@ angular.module('financieraClienteApp')
               case "delete":
 
                  if (nodo !== undefined){
-                  financieraRequest.delete("rubro",nodo.Id).then(function(response){
+                  financieraMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
                     console.log(response.data);
-                    if (response.data.Type !== undefined) {
+                    if (response.data !== null && response.data.Type !== undefined) {
                       if (response.data.Type === "error") {
                           swal('', $translate.instant(response.data.Code), response.data.Type);
                       } else {
@@ -423,10 +451,44 @@ angular.module('financieraClienteApp')
                           $scope.recargar = !$scope.recargar;
                       }
 
+                  }else{
+                    swal('', $translate.instant('E_0460'), 'error');                    
                   }
                   });
                  }
                   break;
+              case "editapr":
+                console.log("apredit");
+                $("#ModalRegistroApr").modal();
+                self.apropiacionsel = nodo;
+                self.apropiacionsel.Apropiacion = null;
+                self.ValorAsignado = null;
+                if (nodo.Hijos == null){
+                  financieraRequest.get("apropiacion", $.param({
+                    query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
+                  })).then(function(response) {
+                    
+                    if (response.data !== null) {
+                      console.log(response.data);
+                      self.apropiacionsel.Apropiacion = response.data[0];
+                      financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                        }
+                      });
+                      financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                        
+                        if (response.data !== null) {
+                          self.apropiacionsel.Apropiacion.InfoMovs = response.data;
+                          self.gridOptions.data = self.apropiacionsel.Apropiacion.InfoMovs;
+                        }
+                      });
+                    }
+                  });
+                  
+                }
+              break;
               case "config":
                   break;
               case "verHomologacion":
@@ -437,6 +499,53 @@ angular.module('financieraClienteApp')
               default:
           }
         }
+
+        self.ActualizarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          financieraMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+          });
+          $scope.datachangeevent = !$scope.datachangeevent;
+        };
+
+        self.RegistrarApr = function() {
+          $("#ModalEdicionApr").modal('hide');
+          var aprAregistrar = {};
+          var estadoapr = {};
+          var rubroapr = {};
+          estadoapr.Id = 2;
+          rubroapr = self.apropiacionsel;
+          rubroapr.Nombre = self.apropiacionsel.Nombre;
+          rubroapr.Codigo = self.apropiacionsel.Codigo;
+          aprAregistrar.Vigencia = parseInt($scope.vigencia);
+          aprAregistrar.Estado = estadoapr;
+          aprAregistrar.Rubro = rubroapr;
+          aprAregistrar.Valor = parseInt(self.ValorAsignado);
+          console.log(aprAregistrar);
+          financieraMidRequest.post('apropiacion', aprAregistrar).then(function(response){
+            console.log(response.data);
+            if (response.data.Type !== undefined){
+              if (response.data.Type === "error"){
+                swal('',$translate.instant(response.data.Code),response.data.Type);
+              }else{
+                $scope.recargaext = !$scope.recargaext;
+                swal('',$translate.instant(response.data.Code)+ " : "+$translate.instant('APROPIACION')+" : "+response.data.Body.Rubro.Codigo+" / "+response.data.Body.Rubro.Nombre ,response.data.Type);
+              }
+
+            }
+            $scope.datachangeevent = !$scope.datachangeevent;
+          });
+          
+        };
+
 
         self.expandedNodes = [];
         /**
@@ -471,7 +580,15 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-
+          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            rama: $scope.filtro
+          })).then(function(response) {
+              $scope.arbol = [];
+              if (response.data !== null) {
+                $scope.arbol = response.data;
+              }
+            });
+            self.expandedNodes.length = 0;
           /*if (self.expandedNodes.length === 0){
             self.expandAllNodes($scope.arbol);
           }
@@ -481,9 +598,6 @@ angular.module('financieraClienteApp')
               }else{
                 self.expandedNodes.length = 0;
               }*/
-
-
-
         }, true);
 
         /*$interval(function() {

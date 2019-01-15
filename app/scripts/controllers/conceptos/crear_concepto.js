@@ -9,7 +9,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate, $location, $route) {
+  .controller('CrearConceptoCtrl', function(financieraRequest, $scope, $translate,financieraMidRequest, $location, $route,$filter) {
 
     var self = this;
     //self.rubro = {};
@@ -21,7 +21,6 @@ angular.module('financieraClienteApp')
     self.cargando = true;
     self.hayData = true;
     $scope.formulario = {};
-
   //  self.info_OP = false;
 
     $scope.btnagregar=$translate.instant('BTN.AGREGAR');
@@ -78,13 +77,6 @@ angular.module('financieraClienteApp')
 
       }
 
-      /*
-      if(self.nuevo_concepto.FechaExpiracion === undefined && $scope.isconcepto){
-        self.MensajesAlerta = self.MensajesAlerta + "<li>" + $translate.instant('SELECCIONE_CARPETA_CONCEPTO') + "</li>";
-      }
-      */
-
-
       if($scope.isconcepto){
       for (var i = 0; i < self.tipos_afectacion.length; i++) {
         if(self.tipos_afectacion[i].Ingreso || self.tipos_afectacion[i].Egreso){
@@ -97,9 +89,8 @@ angular.module('financieraClienteApp')
 
       }
 
-      if(self.rubro === undefined){
+      if(self.rubro === undefined && self.rubroObligatorio){
         self.MensajesAlerta = self.MensajesAlerta + "<li>" +$translate.instant('SELECCIONAR_RUBRO')+ "</li>";
-
       }
 
 
@@ -119,7 +110,6 @@ angular.module('financieraClienteApp')
     }
 
     self.crear_concepto_nuevo = function() {
-
       var validar_campos =self.validateFields();
       if(validar_campos != false){
         swal({
@@ -141,13 +131,9 @@ angular.module('financieraClienteApp')
             Descripcion: self.nuevo_concepto.Descripcion,
             Clasificador: !($scope.isconcepto)
           }
-          //self.nuevo_concepto.Codigo = self.padre.Codigo.concat("-", self.nuevo_concepto.Codigo);
-          //self.nuevo_concepto.FechaCreacion = new Date();
-          //self.nuevo_concepto.TipoConcepto = self.tipo_concepto;
           var afectacion_concepto = {};
           var afectaciones = [];
           var cuentas = null;
-
           if ($scope.isconcepto) {
             cuentas = angular.copy(self.cuentas);
             nuevo_concepto.Rubro = self.rubro;
@@ -172,7 +158,10 @@ angular.module('financieraClienteApp')
             Afectaciones: afectaciones,
             Cuentas: cuentas
           };
-
+          if (!angular.isUndefined(self.nuevo_concepto.tipoTransaccion)){
+            tr_concepto.DetalleTipoTransaccion = self.nuevo_concepto.tipoTransaccion.DetalleTipoTransaccion;
+          }
+          console.log("concepto enviado ",tr_concepto);
           financieraRequest.post('tr_concepto', tr_concepto).then(function(response) {
             if (response.data.Type == 'success') {
               swal($translate.instant(response.data.Code), $translate.instant("CONCEPTO") + " " + response.data.Body, response.data.Type);
@@ -204,7 +193,6 @@ angular.module('financieraClienteApp')
       enableFiltering: true,
       enableSorting: true,
       columnDefs: [{
-          headerCellClass: 'text-success',
           displayName: $translate.instant('CODIGO'),
           field: 'Codigo',
           cellTooltip: function(row) {
@@ -215,7 +203,6 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
         },
         {
-          headerCellClass: 'text-success',
           displayName: $translate.instant('NOMBRE'),
           field: 'Nombre',
           cellTooltip: function(row) {
@@ -247,7 +234,9 @@ angular.module('financieraClienteApp')
         self.tipos_afectacion[i].Egreso = false;
         self.tipos_afectacion[i].Ingreso = false;
       }
-      $scope.gridApi.selection.clearSelectedRows();
+      if (!angular.isUndefined($scope.gridApi)) {
+        $scope.gridApi.selection.clearSelectedRows();
+      }
       $scope.formulario.conceptoForm.$setPristine();
       $scope.formulario.conceptoForm.$setUntouched();
       $scope.submitted=false
@@ -298,6 +287,11 @@ angular.module('financieraClienteApp')
 
     financieraRequest.get("tipo_afectacion", "").then(function(response) {
       self.tipos_afectacion = response.data;
+      self.tipos_afectacion_tmp = response.data;
+    });
+
+    financieraMidRequest.get("tipo_transaccion/GetTipoTransaccionByDefinitiveVersion").then(function(response) {
+      self.tiposTransaccion = response.data;
     });
 
     //  self.info_OP = false;
@@ -319,14 +313,31 @@ angular.module('financieraClienteApp')
 
     $scope.$watch('crearConcepto.tipo_concepto', function() {
       if(self.tipo_concepto !== undefined){
+        console.log(self.tipo_concepto);
         $scope.filtro_padre = self.tipo_concepto.Nombre;
         self.padre = undefined;
         $scope.nodo = undefined;
+        if (self.tipo_concepto.NumeroOrden===3){
+          self.tipos_afectacion = $filter('filter')(self.tipos_afectacion, {Nombre: "Contabilidad"}, true);
+        }else{
+          self.tipos_afectacion=self.tipos_afectacion_tmp;
+        }
       }
     }, true);
 
     $scope.$watch('crearConcepto.cuenta_contable', function() {
       self.agregar_cuentas();
+    }, true);
+
+    $scope.$watch('crearConcepto.tipos_afectacion', function() {
+      if(!angular.isUndefined(self.tipos_afectacion)){
+        var obj = $filter('filter')(self.tipos_afectacion, {Nombre: "Presupuesto"}, true)[0];
+        if(obj.Ingreso || obj.Egreso){
+          self.rubroObligatorio=true;
+        }else{
+          self.rubroObligatorio=false;
+        }
+      }
     }, true);
 
   });

@@ -263,9 +263,7 @@ angular.module('financieraClienteApp')
           financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
             angular.forEach(response.data, function(data) {
               rubro.DisponibilidadApropiacion = data;
-
             });
-
           });
         });
         console.log("afec");
@@ -352,16 +350,12 @@ angular.module('financieraClienteApp')
             //self.actualizar_solicitudes(0,'');
           });
           /*angular.forEach(self.alerta_registro_rp, function(data){
-
             if (data === "error" || data === "success" || data === undefined){
-
             }else{
               self.alerta = self.alerta + data + "\n";
             }
-
           });
           swal("Alertas", self.alerta, self.alerta_registro_rp[0]).then(function(){
-
                 self.alerta = "";
                 $("#myModal").modal('hide');
                 $window.location.reload();
@@ -420,7 +414,7 @@ angular.module('financieraClienteApp')
      * carga los datos de las solicitudes que van de forma masiva y los envia para su correspondiente verificacion y posible aprobacion y expedicion.
      */
     self.RegistrarMasivo = function() {
-      var dataCargueMasivo = [];
+    
 
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {

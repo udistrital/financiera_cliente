@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .factory("rp", function () {
     return {};
   })
-  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest) {
+  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest,$location) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora=1;
@@ -150,25 +150,29 @@ angular.module('financieraClienteApp')
     self.cargandoDatosPagos = true;
 
     self.cargarLista = function (offset,query) {
-      financieraMidRequest.cancel();
-
-      self.gridOptions.data = [];
-      self.cargando = true;
-      self.hayData = true;
-      financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
-        if (response.data.Type !== undefined){
-          self.hayData = false;
-          self.cargando = false;
-          self.gridOptions.data = [];
-        }else{
-          console.log(response.data);
-          self.hayData = true;
-          self.cargando = false;
-          self.gridOptions.data = response.data;
-          console.log(response.data);
+      if($location.search().vigencia !== undefined && $location.search().numero && $location.search().unidadejecutora){
+          query = '&query=NumeroRegistroPresupuestal:'+$location.search().numero;
+          self.Vigencia = $location.search().vigencia;
+          self.UnidadEjecutora = $location.search().unidadejecutora;
         }
-        self.cargandoDatosPagos = false;
-      });
+        financieraMidRequest.cancel();
+        self.gridOptions.data = [];
+        self.cargando = true;
+        self.hayData = true;
+        financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
+          if (response.data.Type !== undefined){
+            self.hayData = false;
+            self.cargando = false;
+            self.gridOptions.data = [];
+          }else{
+            console.log(response.data);
+            self.hayData = true;
+            self.cargando = false;
+            self.gridOptions.data = response.data;
+            console.log(response.data);
+          }
+          self.cargandoDatosPagos = false;
+        });
     };
 
     $scope.loadrow = function(row, operacion) {
@@ -237,10 +241,8 @@ angular.module('financieraClienteApp')
                   self.Necesidad = data.InfoSolicitudDisponibilidad.SolicitudDisponibilidad.Necesidad;
                 }
 
-              if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
-
-              } else {
-                $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
+              if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) === -1) {
+                    $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
               }
 
             });
@@ -294,10 +296,8 @@ angular.module('financieraClienteApp')
             self.alerta_anulacion_rp = response.data;
             angular.forEach(self.alerta_anulacion_rp, function(data){
 
-              if (data === "error" || data === "success"){
-
-              }else{
-                self.alerta = self.alerta +"<li align='left'>" +data +"</li>";
+              if (data !== "error" || data !== "success"){
+                  self.alerta = self.alerta +"<li align='left'>" +data +"</li>";
               }
 
             });

@@ -1,3 +1,4 @@
+
 <fieldset class="form-group">
     <legend class="text-primary" ng-click="info_terceros=!info_terceros">{{"INFORMACION_TERCERO" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_terceros"></span> <span class="fa fa-minus pull-right" ng-show="info_terceros"></span></legend>
 
@@ -62,6 +63,13 @@
                   <label for="dep_presupuesto" class="control-label">{{"INFORMACION_PRESUPUESTAL" | translate}}</label>
                 <div style="width:50%" ui-grid="d_verSolicitud.gridInfPresupuesto"></div>
               </div>
+              <div class="form-group">
+                  <label for="dep_presupuesto" class="control-label">{{"CRP" | translate}}</label>
+                  <div style="width=100%" ui-grid="d_verSolicitud.gridCRP" ui-grid-pagination ui-grid-selection ui-grid-auto-resize >
+                    <div class="watermark" ng-show="!d_verSolicitud.hayDataCRP">{{'NO_DATA'| translate}}</div>
+                    <div class="watermark" ng-show="d_verSolicitud.cargandoCRP">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+                  </div>
+              </div>
             </div>
             <div class="col-md-6">
                 <label for="ordenador_gasto" class="control-label">{{"DEPENDENCIA" | translate}}</label>
@@ -97,6 +105,59 @@
     </div>
 </fieldset>
 
+<fieldset class="form-group">
+  <legend class="text-primary" ng-click="c=!c">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="!c"></span> <span class="fa fa-minus pull-right" ng-show="c"></span></legend>
+  <div class="panel panel-default" ng-show="c">
+  <div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+        </div>
+
+        <div style="width:100%" ui-grid="d_verSolicitud.gridOrdenesDePagoAvance" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+          <div class="watermark" ng-show="!d_verSolicitud.hayData">{{'NO_DATA'| translate}}</div>
+          <div class="watermark" ng-show="d_verSolicitud.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+              <div class="panel-default panel-body">
+                <div class="panel panel-heading">
+                  <h4 class="text-left panel-title"><span>{{'AFECTACION_PRESUPUESTAL' | translate}}
+                  </span>
+                </h4>
+                </div>
+                <ul class="list-unstyled">
+                  <li style= "display: inline-block" ng-repeat = "item in d_verSolicitud.rubrosAfectados track by rubro.Id">
+                    <span><b>{{'RUBRO' | translate}}:</b> {{item.rubro.Codigo+" / "+item.rubro.Nombre}} </span>
+                    <ul>
+                      <li>
+                        <div class="col-md-4" style="width:148px">
+                          <label for="valAfectacion">{{'VALOR_AFECTACION' | translate}}:</label>
+                        </div>
+                        <div class="col-md-4" style="width:200px">
+                          <span class="form-control" style="height:25px">{{item.valorAfectacion|currency}}</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+    </div>
+
+  </div>
+  <div class="panel-footer">
+      <div align="center">
+        <button ng-click="d_verSolicitud.agregarOP()" class="btn btn-info btn-outline" ng-if="d_verSolicitud.seleccionCRP ">{{ 'BTN.NUEVO' | translate }}</button>
+      </div>
+  </div>
+</div>
+</fieldset>
+
+
 <fieldset class="form-group" ng-if="d_verSolicitud.tipo_avance">
     <legend class="text-primary" ng-click="info_detalle_avances=!info_detalle_avances">{{"TIPO_AVANCE" | translate}} <span class="fa fa-plus pull-right" ng-show="!info_detalle_avances"></span> <span class="fa fa-minus pull-right" ng-show="info_detalle_avances"></span></legend>
 
@@ -116,12 +177,43 @@
                     </ol>
                 </div>
                 <div class="col-md-4">
-                    <h3>Valor: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
+                    <h3>{{"VALOR "|translate}}: </h3> <span class="badge"><h5>{{tipo.Valor | currency}}</h5></span>
                 </div>
             </div>
         </div>
         <div class="row" align="center">
-            <h3>TOTAL: </h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.Total | currency}}</h5></span>
+            <h3>{{"TOTAL"|translate}}:</h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.Total | currency}}</h5></span>
+        </div>
+        <div class="row" align="center">
+            <h3>{{"VALOR_LEGALIZADO" | translate}}:</h3> <span class="badge"><h5>{{d_verSolicitud.solicitud.valorLegalizado|currency}}</h5></span>
         </div>
     </div>
 </fieldset>
+
+<div id="modal_add_ordenPago" class="modal fade col-md-12" role="dialog" style="padding-top:10%">
+  <div class="modal-content col-md-offset-2 col-md-8">
+      <div class="modal-header panel-heading">
+          <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" ng-click="d_verSolicitud.cerrarModal('modal_add_ordenPago')">&times</button><br>
+      </div>
+      <div class="panel panel-default">
+      <fieldset class="form-group">
+        <legend class="text-primary" ng-click="opm=!opm">{{"OP_TITULO" | translate}} <span class="fa fa-plus pull-right" ng-show="opm"></span> <span class="fa fa-minus pull-right" ng-show="!opm"></span></legend>
+        <div class="panel-body" ng-show="!opm">
+          <div class="panel panel-default">
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{ 'ORDEN_PAGO_SELECCIOANR' | translate }}</h3>
+              </div>
+
+              <div style="width:100%" ui-grid="d_verSolicitud.gridOrdenesDePago" ui-grid-selection ui-grid-auto-resize ui-grid-pagination >
+                <div class="watermark" ng-show="!d_verSolicitud.hayData">{{'NO_DATA'| translate}}</div>
+                <div class="watermark" ng-show="d_verSolicitud.cargando">{{'CARGANDO'| translate}}<i class="fa fa-spin fa-spinner"></i></div>
+              </div>
+
+          </div>
+        </div>
+      </fieldset>
+      <div class="panel-footer">
+          <div align="center"> <button ng-click="d_verSolicitud.guardarOPAvance()" class="btn btn-info btn-outline">{{ 'BTN.AGREGAR' | translate }}</button></div>
+      </div>
+    </div>
+</div>

@@ -35,15 +35,18 @@ angular.module('financieraClienteApp')
             limit: -1
           })
         ).then(function(response) {
+
+
           self.documento = response.data;
         });
         // unidad ejecutora
         financieraRequest.get('unidad_ejecutora',
           $.param({
-            query: 'Id:1', //llega por rol de usuario
+            limit:-1
           })
         ).then(function(response) {
-          $scope.outputordenpago.UnidadEjecutora = response.data[0];
+          $scope.outputordenpago.UnidadEjecutora = response.data;
+          console.log("unidades",$scope.outputordenpago.UnidadEjecutora)
         });
         //forma de pago
         financieraRequest.get('forma_pago',

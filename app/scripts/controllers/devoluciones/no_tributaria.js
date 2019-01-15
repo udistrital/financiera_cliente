@@ -8,17 +8,19 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest) {
+  .controller('DevolucionesNoTributariaCtrl', function ($scope,$translate,uiGridConstants,financieraRequest,agoraRequest,wso2Request,financieraMidRequest,coreRequest,$location,$window,gridApiService,$interval,$filter) {
 
     var ctrl = this;
-
+    ctrl.tipoDocumentoOp = "1";
     ctrl.seleccionMov = true;
-    ctrl.encontrado = false;
-    ctrl.loadCircle = true;
-    ctrl.FechaOficio = new Date();
+    ctrl.fechaDocumento = new Date();
     $scope.concepto=[];
+    ctrl.pestOpen = true;
+
+    ctrl.cuentasAsociadas = [];
 
     $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-check fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.SELECCIONAR'), operacion: 'seleccionar', estado: true },
       { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
 
@@ -39,7 +41,7 @@ angular.module('financieraClienteApp')
           displayName: $translate.instant('CODIGO'),
           width: '7%',
           cellClass: 'input_center',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'SubTipoOrdenPago.TipoOrdenPago.CodigoAbreviacion',
@@ -49,14 +51,14 @@ angular.module('financieraClienteApp')
             type: uiGridConstants.filter.SELECT,
             selectOptions: $scope.tipos
           },
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'Vigencia',
           displayName: $translate.instant('VIGENCIA'),
           width: '7%',
           cellClass: 'input_center',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].FechaRegistro',
@@ -64,38 +66,38 @@ angular.module('financieraClienteApp')
           cellClass: 'input_center',
           cellFilter: "date:'yyyy-MM-dd'",
           width: '8%',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'RegistroPresupuestal.NumeroRegistroPresupuestal',
           displayName: $translate.instant('NO_CRP'),
           width: '7%',
           cellClass: 'input_center',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'FormaPago.CodigoAbreviacion',
           width: '5%',
           displayName: $translate.instant('FORMA_PAGO'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'Proveedor.Tipopersona',
           width: '10%',
           displayName: $translate.instant('TIPO_PERSONA'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'Proveedor.NomProveedor',
           displayName: $translate.instant('NOMBRE'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'Proveedor.NumDocumento',
           width: '10%',
           cellClass: 'input_center',
           displayName: $translate.instant('NO_DOCUMENTO'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'ValorBase',
@@ -103,30 +105,95 @@ angular.module('financieraClienteApp')
           cellFilter: 'currency',
           cellClass: 'input_right',
           displayName: $translate.instant('VALOR'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           field: 'OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago.Nombre',
           width: '7%',
           displayName: $translate.instant('ESTADO'),
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
         {
           name: $translate.instant('OPERACION'),
           enableFiltering: false,
           width: '5%',
           cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
-          headerCellClass: 'text-info'
+          headerCellClass: 'encabezado',
         },
 
       ],
-      //onRegisterApi: function(gridApi) {
-        //ctrl.gridApi = gridApi;
-        //gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-          //$scope.estado = row.entity.OrdenPagoEstadoOrdenPago[0].EstadoOrdenPago;
-        //});
-      //}
     };
+
+    ctrl.gridCuentasAsociadas = {
+      enableFiltering: true,
+      enableSorting: true,
+      enableRowSelection: true,
+      paginationPageSizes: [5, 10, 15],
+      paginationPageSize: 5,
+      useExternalPagination: true,
+      enableSelectAll: false,
+      selectionRowHeaderWidth: 35,
+      enableRowHeaderSelection: false,
+      multiSelect:false,
+      showColumnFooter: true,
+      enableCellEditOnFocus: true,
+      columnDefs: [
+          {
+              field: 'OrdenPago.Consecutivo',
+              displayName: $translate.instant('ORDEN_DE_PAGO'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '14%'
+            },
+          {
+              field: 'CuentaContable.Codigo',
+              displayName: $translate.instant('CUENTA_CONTABLE'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '14%'
+          },
+          {
+              field: 'Credito',
+              displayName: $translate.instant('VALOR'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              cellFilter: "currency",
+              width: '20%',
+          },
+          {
+              field: 'ValorBase',
+              displayName: $translate.instant('VALOR_BASE'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              cellFilter: "currency",
+              width: '14%'
+          },
+          {
+              field: 'CuentaContable.Naturaleza',
+              displayName: $translate.instant('NATURALEZA'),
+              headerCellClass:'text-info',
+              enableCellEdit:false,
+              width: '20%',
+          },
+          {
+              field: 'ValorDevolucion',
+              displayName: $translate.instant('VALOR_DEVOLUCION'),
+              headerCellClass:'text-info',
+              cellTemplate: '<div>{{row.entity.ValorDevolucion | currency:undefined:0}}</div>',
+              width: '17%',
+              enableCellEdit:true,
+              cellFilter: "number",
+              type: 'number',
+              aggregationType: uiGridConstants.aggregationTypes.sum,
+              footerCellTemplate: '<div> Total {{col.getAggregationValue() | currency}}</div>',
+              footerCellClass: 'input_right'
+          }
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiCtasAsociadas = gridApi;
+        ctrl.gridApiCtasAsociadas = gridApiService.pagination(gridApi,ctrl.consultarCuentasAsociadas,$scope);
+      },
+    }
 
     ctrl.consultarListas= function(){
       financieraRequest.get('forma_pago',
@@ -171,6 +238,15 @@ angular.module('financieraClienteApp')
           ctrl.razonesDevolucion = response.data;
       });
 
+      coreRequest.get('documento',
+        $.param({
+          query: "TipoDocumento.DominioTipoDocumento.CodigoAbreviacion:DD-FINA,Activo:True,TipoDocumento.CodigoAbreviacion:TD-ING",
+          limit: -1
+        })
+      ).then(function(response) {
+        ctrl.documentos = response.data;
+      });
+
       agoraRequest.get('parametro_estandar',$.param({
         query:"ClaseParametro:Tipo Documento",
         limit:-1
@@ -187,23 +263,6 @@ angular.module('financieraClienteApp')
    };
 
    ctrl.consultarListas();
-
-   $scope.$watch('devolucionesnoTributaria.numdocSoli', function(newValue){
-     if (!angular.isUndefined(newValue)) {
-        ctrl.consultaPag = true;
-     }else{
-       ctrl.consultaPag = false;
-     }
-   },true);
-
-   $scope.$watch('devolucionesnoTributaria.tipoDocSoli', function(newValue){
-     if (!angular.isUndefined(newValue) && ctrl.numdocSoli!= undefined) {
-        ctrl.consultaPag = true;
-     }else{
-       ctrl.consultaPag = false;
-     }
-   },true);
-
 
    $scope.$watch('concepto[concepto.length-1]',function(newvalue,oldvalue){
      if (!angular.isUndefined(newvalue)) {
@@ -223,7 +282,7 @@ angular.module('financieraClienteApp')
      angular.forEach($scope.concepto,function(concepto){
        afectacionTotal += concepto.valorAfectacion;
      });
-     if(afectacionTotal === ctrl.sumacreditos){
+     if(afectacionTotal === ctrl.valorSolicitado){
        ctrl.validaDevolPr = true;
      }
    },true);
@@ -253,19 +312,24 @@ ctrl.cargarOrdenesPago();
 $scope.loadrow = function(row, operacion) {
   ctrl.operacion = operacion;
   switch (operacion) {
+      case "seleccionar":
+          ctrl.Op = row.entity;
+          ctrl.pestOpen = true;
+          $("#modalCuentas").modal();
+          break;
       case "ver":
-      $("#modalCuentas").modal();
-          ctrl.IdOrden = row.entity.Id;
+          $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');
           break;
       default:
+          break;
   }
 };
 
 ctrl.consultaPagos = function(){
 
-  if (ctrl.consultaPag === true){
+    ctrl.encontrado = false;
+    ctrl.cargando_sol = true;
     ctrl.nombreSolicitante = null;
-    ctrl.loadCircle = false;
     var parametros = [
    {
         name: "tipo_consulta",
@@ -286,6 +350,7 @@ ctrl.consultaPagos = function(){
          if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
            ctrl.nombreSolicitante = dataAcademica.data.InformacionEstudiante.Nombre;
            ctrl.encontrado = true;
+           ctrl.cargando_sol = false;
          }else{
            agoraRequest.get('informacion_persona_natural',$.param({
              query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Id: " + ctrl.tipoDocSoli.Id,
@@ -294,7 +359,7 @@ ctrl.consultaPagos = function(){
              if(!angular.isUndefined(response.data) && response.data!=null){
                  ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
                  ctrl.encontrado = true;
-                 ctrl.loadCircle = true;
+                 ctrl.cargando_sol = false;
                }else{
                  agoraRequest.get('informacion_persona_juridica',$.param({
                    query:"Id:" + ctrl.numdocSoli,
@@ -303,6 +368,7 @@ ctrl.consultaPagos = function(){
                      if(!angular.isUndefined(response.data) && response.data!=null){
                          ctrl.nombreSolicitante = response.data[0].NomProveedor;
                          ctrl.encontrado = true;
+                         ctrl.cargando_sol = false;
                      }else{
                        agoraRequest.get('supervisor_contrato',$.param({
                          query:"Documento:" + ctrl.numdocSoli,
@@ -311,8 +377,11 @@ ctrl.consultaPagos = function(){
                            if(!angular.isUndefined(response.data) && response.data!=null){
                                ctrl.nombreSolicitante = response.data[0].Nombre;
                                ctrl.encontrado = true;
+                               ctrl.cargando_sol = false;
                            }else{
                              ctrl.encontrado = false;
+                             ctrl.cargando_sol = false;
+                             ctrl.nombreSolicitante = $translate.instant('NO_ENCONTRADO');
                            }
                          });
                      }
@@ -322,16 +391,13 @@ ctrl.consultaPagos = function(){
          }
 
        });
-       ctrl.loadCircle = true;
      });
-
-     ctrl.consultaPag = false;
-  }
 
 };
 
 ctrl.validateFields = function(){
-  var validationClear = true;
+  var respuesta;
+  ctrl.MensajesAlerta='';
 
   if($scope.datosSolicitante.$invalid){
     angular.forEach($scope.datosSolicitante.$error,function(controles,error){
@@ -339,7 +405,16 @@ ctrl.validateFields = function(){
         control.$setDirty();
       });
     });
-    validationClear = false;
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_BENEFICIARIO") + "</li>";
+  }
+
+  if($scope.datosDocumento.$invalid){
+    angular.forEach($scope.datosDocumento.$error,function(controles,error){
+      angular.forEach(controles,function(control){
+        control.$setDirty();
+      });
+    });
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS_BENEFICIARIO") + "</li>";
   }
 
   if($scope.datosDevolucion.$invalid){
@@ -348,67 +423,137 @@ ctrl.validateFields = function(){
         control.$setDirty();
       });
     });
-    validationClear = false;
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("CAMPOS_OBLIGATORIOS") + "</li>";
   }
-    return validationClear;
+
+  if(ctrl.gridCuentasAsociadas.data.length===0){
+    ctrl.MensajesAlerta = ctrl.MensajesAlerta + "<li>" + $translate.instant("MSN_DEBE_ASOCIAR_CUENTAS") + "</li>";
+  }
+
+  if (ctrl.MensajesAlerta == undefined || ctrl.MensajesAlerta.length == 0) {
+    respuesta = true;
+  } else {
+    respuesta =  false;
+  }
+
+  return respuesta;
 
 }
-ctrl.crearDevolucion = function(){
+  $scope.$watch('devolucionesnoTributaria.gridApiCtasAsociadas.grid.columns[5].getAggregationValue()',function(value){
+    ctrl.valorSolicitado = value;
+  },true);
 
+ctrl.crearDevolucion = function(){
+  var templateAlert;
+  var cuentaAsociada;
   if  (!ctrl.validateFields()){
-    swal("", $translate.instant("CAMPOS_OBLIGATORIOS"),"error");
+    swal({
+      title:"!Error!",
+      html:'<ol aling="left">'+ctrl.MensajesAlerta+'</ol>',
+      type:"error"
+    });
     return;
   }
-
   ctrl.DevolucionTributaria={
     DevolucionTributaria:{
         FormaPago:ctrl.formaPago,
         Vigencia:ctrl.vigencia,
         UnidadEjecutora:ctrl.unidadejecutora,
-        CuentaDevolucion:{
+        CuentaBancariaEnte:{
           Banco:ctrl.banco.Id,
           TipoCuenta:ctrl.tipocuenta.Id,
           NumeroCuenta:ctrl.numeroCuenta.toString()
         },
-        Observaciones:ctrl.observaciones,
+        Justificacion:ctrl.observaciones,
         Acta:ctrl.soporte.Id,
         Oficio:ctrl.oficio,
-        FechaOficio:ctrl.FechaOficio
+        Solicitante:ctrl.numdocSoli
       },
-      EstadoDevolTribut:{
-        EstadoDevolucion:{Id:8}
+      DocumentoGenerador:{
+          NumDocumento:ctrl.numDocDevol,
+          FechaDocumento:ctrl.fechaDocumento,
+          TipoDocumento:ctrl.documentoSelec.Id
       },
-      TotalInversion: ctrl.valorSolicitado,
       Concepto: $scope.concepto
     };
-
 
     if (angular.isUndefined(ctrl.IdSolicitante)){
       ctrl.IdSolicitante = ctrl.numdocSoli;
     }
-
+    ctrl.DevolucionTributaria.Movimientos=[];
      ctrl.DevolucionTributaria.Solicitante = ctrl.IdSolicitante;
+     angular.forEach($scope.concepto,function(conceptoMov){
+       angular.forEach(conceptoMov.movimientos, function(data) {
+         delete data.Id;
+         ctrl.DevolucionTributaria.Movimientos.push(data);
+       });
+     });
+     ctrl.DevolucionTributaria.MovimientosAsociados=[];
+     angular.forEach(ctrl.gridCuentasAsociadas.data,function(cuenta){
+       cuentaAsociada = {MovimientoContable:{Id:cuenta.Id},
+                          ValorDevolucion:cuenta.ValorDevolucion}
+      ctrl.DevolucionTributaria.MovimientosAsociados.push(cuentaAsociada);
 
-    angular.forEach(ctrl.movs, function(data) {
-        delete data.Id;
-    });
-
-    ctrl.DevolucionTributaria.Movimientos = ctrl.movs;
+     });
+     console.log(ctrl.DevolucionTributaria);
 
     financieraRequest.post('devolucion_tributaria/AddDevolucionTributaria',ctrl.DevolucionTributaria).then(function(response) {
       if(response.data.Type != undefined){
-            swal('',$translate.instant(response.data.Code),response.data.Type);
             if(response.data.Type != "error"){
+              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+              templateAlert = templateAlert + "</table>";
               ctrl.DevolucionTributaria.DevolucionTributaria.Id = response.data.Body.Id;
-              financieraRequest.post('devolucion_tributaria_estado_devolucion/AddEstadoDevolTributaria',ctrl.DevolucionTributaria).then(function(response) {
-              });
+              $location.path('/devoluciones/consulta_devoluciones_tributarias');
+            }else{
+              templateAlert=$translate.instant(response.data.Code);
             }
+            swal('',templateAlert,response.data.Type);
        }
     });
   }
 
   ctrl.aceptar = function(){
+    angular.forEach(ctrl.cuentasAsociadas,function(cuenta){
+      if (cuenta.CuentaEspecial!=null){
+        financieraRequest.get('orden_pago_cuenta_especial',$.param({
+          query:"OrdenPago.Id:"+cuenta.CodigoDocumentoAfectante+",CuentaEspecial.Id:"+cuenta.CuentaEspecial.Id,
+          fields:"ValorBase,OrdenPago",
+          limit:1
+        })).then(function(response){
+          if(!angular.isUndefined(response.data) &&  response.data.length > 0){
+              cuenta.ValorBase = response.data[0].ValorBase;
+              cuenta.OrdenPago = response.data[0].OrdenPago;
+          }
+          $("#modalCuentas").modal('hide');
+          ctrl.pestOpen=false;
+        });
+      }
+      cuenta.OrdenPago = ctrl.Op;
+      cuenta.ValorDevolucion = 0;
+    });
+    angular.forEach(ctrl.gridCuentasAsociadas.data,function(cuenta){
+      ctrl.cuentasAsociadas = $filter('filter')(ctrl.cuentasAsociadas,function(item) {
+        if (item.Id === cuenta.Id){
+          return false;
+        }
+          return true;
+        },true);
+    })
+
+    angular.forEach(ctrl.cuentasAsociadas,function(cuenta){
+      ctrl.gridCuentasAsociadas.data.push(cuenta);
+    });
     $("#modalCuentas").modal('hide');
+    ctrl.pestOpen=false;
   }
+
+  $scope.$watch('d', function(newvalue) {
+      if(newvalue){
+        $interval( function() {
+            ctrl.gridApiCtasAsociadas.core.handleWindowResize();
+          }, 500, 2);
+      }
+    },true);
 
   });

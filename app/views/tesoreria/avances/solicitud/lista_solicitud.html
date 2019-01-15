@@ -15,14 +15,14 @@
 <div id="modal_ver" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalVer = false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
                 {{'VER_SOLICITUD' | translate }}
             </div>
-            <div class="panel panel-body">
-                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+            <div class="panel panel-body" ng-if="listaSolicitud.modalVer">
+                <ver-solicitud sol="solicitud" tipos="1" seleccioncrp></ver-solicitud>
             </div>
         </div>
     </div>
@@ -31,7 +31,7 @@
 <div id="modal_validar" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalValidar=false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -39,7 +39,9 @@
             </div>
 
             <div class="panel panel-body">
+              <div class = "form-group" ng-if="listaSolicitud.modalValidar">
                 <ver-solicitud sol="solicitud" tipos="0"></ver-solicitud>
+              </div>
                 <fieldset class="form-group">
                     <legend class="text-primary" ng-click="info_validar=!info_validar">{{'BTN.VERIFICAR'| translate}} <span class="fa fa-plus pull-right" ng-show="!info_validar"></span> <span class="fa fa-minus pull-right" ng-show="info_validar"></span></legend>
                     <div class="panel panel-default" ng-repeat="tipo in solicitud.Tipos" ng-show="!info_validar">
@@ -74,8 +76,8 @@
                 </fieldset>
                 <div class="row" align="center">
                     <button class="btn btn-success btn-outline" data-ng-click="listaSolicitud.validar_solicitud()">
-              <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
-            </button>
+                      <i class="fa  fa-check fa-lg  faa-shake animated-hover"></i>{{'BTN.VERIFICAR' | translate }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -98,30 +100,100 @@
 <div id="modal_aprobacion" class="modal fade col-md-12" role="dialog" style="padding-top:2%">
     <div class="modal-content col-md-offset-2 col-md-8">
         <div class="modal-header">
-            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="">&times</button><br>
+            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal" ng-click="listaSolicitud.modalAprobacion=false">&times</button><br>
         </div>
         <div class="panel panel-default">
             <div class="panel-heading">
+              <h3>
                 {{'APROBAR_AVANCE' | translate }}
+              </h3>
             </div>
-            <div class="panel panel-body">
-                <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
-
+            <div class="panel-body">
+                <div class = "form-group" ng-if="listaSolicitud.modalAprobacion">
+                  <ver-solicitud sol="solicitud" tipos="1"></ver-solicitud>
+                </div>
                 <fieldset class="form-group">
                     <legend class="text-primary" ng-click="d=!d">{{'NECESIDAD'| translate}} <span class="fa fa-plus pull-right" ng-show="!d"></span>
                         <span class="fa fa-minus pull-right" ng-show="d"></span></legend>
-                    <div class="panel panel-default" ng-show="!d">
-                        <div class="alert alert-warning" ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad == null">
-                            <h3>
-                                <strong>{{'PENDIENTE_NECESIDAD'| translate}}!</strong>
-                            </h3>
-                        </div>
-                        <div ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad != null">
-                            <pre>
-                            {{listaSolicitud.necesidad_proceso_externo | json}}
-                            </pre>
-                        </div>
-                    </div>
+                        <div ng-show="d">
+                          <div class="panel panel-default">
+                            <div class="alert alert-warning" ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad == null">
+                                <h3>
+                                    <strong>{{'PENDIENTE_NECESIDAD'| translate}}!</strong>
+                                  </h3>
+                                </div>
+                              </div>
+                              <div ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad != null">
+                                <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <h4>
+                                          <span ng-show="listaSolicitud.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion === 'A'">{{listaSolicitud.InfoNecesidad.Numero}} {{"DE" | translate}} {{listaSolicitud.InfoNecesidad.Vigencia}}</span>
+                                          <span class="pull-right text-info">{{listaSolicitud.InfoNecesidad.EstadoNecesidad.Nombre}}</span>
+                                        </h4>
+                                      </div>
+                                      <div class="col-md-12">
+                                        <span>{{"MODALIDAD_DE_SELECCION" | translate}}:  {{listaSolicitud.InfoNecesidad.ModalidadSeleccion.Nombre}}</span>
+                                        <span class="pull-right text-info">{{listaSolicitud.InfoNecesidad.FechaSolicitud |date:'dd-MMM-yyyy'}}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="panel-body">
+                                    <div class="col-md-6">
+                                      <cite class="text-info">{{"NUMERO_ELABORACION" | translate}}:{{listaSolicitud.InfoNecesidad.NumeroElaboracion}}</cite>
+                                      <h4 class="text-info">{{"OBJETO_CONTRACTUAL" | translate}}</h4>
+                                      <p class="text-muted text-justify">
+                                            {{listaSolicitud.InfoNecesidad.Objeto}}
+                                          </p>
+                                          <h4 class="text-info">{{"FINANCIACION" | translate}}</h4>
+                                          <p class="text-muted text-justify">
+                                            Por {{listaSolicitud.InfoNecesidad.TipoFinanciacionNecesidad.Nombre}} de <strong>{{listaSolicitud.InfoNecesidad.Valor| currency}}</strong>
+                                            <ul ng-repeat="inv in listaSolicitud.ff_necesidad track by $index">
+                                              <strong>{{inv.Apropiacion.Rubro.Codigo}}</strong> {{inv.Apropiacion.Rubro.Nombre}}
+                                              <li ng-repeat='f in inv.Fuentes'>
+                                                {{f.FuenteFinanciamiento.Nombre}} <strong>{{"Monto" | translate}}:</strong> {{f.MontoParcial | currency}}
+                                              </li>
+                                            </ul>
+                                          </p>
+
+                                          <h4 class="text-info">{{"JUSTIFICACION_CONTRATO" | translate}}</h4>
+                                          <p class="text-muted text-justify">
+                                            {{listaSolicitud.InfoNecesidad.Justificacion}}
+                                          </p>
+                                          <h4 class="text-info">{{"ANALISIS_RIESGOS" | translate}}</h4>
+                                          <p class="text-muted text-justify">
+                                            {{listaSolicitud.InfoNecesidad.AnalisisRiesgo}}
+                                          </p>
+                                          <h4 class="text-info">{{"ESTUDIO_MERCADO" | translate}}</h4>
+                                          <p class="text-muted text-justify">
+                                            {{listaSolicitud.InfoNecesidad.EstudioMercado}}
+                                          </p>
+
+                                          <h4 class="text-info">{{"MARCO_LEGAL" | translate}}</h4>
+                                          <p class="text-muted text-justify">
+                                            <li ng-repeat="doc in listaSolicitud.marco_legal track by $index">{{doc.MarcoLegal.NombreDocumento}}</li>
+                                          </p>
+                                        </div>
+                                        <div class="col-md-6" ng-show="listaSolicitud.InfoNecesidad.EstadoNecesidad.CodigoAbreviacion === 'R'">
+                                          <h3 class="text-info">{{"NECESIDAD_JUSTIFICACION_RECHAZO" | translate}}</h3>
+
+                                          <p class="text-justify">
+                                            <strong>{{"NECESIDAD_FECHA_RECHAZO" | translate}}:</strong>
+                                            {{listaSolicitud.justificacion_rechazo.Fecha | date:'dd/MM/yyyy':'UTC' }} <br>
+                                            <strong>{{"NECESIDAD_JUSTIFICACION_DESCRIPCION_RECHAZO" | translate}}:</strong><br>
+                                            {{listaSolicitud.justificacion_rechazo.Justificacion}}
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                      </div>
+                      <div class="panel-footer" ng-if="listaSolicitud.necesidad_proceso_externo.Necesidad != null" align="center">
+                        <center>
+                          <button class="btn btn-success" ng-click="listaSolicitud.AprobarAvance()">{{'BTN.APROBAR'|translate}}</button>
+                        </center>
+                      </div>
                 </fieldset>
             </div>
         </div>

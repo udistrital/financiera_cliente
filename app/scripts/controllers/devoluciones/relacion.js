@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesRelacionCtrl', function ($scope,$translate,financieraRequest,coreRequest) {
+  .controller('DevolucionesRelacionCtrl', function ($scope,$translate,financieraRequest,coreRequest,$location,agoraRequest,wso2Request,financieraMidRequest) {
     var ctrl = this;
     ctrl.gridApi=[];
 
@@ -94,16 +94,140 @@ angular.module('financieraClienteApp')
     $scope.loadrow = function(row, operacion) {
       ctrl.fila = row.entity;
       switch (operacion) {
-
           case "ver":
+              ctrl.cargarSolicitanteBen();
               $('#modal_ver').modal('show');
               break;
           case "otro":
-
                 break;
             default:
         }
     };
+
+    ctrl.cargarSolicitanteBen = function (){
+      ctrl.nombreSolicitante=null;
+      ctrl.nombreBeneficiario = null;
+      ctrl.cargando_sol = true;
+      ctrl.cargando_ben = true;
+      var parametros = [
+     {
+          name: "tipo_consulta",
+          value: "consulta_pagos"
+     },
+     {
+        name: "tipo_identificacion",
+        value: "CC"
+      },
+      {
+          name: "numeroIdentificacion",
+          value: ctrl.fila.Devolucion.Solicitante
+      }
+    ];
+
+      wso2Request.get("academicaProxy", parametros).then(function(response) {
+        financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(dataAcademica) {
+          if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
+            ctrl.nombreSolicitante = dataAcademica.data.InformacionEstudiante.Nombre;
+            ctrl.cargando_sol = false;
+          }else{
+            agoraRequest.get('informacion_persona_natural',$.param({
+              query:"Id:" + ctrl.fila.Devolucion.Solicitante,
+              limit:-1
+            })).then(function(response){
+              if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+                  ctrl.nombreSolicitante = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                  ctrl.cargando_sol = false;
+                }else{
+                  agoraRequest.get('informacion_persona_juridica',$.param({
+                    query:"Id:" + ctrl.fila.Devolucion.Solicitante,
+                    limit:-1
+                  })).then(function(response){
+                      if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+                          ctrl.nombreSolicitante = response.data[0].NomProveedor;
+                          ctrl.cargando_sol = false;
+                      }else{
+                        agoraRequest.get('supervisor_contrato',$.param({
+                          query:"Documento:" + ctrl.fila.Devolucion.Solicitante,
+                          limit:-1
+                        })).then(function(response){
+                            if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+                                ctrl.nombreSolicitante = response.data[0].Nombre;
+                                ctrl.cargando_sol = false;
+                            }else{
+                              ctrl.nombreSolicitante = $translate.instant('NO_ENCONTRADO');
+                              ctrl.cargando_sol = false;
+                            }
+                          });
+                      }
+                  });
+                }
+            });
+          }
+
+        });
+
+      });
+
+
+      parametros = [
+     {
+          name: "tipo_consulta",
+          value: "consulta_pagos"
+     },
+     {
+        name: "tipo_identificacion",
+        value: "CC"
+      },
+      {
+          name: "numeroIdentificacion",
+          value: ctrl.fila.Devolucion.Beneficiario
+      }
+    ];
+       wso2Request.get("academicaProxy", parametros).then(function(response) {
+         financieraMidRequest.post('devoluciones/GetTransformRequest/',response.data.pagosCollection).then(function(dataAcademica) {
+           if(!angular.isUndefined(dataAcademica.data) && dataAcademica.data!=null){
+             ctrl.nombreBeneficiario = dataAcademica.data.InformacionEstudiante.Nombre;
+             ctrl.cargando_ben = false;
+           }else{
+             agoraRequest.get('informacion_persona_natural',$.param({
+               query:"Id:" + ctrl.fila.Devolucion.Beneficiario,
+               limit:-1
+             })).then(function(response){
+               if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
+                   ctrl.nombreBeneficiario = response.data[0].PrimerNombre + " " + response.data[0].SegundoNombre + " " + response.data[0].PrimerApellido + " "+ response.data[0].SegundoApellido;
+                   ctrl.cargando_ben = false;
+                 }else{
+                   agoraRequest.get('informacion_persona_juridica',$.param({
+                     query:"Id:" + ctrl.fila.Devolucion.Beneficiario,
+                     limit:-1
+                   })).then(function(response){
+                       if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
+                           ctrl.nombreBeneficiario = response.data[0].NomProveedor;
+                           ctrl.cargando_ben = false;
+                       }else{
+                         agoraRequest.get('supervisor_contrato',$.param({
+                           query:"Documento:" + ctrl.fila.Devolucion.Beneficiario,
+                           limit:-1
+                         })).then(function(response){
+                             if(!angular.isUndefined(response.data) &&  typeof(response.data) !== "string"){
+                                 ctrl.nombreBeneficiario = response.data[0].Nombre;
+                                 
+                             }else{
+                                 ctrl.nombreBeneficiario = $translate.instant('NO_ENCONTRADO');
+                                 ctrl.cargando_ben = false;
+                             }
+                           });
+                       }
+                   });
+                 }
+             });
+           }
+
+         });
+
+       });
+
+    }
 
     ctrl.sumarValores = function(arreglo){
 
@@ -189,6 +313,7 @@ angular.module('financieraClienteApp')
       ctrl.insertarOrden = function(){
 
       if (ctrl.camposObligatorios()) {
+        var templateAlert;
         ctrl.Solicitudes=[];
         ctrl.gridApi.selection.getSelectedGridRows().forEach(function(row) {
           ctrl.Solicitud = {
@@ -212,13 +337,22 @@ angular.module('financieraClienteApp')
         };
         financieraRequest.post('orden_devolucion/AddDevolutionOrder',ctrl.request).then(function(response) {
           if(response.data.Type != undefined){
-                swal('',$translate.instant(response.data.Code),response.data.Type);
                 if(response.data.Type != "error"){
+                  templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+                  templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+                  templateAlert = templateAlert + "</table>";
                   ctrl.request.ordenDevolucion.Id = response.data.Body.Id;
                   financieraRequest.post('orden_devolucion_estado_devolucion/AddEstadoOrdenDevol',ctrl.request).then(function(response) {
-                    console.log(response);
+                    if(response.data.Type === "success"){
+                          $location.path('/devoluciones/consulta_relacion');
+                    }else{
+                      console.log(response.data);
+                    }
                   });
+                }else{
+                  templateAlert = $translate.instant(response.data.Code);
                 }
+                swal('',templateAlert ,response.data.Type);
            }
          });
        }else{

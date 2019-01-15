@@ -8,10 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location,coreRequest) {
+  .controller('TesoreriaReintegrosCtrl', function ($scope,financieraRequest,$translate,uiGridConstants,agoraRequest,financieraMidRequest,$location,coreRequest,$window) {
     var ctrl = this;
     ctrl.fechaOficio = new Date();
     ctrl.fechaConsignacion = new Date();
+    $scope.botones = [
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg faa-shake animated-hover", titulo: $translate.instant('VER'), operacion: 'ver', estado: true }
+    ];
     ctrl.gridOrdenesDePago = {
       showColumnFooter: true,
       paginationPageSizes: [10, 50, 100],
@@ -198,6 +201,7 @@ angular.module('financieraClienteApp')
 
    $scope.$watch('tesoreriaReintegros.concepto[0]', function(newValue,oldValue) {
                if (!angular.isUndefined(newValue)) {
+                 ctrl.movs = undefined;
                    financieraRequest.get('concepto', $.param({
                        query: "Id:" + newValue.Id,
                        fields: "Rubro",
@@ -206,10 +210,11 @@ angular.module('financieraClienteApp')
                        $scope.tesoreriaReintegros.concepto[0].Rubro = response.data[0].Rubro;
                    });
                }
-           }, true);
+           }, false);
 
     ctrl.crearReintegro= function(){
-      var request
+      var request;
+      var templateAlert;
        if(ctrl.validateFields()){
          request = {
            Ingreso:{
@@ -228,7 +233,8 @@ angular.module('financieraClienteApp')
              FechaOficio:ctrl.fechaOficio,
              Causal:ctrl.causalReintegro,
              Observaciones:ctrl.observaciones,
-             OrdenPago:ctrl.ordenPago
+             OrdenPago:ctrl.ordenPago,
+             Disponible:true,
            },
            IngresoBanco: ctrl.valor,
            Concepto: ctrl.concepto[0]
@@ -238,25 +244,31 @@ angular.module('financieraClienteApp')
              delete data.Id;
          });
          request.Movimientos = ctrl.movs;
-         console.log(request);
          financieraMidRequest.post('reintegro/Create',request).then(function(response){
-          console.log(response);
-           if(response.data.Type==="error"){
-             swal("",$translate.instant(response.data.Code),response.data.Type);
-           }
-           else{
-             var templateAlert = "<table class='table table-bordered'><tr><th>" + $translate.instant('CONSECUTIVO') + "</th></tr>";
-             templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Reintegro.Consecutivo + "</td></tr>" ;
-             swal('',templateAlert,response.data.Type).then(function(){
-               $scope.$apply(function(){
-                   $location.path('/ingresos/ingreso_consulta');
-               });
-             });
+          if(response.data.Type==="error"){
+            templateAlert=$translate.instant(response.data.Code);
 
-           }
+          } else{
+            templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>"+$translate.instant('INGRESO_NO')+"</th><th>" + $translate.instant('DETALLE') + "</th>";
+            templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Reintegro.Consecutivo + "</td><td>" +response.data.Body.Ingreso.Consecutivo+ "</td><td>"+ $translate.instant(response.data.Code) + "</td></tr>" ;
+            templateAlert = templateAlert + "</table>";
+            $location.path('/ingresos/ingreso_consulta');
+          }
+          swal($translate.instant('INFORMACION_REINTEGRO'),templateAlert,response.data.Type);
          });
 
        }
     }
+
+    $scope.loadrow = function(row, operacion) {
+        $scope.solicitud = row.entity;
+        switch (operacion) {
+            case "ver":
+                $window.open('#/orden_pago/proveedor/ver/'+row.entity.Id, '_blank', 'location=yes');
+                break;
+            default:
+        }
+    }
+
 
   });

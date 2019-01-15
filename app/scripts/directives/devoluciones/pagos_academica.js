@@ -23,11 +23,11 @@ angular.module('financieraClienteApp')
         ];
         ctrl.gridPagos = {
 
-            enableRowSelection: false,
+            enableRowSelection: true,
             enableSelectAll: false,
             selectionRowHeaderWidth: 35,
             multiSelect: true,
-            enableRowHeaderSelection: false,
+            enableRowHeaderSelection: true,
             showColumnFooter: true,
 
 

@@ -38,7 +38,11 @@
       </div>
       <label class="control-label col-sm-2">{{'UNIDAD_EJECUTORA' | translate}}</label>
       <div class="col-sm-4">
-        <span class="form-control input_right">{{outputordenpago.UnidadEjecutora.Nombre}}</span>
+        
+         <select ng-model="unidadEjecutoraSelect" class="form-control" required>
+        <option ng-repeat="option in outputordenpago.UnidadEjecutora" value="{{option}}">{{option.Nombre}}</option>
+        </select>
+
       </div>
     </div>
   </div>

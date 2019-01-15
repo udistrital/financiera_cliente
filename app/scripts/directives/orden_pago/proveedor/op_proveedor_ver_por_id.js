@@ -20,39 +20,94 @@ angular.module('financieraClienteApp')
       controller: function($scope) {
         var self = this;
         self.rubros = [];
+        self.conceptos = [];
+        self.rps = [];
+        self.tipoDocumentoOp = "1";
+        self.panel_abierto = "ninguno";
+        self.open = false;
         // paneles
         $scope.panelUnidadEjecutora = !$scope.inputpestanaabierta;
         $scope.panelProveedor = !$scope.inputpestanaabierta;
-        $scope.panelRp = !$scope.inputpestanaabierta;
+        $scope.mostrar_leyenda_rp = true;
+        $scope.panelRp = true;
         $scope.panelDetallePagoProveedor = !$scope.inputpestanaabierta;
         $scope.panelDetalleRubro = !$scope.inputpestanaabierta;
         $scope.panelDetalleConceptos = !$scope.inputpestanaabierta;
         $scope.panelDetalleCuentas = !$scope.inputpestanaabierta;
+
         //orden de pago
         $scope.$watch('opproveedorid', function() {
+
           if ($scope.opproveedorid != undefined) {
+
             financieraRequest.get('orden_pago',
               $.param({
                 query: "Id:" + $scope.opproveedorid,
               })).then(function(response) {
+                console.log(response.data[0])
               self.orden_pago = response.data[0];
               $scope.outputopp = response.data[0];
               // documento
               self.getDocumento(self.orden_pago);
-              // proveedor
-              if(self.orden_pago.RegistroPresupuestal != undefined){
-                  self.asignar_proveedor(self.orden_pago.RegistroPresupuestal.Beneficiario);
-                  // detalle rp
-                  self.detalle_rp(self.orden_pago.RegistroPresupuestal.Id);
-              }
-        
+
+              financieraRequest.get('orden_pago_registro_presupuestal',
+                $.param({
+                  query: "OrdenPago:" + self.orden_pago.Id,
+                })).then(function(response) {
+                  if(response.data === null){
+                    self.rps = undefined
+                  }else{
+                    self.rps = response.data;
+                   self.asignar_proveedor(self.rps[0].RegistroPresupuestal.Beneficiario);
+                    // detalle rp
+                    self.detalle_rp(self.rps[0].RegistroPresupuestal.Id);
+                  }
+              });
+
+
               // entrada almacen
               if (self.orden_pago.EntradaAlmacen != 0) {
                 self.entradaAlmacen(self.orden_pago.EntradaAlmacen);
               }
             });
           }
+
+          self.conceptos = [];
+          self.cargando = true;
+          self.hayData = true;
+          if ($scope.opproveedorid != undefined) {
+            financieraRequest.get('concepto_orden_pago',
+            $.param({
+              query: "OrdenDePago.Id:" + $scope.opproveedorid,
+              limit: 0
+            })
+          ).then(function(response) {
+
+            if(response.data === null){
+              self.hayData = false;
+              self.cargando = false;
+              self.conceptos = [];
+
+              //quitar repetidos
+            }else{
+              self.hayData = true;
+              self.cargando = false;
+              var hash = {};
+              response.data = response.data.filter(function(current) {
+                var exists = !hash[current.RegistroPresupuestalDisponibilidadApropiacion.Id] || false;
+                hash[current.RegistroPresupuestalDisponibilidadApropiacion.Id] = true;
+                return exists;
+              });
+              //fin quitar repetidos
+              self.conceptos = response.data;
+            }
+          });
+
+
+        }
+
         })
+
         // documento
         self.getDocumento = function(orden_pago){
           coreRequest.get('documento',
@@ -67,6 +122,7 @@ angular.module('financieraClienteApp')
 
         // Function buscamos datos del proveedor que esta en el rp
         self.asignar_proveedor = function(beneficiario_id) {
+
           agoraRequest.get('informacion_proveedor',
             $.param({
               query: "Id:" + beneficiario_id,
@@ -81,11 +137,15 @@ angular.module('financieraClienteApp')
         }
         //
         self.get_info_banco = function(id_banco) {
-          coreRequest.get('banco',
+          agoraRequest.get('informacion_persona_juridica_tipo_entidad',
             $.param({
-              query: "Id:" + id_banco,
+              query: "TipoEntidadId:1,Id:" + id_banco,
             })).then(function(response) {
-            self.banco_proveedor = response.data[0];
+              if(response.data !== null){
+                    self.banco_proveedor = response.data[0];
+              }
+
+
           });
         }
         //
@@ -125,7 +185,29 @@ angular.module('financieraClienteApp')
           ).then(function(response) {
             self.entrada = response.data[0];
           });
-        }
+        };
+        self.abrir_panel = function(nombre){
+
+          if(self.panel_abierto === nombre && self.open === true){
+              self.open = false;
+              self.panel_abierto = "ninguno"
+          }else{
+            self.panel_abierto = nombre;
+            if(self.open === false){
+              self.open = true;
+          }else{
+              if(self.open === true){
+                self.open = false;
+
+              }
+            }
+          }
+
+
+
+        };
+
+
         //
       },
       controllerAs: 'd_opProveedorVerPorId'

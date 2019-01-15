@@ -8,19 +8,19 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesConsultaDevolucionesTributariasCtrl', function ($scope,$translate,financieraRequest,$localStorage) {
+  .controller('DevolucionesConsultaDevolucionesTributariasCtrl', function ($scope,$translate,financieraRequest,$localStorage,financieraMidRequest,gridApiService) {
     var ctrl = this;
 
     $scope.estado_select = [];
     $scope.estados = [];
     $scope.tipos = [];
-    $scope.estado_select = [];
     $scope.aristas = [];
     $scope.estadoclick = {};
     $scope.senDataEstado = {};
 
     $scope.botones = [
         { clase_color: "editar", clase_css: "fa fa-product-hunt fa-lg faa-shake animated-hover", titulo: $translate.instant('ESTADO'), operacion: 'proceso', estado: true },
+        { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
     ];
     ctrl.gridDevoluciones = {
       paginationPageSizes: [5, 15, 20],
@@ -30,86 +30,97 @@ angular.module('financieraClienteApp')
       enableRowSelection: true,
       enableRowHeaderSelection: true,
       enableSelectAll: true,
+      useExternalPagination:true,
       selectionRowHeaderWidth: 35,
       columnDefs: [{
               field: 'Solicitante',
               displayName: 'Solicitante',
               width: '5%',
+              headerCellClass: 'encabezado',
               visible:false
           },
           {
               field: 'Beneficiario',
               displayName: 'Beneficiario',
-              width: '10%',
+              width: '15%',
+              headerCellClass: 'encabezado',
               visible:false
           },
           {
-              field: 'Devolucion.Id',
+              field: 'Id',
               displayName: $translate.instant('NUMERO_OPERACION'),
+              headerCellClass: 'encabezado',
               width: '10%'
           },
           {
-              field: 'Devolucion.FormaPago.Nombre',
+              field: 'FormaPago.Nombre',
               displayName: $translate.instant('FORMA_PAGO'),
+              headerCellClass: 'encabezado',
               width: '15%',
           },
           {
-              field: 'Devolucion.Oficio',
+              field: 'DocumentoGenerador.NumDocumento',
               displayName: $translate.instant('NO_OFICIO'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
-              field: 'Devolucion.Vigencia',
+              field: 'Vigencia',
               displayName: $translate.instant('VIGENCIA'),
+              headerCellClass: 'encabezado',
               width: '13%'
           },
           {
-              field: 'Devolucion.UnidadEjecutora.Nombre',
+              field: 'UnidadEjecutora.Nombre',
               displayName: $translate.instant('UNIDAD_EJECUTORA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
-              field: 'Devolucion.CuentaDevolucion.NumeroCuenta',
+              field: 'CuentaBancariaEnte.NumeroCuenta',
               displayName: $translate.instant('CUENTA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
-              field: 'Devolucion.Acta.Nombre',
+              field: 'Acta.Nombre',
               displayName: $translate.instant('ACTA'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              width: '10%'
           },
           {
-              field: 'valorDevolucion',
+              field: 'ValorDevolucion',
               displayName: $translate.instant('VALOR'),
-              width: '13%'
+              headerCellClass: 'encabezado',
+              cellFilter:"currency",
+              width: '10%'
           },
           {
               name: $translate.instant('OPCIONES'),
               width: '10%',
+              headerCellClass: 'encabezado',
               cellTemplate: '<btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro>'
           }
-      ]
+      ],
+      onRegisterApi: function(gridApi) {
+        ctrl.gridApiDevoluciones = gridApi;
+        ctrl.gridApiDevoluciones = gridApiService.pagination(gridApi,ctrl.consultarDevoluciones,$scope);
+      },
     };
-    ctrl.consultarDevoluciones = function(){
-        financieraRequest.get('devolucion_tributaria_estado_devolucion',$.param({
-          query:"Activo:true",
-          limit: -1
+    ctrl.consultarDevoluciones = function(offset,query){
+        financieraMidRequest.get('devoluciones/GetAllDevolucionesTributarias',$.param({
+          limit: ctrl.gridDevoluciones.paginationPageSize,
+          offset:offset,
+          query:query,
         })).then(function(response){
-          if(response.data != undefined){
-            angular.forEach(response.data,function(row){
-              financieraRequest.get('devolucion_tributaria_concepto',$.param({
-                query:"DevolucionTributaria:" + row.Devolucion.Id,
-                fields:"ValorDevolucion",
-                limit: -1
-              })).then(function(response){
-                row.valorDevolucion = response.data[0].ValorDevolucion;
-              });
-            });
-            ctrl.gridDevoluciones.data = response.data;
-            console.log(ctrl.gridDevoluciones.data );
+          if(response.data != null){
+          ctrl.gridDevoluciones.data = response.data.Devolutions;
+          ctrl.gridDevoluciones.totalItems = response.data.RegCuantity;
           }
         });
         };
+      ctrl.consultarDevoluciones(0,'');
+
         ctrl.cargarEstados = function() {
             financieraRequest.get("estado_devolucion", $.param({
                     query:"Tipo:3",
@@ -153,17 +164,33 @@ angular.module('financieraClienteApp')
         };
 
       ctrl.cargarEstados();
-      ctrl.consultarDevoluciones();
       $scope.loadrow = function(row, operacion) {
           $scope.devolucion = row.entity;
           switch (operacion) {
               case "proceso":
-                  $scope.estado = $scope.devolucion.EstadoDevolucion;
+                  $scope.estado = $scope.devolucion.Estado;
                   break;
+              case "ver":
+                      ctrl.getAccountanInfo();
+                      $("#modalDevolucion").modal();
+                      break;
               default:
           }
       };
 
+      ctrl.getAccountanInfo = function(){
+        ctrl.movimientosAsociados=undefined;
+        ctrl.conceptos = undefined;
+        ctrl.devolucion = undefined;
+        financieraMidRequest.get('devoluciones/GetTributaDevolutionAccountantInf/'+$scope.devolucion.Id).
+        then(function(response){
+          if (response.data != null) {
+            ctrl.movimientosAsociados = response.data.MovimientosAsociados;
+            ctrl.conceptos = response.data.Conceptos;
+            ctrl.devolucion = $scope.devolucion;
+          }
+        });
+      }
       $scope.funcion = function() {
           $scope.estadoclick = $localStorage.nodeclick;
           ctrl.Request = {
@@ -171,7 +198,7 @@ angular.module('financieraClienteApp')
             EstadoDevolucion:$scope.estadoclick,
           },
             DevolucionTributaria:{
-              Id:$scope.devolucion.Devolucion.Id
+              Id:$scope.devolucion.Id
             }
           };
                 financieraRequest.post('devolucion_tributaria_estado_devolucion/AddEstadoDevolTributaria', ctrl.Request).then(function(response) {
@@ -180,8 +207,9 @@ angular.module('financieraClienteApp')
                         swal('',$translate.instant(response.data.Code),response.data.Type);
                       }else{
                         swal('',$translate.instant(response.data.Code),response.data.Type).then(function() {
-                          ctrl.consultarDevoluciones();
-                          $scope.estado = undefined;
+                          $scope.devolucion.Estado = response.data.Body.EstadoDevolucion;
+                          $scope.estado = response.data.Body.EstadoDevolucion;
+                          ctrl.gridApiDevoluciones.core.handleWindowResize();
                         })
                       }
                     }

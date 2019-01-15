@@ -14,7 +14,7 @@
 
   <div class="row">
     <div align="center">
-        <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionBancos.gestionar_sucursales()">{{"GESTIONAR_SUCURSALES" | translate}}</button></button>
+      <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionBancos.gestionar_sucursales()">{{"GESTIONAR_SUCURSALES" | translate}}</button></button>
        <button type="button" class="btn btn-outline btn-primary btn-sm" ng-click="gestionBancos.gestionar_cuentas_bancarias()">{{"GESTIONAR_CUENTAS_BANCARIAS" | translate}}</button></button>
       </div>
   </div>
@@ -29,58 +29,24 @@
       <div class="modal-body">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ 'SUCURSAL' | translate }}</h3>
+            <h3 class="panel-title">{{ 'SUCURSALES_REGISTRADAS' | translate }}</h3>
           </div>
-          <div ng-show = "gestionBancos.tieneSucursal" div class="panel-body">
+          <div  div class="panel-body">
 
-
-              <div class="col-md-12">
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'NOMBRE' | translate }}:</label>
-                  <span class="form-control"> {{gestionBancos.Nombre}}</span>
-                </fieldset>
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'DIRECCION' | translate }}:</label>
-                  <span class="form-control"> {{gestionBancos.Direccion}}</span>
-                </fieldset>
-              </div>
-
-              <div class="col-md-12">
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'TELEFONO' | translate }}:</label>
-                  <span class="form-control"> {{gestionBancos.Telefono}}</span>
-                </fieldset>
-
-                <fieldset class="form-group col-md-6">
-                  <label>{{ 'PAIS' | translate }}:</label>
-                  <span class="form-control"> {{gestionBancos.Pais}}</span>
-                </fieldset>
-              </div>
-
-              <div class="col-md-12">
-              <fieldset class="form-group col-md-6">
-                <label>{{ 'DEPARTAMENTO' | translate }}:</label>
-                <span class="form-control"> {{gestionBancos.Departamento}}</span>
-             </fieldset>
-
-              <fieldset class="form-group col-md-6">
-                <label>{{ 'CIUDAD' | translate }}:</label>
-                <span class="form-control"> {{gestionBancos.Ciudad}}</span>
-              </fieldset>
+            <div class="col-md-12">
+              <div ui-grid="gestionBancos.SucursalesBanco" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
             </div>
-              <center><button ng-click="gestionBancos.desvincular_sucursal()" class="btn btn-outline btn-primary">{{'BTN.DESVINCULAR' | translate}} </button></center>
-
-
+            <div class="row" align="center" style="padding-top:10%">
+              <button ng-click="gestionBancos.desvincular_sucursal()" class="btn btn-outline btn-primary">{{'BTN.DESVINCULAR' | translate}} </button>
           </div>
           <br>
-          <div ng-show = "!gestionBancos.tieneSucursal">
-            <center><button ng-click="gestionBancos.mostrar_sucursales()" class="btn btn-outline btn-primary">{{'BTN.MOSTRAR_SUCURSALES' | translate}} </button></center>
-
-            <div ng-show = "gestionBancos.ver_grid_sucursales">
+          <div >
+            <legend class="text-primary" ng-click="vs=!vs">{{"SUCURSALES" | translate}}
+              <span class="fa fa-plus pull-right" ng-show="!vs"/>
+              <span class="fa fa-minus pull-right" ng-show="vs"/>
+            </legend>
+            <div ng-if= "vs">
               <br>
-              <legend class="text-primary" align="center">{{'SUCURSALES_REGISTRADAS' | translate }}</legend>
               <div class="row">
                   <div class="col-md-12">
                     <div ui-grid="gestionBancos.Sucursales" ui-grid-selection ui-grid-auto-resize ui-grid-pagination class="myGrid"></div>
@@ -96,7 +62,45 @@
     </div>
 
   </div>
+</div>
 
+  <div id="addBanco" class="modal fade" role="dialog">
+    <div class="modal-content col-md-4 col-md-offset-4" style="margin-top: 5%">
+      <div class="modal-header">
+        <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" data-dismiss="modal">&times</button><br>
+      </div>
+      <div class="modal-body">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{ 'INFORMACION_ADICIONAL_BANCO' | translate }}</h3>
+          </div>
+
+              <br>
+            <form name="formplan" ng-submit="formplan.$valid">
+              <div class="col-md-12">
+
+                <fieldset class="form-group col-md-12">
+                  <label>{{ 'CODIGO_SUPER' | translate }}:</label>
+                  <input type="number" class="form-control" placeholder="{{'CODIGO_SUPER' | translate}}" ng-model="gestionBancos.codigo_super" required>
+                </fieldset>
+
+
+              </div>
+
+              <div class="col-md-12">
+              <fieldset class="form-group col-md-12">
+                <label>{{ 'CODIGO_ACH' | translate }}:</label>
+                <input type="number" class="form-control" placeholder="{{'CODIGO_ACH' | translate}}" ng-model="gestionBancos.codigo_ach" required>
+              </fieldset>
+
+            </div>
+            <center> <input type="submit" class="btn btn-outline btn-primary" value="{{'BTN.CONFIRMAR' | translate}}" ng-click='gestionBancos.agregar_informacion_adicional()'></center>
+
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div id="modalbanco" class="modal fade" role="dialog">
     <div class="modal-content col-md-10 col-md-offset-1" style="margin-top: 5%">

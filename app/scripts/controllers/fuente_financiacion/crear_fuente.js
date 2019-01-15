@@ -8,13 +8,13 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('crearFuenteCtrl', function($scope, financieraRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
+  .controller('crearFuenteCtrl', function($scope, financieraRequest, financieraMidRequest, $translate, oikosRequest, coreRequest, $timeout, $window) {
 
     var self = this;
     var i;
     var j;
     var k;
-
+    self.UnidadEjecutora = 1; //Tomar este valor de la autenticacion en el futuro
     financieraRequest.get("orden_pago/FechaActual/2006")
       .then(function(response) {
         self.year = parseInt(response.data);
@@ -70,7 +70,7 @@ angular.module('financieraClienteApp')
 
       for (i = 0; i < self.tipo.length; i++) {
         if (self.tipo[i].Nombre == "Registro") {
-          self.tipo_movimiento = self.tipo[i].Id;
+          self.tipo_movimiento = self.tipo[i];
         }
       }
     });
@@ -109,7 +109,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
         self.select_id = row.entity;
-        self.comprobarRubro(row.entity.Id);
+        self.comprobarRubro(row.entity);
         self.actualizar();
       });
     };
@@ -141,7 +141,7 @@ angular.module('financieraClienteApp')
       self.gridApi = gridApi;
       gridApi.selection.on.rowSelectionChanged($scope, function(row) {
         self.select_id = row.entity;
-        self.comprobarRubro(row.entity.Id);
+        self.comprobarRubro(row.entity);
         self.actualizar();
       });
     };
@@ -163,7 +163,7 @@ angular.module('financieraClienteApp')
       });
 
       for (i = 0; i < self.tipo_fuente_financiamiento.length; i++) {
-        if (self.tipo_fuente_r == self.tipo_fuente_financiamiento[i].Id) {
+        if (self.tipo_fuente_r.Id == self.tipo_fuente_financiamiento[i].Id) {
           if (self.tipo_fuente_financiamiento[i].Nombre == "Inversión") {
             self.inversion = true;
             self.funcionamiento = false;
@@ -188,7 +188,7 @@ angular.module('financieraClienteApp')
       return self.totalMonto;
     };
 
-    self.comprobarRubro = function(id) {
+    self.comprobarRubro = function(aprData) {
       var repetido = true;
       for (i = 0; i < self.rubros_seleccionados.length; i++) {
         if ((self.rubros_seleccionados[i].Id) == id) {
@@ -198,10 +198,11 @@ angular.module('financieraClienteApp')
       if (repetido == true) {
         self.rubros_seleccionados.push(self.select_id);
         var data = {
-          Rubro: id,
+          Rubro: aprData.Id,
           Valor: "",
           Dependencia: "",
-          NomDependencia: ""
+          NomDependencia: "",
+          Codigo: aprData.Rubro.Codigo
         }
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado = [];
         self.rubros_seleccionados[self.rubros_seleccionados.length - 1].seleccionado.push(data);
@@ -308,7 +309,7 @@ angular.module('financieraClienteApp')
 
       self.registrar = true;
 
-      
+
       if (self.nueva_fuente.Codigo === null || self.nueva_fuente.Codigo === "" || self.nueva_fuente.Codigo === undefined) {
         swal($translate.instant('ERROR'), $translate.instant('INGRESE_CODIGO'), "error");
       } else if (self.nueva_fuente.Nombre === null || self.nueva_fuente.Nombre === "" || self.nueva_fuente.Nombre === undefined) {
@@ -395,38 +396,50 @@ angular.module('financieraClienteApp')
     self.crear_fuente = function(documento) {
 
 
+      console.log("Tipo Fuente: ", self.tipo_fuente_r)
 
-
-      var data = {
+      var FuenteData = {
         Codigo: self.nueva_fuente.Codigo.toString(),
         Nombre: self.nueva_fuente.Nombre,
         Descripcion: self.nueva_fuente.Descripcion,
-        TipoFuenteFinanciamiento: {
-          Id: parseInt(self.tipo_fuente_r)
-        }
-
+        TipoFuenteFinanciamiento : self.tipo_fuente_r,
+        UnidadEjecutora: self.UnidadEjecutora
       }
-      financieraRequest.post("fuente_financiamiento", data).then(function(response) {
-        self.fuente_financiamiento = response.data;
-        self.id = response.data.Id;
-        self.asignar_rubros(self.id, documento);
+
+      var AfectacionFuenteData = self.asignar_rubros(0, documento);
+      var DataToSend = {
+        FuenteFinanciamiento: FuenteData,
+        AfectacionFuente: AfectacionFuenteData
+      };
+      console.log("Data to Send: ", DataToSend);
+      financieraMidRequest.post("fuente_financiamiento/RegistrarFuente", DataToSend).then(function(response) {
+        console.log("Response: ", response.data);
+        if (response.data) {
+              swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+                $window.location.href = '#/fuente_financiacion/consulta_fuente';
+              });
+            } else {
+              swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
+            }
       });
 
       self.cerrar_ventana();
     };
 
     self.asignar_rubros = function(id, documento) {
-
+      var afectacionArr = [];
       for (i = 0; i < self.rubros_seleccionados.length; i++) {
         for (j = 0; j < self.rubros_seleccionados[i].seleccionado.length; j++) {
-          self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento);
+          console.log('Seleccionado ', self.rubros_seleccionados[i].seleccionado[j]);
+          afectacionArr.push(self.crear_fuente_apropiacion(id, self.rubros_seleccionados[i].seleccionado[j].Rubro,self.rubros_seleccionados[i].seleccionado[j].Codigo, self.rubros_seleccionados[i].seleccionado[j].Dependencia, self.rubros_seleccionados[i].seleccionado[j].Valor, documento));
         }
       }
+      return afectacionArr;
     };
 
 
 
-    self.crear_fuente_apropiacion = function(fuente, rubro, dependencia, valor, documento) {
+    self.crear_fuente_apropiacion = function(fuente, rubro,codigoRubro, dependencia, valor, documento) {
 
       var data = {
         Dependencia: parseInt(dependencia),
@@ -435,14 +448,18 @@ angular.module('financieraClienteApp')
         },
         FuenteFinanciamiento: {
           Id: parseInt(fuente)
-        }
+        },
+        Rubro: codigoRubro,
+        MovimientoFuenteFinanciamientoApropiacion: []
       }
-      financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
-        self.fuente_financiamiento_apropiacion = response.data;
-        self.id = response.data.Id;
-        self.crear_Movimiento_apropiacion(self.id, valor, documento);
+      data.MovimientoFuenteFinanciamientoApropiacion.push(self.crear_Movimiento_apropiacion(0, valor, documento));
+      return data;
+      // financieraRequest.post("fuente_financiamiento_apropiacion", data).then(function(response) {
+      //   self.fuente_financiamiento_apropiacion = response.data;
+      //   self.id = response.data.Id;
+      //   self.crear_Movimiento_apropiacion(self.id, valor, documento);
 
-      });
+      // });
     };
 
     self.crear_Movimiento_apropiacion = function(apropiacion, valor, documento) {
@@ -451,23 +468,22 @@ angular.module('financieraClienteApp')
         Valor: parseInt(valor),
         Fecha: self.fecha,
         TipoDocumento: parseInt(documento),
-        TipoMovimiento: {
-          Id: parseInt(self.tipo_movimiento)
-        },
+        TipoMovimiento: self.tipo_movimiento,
         FuenteFinanciamientoApropiacion: {
           Id: parseInt(apropiacion)
         }
       }
-      financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
-        self.movimiento_fuente_financiamiento_apropiacion = response.data;
-        if (response.data) {
-          swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
-            $window.location.href = '#/fuente_financiacion/consulta_fuente';
-          });
-        } else {
-          swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
-        }
-      });
+      return data;
+      // financieraRequest.post("movimiento_fuente_financiamiento_apropiacion", data).then(function(response) {
+      //   self.movimiento_fuente_financiamiento_apropiacion = response.data;
+      //   if (response.data) {
+      //     swal($translate.instant('PROCESO_COMPLETADO'), $translate.instant('REGISTRO_CORRECTO'), "success").then(function() {
+      //       $window.location.href = '#/fuente_financiacion/consulta_fuente';
+      //     });
+      //   } else {
+      //     swal($translate.instant('ERROR'), $translate.instant('E_0459'), "error");
+      //   }
+      // });
     };
 
     self.actualizar = function() {

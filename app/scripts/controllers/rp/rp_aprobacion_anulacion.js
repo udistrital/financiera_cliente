@@ -244,11 +244,9 @@ angular.module('financieraClienteApp')
                                 console.log(self.Necesidad);
 
                             });
-                            if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) !== -1) {
-
-                            } else {
-                                $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
-                            }
+                            if ($scope.apropiaciones.indexOf(rubros_data.DisponibilidadApropiacion.Apropiacion.Id) === -1) {
+                              $scope.apropiaciones.push(rubros_data.DisponibilidadApropiacion.Apropiacion.Id);
+                            } 
 
                         });
 
@@ -272,7 +270,7 @@ angular.module('financieraClienteApp')
                     } else {
                         swal('', $translate.instant(response.data.Code) + ' ' + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, self.customfilter);
                         });
                     }
 
@@ -281,20 +279,20 @@ angular.module('financieraClienteApp')
             });
         };
 
-  
+
 
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
-            financieraRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
-                console.log(response.data);
+            financieraMidRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
+                console.log("Response Mid: ",response.data);
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
                         swal('', $translate.instant(response.data.Code), response.data.Type);
                     } else {
                         swal('', $translate.instant(response.data.Code) + response.data.Body.Consecutivo, response.data.Type).then(function() {
                             $("#myModal").modal('hide');
-                            self.cargarListaAnulaciones();
+                            self.actualizarLista(self.offset, self.customfilter);
                         });
                     }
 

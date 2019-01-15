@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest,coreRequest) {
+  .controller('DevolucionesOrdenCtrl', function ($scope,agoraRequest,wso2Request,financieraMidRequest,financieraRequest,$translate,administrativaRequest,coreRequest,$location) {
    var ctrl = this;
    ctrl.selectedcar = {};
    ctrl.concepto = [];
@@ -152,33 +152,10 @@ angular.module('financieraClienteApp')
      return respuesta;
    };
 
-   $scope.$watch('ordendevolucion.numdocSoli', function(){
-     if (ctrl.tipoDocSoli!= undefined && ctrl.numdocSoli!= undefined) {
-       ctrl.consultaPagos();
-    }
-   },true);
-
-   $scope.$watch('ordendevolucion.tipoDocSoli', function(){
-     if (ctrl.tipoDocSoli!== undefined && ctrl.numdocSoli!== undefined) {
-        ctrl.consultaPagos();
-     }
-   },true);
-
-   $scope.$watch('ordendevolucion.numdocBeneficiario', function(){
-     if (ctrl.numdocBeneficiario!= undefined  && ctrl.tipoDocBen != undefined) {
-        ctrl.consultaBen();
-     }
-   },true);
-
-   $scope.$watch('ordendevolucion.tipoDocBen', function(){
-     if (ctrl.tipoDocBen != undefined && ctrl.numdocBeneficiario!= undefined) {
-       ctrl.consultaBen();
-    }
-   },true);
-
 
    $scope.$watch('ordendevolucion.concepto[0]', function(newValue,oldValue) {
        if (!angular.isUndefined(newValue)) {
+            ctrl.movs=undefined;
            financieraRequest.get('concepto', $.param({
                query: "Id:" + newValue.Id,
                fields: "Rubro",
@@ -187,7 +164,7 @@ angular.module('financieraClienteApp')
                $scope.ordendevolucion.concepto[0].Rubro = response.data[0].Rubro;
            });
        }
-   }, true);
+   }, false);
 
    ctrl.consultaPagos = function(){
 
@@ -221,7 +198,7 @@ angular.module('financieraClienteApp')
               ctrl.cargando_sol = false;
             }else{
               agoraRequest.get('informacion_persona_natural',$.param({
-                query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Abreviatura: " + ctrl.tipoDocSoli.Abreviatura,
+                query:"Id:" + ctrl.numdocSoli +",TipoDocumento.Id: " + ctrl.tipoDocSoli.Id,
                 limit:-1
               })).then(function(response){
                 if(!angular.isUndefined(response.data) && typeof(response.data) !== "string"){
@@ -371,7 +348,7 @@ angular.module('financieraClienteApp')
            FormaPago:ctrl.formaPago,
            Vigencia:ctrl.vigencia,
            UnidadEjecutora:ctrl.unidadejecutora,
-           CuentaDevolucion:{
+           CuentaBancariaEnte:{
              Banco:ctrl.banco.Id,
              TipoCuenta:ctrl.tipocuenta.Id,
              NumeroCuenta:ctrl.numeroCuenta.toString()
@@ -395,10 +372,11 @@ angular.module('financieraClienteApp')
          ctrl.IdSolicitante = ctrl.numdocSoli;
        }
 
-        ctrl.SolicitudDevolucion.Beneficiario = ctrl.IdBeneficiario;
-        ctrl.SolicitudDevolucion.Solicitante = ctrl.IdSolicitante;
-        ctrl.SolicitudDevolucion.SolicitudDevolucion.CuentaDevolucion.Titular = ctrl.IdSolicitante;
+        ctrl.SolicitudDevolucion.SolicitudDevolucion.Beneficiario = parseInt(ctrl.IdBeneficiario);
+        ctrl.SolicitudDevolucion.SolicitudDevolucion.Solicitante = parseInt(ctrl.IdSolicitante);
+        ctrl.SolicitudDevolucion.SolicitudDevolucion.CuentaBancariaEnte.Titular = ctrl.IdSolicitante;
 
+        console.log(ctrl.SolicitudDevolucion);
 
        angular.forEach(ctrl.movs, function(data) {
            delete data.Id;
@@ -407,8 +385,21 @@ angular.module('financieraClienteApp')
        ctrl.SolicitudDevolucion.Movimientos = ctrl.movs;
 
        financieraRequest.post('solicitud_devolucion/AddDevolution',ctrl.SolicitudDevolucion).then(function(response) {
+         var templateAlert ;
          if(response.data.Type != undefined){
-               swal('',$translate.instant(response.data.Code),response.data.Type);
+           templateAlert = $translate.instant(response.data.Code);
+           if(response.data.Type === "success"){
+              templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('CONSECUTIVO') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
+              templateAlert = templateAlert + "<tr class='success'><td>" + response.data.Body.Id + "</td>" + "<td>" + $translate.instant(response.data.Code) + "</td></tr>" ;
+              templateAlert = templateAlert + "</table>";
+            }
+               swal('',templateAlert,response.data.Type).then(function(){
+                 if(response.data.Type === "success"){
+                   $scope.$apply(function(){
+                       $location.path('/devoluciones/consulta_relacion');
+                   });
+                 }
+               });
           }
        });
      }else {

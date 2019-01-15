@@ -214,3 +214,39 @@ sencillo {
 .vis-hidden{
      visibility: hidden;
   }
+
+.equal, .equal > div[class*='col-'] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -m.e.equal, .equal > div[class*='col-'] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -m.equal, .equal > div[class*='col-'] {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex:1 1 auto;
+};
+    display: -webkit-flex;
+    display: flex;
+}
+}
+
+.panel.display-flex {
+  width: 100%;
+}
+
+.md-datepicker-calendar-pane{
+        z-index: 1200;
+    }
+
+.margin-modal{
+  margin-top: 5%
+}
+
+.modal.in {
+  overflow-x: hidden;
+  overflow-y: auto;
+}

@@ -22,40 +22,120 @@ angular.module('financieraClienteApp')
             { clase_color: "editar", clase_css: "fa fa-home fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_SUCURSAL'), operacion: 'ver_sucursal', estado: true },
         ];
 
-
         ctrl.Sucursales = {
-            paginationPageSizes: [5, 10, 15, 20, 50],
-            paginationPageSize: 5,
-            enableRowSelection: true,
-            enableRowHeaderSelection: false,
-            enableFiltering: true,
-            enableHorizontalScrollbar: 0,
-            enableVerticalScrollbar: 0,
-            useExternalPagination: false,
-            enableSelectAll: false,
-            columnDefs: [{
-                    field: 'Id',
-                    visible: false,
+          paginationPageSizes: [5, 10, 15, 20, 50],
+          paginationPageSize: 5,
+          enableRowSelection: true,
+          enableRowHeaderSelection: true,
+          enableFiltering: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          useExternalPagination: false,
+          selectionRowHeaderWidth:35,
+          enableSelectAll: true,
+          columnDefs: [{
+              field: 'Id',
+              visible:false,
 
-                },
-                {
-                    field: 'Nombre',
-                    displayName: $translate.instant('NOMBRE'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+            },
+            {
+              field: 'Organizacion.Nombre',
+              name: $translate.instant('NOMBRE'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
 
-                }
-            ]
+            },
+            {
+              name: $translate.instant('DIRECCION'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.Direccion">{{row.entity.Direccion.Valor}}</div><div ng-if="!row.entity.Direccion">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('TELEFONO'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.Telefono">{{row.entity.Telefono.Valor}}</div><div ng-if="!row.entity.Telefono">No Registrado</div>',
+            },
+            {
+              name: $translate.instant('PAIS'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.Pais">{{row.entity.Pais.Nombre}}</div><div ng-if="!row.entity.Pais">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('DEPARTAMENTO'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.Departamento">{{row.entity.Departamento.Nombre}}</div><div ng-if="!row.entity.Departamento">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('CIUDAD'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.Ciudad">{{row.entity.Ciudad.Nombre}}</div><div ng-if="!row.entity.Ciudad">No Registrado</div>',
+            }
+          ],
+            onRegisterApi : function(gridApi) {
+                ctrl.gridSucursalesApi = gridApi;
+            }
         };
 
-        ctrl.Sucursales.multiSelect = false;
-        ctrl.Sucursales.modifierKeysToMultiSelect = false;
-        ctrl.Sucursales.enablePaginationControls = true;
-        ctrl.Sucursales.onRegisterApi = function(gridApi) {
-            ctrl.gridApi = gridApi;
-            gridApi.selection.on.rowSelectionChanged($scope, function(row) {
-                $scope.sucursal_seleccionada = row.entity;
-            });
+
+        ctrl.SucursalesBanco = {
+          paginationPageSizes: [5, 10, 15, 20, 50],
+          paginationPageSize: 5,
+          enableFiltering: true,
+          enableHorizontalScrollbar: 0,
+          enableVerticalScrollbar: 0,
+          useExternalPagination: false,
+          enableSelectAll: true,
+          enableRowHeaderSelection: true,
+          selectionRowHeaderWidth: 35,
+          enableRowSelection: true,
+          multiSelect:true,
+          columnDefs: [{
+              field: 'Id',
+              visible:false,
+
+            },
+            {
+              field: 'OrganizacionHija.Nombre',
+              name: $translate.instant('NOMBRE'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+
+            },
+            {
+              name: $translate.instant('DIRECCION'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.OrganizacionHija.Direccion">{{row.entity.OrganizacionHija.Direccion.Valor}}</div><div ng-if="!row.entity.OrganizacionHija.Direccion">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('TELEFONO'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.OrganizacionHija.Telefono">{{row.entity.OrganizacionHija.Telefono.Valor}}</div><div ng-if="!row.entity.OrganizacionHija.Telefono">No Registrado</div>',
+            },
+            {
+              name: $translate.instant('PAIS'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.OrganizacionHija.Pais">{{row.entity.OrganizacionHija.Pais.Nombre}}</div><div ng-if="!row.entity.OrganizacionHija.Pais">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('DEPARTAMENTO'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.OrganizacionHija.Departamento">{{row.entity.OrganizacionHija.Departamento.Nombre}}</div><div ng-if="!row.entity.OrganizacionHija.Departamento">No Registrado</div>',
+
+            },
+            {
+              name: $translate.instant('CIUDAD'),
+              headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
+              cellTemplate:'<div ng-if="row.entity.OrganizacionHija.Ciudad">{{row.entity.OrganizacionHija.Ciudad.Nombre}}</div><div ng-if="!row.entity.OrganizacionHija.Ciudad">No Registrado</div>',
+            }
+          ],
+          onRegisterApi : function(gridApi) {
+              ctrl.gridApiSucursalesBanco = gridApi;
+          }
         };
+
 
         ctrl.Bancos = {
             paginationPageSizes: [5, 10, 15, 20, 50],
@@ -77,14 +157,14 @@ angular.module('financieraClienteApp')
                     visible: false
                 },
                 {
-                    field: 'InformacionPersonaJuridicaId.Id',
+                    field: 'Identificacion.NumeroIdentificacion',
                     sort: {
                         direction: uiGridConstants.DESC,
                         priority: 1
                     },
                     displayName: $translate.instant('NIT'),
                     headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '15%'
+                    width: '20%'
                 },
                 {
                     field: 'Nombre',
@@ -104,15 +184,8 @@ angular.module('financieraClienteApp')
                   field: 'CodigoAch',
                   displayName: $translate.instant('CODIGO_ACH'),
                   headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                  width: '15%',
+                  width: '20%',
                   cellFilter: "filtro_codigo_ach:row.entity"
-                },
-                {
-                    field: 'Estado',
-                    displayName: $translate.instant('ACTIVO'),
-                    headerCellClass: $scope.highlightFilteredHeader + 'text-center text-info',
-                    width: '10%',
-                    cellFilter: "filtro_estado_banco:row.entity"
                 },
                 {
                     field: 'Opciones',
@@ -135,28 +208,11 @@ angular.module('financieraClienteApp')
                 ctrl.cuenta = ctrl.gridApi.selection.getSelectedRows()[0];
             });
         };
-
+        ctrl.modal_agregar_banco = function (){
+            $("#addBanco").modal("show");
+        }
         ctrl.cargar_bancos = function (){
-        organizacionRequest.get('organizacion/', $.param({
-            limit: -1,
-            query: "TipoOrganizacion.CodigoAbreviacion:EB",
-        })).then(function(response) {
-
-          angular.forEach(response.data, function(data){
-            financieraRequest.get('informacion_adicional_banco','limit=-1&query=Banco:'+data.Id).then(function(response) {
-              if(typeof(response.data) === "string"){
-                data.CodigoAch = 0
-                data.CodigoSuperintendencia = 0
-                data.IdInformacionAdicional = 0
-              }else{
-                data.CodigoAch = response.data[0].CodigoAch
-                data.CodigoSuperintendencia = response.data[0].CodigoSuperintendencia
-                data.IdInformacionAdicional = response.data[0].Id
-              }
-
-            });
-          });
-
+        financieraMidRequest.get('gestion_sucursales/ListarBancos/',null).then(function(response) {
             ctrl.Bancos.data = response.data;
         });
       }
@@ -226,7 +282,7 @@ angular.module('financieraClienteApp')
                               confirmButtonText: $translate.instant('VOLVER'),
                           }).then(function() {
                               $('#modal_informacion_adicional').modal('hide');
-                              $window.location.reload()
+                              ctrl.cargar_bancos();
                           })
 
                       }
@@ -239,7 +295,7 @@ angular.module('financieraClienteApp')
                               confirmButtonText: $translate.instant('VOLVER'),
                           }).then(function() {
                               $('#informacion_adicional_banco').modal('hide');
-                              $window.location.reload()
+                                ctrl.cargar_bancos();
                           })
 
                       }
@@ -313,102 +369,63 @@ angular.module('financieraClienteApp')
         };
 
         ctrl.ver_sucursal = function(row) {
-
           ctrl.banco_a_vincular_sucursal = row.entity;
           //DEBO BUSCAR SI TIENE RELACION EN LA TABLA RELACION_ORGANIZACION
-          organizacionRequest.get('relacion_organizaciones/', $.param({
-            limit: -1,
-            query: "OrganizacionPadre:" + row.entity.Id,
-          })).then(function(response) {
-                if (response.data == null) {
-                    ctrl.tieneSucursal = false;
-                    $("#modal_sucursal").modal("show");
-                } else {
-                    ctrl.tieneSucursal = true;
-                    ctrl.buscar_informacion_sucursal(response.data[0].OrganizacionHija);
-                    $("#modal_sucursal").modal("show");
-
-                }
+          financieraMidRequest.get('gestion_sucursales/ListarSucursalesBanco/'+ row.entity.Id,null).then(function(response){
+              ctrl.SucursalesBanco.data = response.data;
+              $("#modal_sucursal").modal("show");
             });
-
-
         };
 
         ctrl.desvincular_sucursal = function() {
-            alert("desvinculando sucursal")
+           financieraMidRequest.post('gestion_sucursales/DesvincularSucursales', ctrl.gridApiSucursalesBanco.selection.getSelectedRows()).then(function(response){
+             swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
+                $("#modal_sucursal").modal("hide");
+                   if(response.data.Type==="success"){
+                       $("#modal_sucursal").modal("hide");
+                   }
+             })
+           });
         };
 
         ctrl.mostrar_sucursales = function() {
-            ctrl.ver_grid_sucursales = true;
-
-            organizacionRequest.get('organizacion/', $.param({
-                limit: -1,
-                query: "TipoOrganizacion.CodigoAbreviacion:SU",
-            })).then(function(response) {
-                if (response.data == null) {
-                    //PONER MARCA DE AGUA DE QUE NO HAY
-                } else {
+            if(!ctrl.ver_grid_sucursales){
+              ctrl.ver_grid_sucursales = true;
+              financieraMidRequest.get('gestion_sucursales/listar_sucursales',null).then(function(response) {
                     ctrl.Sucursales.data = response.data;
-                }
-
-            });
-
-        };
-
-        ctrl.vincular_sucursal = function() {
-            if($scope.sucursal_seleccionada == null){
-              alert("seleccione sucursal")
-            }else{
-
-            organizacionRequest.get('tipo_relacion_organizaciones/', $.param({
-                  limit: -1,
-                  query: "CodigoAbreviacion:TRO_1",
-              })).then(function(response) {
-                  if (response.data == null) {
-                      console.log("no hay datos de tipo de relacion")
-                  } else {
-                    //Variable para hacer insert en relacion_organizaciones
-                    var objeto_relacion_organizaciones = {
-                      OrganizacionPadre : ctrl.banco_a_vincular_sucursal.Id,
-                      OrganizacionHija :  $scope.sucursal_seleccionada.Id,
-                      TipoRelacionOrganizaciones : {Id: response.data[0].Id}
-                    }
-
-                    organizacionRequest.post('relacion_organizaciones', objeto_relacion_organizaciones).then(function(response) {
-
-                        if (typeof(response.data) == "object") {
-                            swal({
-                                html: $translate.instant('INFORMACION_REG_CORRECTO'),
-                                type: "success",
-                                showCancelButton: false,
-                                confirmButtonColor: "#449D44",
-                                confirmButtonText: $translate.instant('VOLVER'),
-                            }).then(function() {
-                                  $("#modal_sucursal").modal("hide");
-                                $window.location.reload()
-                            })
-
-                        }
-                        if (typeof(response.data) == "string") {
-                            swal({
-                                html: $translate.instant('INFORMACION_REG_INCORRECTO'),
-                                type: "error",
-                                showCancelButton: false,
-                                confirmButtonColor: "#449D44",
-                                confirmButtonText: $translate.instant('VOLVER'),
-                            }).then(function() {
-                                $("#modal_sucursal").modal("hide");
-                                $window.location.reload()
-                            })
-
-                        }
-                    });
-
-                  }
-
               });
             }
         };
+
+        $scope.$watch("vs", function(newValue){
+           if(!angular.isUndefined(newValue) && newValue){
+             ctrl.mostrar_sucursales();
+           }
+        },true);
+
+
+
+        ctrl.vincular_sucursal = function() {
+          var request = [];
+            if( ctrl.gridSucursalesApi.selection.getSelectedRows().length === 0){
+              swal("",$translate.instant("SELECCIONAR_SUCURSAL"),"error");
+            }else{
+                    //Variable para hacer insert en relacion_organizaciones
+                      angular.forEach( ctrl.gridSucursalesApi.selection.getSelectedRows(), function(data){
+                        console.log(data);
+                        var objeto_relacion_organizaciones = {
+                          OrganizacionPadre : ctrl.banco_a_vincular_sucursal.Id,
+                          OrganizacionHija :  data.Organizacion.Id
+                        };
+                        request.push(objeto_relacion_organizaciones);
+                      });
+                        financieraMidRequest.post('gestion_sucursales/VincularSucursales', request).then(function(response) {
+                                swal("",$translate.instant(response.data.Code),response.data.Type).then(function() {
+                                      $("#modal_sucursal").modal("hide");
+                                })
+                        });
+            }
+        }
 
         ctrl.buscar_informacion_sucursal = function (id_sucursal){
           //Buscar info de organizacion hija

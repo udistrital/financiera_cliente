@@ -16,8 +16,8 @@ angular.module('financieraClienteApp')
                 node: '=?',
                 nodeclick: '=',
                 eventclick: '&',
-                info: '=?'
-
+                info: '=?',
+                properties:'=?'
             },
 
             templateUrl: 'views/directives/proceso.html',
@@ -25,15 +25,25 @@ angular.module('financieraClienteApp')
 
             },
             controller: function($scope, $localStorage,$attrs) {
+                $scope.selecEstado = 'selecestado' in $attrs;
 
-                  
                 $scope.clicknode = function(params) {
+                  var estadoSelecc;
                     var data = {
                         Estado: { Id: this.getNodeAt(params.pointer.DOM) }
                     };
                     if ($scope.childrens.indexOf(data.Estado.Id) !== -1) {
                         $scope.nodeclick = data.Estado;
                         $localStorage.nodeclick = data.Estado;
+                        if($scope.selecEstado){
+                          estadoSelecc = $scope.properties.filter(function(element){
+                            if(element.value===data.Estado.Id){
+                              return true;
+                            }
+                            return false;
+                          });
+                          $localStorage.nodeclick=estadoSelecc[0];
+                        }
                         $scope.eventclick();
                     }
                 };
@@ -98,7 +108,7 @@ angular.module('financieraClienteApp')
                   network = new vis.Network(container, data, options);
 
                   network.on('click', $scope.clicknode);
-
+                  if (!angular.isUndefined($scope.node) ) {
                   $scope.childrens = network.getConnectedNodes($scope.node.Id, 'to');
                   angular.forEach($scope.childrens, function(node) {
                       var clickedNode = nodes.get(node);
@@ -117,13 +127,11 @@ angular.module('financieraClienteApp')
                       size: 60,
                       color: '#2ECC71'
                   };
-                  nodes.update(node_active);
+                  nodes.update(node_active);}
                 };
 
                 $scope.$watch('node', function() {
-                    if (!angular.isUndefined($scope.node) ) {
-                        drawNetwork();
-                    }
+                        self.drawNetwork();
                 });
 
             },
