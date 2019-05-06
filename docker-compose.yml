@@ -13,4 +13,4 @@ services:
       - '${PORT}:${PORT}'
       - '35729:35729'
     volumes:
-      - ./workspace/angular:/workspace/angular
+      - ./:/app
