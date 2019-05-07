@@ -145,6 +145,8 @@ var conf_local = {
         CLIENT_SECRET: "2crHq2IRkFHEVTBfpznLhKHyKVIa"
     },
     UBICACIONES_SERVICE: "http://127.0.0.1:8092/v1/",
+    PRESUPUESTO_MID_SERVICE: "http://localhost:8081/v1/",
+    PRESUPUESTO_SERVICE: "http://localhost:8080/v1/",
 };
 
 
