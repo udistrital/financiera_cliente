@@ -47,6 +47,8 @@ angular
         'academicaService',
         'financieraService',
         'financieraMidService',
+        'presupuestoService',
+        'presupuestoMidService',
         'administrativaService',
         'administrativaPruebasService',
         'agoraService',
