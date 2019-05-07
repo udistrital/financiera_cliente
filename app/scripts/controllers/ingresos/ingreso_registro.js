@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoRegistroCtrl', function($scope, $location, financieraRequest, wso2Request, oikosRequest, $translate, $filter, $window,$localStorage) {
+    .controller('IngresosIngresoRegistroCtrl', function($scope, $location, presupuestoRequest, financieraRequest, wso2Request, oikosRequest, $translate, $filter, $window,$localStorage) {
         var ctrl = this;
         //prueba de codigos de facultad
         ctrl.cargando = false;
@@ -50,7 +50,7 @@ angular.module('financieraClienteApp')
         ctrl.ingreso = {};
 
         ctrl.cargarTiposIngreso = function() {
-            financieraRequest.get('forma_ingreso', $.param({
+            presupuestoRequest.get('forma_ingreso', $.param({
                 query:"Nombre__not_in:REINTEGROS",
                 limit: -1
             })).then(function(response) {
@@ -63,7 +63,7 @@ angular.module('financieraClienteApp')
         ctrl.cargarTiposIngreso();
 
         ctrl.cargarUnidadesEjecutoras = function() {
-            financieraRequest.get('unidad_ejecutora', $.param({
+            presupuestoRequest.get('unidad_ejecutora', $.param({
                 limit: -1
             })).then(function(response) {
                 ctrl.unidadesejecutoras = response.data;
@@ -110,7 +110,7 @@ angular.module('financieraClienteApp')
         $scope.$watch('ingresoRegistro.concepto[0]', function(newValue,oldValue) {
             if (!angular.isUndefined(newValue)) {
               ctrl.movs = undefined;
-                financieraRequest.get('concepto', $.param({
+                presupuestoRequest.get('concepto', $.param({
                     query: "Id:" + newValue.Id,
                     fields: "Rubro",
                     limit: -1
@@ -144,7 +144,7 @@ angular.module('financieraClienteApp')
                     delete data.Id;
                 });
                 ctrl.ingreso.Movimientos = ctrl.movs;
-                financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
+                presupuestoRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
                     if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);

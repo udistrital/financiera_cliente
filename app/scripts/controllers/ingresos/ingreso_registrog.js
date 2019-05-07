@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,coreRequest,organizacionRequest,$localStorage) {
+  .controller('IngresosIngresoRegistrogCtrl', function ($scope,$translate,$routeParams,administrativaRequest,financieraRequest,presupuestoRequest,coreRequest,organizacionRequest,$localStorage) {
     var ctrl = this;
 
     $scope.valorDescIng = $routeParams.tipoIngreso;
@@ -32,7 +32,7 @@ angular.module('financieraClienteApp')
   }
 
   ctrl.cargarUnidadesEjecutoras = function() {
-            financieraRequest.get('unidad_ejecutora', $.param({
+            presupuestoRequest.get('unidad_ejecutora', $.param({
                 limit: -1
             })).then(function(response) {
                 ctrl.unidadesejecutoras = response.data;
@@ -55,7 +55,7 @@ ctrl.cargarTipoDocumento = function() {
   ctrl.cargarUnidadesEjecutoras();
 
   ctrl.cargarInfoBancos = function() {
-    financieraRequest.get('tipo_cuenta_bancaria',
+    presupuestoRequest.get('tipo_cuenta_bancaria',
       $.param({
         limit:'-1'
       })
@@ -63,7 +63,7 @@ ctrl.cargarTipoDocumento = function() {
       ctrl.tiposCuenta = response.data;
     });
 
-    financieraRequest.get('cuenta_bancaria',
+    presupuestoRequest.get('cuenta_bancaria',
       $.param({
         limit:'-1'
       })

@@ -7,7 +7,7 @@
  * # conceptos/arbolConceptos
  */
 angular.module('financieraClienteApp')
-  .directive('arbolConceptos', function(financieraRequest,$translate) {
+  .directive('arbolConceptos', function(presupuestoRequest,financieraRequest,$translate) {
     return {
       restrict: "E",
       scope: {
@@ -32,13 +32,13 @@ angular.module('financieraClienteApp')
         self.multiSelect = "multiselect" in $attrs;
         self.algo_fue_seleccionado="seleccionini" in $attrs;
 
-        financieraRequest.get("arbol_conceptos", "").then(function(response) {
+        presupuestoRequest.get("arbol_conceptos", "").then(function(response) {
           self.arbol_conceptos = response.data;
         });
         $scope.rvdesc='rdesc' in $attrs;
         $scope.$watch("recargar",function(){
           $scope.load=true;
-          financieraRequest.get("arbol_conceptos", "").then(function(response) {
+          presupuestoRequest.get("arbol_conceptos", "").then(function(response) {
             self.arbol_conceptos = response.data;
             $scope.load=false;
           });

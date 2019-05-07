@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('IngresosIngresoConsultaCtrl', function(financieraRequest, wso2Request, pagosRequest, $filter, $scope, $translate, $localStorage,financieraMidRequest) {
+    .controller('IngresosIngresoConsultaCtrl', function(presupuestoRequest,financieraRequest, wso2Request, pagosRequest, $filter, $scope, $translate, $localStorage,financieraMidRequest) {
         var ctrl = this;
         $scope.doc = 0;
         $scope.estados = [];
@@ -239,7 +239,7 @@ angular.module('financieraClienteApp')
 
 
         ctrl.cargarIngresos = function() {
-            financieraRequest.get('ingreso', $.param({
+            presupuestoRequest.get('ingreso', $.param({
                 limit: -1
             })).then(function(response) {
                 ctrl.gridOptions.data = response.data;
@@ -249,7 +249,7 @@ angular.module('financieraClienteApp')
 
 
         ctrl.cargarEstados = function() {
-            financieraRequest.get("estado_ingreso", $.param({
+            presupuestoRequest.get("estado_ingreso", $.param({
                     sortby: "NumeroOrden",
                     limit: -1,
                     order: "asc"
@@ -298,7 +298,7 @@ angular.module('financieraClienteApp')
             aprobardata.Movimientos = $scope.movimientos;
             console.log(aprobardata);
             console.log(aprobardata.Ingreso);
-            financieraRequest.post('ingreso/AprobacionContableIngreso', aprobardata).then(function(response) {
+            presupuestoRequest.post('ingreso/AprobacionContableIngreso', aprobardata).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
@@ -363,7 +363,7 @@ angular.module('financieraClienteApp')
                 console.log(text);
                 console.log(ctrl.ingresoSel);
                 ctrl.ingresoSel.MotivoRechazo = text.value;
-                financieraRequest.post('ingreso/RechazoContableIngreso', ctrl.ingresoSel).then(function(response) {
+                presupuestoRequest.post('ingreso/RechazoContableIngreso', ctrl.ingresoSel).then(function(response) {
                     console.log(response.data);
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {
@@ -401,7 +401,7 @@ angular.module('financieraClienteApp')
                 console.log(text);
                 console.log(ctrl.ingresoSel);
                 ctrl.ingresoSel.MotivoRechazo = text.value;
-                financieraRequest.post('ingreso/RechazoPresupuestalIngreso', ctrl.ingresoSel).then(function(response) {
+                presupuestoRequest.post('ingreso/RechazoPresupuestalIngreso', ctrl.ingresoSel).then(function(response) {
                     console.log(response.data);
                     if (response.data.Type !== undefined) {
                         if (response.data.Type === "error") {
