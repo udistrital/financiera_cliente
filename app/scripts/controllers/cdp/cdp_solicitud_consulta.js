@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("solicitud_disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, $translate) {
+  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,financieraRequest,financieraMidRequest, presupuestoMidRequest, presupuestoRequest,$translate) {
     var self = this;
     self.alerta = "";
     self.cargando = false;
@@ -122,7 +122,7 @@ angular.module('financieraClienteApp')
             self.gridOptions.totalItems = 50000;
 };
     self.UnidadEjecutora = 1;
-    financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
+    presupuestoRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
       var dif = self.vigenciaActual - 1995 ;
@@ -182,8 +182,8 @@ angular.module('financieraClienteApp')
             self.hayData = true;
             if (inicio !== undefined && fin !== undefined) {
 
-              financieraMidRequest.cancel();
-              financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+              presupuestoMidRequest.cancel();
+              presupuestoMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
                 UnidadEjecutora: self.UnidadEjecutora,
                 rangoinicio: inicio,
                 rangofin: fin,
@@ -212,8 +212,8 @@ angular.module('financieraClienteApp')
               self.hayData = true;
             }else{
 
-              financieraMidRequest.cancel();
-              financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+              presupuestoMidRequest.cancel();
+              presupuestoMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
                 UnidadEjecutora: self.UnidadEjecutora,
                 offset: offset
               })).then(function(response) {
@@ -244,7 +244,7 @@ angular.module('financieraClienteApp')
 
     //funcion para actualizar grid
     self.actualiza_solicitudes = function () {
-      financieraMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
+      presupuestoMidRequest.get('disponibilidad/Solicitudes/'+self.Vigencia,$.param({
           UnidadEjecutora: self.UnidadEjecutora
         })).then(function(response) {
         self.gridOptions.data.length = 0;
@@ -262,7 +262,7 @@ angular.module('financieraClienteApp')
       self.data.Afectacion = $scope.afectacion[0];
       arrSolicitudes[0] = self.data;
 
-        financieraMidRequest.post('disponibilidad/ExpedirDisponibilidad?tipoDisponibilidad=1', arrSolicitudes).then(function(response){
+        presupuestoMidRequest.post('disponibilidad/ExpedirDisponibilidad?tipoDisponibilidad=1', arrSolicitudes).then(function(response){
 
             if (response.data[0].Type !== undefined){
               if (response.data[0].Type === "error"){
