@@ -92,7 +92,7 @@ ctrl.cargarTipoDocumento = function() {
 $scope.$watch('ingresoRegistroG.concepto[0]', function(newValue, oldValue) {
             if (!angular.isUndefined(newValue)) {
               ctrl.movs = undefined
-                financieraRequest.get('concepto', $.param({
+                presupuestoRequest.get('concepto', $.param({
                     query: "Id:" + newValue.Id,
                     fields: "Rubro",
                     limit: -1
@@ -127,7 +127,7 @@ $scope.$watch('ingresoRegistroG.concepto[0]', function(newValue, oldValue) {
                     delete data.Id;
                 });
                 ctrl.ingreso.Movimientos = ctrl.movs;
-                financieraRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
+                presupuestoRequest.post('ingreso/CreateIngresos', ctrl.ingreso).then(function(response) {
                     if (response.data.Type != undefined) {
                         if (response.data.Type === "error") {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
