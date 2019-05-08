@@ -20,7 +20,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('movimientosContables', function(financieraRequest, uiGridConstants, $translate,$q,$interval) {
+    .directive('movimientosContables', function(presupuestoRequest,financieraRequest, uiGridConstants, $translate,$q,$interval) {
         return {
             restrict: 'E',
             scope: {
@@ -54,7 +54,7 @@ angular.module('financieraClienteApp')
                 self.posactual = 0;
                 self.cargarCuentas = true;
                 self.impuestosTemp = [];
-                financieraRequest.get('forma_pago',
+                presupuestoRequest.get('forma_pago',
                   $.param({
                     limit: 0
                 })).then(function(response) {
@@ -508,7 +508,7 @@ angular.module('financieraClienteApp')
 
                 self.cargar_concepto = function() {
                     if ($scope.conceptoid != undefined) {
-                        self.getConcepto = financieraRequest.get('concepto', $.param({
+                        self.getConcepto = presupuestoRequest.get('concepto', $.param({
                             query: 'Id:' + $scope.conceptoid
                         })).then(function(response) {
                             self.concepto_movs = response.data[0];
@@ -518,7 +518,7 @@ angular.module('financieraClienteApp')
 
                 self.cargar_cuentas_concepto = function() {
                     if ($scope.conceptoid != undefined && angular.isUndefined($scope.movimientos)) {
-                      self.servicioPromesa =  financieraRequest.get('concepto_cuenta_contable', $.param({
+                      self.servicioPromesa =  presupuestoRequest.get('concepto_cuenta_contable', $.param({
                             query: "Concepto:" + $scope.conceptoid,
                             limit: 0
                         })).then(function(response) {

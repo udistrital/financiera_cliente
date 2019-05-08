@@ -7,7 +7,7 @@
  * # ingresos/afectacionContableIngreso
  */
 angular.module('financieraClienteApp')
-    .directive('afectacionContableIngreso', function(financieraRequest) {
+    .directive('afectacionContableIngreso', function(presupuestoRequest) {
         return {
             restrict: 'E',
             scope: {
@@ -46,7 +46,7 @@ angular.module('financieraClienteApp')
                     var index;
                     if (!angular.isUndefined($scope.id)) {
                         self.movimientosregistrados = [];
-                        financieraRequest.get('movimiento_contable', $.param({
+                        presupuestoRequest.get('movimiento_contable', $.param({
                             limit: -1,
                             query: "TipoDocumentoAfectante:" + $scope.tipodoc + ",CodigoDocumentoAfectante:" + $scope.id
                         })).then(function(response) {

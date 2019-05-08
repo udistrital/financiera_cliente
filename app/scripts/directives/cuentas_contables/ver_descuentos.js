@@ -17,7 +17,7 @@
  */
 
 angular.module('financieraClienteApp')
-    .directive('verDescuentos', function(financieraRequest, administrativaRequest, $translate,$interval) {
+    .directive('verDescuentos', function(presupuestoRequest, financieraRequest, administrativaRequest, $translate,$interval) {
         return {
             restrict: 'E',
             //variables del scope de la directiva
@@ -138,7 +138,7 @@ angular.module('financieraClienteApp')
                     else {
                         query = "limit=-1";
                     }
-                    financieraRequest.get("cuenta_especial", query).then(function(response) {
+                    presupuestoRequest.get("cuenta_especial", query).then(function(response) {
                         self.gridOptions.data = response.data;
                         angular.forEach(self.gridOptions.data, function(value) {
                             administrativaRequest.get("informacion_proveedor", $.param({
