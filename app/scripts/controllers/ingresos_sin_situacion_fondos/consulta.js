@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosSinSituacionFondosConsultaCtrl', function ($scope,$translate,financieraRequest, $localStorage,financieraMidRequest) {
+  .controller('IngresosSinSituacionFondosConsultaCtrl', function ($scope,$translate,financieraRequest, presupuestoRequest, $localStorage,financieraMidRequest,presupuestoMidRequest) {
     var ctrl = this;
     ctrl.cargando = false;
     ctrl.hayData = true;
@@ -77,7 +77,7 @@ angular.module('financieraClienteApp')
       ctrl.cargando = true;
       ctrl.hayData = true;
 
-      financieraRequest.get('ingreso_sin_situacion_fondos_estado',$.param({
+      presupuestoRequest.get('ingreso_sin_situacion_fondos_estado',$.param({
         query:"Activo:true",
         limit:-1,
         sortby: "Id",
@@ -95,7 +95,7 @@ angular.module('financieraClienteApp')
           ctrl.hayData = true;
 
           angular.forEach(response.data,function(rowData){
-            financieraRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
+            presupuestoRequest.get("unidad_ejecutora/"+rowData.IngresoSinSituacionFondos.UnidadEjecutora).then(function(unidadEjec){
                   rowData.UnidadEjecutora = unidadEjec.data;
                 });
           });
@@ -107,7 +107,7 @@ angular.module('financieraClienteApp')
     ctrl.consultaIngresos();
 
     ctrl.cargarEstados = function() {
-        financieraRequest.get("estado_ingreso_sin_situacion_fondos", $.param({
+        presupuestoRequest.get("estado_ingreso_sin_situacion_fondos", $.param({
                 sortby: "NumeroOrden",
                 limit: -1,
                 order: "asc"
@@ -157,7 +157,7 @@ angular.module('financieraClienteApp')
         EstadoIngresoSinSituacionFondos: $scope.estadoclick,
         Activo:true
         };
-              financieraMidRequest.post('ingreso_sin_situacion_fondos/ChangeState', ctrl.Request).then(function(response) {
+              presupuestoMidRequest.post('ingreso_sin_situacion_fondos/ChangeState', ctrl.Request).then(function(response) {
                 if(response.data.Type != undefined){
                   if(response.data.Type === "error"){
                       swal('',$translate.instant(response.data.Code),response.data.Type);
