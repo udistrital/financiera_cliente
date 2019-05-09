@@ -17,7 +17,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest, oikosRequest,agoraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, presupuestoMidRequest, argoRequest, financieraRequest, presupuestoRequest, oikosRequest,agoraRequest) {
     var self = this;
     self.alerta = "";
     self.offset = 0 ;
@@ -86,7 +86,7 @@ angular.module('financieraClienteApp')
 
     };
     self.UnidadEjecutora = 1;
-    financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
+    presupuestoRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
       var dif = self.vigenciaActual - 1995 ;
@@ -137,8 +137,8 @@ angular.module('financieraClienteApp')
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
 
       if (inicio !== undefined && fin !== undefined){
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+        presupuestoMidRequest.cancel();
+        presupuestoMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
           UnidadEjecutora: self.UnidadEjecutora,
           rangoinicio: inicio,
           rangofin: fin,
@@ -158,8 +158,8 @@ angular.module('financieraClienteApp')
 
       });
       }else{
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+        presupuestoMidRequest.cancel();
+        presupuestoMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
           UnidadEjecutora: self.UnidadEjecutora,
           offset: offset,
           query: query
@@ -316,7 +316,7 @@ angular.module('financieraClienteApp')
         };
         dataRegistros[0] = registro;
         console.log(registro);
-        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
+        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
 
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
@@ -418,7 +418,7 @@ angular.module('financieraClienteApp')
 
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {
-        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
+        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
           self.alerta_registro_rp = response.data;
           console.log(self.alerta_registro_rp);
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
