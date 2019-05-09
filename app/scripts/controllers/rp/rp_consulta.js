@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
   .factory("rp", function () {
     return {};
   })
-  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, administrativaRequest,$location) {
+  .controller('RpRpConsultaCtrl', function ($window,$filter,$translate, rp, $scope, financieraRequest, financieraMidRequest, presupuestoRequest, presupuestoMidRequest, administrativaRequest,$location) {
     var self = this;
     self.offset = 0;
     self.UnidadEjecutora=1;
@@ -128,7 +128,7 @@ angular.module('financieraClienteApp')
         }
       ]
     };
-    financieraRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+    presupuestoRequest.get("orden_pago/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
       console.log(response.data);
@@ -140,7 +140,7 @@ angular.module('financieraClienteApp')
       }
       self.years = range;
       self.Vigencia = self.vigenciaActual;
-      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,'UnidadEjecutora='+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+      presupuestoRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,'UnidadEjecutora='+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.cargarLista(0,'');
@@ -155,11 +155,11 @@ angular.module('financieraClienteApp')
           self.Vigencia = $location.search().vigencia;
           self.UnidadEjecutora = $location.search().unidadejecutora;
         }
-        financieraMidRequest.cancel();
+        presupuestoMidRequest.cancel();
         self.gridOptions.data = [];
         self.cargando = true;
         self.hayData = true;
-        financieraMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
+        presupuestoMidRequest.get('registro_presupuestal/ListaRp/'+self.Vigencia, 'UnidadEjecutora='+self.UnidadEjecutora+'&limit='+self.gridOptions.paginationPageSize+'&offset='+offset+query).then(function (response) {
           if (response.data.Type !== undefined){
             self.hayData = false;
             self.cargando = false;
@@ -203,7 +203,7 @@ angular.module('financieraClienteApp')
     };
 
     self.cargarTipoAnulacion = function(){
-            financieraRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.tiposAnulacion = response.data;
                     });
@@ -232,7 +232,7 @@ angular.module('financieraClienteApp')
                 Rp: rubros_data.RegistroPresupuestal,
                 Apropiacion: rubros_data.DisponibilidadApropiacion.Apropiacion
               };
-              financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
+              presupuestoRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function (response) {
                 rubros_data.Saldo = response.data;
               });
 
@@ -292,7 +292,7 @@ angular.module('financieraClienteApp')
           Valor : valor
         };
         console.log(datos_anulacion);
-        financieraRequest.post('registro_presupuestal/Anular', datos_anulacion).then(function(response) {
+        presupuestoRequest.post('registro_presupuestal/Anular', datos_anulacion).then(function(response) {
             self.alerta_anulacion_rp = response.data;
             angular.forEach(self.alerta_anulacion_rp, function(data){
 
@@ -305,7 +305,7 @@ angular.module('financieraClienteApp')
             swal("", self.alerta, self.alerta_anulacion_rp[0]).then(function(){
               self.limpiar();
               $("#myModal").modal("hide");
-              financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+              presupuestoRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
               .then(function(response) { //error con el success
               self.gridOptions.totalItems = response.data;
 
@@ -385,7 +385,7 @@ angular.module('financieraClienteApp')
         query = 'rangoinicio='+inicio+"&rangofin="+fin;
       }
       console.log(fin);
-      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora+query) //formato de entrada  https://golang.org/src/time/format.go
+      presupuestoRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora+query) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.cargarLista(0,"&"+query);
@@ -405,7 +405,7 @@ angular.module('financieraClienteApp')
         self.reservas = false;
       }
 
-      financieraRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+      presupuestoRequest.get("registro_presupuestal/TotalRp/"+self.Vigencia,"UnidadEjecutora="+self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
       .then(function(response) { //error con el success
         self.gridOptions.totalItems = response.data;
         self.cargarLista(0,'');
@@ -471,7 +471,7 @@ angular.module('financieraClienteApp')
     };
 
      self.verReservas = function() {
-            financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) {
                     self.Vigencia = parseInt(response.data)-1;
                     self.reservas = true;

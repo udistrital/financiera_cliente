@@ -7,7 +7,7 @@
  * # apropiacion/fuenteFinanciacionRp
  */
 angular.module('financieraClienteApp')
-  .directive('fuenteFinanciacionRp', function (financieraRequest,financieraMidRequest) {
+  .directive('fuenteFinanciacionRp', function (financieraRequest,financieraMidRequest,presupuestoRequest,presupuestoMidRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -26,7 +26,7 @@ angular.module('financieraClienteApp')
           if ($scope.rp != undefined && $scope.apropiacion != undefined){
             console.log($scope.rp);
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
-              financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion',$.param({
+              presupuestoRequest.get('registro_presupuestal_disponibilidad_apropiacion',$.param({
                 query: "RegistroPresupuestal.Id:"+$scope.rp+",DisponibilidadApropiacion.Apropiacion.Id:"+apropiacion_data,
                 limit: -1
               })).then(function(response) {
@@ -34,7 +34,7 @@ angular.module('financieraClienteApp')
                 console.log(self.rubros_afectados);
                 angular.forEach(self.rubros_afectados, function(rubros_data) {
                   $scope.resumen.push(rubros_data);
-                  financieraRequest.get('apropiacion',$.param({
+                  presupuestoRequest.get('apropiacion',$.param({
                     query: "Id:"+rubros_data.DisponibilidadApropiacion.Apropiacion.Id,
                     limit: 1
                   })).then(function(response) {
@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
                     Apropiacion : rubros_data.DisponibilidadApropiacion.Apropiacion,
                     FuenteFinanciacion : rubros_data.DisponibilidadApropiacion.FuenteFinanciamiento
                   };
-                  financieraMidRequest.get('registro_presupuestal/SaldoRp/'+ rp.Rp.Id+'/'+ rp.Apropiacion.Rubro.Codigo,$.param({
+                  presupuestoMidRequest.get('registro_presupuestal/SaldoRp/'+ rp.Rp.Id+'/'+ rp.Apropiacion.Rubro.Codigo,$.param({
                     fuente: rp.FuenteFinanciacion.Codigo
                   })).then(function(response){
                     rubros_data.Saldo  = response.data.saldo;
