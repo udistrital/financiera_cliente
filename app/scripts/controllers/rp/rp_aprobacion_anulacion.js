@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('RpRpAprobacionAnulacionCtrl', function($translate, $scope, financieraRequest, financieraMidRequest, agoraRequest, gridApiService) {
+    .controller('RpRpAprobacionAnulacionCtrl', function($translate, $scope, financieraRequest, financieraMidRequest, presupuestoRequest, presupuestoMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
         self.rubros_afectados = [];
@@ -90,7 +90,7 @@ angular.module('financieraClienteApp')
           self.hayData = true;
           self.gridOptions.data = [];
 
-            financieraRequest.get('anulacion_registro_presupuestal', $.param({
+          presupuestoRequest.get('anulacion_registro_presupuestal', $.param({
                 limit: -1
             })).then(function(response) {
                 if(response.data == null){
@@ -102,7 +102,7 @@ angular.module('financieraClienteApp')
                   self.cargando = false;
                   self.gridOptions.data = response.data;
                   angular.forEach(self.gridOptions.data, function(data) {
-                      financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
+                      presupuestoMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
                           data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data[0];
                       });
                   });
@@ -112,7 +112,7 @@ angular.module('financieraClienteApp')
         };
 
 
-        financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+        presupuestoRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
             .then(function(response) { //error con el success
                 self.vigenciaActual = parseInt(response.data);
                 var dif = self.vigenciaActual - 1995;
@@ -123,7 +123,7 @@ angular.module('financieraClienteApp')
                 }
                 self.years = range;
                 self.Vigencia = self.vigenciaActual;
-                financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                presupuestoRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.gridOptions.totalItems = response.data;
                         self.actualizarLista(self.offset, '');
@@ -142,7 +142,7 @@ angular.module('financieraClienteApp')
             } else {
                 query = "&query=AnulacionRegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Vigencia:" + self.Vigencia;
             }
-            financieraRequest.get('anulacion_registro_presupuestal/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            presupuestoRequest.get('anulacion_registro_presupuestal/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
                   self.hayData = false;
                   self.cargando = false;
@@ -153,7 +153,7 @@ angular.module('financieraClienteApp')
                     self.cargando = false;
                     self.gridOptions.data = response.data;
                     angular.forEach(self.gridOptions.data, function(data) {
-                        financieraMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
+                        presupuestoMidRequest.get('disponibilidad/SolicitudById/' + data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DisponibilidadProcesoExterno[0].ProcesoExterno, '').then(function(response) {
                             data.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.DisponibilidadApropiacion.Disponibilidad.DataSolicitud = response.data;
 
                         });
@@ -214,7 +214,7 @@ angular.module('financieraClienteApp')
             self.anulacion = row.entity;
             self.resumen = self.formatoResumenAfectacion(self.anulacion.AnulacionRegistroPresupuestalDisponibilidadApropiacion);
             console.log(row.entity)
-            financieraRequest.get('registro_presupuestal', 'query=Id:' + row.entity.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Id).then(function(response) {
+            presupuestoRequest.get('registro_presupuestal', 'query=Id:' + row.entity.AnulacionRegistroPresupuestalDisponibilidadApropiacion[0].RegistroPresupuestalDisponibilidadApropiacion.RegistroPresupuestal.Id).then(function(response) {
 
                 self.detalle = response.data;
                 angular.forEach(self.detalle, function(data) {
@@ -226,7 +226,7 @@ angular.module('financieraClienteApp')
                     });
                 });
                 angular.forEach(self.detalle, function(data) {
-                    financieraRequest.get('registro_presupuestal_disponibilidad_apropiacion', 'query=RegistroPresupuestal.Id:' + data.Id).then(function(response) {
+                    presupuestoRequest.get('registro_presupuestal_disponibilidad_apropiacion', 'query=RegistroPresupuestal.Id:' + data.Id).then(function(response) {
                         self.rubros = response.data;
                         data.Disponibilidad = response.data[0].DisponibilidadApropiacion.Disponibilidad;
                         angular.forEach(self.rubros, function(rubros_data) {
@@ -234,10 +234,10 @@ angular.module('financieraClienteApp')
                                 Rp: rubros_data.RegistroPresupuestal,
                                 Apropiacion: rubros_data.DisponibilidadApropiacion.Apropiacion
                             };
-                            financieraRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function(response) {
+                            presupuestoRequest.post('registro_presupuestal/SaldoRp', rpdata).then(function(response) {
                                 rubros_data.Saldo = response.data;
                             });
-                            financieraMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
+                            presupuestoMidRequest.get('disponibilidad/SolicitudById/' + rubros_data.DisponibilidadApropiacion.Disponibilidad.Solicitud, '').then(function(response) {
                                 var solicitud = response.data
 
                                 self.Necesidad = solicitud.SolicitudDisponibilidad.Necesidad;
@@ -260,7 +260,7 @@ angular.module('financieraClienteApp')
         self.solicitarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 2;
             self.anulacion.Solicitante = 1234567890; //tomar del prefil
-            financieraRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
+            presupuestoRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
                 console.log(response.data);
 
 
@@ -284,7 +284,7 @@ angular.module('financieraClienteApp')
         self.aprobarAnulacion = function() {
             self.anulacion.EstadoAnulacion.Id = 3;
             self.anulacion.Responsable = 876543216; //tomar del prefil
-            financieraMidRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
+            presupuestoMidRequest.post('registro_presupuestal/AprobarAnulacion', self.anulacion).then(function(response) {
                 console.log("Response Mid: ",response.data);
                 if (response.data.Type !== undefined) {
                     if (response.data.Type === "error") {
@@ -322,7 +322,7 @@ angular.module('financieraClienteApp')
                 solicitud.EstadoAnulacion.Id = 4;
                 console.log(solicitud);
                 var sl = solicitud;
-                financieraRequest.put('anulacion_registro_presupuestal/', sl.Id + "?fields=justificacion_rechazo,estado_anulacion", sl).then(function(response) {
+                presupuestoRequest.put('anulacion_registro_presupuestal/', sl.Id + "?fields=justificacion_rechazo,estado_anulacion", sl).then(function(response) {
                     console.log(response.data);
 
                     if(response.data == "OK"){
@@ -383,7 +383,7 @@ angular.module('financieraClienteApp')
                 term: ""
             };
             self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
-            financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(self.offset, self.customfilter);
@@ -395,7 +395,7 @@ angular.module('financieraClienteApp')
 
 
         $scope.$watch("rpAprobacionAnulacion.Vigencia", function() {
-            financieraRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("anulacion_registro_presupuestal/TotalAnulacionRegistroPresupuestal/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(self.offset, self.customfilter);
