@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest,financieraMidRequest) {
+  .directive('rubrosConsulta', function(financieraRequest,presupuestoRequest,financieraMidRequest,presupuestoMidRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -200,7 +200,7 @@ angular.module('financieraClienteApp')
     };
 
           self.actualizarListaProductos = function(offset,query){
-            financieraRequest.get('producto/', 'limit=-1'+query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            presupuestoRequest.get('producto/', 'limit=-1'+query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
                     self.gridOptionsProductos.data = [];
                 } else {
@@ -208,7 +208,7 @@ angular.module('financieraClienteApp')
                 }
             });
           };
-          financieraRequest.get("producto/TotalProductos",'').then(function(response){
+          presupuestoRequest.get("producto/TotalProductos",'').then(function(response){
             self.gridOptionsProductos.totalItems = response.data;
             self.actualizarListaProductos(self.offset, '');
           });
@@ -220,7 +220,7 @@ angular.module('financieraClienteApp')
          * @description Recarga la estructura de los rubros haciendo uso del servicio {@link financieraService.service:financieraRequest financieraRequest}
          */
         self.cargar_arbol = function() {
-         /* financieraRequest.get("rubro/ArbolRubros", $.param({
+         /* presupuestoRequest.get("rubro/ArbolRubros", $.param({
           UnidadEjecutora: self.UnidadEjecutora
         })).then(function(response) {
             $scope.arbol = [];
@@ -229,7 +229,7 @@ angular.module('financieraClienteApp')
 
             }
           });*/
-          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+          presupuestoMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
             rama: ""
           })).then(function(response) {
               $scope.arbol = [];
@@ -245,7 +245,7 @@ angular.module('financieraClienteApp')
           switch (operacion) {
             case "delete":
             fila.entity.Activo = false;
-            financieraRequest.put("producto_rubro",fila.entity.Id,fila.entity).then(function (response){
+            presupuestoRequest.put("producto_rubro",fila.entity.Id,fila.entity).then(function (response){
               console.log(response.data);
               if (response.data === "OK"){
                 swal('',$translate.instant("S_542"),"success");
@@ -254,10 +254,10 @@ angular.module('financieraClienteApp')
                 swal('',$translate.instant("E_23503"),"error");
               }
 
-              financieraRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
+              presupuestoRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
                 if(response.data != null){
                   $scope.data = response.data[0];
-                  financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
+                  presupuestoRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
                     if (response.data !== null){
                       self.gridOptions.data = response.data;
                     }else{
@@ -281,7 +281,7 @@ angular.module('financieraClienteApp')
               jsonActualizado.ValorDistribucion = parseFloat(jsonActualizado.ValorDistribucion);
               console.log(jsonActualizado);
 
-                financieraRequest.post("producto_rubro/SetVariacionProducto",jsonActualizado).then(function (response) {
+                presupuestoRequest.post("producto_rubro/SetVariacionProducto",jsonActualizado).then(function (response) {
                   if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);
                   }else{
@@ -299,10 +299,10 @@ angular.module('financieraClienteApp')
                       confirmButtonText: 'Cerrar'
                     }).then(function(){
 
-                      financieraRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
+                      presupuestoRequest.get("rubro",'query=Id:'+fila.entity.Id).then(function(response){
                         if(response.data != null){
                           $scope.data = response.data[0];
-                          financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
+                          presupuestoRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+fila.entity.Id+"&sortby=Activo&order=desc").then(function (response) {
                             if (response.data !== null){
                               self.gridOptions.data = response.data;
                             }else{
@@ -337,7 +337,7 @@ angular.module('financieraClienteApp')
               });
               console.log("Producto a Registrar: ", Pr);
 
-              financieraRequest.post("producto_rubro/AddProductoRubrotr", Pr[0]).then(function(response){
+              presupuestoRequest.post("producto_rubro/AddProductoRubrotr", Pr[0]).then(function(response){
                 if (response.data.Type === "error"){
                   swal('',$translate.instant(response.data.Code),response.data.Type);
                 }else{
@@ -355,10 +355,10 @@ angular.module('financieraClienteApp')
                     confirmButtonText: 'Cerrar'
                   }).then(function(){
 
-                    financieraRequest.get("rubro",'query=Id:'+$scope.data.Id).then(function(response){
+                    presupuestoRequest.get("rubro",'query=Id:'+$scope.data.Id).then(function(response){
                       if(response.data != null){
                         $scope.data = response.data[0];
-                        financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+$scope.data.Id+"&sortby=Activo&order=desc").then(function (response) {
+                        presupuestoRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+$scope.data.Id+"&sortby=Activo&order=desc").then(function (response) {
                           if (response.data !== null){
                             self.gridOptions.data = response.data;
                           }else{
@@ -378,7 +378,7 @@ angular.module('financieraClienteApp')
         self.onSelectNode = function(node, expanded){
           if (expanded && !node.Hijos){
             console.log("Some Action ", node);  
-            financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            presupuestoMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
               rama: node.Codigo
             })).then(function(response) {
                 if (response.data !== null) {
@@ -395,10 +395,10 @@ angular.module('financieraClienteApp')
               self.editar=false;
               $scope.botonesProductos = [];
               self.gridOptions.data = [];
-                  financieraRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
+                  presupuestoRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
                     if(response.data != null){
                       $scope.data = response.data[0];
-                      financieraRequest.get("producto_rubro", "query=Rubro.Id:"+nodo.Id+"&sortby=Activo&order=desc").then(function (response) {
+                      presupuestoRequest.get("producto_rubro", "query=Rubro.Id:"+nodo.Id+"&sortby=Activo&order=desc").then(function (response) {
                         if (response.data !== null){
                           self.gridOptions.data = response.data;
                         }
@@ -421,10 +421,10 @@ angular.module('financieraClienteApp')
                   }
                   self.gridOptions.data = [];
                   self.ProdutoRubro = [];
-                  financieraRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
+                  presupuestoRequest.get("rubro",'query=Id:'+nodo.Id).then(function(response){
                     if(response.data != null){
                       $scope.data = response.data[0];
-                      financieraRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+nodo.Id).then(function (response) {
+                      presupuestoRequest.get("producto_rubro", "query=Activo:true,Rubro.Id:"+nodo.Id).then(function (response) {
                         if (response.data !== null){
                           self.gridOptions.data = response.data;
                         }
@@ -440,7 +440,7 @@ angular.module('financieraClienteApp')
               case "delete":
 
                  if (nodo !== undefined){
-                  financieraMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
+                  presupuestoMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
                     console.log(response.data);
                     if (response.data !== null && response.data.Type !== undefined) {
                       if (response.data.Type === "error") {
@@ -464,20 +464,20 @@ angular.module('financieraClienteApp')
                 self.apropiacionsel.Apropiacion = null;
                 self.ValorAsignado = null;
                 if (nodo.Hijos == null){
-                  financieraRequest.get("apropiacion", $.param({
+                  presupuestoRequest.get("apropiacion", $.param({
                     query: "Rubro.Id:"+nodo.Id + ",Vigencia:"+$scope.vigencia
                   })).then(function(response) {
                     
                     if (response.data !== null) {
                       console.log(response.data);
                       self.apropiacionsel.Apropiacion = response.data[0];
-                      financieraRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                      presupuestoRequest.get("apropiacion/SaldoApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
                         
                         if (response.data !== null) {
                           self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
                         }
                       });
-                      financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                      presupuestoRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/"+self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
                         
                         if (response.data !== null) {
                           self.apropiacionsel.Apropiacion.InfoMovs = response.data;
@@ -502,7 +502,7 @@ angular.module('financieraClienteApp')
 
         self.ActualizarApr = function() {
           $("#ModalEdicionApr").modal('hide');
-          financieraMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
+          presupuestoMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
             console.log(response.data);
             if (response.data.Type !== undefined){
               if (response.data.Type === "error"){
@@ -530,7 +530,7 @@ angular.module('financieraClienteApp')
           aprAregistrar.Rubro = rubroapr;
           aprAregistrar.Valor = parseInt(self.ValorAsignado);
           console.log(aprAregistrar);
-          financieraMidRequest.post('apropiacion', aprAregistrar).then(function(response){
+          presupuestoMidRequest.post('apropiacion', aprAregistrar).then(function(response){
             console.log(response.data);
             if (response.data.Type !== undefined){
               if (response.data.Type === "error"){
@@ -565,9 +565,9 @@ angular.module('financieraClienteApp')
         };
 
         self.consultarHomologacion = function(){
-          financieraMidRequest.cancel();
+          presupuestoMidRequest.cancel();
           self.gridHomologacion.data = [];
-          financieraMidRequest.get("rubro_homologado/GetAllRubrosHomologado/"+self.RubroAct.Id).then(function(response){
+          presupuestoMidRequest.get("rubro_homologado/GetAllRubrosHomologado/"+self.RubroAct.Id).then(function(response){
               self.gridHomologacion.data = response.data;
           });
         };
@@ -580,7 +580,7 @@ angular.module('financieraClienteApp')
          * @description si esta variable cambia se expanden los nodos del arbol para facilitar su busqueda
          */
         $scope.$watch("filtro", function() {
-          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+          presupuestoMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
             rama: $scope.filtro
           })).then(function(response) {
               $scope.arbol = [];

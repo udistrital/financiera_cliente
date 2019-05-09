@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     .factory("disponibilidad", function() {
         return {};
     })
-    .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest, gridApiService) {
+    .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, presupuestoRequest, financieraMidRequest, presupuestoMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.offset = 0;
         self.cargando = false;
@@ -119,7 +119,7 @@ angular.module('financieraClienteApp')
             ]
         };
 
-        financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+        presupuestoRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
             .then(function(response) { //error con el success
                 self.vigenciaActual = parseInt(response.data);
                 var dif = self.vigenciaActual - 1995;
@@ -131,7 +131,7 @@ angular.module('financieraClienteApp')
                 self.years = range;
                     self.Vigencia = self.vigenciaActual;
 
-                    financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                    presupuestoRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                         .then(function(response) { //error con el success
                             self.gridOptions.totalItems = response.data;
                             //self.filtroExterno();
@@ -158,7 +158,7 @@ angular.module('financieraClienteApp')
 
         self.actualizarLista = function(offset, query) {
 
-            financieraMidRequest.cancel();
+            presupuestoMidRequest.cancel();
             self.gridOptions.data = [];
             self.cargando = true;
             self.hayData = true;
@@ -167,7 +167,7 @@ angular.module('financieraClienteApp')
             if($location.search().vigencia !== undefined && $location.search().numero){
                 query = '&query=NumeroDisponibilidad:'+$location.search().numero;
 
-                financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + $location.search().vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
+                presupuestoMidRequest.get('disponibilidad/ListaDisponibilidades/' + $location.search().vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
 
                     if (response.data.Type !== undefined) {
 
@@ -184,7 +184,7 @@ angular.module('financieraClienteApp')
                 });
             }else{
 
-                financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.Vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
+                presupuestoMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.Vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
 
                     if (response.data.Type !== undefined) {
 
@@ -211,7 +211,7 @@ angular.module('financieraClienteApp')
             $scope.apropiacion = undefined;
             $scope.apropiaciones = [];
             self.cdp = row.entity;
-            financieraRequest.get('disponibilidad_apropiacion', 'limit=0&query=Disponibilidad.Id:' + row.entity.Id).then(function(response) {
+            presupuestoRequest.get('disponibilidad_apropiacion', 'limit=0&query=Disponibilidad.Id:' + row.entity.Id).then(function(response) {
                 self.gridOptions_rubros.data = response.data;
                 angular.forEach(self.gridOptions_rubros.data, function(data) {
                     if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
@@ -222,7 +222,7 @@ angular.module('financieraClienteApp')
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                         Apropiacion: data.Apropiacion
                     };
-                    financieraRequest.post('disponibilidad/SaldoCdp', rp).then(function(response) {
+                    presupuestoRequest.post('disponibilidad/SaldoCdp', rp).then(function(response) {
                         data.Saldo = response.data;
                     });
 
@@ -250,7 +250,7 @@ angular.module('financieraClienteApp')
         };
 
         self.cargarTipoAnulacion = function(){
-            financieraRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.tiposAnulacion = response.data;
                     });
@@ -289,7 +289,7 @@ angular.module('financieraClienteApp')
                     Disponibilidad_apropiacion: disponibilidad_apropiacion,
                     Valor: valor
                 };
-                financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
+                presupuestoRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
                     self.alerta_anulacion_cdp = response.data;
                     angular.forEach(self.alerta_anulacion_cdp, function(data) {
                         if (data !== "error" && data !== "success") {
@@ -324,7 +324,7 @@ angular.module('financieraClienteApp')
             $scope.apropiacion= undefined;
             $scope.apropiaciones = [];
             self.cdp = row.entity;
-            financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
+            presupuestoRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
               self.gridOptions_rubros.data = response.data;
               angular.forEach(self.gridOptions_rubros.data, function(data){
                 if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
@@ -340,7 +340,7 @@ angular.module('financieraClienteApp')
                     Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                     Apropiacion : data.Apropiacion
                   };
-                  financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                  presupuestoRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
                     data.Saldo  = response.data;
                   });
                   self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
@@ -371,7 +371,7 @@ angular.module('financieraClienteApp')
             }
 
 
-            financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, query + "&UnidadEjecutora=" + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, query + "&UnidadEjecutora=" + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(0, "&" + query);
@@ -393,7 +393,7 @@ angular.module('financieraClienteApp')
                   self.reservas = false;
                 }
 
-                financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                presupuestoRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
                     .then(function(response) { //error con el success
                         self.gridOptions.totalItems = response.data;
                         self.actualizarLista(0, '');
@@ -466,7 +466,7 @@ angular.module('financieraClienteApp')
 
          self.verReservas = function() {
 
-            financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+            presupuestoRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
                 .then(function(response) {
                     self.Vigencia = parseInt(response.data)-1;
                     self.reservas = true;

@@ -7,7 +7,7 @@
  * # apropiacion/fuenteFinanciacionCdp
  */
 angular.module('financieraClienteApp')
-  .directive('fuenteFinanciacionCdp', function (financieraRequest, financieraMidRequest) {
+  .directive('fuenteFinanciacionCdp', function (financieraRequest,presupuestoRequest ,financieraMidRequest, presupuestoMidRequest) {
     return {
       restrict: 'E',
       scope:{
@@ -28,7 +28,7 @@ angular.module('financieraClienteApp')
           if ($scope.cdp != undefined && $scope.apropiacion != undefined){
 
             angular.forEach($scope.apropiacion, function(apropiacion_data) {
-              financieraRequest.get('disponibilidad_apropiacion',$.param({
+              presupuestoRequest.get('disponibilidad_apropiacion',$.param({
                 query: "Disponibilidad.Id:"+$scope.cdp+",Apropiacion.Id:"+apropiacion_data,
                 limit: -1
               })).then(function(response) {
@@ -36,7 +36,7 @@ angular.module('financieraClienteApp')
                 angular.forEach(self.rubros_afectados, function(rubros_data) {
                   $scope.resumen.push(rubros_data);
                   console.log($scope.resumen);
-                  financieraRequest.get('apropiacion',$.param({
+                  presupuestoRequest.get('apropiacion',$.param({
                     query: "Id:"+rubros_data.Apropiacion.Id,
                     limit: 1
                   })).then(function(response) {
@@ -44,7 +44,7 @@ angular.module('financieraClienteApp')
                   });
                   /*if (rubros_data.FuenteFinanciamiento != null){
 
-                    financieraRequest.get('fuente_financiacion',$.param({
+                    presupuestoRequest.get('fuente_financiacion',$.param({
                       query: "Id:"+rubros_data.FuenteFinanciamiento,
                       limit: 1
                     })).then(function(response) {
@@ -59,7 +59,7 @@ angular.module('financieraClienteApp')
                     FuenteFinanciacion : rubros_data.FuenteFinanciamiento
                   };
                   console.log(rp);
-                  financieraMidRequest.get('disponibilidad/SaldoCdp/'+ rp.Disponibilidad.Id+'/'+ rp.Apropiacion.Rubro.Codigo,$.param({
+                  presupuestoMidRequest.get('disponibilidad/SaldoCdp/'+ rp.Disponibilidad.Id+'/'+ rp.Apropiacion.Rubro.Codigo,$.param({
                     fuente: rp.FuenteFinanciacion.Codigo
                   })).then(function(response){
                     rubros_data.Saldo  = response.data.saldo;

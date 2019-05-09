@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest, presupuestoRequest,$translate,financieraMidRequest,$location) {
+  .controller('IngresosSinSituacionFondosRegistroCtrl', function ($scope,financieraRequest, presupuestoRequest,$translate,financieraMidRequest,presupuestoMidRequest,$location) {
     var ctrl  = this;
     ctrl.disabled = false;
 
@@ -75,7 +75,7 @@ angular.module('financieraClienteApp')
 
 
         request.IngresoSinSituacionFondos.Rubro.Id = parseInt(ctrl.rubroSeleccionado.Id);
-        financieraMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
+        presupuestoMidRequest.post('ingreso_sin_situacion_fondos',request).then(function(response){
 
           if(response.data===null){
             swal("",$translate.instant("E_ISF002"),"error");
