@@ -14,7 +14,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RubroRubroRegistroCtrl', function (financieraRequest, presupuestoMidRequest, $translate, gridApiService, $scope) {
+  .controller('RubroRubroRegistroCtrl', function (presupuestoMidRequest, presupuestoRequest, $translate, token_service, $scope) {
     var self = this;
     self.ProdutoRubro = [];
     self.botones = [
@@ -31,9 +31,7 @@ angular.module('financieraClienteApp')
 
     ];
 
-    financieraRequest.get('entidad', 'limit=0').then(function (response) {
-      self.entidadOptions = response.data;
-    });
+
 
     self.selectEntidad = null;
     self.quitar_padre = function () {
@@ -41,6 +39,7 @@ angular.module('financieraClienteApp')
       self.tipo_plan_hijo = '';
       self.codigo_hijo = '';
       self.descripcion_hijo = '';
+      self.nombre_hijo = '';
       self.selectEntidad = null;
       self.ProdutoRubro = [];
       self.gridApi.selection.clearSelectedRows();
@@ -94,7 +93,7 @@ angular.module('financieraClienteApp')
     };
 
     self.actualizarListaProductos = function (offset, query) {
-      financieraRequest.get('producto/', 'limit=-1' + query).then(function (response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+      presupuestoRequest.get('producto/', 'limit=-1' + query).then(function (response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
         if (response.data === null) {
           self.gridOptionsProductos.data = [];
         } else {
@@ -102,8 +101,7 @@ angular.module('financieraClienteApp')
         }
       });
     };
-    financieraRequest.get("producto/TotalProductos", '').then(function (response) {
-
+    presupuestoRequest.get("producto/TotalProductos", '').then(function (response) {
       self.gridOptionsProductos.totalItems = response.data;
       self.actualizarListaProductos(self.offset, '');
     });
@@ -128,9 +126,7 @@ angular.module('financieraClienteApp')
    * y registrar los datos de un rubro, ya sea como cabeza de rama o como hoja de una rama existente.
    */
     self.registrar_rubro = function () {
-      if (self.padre === undefined || self.padre.UnidadEjecutora === '') {
-        swal("", $translate.instant("E_RB003"), "error");
-      } else if (self.codigo_hijo === '' || self.codigo_hijo === undefined) {
+      if (self.codigo_hijo === '' || self.codigo_hijo === undefined) {
         swal("", $translate.instant("E_RB001"), "error");
       } else if (self.descripcion_hijo === '' || self.descripcion_hijo === undefined) {
         swal("", $translate.instant("E_RB002"), "error");
@@ -146,7 +142,7 @@ angular.module('financieraClienteApp')
         var rubro_padre;
 
 
-        if (self.padre.Codigo === undefined) {
+        if (self.padre === undefined) {
           codigo_rubro = codigo_rubro + self.codigo_hijo;
         } else {
           codigo_rubro = codigo_rubro + self.padre.Codigo + "-" + self.codigo_hijo;
@@ -171,7 +167,7 @@ angular.module('financieraClienteApp')
           Nombre: self.nombre_hijo,
           Codigo: codigo_rubro,
           Descripcion: self.descripcion_hijo,
-          UnidadEjecutora: parseInt(self.padre.UnidadEjecutora),
+          UnidadEjecutora: parseInt(token_service.getUe()),
           Estado: 1,
           ProductoRubro: Pr
         };
@@ -181,7 +177,7 @@ angular.module('financieraClienteApp')
         }
         presupuestoMidRequest.post("rubro/RegistrarRubro", rubro_rubro).then(function (response) {
           console.log('response', response);
-          
+
           if (response.data.Type !== undefined) {
             if (response.data.Type === "error") {
               swal('', $translate.instant(response.data.Code), response.data.Type);

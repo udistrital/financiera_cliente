@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('ProductosProductoConsultaCtrl', function ($scope,$translate,financieraRequest, gridApiService) {
+  .controller('ProductosProductoConsultaCtrl', function ($scope,$translate,presupuestoRequest, gridApiService) {
     var self = this;
       self.offset = 0;
     	self.prRegistrar = {};
@@ -131,7 +131,7 @@ angular.module('financieraClienteApp')
           self.cargando_rubros = false;
           self.hayData_rubros = true;
 
-          financieraRequest.get('producto/', 'query=Id:'+entity.Id ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+          presupuestoRequest.get('producto/', 'query=Id:'+entity.Id ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
 
               if (response.data[0].ProductoRubro.length == 0) {
 
@@ -163,7 +163,7 @@ angular.module('financieraClienteApp')
             self.gridOptions.data = [];
             self.cargando = true;
             self.hayData = true
-            financieraRequest.get('producto/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
+            presupuestoRequest.get('producto/', 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query ).then(function(response) { //+ "&UnidadEjecutora=" + self.UnidadEjecutora
                 if (response.data === null) {
 
                   self.hayData = false;
@@ -176,7 +176,7 @@ angular.module('financieraClienteApp')
                 }
             });
         };
-        financieraRequest.get("producto/TotalProductos",'').then(function(response){
+        presupuestoRequest.get("producto/TotalProductos",'').then(function(response){
             self.gridOptions.totalItems = response.data;
             self.actualizarLista(self.offset, '');
         });
@@ -188,7 +188,7 @@ angular.module('financieraClienteApp')
             }else if(self.prRegistrar.Descripcion === null || self.prRegistrar.Descripcion === "" || self.prRegistrar.Descripcion === undefined){
               swal("", $translate.instant('ERROR_LLENAR'), "error")
             } else{
-            financieraRequest.post('producto/', self.prRegistrar).then(function(response) {
+            presupuestoRequest.post('producto/', self.prRegistrar).then(function(response) {
                 console.log(response.data);
                 if (response.data.Type === "error"){
                     swal('',$translate.instant(response.data.Code),response.data.Type);

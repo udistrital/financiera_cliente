@@ -66,7 +66,8 @@ angular
         "ingresoDocServ",
         'implicitToken',
         "gridApiService",
-        "presupuestoMidService"
+        "presupuestoMidService",
+        "presupuestoService"
     ])
 
     .run(function (amMoment) {

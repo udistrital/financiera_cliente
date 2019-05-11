@@ -28,6 +28,7 @@ if (window.localStorage.getItem('access_token') === null ||
         window.localStorage.setItem('id_token', params['id_token']);
         window.localStorage.setItem('state', params['state']);
         window.localStorage.setItem('expires_in', params['expires_in']);
+        window.localStorage.setItem('ue',params['ue'] || 1)
     } else {
         window.localStorage.clear();     
     }
@@ -165,6 +166,10 @@ angular.module('implicitToken', [])
                     }
                 });
                 return roles;
+            },
+
+            getUe: function () {
+                return service.token.ue || 1;
             }
         };
         service.setExpiresAt();

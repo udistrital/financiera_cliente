@@ -123,6 +123,7 @@ var conf_local = {
     CORE_SERVICE: "http://10.20.0.254/core_api/v1/",
     FINANCIERA_MID_SERVICE: "http://localhost:8081/v1/",
     PRESUPUESTO_MID_SERVICE: "http://localhost:8081/v1/",
+    PRESUPUESTO_SERVICE: "http://localhost:8080/v1/",
     FINANCIERA_SERVICE: "http://localhost:8084/v1/",
     MODELS_SERVICE: "scripts/models/",
     NOTIFICACION_WS: "ws://127.0.0.1:8080/ws/join",
