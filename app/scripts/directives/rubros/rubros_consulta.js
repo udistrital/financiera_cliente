@@ -378,7 +378,7 @@ angular.module('financieraClienteApp')
         self.onSelectNode = function(node, expanded){
           if (expanded && !node.Hijos){
             console.log("Some Action ", node);  
-            financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+            presupuestoMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
               rama: node.Codigo
             })).then(function(response) {
                 if (response.data !== null) {
@@ -440,7 +440,7 @@ angular.module('financieraClienteApp')
               case "delete":
 
                  if (nodo !== undefined){
-                  financieraMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
+                  presupuestoMidRequest.delete("rubro/EliminarRubro",nodo.Id).then(function(response){
                     console.log(response.data);
                     if (response.data !== null && response.data.Type !== undefined) {
                       if (response.data.Type === "error") {
@@ -454,6 +454,8 @@ angular.module('financieraClienteApp')
                   }else{
                     swal('', $translate.instant('E_0460'), 'error');                    
                   }
+                  }).catch(function (e) {
+                    swal('', $translate.instant('E_0460'), 'error'); 
                   });
                  }
                   break;

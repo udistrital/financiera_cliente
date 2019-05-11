@@ -19,7 +19,7 @@ angular.module('presupuestoMidService', [])
      */
     .factory('presupuestoMidRequest', function($http, $q,CONF) {
         // Service logic
-        var path = CONF.GENERAL.presupuesto_MID_SERVICE;
+        var path = CONF.GENERAL.PRESUPUESTO_MID_SERVICE;
         var cancelSearch ; //defer object
 
         // Public API here
