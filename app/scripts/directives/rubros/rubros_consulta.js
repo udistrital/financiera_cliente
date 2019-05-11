@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest,financieraMidRequest) {
+  .directive('rubrosConsulta', function(financieraRequest,presupuestoMidRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -229,7 +229,7 @@ angular.module('financieraClienteApp')
 
             }
           });*/
-          financieraMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
+          presupuestoMidRequest.get("rubro/ArbolRubros/"+ self.UnidadEjecutora, $.param({
             rama: ""
           })).then(function(response) {
               $scope.arbol = [];
