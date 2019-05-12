@@ -82,7 +82,7 @@
               <div  align="right">{{'VIGENCIA' | translate}}:{{vigencia}}</div>
             </div>
             <div class="panel-body">
-                <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null;d_apropiacionConsulta.apropiacionsel.Apropiacion.Estado.Id == 1" class="alert alert-danger">
+                <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null;d_apropiacionConsulta.apropiacionsel.Apropiacion.Estado.Id == 2" class="alert alert-danger">
                     {{'E_AP002'|translate}}
                   </div>
                 <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion == null" class="col-md-6 col-md-offset-3">
@@ -92,7 +92,7 @@
                       <button class="btn btn-outline btn-success" ng-click="d_apropiacionConsulta.RegistrarApr()">{{'BTN.REGISTRAR'|translate}}</button>
                     </center>
                   </div>
-                  <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null;d_apropiacionConsulta.apropiacionsel.Apropiacion.Estado.Id == 2" class="col-md-6 col-md-offset-3" >
+                  <div ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion != null;d_apropiacionConsulta.apropiacionsel.Apropiacion.Estado.Id == 1" class="col-md-6 col-md-offset-3" >
                     <label for="valor">{{'APROPIACION_INICIAL'|translate}} : </label><input id="valor" name="valor" type="text" ui-money-mask="0"  class="form-control input-md-6" required="true" ng-model="d_apropiacionConsulta.apropiacionsel.Apropiacion.Valor">
                     <br>
                     <center>

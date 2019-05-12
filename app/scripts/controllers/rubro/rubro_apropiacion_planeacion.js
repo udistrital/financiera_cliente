@@ -34,8 +34,25 @@ angular.module('financieraClienteApp')
       });
 
     self.GetAprobationInfo = function () {
-
+      
       if (self.Vigencia !== undefined && self.Vigencia !== null && self.cambioapr !== undefined && self.cambioapr !== null) {
+        presupuestoMidRequest.get("aprobacion_apropiacion/Aprobado", $.param({
+          UnidadEjecutora: self.UnidadEjecutora,
+          Vigencia: self.Vigencia
+        }))
+          .then(function (response) { //error con el success
+            console.log('apr',response.data);
+            
+            self.AprobadoGlobal = response.data.Body;
+            if(self.AprobadoGlobal){
+              self.botones = [
+                { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+              ];
+            }
+          }).catch(function (e) {
+            console.log('error', e);
+            swal('', $translate.instant('E_RB007'), 'error');
+          });
         presupuestoMidRequest.get("aprobacion_apropiacion/InformacionAsignacionInicial", $.param({
           UnidadEjecutora: self.UnidadEjecutora,
           Vigencia: self.Vigencia
@@ -44,7 +61,6 @@ angular.module('financieraClienteApp')
 
             self.InfoAprobacion = response.data.Body.InfoApropiacion;
             self.Aprobado = response.data.Body.Aprobado;
-            console.log('apr', response.data.Body)
           }).catch(function (e) {
             console.log('error', e);
             swal('', $translate.instant('E_RB007'), 'error');
@@ -58,13 +74,13 @@ angular.module('financieraClienteApp')
         .then(function (response) { //error con el success
           if (response.data.Type !== undefined) {
 
-            swal('', $translate.instant(response.data.Code), response.data.Type);
+            swal('', 'aprobado', response.data.Type);
 
 
           }
         }).catch(function (e) {
           console.log('error', e);
-          swal('', $translate.instant('E_0459'), 'error');
+          swal('', $translate.instant('E_23502'), 'error');
         });
     };
 

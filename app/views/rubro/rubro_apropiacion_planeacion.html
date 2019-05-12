@@ -66,8 +66,13 @@
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado"
+                <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado && !rubroApropiacionPlaneacion.AprobadoGlobal "
                     ng-click="rubroApropiacionPlaneacion.AprobarPresupuesto()">{{'APROBAR'|translate}}</button>
+
+                    <div ng-show="rubroApropiacionPlaneacion.AprobadoGlobal" class="text-danger ">
+                        <span class="glyphicon glyphicon-OK-circle fa-3x" aria-hidden="true"></span>
+                        <br><small>{{"S_AP001" | translate}}</small>
+                    </div>
             </center>
 
         </div>
