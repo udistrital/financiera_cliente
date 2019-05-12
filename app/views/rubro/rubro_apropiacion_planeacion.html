@@ -23,7 +23,7 @@
             recargar="true" recargaext="rubroApropiacionPlaneacion.recarga_arbol" ramasel="false" vigencia="rubroApropiacionPlaneacion.Vigencia"></rubros-consulta>
     </div>
     <div class="panel-body col-md-6">
-        <apropiacion-consulta datachangeevent="datachangeevent" botones="rubroApropiacionPlaneacion.botones"
+        <apropiacion-consulta datachangeevent="rubroApropiacionPlaneacion.cambioapr" botones="rubroApropiacionPlaneacion.botones"
             botonespadre="rubroApropiacionPlaneacion.botonespadre" recargar="rubroApropiacionPlaneacion.recarga_arbol"
             ramasel="false" rubrosel="rubroApropiacionPlaneacion.rubro" filtro="rubroApropiacionPlaneacion.filtro_rubro"
             vigencia="rubroApropiacionPlaneacion.Vigencia"></apropiacion-consulta>
@@ -45,28 +45,28 @@
                         </th>
 
                     </tr>
-                    <tr ng-repeat="infoap in rubroApropiacionPlaneacion.InfoAprobacion">
+                    <tr ng-repeat="(key, value) in rubroApropiacionPlaneacion.InfoAprobacion">
                         <td>
-                            {{infoap.Codigo + "/" + infoap.Nombre}}
+                            {{key }}
                         </td>
                         <td>
-                            {{infoap.ApropiacionInicial | currency}}
+                            {{value | currency}}
                         </td>
                     </tr>
                 </table>
                 <div class="panel-footer" align="center">
-                    <div ng-show="rubroApropiacionPlaneacion.Aprobado === '1'" class=" text-success">
+                    <div ng-show="rubroApropiacionPlaneacion.Aprobado" class=" text-success">
                         <span class="glyphicon glyphicon-ok-circle fa-3x" aria-hidden="true"></span>
                         <br><small>{{"INGRESOS_EGRESOS_CUMPLE" | translate}}</small>
                     </div>
 
-                    <div ng-show="rubroApropiacionPlaneacion.Aprobado !== '1'" class="text-danger ">
+                    <div ng-show="!rubroApropiacionPlaneacion.Aprobado" class="text-danger ">
                         <span class="glyphicon glyphicon-ban-circle fa-3x" aria-hidden="true"></span>
                         <br><small>{{"INGRESOS_EGRESOS_NO_CUMPLE" | translate}}</small>
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado === '1'"
+                <button class="btn btn-outline btn-success" ng-if="rubroApropiacionPlaneacion.Aprobado"
                     ng-click="rubroApropiacionPlaneacion.AprobarPresupuesto()">{{'APROBAR'|translate}}</button>
             </center>
 

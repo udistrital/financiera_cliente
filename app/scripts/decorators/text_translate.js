@@ -319,6 +319,7 @@ var text_es = {
     E_RB003: "Debe seleccionar un rubro",
     E_RB005: "Debe Seleccionar El o Los Productos Asociados Al Rubro",
     E_RB006: "La Distribución Del Rubro En Los Productos No Es igual Al 100%",
+    E_RB007: "No se puede obtener el saldo de los Rubros para comparar.",
     E_RP001: "El valor solicitado supera el saldo del RP en el rubro solicitado",
     E_RP002: "No se pudo cambiar el estado de la solicitud",
     E_AP001: "Este rubro no tiene apropiación asignada para la vigencia seleccionada.",

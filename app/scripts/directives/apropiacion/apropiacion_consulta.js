@@ -7,7 +7,7 @@
  * # apropiacion/apropiacionConsulta
  */
 angular.module('financieraClienteApp')
-    .directive('apropiacionConsulta', function(financieraRequest, financieraMidRequest) {
+    .directive('apropiacionConsulta', function (presupuestoRequest, presupuestoMidRequest, token_service, financieraRequest, financieraMidRequest) {
         return {
             restrict: 'E',
             scope: {
@@ -25,15 +25,15 @@ angular.module('financieraClienteApp')
                 datachangeevent: '=?'
             },
             templateUrl: 'views/directives/apropiacion/apropiacion_consulta.html',
-            controller: function($scope, $translate) {
+            controller: function ($scope, $translate) {
                 var self = this;
 
-                self.UnidadEjecutora = 1;
+                self.UnidadEjecutora = parseInt(token_service.getUe());
                 $scope.datachangeevent = false;
                 self.treeOptions = {
                     nodeChildren: "Hijos",
                     dirSelectable: $scope.ramasel,
-                    isLeaf: function(node) {
+                    isLeaf: function (node) {
                         return node.IsLeaf;
                     },
                     injectClasses: {
@@ -96,15 +96,15 @@ angular.module('financieraClienteApp')
                         headerCellClass: 'text-info',
                         cellFilter: 'currency',
                         cellClass: 'input_right'
-                    }, ]
+                    },]
 
                 };
 
-                self.cargar_arbol = function() {
+                self.cargar_arbol = function () {
                     $scope.arbol = [];
                     financieraMidRequest.get("apropiacion/ArbolApropiaciones/" + self.UnidadEjecutora + "/" + $scope.vigencia, $.param({
                         rama: ""
-                    })).then(function(response) {
+                    })).then(function (response) {
 
                         if (response.data !== null) {
                             $scope.arbol = response.data;
@@ -114,12 +114,12 @@ angular.module('financieraClienteApp')
 
                 };
 
-                self.onSelectNode = function(node, expanded) {
+                self.onSelectNode = function (node, expanded) {
                     if (expanded && !node.Hijos) {
                         console.log("Some Action ", node);
                         financieraMidRequest.get("apropiacion/ArbolApropiaciones/" + self.UnidadEjecutora + "/" + $scope.vigencia, $.param({
                             rama: node.Codigo
-                        })).then(function(response) {
+                        })).then(function (response) {
                             if (response.data !== null) {
                                 node.Hijos = response.data[0].Hijos;
                             }
@@ -127,7 +127,7 @@ angular.module('financieraClienteApp')
                     }
                 }
 
-                self.arbol_operacion = function(nodo, operacion) {
+                self.arbol_operacion = function (nodo, operacion) {
                     self.operacion = operacion;
 
                     switch (operacion) {
@@ -139,20 +139,21 @@ angular.module('financieraClienteApp')
                             self.apropiacionsel = nodo;
                             self.apropiacionsel.Apropiacion = null;
 
-                            console.log("Data Sel ", self.apropiacionsel);
-
                             self.apropiacionsel = nodo;
                             self.apropiacionsel.Apropiacion = {};
                             self.apropiacionsel.Vigencia = $scope.vigencia;
-                            financieraMidRequest.get("apropiacion/SaldoApropiacion/" + self.apropiacionsel.Codigo + "/" + self.apropiacionsel.UnidadEjecutora + "/" + $scope.vigencia, "").then(function(response) { //ver como consultar desde el nodo de mongo
-                                console.log("Apr sel ", self.apropiacionsel);
-                                console.log("Saldo ", response.data);
+                            presupuestoMidRequest.get("apropiacion/SaldoApropiacion/" + self.apropiacionsel.Codigo + "/" + self.apropiacionsel.UnidadEjecutora + "/" + $scope.vigencia, "").then(function (response) { //ver como consultar desde el nodo de mongo
                                 if (response.data !== null) {
-                                    self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                                    self.apropiacionsel.Apropiacion.InfoSaldo = response.data.Body;
                                 }
+                            }).catch(function (e) {
+                                console.log('error', e);
+                                swal('', $translate.instant('E_23502'), 'error');
+                                self.apropiacionsel.Apropiacion.InfoSaldo.saldo = undefined
+                                self.apropiacionsel.ApropiacionInicial = undefined
                             });
                             if (nodo.Hijos == null) {
-                                financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/" + self.apropiacionsel.Id, "").then(function(response) { //este se debe dejar
+                                financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/" + self.apropiacionsel.Id, "").then(function (response) { //este se debe dejar
 
                                     if (response.data !== null) {
                                         self.apropiacionsel.Apropiacion.InfoMovs = response.data;
@@ -175,20 +176,26 @@ angular.module('financieraClienteApp')
                             self.apropiacionsel.Apropiacion = null;
                             self.ValorAsignado = null;
                             if (nodo.Hijos == null) {
-                                financieraRequest.get("apropiacion", $.param({
+                                presupuestoRequest.get("apropiacion", $.param({
                                     query: "Id:" + nodo.Id + ",Vigencia:" + $scope.vigencia
-                                })).then(function(response) {
+                                })).then(function (response) {
 
                                     if (response.data !== null) {
-                                        console.log(response.data);
+                                        console.log('saldo', response.data);
                                         self.apropiacionsel.Apropiacion = response.data[0];
-                                        financieraRequest.get("apropiacion/SaldoApropiacion/" + self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                                        presupuestoMidRequest.get("apropiacion/SaldoApropiacion/" + self.apropiacionsel.Codigo + "/" + self.apropiacionsel.UnidadEjecutora + "/" + $scope.vigencia, "").then(function (response) { //ver como consultar desde el nodo de mongo
 
                                             if (response.data !== null) {
-                                                self.apropiacionsel.Apropiacion.InfoSaldo = response.data;
+                                                console.log('saldo', response.data);
+                                                
+                                                self.apropiacionsel.Apropiacion.InfoSaldo = response.data.Body;
                                             }
+                                        }).catch(function (e) {
+                                            console.log('error', e);
+                                            swal('', $translate.instant('E_23502'), 'error');
+                                            self.apropiacionsel.Apropiacion.InfoSaldo = undefined
                                         });
-                                        financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/" + self.apropiacionsel.Apropiacion.Id, "").then(function(response) {
+                                        financieraRequest.get("movimiento_apropiacion/GetMovimientosApropiacionByApropiacion/" + self.apropiacionsel.Apropiacion.Id, "").then(function (response) {
 
                                             if (response.data !== null) {
                                                 self.apropiacionsel.Apropiacion.InfoMovs = response.data;
@@ -210,8 +217,8 @@ angular.module('financieraClienteApp')
 
                 self.expandedNodes = [];
 
-                self.expandAllNodes = function(tree) {
-                    angular.forEach(tree, function(leaf) {
+                self.expandAllNodes = function (tree) {
+                    angular.forEach(tree, function (leaf) {
                         if (leaf.Hijos) {
                             self.expandedNodes.push(leaf);
                             self.expandAllNodes(leaf.Hijos);
@@ -221,7 +228,7 @@ angular.module('financieraClienteApp')
 
                 };
 
-                self.RegistrarApr = function() {
+                self.RegistrarApr = function () {
                     $("#ModalEdicionApr").modal('hide');
                     var aprAregistrar = {};
                     var estadoapr = {};
@@ -233,9 +240,9 @@ angular.module('financieraClienteApp')
                     aprAregistrar.Vigencia = parseInt($scope.vigencia);
                     aprAregistrar.Estado = estadoapr;
                     aprAregistrar.Rubro = rubroapr;
-                    aprAregistrar.Valor = self.ValorAsignado;                    
+                    aprAregistrar.Valor = self.ValorAsignado;
                     console.log(aprAregistrar);
-                    financieraRequest.post('apropiacion', aprAregistrar).then(function(response) {
+                    financieraRequest.post('apropiacion', aprAregistrar).then(function (response) {
                         console.log(response.data);
                         if (response.data.Type !== undefined) {
                             if (response.data.Type === "error") {
@@ -249,24 +256,27 @@ angular.module('financieraClienteApp')
                     $scope.datachangeevent = !$scope.datachangeevent;
                 };
 
-                self.ActualizarApr = function() {
+                self.ActualizarApr = function () {
                     $("#ModalEdicionApr").modal('hide');
-                    financieraMidRequest.put('apropiacion/', self.apropiacionsel.Id + "/" + self.apropiacionsel.Apropiacion.Valor + "/" + $scope.vigencia, self.apropiacionsel).then(function(response) {
+                    financieraMidRequest.put('apropiacion/', self.apropiacionsel.Id + "/" + self.apropiacionsel.Apropiacion.Valor + "/" + $scope.vigencia, self.apropiacionsel).then(function (response) {
                         console.log(response.data);
                         if (response.data.Type !== undefined) {
                             swal('', $translate.instant(response.data.Code), response.data.Type);
                             $scope.recargar = !$scope.recargar;
 
                         }
+                    }).catch(function (e) {
+
+                        swal('', $translate.instant('E_0459'), 'error');
                     });
                     $scope.datachangeevent = !$scope.datachangeevent;
                 };
 
 
-                $scope.$watch("filtro", function() {
+                $scope.$watch("filtro", function () {
                     financieraMidRequest.get("apropiacion/ArbolApropiaciones/" + self.UnidadEjecutora + "/" + $scope.vigencia, $.param({
                         rama: $scope.filtro
-                    })).then(function(response) {
+                    })).then(function (response) {
                         $scope.arbol = [];
                         if (response.data !== null) {
                             $scope.arbol = response.data;
@@ -294,7 +304,7 @@ angular.module('financieraClienteApp')
                   }
                 }, true);*/
 
-                $scope.$watch("recargar", function() {
+                $scope.$watch("recargar", function () {
                     self.cargar_arbol();
                     if ($scope.filtro !== '' && $scope.filtro !== undefined) {
                         self.expandAllNodes($scope.arbol);
@@ -303,13 +313,13 @@ angular.module('financieraClienteApp')
                     }
                 }, true);
 
-                $scope.$watch("vigencia", function() {
+                $scope.$watch("vigencia", function () {
                     if ($scope.vigencia !== '' && $scope.vigencia !== undefined) {
                         self.cargar_arbol();
                     }
                 }, true);
 
-                $scope.showSelected = function(node, $path) {
+                $scope.showSelected = function (node, $path) {
                     $scope.ramasel = $path();
                 };
                 self.cargar_arbol();

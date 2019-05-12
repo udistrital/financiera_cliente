@@ -504,8 +504,9 @@ angular.module('financieraClienteApp')
 
         self.ActualizarApr = function() {
           $("#ModalEdicionApr").modal('hide');
-          financieraMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
-            console.log(response.data);
+          self.apropiacionsel.Apropiacion.UnidadEjecutora = parseInt(self.apropiacionsel.Apropiacion.UnidadEjecutora)
+          presupuestoMidRequest.post('apropiacion/', self.apropiacionsel.Apropiacion).then(function(response){
+            console.log('act',response.data);
             if (response.data.Type !== undefined){
               if (response.data.Type === "error"){
                 swal('',$translate.instant(response.data.Code),response.data.Type);
@@ -514,6 +515,9 @@ angular.module('financieraClienteApp')
               }
 
             }
+          }).catch(function (e) {
+
+            swal('',$translate.instant('E_0459'),'error');
           });
           $scope.datachangeevent = !$scope.datachangeevent;
         };
@@ -527,12 +531,13 @@ angular.module('financieraClienteApp')
           rubroapr = self.apropiacionsel;
           rubroapr.Nombre = self.apropiacionsel.Nombre;
           rubroapr.Codigo = self.apropiacionsel.Codigo;
+          rubroapr.UnidadEjecutora = parseInt(rubroapr.UnidadEjecutora)
           aprAregistrar.Vigencia = parseInt($scope.vigencia);
           aprAregistrar.Estado = estadoapr;
           aprAregistrar.Rubro = rubroapr;
           aprAregistrar.Valor = parseInt(self.ValorAsignado);
           console.log(aprAregistrar);
-          financieraMidRequest.post('apropiacion', aprAregistrar).then(function(response){
+          presupuestoMidRequest.post('apropiacion', aprAregistrar).then(function(response){
             console.log(response.data);
             if (response.data.Type !== undefined){
               if (response.data.Type === "error"){
@@ -544,6 +549,8 @@ angular.module('financieraClienteApp')
 
             }
             $scope.datachangeevent = !$scope.datachangeevent;
+          }).catch(function (e) {
+            swal('','Error en el Servidor','error');
           });
           
         };

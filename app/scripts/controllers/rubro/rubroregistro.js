@@ -35,6 +35,7 @@ angular.module('financieraClienteApp')
 
     self.selectEntidad = null;
     self.quitar_padre = function () {
+      this.chkProducto = false;
       self.padre = undefined;
       self.tipo_plan_hijo = '';
       self.codigo_hijo = '';

@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('financieraClienteApp')
-    .controller('menuCtrl', function ($location, $window, $q, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
+    .controller('menuCtrl', function ($location, $window, requestRequest, $scope, token_service, notificacion, $translate, $route, $mdSidenav, configuracionRequest, $rootScope, $http) {
         var paths = [];
         $scope.token_service = token_service;
         $scope.$on('$routeChangeStart', function (scope, next, current) {
-
+           
             var waitForMenu = function () {
                 if ($rootScope.my_menu != undefined) {
                     if ($scope.token_service.live_token() && current != undefined ) {
