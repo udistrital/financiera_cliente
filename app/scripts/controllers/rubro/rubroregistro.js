@@ -25,8 +25,7 @@ angular.module('financieraClienteApp')
     ];
 
     self.botonespadre = [
-      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-      { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true }
+      { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true }
       //{ clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
 
     ];
@@ -181,7 +180,7 @@ angular.module('financieraClienteApp')
 
           if (response.data.Type !== undefined) {
             if (response.data.Type === "error") {
-              swal('', $translate.instant(response.data.Code), response.data.Type);
+              swal('', $translate.instant("E_RB008"), response.data.Type);
             } else {
               swal('', $translate.instant(response.data.Code) + ": " + response.data.Body.RubroHijo.Codigo + ":" + response.data.Body.RubroHijo.Descripcion, response.data.Type);
               self.recarga_arbol = !self.recarga_arbol;
@@ -190,7 +189,7 @@ angular.module('financieraClienteApp')
           }
         }).catch(function (response) {
           if (response.data !== null && response.data.Type !== undefined) {
-            swal('', $translate.instant(response.data.Code), response.data.Type);
+            swal('', $translate.instant("E_RB008"), response.data.Type);
 
 
           } else {
