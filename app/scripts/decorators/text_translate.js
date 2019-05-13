@@ -243,6 +243,7 @@ var text_es = {
     E_0458: "Los datos enviados son erróneos",
     E_0459: "No se pudo registrar la información",
     E_0460: "No se pudo Eliminar",
+    E_0461: "No se Puede Obtener La Fecha Actual.",
     E_04566: "No es posible modificar el registro debido a que este ha sido usado en otras transacciones",
     E_0471: "No es posible realizar actualización debido al estado del registro",
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",
@@ -285,6 +286,7 @@ var text_es = {
     E_A12: "Valor a anular supera el saldo de la disponibilidad en el rubro seleccionado",
     E_MODP007: "No se pudo aprobar la solicitud de Modificación Presupuestal",
     E_MODP008: "El Arbol De Las Apropiaciones No Esta Balanceado Luego De Realizar Los Movimientos.",
+    E_MODP009: "No se pueden Cargar los tipos de movimiento.",
     // op masivas
     E_OPM_0001: "No se encontraron ordenes de pago relacionadas a la liquidacion",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
@@ -326,6 +328,7 @@ var text_es = {
     E_AP001: "Este rubro no tiene apropiación asignada para la vigencia seleccionada.",
     E_AP002: "La Apropiación de este rubro ya ha sido aprobada y no se puede modificar.",
     E_AP003: "Las sumas de los rubros a aprobar no son iguales",
+    E_AP004: "Plan De Cuentas Presupuestales No Aprobado",
     E_C92011: "Un concepto o clasificador no puede ser creado dentro de un concepto, únicamente dentro de un clasificador diferente de si mismo",
     E_TRANS_01: "Error en la estructura de parámetros de entrada",
     E_OP_E_ESTADO: "Error al intentar registrar estado de orden de pago",
