@@ -185,7 +185,7 @@ angular.module('financieraClienteApp')
           MovimientoApropiacionDisponibilidadApropiacion: self.modificaciones,
         }
 
-        financieraMidRequest.post('movimiento_apropiacion/ComprobarMovimientoApropiacion/' + self.UnidadEjecutora + '/' + self.Vigencia, comprobacion).then(function (response) {
+        presupuestoMidRequest.post('movimiento_apropiacion/ComprobarMovimientoApropiacion/' + self.UnidadEjecutora + '/' + self.Vigencia, comprobacion).then(function (response) {
           try {
             if (response.data.Type === 'success') {
               self.saldoArbol = response.data.Body.Saldo
@@ -197,6 +197,10 @@ angular.module('financieraClienteApp')
           } catch (error) {
 
           }
+        }).catch(function (e) {
+          console.log('Error',e);
+          swal('', $translate.instant('E_MODP010'), 'error');
+          
         })
       }
 
@@ -206,10 +210,10 @@ angular.module('financieraClienteApp')
 
       if (self.rubrosel != null && self.rubrosel != undefined) {
         self.rubro = self.rubrosel;
-        financieraRequest.get("apropiacion/SaldoApropiacion/" + self.rubro.Id, "").then(function (response) {
+        presupuestoMidRequest.get("apropiacion/SaldoApropiacion/" + self.rubrosel.Codigo + "/" + self.rubrosel.UnidadEjecutora + "/" + self.Vigencia, "").then(function (response) {
 
           if (response.data !== null) {
-            self.rubro.InfoSaldo = response.data;
+            self.rubro.InfoSaldo = response.data.Body;
             angular.forEach(self.modificaciones, function (data) {
               if (data.CuentaContraCredito != undefined && data.CuentaContraCredito != null && data.CuentaContraCredito.Id === self.rubro.Id) {
                 self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
@@ -228,6 +232,10 @@ angular.module('financieraClienteApp')
             self.rubro.InfoSaldo.saldo = 0;
             self.saldomov = 0;
           }
+        }).catch(function (e) {
+          console.log('Error ', e);
+          swal('', $translate.instant('E_MODP005'), 'error');
+
         });
       }
 

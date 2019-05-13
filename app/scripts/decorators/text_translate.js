@@ -287,6 +287,7 @@ var text_es = {
     E_MODP007: "No se pudo aprobar la solicitud de Modificación Presupuestal",
     E_MODP008: "El Arbol De Las Apropiaciones No Esta Balanceado Luego De Realizar Los Movimientos.",
     E_MODP009: "No se pueden Cargar los tipos de movimiento.",
+    E_MODP010: "No se puede comprobar el balanceo del arbol.",
     // op masivas
     E_OPM_0001: "No se encontraron ordenes de pago relacionadas a la liquidacion",
     E_HO_CONC_TITAN: "Error al obtener conceptos de Titán",
