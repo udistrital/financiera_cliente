@@ -44,14 +44,14 @@ angular.module('financieraClienteApp')
           .then(function (response) { //error con el success
             self.Aprobado = response.data.Body;
 
-            presupuestoRequest.get("tipo_movimiento_apropiacion/", $.param({
+            presupuestoRequest.get("tipo_movimiento_apropiacion", $.param({
               limit: -1
             }))
               .then(function (response) { //error con el success
                 self.tiposModificaciones = response.data;
               }).catch(function (e) {
                 console.log('error', e);
-            swal('', $translate.instant('E_MODP009'), 'error');
+                swal('', $translate.instant('E_MODP009'), 'error');
               });
           }).catch(function (e) {
             console.log('error', e);
@@ -60,6 +60,42 @@ angular.module('financieraClienteApp')
       });
     self.Aprobado = false;
 
+    self.saldoApr = function () {
+      presupuestoMidRequest.get("apropiacion/SaldoApropiacion/" + self.rubrosel.Codigo + "/" + self.rubrosel.UnidadEjecutora + "/" + self.Vigencia, "").then(function (response) {
+
+        if (response.data !== null) {
+          self.rubro.InfoSaldo = response.data.Body;
+          angular.forEach(self.modificaciones, function (data) {
+            if (data.CuentaCredito != undefined && data.CuentaCredito != null && data.CuentaCredito.Id === self.rubro.Id) {
+              if (data.TipoMovimientoApropiacion.Id === 2 || data.TipoMovimientoApropiacion.Id === 1) {
+                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
+              } else if (data.TipoMovimientoApropiacion.Id === 3) {
+                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo + data.Valor;
+              }
+
+            }
+            if (data.CuentaContraCredito != undefined && data.CuentaContraCredito != null && data.CuentaContraCredito.Id === self.rubro.Id) {
+              if (data.TipoMovimientoApropiacion.Id === 2) {
+                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
+              } else if (data.TipoMovimientoApropiacion.Id === 3 || data.TipoMovimientoApropiacion.Id === 1) {
+                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo + data.Valor;
+              }
+            }
+
+          });
+          self.saldomov = self.rubro.InfoSaldo.saldo;
+
+        } else {
+          self.rubro.InfoSaldo = {};
+          self.rubro.InfoSaldo.saldo = 0;
+          self.saldomov = 0;
+        }
+      }).catch(function (e) {
+        console.log('Error ', e);
+        swal('', $translate.instant('E_MODP005'), 'error');
+
+      });
+    };
 
     self.agregarRubro = function () {
       if (self.rubroCuentaCreditosel == undefined || self.rubroCuentaCreditosel == null ||
@@ -138,7 +174,7 @@ angular.module('financieraClienteApp')
         }
       }).catch(function (e) {
         console.log('Error ', e);
-        swal('', $translate.instant('E_MODP009'), 'error');
+        swal('', $translate.instant('E_MODP011'), 'error');
 
       });
     };
@@ -156,9 +192,25 @@ angular.module('financieraClienteApp')
           if (response.data !== null) {
             self.rubroCuentaCredito.InfoSaldo = response.data.Body;
             angular.forEach(self.modificaciones, function (data) {
-              if (data.CuentaCredito !== undefined && data.CuentaCredito !== null && data.CuentaCredito.Id === self.rubroCuentaCredito.Id && data.TipoMovimientoApropiacion.Id === 2) {
-                self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo - data.Valor;
+              if (data.CuentaCredito != undefined && data.CuentaCredito != null && data.CuentaCredito.Id === self.rubroCuentaCredito.Id) {
+                
+                if (data.TipoMovimientoApropiacion.Id === 2 || data.TipoMovimientoApropiacion.Id === 1) {
+                console.log('cuentaCredito', data, self.rubroCuentaCredito);
+                  
+                  self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo - data.Valor;
+                } else if (data.TipoMovimientoApropiacion.Id === 3) {
+                  self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo + data.Valor;
+                }
+
               }
+              if (data.CuentaContraCredito != undefined && data.CuentaContraCredito != null && data.CuentaContraCredito.Id === self.rubroCuentaCredito.Id) {
+                if (data.TipoMovimientoApropiacion.Id === 2) {
+                  self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo - data.Valor;
+                } else if (data.TipoMovimientoApropiacion.Id === 3 || data.TipoMovimientoApropiacion.Id === 1) {
+                  self.rubroCuentaCredito.InfoSaldo.saldo = self.rubroCuentaCredito.InfoSaldo.saldo + data.Valor;
+                }
+              }
+
 
             });
             self.saldomov = self.rubroCuentaCredito.InfoSaldo.saldo;
@@ -198,9 +250,9 @@ angular.module('financieraClienteApp')
 
           }
         }).catch(function (e) {
-          console.log('Error',e);
+          console.log('Error', e);
           swal('', $translate.instant('E_MODP010'), 'error');
-          
+
         })
       }
 
@@ -210,33 +262,7 @@ angular.module('financieraClienteApp')
 
       if (self.rubrosel != null && self.rubrosel != undefined) {
         self.rubro = self.rubrosel;
-        presupuestoMidRequest.get("apropiacion/SaldoApropiacion/" + self.rubrosel.Codigo + "/" + self.rubrosel.UnidadEjecutora + "/" + self.Vigencia, "").then(function (response) {
-
-          if (response.data !== null) {
-            self.rubro.InfoSaldo = response.data.Body;
-            angular.forEach(self.modificaciones, function (data) {
-              if (data.CuentaContraCredito != undefined && data.CuentaContraCredito != null && data.CuentaContraCredito.Id === self.rubro.Id) {
-                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
-              }
-              if (data.CuentaCredito != undefined && data.CuentaCredito != null && data.CuentaCredito.Id === self.rubro.Id && data.TipoMovimientoApropiacion.Id === 2) {
-                console.log("Data1: ", data.CuentaCredito.Id);
-                console.log("Data1: ", self.rubro.Id);
-                self.rubro.InfoSaldo.saldo = self.rubro.InfoSaldo.saldo - data.Valor;
-              }
-
-            });
-            self.saldomov = self.rubro.InfoSaldo.saldo;
-
-          } else {
-            self.rubro.InfoSaldo = {};
-            self.rubro.InfoSaldo.saldo = 0;
-            self.saldomov = 0;
-          }
-        }).catch(function (e) {
-          console.log('Error ', e);
-          swal('', $translate.instant('E_MODP005'), 'error');
-
-        });
+        self.saldoApr();
       }
 
 
@@ -244,3 +270,5 @@ angular.module('financieraClienteApp')
     }, true);
 
   });
+
+
