@@ -15,23 +15,17 @@ angular.module('financieraClienteApp')
         },
 
       templateUrl: 'views/directives/homologacion_rubro/crear_rubro.html',
-      controller:function($scope,$translate,financieraMidRequest,financieraRequest){
+      controller:function($scope,$translate,presupuestoMidRequest,presupuestoRequest){
         var ctrl = this;
         ctrl.getLists=function(){
-          financieraMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
+          presupuestoMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
               limit: -1,
               query: "CodigoAbreviacion:TE_2"
           })).then(function(response) {
               ctrl.entidades=response.data;
           });
 
-          financieraRequest.get('unidad_ejecutora', $.param({
-              limit: -1
-          })).then(function(response) {
-              ctrl.unidadesejecutoras = response.data;
-          });
-
-          financieraRequest.get("orden_pago/FechaActual/2006").then(function(response) {
+          presupuestoRequest.get("date/FechaActual/2006").then(function(response) {
             var year = parseInt(response.data);
             ctrl.anos = [];
             for (var i = 0; i < 5; i++) {
@@ -63,7 +57,7 @@ angular.module('financieraClienteApp')
             Organizacion:ctrl.entidad.Id,
             Vigencia:ctrl.vigencia
           }
-          financieraMidRequest.post("rubro_homologado/CreateRubroHomologado",request).then(function(response){
+          presupuestoMidRequest.post("rubro_homologado/CreateRubroHomologado",request).then(function(response){
             swal('',$translate.instant(response.data.Code),response.data.Type);
             $scope.rubrocreado = response.data.Type;
           });

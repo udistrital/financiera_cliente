@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,financieraMidRequest,gridApiService) {
+  .controller('HomologacionRubroCrearCtrl', function ($scope,$translate,presupuestoMidRequest,gridApiService) {
     var ctrl = this;
     ctrl.botones = [
       { clase_color: "ver", clase_css: "fa fa-language fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER_HOMOL'), operacion: 'verHomologacion', estado: true },
@@ -69,18 +69,18 @@ angular.module('financieraClienteApp')
       }
     };
     ctrl.consultarRubrosHomologacion = function(offset,query){
-      financieraMidRequest.cancel();
+      presupuestoMidRequest.cancel();
       if (!angular.isUndefined(ctrl.entidad.Id)){
         query='Organizacion:'+ctrl.entidad.Id;
       }
 
-      financieraMidRequest.get("rubro_homologado/GetHomologationNumberEntity",$.param({
+      presupuestoMidRequest.get("rubro_homologado/GetHomologationNumberEntity",$.param({
         idEntidad:ctrl.entidad.Id
       })).then(function(response){
           ctrl.gridrubros.totalItems = response.data.Body;
       });
 
-      financieraMidRequest.get("rubro_homologado",$.param({
+      presupuestoMidRequest.get("rubro_homologado",$.param({
         limit: ctrl.gridrubros.paginationPageSize,
         offset:offset,
         query:query
@@ -106,7 +106,7 @@ angular.module('financieraClienteApp')
         return false;
       }
 
-      financieraMidRequest.get('rubro_homologado/GetHomologationNumberRubro/'+ctrl.rubroSeleccionado.Id).then(function(response){
+      presupuestoMidRequest.get('rubro_homologado/GetHomologationNumberRubro/'+ctrl.rubroSeleccionado.Id).then(function(response){
         if (response.data.Body>=1){
           swal("", $translate.instant("E_RB003"),"error");
           return false;
@@ -123,7 +123,7 @@ angular.module('financieraClienteApp')
           RubroHomologado:{Id:ctrl.rubroHomologado.Id},
           Rubro:{Id:parseInt(ctrl.rubroSeleccionado.Id)},
         }
-        financieraMidRequest.post("rubro_homologado/CreateHomologacion",request).then(
+        presupuestoMidRequest.post("rubro_homologado/CreateHomologacion",request).then(
           function(response){
             swal('',$translate.instant(response.data.Code),response.data.Type)
           }
@@ -131,7 +131,7 @@ angular.module('financieraClienteApp')
     }
   ctrl.getLists=function(){
 
-    financieraMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
+    presupuestoMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
         limit: -1,
         query: "CodigoAbreviacion:TE_2"
     })).then(function(response) {

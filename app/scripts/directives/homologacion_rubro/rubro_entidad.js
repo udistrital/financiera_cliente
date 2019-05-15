@@ -23,7 +23,7 @@ angular.module('financieraClienteApp')
         },
 
       templateUrl: 'views/directives/homologacion_rubro/rubro_entidad.html',
-      controller:function($scope,financieraMidRequest,$translate){
+      controller:function($scope,presupuestoMidRequest,$translate){
         var ctrl = this;
         ctrl.expandedNodes = [];
         ctrl.treeOptions = {
@@ -41,7 +41,7 @@ angular.module('financieraClienteApp')
           }
         };
         ctrl.getList = function(){
-          financieraMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
+          presupuestoMidRequest.get('organizaciones_core_new/getOrganizacion', $.param({
               limit: -1,
               query: "CodigoAbreviacion:TE_2"
           })).then(function(response) {
@@ -53,7 +53,7 @@ angular.module('financieraClienteApp')
 
         }
         ctrl.ArbolRubrosEntidad = function(){
-          financieraMidRequest.get('rubro_homologado/GetArbolRubrosHomologado',$.param({
+          presupuestoMidRequest.get('rubro_homologado/GetArbolRubrosHomologado',$.param({
             idEntidad:ctrl.entidad.Id
           })).then(function(response){
             $scope.arbol = [];
