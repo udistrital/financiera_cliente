@@ -246,6 +246,7 @@ var text_es = {
     E_0461: "No se Puede Obtener La Fecha Actual.",
     E_04566: "No es posible modificar el registro debido a que este ha sido usado en otras transacciones",
     E_0471: "No es posible realizar actualización debido al estado del registro",
+    E_0462: "Error al cargar los datos.",
     E_22001: "La longitud de uno de los valores ingresados excede al máximo permitido",
     E_23502: "No se puede realizar la operación Solicitada",
     E_23503: "No se puede realizar la operación Solicitada",
