@@ -50,7 +50,8 @@
                   </ul>
                 </li>
                 <li ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Adicion"><b>{{'TOTAL_ADICIONES'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Adicion | currency}}</li>
-                <li ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_contra_credito"><b>{{'TOTAL_TRASLADOS'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_contra_credito | currency}}</li>
+                <li ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_contra_credito"><b>{{'TOTAL_TRASLADOS_A_ESTE_RUBRO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_contra_credito | currency}}</li>
+                <li ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_credito"><b>{{'TOTAL_TRASLADOS_DESDE_ESTE_RUBRO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.Traslado_cuenta_credito | currency}}</li>
                 <li ng-if="d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.total_anulado_cdp"><b>{{'TOTAL_ANULADO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.total_anulado_cdp | currency}}</li>                                                  
                 <li><b>{{'SALDO'|translate}}</b> : {{d_apropiacionConsulta.apropiacionsel.Apropiacion.InfoSaldo.saldo | currency}}</li>
               </ul>

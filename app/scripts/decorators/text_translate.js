@@ -810,6 +810,8 @@ var text_es = {
     TOTAL_COMPROMETIDO: "Total Comprometido",
     TOTAL_REDUCCIONES: "Total Reducciones",
     TOTAL_TRASLADOS: "Total Traslados",
+    TOTAL_TRASLADOS_A_ESTE_RUBRO: "Traslados Realizados a este rubro",
+    TOTAL_TRASLADOS_DESDE_ESTE_RUBRO: "Traslados Realizados desde este rubro",
     TRASLADO_FUENTE_FINANCIAMIENTO: "Traslado Fuente de Financiamiento",
     TIPO_TRANSACCION:"Tipo Transacción",
     TOTAL_DEVOLUCION_RUBRO:"El total de la devolución es igual a el distribuido en rubros",
