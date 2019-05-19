@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('CdpCdpAnulacionCtrl', function ($scope,financieraRequest,financieraMidRequest,uiGridService,agoraRequest,$translate) {
+  .controller('CdpCdpAnulacionCtrl', function ($scope,presupuestoRequest,financieraMidRequest,uiGridService,agoraRequest,$translate) {
     var self = this;
     self.formVisibility = false;
     self.rubros_afectados = [];
@@ -43,7 +43,7 @@ angular.module('financieraClienteApp')
 
     self.gridOptions.multiSelect = false;
     self.actualizarLista = function(){
-      financieraRequest.get('disponibilidad',$.param({
+      presupuestoRequest.get('disponibilidad',$.param({
         query: "Estado.Nombre__not_in:Agotado",
         limit: -1
       })).then(function(response) {
@@ -56,7 +56,7 @@ angular.module('financieraClienteApp')
         console.log(self.gridOptions.data );
       });
     };
-    financieraRequest.get('disponibilidad',$.param({
+    presupuestoRequest.get('disponibilidad',$.param({
       query: "Estado.Nombre__not_in:Agotado",
       limit: -1
     })).then(function(response) {
@@ -85,7 +85,7 @@ angular.module('financieraClienteApp')
         $scope.apropiacion= undefined;
         $scope.apropiaciones = [];
         self.cdp = row.entity;
-        financieraRequest.get('disponibilidad_apropiacion','limit=-1&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
+        presupuestoRequest.get('disponibilidad_apropiacion','limit=-1&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
           self.gridOptions_rubros.data = response.data;
           angular.forEach(self.gridOptions_rubros.data, function(data){
             if($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
@@ -99,7 +99,7 @@ angular.module('financieraClienteApp')
                 Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                 Apropiacion : data.Apropiacion
               };
-              financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+              presupuestoRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
                 data.Saldo  = response.data;
               });
               self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
@@ -161,7 +161,7 @@ angular.module('financieraClienteApp')
           Disponibilidad_apropiacion : disponibilidad_apropiacion,
           Valor : valor
         };
-        financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
+        presupuestoRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
           self.alerta_anulacion_cdp = response.data;
           angular.forEach(self.alerta_anulacion_cdp, function(data){
             if (data !== "error" || data !== "success"){

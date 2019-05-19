@@ -159,7 +159,7 @@
                                             <label>{{'SELECCION_RUBRO' | translate}}</label>
                                         </div>
                                         <div class="col-md-9">
-                                            <select class="form-control" ng-model="cdpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Descripcion for o in cdpConsulta.rubros_afectados">
+                                            <select class="form-control" ng-model="cdpConsulta.Rubro_sel" ng-options="o as o.Apropiacion.Rubro.Codigo + '-' + o.Apropiacion.Rubro.Nombre+'/'+o.FuenteFinanciamiento.Codigo +'/'+o.FuenteFinanciamiento.Nombre for o in cdpConsulta.rubros_afectados">
                                             </select>
                                         </div>
                                     </div>

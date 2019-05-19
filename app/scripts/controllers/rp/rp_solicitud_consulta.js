@@ -5,10 +5,10 @@
  * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
  * @alias Aprobacion y lista de solicitudes de RP
  * @requires $scope
- * @requires financieraService.service:financieraRequest
- * @requires financieraMidService.service:financieraMidRequest
- * @param {service} financieraRequest Servicio para el API de financiera {@link financieraService.service:financieraRequest financieraRequest}
- * @param {service} financieraMidRequest Servicio para el API de financiera {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+ * @requires financieraService.service:presupuestoRequest
+ * @requires financieraMidService.service:presupuestoMidRequest
+ * @param {service} presupuestoRequest Servicio para el API de financiera {@link financieraService.service:presupuestoRequest presupuestoRequest}
+ * @param {service} presupuestoMidRequest Servicio para el API de financiera {@link financieraMidService.service:presupuestoMidRequest presupuestoMidRequest}
  * @param {injector} $scope scope del controlador
  * @description
  * # RpRpSolicitudConsultaCtrl
@@ -17,7 +17,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, financieraMidRequest, argoRequest, financieraRequest, oikosRequest,agoraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, presupuestoMidRequest, argoRequest, presupuestoRequest, oikosRequest,agoraRequest) {
     var self = this;
     self.alerta = "";
     self.offset = 0 ;
@@ -86,7 +86,7 @@ angular.module('financieraClienteApp')
 
     };
     self.UnidadEjecutora = 1;
-    financieraRequest.get("orden_pago/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
+    presupuestoRequest.get("date/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
       var dif = self.vigenciaActual - 1995 ;
@@ -125,7 +125,7 @@ angular.module('financieraClienteApp')
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#actualizar_solicitudes
      * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
-     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:presupuestoMidRequest presupuestoMidRequest}
      * y obtener las solicitudes de registros presupuestales que no esten en estado rechazada.
      */
     self.actualizar_solicitudes = function(offset,query) {
@@ -137,8 +137,8 @@ angular.module('financieraClienteApp')
       var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
 
       if (inicio !== undefined && fin !== undefined){
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+        presupuestoMidRequest.cancel();
+        presupuestoMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
           UnidadEjecutora: self.UnidadEjecutora,
           rangoinicio: inicio,
           rangofin: fin,
@@ -158,8 +158,8 @@ angular.module('financieraClienteApp')
 
       });
       }else{
-        financieraMidRequest.cancel();
-        financieraMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
+        presupuestoMidRequest.cancel();
+        presupuestoMidRequest.get('registro_presupuestal/GetSolicitudesRp/'+self.Vigencia, $.param({
           UnidadEjecutora: self.UnidadEjecutora,
           offset: offset,
           query: query
@@ -240,7 +240,7 @@ angular.module('financieraClienteApp')
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#verSolicitud
      * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
-     * @description Se encarga de consumir el servicio {@link financieraService.service:financieraRequest financieraRequest}
+     * @description Se encarga de consumir el servicio {@link financieraService.service:presupuestoRequest presupuestoRequest}
      * y consulta la informacion de la solicitud que se seleccione para mostrar su informacion de forma detallada.
      */
     self.verSolicitud = function(row) {
@@ -260,7 +260,7 @@ angular.module('financieraClienteApp')
       /*argoRequest.get('disponibilidad_apropiacion_solicitud_rp', 'limit=0&query=SolicitudRp:' + self.data.Id).then(function(response) {
         self.afectacion_pres = response.data;
         angular.forEach(self.afectacion_pres, function(rubro) {
-          financieraRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
+          presupuestoRequest.get('disponibilidad_apropiacion', 'limit=1&query=Id:' + rubro.DisponibilidadApropiacion).then(function(response) {
             angular.forEach(response.data, function(data) {
               rubro.DisponibilidadApropiacion = data;
             });
@@ -277,7 +277,7 @@ angular.module('financieraClienteApp')
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#Registrar
      * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
-     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:presupuestoMidRequest presupuestoMidRequest}
      * y envia los datos de la solicitud de rp junto a si respectiva afectacion presupuestal para que sea pasada por las reglas de negocio correspondientes a este proceso y se determine si se expide o no el RP.
      */
     self.Registrar = function() {
@@ -316,7 +316,7 @@ angular.module('financieraClienteApp')
         };
         dataRegistros[0] = registro;
         console.log(registro);
-        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
+        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
 
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";
@@ -410,7 +410,7 @@ angular.module('financieraClienteApp')
      * @ngdoc function
      * @name financieraClienteApp.controller:RpRpSolicitudConsultaCtrl#RegistrarMasivo
      * @methodOf financieraClienteApp.controller:RpRpSolicitudConsultaCtrl
-     * @description Se encarga de consumir el servicio {@link financieraMidService.service:financieraMidRequest financieraMidRequest}
+     * @description Se encarga de consumir el servicio {@link financieraMidService.service:presupuestoMidRequest presupuestoMidRequest}
      * carga los datos de las solicitudes que van de forma masiva y los envia para su correspondiente verificacion y posible aprobacion y expedicion.
      */
     self.RegistrarMasivo = function() {
@@ -418,7 +418,7 @@ angular.module('financieraClienteApp')
 
       var promise = self.cargarDatos();
       promise.then(function(dataCargueMasivo) {
-        financieraMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
+        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoPr', dataCargueMasivo).then(function(response) {
           self.alerta_registro_rp = response.data;
           console.log(self.alerta_registro_rp);
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";

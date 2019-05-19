@@ -8,10 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .factory("disponibilidad", function() {
+    .factory("disponibilidad", function () {
         return {};
     })
-    .controller('CdpCdpConsultaCtrl', function($location,$filter, $window, $scope, $translate, disponibilidad, financieraRequest, financieraMidRequest, agoraRequest, gridApiService) {
+    .controller('CdpCdpConsultaCtrl', function ($location, $filter, $window, $scope, $translate, disponibilidad,presupuestoRequest,presupuestoMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.offset = 0;
         self.cargando = false;
@@ -19,8 +19,8 @@ angular.module('financieraClienteApp')
         self.ver_boton_reservas = true;
         self.reservas = false;
         $scope.botones = [
-          { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
-          { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-eye fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.VER'), operacion: 'ver', estado: true },
+            { clase_color: "ver", clase_css: "fa fa-file-excel-o fa-lg faa-shake animated-hover", titulo: $translate.instant('BTN.ANULAR'), operacion: 'anular', estado: true },
 
         ];
 
@@ -34,62 +34,62 @@ angular.module('financieraClienteApp')
             useExternalPagination: true,
             columnDefs: [
                 {
-                  field: 'Id',
-                  visible: false
+                    field: 'Id',
+                    visible: false
                 },
                 {
-                  field: 'Vigencia',
-                  cellClass: 'input_center',
-                  displayName: $translate.instant('VIGENCIA'),
-                  headerCellClass: 'encabezado',
-                  enableFiltering: false ,
-                  width: '7%'
+                    field: 'Vigencia',
+                    cellClass: 'input_center',
+                    displayName: $translate.instant('VIGENCIA'),
+                    headerCellClass: 'encabezado',
+                    enableFiltering: false,
+                    width: '7%'
                 },
                 {
-                  field: 'NumeroDisponibilidad',
-                  displayName: $translate.instant('NO'),
-                  cellClass: 'input_center',
-                  headerCellClass: 'encabezado',
-                  width: '7%'
+                    field: 'NumeroDisponibilidad',
+                    displayName: $translate.instant('NO'),
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    width: '7%'
                 },
                 {
-                  field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre',
-                  displayName: $translate.instant("TIPO"),
-                  cellClass: 'input_center',
-                  headerCellClass: 'encabezado',
-                  width: '16%'
+                    field: 'DisponibilidadProcesoExterno[0].TipoDisponibilidad.Nombre',
+                    displayName: $translate.instant("TIPO"),
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    width: '16%'
                 },
                 {
-                  field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero',
-                  displayName: $translate.instant('NECESIDAD_NO'),
-                  cellClass: 'input_center',
-                  headerCellClass: 'encabezado' ,
-                  enableFiltering: false,
-                  width: '10%'
+                    field: 'Solicitud.SolicitudDisponibilidad.Necesidad.Numero',
+                    displayName: $translate.instant('NECESIDAD_NO'),
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    enableFiltering: false,
+                    width: '10%'
                 },
                 {
-                  field: 'FechaRegistro',
-                  displayName: $translate.instant('FECHA_REGISTRO'),
-                  cellClass: 'input_center',
-                  cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
-                  headerCellClass: 'encabezado',
-                  width: '15%'
+                    field: 'FechaRegistro',
+                    displayName: $translate.instant('FECHA_REGISTRO'),
+                    cellClass: 'input_center',
+                    cellTemplate: '<span>{{row.entity.FechaRegistro | date:"yyyy-MM-dd":"UTC"}}</span>',
+                    headerCellClass: 'encabezado',
+                    width: '15%'
                 },
                 {
-                  field: 'Estado.Nombre',
-                  displayName: $translate.instant('ESTADO'),
-                  cellClass: 'input_center',
-                  headerCellClass: 'encabezado',
-                  width: '20%'
+                    field: 'Estado.Nombre',
+                    displayName: $translate.instant('ESTADO'),
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    width: '20%'
                 },
                 {
-                  field: 'Solicitud.DependenciaSolicitante.Nombre',
-                  displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
-                  cellClass: 'input_center',
-                  headerCellClass: 'encabezado',
-                  enableFiltering: false,
-                  width: '15%'
-                 },
+                    field: 'Solicitud.DependenciaSolicitante.Nombre',
+                    displayName: $translate.instant('DEPENDENCIA_SOLICITANTE'),
+                    cellClass: 'input_center',
+                    headerCellClass: 'encabezado',
+                    enableFiltering: false,
+                    width: '15%'
+                },
                 {
                     field: 'Opciones',
                     cellTemplate: '<center><btn-registro funcion="grid.appScope.loadrow(fila,operacion)" grupobotones="grid.appScope.botones" fila="row"></btn-registro></center>',
@@ -98,7 +98,7 @@ angular.module('financieraClienteApp')
                     width: '10%'
                 }
             ],
-            onRegisterApi: function(gridApi) {
+            onRegisterApi: function (gridApi) {
                 self.gridApi = gridApi;
                 self.gridApi = gridApiService.pagination(self.gridApi, self.actualizarLista, $scope);
             }
@@ -119,8 +119,8 @@ angular.module('financieraClienteApp')
             ]
         };
 
-        financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
-            .then(function(response) { //error con el success
+        presupuestoRequest.get("date/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
+            .then(function (response) { //error con el success
                 self.vigenciaActual = parseInt(response.data);
                 var dif = self.vigenciaActual - 1995;
                 var range = [];
@@ -129,50 +129,43 @@ angular.module('financieraClienteApp')
                     range.push(self.vigenciaActual - i);
                 }
                 self.years = range;
-                    self.Vigencia = self.vigenciaActual;
-
-                    financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
-                        .then(function(response) { //error con el success
-                            self.gridOptions.totalItems = response.data;
-                            //self.filtroExterno();
-                            //self.actualizarLista(self.offset, '');
-                        });
-
+                self.Vigencia = self.years[0];
             });
+
 
         self.gridOptions.multiSelect = false;
 
-        $scope.loadrow = function(row, operacion) {
-          self.operacion = operacion;
-          switch (operacion) {
+        $scope.loadrow = function (row, operacion) {
+            self.operacion = operacion;
+            switch (operacion) {
                 case "ver":
-                      self.verDisponibilidad(row,false);
-                break;
+                    self.verDisponibilidad(row, false);
+                    break;
 
                 case "anular":
-                      self.verDisponibilidad(row,true);
-                break;
-              default:
-          }
-      };
+                    self.verDisponibilidad(row, true);
+                    break;
+                default:
+            }
+        };
 
-        self.actualizarLista = function(offset, query) {
+        self.actualizarLista = function (offset, query) {
 
-            financieraMidRequest.cancel();
+            presupuestoMidRequest.cancel();
             self.gridOptions.data = [];
             self.cargando = true;
             self.hayData = true;
 
 
-            if($location.search().vigencia !== undefined && $location.search().numero){
-                query = '&query=NumeroDisponibilidad:'+$location.search().numero;
+            if ($location.search().vigencia !== undefined && $location.search().numero) {
+                query = '&query=NumeroDisponibilidad:' + $location.search().numero;
 
-                financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + $location.search().vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
+                presupuestoMidRequest.get('disponibilidad/ListaDisponibilidades/' + $location.search().vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function (response) {
 
                     if (response.data.Type !== undefined) {
 
-                       self.hayData = false;
-                       self.cargando = false;
+                        self.hayData = false;
+                        self.cargando = false;
                         self.gridOptions.data = [];
                     } else {
 
@@ -182,47 +175,47 @@ angular.module('financieraClienteApp')
                         self.gridOptions.data = response.data;
                     }
                 });
-            }else{
+            } else {
 
-                financieraMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.Vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function(response) {
+                presupuestoMidRequest.get('disponibilidad/ListaDisponibilidades/' + self.Vigencia, 'limit=' + self.gridOptions.paginationPageSize + '&offset=' + offset + query + "&UnidadEjecutora=" + self.UnidadEjecutora).then(function (response) {
 
                     if (response.data.Type !== undefined) {
 
-                      self.hayData = false;
-                      self.cargando = false;
+                        self.hayData = false;
+                        self.cargando = false;
                         self.gridOptions.data = [];
                     } else {
 
-                      self.hayData = true;
-                      self.cargando = false;
-                      self.gridOptions.data = response.data;
+                        self.hayData = true;
+                        self.cargando = false;
+                        self.gridOptions.data = response.data;
                     }
                 });
             }
 
         };
 
-        self.verDisponibilidad = function(row, anular) {
+        self.verDisponibilidad = function (row, anular) {
             self.anular = anular;
-            if (self.anular){
+            if (self.anular) {
                 self.cargarTipoAnulacion();
             }
             $("#myModal").modal();
             $scope.apropiacion = undefined;
             $scope.apropiaciones = [];
             self.cdp = row.entity;
-            financieraRequest.get('disponibilidad_apropiacion', 'limit=0&query=Disponibilidad.Id:' + row.entity.Id).then(function(response) {
+            presupuestoRequest.get('disponibilidad_apropiacion', 'limit=0&query=Disponibilidad.Id:' + row.entity.Id).then(function (response) {
                 self.gridOptions_rubros.data = response.data;
-                angular.forEach(self.gridOptions_rubros.data, function(data) {
+                angular.forEach(self.gridOptions_rubros.data, function (data) {
                     if ($scope.apropiaciones.indexOf(data.Apropiacion.Id) === -1) {
-                      $scope.apropiaciones.push(data.Apropiacion.Id);
-                    } 
+                        $scope.apropiaciones.push(data.Apropiacion.Id);
+                    }
 
                     var rp = {
                         Disponibilidad: data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                         Apropiacion: data.Apropiacion
                     };
-                    financieraRequest.post('disponibilidad/SaldoCdp', rp).then(function(response) {
+                    presupuestoRequest.post('disponibilidad/SaldoCdp', rp).then(function (response) {
                         data.Saldo = response.data;
                     });
 
@@ -231,7 +224,7 @@ angular.module('financieraClienteApp')
                 agoraRequest.get('informacion_persona_natural', $.param({
                     query: "Id:" + self.cdp.Responsable,
                     limit: 1
-                })).then(function(response) {
+                })).then(function (response) {
                     if (response.data != null) {
                         self.cdp.Responsable = response.data[0];
                     }
@@ -241,7 +234,7 @@ angular.module('financieraClienteApp')
             });
         };
 
-        self.limpiar = function() {
+        self.limpiar = function () {
 
             self.motivo = undefined;
             self.Valor = undefined;
@@ -249,14 +242,14 @@ angular.module('financieraClienteApp')
             self.alerta = "";
         };
 
-        self.cargarTipoAnulacion = function(){
-            financieraRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
-                    .then(function(response) { //error con el success
-                        self.tiposAnulacion = response.data;
-                    });
+        self.cargarTipoAnulacion = function () {
+            presupuestoRequest.get("tipo_anulacion_presupuestal/", 'limt=-1') //formato de entrada  https://golang.org/src/time/format.go
+                .then(function (response) { //error con el success
+                    self.tiposAnulacion = response.data;
+                });
         };
 
-        self.anularDisponibilidad = function() {
+        self.anularDisponibilidad = function () {
 
             if (self.motivo == undefined || self.motivo === "" || self.motivo == null) {
                 swal("", $translate.instant("E_A02"), "error")
@@ -289,9 +282,9 @@ angular.module('financieraClienteApp')
                     Disponibilidad_apropiacion: disponibilidad_apropiacion,
                     Valor: valor
                 };
-                financieraRequest.post('disponibilidad/Anular', datos_anulacion).then(function(response) {
+                presupuestoRequest.post('disponibilidad/Anular', datos_anulacion).then(function (response) {
                     self.alerta_anulacion_cdp = response.data;
-                    angular.forEach(self.alerta_anulacion_cdp, function(data) {
+                    angular.forEach(self.alerta_anulacion_cdp, function (data) {
                         if (data !== "error" && data !== "success") {
                             self.alerta = self.alerta + "<li>" + data + "</li>";
                         }
@@ -300,10 +293,10 @@ angular.module('financieraClienteApp')
                     });
 
                     self.alerta = self.alerta + "</ol>";
-                    swal("", self.alerta, self.alerta_anulacion_cdp[0]).then(function() {
+                    swal("", self.alerta, self.alerta_anulacion_cdp[0]).then(function () {
 
                         self.limpiar();
-                        if(self.alerta_anulacion_cdp[0] == "success"){
+                        if (self.alerta_anulacion_cdp[0] == "success") {
                             $("#myModal").modal("hide");
                         }
 
@@ -324,7 +317,7 @@ angular.module('financieraClienteApp')
             $scope.apropiacion= undefined;
             $scope.apropiaciones = [];
             self.cdp = row.entity;
-            financieraRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
+            presupuestoRequest.get('disponibilidad_apropiacion','limit=0&query=Disponibilidad.Id:'+row.entity.Id).then(function(response) {
               self.gridOptions_rubros.data = response.data;
               angular.forEach(self.gridOptions_rubros.data, function(data){
                 if($scope.apropiaciones.indexOf(data.Apropiacion.Id) !== -1) {
@@ -340,7 +333,7 @@ angular.module('financieraClienteApp')
                     Disponibilidad : data.Disponibilidad, // se construye rp auxiliar para obtener el saldo del CDP para la apropiacion seleccionada
                     Apropiacion : data.Apropiacion
                   };
-                  financieraRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
+                  presupuestoRequest.post('disponibilidad/SaldoCdp',rp).then(function(response){
                     data.Saldo  = response.data;
                   });
                   self.gridHeight = uiGridService.getGridHeight(self.gridOptions_rubros);
@@ -360,19 +353,19 @@ angular.module('financieraClienteApp')
           });
         };*/
 
-        self.filtrarListaCdp = function() {
+        self.filtrarListaCdp = function () {
             self.gridOptions.data = {};
             var inicio = $filter('date')(self.fechaInicio, "yyyy-MM-dd");
             var fin = $filter('date')(self.fechaFin, "yyyy-MM-dd");
             var query = '';
             if (inicio !== undefined && fin !== undefined) {
 
-                  query = 'rangoinicio=' + inicio + "&rangofin=" + fin;
+                query = 'rangoinicio=' + inicio + "&rangofin=" + fin;
             }
 
 
-            financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, query + "&UnidadEjecutora=" + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
-                .then(function(response) { //error con el success
+            presupuestoRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, query + "&UnidadEjecutora=" + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                .then(function (response) { //error con el success
                     self.gridOptions.totalItems = response.data;
                     self.actualizarLista(0, "&" + query);
                 });
@@ -380,39 +373,39 @@ angular.module('financieraClienteApp')
 
         };
 
-        $scope.$watch("cdpConsulta.Vigencia", function() {
+        $scope.$watch("cdpConsulta.Vigencia", function () {
 
-                if(self.reservas != true){
-                  self.ver_titulo_reservas = false;
-                  self.ver_boton_reservas = true;
-                  self.reservas = false;
-                }
-                else{
-                  self.ver_titulo_reservas = true;
-                  self.ver_boton_reservas = false;
-                  self.reservas = false;
-                }
+            if (self.reservas != true) {
+                self.ver_titulo_reservas = false;
+                self.ver_boton_reservas = true;
+                self.reservas = false;
+            }
+            else {
+                self.ver_titulo_reservas = true;
+                self.ver_boton_reservas = false;
+                self.reservas = false;
+            }
 
-                financieraRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
-                    .then(function(response) { //error con el success
-                        self.gridOptions.totalItems = response.data;
-                        self.actualizarLista(0, '');
+            presupuestoRequest.get("disponibilidad/TotalDisponibilidades/" + self.Vigencia, 'UnidadEjecutora=' + self.UnidadEjecutora) //formato de entrada  https://golang.org/src/time/format.go
+                .then(function (response) { //error con el success
+                    self.gridOptions.totalItems = response.data;
+                    self.actualizarLista(0, '');
 
-                    });
-                if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
-                    //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
+                });
+            if (self.fechaInicio !== undefined && self.Vigencia !== self.fechaInicio.getFullYear()) {
+                //console.log(self.nuevo_calendario.FechaInicio.getFullYear());
 
-                    self.fechaInicio = undefined;
-                    self.fechaFin = undefined;
-                }
-                self.fechamin = new Date(
-                    self.Vigencia,
-                    0, 1
-                );
-                self.fechamax = new Date(
-                    self.Vigencia,
-                    12, 0
-                );
+                self.fechaInicio = undefined;
+                self.fechaFin = undefined;
+            }
+            self.fechamin = new Date(
+                self.Vigencia,
+                0, 1
+            );
+            self.fechamax = new Date(
+                self.Vigencia,
+                12, 0
+            );
 
         }, true);
 
@@ -464,11 +457,11 @@ angular.module('financieraClienteApp')
             self.gridApi = gridApi;
         };*/
 
-         self.verReservas = function() {
+        self.verReservas = function () {
 
-            financieraRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
-                .then(function(response) {
-                    self.Vigencia = parseInt(response.data)-1;
+            presupuestoRequest.get("orden_pago/FechaActual/2006", '') //formato de entrada  https://golang.org/src/time/format.go
+                .then(function (response) {
+                    self.Vigencia = parseInt(response.data) - 1;
                     self.reservas = true;
                     self.ver_boton_reservas = false;
                 });
@@ -476,7 +469,7 @@ angular.module('financieraClienteApp')
 
         };
 
-        self.volver_a_vigencia = function(){
+        self.volver_a_vigencia = function () {
 
             self.Vigencia = self.vigenciaActual;
             self.ver_boton_reservas = true;
