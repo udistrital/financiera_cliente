@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
 .factory("solicitud_disponibilidad",function(){
         return {};
   })
-  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,solicitud_disponibilidad,presupuestoRequest,presupuestoMidRequest,financieraMidRequest, $translate) {
+  .controller('CdpCdpSolicitudConsultaCtrl', function ($scope,$filter,argoRequest,token_service,presupuestoRequest,presupuestoMidRequest,financieraMidRequest, $translate) {
     var self = this;
     self.alerta = "";
     self.cargando = false;
@@ -121,7 +121,7 @@ angular.module('financieraClienteApp')
             });
             self.gridOptions.totalItems = 50000;
 };
-    self.UnidadEjecutora = 1;
+    self.UnidadEjecutora = parseInt(token_service.getUe());
     presupuestoRequest.get("date/FechaActual/2006") //formato de entrada  https://golang.org/src/time/format.go
             .then(function (response) { //error con el success
                 self.vigenciaActual = parseInt(response.data);

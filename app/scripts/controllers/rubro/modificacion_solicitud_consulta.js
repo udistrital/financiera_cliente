@@ -8,10 +8,10 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudConsultaCtrl', function (presupuestoRequest,presupuestoMidRequest, financieraMidRequest, $scope, $translate, $filter, $window) {
+  .controller('RubroModificacionSolicitudConsultaCtrl', function (presupuestoRequest,presupuestoMidRequest, token_service, $scope, $translate, $filter, $window) {
     var self = this;
     self.offset = 0;
-    self.UnidadEjecutora = 1;
+    self.UnidadEjecutora = parseInt(token_service.getUe());
     self.cargando = false;
     self.hayData = true;
 

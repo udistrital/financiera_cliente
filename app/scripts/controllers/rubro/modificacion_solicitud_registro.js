@@ -8,7 +8,7 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope, $translate, $window, financieraRequest, financieraMidRequest, presupuestoRequest, presupuestoMidRequest, token_service) {
+  .controller('RubroModificacionSolicitudRegistroCtrl', function ($scope, $translate, $window, token_service, presupuestoRequest, presupuestoMidRequest, token_service) {
     var self = this;
     self.modificaciones = [];
     self.descripcion = '';

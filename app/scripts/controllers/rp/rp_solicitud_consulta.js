@@ -17,7 +17,7 @@
  *
  */
 angular.module('financieraClienteApp')
-  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, $window, presupuestoMidRequest, argoRequest, presupuestoRequest, oikosRequest,agoraRequest) {
+  .controller('RpRpSolicitudConsultaCtrl', function($scope, $filter, $translate, token_service, presupuestoMidRequest, argoRequest, presupuestoRequest, oikosRequest,agoraRequest) {
     var self = this;
     self.alerta = "";
     self.offset = 0 ;
@@ -85,7 +85,7 @@ angular.module('financieraClienteApp')
       ]
 
     };
-    self.UnidadEjecutora = 1;
+    self.UnidadEjecutora = parseInt(token_service.getUe());
     presupuestoRequest.get("date/FechaActual/2006",'') //formato de entrada  https://golang.org/src/time/format.go
     .then(function(response) { //error con el success
       self.vigenciaActual = parseInt(response.data);
@@ -301,7 +301,7 @@ angular.module('financieraClienteApp')
           Responsable: self.data.DatosDisponibilidad.Responsable,
           Estado: estado,
           Beneficiario: self.data.DatosProveedor.Id,
-          TipoCompromiso: self.data.DatosCompromiso,
+          TipoCompromiso: self.data.DatosCompromiso.Id,
           Solicitud: self.data.Id,
           DatosSolicitud: self.data,
           NumeroCompromiso: self.data.NumeroCompromiso
@@ -316,7 +316,7 @@ angular.module('financieraClienteApp')
         };
         dataRegistros[0] = registro;
         console.log(registro);
-        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoPr', dataRegistros).then(function(response) {
+        presupuestoMidRequest.post('registro_presupuestal/CargueMasivoRp', dataRegistros).then(function(response) {
           self.alerta_registro_rp = response.data;
 
           var templateAlert = "<table class='table table-bordered'><th>" + $translate.instant('SOLICITUD') + "</th><th>" + $translate.instant('NO_CRP') + "</th><th>" + $translate.instant('DETALLE') + "</th>";

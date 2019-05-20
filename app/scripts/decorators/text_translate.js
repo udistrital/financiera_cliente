@@ -51,6 +51,7 @@ var text_es = {
     ANULACION_PARCIAL: "Parcial",
     ANULACION_RP: "Información de anulación de RP",
     TOTAL_ANULADO_RP: "Total Anulado Rp",
+    TOTAL_ANULADO_OP: "Total Anulado OP",
     ANULACION_TOTAL: "Total",
     ANULAR: "Anular",
     ANULAR_PRESUPUESTO: "Anular Presupuesto",

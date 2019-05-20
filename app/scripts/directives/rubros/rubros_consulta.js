@@ -17,7 +17,7 @@
  * Directiva en la cual se muestra la estructura de los rubros presupuestales registrados y permita la seleccion de estos
  */
 angular.module('financieraClienteApp')
-  .directive('rubrosConsulta', function(financieraRequest,presupuestoMidRequest, presupuestoRequest) {
+  .directive('rubrosConsulta', function(token_service,presupuestoMidRequest, presupuestoRequest) {
     return {
       restrict: 'E',
       scope: {
@@ -47,7 +47,7 @@ angular.module('financieraClienteApp')
           { clase_color: "editar", clase_css: "fa fa-pencil fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.EDITAR'), operacion: 'edit', estado: true },
           { clase_color: "borrar", clase_css: "fa fa-trash fa-lg  faa-shake animated-hover", titulo: $translate.instant('BTN.BORRAR'), operacion: 'delete', estado: true },
         ];
-        self.UnidadEjecutora = 1;
+        self.UnidadEjecutora = parseInt(token_service.getUe());
         self.treeOptions = {
           nodeChildren: "Hijos",
           dirSelectable: $scope.ramasel,

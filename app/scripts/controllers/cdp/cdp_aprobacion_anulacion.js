@@ -8,11 +8,11 @@
  * Controller of the financieraClienteApp
  */
 angular.module('financieraClienteApp')
-    .controller('CdpCdpAprobacionAnulacionCtrl', function($scope, $translate, presupuestoRequest, presupuestoMidRequest, agoraRequest) {
+    .controller('CdpCdpAprobacionAnulacionCtrl', function($scope, $translate,token_service, presupuestoRequest, presupuestoMidRequest, agoraRequest) {
         var self = this;
         self.offset = 0;
         self.customfilter = '&query=TipoAnulacion.Nombre__not_in:Fenecido';
-        self.UnidadEjecutora = 1 ;
+        self.UnidadEjecutora = parseInt(token_service.getUe()); 
         self.rubros_afectados = [];
         self.cargando = false;
         self.hayData = true;

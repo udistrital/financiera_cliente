@@ -11,7 +11,7 @@ angular.module('financieraClienteApp')
     .factory("disponibilidad", function () {
         return {};
     })
-    .controller('CdpCdpConsultaCtrl', function ($location, $filter, $window, $scope, $translate, disponibilidad,presupuestoRequest,presupuestoMidRequest, agoraRequest, gridApiService) {
+    .controller('CdpCdpConsultaCtrl', function ($location, $filter, token_service, $scope, $translate, disponibilidad,presupuestoRequest,presupuestoMidRequest, agoraRequest, gridApiService) {
         var self = this;
         self.offset = 0;
         self.cargando = false;
@@ -105,7 +105,7 @@ angular.module('financieraClienteApp')
 
         };
 
-        self.UnidadEjecutora = 1;
+        self.UnidadEjecutora = parseInt(token_service.getUe());;
         self.gridOptions_rubros = {
             enableRowSelection: true,
             enableRowHeaderSelection: false,
