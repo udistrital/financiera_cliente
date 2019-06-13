@@ -1,4 +1,4 @@
-# financiera-cliente
+#  :no_entry: REPOSITORIO INACTIVO  - financiera-cliente
 
 This project is generated with [yo oas-generator](https://github.com/fabianLeon/oas)
 version 0.0.16.
